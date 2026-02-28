@@ -78,6 +78,7 @@ import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.level.BlockEvent;
 import net.minecraftforge.event.level.LevelEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
+import net.minecraftforge.event.server.ServerStoppedEvent;
 import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;
@@ -309,6 +310,14 @@ public final class ForgeCommonEvent {
                 player.displayClientMessage(Component.translatable("gtocore.dev", Component.literal("GitHub").withStyle(Style.EMPTY.withColor(ChatFormatting.GREEN).withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://github.com/GregTech-Odyssey/GregTech-Odyssey/issues")))), false);
                 Configurator.setRootLevel(org.apache.logging.log4j.Level.INFO);
             }
+            WirelessNetworkSavedData.write(player);
+        }
+    }
+
+    @SubscribeEvent
+    public static void onPlayerChangedDimensionEvent(PlayerEvent.PlayerChangedDimensionEvent event) {
+        if (event.getEntity() instanceof ServerPlayer player) {
+            WirelessNetworkSavedData.write(player);
             // Removed server-side language-gated announcement; it will now be handled client-side in ClientHooks
         }
     }
@@ -324,6 +333,16 @@ public final class ForgeCommonEvent {
             if (Mods.FTBQUESTS.isLoaded()) {
                 AdditionalTeamData.instance = serverLevel.getDataStorage().computeIfAbsent(AdditionalTeamData::new, AdditionalTeamData::new, "ftb_quests_additional_team_data");
             }
+        }
+    }
+
+    @SubscribeEvent
+    public static void onServerStoppedEvent(ServerStoppedEvent event) {
+        DysonSphereSavaedData.INSTANCE = new DysonSphereSavaedData();
+        RecipeRunLimitSavaedData.INSTANCE = new RecipeRunLimitSavaedData();
+        WirelessNetworkSavedData.Companion.setINSTANCE(new WirelessNetworkSavedData());
+        if (Mods.FTBQUESTS.isLoaded()) {
+            AdditionalTeamData.instance = new AdditionalTeamData();
         }
     }
 
@@ -358,10 +377,7 @@ public final class ForgeCommonEvent {
 
     @SubscribeEvent
     public static void serverStarting(ServerStartingEvent event) {
-        DistExecutor.unsafeRunWhenOn(Dist.DEDICATED_SERVER, () -> () -> {
-            if (Objects.equals(GTOConfig.INSTANCE.misc.serverLang, "en_us")) return;
-            ServerLangHook.gto$loadLanguage(GTOConfig.INSTANCE.misc.serverLang, event.getServer());
-        });
+        DistExecutor.unsafeRunWhenOn(Dist.DEDICATED_SERVER, () -> () -> ServerLangHook.reload(event.getServer()));
     }
 
     @SubscribeEvent
@@ -383,7 +399,7 @@ public final class ForgeCommonEvent {
                 mapping.remap(GTOBlocks.SPACETIME_CONTINUUM_RIPPER.get());
             } else if (mapping.getKey().equals(GTOCore.id("spacetimebendingcore"))) {
                 mapping.remap(GTOBlocks.SPACETIME_BENDING_CORE.get());
-            } else if (mapping.getKey().equals(GTOCore.id("titanium_alloy_internal_frame"))) {
+            } else if (mapping.getKey().equals(GTOCore.id("titanium_alloy_frame_internal"))) {
                 mapping.remap(GTOBlocks.TITANIUM_ALLOY_FRAME_INTERNAL.get());
             }
         });

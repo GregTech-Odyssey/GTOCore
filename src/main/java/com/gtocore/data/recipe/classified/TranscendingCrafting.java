@@ -269,7 +269,7 @@ final class TranscendingCrafting {
         TRANSCENDING_CRAFTING_RECIPES.recipeBuilder("dust_blizz")
                 .inputItems(TagPrefix.dust, GTMaterials.Blaze)
                 .inputItems(TagPrefix.dust, GTMaterials.AluminiumSulfite)
-                .inputItems(Items.SNOWBALL.asItem(), 16)
+                .inputItems(TagPrefix.dust, GTOMaterials.FrozenVolatileIce, 16)
                 .inputFluids(GTOMaterials.TranscendingMatter, 1000)
                 .inputFluids(GTMaterials.Ice, 1000)
                 .outputItems(GTOItems.DUST_BLIZZ, 2)

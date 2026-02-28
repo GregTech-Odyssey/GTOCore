@@ -231,7 +231,7 @@ final class Assembler {
                 .inputFluids(GTMaterials.Glue, 200)
                 .EUt(7)
                 .duration(300)
-                .displayPriority(1)
+                .priority(1)
                 .save();
 
         ASSEMBLER_RECIPES.recipeBuilder("electricaly_wired_petri_dish")
@@ -1677,7 +1677,7 @@ final class Assembler {
                 .save();
 
         ASSEMBLER_RECIPES.recipeBuilder("smd_resistor_cosmic")
-                .inputItems(TagPrefix.wireFine, GTOMaterials.HastelloyX78, 8)
+                .inputItems(TagPrefix.wireFine, GTOMaterials.BlazeCube, 8)
                 .inputItems(TagPrefix.plate, GTOMaterials.BlackTitanium, 4)
                 .inputItems(TagPrefix.plate, GTOMaterials.SuperheavyLAlloy, 2)
                 .inputItems(TagPrefix.foil, GTMaterials.NaquadahAlloy, 2)
@@ -2615,7 +2615,7 @@ final class Assembler {
         ASSEMBLER_RECIPES.recipeBuilder("smd_capacitor_optical")
                 .inputItems(TagPrefix.wireFine, GTMaterials.Dubnium, 8)
                 .inputItems(TagPrefix.foil, GTOMaterials.Polyetheretherketone, 4)
-                .inputItems(TagPrefix.foil, GTMaterials.Tritanium, 2)
+                .inputItems(TagPrefix.foil, GTOMaterials.PhotonicKristallite, 2)
                 .inputFluids(GTOMaterials.Polyimide, 576)
                 .outputItems(GTOItems.SMD_CAPACITOR_OPTICAL, 16)
                 .EUt(1966080)
@@ -2651,7 +2651,7 @@ final class Assembler {
 
         ASSEMBLER_RECIPES.recipeBuilder("smd_resistor_exotic")
                 .inputItems(TagPrefix.wireFine, GTOMaterials.Cinobite, 4)
-                .inputItems(TagPrefix.dust, GTOMaterials.QuantumMetal)
+                .inputItems(TagPrefix.dust, GTOMaterials.Astrium)
                 .inputItems(TagPrefix.foil, GTMaterials.IndiumTinBariumTitaniumCuprate, 2)
                 .inputItems(TagPrefix.foil, GTOMaterials.Enderite, 2)
                 .inputFluids(GTOMaterials.FullerenePolymerMatrixPulp, 72)

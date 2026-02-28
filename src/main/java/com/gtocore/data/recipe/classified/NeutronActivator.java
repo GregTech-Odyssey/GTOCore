@@ -13,6 +13,8 @@ import com.gregtechceu.gtceu.common.data.GTMaterials;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Blocks;
 
+import appeng.core.definitions.AEItems;
+
 import static com.gtocore.common.data.GTORecipeTypes.NEUTRON_ACTIVATOR_RECIPES;
 
 final class NeutronActivator {
@@ -105,6 +107,19 @@ final class NeutronActivator {
                 .addData("ev_min", 1000)
                 .addData("ev_max", 1100)
                 .addData("evt", 1600)
+                .save();
+        NEUTRON_ACTIVATOR_RECIPES.builder("small_photonic_kristallite_dust")
+                .inputItems(AEItems.MATTER_BALL.asItem(), 64)
+                .inputItems(TagPrefix.dust, GTOMaterials.XenotimeCopperIKPBANanotubes, 32)
+                .inputItems(TagPrefix.dust, GTOMaterials.Sunnarium)
+                .chancedInput(GTOItems.HIGH_FREQUENCY_LASER.asStack(), 75, 0)
+                .outputItems(TagPrefix.dustSmall, GTOMaterials.PhotonicKristallite, 16)
+                .inputFluids(GTOMaterials.Quantanium, 1000)
+                .outputFluids(GTOMaterials.PhotonicKristallite, 4000)
+                .duration(1200)
+                .addData("ev_min", 960)
+                .addData("ev_max", 1080)
+                .addData("evt", 1920)
                 .save();
     }
 }

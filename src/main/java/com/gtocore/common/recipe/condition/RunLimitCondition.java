@@ -2,7 +2,7 @@ package com.gtocore.common.recipe.condition;
 
 import com.gtocore.common.saved.RecipeRunLimitSavaedData;
 
-import com.gtolib.api.recipe.Recipe;
+import com.gtolib.api.recipe.RecipeDefinition;
 
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
@@ -27,7 +27,7 @@ public final class RunLimitCondition extends AbstractRecipeCondition {
     }
 
     @Override
-    public boolean test(@NotNull Recipe recipe, @NotNull RecipeLogic recipeLogic) {
+    public boolean test(@NotNull RecipeDefinition recipe, @NotNull RecipeLogic recipeLogic) {
         MetaMachine machine = recipeLogic.getMachine();
         UUID owner = machine.getOwnerUUID();
         if (owner == null) return false;

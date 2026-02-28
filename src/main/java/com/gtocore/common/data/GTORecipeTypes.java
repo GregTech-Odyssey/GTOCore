@@ -540,6 +540,12 @@ public final class GTORecipeTypes {
             .itemConverter(DimensionDataItem.ITEM_CONVERTER)
             .setSound(GTSoundEntries.COOLING);
 
+    public static final RecipeType SPACE_GAS_COLLECTOR_RECIPES = register("space_gas_collector", "Planetary Gas Collector", "行星气体抽取", MULTIBLOCK)
+            .setEUIO(IO.IN)
+            .setMaxIOSize(2, 0, 0, 1)
+            .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT)
+            .setSound(GTSoundEntries.COOLING);
+
     public static final RecipeType AGGREGATION_DEVICE_RECIPES = register("aggregation_device", "聚合装置", MULTIBLOCK)
             .setEUIO(IO.IN)
             .setMaxIOSize(9, 1, 0, 0)

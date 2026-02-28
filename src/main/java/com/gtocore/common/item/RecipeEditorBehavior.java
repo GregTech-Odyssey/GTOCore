@@ -6,17 +6,12 @@ import com.gtocore.config.GTOConfig;
 
 import com.gtolib.GTOCore;
 import com.gtolib.api.machine.DummyMachine;
-import com.gtolib.api.recipe.Recipe;
-import com.gtolib.api.recipe.RecipeBuilder;
 import com.gtolib.utils.FluidUtils;
 import com.gtolib.utils.ItemUtils;
 import com.gtolib.utils.StringConverter;
 import com.gtolib.utils.StringIndex;
 
-import com.gregtechceu.gtceu.api.capability.recipe.FluidRecipeCapability;
-import com.gregtechceu.gtceu.api.capability.recipe.IO;
-import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
-import com.gregtechceu.gtceu.api.capability.recipe.RecipeCapability;
+import com.gregtechceu.gtceu.api.capability.recipe.*;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.gui.WidgetUtils;
 import com.gregtechceu.gtceu.api.gui.editor.EditableMachineUI;
@@ -31,12 +26,12 @@ import com.gregtechceu.gtceu.api.gui.widget.TankWidget;
 import com.gregtechceu.gtceu.api.item.component.IItemUIFactory;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.feature.IRecipeLogicMachine;
-import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.api.recipe.content.Content;
 import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
 import com.gregtechceu.gtceu.api.recipe.ingredient.ItemIngredient;
 import com.gregtechceu.gtceu.api.recipe.ui.GTRecipeTypeUI;
+import com.gregtechceu.gtceu.api.registry.GTRegistries;
 import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.data.GTMachines;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
@@ -98,18 +93,13 @@ public final class RecipeEditorBehavior implements IItemUIFactory, IFancyUIProvi
     public InteractionResult onItemUseFirst(ItemStack itemStack, UseOnContext context) {
         if (Objects.requireNonNull(context.getPlayer()).isShiftKeyDown()) {
             if (GTOConfig.INSTANCE.devMode.recipeCheck) {
-                var recipeMap = new Reference2ObjectOpenHashMap<GTRecipeType, Set<Recipe>>();
-                for (var recipe : RecipeBuilder.RECIPE_MAP.values()) {
-                    var recipeType = recipe.recipeType;
+                Set<BiCache> cache = new OpenCacheHashSet<>();
+                for (GTRecipeType recipeType : GTRegistries.RECIPE_TYPES.values()) {
                     if (recipeType == GTRecipeTypes.BREWING_RECIPES) continue;
                     if (recipeType == GTRecipeTypes.SCANNER_RECIPES) continue;
                     if (recipeType == GTORecipeTypes.LARGE_GAS_COLLECTOR_RECIPES) continue;
-                    recipeMap.computeIfAbsent(recipeType, k -> new OpenCacheHashSet<>()).add(recipe);
-                }
-                Set<BiCache> cache = new OpenCacheHashSet<>();
-                for (Set<Recipe> recipes : recipeMap.values()) {
-                    var stringSetMap = new O2OOpenCacheHashMap<ResourceLocation, Set<String>>(recipeMap.size());
-                    for (GTRecipe recipe : recipes) {
+                    var stringSetMap = new O2OOpenCacheHashMap<ResourceLocation, Set<String>>(recipeType.recipes.size());
+                    for (var recipe : recipeType.recipes.values()) {
                         var id = recipe.id;
                         var input = new OpenCacheHashSet<String>();
                         if (recipe.inputs.containsKey(ItemRecipeCapability.CAP)) {
@@ -237,23 +227,24 @@ public final class RecipeEditorBehavior implements IItemUIFactory, IFancyUIProvi
                 WidgetGroup group = new WidgetGroup(0, 0, maxCount * 18 + 8, totalR * 18 + 8);
                 int index = 0;
                 for (var entry : map.entrySet()) {
-                    RecipeCapability<?> cap = entry.getKey();
-                    boolean i = cap instanceof ItemRecipeCapability;
-                    if (i || isGT) {
-                        if (cap.getWidgetClass() == null) {
-                            continue;
+                    if (entry.getKey() instanceof ContentRecipeCapability<?> cap) {
+                        boolean i = cap == ItemRecipeCapability.CAP;
+                        if (i || isGT) {
+                            if (cap.getWidgetClass() == null) {
+                                continue;
+                            }
+                            int capCount = entry.getValue();
+                            for (int slotIndex = 0; slotIndex < capCount; slotIndex++) {
+                                int finalSlotIndex = slotIndex;
+                                var slot = i ? new MyPhantomSlotWidget() : new ScrollablePhantomFluidWidget(null, 0, 0, 0, 18, 18, isOutputs ? () -> machine.exportFluids.getFluidInTank(finalSlotIndex) : () -> machine.importFluids.getFluidInTank(finalSlotIndex), isOutputs ? f -> machine.exportFluids.setFluidInTank(finalSlotIndex, f) : f -> machine.importFluids.setFluidInTank(finalSlotIndex, f));
+                                slot.setSelfPosition(new Position((index % 3) * 18 + 4, (index / 3) * 18 + 4));
+                                slot.setBackground(getOverlaysForSlot(isOutputs, cap, slotIndex == capCount - 1, isSteam, isHighPressure));
+                                slot.setId(cap.slotName(isOutputs ? IO.OUT : IO.IN, slotIndex));
+                                group.addWidget(slot);
+                                index++;
+                            }
+                            index += (3 - (index % 3)) % 3;
                         }
-                        int capCount = entry.getValue();
-                        for (int slotIndex = 0; slotIndex < capCount; slotIndex++) {
-                            int finalSlotIndex = slotIndex;
-                            var slot = i ? new MyPhantomSlotWidget() : new ScrollablePhantomFluidWidget(null, 0, 0, 0, 18, 18, isOutputs ? () -> machine.exportFluids.getFluidInTank(finalSlotIndex) : () -> machine.importFluids.getFluidInTank(finalSlotIndex), isOutputs ? f -> machine.exportFluids.setFluidInTank(finalSlotIndex, f) : f -> machine.importFluids.setFluidInTank(finalSlotIndex, f));
-                            slot.setSelfPosition(new Position((index % 3) * 18 + 4, (index / 3) * 18 + 4));
-                            slot.setBackground(getOverlaysForSlot(isOutputs, cap, slotIndex == capCount - 1, isSteam, isHighPressure));
-                            slot.setId(cap.slotName(isOutputs ? IO.OUT : IO.IN, slotIndex));
-                            group.addWidget(slot);
-                            index++;
-                        }
-                        index += (3 - (index % 3)) % 3;
                     }
                 }
                 return group;
@@ -280,17 +271,19 @@ public final class RecipeEditorBehavior implements IItemUIFactory, IFancyUIProvi
                     for (var capabilityEntry : recipeHolder.storages().rowMap().entrySet()) {
                         IO io = capabilityEntry.getKey();
                         for (var storagesEntry : capabilityEntry.getValue().entrySet()) {
-                            RecipeCapability<?> cap = storagesEntry.getKey();
-                            Object storage = storagesEntry.getValue();
-                            Class<? extends Widget> widgetClass = cap.getWidgetClass();
-                            if (widgetClass != null) {
-                                WidgetUtils.widgetByIdForEach(template, "^%s_[0-9]+$".formatted(cap.slotName(io)), widgetClass, widget -> {
-                                    var index = WidgetUtils.widgetIdIndex(widget);
-                                    cap.applyWidgetInfo(widget, index, false, io, recipeHolder, machine.recipeType, null, null, storage, 0, 0);
-                                    if (widget instanceof TankWidget tankWidget) {
-                                        tankWidget.setAllowClickDrained(true).setAllowClickFilled(true);
-                                    } else if (widget instanceof SlotWidget slotWidget) slotWidget.setCanTakeItems(true).setCanPutItems(true);
-                                });
+                            if (storagesEntry.getKey() instanceof ContentRecipeCapability<?> cap) {
+                                Object storage = storagesEntry.getValue();
+                                Class<? extends Widget> widgetClass = cap.getWidgetClass();
+                                if (widgetClass != null) {
+                                    WidgetUtils.widgetByIdForEach(template, "^%s_[0-9]+$".formatted(cap.slotName(io)), widgetClass, widget -> {
+                                        var index = WidgetUtils.widgetIdIndex(widget);
+                                        cap.applyWidgetInfo(widget, index, false, io, recipeHolder, machine.recipeType, null, null, storage, 0, 0);
+                                        if (widget instanceof TankWidget tankWidget) {
+                                            tankWidget.setAllowClickDrained(true).setAllowClickFilled(true);
+                                        } else if (widget instanceof SlotWidget slotWidget)
+                                            slotWidget.setCanTakeItems(true).setCanPutItems(true);
+                                    });
+                                }
                             }
                         }
                     }

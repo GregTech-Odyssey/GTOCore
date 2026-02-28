@@ -47,6 +47,9 @@ public record HaloItemRenderer(float pulse, IntSupplier colour, IntSupplier size
     public static final HaloItemRenderer ETERNITY_HALO = HaloItemRenderer.create(0.1F, 0xFF000000, 10, RenderBlenderLib.rl("misc/halo"));
     public static final HaloItemRenderer MAGMATTER_HALO = HaloItemRenderer.create(0.15F, 0xFF212121, 10, RenderBlenderLib.rl("misc/halo"));
     public static final HaloItemRenderer RADIOACTIVE = HaloItemRenderer.create(0F, 0xFF218121, 9, RenderBlenderLib.rl("misc/halo_noise"));
+    public static final HaloItemRenderer ASTRIUM = HaloItemRenderer.create(0F, () -> ColorUtils.blendColor(
+            0xe1ee595a,
+            0xe131bad5, (float) (Math.cos(System.currentTimeMillis() * 0.005) * 0.3F + 0.5F)), () -> 6, RenderBlenderLib.rl("misc/halo"));
 
     private static HaloItemRenderer create(float pulse, int colour, int size, ResourceLocation textures) {
         return create(pulse, () -> colour, () -> size, textures);

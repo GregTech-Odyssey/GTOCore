@@ -10,7 +10,6 @@ import com.gtolib.utils.RLUtils;
 import com.gtolib.utils.RegistriesUtils;
 import com.gtolib.utils.TagUtils;
 
-import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.chemical.material.stack.MaterialEntry;
@@ -41,7 +40,7 @@ import static com.gtocore.common.data.GTOItems.SPOOLS_LARGE;
 final class Vanilla {
 
     public static void init() {
-        if (Mods.CHISEL.isLoaded() || GTCEu.isDev()) {
+        if (Mods.CHISEL.isLoaded()) {
             VanillaRecipeHelper.addShapedRecipe(true, GTOCore.id("automatic_chisel"), OptionalMachine.CARVING_CENTER.asItem(),
                     "ABA",
                     "CDC",
@@ -961,6 +960,12 @@ final class Vanilla {
                 " B ",
                 "B  ",
                 'A', GTOItems.VIBRANT_CRYSTAL.asItem(), 'B', new MaterialEntry(TagPrefix.rod, GTMaterials.Silver));
+
+        VanillaRecipeHelper.addShapedRecipe(GTOCore.id("me_wireless_machine_configurator"), GTOItems.ME_WIRELESS_MACHINE_CONFIGURATOR.asItem(),
+                " A ",
+                "BCB",
+                " D ",
+                'A', AEItems.WIRELESS_RECEIVER.asItem(), 'B', new MaterialEntry(TagPrefix.ingot, GTMaterials.Iron), 'C', CustomTags.EV_CIRCUITS, 'D', AEItems.ENGINEERING_PROCESSOR.asItem());
 
         VanillaRecipeHelper.addShapedRecipe(GTOCore.id("travel_anchor"), GTOMachines.TRAVEL_ANCHOR.asItem(),
                 "ABA",

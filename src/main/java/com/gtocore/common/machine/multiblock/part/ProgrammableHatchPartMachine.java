@@ -18,7 +18,7 @@ import com.gregtechceu.gtceu.api.machine.trait.CircuitHandler;
 import com.gregtechceu.gtceu.api.machine.trait.IRecipeHandlerTrait;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeHandlerList;
-import com.gregtechceu.gtceu.api.recipe.GTRecipe;
+import com.gregtechceu.gtceu.api.recipe.GTRecipeDefinition;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.DualHatchPartMachine;
 
@@ -166,7 +166,7 @@ public class ProgrammableHatchPartMachine extends DualHatchPartMachine implement
         }
 
         @Override
-        public boolean findRecipe(IRecipeCapabilityHolder holder, GTRecipeType recipeType, Predicate<GTRecipe> canHandle) {
+        public boolean findRecipe(IRecipeCapabilityHolder holder, GTRecipeType recipeType, Predicate<GTRecipeDefinition> canHandle) {
             final var type = part.recipeType;
             if (type != GTORecipeTypes.HATCH_COMBINED && type != recipeType && holder instanceof IRecipeLogicMachine machine && !machine.disabledCombined()) {
                 if (GTRecipeType.available(type, machine.getRecipeTypes())) {
@@ -178,7 +178,7 @@ public class ProgrammableHatchPartMachine extends DualHatchPartMachine implement
             var map = this.getIngredientMap(recipeType);
             if (map.isEmpty()) return false;
             holder.setCurrentHandlerList(this);
-            return recipeType.db.find(map, canHandle);
+            return recipeType.search(map, canHandle);
         }
     }
 }

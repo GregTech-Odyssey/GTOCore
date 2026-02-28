@@ -268,7 +268,7 @@ final class ArcGenerator {
                 .save();
 
         ARC_GENERATOR_RECIPES.builder("dust_blizz")
-                .inputItems(Items.SNOW_BLOCK.asItem(), 64)
+                .inputItems(TagPrefix.dust, GTOMaterials.FrozenVolatileIce, 256)
                 .outputItems(GTOItems.DUST_BLIZZ)
                 .inputFluids(GTOMaterials.TranscendingMatter, 2000)
                 .inputFluids(GTOFluids.CLOUD_SEED_CONCENTRATED.getSource(), 2000)
@@ -313,6 +313,13 @@ final class ArcGenerator {
                 .outputItems(ENDER_DIAMOND)
                 .EUt(VA[UV])
                 .duration(200)
+                .save();
+        ARC_GENERATOR_RECIPES.builder("icee_shard")
+                .inputItems(TagPrefix.dust, GTOMaterials.FrozenVolatileIce, 8)
+                .outputItems("ad_astra:ice_shard", 4)
+                .chancedOutput(GTOMaterials.IceCrystalVolatiles.getFluid(1000), 2500, 0)
+                .EUt(256000)
+                .duration(120)
                 .save();
     }
 }

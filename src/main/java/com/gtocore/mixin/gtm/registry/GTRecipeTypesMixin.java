@@ -2,7 +2,7 @@ package com.gtocore.mixin.gtm.registry;
 
 import com.gtolib.utils.register.RecipeTypeRegisterUtils;
 
-import com.gregtechceu.gtceu.api.recipe.*;
+import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 
 import net.minecraft.world.item.crafting.RecipeType;

@@ -10,6 +10,9 @@ import com.gtocore.common.machine.multiblock.electric.gcym.*;
 import com.gtocore.utils.register.MachineRegisterUtils;
 
 import com.gtolib.api.annotation.NewDataAttributes;
+import com.gtolib.api.annotation.component_builder.ComponentBuilder;
+import com.gtolib.api.annotation.component_builder.ComponentTemplate;
+import com.gtolib.api.annotation.component_builder.StyleBuilder;
 import com.gtolib.api.machine.impl.part.ParallelHatchPartMachine;
 import com.gtolib.api.machine.multiblock.CoilCustomParallelMultiblockMachine;
 import com.gtolib.api.recipe.modifier.RecipeModifierFunction;
@@ -421,7 +424,15 @@ public final class GCYMMachines {
             .tooltipsKey("gtceu.machine.electric_blast_furnace.tooltip.0")
             .tooltipsKey("gtceu.machine.electric_blast_furnace.tooltip.1")
             .tooltipsKey("gtceu.machine.electric_blast_furnace.tooltip.2")
-            .coilParallelTooltips()
+            .tooltipsSupplier(new ComponentTemplate(
+                    "alloy_blast_smelter",
+                    "当且仅当运行%s配方时：",
+                    "Only when running %s recipes:",
+                    styleBuilder -> styleBuilder.setPrefix(ComponentBuilder.create().addLines("- ", StyleBuilder::setGold).buildSingle()).setColor(0x915dcd)).create(Component.translatable("gtceu.alloy_blast_smelter")))
+            .tooltipsKey("gtocore.machine.recipe.run", Component.translatable("gtceu.alloy_smelter"))
+            .tooltipsText("线圈温度每高出900K，并行数x2", "For every 900K increase in coil temperature, the parallel number doubles")
+            .tooltipsText("§7公式 : 2^(向下取整(温度 / 900))", "§7Formula: 2^(Round down(temperature / 900))")
+            .specialParallelizableTooltips()
             .tooltipsSupplier(GTOMachineTooltipsA.INSTANCE.getAlloySmelterTooltips().getSupplier())
             .moduleTooltips(new PartAbility[0])
             .allRotation()

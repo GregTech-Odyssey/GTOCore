@@ -14,4 +14,8 @@ public interface CraftAction {
     static void registerCanCraftOverride(CraftAction canCraft) {
         canCraftOverrides.add(canCraft);
     }
+
+    static void startReloadRegistration() {
+        canCraftOverrides.clear();
+    }
 }

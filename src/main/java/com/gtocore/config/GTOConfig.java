@@ -53,7 +53,6 @@ public final class GTOConfig {
     public DevMode devMode = new DevMode();
 
     static {
-        CommonProxy.earlyStartup();
         ConfigHolder.init();
         INSTANCE = Configuration.registerConfig(GTOConfig.class, ConfigFormats.YAML).getConfigInstance();
         if (INSTANCE.devMode.startSpark == SparkRange.ALL || INSTANCE.devMode.startSpark == SparkRange.MAIN_MENU) {
@@ -164,9 +163,18 @@ public final class GTOConfig {
         ConfigHolder.INSTANCE.dev.debug = INSTANCE.devMode.dev;
 
         MultiblockControllerMachine.sendMessage = INSTANCE.misc.sendMultiblockErrorMessages;
+
+        CommonProxy.earlyStartup();
     }
 
     public static <T> void set(String fieldName, T value) {
+        if (fieldName.contains(".")) {
+            String[] split = fieldName.split("\\.");
+            String[] objectPath = new String[split.length - 1];
+            System.arraycopy(split, 0, objectPath, 0, split.length - 1);
+            set(split[split.length - 1], value, objectPath);
+            return;
+        }
         getConfig(GTOCore.MOD_ID).ifPresent(config -> {
             ((ConfigValue<T>) (config.getValueMap().get(fieldName))).setValue(value);
             ConfigIO.saveClientValues(config);
@@ -385,6 +393,17 @@ public final class GTOConfig {
         @Configurable.Comment({ "禁用后，不同存档的 EMI 收藏夹将相互独立", "After disabling, EMI favorites from different saves will be independent of each other" })
         @RegisterLanguage(namePrefix = "config.gtocore.option", en = "EMI Global Favorites", cn = "EMI 全局收藏夹")
         public boolean emiGlobalFavorites = true;
+
+        @Configurable
+        @RegisterLanguage(namePrefix = "config.gtocore.option", en = "EMI/JEI External Plugins", cn = "EMI/JEI 外部插件")
+        @Configurable.Comment({ "本整合包默认禁用了一些 EMI/JEI 外部插件以跳过插件扫描阶段来避免GTM原版的插件冲突并提升性能",
+                "如果你安装了其他模组，且该模组提供了 EMI/JEI 外部插件（查看配方等功能），请添加模组提供的插件类名到此选项以加载那些外部插件",
+                "添加格式例：- com.simibubi.create.compat.jei.CreateJEI",
+                "Some EMI/JEI external plugins are disabled by default in this pack to skip the plugin scanning phase to avoid conflicts with GTM's original plugins and improve performance.",
+                "If you have other mods installed and they provide EMI/JEI external plugins (such as recipe viewing), please add the plugin class names provided by the mod to this option to load those external plugins.",
+                "Example format: - com.simibubi.create.compat.jei.CreateJEI" })
+        @Configurable.Gui.CharacterLimit(256)
+        public String[] enableEmiJeiExternalPlugins = new String[0];
 
         @Configurable
         @Configurable.Comment({ "启用后，进入游戏时，若多方块结构未能成型，则将错误信息将发送给机器的所有者", "When enabled, if the multiblock structure fails to form when entering the game, the error message will be sent to the owner of the machine" })

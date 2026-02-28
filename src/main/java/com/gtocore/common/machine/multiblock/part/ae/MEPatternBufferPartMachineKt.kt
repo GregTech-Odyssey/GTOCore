@@ -97,7 +97,7 @@ open class MEPatternBufferPartMachineKt(holder: MetaMachineBlockEntity, maxPatte
         }
     }
     val recipeIdSetter = { id: Int, rl: ResourceLocation? ->
-        val recipe = rl?.let { RecipeBuilder.RECIPE_MAP[it] }
+        val recipe = rl?.let { RecipeBuilder.get(it) }
         patternInventory.getStackInSlot(id).let { stack ->
             if (stack.isEmpty) return@let
             if (recipe == null) {

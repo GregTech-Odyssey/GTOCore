@@ -4,7 +4,10 @@ import com.gtocore.api.machine.part.GTOPartAbility;
 import com.gtocore.api.pattern.GTOPredicates;
 import com.gtocore.client.renderer.machine.*;
 import com.gtocore.common.block.FusionCasings;
-import com.gtocore.common.data.*;
+import com.gtocore.common.data.GTOBlocks;
+import com.gtocore.common.data.GTOMachines;
+import com.gtocore.common.data.GTOMaterials;
+import com.gtocore.common.data.GTORecipeTypes;
 import com.gtocore.common.data.translation.GTOMachineStories;
 import com.gtocore.common.data.translation.GTOMachineTooltips;
 import com.gtocore.common.data.translation.GTOMachineTooltipsA;
@@ -34,7 +37,8 @@ import com.gtolib.api.machine.MultiblockDefinition;
 import com.gtolib.api.machine.multiblock.CoilCrossRecipeMultiblockMachine;
 import com.gtolib.api.recipe.RecipeType;
 import com.gtolib.api.recipe.modifier.RecipeModifierFunction;
-import com.gtolib.utils.*;
+import com.gtolib.utils.MultiBlockFileReader;
+import com.gtolib.utils.RegistriesUtils;
 
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.GTValues;
@@ -647,6 +651,7 @@ public final class MultiBlockD {
             .recipeTypes(GTRecipeTypes.ASSEMBLY_LINE_RECIPES)
             .tooltips(GTOMachineStories.INSTANCE.getAdvancedAssemblyLineTooltips().getSupplier())
             .tooltips(GTOMachineTooltips.INSTANCE.getAdvancedAssemblyLineTooltips().getSupplier())
+            .lossyOCTooltips()
             .parallelizableTooltips()
             .laserTooltips()
             .block(GTBlocks.CASING_STEEL_SOLID)

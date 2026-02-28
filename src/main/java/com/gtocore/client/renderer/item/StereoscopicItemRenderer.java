@@ -24,7 +24,7 @@ public final class StereoscopicItemRenderer implements IRenderer {
     public void renderItem(ItemStack stack, ItemDisplayContext transformType, boolean leftHand, PoseStack poseStack, MultiBufferSource buffer, int combinedLight, int combinedOverlay, BakedModel model) {
         poseStack.pushPose();
         if (transformType == ItemDisplayContext.GUI) {
-            PosestackHelper.stereoTransformPosestack(poseStack, 0.3f, 0.5f, 0.2f, (System.currentTimeMillis() / 25) % 360);
+            PosestackHelper.stereoTransformPosestack(poseStack, 0.3f, 0.5f, 0.2f, ((float) System.currentTimeMillis() / 25) % 360);
         }
         RenderState.IS_RENDERING_LEVEL = true;
         ClientUtil.vanillaRender(stack, transformType, leftHand, poseStack, buffer, combinedLight, combinedOverlay, ClientUtil.getVanillaModel(stack, null, null));

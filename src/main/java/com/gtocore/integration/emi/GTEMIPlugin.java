@@ -1,13 +1,16 @@
 package com.gtocore.integration.emi;
 
+import com.gtocore.common.CommonProxy;
 import com.gtocore.common.machine.multiblock.part.ae.MEPatternBufferPartMachine;
 import com.gtocore.common.machine.multiblock.part.ae.MEPatternBufferPartMachineKt;
+import com.gtocore.config.GTOConfig;
 import com.gtocore.integration.Mods;
 import com.gtocore.integration.chisel.ChiselRecipe;
 import com.gtocore.integration.emi.multipage.MultiblockInfoEmiRecipe;
 import com.gtocore.integration.emi.oreprocessing.OreProcessingEmiCategory;
 import com.gtocore.integration.emi.space.SatelliteEmiCategory;
 
+import com.gtolib.api.GTOApi;
 import com.gtolib.api.ae2.me2in1.Me2in1Menu;
 import com.gtolib.api.ae2.me2in1.UtilsMiscs;
 import com.gtolib.api.ae2.me2in1.Wireless;
@@ -46,8 +49,6 @@ import appeng.menu.me.items.PatternEncodingTermMenu;
 import com.arsmeteorites.arsmeteorites.ArsMeteorites;
 import com.arsmeteorites.arsmeteorites.emi.MeteoritesEmiPlugin;
 import com.glodblock.github.extendedae.container.ContainerExCraftingTerminal;
-import com.glodblock.github.extendedae.xmod.jei.JEIPlugin;
-import com.glodblock.github.extendedae.xmod.jei.transfer.ExCraftingTransferHandler;
 import com.hollingsworth.arsnouveau.client.jei.JEIArsNouveauPlugin;
 import com.lowdragmc.lowdraglib.LDLib;
 import com.lowdragmc.lowdraglib.emi.EMIPlugin;
@@ -71,6 +72,7 @@ import dev.shadowsoffire.apotheosis.village.compat.VillageJEIPlugin;
 import io.github.lounode.extrabotany.api.ExtraBotanyAPI;
 import io.github.lounode.extrabotany.client.integration.emi.EmiExtrabotanyPlugin;
 import io.github.prismwork.emitrades.EMITradesPlugin;
+import it.unimi.dsi.fastutil.objects.ReferenceOpenHashSet;
 import jeresources.jei.JEIConfig;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.library.plugins.jei.JeiInternalPlugin;
@@ -80,45 +82,78 @@ import umpaz.farmersrespite.integration.jei.JEIFRPlugin;
 import vazkii.botania.api.BotaniaAPI;
 import vazkii.botania.client.integration.emi.BotaniaEmiPlugin;
 
-import java.util.List;
+import java.util.function.Consumer;
 
 public final class GTEMIPlugin implements EmiPlugin {
 
-    public static void addJEIPlugin(List<IModPlugin> list) {
-        list.add(new mezz.jei.library.plugins.vanilla.VanillaPlugin());
-        list.add(new JeiInternalPlugin());
-        list.add(new JemiPlugin());
-        list.add(new EnchJEIPlugin());
-        list.add(new AdventureJEIPlugin());
-        list.add(new PotionJEIPlugin());
-        list.add(new VillageJEIPlugin());
-        list.add(new JEIConfig());
-        list.add(new MythicJei());
-        list.add(new JEIFRPlugin());
-        list.add(new JEIArsNouveauPlugin());
-        list.add(new vectorwing.farmersdelight.integration.jei.JEIPlugin());
-        list.add(new JEICompat());
+    public static void init() {
+        GTOApi.EMI_PLUGIN_EVENT.addListener(CommonProxy.class, GTEMIPlugin::addEMIPlugin);
+        GTOApi.JEI_PLUGIN_EVENT.addListener(CommonProxy.class, GTEMIPlugin::addJEIPlugin);
+        if (GTOConfig.INSTANCE.misc.enableEmiJeiExternalPlugins.length > 0) {
+            var emi = new ReferenceOpenHashSet<Class<? extends EmiPlugin>>();
+            var jei = new ReferenceOpenHashSet<Class<? extends IModPlugin>>();
+            for (var name : GTOConfig.INSTANCE.misc.enableEmiJeiExternalPlugins) {
+                try {
+                    var clazz = Class.forName(name);
+                    if (EmiPlugin.class.isAssignableFrom(clazz)) {
+                        emi.add(clazz.asSubclass(EmiPlugin.class));
+                    } else if (IModPlugin.class.isAssignableFrom(clazz)) {
+                        jei.add(clazz.asSubclass(IModPlugin.class));
+                    }
+                } catch (Throwable ignored) {}
+            }
+            if (!emi.isEmpty()) {
+                GTOApi.EMI_PLUGIN_EVENT.addListener(GTOConfig.class, c -> emi.forEach(clazz -> {
+                    try {
+                        c.accept(new EmiPluginContainer(clazz.getDeclaredConstructor().newInstance(), clazz.getName()));
+                    } catch (Throwable ignored) {}
+                }));
+            }
+            if (!jei.isEmpty()) {
+                GTOApi.JEI_PLUGIN_EVENT.addListener(GTOConfig.class, c -> jei.forEach(clazz -> {
+                    try {
+                        c.accept(clazz.getDeclaredConstructor().newInstance());
+                    } catch (Throwable ignored) {}
+                }));
+            }
+        }
+    }
+
+    private static void addJEIPlugin(Consumer<IModPlugin> list) {
+        list.accept(new mezz.jei.library.plugins.vanilla.VanillaPlugin());
+        list.accept(new JeiInternalPlugin());
+        list.accept(new JemiPlugin());
+        list.accept(new EnchJEIPlugin());
+        list.accept(new AdventureJEIPlugin());
+        list.accept(new PotionJEIPlugin());
+        list.accept(new VillageJEIPlugin());
+        list.accept(new JEIConfig());
+        list.accept(new MythicJei());
+        list.accept(new JEIFRPlugin());
+        list.accept(new JEIArsNouveauPlugin());
+        list.accept(new vectorwing.farmersdelight.integration.jei.JEIPlugin());
+        list.accept(new JEICompat());
         if (GTCEu.isModLoaded("ftbxmodcompat")) {
             NotDevCompat.addPlugin(list);
         }
     }
 
-    public static void addEMIPlugin(List<EmiPluginContainer> list) {
-        list.add(new EmiPluginContainer(new VanillaPlugin(), "emi"));
+    private static void addEMIPlugin(Consumer<EmiPluginContainer> list) {
+        list.accept(new EmiPluginContainer(new VanillaPlugin(), "emi"));
         if (GTCEu.isProd()) {
-            list.add(new EmiPluginContainer(new EMITradesPlugin(), "emitrades"));
+            list.accept(new EmiPluginContainer(new EMITradesPlugin(), "emitrades"));
         }
         if (Mods.SOPHISTICATEDBACKPACKS.isLoaded()) {
-            list.add(new EmiPluginContainer(new net.p3pp3rf1y.sophisticatedbackpacks.compat.recipeviewers.emi.BackpackEmiPlugin(), "backpack"));
+            list.accept(new EmiPluginContainer(new net.p3pp3rf1y.sophisticatedbackpacks.compat.recipeviewers.emi.BackpackEmiPlugin(), "backpack"));
         }
-        list.add(new EmiPluginContainer(new BotaniaEmiPlugin(), BotaniaAPI.MODID));
-        list.add(new EmiPluginContainer(new EmiExtrabotanyPlugin(), ExtraBotanyAPI.MODID));
-        list.add(new EmiPluginContainer(new EMIPlugin(), LDLib.MOD_ID));
-        list.add(new EmiPluginContainer(new GTEMIPlugin(), GTCEu.MOD_ID));
-        list.add(new EmiPluginContainer(new MeteoritesEmiPlugin(), ArsMeteorites.MOD_ID));
-        list.add(new EmiPluginContainer(new AppEngEmiPlugin(), AppEng.MOD_ID));
+        list.accept(new EmiPluginContainer(new BotaniaEmiPlugin(), BotaniaAPI.MODID));
+        list.accept(new EmiPluginContainer(new EmiExtrabotanyPlugin(), ExtraBotanyAPI.MODID));
+        list.accept(new EmiPluginContainer(new EMIPlugin(), LDLib.MOD_ID));
+        list.accept(new EmiPluginContainer(new GTEMIPlugin(), GTCEu.MOD_ID));
+        list.accept(new EmiPluginContainer(new MeteoritesEmiPlugin(), ArsMeteorites.MOD_ID));
+        list.accept(new EmiPluginContainer(new AppEngEmiPlugin(), AppEng.MOD_ID));
         try {
-            list.add(new EmiPluginContainer(new fzzyhmstrs.emi_loot.emi.EmiClientPlugin(), fzzyhmstrs.emi_loot.EMILoot.MOD_ID));
+            list.accept(new EmiPluginContainer(new fzzyhmstrs.emi_loot.emi.EmiClientPlugin(), fzzyhmstrs.emi_loot.EMILoot.MOD_ID));
         } catch (Throwable ignored) {
 
         }
@@ -244,6 +279,7 @@ public final class GTEMIPlugin implements EmiPlugin {
         registry.addCategory(AlfheimEntryRequirements.CATEGORY);
         registry.addRecipe(new AlfheimEntryRequirements());
 
+        CraftAction.startReloadRegistration();
         CraftAction.registerCanCraftOverride(
                 (recipe, context, simulate) -> {
                     if (context.getScreenHandler().getModularUI().holder instanceof MEPatternBufferPartMachine patternBuffer) {

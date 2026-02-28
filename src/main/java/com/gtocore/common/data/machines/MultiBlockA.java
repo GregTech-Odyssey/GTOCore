@@ -567,6 +567,7 @@ public final class MultiBlockA {
             .recipeTypes(GTRecipeTypes.ASSEMBLER_RECIPES)
             .tooltips(GTOMachineStories.INSTANCE.getPrecisionAssemblerTooltips().getSupplier())
             .tooltips(GTOMachineTooltips.INSTANCE.getPrecisionAssemblerTooltips().getSupplier())
+            .lossyOCTooltips()
             .glassParallelTooltips()
             .laserTooltips()
             .recipeModifier(RecipeModifierFunction::laserLossOverclocking)
@@ -659,9 +660,9 @@ public final class MultiBlockA {
             .perfectOCTooltips()
             .recipeModifiers((machine, recipe) -> {
                 if (machine instanceof ElectricMultiblockMachine workableElectricMultiblockMachine) {
-                    if (recipe.getType() == GTRecipeTypes.LASER_ENGRAVER_RECIPES)
+                    if (recipe.recipeType == GTRecipeTypes.LASER_ENGRAVER_RECIPES)
                         return RecipeModifierFunction.hatchParallel(workableElectricMultiblockMachine, recipe);
-                    if (recipe.getType() == GTORecipeTypes.LASER_WELDER_RECIPES) {
+                    if (recipe.recipeType == GTORecipeTypes.LASER_WELDER_RECIPES) {
                         recipe.duration = recipe.duration / 5;
                         return RecipeModifierFunction.hatchParallel(workableElectricMultiblockMachine, recipe);
                     }
@@ -685,13 +686,11 @@ public final class MultiBlockA {
                     .where('L', blocks(GCYMBlocks.ELECTROLYTIC_CELL.get()))
                     .where('M', blocks(GTOBlocks.MOLECULAR_CASING.get()))
                     .where('a', blocks(GTOBlocks.IRIDIUM_CASING.get())
-                            .or(abilities(PARALLEL_HATCH).setMaxGlobalLimited(1))
                             .or(abilities(IMPORT_ITEMS).setPreviewCount(1))
                             .or(abilities(IMPORT_FLUIDS).setPreviewCount(1))
                             .or(abilities(INPUT_ENERGY).setMaxGlobalLimited(2).setPreviewCount(1))
                             .or(abilities(MAINTENANCE).setExactLimit(1))
-                            .or(abilities(EXPORT_ITEMS).setPreviewCount(1))
-                            .or(abilities(COMPUTATION_DATA_RECEPTION).setExactLimit(1)))
+                            .or(abilities(EXPORT_ITEMS).setPreviewCount(1)))
                     .where(' ', any())
                     .build())
             .workableCasingRenderer(GTOCore.id("block/casings/iridium_casing"), GTCEu.id("block/multiblock/gcym/large_engraving_laser"))
@@ -1687,6 +1686,7 @@ public final class MultiBlockA {
             .tooltipsKey("gtocore.machine.recipe.run", Component.translatable("gtceu.dehydrator"))
             .tooltipsText("线圈温度每高出900K，并行数x2", "For every 900K increase in coil temperature, the parallel number doubles")
             .tooltipsText("§7公式 : 2^(向下取整(温度 / 900))", "§7Formula: 2^(Round down(temperature / 900))")
+            .specialParallelizableTooltips()
             .disabledCombined()
             .recipeModifier((m, r) -> {
                 if (m instanceof CoilCustomParallelMultiblockMachine machine) {
@@ -1863,6 +1863,7 @@ public final class MultiBlockA {
             .allRotation()
             .recipeTypes(GTORecipeTypes.STELLAR_FORGE_RECIPES)
             .tooltips(GTOMachineTooltips.INSTANCE.getStellarForgeTooltips().getSupplier())
+            .lossyOCTooltips()
             .laserTooltips()
             .block(GCYMBlocks.CASING_ATOMIC)
             .pattern(definition -> MultiBlockFileReader.start(definition)

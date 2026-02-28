@@ -50,6 +50,7 @@ import com.gregtechceu.gtceu.utils.FormattingUtil;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.material.Fluids;
 
 import com.hepdd.gtmthings.data.CustomMachines;
 
@@ -70,6 +71,7 @@ public final class MultiBlockC {
     public static final MultiblockMachineDefinition PRIMITIVE_DISTILLATION_TOWER = multiblock("primitive_distillation_tower", "原始蒸馏塔", PrimitiveDistillationTowerMachine::new)
             .nonYAxisRotation()
             .tooltips(GTOMachineTooltips.INSTANCE.getPrimitiveDistillationTowerTooltips().getSupplier())
+            .moduleTooltips(new PartAbility[0])
             .recipeTypes(GTRecipeTypes.DISTILLATION_RECIPES)
             .block(GTBlocks.STEEL_HULL)
             .pattern(definition -> FactoryBlockPattern.start(definition, RelativeDirection.RIGHT, RelativeDirection.BACK, RelativeDirection.UP)
@@ -86,6 +88,22 @@ public final class MultiBlockC {
                     .where('H', blocks(GTBlocks.FIREBOX_STEEL.get())
                             .or(blocks(GTOMachines.HEAT_SENSOR.get()).setPreviewCount(1)))
                     .where(' ', air())
+                    .build())
+            .addSubPattern(definition -> FactoryBlockPattern.start(definition, RelativeDirection.RIGHT, RelativeDirection.BACK, RelativeDirection.UP)
+                    .aisle("H  AAA", "  FFFA", "   AAA")
+                    .aisle("   BCB", "   CGC", "   BCB")
+                    .aisle("   BDB", "   DDD", "   BDB")
+                    .aisle("    E ", "   EEE", "    E ")
+                    .where('A', blocks(GTBlocks.STEEL_HULL.get())
+                            .or(PrimitiveDistillationTowerMachine.WaterSupplyingPredicate.get()))
+                    .where('B', blocks(GCYMBlocks.CASING_INDUSTRIAL_STEAM.get()))
+                    .where('C', blocks(Blocks.GLASS))
+                    .where('D', blocks(GTOBlocks.REINFORCED_WOOD_CASING.get()))
+                    .where('E', GTOPredicates.frame(GTMaterials.Bronze))
+                    .where('F', blocks(GTOBlocks.SOLAR_HEAT_COLLECTOR_PIPE_CASING.get()))
+                    .where('G', fluids(Fluids.WATER))
+                    .where('H', blocks(MultiBlockC.PRIMITIVE_DISTILLATION_TOWER.get()))
+                    .where(' ', any())
                     .build())
             .renderer(PrimitiveDistillationRenderer::new)
             .register();
@@ -159,7 +177,7 @@ public final class MultiBlockC {
             .workableCasingRenderer(GTCEu.id("block/casings/solid/machine_casing_bronze_plated_bricks"), GTCEu.id("block/multiblock/steam_grinder"))
             .register();
 
-    public static final MultiblockMachineDefinition MOLECULAR_TRANSFORMER = multiblock("molecular_transformer", "分子重组仪", ElectricMultiblockMachine::new)
+    public static final MultiblockMachineDefinition MOLECULAR_TRANSFORMER = multiblock("molecular_transformer", "分子重组仪", CrossRecipeMultiblockMachine::createHatchParallel)
             .allRotation()
             .tooltips(GTOMachineStories.INSTANCE.getMolecularTransformerTooltips().getSupplier())
             .parallelizableTooltips()

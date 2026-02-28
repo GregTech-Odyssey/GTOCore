@@ -5,13 +5,12 @@ import com.gtocore.common.data.GTORecipeTypes;
 import com.gtocore.common.item.ItemMap;
 
 import com.gtolib.api.machine.multiblock.CustomParallelMultiblockMachine;
-import com.gtolib.api.recipe.Recipe;
 import com.gtolib.api.recipe.RecipeBuilder;
 import com.gtolib.utils.MachineUtils;
 import com.gtolib.utils.MathUtil;
 
 import com.gregtechceu.gtceu.api.capability.recipe.IRecipeCapabilityHolder;
-import com.gregtechceu.gtceu.api.recipe.GTRecipe;
+import com.gregtechceu.gtceu.api.recipe.GTRecipeDefinition;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 
 import net.minecraft.network.chat.Component;
@@ -24,7 +23,7 @@ import org.jetbrains.annotations.Nullable;
 public final class RecyclerLogic implements GTRecipeType.ICustomRecipeLogic {
 
     @Override
-    public @Nullable GTRecipe createCustomRecipe(IRecipeCapabilityHolder holder) {
+    public @Nullable GTRecipeDefinition createCustomRecipe(IRecipeCapabilityHolder holder) {
         if (holder instanceof CustomParallelMultiblockMachine parallelMultiblockMachine && MachineUtils.notConsumableItem(parallelMultiblockMachine, GTOItems.SCRAP_BOX.asStack())) {
             RecipeBuilder builder = parallelMultiblockMachine.getRecipeBuilder().EUt(480);
             int parallel = MathUtil.saturatedCast(MachineUtils.getItemAmount(parallelMultiblockMachine, GTOItems.SCRAP_BOX.get())[0]);
@@ -41,7 +40,7 @@ public final class RecyclerLogic implements GTRecipeType.ICustomRecipeLogic {
                 }
             }
             map.forEach(builder::outputItems);
-            Recipe recipe = builder.buildRawRecipe();
+            GTRecipeDefinition recipe = builder.build();
             recipe.data.putBoolean("isCustom", true);
             return recipe;
         }
@@ -58,6 +57,6 @@ public final class RecyclerLogic implements GTRecipeType.ICustomRecipeLogic {
                 .outputItems(stack)
                 .EUt(120)
                 .duration(20)
-                .buildRawRecipe());
+                .build());
     }
 }

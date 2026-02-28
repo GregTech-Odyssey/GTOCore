@@ -51,7 +51,7 @@ import javax.annotation.ParametersAreNonnullByDefault
  */
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-internal abstract class MEPartMachine(holder: MetaMachineBlockEntity, io: IO) :
+abstract class MEPartMachine(holder: MetaMachineBlockEntity, io: IO) :
     WorkableTieredIOPartMachine(holder, GTValues.LuV, io),
     WirelessMachine,
     IMEPartMachine,

@@ -247,5 +247,15 @@ final class PolymerizationReactor {
                 .EUt(510)
                 .duration(150)
                 .save();
+        POLYMERIZATION_REACTOR_RECIPES.builder("poly_vinyl_bpy_rhenium_carbonyl_hexafluorophosphate_dust")
+                .inputItems(TagPrefix.dust, GTOMaterials.RheniumPentacarbonylChloride, 14)
+                .notConsumable(TagPrefix.dust, GTOMaterials.BisCyclopentadienylHafniumOxide)
+                .outputItems(TagPrefix.dust, GTOMaterials.PolyVinylBpyRheniumCarbonylHexafluorophosphate, 16)
+                .inputFluids(GTOMaterials.Vinyl2Bipyridine, 2000)
+                .inputFluids(GTOMaterials.HexafluorophosphoricAcid, 2000)
+                .outputFluids(GTMaterials.CarbonMonoxide, 7000)
+                .EUt(13330)
+                .duration(2500)
+                .save();
     }
 }

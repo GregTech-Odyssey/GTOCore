@@ -87,7 +87,7 @@ final class ReactorRecipes {
                 .inputFluids(Chlorine, 1000)
                 .inputFluids(Hydrogen, 1000)
                 .outputFluids(HydrochloricAcid.getFluid(1000))
-                .displayPriority(1)
+                .priority(1)
                 .duration(60).EUt(VA[ULV]).save();
 
         // NaCl + H2SO4 -> NaHSO4 + HCl

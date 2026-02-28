@@ -392,7 +392,7 @@ public final class LangHandler {
         addCNEN("gtocore.ae.appeng.pick_craft.error.1", "计算合成路径时发生错误。", "An error occurred while calculating the crafting path.");
         addCNEN("gtocore.ae.appeng.pick_craft.error.2", "没有足够的材料/CPU来合成所需物品。", "Insufficient materials/No available CPU to craft the desired item.");
         addCNEN("gtocore.ae.appeng.pick_craft.error.3", "创建的任务数已达上限。", "The number of created tasks has reached the limit.");
-        addCNEN("gtocore.ae.appeng.highlight_button.try_open_ui", "当目标为样板总成，右键以试图打开其界面", "When the target is a Pattern Provider, right-click to try to open its UI");
+        addCNEN("gtocore.ae.appeng.highlight_button.try_open_ui", "右键以试图打开其界面", "R-click to try to open its UI");
         addCNEN("gtocore.ae.appeng.craft.pause_job", "暂停", "Pause");
         addCNEN("gtocore.ae.appeng.craft.resume_job", "继续", "Resume");
         addCNEN("gtocore.ae.appeng.craft.pause_job.desc", "暂停正在进行中的发配；已推送的样板不会被撤回", "Pause the ongoing crafting; pushed patterns will not be withdrawn");

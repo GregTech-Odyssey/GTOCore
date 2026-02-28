@@ -61,8 +61,6 @@ import java.util.*;
 import java.util.function.BooleanSupplier;
 import java.util.function.Supplier;
 
-import static com.gtocore.common.machine.tesseract.DirectedTesseractMachine.HIGHLIGHT_TEXT;
-
 public class AdvancedTesseractMachine extends MetaMachine implements IFancyUIMachine, IMachineLife, ICustomCraftingMachine, IMultiTesseract {
 
     public static final Multiset<ImmutableList<Long>> HIGHLIGHTS = HashMultiset.create();
@@ -249,7 +247,6 @@ public class AdvancedTesseractMachine extends MetaMachine implements IFancyUIMac
             if (i >= 20) break;
             var pos = target.pos().pos();
             if (pos.equals(getPos())) {
-                iterator.remove();
                 continue;
             }
             ItemStack card = ItemStack.EMPTY;

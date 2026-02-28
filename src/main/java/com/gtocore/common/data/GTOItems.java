@@ -849,6 +849,7 @@ public final class GTOItems {
     public static final ItemEntry<Item> CUPRIAVIDUS_PETRI_DISH = registerTexture("cupriavidus_petri_dish", "贪铜钩虫菌培养皿", "germ");
     public static final ItemEntry<Item> SHEWANELLA_PETRI_DISH = registerTexture("shewanella_petri_dish", "希瓦氏菌培养皿", "germ");
     public static final ItemEntry<Item> CLOSTRIDIUM_PASTEURIANUM_DISH = registerTexture("clostridium_pasteurianum_dish", "巴氏梭菌培养皿", "germ");
+    public static final ItemEntry<Item> HYPERTHERMOPHILIC_ARCHAEON_DISH = registerTexture("hyperthermophilic_archaeon_dish", "嗜热古菌培养皿", "germ");
 
     public static final ItemEntry<Item> CONVERSION_SIMULATE_CARD = register("conversion_simulate_card", "转换模拟卡");
     public static final ItemEntry<Item> ACTIVATED_CARBON_FILTER_MESH = register("activated_carbon_filter_mesh", "活性炭过滤网");
@@ -891,6 +892,7 @@ public final class GTOItems {
     public static final ItemEntry<Item> MICA_INSULATOR_FOIL = register("mica_insulator_foil", "云母绝缘薄片");
 
     public static final ItemEntry<Item> RAW_ALUMINUM = register("raw_aluminum", "生铝");
+    public static final ItemEntry<Item> SUBATOMIC_SPONGE = register("subatomic_sponge", "亚原子海绵");
 
     public static final ItemEntry<Item> HIGH_PURITY_SILICON_BOULE = register("high_purity_silicon_boule", "高纯多晶硅");
     public static final ItemEntry<Item> REGIONAL_SMELTING_SILICON_BOULE = register("regional_smelting_silicon_boule", "区域熔炼的多晶硅");
@@ -1297,6 +1299,11 @@ public final class GTOItems {
             .lang("The Staff of Travelling")
             .onRegister(attach(TravelStaffBehavior.create()))
             .model((ctx, prov) -> prov.handheld(ctx))
+            .register();
+
+    public static final ItemEntry<ComponentItem> ME_WIRELESS_MACHINE_CONFIGURATOR = item("me_wireless_machine_configurator", "ME无线机器配置器",
+            p -> ComponentItem.create(p.stacksTo(1)))
+            .onRegister(attach(MEWirelessMachineConfigurator.INSTANCE))
             .register();
 
     public static final ItemEntry<ComponentItem> TESSERACT_TARGET_MARKER = item("tesseract_target_marker", "坐标标签枪", ComponentItem::create)

@@ -44,5 +44,14 @@ final class DissolutionTreatment {
                 .EUt(3840)
                 .duration(2900)
                 .save();
+
+        DISSOLUTION_TREATMENT_RECIPES.builder("cosmic_dust_dispersant")
+                .inputItems(TagPrefix.dust, GTOMaterials.CosmicDust, 4)
+                .inputFluids(GTOMaterials.UltraLowViscosityIonicCarrier, 5000)
+                .inputFluids(GTMaterials.Neutronium, 576)
+                .outputFluids(GTOMaterials.CosmicDustDispersant, 6000)
+                .EUt(12280)
+                .duration(45000)
+                .save();
     }
 }

@@ -10,8 +10,12 @@ import com.gtolib.api.ae2.stacks.IIngredientConvertible;
 import com.gtolib.api.ae2.stacks.TagPrefixKey;
 import com.gtolib.api.annotation.DataGeneratorScanned;
 import com.gtolib.api.annotation.language.RegisterLanguage;
+import com.gtolib.api.fluid.IFluid;
 import com.gtolib.api.gui.ktflexible.VBoxBuilder;
-import com.gtolib.api.recipe.Recipe;
+import com.gtolib.api.item.IItem;
+import com.gtolib.api.recipe.RecipeDefinition;
+import com.gtolib.api.recipe.RecipeType;
+import com.gtolib.utils.GTOUtils;
 import com.gtolib.utils.holder.ObjectHolder;
 
 import com.gregtechceu.gtceu.api.GTCEuAPI;
@@ -22,18 +26,23 @@ import com.gregtechceu.gtceu.api.data.chemical.material.Material;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.gui.widget.IntInputWidget;
 import com.gregtechceu.gtceu.api.gui.widget.PhantomFluidWidget;
+import com.gregtechceu.gtceu.api.item.MetaMachineItem;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiController;
 import com.gregtechceu.gtceu.api.machine.multiblock.MultiblockControllerMachine;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeHandlerList;
-import com.gregtechceu.gtceu.api.recipe.GTRecipe;
+import com.gregtechceu.gtceu.api.recipe.GTRecipeDefinition;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.api.transfer.fluid.CustomFluidTank;
 import com.gregtechceu.gtceu.api.transfer.item.CustomItemStackHandler;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.utils.collection.FastObjectArrayList;
 
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.ComponentUtils;
 import net.minecraft.world.inventory.ClickType;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
@@ -41,6 +50,7 @@ import net.minecraftforge.fluids.FluidStack;
 
 import appeng.api.crafting.IPatternDetails;
 import appeng.api.networking.crafting.ICraftingProvider;
+import appeng.api.stacks.AEFluidKey;
 import appeng.api.stacks.AEItemKey;
 import appeng.api.stacks.GenericStack;
 import appeng.api.stacks.KeyCounter;
@@ -56,17 +66,16 @@ import com.lowdragmc.lowdraglib.misc.ItemStackTransfer;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.utils.Position;
 import it.unimi.dsi.fastutil.ints.Int2ReferenceOpenHashMap;
+import it.unimi.dsi.fastutil.objects.ReferenceOpenHashSet;
 import lombok.Getter;
 import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicLong;
-import java.util.function.*;
+import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 import static com.gregtechceu.gtceu.integration.ae2.gui.widget.list.AEListGridWidget.drawSelectionOverlay;
 import static com.lowdragmc.lowdraglib.gui.util.DrawerHelper.drawItemStack;
@@ -94,7 +103,12 @@ public class MEWildcardPatternBufferPartMachine extends MEPatternBufferPartMachi
     private final ItemStackTransfer blacklistedItemsStorageTransfer;
     @Persisted
     private final CustomFluidTank[] blacklistedFluids;
+    @Persisted
+    private final CustomItemStackHandler blacklistedAltProcessableMachines;
+    @Persisted
+    private final ItemStackTransfer blacklistedAltProcessableMachinesStorageTransfer;
     private final Int2ReferenceOpenHashMap<Material> blacklistedMaterials = new Int2ReferenceOpenHashMap<>();
+    private final ReferenceOpenHashSet<RecipeType> blacklistedAltProcessable = new ReferenceOpenHashSet<>();
 
     public MEWildcardPatternBufferPartMachine(@NotNull MetaMachineBlockEntity holder) {
         super(holder, 1);
@@ -102,6 +116,8 @@ public class MEWildcardPatternBufferPartMachine extends MEPatternBufferPartMachi
         blacklistedItems = new CustomItemStackHandler(18);
         blacklistedItemsStorageTransfer = new ItemStackTransfer(36);
         blacklistedFluids = new CustomFluidTank[18];
+        blacklistedAltProcessableMachines = new CustomItemStackHandler(6);
+        blacklistedAltProcessableMachinesStorageTransfer = new ItemStackTransfer(6);
         Arrays.setAll(blacklistedFluids, i -> new CustomFluidTank(1));
 
         shareInventory.addChangedListener(this::requestPatternUpdate);
@@ -171,6 +187,12 @@ public class MEWildcardPatternBufferPartMachine extends MEPatternBufferPartMachi
         }
     }
 
+    @Override
+    public void clearMachineRecipeCache() {}
+
+    @Override
+    public void clearPatternRecipeCache() {}
+
     private void setMaxFluidsOutput(int integer) {
         final int last = this.maxFluidsOutput;
         maxFluidsOutput = Math.max(0, integer);
@@ -189,6 +211,7 @@ public class MEWildcardPatternBufferPartMachine extends MEPatternBufferPartMachi
 
     private void loadBlacklistData() {
         blacklistedMaterials.clear();
+        blacklistedAltProcessable.clear();
         int i = 0;
         for (; i < blacklistedItems.getSlots(); i++) {
             var stack = blacklistedItems.getStackInSlot(i);
@@ -204,6 +227,15 @@ public class MEWildcardPatternBufferPartMachine extends MEPatternBufferPartMachi
             var mat = ChemicalHelper.getMaterial(tank.getFluid().getFluid());
             if (mat != GTMaterials.NULL) {
                 blacklistedMaterials.put(i, mat);
+            }
+        }
+        for (var entry : blacklistedAltProcessableMachines.stacks) {
+            if (!(entry.getItem() instanceof MetaMachineItem item)) continue;
+            var definition = item.getDefinition();
+            var recipeTypes = definition.getRecipeTypes();
+            if (recipeTypes == null) continue;
+            for (var rt : recipeTypes) {
+                blacklistedAltProcessable.add((RecipeType) rt);
             }
         }
         requestPatternUpdate();
@@ -333,13 +365,43 @@ public class MEWildcardPatternBufferPartMachine extends MEPatternBufferPartMachi
         return cachedPatterns;
     }
 
-    private List<@NotNull IPatternDetails> readInv() {
+    @Override
+    public void loadFromItem(@NotNull CompoundTag tag) {
+        super.loadFromItem(tag);
+        patternPriority = tag.getInt("patternPriority");
+        maxFluidsOutput = tag.getInt("maxFluidsOutput");
+        maxItemsOutput = tag.getInt("maxItemsOutput");
+        blacklistedItemsStorageTransfer.deserializeNBT(tag.getCompound("blacklistedItems"));
+        var fluidsTag = tag.getList("blacklistedFluids", 10);
+        for (int i = 0; i < fluidsTag.size(); i++) {
+            blacklistedFluids[i].deserializeNBT(fluidsTag.getCompound(i));
+        }
+        blacklistedAltProcessableMachinesStorageTransfer.deserializeNBT(tag.getCompound("blacklistedAltProcessableMachines"));
+        loadBlacklistData();
+    }
+
+    @Override
+    public void saveToItem(@NotNull CompoundTag tag) {
+        super.saveToItem(tag);
+        tag.putInt("patternPriority", patternPriority);
+        tag.putInt("maxFluidsOutput", maxFluidsOutput);
+        tag.putInt("maxItemsOutput", maxItemsOutput);
+        tag.put("blacklistedItems", blacklistedItemsStorageTransfer.serializeNBT());
+        var fluidsTag = new ListTag();
+        for (var tank : blacklistedFluids) {
+            fluidsTag.add(tank.serializeNBT());
+        }
+        tag.put("blacklistedFluids", fluidsTag);
+        tag.put("blacklistedAltProcessableMachines", blacklistedAltProcessableMachinesStorageTransfer.serializeNBT());
+    }
+
+    private @NotNull List<@NotNull IPatternDetails> readInv() {
         var pattern = getPatternInventory().getStackInSlot(0);
         var details = decodePattern(pattern, 0);
         return details == null ? List.of() : List.of(details);
     }
 
-    public static void onMultiblockRecipeTypeChange(MultiblockControllerMachine machine) {
+    public static void onMultiblockRecipeTypeChange(@NotNull MultiblockControllerMachine machine) {
         Arrays.stream(machine.getParts())
                 .filter(MEWildcardPatternBufferPartMachine.class::isInstance)
                 .map(MEWildcardPatternBufferPartMachine.class::cast)
@@ -349,14 +411,15 @@ public class MEWildcardPatternBufferPartMachine extends MEPatternBufferPartMachi
     // ========== Pattern Validation ==========
 
     private AEProcessingPattern validatePattern(GenericStack[] sparseInput, GenericStack[] sparseOutput) {
-        ObjectHolder<Recipe> valid = new ObjectHolder<>(null);
+        ObjectHolder<RecipeDefinition> valid = new ObjectHolder<>(null);
         var inputHolder = virtual(sparseInput);
         if (recipeType == GTORecipeTypes.HATCH_COMBINED) {
             if (!gto$getRecipeTypes().isEmpty()) {
                 for (var rt : gto$getRecipeTypes()) {
                     if (rt.findRecipe(inputHolder, r -> {
                         if (checkProb(r)) {
-                            valid.value = (Recipe) r;
+                            valid.value = (RecipeDefinition) r;
+                            recipeType = r.recipeType;
                             return true;
                         }
                         return false;
@@ -366,7 +429,7 @@ public class MEWildcardPatternBufferPartMachine extends MEPatternBufferPartMachi
         } else {
             recipeType.findRecipe(inputHolder, r -> {
                 if (checkProb(r)) {
-                    valid.value = (Recipe) r;
+                    valid.value = (RecipeDefinition) r;
                     return true;
                 }
                 return false;
@@ -381,7 +444,21 @@ public class MEWildcardPatternBufferPartMachine extends MEPatternBufferPartMachi
                 for (var outStack : outSparse) {
                     if (reqStack.what() == outStack.what() && reqStack.amount() <= outStack.amount()) {
                         found = true;
-                        break;
+                    }
+                    switch (outStack.what()) {
+                        case AEItemKey itemKey -> {
+                            int id = ((IItem) itemKey.getItem()).getUid();
+                            if (blacklistedAltProcessable.stream().anyMatch(rt -> rt.itemsCanBeProduced.contains(id))) {
+                                return null;
+                            }
+                        }
+                        case AEFluidKey fluidKey -> {
+                            int id = ((IFluid) fluidKey.getFluid()).getUid();
+                            if (blacklistedAltProcessable.stream().anyMatch(rt -> rt.fluidsCanBeProduced.contains(id))) {
+                                return null;
+                            }
+                        }
+                        default -> {}
                     }
                 }
                 if (!found) {
@@ -393,7 +470,7 @@ public class MEWildcardPatternBufferPartMachine extends MEPatternBufferPartMachi
         return null;
     }
 
-    private boolean checkProb(GTRecipe recipe) {
+    private boolean checkProb(GTRecipeDefinition recipe) {
         for (var ingredient : recipe.getInputContents(ItemRecipeCapability.CAP)) {
             if (ingredient.chance != 10000 && ingredient.chance != 0) return false;
         }
@@ -449,10 +526,11 @@ public class MEWildcardPatternBufferPartMachine extends MEPatternBufferPartMachi
 
     private static final int left = 22;
     private static final int top = 180;
-    private static final int rowSize = 3;
-    private static final int colSize = 6;
+    private static final int rowSize = 2;
+    private static final int colSize = 9;
+    private static final int colSizeMachine = 3;
     private static final int width = 18 * rowSize + 8;
-    private static final int height = width - 20;
+    private static final int height = width - 2;
 
     @Override
     public void buildToolBoxContent(@NotNull VBoxBuilder $this$buildToolBoxContent) {
@@ -499,6 +577,7 @@ public class MEWildcardPatternBufferPartMachine extends MEPatternBufferPartMachi
         widget.addWidget(AlignContainer);
         widget.addWidget(createFluidBlacklistWidget());
         widget.addWidget(createItemBlacklistWidget());
+        widget.addWidget(createMachineBlacklistWidget());
 
         return widget;
     }
@@ -536,7 +615,6 @@ public class MEWildcardPatternBufferPartMachine extends MEPatternBufferPartMachi
                                         // -> add to slot
                                         fillPhantomSlot(slot, stackHeld);
                                         var itemStack = stackHeld.copy();
-                                        itemStack.setCount(Integer.MAX_VALUE);
                                         blacklistedItems.setStackInSlot(finalIndex, itemStack);
                                         loadBlacklistData();
                                     }
@@ -548,7 +626,6 @@ public class MEWildcardPatternBufferPartMachine extends MEPatternBufferPartMachi
                                             // -> change the slot
                                             fillPhantomSlot(slot, stackHeld);
                                             var itemStack = stackHeld.copy();
-                                            itemStack.setCount(Integer.MAX_VALUE);
                                             blacklistedItems.setStackInSlot(finalIndex, itemStack);
                                             loadBlacklistData();
                                         }
@@ -570,28 +647,9 @@ public class MEWildcardPatternBufferPartMachine extends MEPatternBufferPartMachi
                                     stack = getHandler().getItem();
                                     drawItemStack(graphics, stack, stackX, stackY, 0xFFFFFFFF, null);
                                 }
-                                if (mouseOverStock(mouseX, mouseY)) {
+                                if (mouseOverStock(this, mouseX, mouseY)) {
                                     drawSelectionOverlay(graphics, stackX, stackY + 18, 16, 16);
                                 }
-                            }
-
-                            private void fillPhantomSlot(Slot slot, ItemStack stackHeld) {
-                                if (stackHeld.isEmpty()) {
-                                    slot.set(ItemStack.EMPTY);
-                                } else {
-                                    ItemStack phantomStack = stackHeld.copy();
-                                    phantomStack.setCount(1);
-                                    slot.set(phantomStack);
-                                }
-                            }
-
-                            public boolean areItemsEqual(ItemStack itemStack1, ItemStack itemStack2) {
-                                return ItemStack.matches(itemStack1, itemStack2);
-                            }
-
-                            private boolean mouseOverStock(double mouseX, double mouseY) {
-                                Position position = getPosition();
-                                return isMouseOver(position.x, position.y + 18, 18, 18, mouseX, mouseY);
                             }
 
                             @Override
@@ -668,11 +726,147 @@ public class MEWildcardPatternBufferPartMachine extends MEPatternBufferPartMachi
         return container;
     }
 
+    private Widget createMachineBlacklistWidget() {
+        var container = new WidgetGroup(2 * (width + 16) + left, top, width, height);
+        var innner = new DraggableScrollableWidgetGroup(4, 4, width - 8, height - 8);
+        int index = 0;
+        for (int y = 0; y < colSizeMachine; y++) {
+            for (int x = 0; x < rowSize; x++) {
+                int finalIndex = index++;
+                innner.addWidget(
+                        new PhantomSlotWidget(blacklistedAltProcessableMachinesStorageTransfer, finalIndex, x * 18, y * 18) {
+
+                            @Override
+                            public ItemStack slotClickPhantom(Slot slot, int mouseButton, ClickType clickTypeIn, ItemStack stackHeld) {
+                                ItemStack stack = ItemStack.EMPTY;
+                                ItemStack stackSlot = slot.getItem();
+                                if (!stackSlot.isEmpty()) {
+                                    stack = stackSlot.copy();
+                                }
+                                boolean heldIsMachine = checkIsMachine(stackHeld);
+
+                                if (stackHeld.isEmpty() || mouseButton == 2 || mouseButton == 1) {
+                                    // held is empty,right click,middle click
+                                    // -> clear slot
+                                    fillPhantomSlot(slot, ItemStack.EMPTY);
+                                    blacklistedAltProcessableMachines.setStackInSlot(finalIndex, ItemStack.EMPTY);
+                                    loadBlacklistData();
+                                } else if (stackSlot.isEmpty()) {   // slot is empty
+                                    if (heldIsMachine &&
+                                            Arrays.stream(blacklistedAltProcessableMachines.stacks).noneMatch(s -> areItemsEqual(s, stackHeld))) {
+                                        // held is not empty and item not in other slot
+                                        // -> add to slot
+                                        fillPhantomSlot(slot, stackHeld);
+                                        var itemStack = stackHeld.copy();
+                                        blacklistedAltProcessableMachines.setStackInSlot(finalIndex, itemStack);
+                                        loadBlacklistData();
+                                    }
+                                } else {
+                                    if (heldIsMachine &&
+                                            !areItemsEqual(stackSlot, stackHeld)) {
+                                        // slot item not equal to held item
+                                        // item not in other slot
+                                        // -> change the slot
+                                        fillPhantomSlot(slot, stackHeld);
+                                        var itemStack = stackHeld.copy();
+                                        blacklistedAltProcessableMachines.setStackInSlot(finalIndex, itemStack);
+                                        loadBlacklistData();
+                                    }
+                                }
+                                return stack;
+                            }
+
+                            @Override
+                            public void drawInBackground(@NotNull GuiGraphics graphics, int mouseX, int mouseY, float partialTicks) {
+                                super.drawInBackground(graphics, mouseX, mouseY, partialTicks);
+                                Position position = getPosition();
+                                GuiTextures.SLOT.draw(graphics, mouseX, mouseY, position.x, position.y, 18, 18);
+                                GuiTextures.CONFIG_ARROW_DARK.draw(graphics, mouseX, mouseY, position.x, position.y, 18, 18);
+                                int stackX = position.x + 1;
+                                int stackY = position.y + 1;
+                                ItemStack stack;
+                                if (getHandler() != null) {
+                                    stack = getHandler().getItem();
+                                    drawItemStack(graphics, stack, stackX, stackY, 0xFFFFFFFF, null);
+                                }
+                                if (mouseOverStock(this, mouseX, mouseY)) {
+                                    drawSelectionOverlay(graphics, stackX, stackY + 18, 16, 16);
+                                }
+                            }
+
+                            @Override
+                            public boolean areItemsEqual(ItemStack itemStack1, ItemStack itemStack2) {
+                                return itemStack1.getItem() == itemStack2.getItem(); // no nbt comparison
+                            }
+
+                            @Override
+                            public List<Component> getFullTooltipTexts() {
+                                var superText = super.getFullTooltipTexts();
+                                if (this.slotReference != null) {
+                                    var item = this.slotReference.getItem();
+                                    if (item.getItem() instanceof MetaMachineItem metaMachineItem) {
+                                        var definition = metaMachineItem.getDefinition();
+                                        var recipeTypes = definition.getRecipeTypes();
+                                        if (recipeTypes != null && recipeTypes.length > 0) {
+                                            var finalComp = Arrays.stream(definition.getRecipeTypes())
+                                                    .filter(Objects::nonNull)
+                                                    .map(r -> Component.translatable("gtceu." + r.registryName.getPath()))
+                                                    .collect(GTOUtils.joiningComponent(ComponentUtils.DEFAULT_SEPARATOR));
+                                            superText.addFirst(Component.translatable("gtocore.lang.template.recipes_type.-1712405057", finalComp));
+                                        }
+                                    }
+                                }
+                                return superText;
+                            }
+
+                            @Override
+                            public void drawInForeground(@NotNull GuiGraphics graphics, int mouseX, int mouseY, float partialTicks) {
+                                super.drawInForeground(graphics, mouseX, mouseY, partialTicks);
+                                if (this.slotReference != null && this.drawHoverTips && this.isMouseOverElement(mouseX, mouseY) && this.getHoverElement(mouseX, mouseY) == this) {
+                                    ItemStack stack = this.slotReference.getItem();
+                                    if (stack.isEmpty() && this.gui != null) {
+                                        this.gui.getModularUIGui().setHoverTooltip(List.of(Component.translatable(LANG_WILDCARD_PATTERN_BUFFER_MACHINE_FILTER_SLOTS).withStyle(ChatFormatting.WHITE),
+                                                Component.translatable(LANG_WILDCARD_PATTERN_BUFFER_MACHINE_FILTER_SLOTS_DESC_1).withStyle(ChatFormatting.GRAY),
+                                                Component.translatable(LANG_WILDCARD_PATTERN_BUFFER_MACHINE_FILTER_SLOTS_DESC_2).withStyle(ChatFormatting.GRAY),
+                                                Component.translatable(LANG_WILDCARD_PATTERN_BUFFER_MACHINE_FILTER_SLOTS_DESC_3).withStyle(ChatFormatting.GRAY)),
+                                                stack, null, stack.getTooltipImage().orElse(null));
+                                    }
+                                }
+                            }
+                        }
+                                .setClearSlotOnRightClick(false)
+                                .setChangeListener(this::onChanged));
+            }
+        }
+        container.addWidget(innner);
+        container.setBackground(GuiTextures.BACKGROUND_INVERSE);
+        return container;
+    }
+
     private void setFluid(int index, FluidStack fs) {
         var newFluid = fs.copy();
         newFluid.setAmount(1);
         this.blacklistedFluids[index].setFluid(newFluid);
         loadBlacklistData();
+    }
+
+    private static boolean checkIsMachine(ItemStack stack) {
+        return stack.getItem() instanceof MetaMachineItem;
+    }
+
+    private static boolean mouseOverStock(SlotWidget slot, double mouseX, double mouseY) {
+        Position position = slot.getPosition();
+        return SlotWidget.isMouseOver(position.x, position.y + 18, 18, 18, mouseX, mouseY);
+    }
+
+    private static void fillPhantomSlot(Slot slot, ItemStack stackHeld) {
+        if (stackHeld.isEmpty()) {
+            slot.set(ItemStack.EMPTY);
+        } else {
+            ItemStack phantomStack = stackHeld.copy();
+            phantomStack.setCount(1);
+            slot.set(phantomStack);
+        }
     }
 
     private Widget createLabeledConfiguratorWidget(int x, int y,
@@ -720,4 +914,13 @@ public class MEWildcardPatternBufferPartMachine extends MEPatternBufferPartMachi
     private static final String LANG_WILDCARD_PATTERN_BUFFER_MAX_FLUID_OUTPUT_TYPES_EXAMPLE = "gtocore.ae.appeng.wildcard_pattern_buffer.max_fluid_output_types.example";
     @RegisterLanguage(cn = "已扫描加载%s种通配符样板。", en = "Scanned and loaded %s wildcard patterns.")
     static final String LANG_WILDCARD_PATTERN_BUFFER_LOADED_PATTERNS = "gtocore.ae.appeng.wildcard_pattern_buffer.loaded_patterns";
+    @RegisterLanguage(cn = "机器黑名单过滤槽", en = "Machine Blacklist Filter Slots")
+    private static final String LANG_WILDCARD_PATTERN_BUFFER_MACHINE_FILTER_SLOTS = "gtocore.ae.appeng.wildcard_pattern_buffer.machine_filter_slots";
+    @RegisterLanguage(cn = "在此处放入机器的物品形态以添加机器黑名单过滤槽。", en = "Place the item form of a machine here to add a machine blacklist filter slot.")
+    private static final String LANG_WILDCARD_PATTERN_BUFFER_MACHINE_FILTER_SLOTS_DESC_1 = "gtocore.ae.appeng.wildcard_pattern_buffer.machine_filter_slots.desc.1";
+    @RegisterLanguage(cn = "当生成的样板的产物与黑名单中过滤槽中的机器物品形态对应的机器能够生产时，生成的样板将被禁止使用。", en = "When the output of a generated pattern can be produced by a machine corresponding to the item form in the blacklist filter slot, the generated pattern will be prohibited from being used.")
+    private static final String LANG_WILDCARD_PATTERN_BUFFER_MACHINE_FILTER_SLOTS_DESC_2 = "gtocore.ae.appeng.wildcard_pattern_buffer.machine_filter_slots.desc.2";
+    @RegisterLanguage(cn = "例如，石墨烯箔可以同时使用多辊压机和化学气相沉积系统来生产，如果在机器黑名单过滤槽中放入化学气相沉积机器的物品形态，则多辊轧机中生成箔的配方样板在此总成中，不会生成石墨烯材料相关。",
+                      en = "For example, graphene foils can be produced by both the cluster rolling and the CVD system. If the item form of the CVD machine is placed in the machine blacklist filter slot, then recipe patterns for producing foils in the cluster rolling that involve graphene materials will not be generated in this buffer.")
+    private static final String LANG_WILDCARD_PATTERN_BUFFER_MACHINE_FILTER_SLOTS_DESC_3 = "gtocore.ae.appeng.wildcard_pattern_buffer.machine_filter_slots.desc.3";
 }

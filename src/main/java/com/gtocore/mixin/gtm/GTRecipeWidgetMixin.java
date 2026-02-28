@@ -6,7 +6,7 @@ import com.gtolib.api.recipe.modifier.RecipeModifierFunction;
 
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.capability.recipe.RecipeCapability;
-import com.gregtechceu.gtceu.api.recipe.GTRecipe;
+import com.gregtechceu.gtceu.api.recipe.GTRecipeDefinition;
 import com.gregtechceu.gtceu.api.recipe.OverclockingLogic;
 import com.gregtechceu.gtceu.api.recipe.RecipeCondition;
 import com.gregtechceu.gtceu.api.recipe.content.Content;
@@ -50,14 +50,14 @@ public abstract class GTRecipeWidgetMixin extends WidgetGroup {
     protected abstract void setRecipeTextWidget(OverclockingLogic logic);
 
     @Shadow(remap = false)
-    public abstract void collectStorage(Table<IO, RecipeCapability<?>, Object> extraTable, Table<IO, RecipeCapability<?>, List<Content>> extraContents, GTRecipe recipe);
+    public abstract void collectStorage(Table<IO, RecipeCapability<?>, Object> extraTable, Table<IO, RecipeCapability<?>, List<Content>> extraContents, GTRecipeDefinition recipe);
 
     @Shadow(remap = false)
     @Final
-    private GTRecipe recipe;
+    private GTRecipeDefinition recipe;
 
     @Shadow(remap = false)
-    public abstract void addSlots(Table<IO, RecipeCapability<?>, List<Content>> contentTable, WidgetGroup group, GTRecipe recipe);
+    public abstract void addSlots(Table<IO, RecipeCapability<?>, List<Content>> contentTable, WidgetGroup group, GTRecipeDefinition recipe);
 
     @Shadow(remap = false)
     @Final
@@ -126,17 +126,11 @@ public abstract class GTRecipeWidgetMixin extends WidgetGroup {
         }
 
         MutableInt yOff = new MutableInt(yOffset);
-        for (var capability : recipe.inputs.entrySet()) {
-            capability.getKey().addXEIInfo(this, xOffset, recipe, capability.getValue(), false, true, yOff);
-        }
         for (var capability : recipe.tickInputs.entrySet()) {
-            capability.getKey().addXEIInfo(this, xOffset, recipe, capability.getValue(), true, true, yOff);
-        }
-        for (var capability : recipe.outputs.entrySet()) {
-            capability.getKey().addXEIInfo(this, xOffset, recipe, capability.getValue(), false, false, yOff);
+            capability.getKey().addXEIInfo(this, xOffset, recipe, capability.getValue().getFirst().getInner(), true, true, yOff);
         }
         for (var capability : recipe.tickOutputs.entrySet()) {
-            capability.getKey().addXEIInfo(this, xOffset, recipe, capability.getValue(), true, false, yOff);
+            capability.getKey().addXEIInfo(this, xOffset, recipe, capability.getValue().getFirst().getInner(), true, false, yOff);
         }
 
         for (RecipeCondition condition : recipe.conditions) {

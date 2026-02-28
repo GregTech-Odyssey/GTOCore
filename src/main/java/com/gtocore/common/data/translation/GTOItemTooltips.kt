@@ -17,6 +17,7 @@ import net.minecraft.world.level.block.Blocks
 import appeng.core.definitions.AEBlocks
 import appeng.core.definitions.AEItems
 import appeng.core.definitions.AEParts
+import com.direwolf20.buildinggadgets2.setup.Registration.TemplateManager
 import com.glodblock.github.extendedae.common.EPPItemAndBlock
 import com.gregtechceu.gtceu.GTCEu
 import com.gregtechceu.gtceu.common.data.GTItems
@@ -115,6 +116,14 @@ object GTOItemTooltips : AutoInitialize<GTOItemTooltips>() {
         command("2.可以在每个区块选中一个目标" translatedTo "Second mode: Can select one target per block")
         command("3.可以选中点击到的目标" translatedTo "Third mode: Can select the target you clicked")
         info("很多AE节点现在都可以作为传送锚点" translatedTo "Many AE nodes can now be used as teleport anchors")
+    }
+    val MEWirelessMachineConfigurator = ComponentListSupplier {
+        setTranslationPrefix("me_wireless_machine_configurator")
+
+        section(ComponentSlang.MainFunction)
+        guide("右键空气打开界面配置目标网络" translatedTo "Right-click air to open the interface and configure the target network")
+        guide("右键ME无线机器可以将该机器所连接的网络设为目标网络" translatedTo "Right-click a ME wireless machine to set the network it is connected to as the target network")
+        guide("Shift+右键ME无线机器可以导入该机器的网络配置" translatedTo "Shift + Right-click a ME wireless machine to import its network configuration")
     }
 
     // 时间扭曲者
@@ -281,6 +290,15 @@ object GTOItemTooltips : AutoInitialize<GTOItemTooltips>() {
                 },
             )
         }
+
+        listOf(TemplateManager.get().asItem()).forEach {
+            it.setTooltips(
+                ComponentListSupplier {
+                    highlight("要不试试放入AE2样板？" translatedTo "How about slotting in an AE2 pattern?")
+                }.editionByGTONormal(),
+            )
+        }
+
         GTMachines.MUFFLER_HATCH.forEach {
             it?.asItem()?.setTooltips(
                 ComponentListSupplier {

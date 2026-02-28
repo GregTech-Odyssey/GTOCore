@@ -66,6 +66,10 @@ public final class GTOElements {
     public static final Element BLAZECUBE = new Element(500, 500, -1, null, "blazecube", "Bc", false);
     public static final Element ETRIUM = new Element(400, 400, -1, null, "etrium", "Et⚡", false);
     public static final Element RESONARIUM = new Element(600, 600, -1, null, "resonarium", "\uD83D\uDCE2Rs\uD83D\uDCE2", false);
+    public static final Element ASTRIUM = new Element(800, 800, -1, null, "astrium", "＊", false);
+    public static final Element UELIBRIUM = new Element(400, 400, -1, null, "uelibrium", "✿", false);
+    public static final Element CRUPTIX = new Element(400, 400, -1, null, "cruptix", "☄", false);
+    public static final Element PHOTOKRYSTAL = new Element(400, 400, -1, null, "photokrystal", "✧", false);
 
     public static final Element MANASTEEL = new Element(26, 30, -1, null, "manasteel", "*Ma*", false);
     public static final Element TERRASTEEL = new Element(56, 66, -1, null, "terrasteel", "*Tr*", false);

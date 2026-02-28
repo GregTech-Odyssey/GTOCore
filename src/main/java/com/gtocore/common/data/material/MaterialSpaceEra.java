@@ -1,5 +1,7 @@
 package com.gtocore.common.data.material;
 
+import com.gtocore.common.data.GTOElements;
+
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.data.chemical.material.properties.ToolProperty;
 
@@ -8,6 +10,7 @@ import static com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialIcon
 import static com.gregtechceu.gtceu.api.data.chemical.material.properties.BlastProperty.GasTier.*;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
 import static com.gtocore.api.data.material.GTOMaterialFlags.*;
+import static com.gtocore.api.data.material.GTOMaterialIconSet.*;
 import static com.gtocore.common.data.GTOMaterials.*;
 import static com.gtolib.utils.register.MaterialsRegisterUtils.material;
 
@@ -538,6 +541,127 @@ public class MaterialSpaceEra {
                 .secondaryColor(0xcc8430)
                 .iconSet(DULL)
                 .flags(GENERATE_SMALL_DUST, GENERATE_TINY_DUST, DISABLE_DECOMPOSITION)
+                .buildAndRegister();
+
+        Cruptix = material("cruptix", "克鲁普提克斯")
+                .ingot().fluid()
+                .color(0x7a4c9a)
+                .secondaryColor(0xaa7aca)
+                .iconSet(DULL)
+                .element(GTOElements.CRUPTIX)
+                .blastTemp(3420, HIGH, GTValues.VA[GTValues.EV], 1200)
+                .flags(GENERATE_GEAR, GENERATE_SMALL_GEAR, GENERATE_LONG_ROD,
+                        GENERATE_FRAME, GENERATE_FOIL,
+                        GENERATE_BOLT_SCREW, GENERATE_RING, DECOMPOSITION_BY_CENTRIFUGING)
+                .buildAndRegister();
+        Uelibrium = material("uelibrium", "尤利布里姆")
+                .ingot().fluid()
+                .color(0x4ca6c6)
+                .secondaryColor(0x78d4f2)
+                .iconSet(DULL)
+                .element(GTOElements.UELIBRIUM)
+                .blastTemp(7420, HIGH, GTValues.VA[GTValues.EV], 1200)
+                .flags(GENERATE_GEAR, GENERATE_SMALL_GEAR, GENERATE_LONG_ROD,
+                        GENERATE_FRAME, GENERATE_FOIL,
+                        GENERATE_BOLT_SCREW, GENERATE_RING, DECOMPOSITION_BY_CENTRIFUGING)
+                .buildAndRegister();
+        Astrium = material("astrium", "星尘")
+                .ingot()
+                .color(0xe131bad5)
+                .secondaryColor(0xe1ee595a)
+                .iconSet(ASTRAL)
+                .element(GTOElements.ASTRIUM)
+                .blastTemp(10420, HIGH, GTValues.VA[GTValues.EV], 1200)
+                .flags(GENERATE_GEAR, GENERATE_SMALL_GEAR, GENERATE_LONG_ROD,
+                        GENERATE_FRAME, GENERATE_FOIL,
+                        GENERATE_BOLT_SCREW, GENERATE_RING, DECOMPOSITION_BY_CENTRIFUGING)
+                .buildAndRegister();
+        IceCrystalVolatiles = material("ice_crystal_volatiles", "冰晶挥发物")
+                .fluid()
+                .color(0x07544d)
+                .secondaryColor(0x0d8980)
+                .iconSet(LIMPID)
+                .buildAndRegister();
+        IrradiatedIceCrystalVolatiles = material("irradiated_ice_crystal_volatiles", "辐照冰晶挥发物")
+                .fluid()
+                .color(0x2f7d61)
+                .secondaryColor(0x47b191)
+                .iconSet(LIMPID)
+                .flags(GENERATE_SMALL_DUST, GENERATE_TINY_DUST, DISABLE_DECOMPOSITION)
+                .buildAndRegister();
+        CosmicDustDispersant = material("cosmic_dust_dispersant", "宇尘分散剂")
+                .fluid()
+                .color(0xcc8430)
+                .secondaryColor(0xafa5a0)
+                .iconSet(DULL)
+                .flags(GENERATE_SMALL_DUST, GENERATE_TINY_DUST, DISABLE_DECOMPOSITION)
+                .buildAndRegister();
+        PhotonicKristallite = material("photonic_kristallite", "光通")
+                .ingot().fluid()
+                .color(0xfcfcfd)
+                .secondaryColor(0x1e1e1e)
+                .element(GTOElements.PHOTOKRYSTAL)
+                .iconSet(TRANSLUCENT)
+                .blastTemp(1790, HIGH, GTValues.VA[GTValues.UHV], 4000)
+                .flags(GENERATE_GEAR, GENERATE_SMALL_GEAR, GENERATE_LONG_ROD,
+                        GENERATE_FRAME, GENERATE_FOIL,
+                        GENERATE_BOLT_SCREW, GENERATE_RING, DECOMPOSITION_BY_CENTRIFUGING)
+                .buildAndRegister();
+        PrussianBlueCopperINanotubes = material("prussian_blue_copper_i_nanotubes", "普鲁士蓝氧化铜(I)纳米管")
+                .dust()
+                .color(0x3a373b)
+                .secondaryColor(0x59565a)
+                .iconSet(DULL)
+                .flags(GENERATE_SMALL_DUST, GENERATE_TINY_DUST, DISABLE_DECOMPOSITION)
+                .components(Copper, 2, Oxygen, 1, PrussianBlue, 1)
+                .buildAndRegister();
+        BisCyclopentadienylHafniumOxide = material("bis_cyclopentadienyl_hafnium_oxide", "双环戊二烯铪氧化物")
+                .dust()
+                .color(0x1f281f)
+                .secondaryColor(0x2d3c2e)
+                .iconSet(DULL)
+                .flags(GENERATE_SMALL_DUST, GENERATE_TINY_DUST, DISABLE_DECOMPOSITION)
+                .formula("(Cp2Hf)2O2")
+                .buildAndRegister();
+        PolyVinylBpyRheniumCarbonylHexafluorophosphate = material("poly_vinyl_bpy_rhenium_carbonyl_hexafluorophosphate", "聚[(乙烯基-联吡啶)三羰基铼]六氟磷酸盐")
+                .dust()
+                .color(0x262631)
+                .secondaryColor(0x3b3b46)
+                .iconSet(DULL)
+                .formula("[(vbpy)Re(CO)3]PF6")
+                .buildAndRegister();
+        Vinyl2Bipyridine = material("vinyl_2_bipyridine", "4-乙烯基-2,2'-联吡啶")
+                .fluid()
+                .color(0x1fc81f)
+                .secondaryColor(0x2d3c2e)
+                .iconSet(DULL)
+                .formula("C12H10N2")
+                .buildAndRegister();
+        RheniumPentacarbonylChloride = material("rhenium_pentacarbonyl_chloride", "五羰基氯化铼")
+                .dust()
+                .color(0x3a373b)
+                .secondaryColor(0x59565a)
+                .iconSet(DULL)
+                .formula("Re(CO)5Cl")
+                .buildAndRegister();
+        Bipyridine = material("bipyridine", "2,2'-联吡啶")
+                .fluid()
+                .color(0x3fa5bf)
+                .secondaryColor(0x2d3c2e)
+                .iconSet(DULL)
+                .formula("C10H8N2")
+                .buildAndRegister();
+        XenotimeCopperIKPBANanotubes = material("xenotime_copper_i_kpba_nanotubes", "异时空铜@KPBA纳米管")
+                .dust()
+                .color(0x3a373b)
+                .secondaryColor(0x59565a)
+                .iconSet(DULL)
+                .buildAndRegister();
+        PhototuningAgent = material("phototuning_agent", "光调谐剂")
+                .fluid()
+                .color(0xefe8ef)
+                .secondaryColor(0x2d3c2e)
+                .iconSet(DULL)
                 .buildAndRegister();
 
         // 合金系列 电压 温度 ID 组成 配方类型

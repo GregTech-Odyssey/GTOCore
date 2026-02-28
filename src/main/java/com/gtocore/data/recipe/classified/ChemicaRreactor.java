@@ -19,8 +19,7 @@ import static com.gregtechceu.gtceu.common.data.GTItems.*;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
 import static com.gtocore.api.data.tag.GTOTagPrefix.NANO;
 import static com.gtocore.common.data.GTOMaterials.*;
-import static com.gtocore.common.data.GTORecipeTypes.CHEMICAL_RECIPES;
-import static com.gtocore.common.data.GTORecipeTypes.LARGE_CHEMICAL_RECIPES;
+import static com.gtocore.common.data.GTORecipeTypes.*;
 
 final class ChemicaRreactor {
 
@@ -3465,6 +3464,54 @@ final class ChemicaRreactor {
                 .circuitMeta(3)
                 .EUt(20)
                 .duration(120)
+                .save();
+
+        LARGE_CHEMICAL_RECIPES.builder("vinyl_2_bipyridine")
+                .inputItems(GTOTagPrefix.CATALYST, GTMaterials.Palladium)
+                .inputFluids(GTOMaterials.Bipyridine, 1000)
+                .inputFluids(GTMaterials.VinylChloride, 1000)
+                .outputFluids(GTOMaterials.Vinyl2Bipyridine, 1000)
+                .outputFluids(GTMaterials.HydrochloricAcid, 1000)
+                .EUt(6400)
+                .duration(250)
+                .save();
+        LARGE_CHEMICAL_RECIPES.builder("rhenium_pentacarbonyl_chloride_dust")
+                .inputItems(TagPrefix.dust, GTMaterials.Rhenium)
+                .outputItems(TagPrefix.dust, GTOMaterials.RheniumPentacarbonylChloride, 7)
+                .inputFluids(GTMaterials.CarbonMonoxide, 5000)
+                .inputFluids(GTMaterials.Chlorine, 1000)
+                .EUt(640)
+                .duration(1750)
+                .save();
+        LARGE_CHEMICAL_RECIPES.builder("bis_cyclopentadienyl_hafnium_oxide_dust")
+                .inputItems(TagPrefix.dust, GTMaterials.Hafnium, 2)
+                .outputItems(TagPrefix.dust, GTOMaterials.BisCyclopentadienylHafniumOxide, 7)
+                .inputFluids(GTOMaterials.LithiumCyclopentadienide, 4000)
+                .inputFluids(GTMaterials.Oxygen, 2000)
+                .EUt(640)
+                .duration(250)
+                .save();
+        LARGE_CHEMICAL_RECIPES.builder("antimatter-ion_energy_release_cathode")
+                .inputItems(GTOTagPrefix.NANITES, GTOMaterials.Orichalcum)
+                .inputItems(dust, Astrium, 2)
+                .inputFluids(GTOMaterials.UltraLowViscosityIonicCarrier, 12000)
+                .inputFluids(GTOMaterials.Antiproton, 13000)
+                .inputFluids(GTOMaterials.PhotonicKristallite, 6000)
+                .inputFluids(GTOMaterials.Sanguinite, 1000)
+                .outputFluids(AntimatterRedoxFlowBatteryElectrolyte.getFluid(GTOFluidStorageKey.ENERGY_RELEASE_CATHODE, 32000))
+                .EUt(64000)
+                .duration(250)
+                .save();
+        LARGE_CHEMICAL_RECIPES.builder("antimatter-ion_energy_release_anode")
+                .inputItems(GTOTagPrefix.NANITES, GTMaterials.Neutronium)
+                .inputItems(dust, Astrium, 2)
+                .inputFluids(GTOMaterials.UltraLowViscosityIonicCarrier, 12000)
+                .inputFluids(GTOMaterials.PositiveElectron, 13000)
+                .inputFluids(GTOMaterials.PhotonicKristallite, 6000)
+                .inputFluids(Sanguinite, 1000)
+                .outputFluids(AntimatterRedoxFlowBatteryElectrolyte.getFluid(GTOFluidStorageKey.ENERGY_RELEASE_ANODE, 32000))
+                .EUt(64000)
+                .duration(250)
                 .save();
     }
 }

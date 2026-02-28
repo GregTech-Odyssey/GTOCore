@@ -39,7 +39,7 @@ import static com.gtocore.common.data.GTOMaterials.FlocculationWasteSolution;
 public class SimpleSpaceStationMachine extends AbstractSpaceStation {
 
     @Nullable
-    private Collection<BlockPos> outputDistilledWaterHatches;
+    private Set<BlockPos> outputDistilledWaterHatches;
     @Nullable
     private List<RecipeHandlerList> outputDistilledWaterHatchesList;
     /// 空间站附赠超净间
@@ -55,7 +55,7 @@ public class SimpleSpaceStationMachine extends AbstractSpaceStation {
 
     @Override
     public void addHandlerList(RecipeHandlerList handler) {
-        if (outputDistilledWaterHatches != null && outputDistilledWaterHatches.stream().anyMatch(p -> handler.part.self().getPos() == p)) {
+        if (outputDistilledWaterHatches != null && outputDistilledWaterHatches.contains(handler.part.self().getPos())) {
             if (outputDistilledWaterHatchesList == null) {
                 outputDistilledWaterHatchesList = new ArrayList<>();
             }
@@ -71,7 +71,7 @@ public class SimpleSpaceStationMachine extends AbstractSpaceStation {
     /// @see com.gregtechceu.gtceu.common.machine.multiblock.electric.CleanroomMachine#onStructureFormed()
     @Override
     public void onStructureFormed() {
-        this.outputDistilledWaterHatches = getMultiblockState().getMatchContext().getOrDefault("spaceMachinePhotovoltaicSupp", Collections.emptyList());
+        this.outputDistilledWaterHatches = getMultiblockState().getMatchContext().getOrDefault("spaceMachinePhotovoltaicSupp", Collections.emptySet());
         super.onStructureFormed();
         IFilterType filterType = getMultiblockState().getMatchContext().get("FilterType");
         if (filterType != null) {

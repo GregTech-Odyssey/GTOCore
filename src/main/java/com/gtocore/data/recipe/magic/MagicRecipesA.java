@@ -1,10 +1,6 @@
 package com.gtocore.data.recipe.magic;
 
-import com.gtocore.common.data.GTOBlocks;
-import com.gtocore.common.data.GTOFluids;
-import com.gtocore.common.data.GTOItems;
-import com.gtocore.common.data.GTOMachines;
-import com.gtocore.common.data.GTOMaterials;
+import com.gtocore.common.data.*;
 import com.gtocore.common.data.machines.GCYMMachines;
 import com.gtocore.common.data.machines.ManaMachine;
 import com.gtocore.common.data.machines.ManaMultiBlock;

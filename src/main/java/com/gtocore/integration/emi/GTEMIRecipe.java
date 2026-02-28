@@ -1,7 +1,7 @@
 package com.gtocore.integration.emi;
 
 import com.gtolib.api.recipe.ContentBuilder;
-import com.gtolib.api.recipe.Recipe;
+import com.gtolib.api.recipe.RecipeDefinition;
 
 import com.gregtechceu.gtceu.api.capability.recipe.FluidRecipeCapability;
 import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
@@ -53,14 +53,14 @@ public final class GTEMIRecipe extends ModularEmiRecipe<Widget> {
     private static final Map<GTRecipeType, Widget> EMI_RECIPE_WIDGETS = new Reference2ReferenceOpenHashMap<>();
 
     private final EmiRecipeCategory category;
-    private final Recipe recipe;
+    private final RecipeDefinition recipe;
     public final IntSupplier displayPriority;
 
-    public GTEMIRecipe(Recipe recipe, EmiRecipeCategory category) {
+    public GTEMIRecipe(RecipeDefinition recipe, EmiRecipeCategory category) {
         super(() -> EMI_RECIPE_WIDGETS.computeIfAbsent(recipe.recipeType, type -> new Widget(getXOffset(recipe), 0, type.getRecipeUI().getJEISize().width, getHeight(recipe))));
         this.recipe = recipe;
         this.category = category;
-        displayPriority = () -> recipe.displayPriority;
+        displayPriority = () -> recipe.priority;
         inputs = null;
         widget = () -> new GTRecipeWidget(recipe);
     }
@@ -73,7 +73,7 @@ public final class GTEMIRecipe extends ModularEmiRecipe<Widget> {
         return recipe.recipeType;
     }
 
-    private static int getXOffset(Recipe recipe) {
+    private static int getXOffset(RecipeDefinition recipe) {
         if (recipe.recipeType.getRecipeUI().getOriginalWidth() != recipe.recipeType.getRecipeUI().getJEISize().width) {
             return (recipe.recipeType.getRecipeUI().getJEISize().width -
                     recipe.recipeType.getRecipeUI().getOriginalWidth()) / 2;
@@ -81,7 +81,7 @@ public final class GTEMIRecipe extends ModularEmiRecipe<Widget> {
         return 0;
     }
 
-    private static int getHeight(Recipe recipe) {
+    private static int getHeight(RecipeDefinition recipe) {
         return recipe.recipeType.getRecipeUI().getJEISize().height + recipe.conditions.size() * 10;
     }
 

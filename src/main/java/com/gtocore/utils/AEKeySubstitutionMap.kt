@@ -1,7 +1,7 @@
 package com.gtocore.utils
 
 import appeng.api.stacks.AEKey
-import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap
+import it.unimi.dsi.fastutil.objects.Reference2ReferenceOpenHashMap
 
 import java.util.concurrent.ConcurrentHashMap
 
@@ -14,7 +14,7 @@ class AEKeySubstitutionMap(priorityGroups: List<List<AEKey>>) {
     private val keyToPriorityGroup: Map<AEKey, List<AEKey>>
 
     init {
-        val mapBuilder = Object2ObjectOpenHashMap<AEKey, List<AEKey>>()
+        val mapBuilder = Reference2ReferenceOpenHashMap<AEKey, List<AEKey>>()
         priorityGroups.forEach { group ->
             if (group.isNotEmpty()) {
                 group.forEach { key ->
@@ -32,14 +32,11 @@ class AEKeySubstitutionMap(priorityGroups: List<List<AEKey>>) {
      * @return 替换后的首选AEKey。如果该Key没有定义替换规则，则返回其自身。
      */
     fun getSubstitution(key: AEKey): AEKey {
-        keyToPreferredCache[key]?.let { return it }
-
-        val priorityGroup = keyToPriorityGroup[key]
-
-        val preferredKey = priorityGroup?.firstOrNull() ?: key
-
-        keyToPreferredCache[key] = preferredKey
-        return preferredKey
+        return keyToPreferredCache.computeIfAbsent(key) {
+            val priorityGroup = keyToPriorityGroup[key]
+            val preferredKey = priorityGroup?.firstOrNull() ?: key
+            return@computeIfAbsent preferredKey
+        }
     }
 
     companion object {

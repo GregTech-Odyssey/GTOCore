@@ -29,7 +29,6 @@ import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
-import com.gregtechceu.gtceu.api.machine.feature.multiblock.ICoilMachine;
 import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
 import com.gregtechceu.gtceu.api.pattern.MultiblockShapeInfo;
 import com.gregtechceu.gtceu.api.pattern.util.RelativeDirection;
@@ -334,7 +333,7 @@ public final class MultiBlockH {
     // 快中子增殖堆
     public static final MultiblockMachineDefinition FAST_NEUTRON_BREEDER_REACTOR = multiblock("fast_neutron_breeder_reactor", "快中子增殖堆", FastNeutronBreederReactor::new)
             .nonYAxisRotation()
-            .parallelizableTooltips()
+            .specialParallelizableTooltips()
             .tooltipsSupplier(GTOMachineTooltips.INSTANCE.getFastNeutronBreederTooltips().getSupplier())
             .recipeTypes(GTORecipeTypes.FAST_NEUTRON_BREEDER_REACTOR_RECIPES)
             .block(GTOBlocks.BORON_CARBIDE_CERAMIC_RADIATION_RESISTANT_MECHANICAL_CUBE)
@@ -611,11 +610,10 @@ public final class MultiBlockH {
     public static final MultiblockMachineDefinition GIANT_SINTERING_ARRAY = multiblock("giant_sintering_array", "巨型烧结阵列",
             CoilTieredCasingMultiblockMachine.createGlassTieredParallel(true, true))
             .nonYAxisRotation()
-            .tooltips(GTOMachineStories.INSTANCE.getGiantSinteringArrayTooltips().getSupplier())
             .tooltipsKey("gtceu.machine.electric_blast_furnace.tooltip.2")
-            .parallelizableTooltips()
+            .tooltips(GTOMachineStories.INSTANCE.getGiantSinteringArrayTooltips().getSupplier())
+            .glassParallelTooltips()
             .laserTooltips()
-            .recipeModifiers((machine, recipe) -> RecipeModifierFunction.recipeReduction(recipe, 1, Math.log(900) / Math.log(((ICoilMachine) machine).getTemperature())), RecipeModifierFunction.OVERCLOCKING)
             .recipeTypes(GTORecipeTypes.SINTERING_FURNACE_RECIPES)
             .block(GTOBlocks.NAQUADAH_ALLOY_CASING)
             .pattern(definition -> MultiBlockFileReader.start(definition)
@@ -832,7 +830,7 @@ public final class MultiBlockH {
             .register();
 
     // 热压成型机
-    public static final MultiblockMachineDefinition THERMO_PRESS = multiblock("thermo_press", "热压成型机", ElectricMultiblockMachine::new)
+    public static final MultiblockMachineDefinition THERMO_PRESS = multiblock("thermo_press", "热压成型机", TierCasingMultiblockMachine.createMachine(BlockMap.hermetic_casing))
             .nonYAxisRotation()
             .parallelizableTooltips()
             .tooltips(GTOMachineStories.INSTANCE.getThermoPressTooltips().getSupplier())
@@ -840,7 +838,7 @@ public final class MultiBlockH {
             .recipeTypes(GTORecipeTypes.THERMO_PRESSING_RECIPES)
             .recipeModifier((m, r) -> {
                 if (m instanceof ITierCasingMachine tm) {
-                    r.duration = (int) Math.max(Math.pow(0.9, tm.getCasingTier(BlockMap.hermetic_casing)), 1);
+                    r.duration = (int) Math.max(Math.pow(0.9, tm.getCasingTier(BlockMap.hermetic_casing)) * r.duration, 1);
                 }
                 return RecipeModifierFunction.overclocking(m, RecipeModifierFunction.hatchParallel(m, r));
             })

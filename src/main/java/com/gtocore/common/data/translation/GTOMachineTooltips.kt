@@ -169,10 +169,12 @@ object GTOMachineTooltips {
         )
 
         section("蓝图导出功能" translatedTo "Blueprint Export Function")
-        content("将两张坐标卡插入工具底部插槽可激活导出模式" translatedTo "Insert two coordinate cards into the tool's bottom slots to activate export mode")
+        content("将两张带有坐标位置的坐标卡插入工具底部插槽后，打开选择预设界面可激活导出模式" translatedTo "After inserting two coordinate cards with coordinate positions into the slot at the bottom of the tool, open the selection preset interface to activate the export mode")
+        content("导出蓝图在游戏根目录下logs/platform文件夹中" translatedTo "The exported blueprint is located in the logs/platform folder under the game's root directory")
         highlight("欢迎提交优质蓝图至社区仓库" translatedTo "Welcome to submit high-quality blueprints to the community repository") { rainbowSlow() }
         content("不支持框架方块和小方块" translatedTo "Does not support FramedBlocks or LittleTiles")
         highlight("https://github.com/GregTech-Odyssey/Gto-Extended-Platform-Presets" translatedTo "https://github.com/GregTech-Odyssey/Gto-Extended-Platform-Presets") { rainbowSlow() }
+        content("详细导入教程请看 example/READIR_cn.md" translatedTo "For detailed import tutorial, please refer to example/README_en.md")
     }
 
     // 贸易站机器 - 物品描述
@@ -410,6 +412,19 @@ object GTOMachineTooltips {
         highlight("准备好，让你的贸易帝国腾飞吧！" translatedTo "Get ready to let your trade empire soar!") { rainbowSlow() }
     }
 
+    // 样板内容管理终端
+    val PatternContentAccessTerminalTooltips = ComponentListSupplier {
+        setTranslationPrefix("pattern_content_access_terminal")
+
+        miraculousTools("样板内容管理终端" translatedTo "Pattern Content Access Terminal")
+        command("动态替换样板内容" translatedTo "Dynamic Pattern Content Replacement")
+
+        section(ComponentSlang.MainFunction)
+        content("将此机器连接至 ME 网络后，样板在被调用时将遵循优先级配置，逐行进行内容匹配与替换。" translatedTo "When connected to an ME Network, patterns will follow a priority configuration for line-by-line content matching and replacement when accessed.")
+        content("每组配置中，替换的顺序为从右到左。" translatedTo "In each configuration group, the replacement order is from right to left.")
+        info("例如，按顺序填入“橡木木板，白桦木板，云杉木板”的配置，那么当有样板原料中用到白桦或云杉木板时，就会动态修改样板，使用橡木木板作为原料。" translatedTo "For example, if you fill in the configuration with 'Oak Planks, Birch Planks, Spruce Planks' in order, then when a pattern's ingredient uses Birch or Spruce Planks, the pattern will be dynamically modified to use Oak Planks as the ingredient.")
+    }
+
     // 魔力增幅仓
     val ManaAmplifierHatchTooltips = ComponentListSupplier {
         setTranslationPrefix("mana_amplifier_hatch")
@@ -607,9 +622,9 @@ object GTOMachineTooltips {
     val AutoConnectMETooltips = ComponentListSupplier {
         setTranslationPrefix("auto_connect_me")
 
-        section("允许自动连接ME无线网络" translatedTo "Allow automatically connecting to the ME Wireless network")
-        guide("按下Shift放置以自动连接收藏的网络" translatedTo "Press Shift to place to automatically connect to the collected network")
-        danger("小心塞爆矿处！" translatedTo "Be careful not to overflow your AE storage! ")
+        section("无线ME网络连接" translatedTo "Built-in wireless ME network connection feature")
+        command("在机器内GUI界面中可以自由创建和连接无线网络" translatedTo "You can freely create and connect wireless networks in the machine's GUI interface")
+        guide("在机器内GUI界面收藏某个网络后，按下Shift放置以自动连接收藏的网络" translatedTo "After favoriting a network in the machine's GUI interface, place it while holding Shift to automatically connect to the favorited network")
     }
 
     // 多方块板条箱
@@ -885,6 +900,7 @@ object GTOMachineTooltips {
 
         section(ComponentSlang.RunningRequirements)
         command("通过合成样板仓放入合成样板" translatedTo "Insert crafting patterns via craft pattern hatches")
+        command("每次运行同时处理所有的配方以及所有的输入物品" translatedTo "Processes all recipes and all input items at once each operation")
         info("每个物品合成消耗1EU" translatedTo "Each item crafted consumes 1 EU")
     }
 
@@ -1069,8 +1085,9 @@ object GTOMachineTooltips {
         setTranslationPrefix("nano_forge")
 
         section(ComponentSlang.RunningRequirements)
-        command("需要放入对应的纳米蜂群" translatedTo "Requires corresponding nano swarm")
-        info("三种等级: 碳, 安普洛, 龙" translatedTo "Three tiers: Carbon, Amprosium, Draconium")
+        command("往主机内放入纳米蜂群引导结构等级" translatedTo "Place nanites in the controller to guide structure tier")
+        info("碳：1，安普洛：2，龙：3" translatedTo "Carbon: 1, Amprosium: 2, Draconium: 3")
+        info("引导后可使用终端搭建指定结构" translatedTo "After guiding, you can use the terminal to build the specified structure")
     }
 
     // 中子活化器
@@ -1113,12 +1130,16 @@ object GTOMachineTooltips {
 
         section("电动刷怪塔，自动杀怪" translatedTo "Electric Spawner, automatically kills mobs")
         increase("电压等级每高出LV1级，每次处理次数x3" translatedTo "Voltage tier above LV1 increases the number of processes x3")
-        info("玻璃等级限制了电压等级" translatedTo "Glass tier limits voltage tier")
+        increase("高等级的电压同时可以提供更高的幸运加成" translatedTo "Higher voltage tiers can also provide higher luck bonus")
+        info("幸运加成值：电压等级*0.5" translatedTo "Luck bonus value: Voltage tier * 0.5")
+        important("机器使用的玻璃等级将会限制电压等级" translatedTo "Glass tier used by the machine will limit the voltage tier")
         command("运行前需设置电路，1号电路为非敌对生物，2号为敌对生物" translatedTo "Circuit must be set up before running; Circuit 1 is for non-hostile mobs, 2 is for hostile mobs")
-        content("如果在机器GUI内放置了刷怪蛋则只会刷出刷怪蛋对应生物的内容" translatedTo "If a spawn egg is placed in the machine GUI, only the creature corresponding to the spawn egg will be spawned")
-        content("如果在机器GUI内放置了收容罐则只会刷出收容罐对应生物的内容" translatedTo "If a mob jar is placed in the machine GUI, only the creature corresponding to the containment unit will be spawned")
-        content("如果在机器GUI内放置了神化Boss召唤器（物品），则只会刷出对应的神化Boss" translatedTo "If a Apotheosis Boss Summoner (item) is placed in the machine GUI, only the corresponding Deific Boss will be spawned")
-        content("只会使用检测到的第一把武器去尝试击杀其中的生物" translatedTo "Will only use the first weapon detected to try to kill the creature inside")
+        content("如果在机器GUI内放置了§b刷怪蛋/收容罐§r则只会刷出§b刷怪蛋/收容罐对应生物§r的内容" translatedTo "If a §bspawn egg/mob jar§r is placed in the machine GUI, only §bthe corresponding mob§r will be spawned")
+        content("如果在机器GUI内放置了§b神化Boss召唤器（物品）§r，则只会刷出§b所在维度对应的神化Boss§r" translatedTo "If a §bApotheosis Boss Summoner (item)§r is placed in the machine GUI, only §bthe corresponding Apotheosis Boss in that dimension§r will be spawned")
+        important("无法刷出boss级生物，如末影龙和凋零" translatedTo "Boss-level mobs, such as the Ender Dragon and Wither, cannot be spawned")
+        content("当输入多把剑时，只会使用检测到的第一把武器去尝试击杀其中的生物" translatedTo "Will only use the first weapon detected to try to kill the creature inside when multiple swords are input")
+        content("其余的剑可以用来提供额外的伤害加成" translatedTo "The rest of the swords can be used to provide additional damage bonus")
+        info("每把剑提供其基础伤害点数作为伤害加成" translatedTo "Each sword provides its base damage points as damage bonus")
         info("安装输出仓后输出经验" translatedTo "Outputs XP after installing output hatch")
     }
 
@@ -1152,8 +1173,9 @@ object GTOMachineTooltips {
         setTranslationPrefix("pcb_factory")
 
         section(ComponentSlang.RunningRequirements)
-        command("使用纳米蜂群引导结构等级" translatedTo "Use nanites to guide structure level")
+        command("往主机内放入纳米蜂群引导结构等级" translatedTo "Place nanites in the controller to guide structure tier")
         info("金：1，山铜：2，末影素：3" translatedTo "Gold: 1, Orichalcum: 2, Enderium: 3")
+        info("引导后可使用终端搭建指定结构" translatedTo "After guiding, you can use the terminal to build the specified structure")
     }
 
     // 进阶装配线
@@ -1382,15 +1404,19 @@ object GTOMachineTooltips {
         command("使用燃料来升温：煤块产热慢但持久；煤/煤粉产热快但消耗快" translatedTo "Use fuel to increase heat: Coal Blocks provide slow, long-lasting heat; Coal/Dust provides fast, short-lived heat")
 
         info("热量 > 373K 时会消耗水进行冷却" translatedTo "Consumes water for cooling when heat exceeds 373K")
-        important("足量的水(>100mb)才能有效降温" translatedTo "Sufficient water (>100mb) is required for effective cooling")
+        function("足量的水(>100mb)才能有效降温" translatedTo "Sufficient water (>100mb) is required for effective cooling")
         error("注意：水量不足(≤100mb)会适得其反，导致机器异常升温并加速燃料消耗！" translatedTo "Warning: Insufficient water (≤100mb) will backfire, causing extra heat gain and faster fuel consumption!")
 
         error("热量超过 850K 将导致爆炸！" translatedTo "Heat exceeding 850K will cause an explosion!")
 
         section("运行机制" translatedTo "Operation Mechanics")
         info("更高的温度和更长的连续运行时间能显著加快配方速度" translatedTo "Higher temperatures and longer continuous operation significantly speed up recipes")
-        important("每个流体产物都需要一个对应高度的流体输出仓" translatedTo "Each fluid product requires a Fluid Hatch at a corresponding Y-level")
+        function("每个流体产物都需要一个对应高度的流体输出仓" translatedTo "Each fluid product requires a Fluid Hatch at a corresponding Y-level")
         important("只能处理MV及以下的配方" translatedTo "Can only process recipes of MV tier or lower")
+
+        section(ComponentSlang.AfterModuleInstallation)
+        info("安装模块后，机器所使用的冷却用水将只会由模块提供" translatedTo "After installing modules, the machine will only use water provided by the modules for cooling")
+        info("机器本体所提供的水将不再参与冷却过程，而是被用于配方的输入" translatedTo "Water provided by the machine itself will no longer be used for cooling, but will instead be used as input for recipes")
     }
 
     // 化学气相沉积系统
@@ -1578,7 +1604,7 @@ object GTOMachineTooltips {
         setTranslationPrefix("large_steam_circuit_assembler")
 
         section(ComponentSlang.RunningRequirements)
-        command("只能执行电路配方" translatedTo "Can only execute circuit recipes")
+        command("只能执行GT电路配方" translatedTo "Can only execute GT circuit recipes")
         important("蚀刻电路后机器才能工作，并且只能加工此电路" translatedTo "The machine requires engraving a circuit to operate and only processes that specific circuit")
 
         section("配方等级" translatedTo "Recipe Tier")
@@ -1689,6 +1715,16 @@ object GTOMachineTooltips {
         setTranslationPrefix("industrial_flotation_cell")
 
         highlight("工业级浮游选矿池" translatedTo "Industrial Flotation Mining Pool")
+    }
+
+    // 复合式极端冷却装置
+    val CompoundExtremeCoolingUnitTooltips = ComponentListSupplier {
+        setTranslationPrefix("compound_extreme_cooling_unit")
+
+        section(ComponentSlang.RunningRequirements)
+        command("在主机内更改机器模式以引导不同的结构" translatedTo "Change recipe type in the controller to guide different structures")
+        info("真空冷冻机/物化冷凝：P:0，等离子冷凝：P:1" translatedTo "Vacuum Freezer/Atomization Condensation: P:0, Plasma Condenser: P:1")
+        info("引导后可使用终端搭建指定结构" translatedTo "After guiding, you can use the terminal to build the specified structure")
     }
 
     // 恒星炎炀锻炉
@@ -1992,7 +2028,7 @@ object GTOMachineTooltips {
         section("运行机制" translatedTo "Operating Mechanism")
         command("最高支持2048并行，无法通过其他方式加速" translatedTo "Supports up to 2048 parallel, cannot be accelerated by other means")
         command("配方需满足最低中子通量" translatedTo "Recipe requires minimum neutron flux")
-        content("中子通量可通过输入中子源或配方运行时增加" translatedTo "Neutron flux can be increased by inputting neutron sources or during recipe operation")
+        content("中子通量可通过输入粒子源或配方运行时增加" translatedTo "Neutron flux can be increased by inputting neutron sources or during recipe operation")
         command("中子通量越高，堆升温速率越大" translatedTo "The higher the neutron flux, the faster the pile heats up")
         info("输入石墨粉可吸收中子通量" translatedTo "Inputting Graphite Dust can absorb neutron flux")
         info("输入冷却剂可降低温度" translatedTo "Inputting coolant can lower the temperature")
@@ -2004,7 +2040,7 @@ object GTOMachineTooltips {
         info("实际并行越大，运行时间越短，公式：T = t * (0.9 - (当前中子通量 - 需要的中子通量) / 10MeV)^0.5" translatedTo "The larger the actual parallelism, the shorter the running time, formula: T = t * (0.9 - (current neutron flux - required neutron flux) / 10MeV)^0.5")
 
         section("数值机制" translatedTo "Numerical Mechanism")
-        function("消耗中子源提供初始通量：锑-铍10keV，钚-铍100keV，锎-252 1MeV" translatedTo "Consume neutron sources to provide initial flux: Sb-Be 10keV, Pu-Be 100keV, Cf-252 1MeV")
+        function("消耗粒子源提供初始通量：锑-铍10keV，钚-铍100keV，锎-252 1MeV" translatedTo "Consume neutron sources to provide initial flux: Sb-Be 10keV, Pu-Be 100keV, Cf-252 1MeV")
         function("中子通量每秒减少10keV" translatedTo "Neutron flux decreases by 10keV per second")
         function("小撮/小堆/石墨粉分别降低0.1/0.25/1MeV" translatedTo "Small Pile/Big Pile/Graphite Dust reduce by 0.1/0.25/1MeV respectively")
         function("中子通量为E(keV)时，在主机内放入N个铱中子反射板后，中子通量每秒增加 (EN)^0.5 keV" translatedTo "When neutron flux is E (keV), after placing N Iridium Neutron Reflectors in the mainframe, neutron flux increases by (EN)^0.5 keV per second")

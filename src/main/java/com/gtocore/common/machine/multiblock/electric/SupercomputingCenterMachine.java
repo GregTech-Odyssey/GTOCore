@@ -12,7 +12,7 @@ import com.gtolib.api.item.IItem;
 import com.gtolib.api.machine.multiblock.StorageMultiblockMachine;
 import com.gtolib.api.recipe.Recipe;
 import com.gtolib.api.recipe.RecipeBuilder;
-import com.gtolib.api.recipe.RecipeRunner;
+import com.gtolib.api.recipe.RecipeDefinition;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
@@ -94,7 +94,7 @@ public final class SupercomputingCenterMachine extends StorageMultiblockMachine 
     private long allocatedCWUt;
     private long cacheCWUt;
     private long maxEUt;
-    private Recipe runRecipe;
+    private RecipeDefinition runRecipe;
     @Nullable
     private TickableSubscription tickSubs;
 
@@ -202,9 +202,9 @@ public final class SupercomputingCenterMachine extends StorageMultiblockMachine 
 
         if (maxEUt > 0) {
             if (machineTier == 1)
-                runRecipe = RecipeBuilder.ofRaw().inputFluids(PCBCoolant.getFluid(LIQUID, coolantAmount)).EUt(maxEUt / 4).duration(20).buildRawRecipe();
+                runRecipe = RecipeBuilder.ofRaw().inputFluids(PCBCoolant.getFluid(LIQUID, coolantAmount)).EUt(maxEUt / 4).duration(20).build();
             else
-                runRecipe = RecipeBuilder.ofRaw().inputFluids(Helium.getFluid(LIQUID, coolantAmount)).outputFluids(Helium.getFluid(GAS, coolantAmount)).EUt(maxEUt).duration(20).buildRawRecipe();
+                runRecipe = RecipeBuilder.ofRaw().inputFluids(Helium.getFluid(LIQUID, coolantAmount)).outputFluids(Helium.getFluid(GAS, coolantAmount)).EUt(maxEUt).duration(20).build();
         }
         maxCWUtModificationSubs.initialize(getLevel());
 
@@ -338,7 +338,7 @@ public final class SupercomputingCenterMachine extends StorageMultiblockMachine 
             if (simulate) return requestCWUt(true, cwu);
             if (getRecipeLogic().isWorking()) {
                 return requestCWUt(false, cwu);
-            } else if (!getRecipeLogic().isSuspend() && RecipeRunner.matchTickRecipe(this, runRecipe) && RecipeRunner.matchRecipe(this, runRecipe)) {
+            } else if (!getRecipeLogic().isSuspend()) {
                 if (getRecipeLogic().checkMatchedRecipeAvailable(runRecipe) && getRecipeLogic().isWorking()) {
                     return requestCWUt(false, cwu);
                 }

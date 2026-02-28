@@ -65,7 +65,8 @@ import org.jetbrains.annotations.Nullable;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static com.gtocore.common.item.GregMembershipCardItem.*;
+import static com.gtocore.common.item.GregMembershipCardItem.getSharedUuids;
+import static com.gtocore.common.item.GregMembershipCardItem.getSingleUuid;
 import static com.gtocore.data.transaction.data.trade.UnlockTrade.UNLOCK_SHOP;
 import static com.gtocore.data.transaction.data.trade.UnlockTrade.UNLOCK_TRADE;
 import static com.lowdragmc.lowdraglib.gui.widget.DraggableScrollableWidgetGroup.ScrollWheelDirection.HORIZONTAL;

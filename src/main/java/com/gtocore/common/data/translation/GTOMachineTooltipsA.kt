@@ -16,6 +16,15 @@ import com.gregtechceu.gtceu.config.ConfigHolder
 
 object GTOMachineTooltipsA : AutoInitialize<GTOMachineTooltipsA>() {
 
+    val planetaryGasCollectorTooltips: ComponentListSupplier = ComponentListSupplier {
+        setTranslationPrefix("planetary_gas_collector")
+
+        section(MainFunction)
+        command("用于在行星表面收集大气中的气体(效率非常惊人)" translatedTo "Used to collect gases from the atmosphere on the surface of planets (with an amazing efficiency)")
+        command("在地球建立的空间站能够收集到来自主世界、下界和末地的气体" translatedTo "In the space station built on Earth, gases from the Overworld, Nether, and End can be collected")
+        command("在其他行星建立的空间站能够收集到该行星特有的大气气体" translatedTo "In the space station built on other planets, the unique atmospheric gases of that planet can be collected")
+    }
+
     val directedHyperCubeMachineTooltips: ComponentListSupplier = ComponentListSupplier {
         setTranslationPrefix("directed_hyper_cube_machine")
 
@@ -51,7 +60,7 @@ object GTOMachineTooltipsA : AutoInitialize<GTOMachineTooltipsA>() {
         section(MainFunction)
         command("用于在空间站内进行生物研究" translatedTo "Used for biological research in the space station")
         command("超净间环境等级由环境维护舱决定" translatedTo "The cleanroom environment level is determined by the Environmental Maintenance Module")
-        info("当运行培养缸或生化反应室配方时，提供可调节的0~40Sv背景辐射环境" translatedTo "Provides an adjustable 0~40Sv background radiation environment when running bioreactor or biochemical reaction chamber recipes")
+        info("当运行培养缸或生化反应室配方时，提供可调节的0~80Sv背景辐射环境" translatedTo "Provides an adjustable 0~80Sv background radiation environment when running bioreactor or biochemical reaction chamber recipes")
     }
     val spaceElevatorConnectorModuleTooltips: ComponentListSupplier = ComponentListSupplier {
         setTranslationPrefix("space_elevator_connector_module")

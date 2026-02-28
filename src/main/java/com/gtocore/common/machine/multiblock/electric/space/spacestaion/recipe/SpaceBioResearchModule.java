@@ -33,7 +33,7 @@ public class SpaceBioResearchModule extends RecipeExtension {
     private final RadioactivityTrait radioactivityTrait;
 
     @Persisted
-    private int radioactivity = 40;
+    private int radioactivity = 80;
 
     public SpaceBioResearchModule(MetaMachineBlockEntity metaMachineBlockEntity) {
         super(metaMachineBlockEntity);
@@ -87,7 +87,7 @@ public class SpaceBioResearchModule extends RecipeExtension {
     public void handleDisplayClick(String componentData, ClickData clickData) {
         if (!clickData.isRemote) {
             var amount = clickData.isCtrlClick ? 40 : (clickData.isShiftClick ? 8 : 1);
-            radioactivity = Mth.clamp(radioactivity + ("Add".equals(componentData) ? amount : -amount), 0, 40);
+            radioactivity = Mth.clamp(radioactivity + ("Add".equals(componentData) ? amount : -amount), 0, 80);
         }
     }
 
