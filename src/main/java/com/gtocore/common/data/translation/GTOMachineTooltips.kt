@@ -1617,8 +1617,9 @@ object GTOMachineTooltips {
         increase("开启增产模式后倍增产出 (默认开启)" translatedTo "Multiply Mode multiplies circuit output (Enabled by default)")
     }
 
+    // 大型蒸汽太阳能锅炉
     val LargeSteamSolarBoilerTooltips = ComponentListSupplier {
-        setTranslationPrefix("large_steam_circuit_assembler")
+        setTranslationPrefix("large_steam_solar_boiler")
 
         section("蒸汽产出" translatedTo "Steam Production")
         content("根据集热管数量决定蒸汽产量" translatedTo "Steam production determined by number of collector tubes")
@@ -1637,9 +1638,10 @@ object GTOMachineTooltips {
         important(ComponentSlang.RecipeLevelBelow(GTValues.IV))
         increase(
             ("升级结构后支持到" translatedTo "After upgrading the structure, it supports tier ") +
-                GTValues.VNF[GTValues.UV].toLiteralSupplier(),
+                GTValues.VNF[GTValues.UV].toLiteralSupplier() +
+                ("，并允许安装加速仓" translatedTo ", and allows installing Accelerate Hatches"),
         )
-        increase("再次升级结构后支持并行" translatedTo "After upgrading the structure again, it supports parallel processing.")
+        increase("再次升级结构后支持并行控制仓和激光仓" translatedTo "After upgrading the structure again, it supports Parallel Control Hatch and Laser Hatch")
     }
 
     // 蒸汽搅拌机
