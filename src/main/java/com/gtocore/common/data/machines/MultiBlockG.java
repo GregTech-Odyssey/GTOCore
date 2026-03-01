@@ -708,6 +708,7 @@ public final class MultiBlockG {
             .langValue("ME Energy Substation")
             .allRotation()
             .tooltips(GTOMachineTooltipsA.INSTANCE.getMeEnergySubstationTooltips().getSupplier())
+            .moduleTooltips(new PartAbility[0])
             .recipeTypes(DUMMY_RECIPES)
             .block(GTBlocks.CASING_TUNGSTENSTEEL_ROBUST)
             .pattern(definition -> FactoryBlockPattern.start(definition)
