@@ -658,15 +658,15 @@ public final class MiscRecipe {
                     .inputItems(GTItems.FIRECLAY_BRICK, 6)
                     .inputItems(GTOTagPrefix.dust, GTMaterials.Gypsum, 2)
                     .outputItems(GTBlocks.CASING_PRIMITIVE_BRICKS.asItem())
-                    .inputFluids(GTMaterials.Concrete, 1000)
-                    .duration(200)
+                    .inputFluids(GTMaterials.Concrete, 500)
+                    .duration(300)
                     .save();
         } else {
             BRICK_FURNACE_RECIPES.builder("firebrick")
                     .inputItems(Items.COAL)
                     .inputItems(GTItems.COMPRESSED_FIRECLAY, 8)
                     .outputItems(GTBlocks.CASING_PRIMITIVE_BRICKS.asItem(), 2)
-                    .duration(100)
+                    .duration(150)
                     .save();
         }
 
@@ -674,7 +674,7 @@ public final class MiscRecipe {
                 .inputItems(Items.COAL)
                 .inputItems(GTItems.COMPRESSED_COKE_CLAY, 8)
                 .outputItems(GTBlocks.CASING_COKE_BRICKS.asItem(), 2)
-                .duration(100)
+                .duration(150)
                 .save();
 
         if (ConfigHolder.INSTANCE.recipes.harderBrickRecipes) {
@@ -682,7 +682,7 @@ public final class MiscRecipe {
                     .inputItems(Items.COAL)
                     .inputItems(GTItems.COMPRESSED_CLAY, 8)
                     .outputItems(Blocks.BRICKS.asItem(), 2)
-                    .duration(100)
+                    .duration(150)
                     .save();
         }
 
