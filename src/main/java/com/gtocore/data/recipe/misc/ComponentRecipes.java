@@ -34,24 +34,7 @@ import static com.gtolib.api.GTOValues.COMPONENT_ASSEMBLY_CASING_TIER;
 public final class ComponentRecipes {
 
     public static void init() {
-        VanillaRecipeHelper.addShapedRecipe(true, GTOCore.id("ulv_electric_motor"), GTOItems.ULV_ELECTRIC_MOTOR.asItem(),
-                "CWR", "WMW", "RWC", 'C', new MaterialEntry(GTOTagPrefix.CURVED_PLATE, Copper), 'W', new MaterialEntry(wireGtDouble, Tin),
-                'R', new MaterialEntry(rod, Copper), 'M', new MaterialEntry(rod, IronMagnetic));
-        VanillaRecipeHelper.addShapedRecipe(true, GTOCore.id("ulv_electric_piston"), GTOItems.ULV_ELECTRIC_PISTON.asItem(),
-                "PPP", "CRR", "CMG", 'P', new MaterialEntry(plate, Copper), 'C', new MaterialEntry(cableGtSingle, Lead),
-                'R', new MaterialEntry(rod, Copper), 'M', GTOItems.ULV_ELECTRIC_MOTOR.asItem(), 'G', new MaterialEntry(gearSmall, Copper));
-        VanillaRecipeHelper.addShapedRecipe(true, GTOCore.id("ulv_electric_conveyor"), GTOItems.ULV_CONVEYOR_MODULE.asItem(),
-                "RRR", "MCM", "RRR", 'R', new MaterialEntry(plate, Rubber), 'M', GTOItems.ULV_ELECTRIC_MOTOR.asItem(),
-                'C', new MaterialEntry(cableGtSingle, Lead));
-        VanillaRecipeHelper.addShapedRecipe(true, GTOCore.id("ulv_electric_pump"), GTOItems.ULV_ELECTRIC_PUMP.asItem(),
-                "SFR", "sPw", "RMC", 'S', new MaterialEntry(screw, Iron), 'R', new MaterialEntry(ring, Rubber),
-                'F', new MaterialEntry(rotor, Iron), 'P', new MaterialEntry(pipeNormalFluid, Copper), 'M', GTOItems.ULV_ELECTRIC_MOTOR.asItem(), 'C', new MaterialEntry(cableGtSingle, Lead));
-        VanillaRecipeHelper.addShapedRecipe(true, GTOCore.id("ulv_robot_arm"), GTOItems.ULV_ROBOT_ARM.asItem(),
-                "CCC", "MRM", "PVR", 'R', new MaterialEntry(rod, Copper), 'C', new MaterialEntry(cableGtSingle, Lead),
-                'M', GTOItems.ULV_ELECTRIC_MOTOR.asItem(), 'P', GTOItems.ULV_ELECTRIC_PISTON.asItem(), 'V', VACUUM_TUBE.asItem());
-        VanillaRecipeHelper.addShapedRecipe(true, GTOCore.id("ulv_fluid_regulator"), GTOItems.ULV_FLUID_REGULATOR.asItem(),
-                "SFR", "sPw", "RMC", 'S', new MaterialEntry(screw, Iron), 'R', VACUUM_TUBE.asItem(),
-                'F', new MaterialEntry(rotor, Iron), 'P', GTOItems.ULV_ELECTRIC_PUMP.asItem(), 'M', GTOItems.ULV_ELECTRIC_MOTOR.asItem(), 'C', new MaterialEntry(cableGtSingle, Lead));
+        componentULV();
 
         assembler(LV, ChemicalHelper.getItem(gem, Quartzite), ChemicalHelper.getItem(gem, EnderPearl), Steel, Tin, SteelMagnetic, Copper, Rubber, Bronze, Tin, Brass, ManganesePhosphide);
         assembler(MV, ChemicalHelper.getItem(gemFlawless, Emerald), ChemicalHelper.getItem(gem, EnderEye), Aluminium, Copper, SteelMagnetic, Cupronickel, Rubber, Steel, Bronze, Electrum, MagnesiumDiboride);
@@ -75,6 +58,140 @@ public final class ComponentRecipes {
         integrated_control_core(UXV, ExResearchMachines.GWCA_COMPUTING_COMPONENTS.asItem(), GTOItems.ATOMIC_ARCHIVES.asItem(), ChemicalHelper.getItem(pipeNormalFluid, HeavyQuarkDegenerateMatter), HastelloyK243, NaquadriaticTaranium, Taranium, Legendarium, SuperMutatedLivingSolder, Lubricant, StyreneButadieneRubber, AstralTitanium);
         integrated_control_core(OpV, ExResearchMachines.GWCA_COMPUTING_COMPONENTS.asItem(), GTOItems.OBSIDIAN_MATRIX.asItem(), ChemicalHelper.getItem(pipeLargeFluid, HeavyQuarkDegenerateMatter), Vibramantium, Starmetal, CrystalMatrix, AwakenedDraconium, SuperMutatedLivingSolder, Lubricant, StyreneButadieneRubber, CelestialTungsten);
 
+        componentMAX();
+    }
+
+    private static void componentULV() {
+        // 工作台
+        VanillaRecipeHelper.addShapedRecipe(true, GTOCore.id("ulv_electric_motor"), GTOItems.ULV_ELECTRIC_MOTOR.asItem(),
+                "CWR", "WMW", "RWC", 'C', new MaterialEntry(GTOTagPrefix.CURVED_PLATE, Copper), 'W', new MaterialEntry(wireGtDouble, Tin),
+                'R', new MaterialEntry(rod, Copper), 'M', new MaterialEntry(rod, IronMagnetic));
+
+        VanillaRecipeHelper.addShapedRecipe(true, GTOCore.id("ulv_electric_piston"), GTOItems.ULV_ELECTRIC_PISTON.asItem(),
+                "PPP", "CRR", "CMG", 'P', new MaterialEntry(plate, Copper), 'C', new MaterialEntry(cableGtSingle, Lead),
+                'R', new MaterialEntry(rod, Copper), 'M', GTOItems.ULV_ELECTRIC_MOTOR.asItem(), 'G', new MaterialEntry(gearSmall, Copper));
+
+        VanillaRecipeHelper.addShapedRecipe(true, GTOCore.id("ulv_electric_conveyor"), GTOItems.ULV_CONVEYOR_MODULE.asItem(),
+                "RRR", "MCM", "RRR", 'R', new MaterialEntry(plate, Rubber), 'M', GTOItems.ULV_ELECTRIC_MOTOR.asItem(),
+                'C', new MaterialEntry(cableGtSingle, Lead));
+
+        VanillaRecipeHelper.addShapedRecipe(true, GTOCore.id("ulv_electric_pump"), GTOItems.ULV_ELECTRIC_PUMP.asItem(),
+                "SFR", "sPw", "RMC", 'S', new MaterialEntry(screw, Iron), 'R', new MaterialEntry(ring, Rubber),
+                'F', new MaterialEntry(rotor, Iron), 'P', new MaterialEntry(pipeNormalFluid, Copper), 'M', GTOItems.ULV_ELECTRIC_MOTOR.asItem(), 'C', new MaterialEntry(cableGtSingle, Lead));
+
+        VanillaRecipeHelper.addShapedRecipe(true, GTOCore.id("ulv_robot_arm"), GTOItems.ULV_ROBOT_ARM.asItem(),
+                "CCC", "MRM", "PVR", 'R', new MaterialEntry(rod, Copper), 'C', new MaterialEntry(cableGtSingle, Lead),
+                'M', GTOItems.ULV_ELECTRIC_MOTOR.asItem(), 'P', GTOItems.ULV_ELECTRIC_PISTON.asItem(), 'V', VACUUM_TUBE.asItem());
+
+        VanillaRecipeHelper.addShapedRecipe(true, GTOCore.id("ulv_fluid_regulator"), GTOItems.ULV_FLUID_REGULATOR.asItem(),
+                "SFR", "sPw", "RMC", 'S', new MaterialEntry(screw, Iron), 'R', VACUUM_TUBE.asItem(),
+                'F', new MaterialEntry(rotor, Iron), 'P', GTOItems.ULV_ELECTRIC_PUMP.asItem(), 'M', GTOItems.ULV_ELECTRIC_MOTOR.asItem(), 'C', new MaterialEntry(cableGtSingle, Lead));
+
+        // 组装机
+        ASSEMBLER_RECIPES.recipeBuilder("motor_ulv")
+                .inputItems(GTOTagPrefix.CURVED_PLATE, Copper, 2)
+                .inputItems(rod, Copper, 2)
+                .inputItems(rod, IronMagnetic)
+                .inputItems(wireGtDouble, Tin, 4)
+                .outputItems(GTOItems.ULV_ELECTRIC_MOTOR)
+                .duration(50).EUt(VA[ULV]).save();
+
+        ASSEMBLER_RECIPES.recipeBuilder("conveyor_ulv")
+                .inputItems(GTOItems.ULV_ELECTRIC_MOTOR, 2)
+                .inputItems(cableGtSingle, Lead, 2)
+                .inputFluids(Rubber, L * 6)
+                .outputItems(GTOItems.ULV_CONVEYOR_MODULE)
+                .duration(50).EUt(VA[ULV]).save();
+
+        ASSEMBLER_RECIPES.recipeBuilder("pump_ulv")
+                .inputItems(pipeNormalFluid, Copper)
+                .inputItems(GTOItems.ULV_ELECTRIC_MOTOR)
+                .inputItems(screw, Iron)
+                .inputItems(rotor, Iron)
+                .inputItems(ring, Rubber, 2)
+                .inputItems(cableGtSingle, Lead)
+                .outputItems(GTOItems.ULV_ELECTRIC_PUMP)
+                .duration(50).EUt(VA[ULV]).save();
+
+        ASSEMBLER_RECIPES.recipeBuilder("fluid_regulator_ulv")
+                .inputItems(GTOItems.ULV_ELECTRIC_PUMP)
+                .inputItems(CIRCUIT.get(ULV), 2)
+                .inputItems(rotor, Iron)
+                .circuitMeta(1)
+                .outputItems(GTOItems.ULV_FLUID_REGULATOR)
+                .duration(50).EUt(VA[ULV]).save();
+
+        ASSEMBLER_RECIPES.recipeBuilder("piston_ulv")
+                .inputItems(rod, Copper, 2)
+                .inputItems(cableGtSingle, Lead, 2)
+                .inputItems(plate, Copper, 3)
+                .inputItems(gearSmall, Copper)
+                .inputItems(GTOItems.ULV_ELECTRIC_MOTOR)
+                .outputItems(GTOItems.ULV_ELECTRIC_PISTON)
+                .duration(50).EUt(VA[ULV]).save();
+
+        ASSEMBLER_RECIPES.recipeBuilder("arm_ulv")
+                .inputItems(cableGtSingle, Lead, 3)
+                .inputItems(rod, Copper, 2)
+                .inputItems(GTOItems.ULV_ELECTRIC_MOTOR, 2)
+                .inputItems(GTOItems.ULV_ELECTRIC_PISTON)
+                .inputItems(CIRCUIT.get(ULV))
+                .outputItems(GTOItems.ULV_ROBOT_ARM)
+                .duration(100).EUt(VA[ULV]).save();
+
+        // 部件装配线
+        COMPONENT_ASSEMBLY_RECIPES.recipeBuilder("motor_ulv")
+                .circuitMeta(1)
+                .inputItems(rod, IronMagnetic, 12)
+                .inputItems(wireGtDouble, Tin, 48)
+                .inputFluids(Copper, L * 36)
+                .outputItems(GTOItems.ULV_ELECTRIC_MOTOR, 16)
+                .addData(COMPONENT_ASSEMBLY_CASING_TIER, LV)
+                .duration(400).EUt(VA[ULV]).save();
+
+        COMPONENT_ASSEMBLY_RECIPES.recipeBuilder("conveyor_ulv")
+                .circuitMeta(2)
+                .inputItems(GTOItems.ULV_ELECTRIC_MOTOR, 24)
+                .inputItems(cableGtSingle, Lead, 12)
+                .inputFluids(Rubber, L * 72)
+                .outputItems(GTOItems.ULV_CONVEYOR_MODULE, 16)
+                .addData(COMPONENT_ASSEMBLY_CASING_TIER, LV)
+                .duration(400).EUt(VA[ULV]).save();
+
+        COMPONENT_ASSEMBLY_RECIPES.recipeBuilder("pump_ulv")
+                .circuitMeta(3)
+                .inputItems(GTOItems.ULV_ELECTRIC_MOTOR, 12)
+                .inputItems(cableGtSingle, Lead, 12)
+                .inputFluids(Copper, L * 36)
+                .inputFluids(Iron, L * 50)
+                .inputFluids(Rubber, L * 6)
+                .outputItems(GTOItems.ULV_ELECTRIC_PUMP, 16)
+                .addData(COMPONENT_ASSEMBLY_CASING_TIER, LV)
+                .duration(400).EUt(VA[ULV]).save();
+
+        COMPONENT_ASSEMBLY_RECIPES.recipeBuilder("piston_ulv")
+                .circuitMeta(4)
+                .inputItems(GTOItems.ULV_ELECTRIC_MOTOR, 12)
+                .inputItems(cableGtSingle, Lead, 24)
+                .inputFluids(Copper, L * 60)
+                .outputItems(GTOItems.ULV_ELECTRIC_PISTON, 16)
+                .addData(COMPONENT_ASSEMBLY_CASING_TIER, LV)
+                .duration(400).EUt(VA[ULV]).save();
+
+        COMPONENT_ASSEMBLY_RECIPES.recipeBuilder("arm_ulv")
+                .circuitMeta(5)
+                .inputItems(GTOItems.ULV_ELECTRIC_MOTOR, 12)
+                .inputItems(GTOItems.ULV_ELECTRIC_PISTON, 12)
+                .inputItems(cableGtSingle, Lead, 36)
+                .inputItems(CIRCUIT.get(ULV), 12)
+                .inputFluids(Copper, L * 24)
+                .outputItems(GTOItems.ULV_ROBOT_ARM, 16)
+                .addData(COMPONENT_ASSEMBLY_CASING_TIER, LV)
+                .duration(400).EUt(VA[ULV]).save();
+    }
+
+    private static void componentMAX() {
+        // 普通配方使用超时空装配线
         COMPONENT_ASSEMBLY_RECIPES.recipeBuilder("max_integrated_control_core")
                 .circuitMeta(9)
                 .inputItems(GTOItems.CLOSED_TIMELIKE_CURVE_GUIDANCE_UNIT, 48)
@@ -301,7 +418,7 @@ public final class ComponentRecipes {
         ASSEMBLER_RECIPES.recipeBuilder(String.format("pump_%s", VN[tier].toLowerCase()))
                 .inputItems(GTOTagPrefix.PUMP_BARREL, material[0])
                 .inputItems(pipeNormalFluid, material[5])
-                .inputItems(motor, 1)
+                .inputItems(motor)
                 .inputItems(screw, material[6], 2)
                 .inputItems(rotor, material[6])
                 .inputItems(ring, material[4], 2)
@@ -327,9 +444,7 @@ public final class ComponentRecipes {
                 .inputItems(GTOTagPrefix.CURVED_PLATE, material[0], 2)
                 .circuitMeta(1)
                 .outputItems(CraftingComponents.FLUID_REGULATOR.get(tier))
-                .EUt(VA[tier])
-                .duration(100)
-                .save();
+                .duration(100).EUt(VA[tier]).save();
 
         ASSEMBLER_RECIPES.recipeBuilder(String.format("piston_%s", VN[tier].toLowerCase()))
                 .inputItems(GTOTagPrefix.PISTON_HOUSING, material[0])
@@ -852,15 +967,15 @@ public final class ComponentRecipes {
      * @param material
      * 
      *                             <pre>
-     * <code>
-     *     Material mainMaterial = material[0];
-     *     Material wireMaterial = material[1];
-     *     Material superConductorMaterial = material[2];
-     *     Material solderMaterial = material[3];
-     *     Material insulatorMaterial = material[4];
-     *     Material rubberMaterial = material[5];
-     *     Material enclosureMaterial = material[6];
-     * </code>
+     *                             <code>
+     *                                 Material mainMaterial = material[0];
+     *                                 Material wireMaterial = material[1];
+     *                                 Material superConductorMaterial = material[2];
+     *                                 Material solderMaterial = material[3];
+     *                                 Material insulatorMaterial = material[4];
+     *                                 Material rubberMaterial = material[5];
+     *                                 Material enclosureMaterial = material[6];
+     *                             </code>
      *                             </pre>
      */
     private static void integrated_control_core(int tier, Item computationComponent, Item computationUnit, Item pipe, Material... material) {
