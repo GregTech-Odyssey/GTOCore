@@ -784,7 +784,7 @@ final class Mixer {
                 .inputItems(TagPrefix.dust, GTOMaterials.PhotonicKristallite, 8)
                 .inputFluids(Sunnarium, 576)
                 .inputFluids(GTOMaterials.TranscendingMatter, 2000)
-                .outputFluids(GTOMaterials.PhototuningAgent, 1000)
+                .outputFluids(GTOMaterials.PhototuningAgent, 16000)
                 .circuitMeta(3)
                 .EUt(16777214)
                 .duration(1180)

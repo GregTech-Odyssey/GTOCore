@@ -643,6 +643,8 @@ public final class GTOItems {
     public static final ItemEntry<Item> ROTATING_TRANSPARENT_SURFACE = register("rotating_transparent_surface", "旋转透明层");
     public static final ItemEntry<Item> ELECTRON_SOURCE = register("electron_source", "电子源");
     public static final ItemEntry<Item> ESSENCE = register("essence", "精华");
+    public static final ItemEntry<Item> HIGHLY_CONCURRENT_INTENSIVE_OPTICAL_COMPUTING_CHANNEL = register("highly_concurrent_intensive_optical_computing_channel", "高并发密集型光计算通道");
+    public static final ItemEntry<Item> SEALED_SINGULARITY_PLATFORM = register("sealed_exotic_singularity_platform", "封闭奇异发生平台");
     public static final ItemEntry<Item> ESSENCE_SEED = register("essence_seed", "精华种子");
     public static final ItemEntry<Item> NUCLEAR_STAR = register("nuclear_star", "核能之星");
     public static final ItemEntry<Item> UNSTABLE_STAR = register("unstable_star", "易变之星");

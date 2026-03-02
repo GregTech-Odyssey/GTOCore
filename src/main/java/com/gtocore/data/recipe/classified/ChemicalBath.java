@@ -248,12 +248,31 @@ final class ChemicalBath {
                 .save();
         CHEMICAL_BATH_RECIPES.builder("xenotime_copper_i_kpba_nanotubes_dust")
                 .inputItems(TagPrefix.dust, GTOMaterials.PrussianBlueCopperINanotubes, 2)
-                .outputItems(TagPrefix.dust, GTOMaterials.XenotimeCopperIKPBANanotubes, 2)
+                .outputItems(TagPrefix.dust, GTOMaterials.CosmicCopperIKPBANanotubes, 2)
                 .inputFluids(GTOMaterials.CosmicDustDispersant, 3000)
                 .inputFluids(GTMaterials.Neutronium, 288)
                 .EUt(152000)
                 .duration(2400)
                 .cleanroom(CleanroomType.CLEANROOM)
+                .save();
+        CHEMICAL_BATH_RECIPES.builder("scorching_cosmic_dust_dust")
+                .inputItems(TagPrefix.dust, GTOMaterials.CosmicDust, 8)
+                .outputItems(TagPrefix.dust, GTOMaterials.ScorchingCosmicDust, 8)
+                .outputItems(TagPrefix.dust, GTOMaterials.ExcitedScorchingCosmicDust)
+                .inputFluids(GTOMaterials.Sanguinite, 16000)
+                .outputFluids(GTOMaterials.Salamander, 16000)
+                .EUt(520000)
+                .duration(520)
+                .save();
+        CHEMICAL_BATH_RECIPES.builder("scorching_cosmic_duwst_dust")
+                .inputItems(TagPrefix.dust, GTOMaterials.CosmicDust, 24)
+                .inputItems(TagPrefix.dust, GTOMaterials.ScorchingCosmicDust, 16)
+                .outputItems(TagPrefix.dust, GTOMaterials.ScorchingCosmicDust, 32)
+                .outputItems(TagPrefix.dust, GTOMaterials.ExcitedScorchingCosmicDust, 8)
+                .inputFluids(GTOMaterials.Sanguinite, 2000)
+                .inputFluids(GTOMaterials.PhototuningAgent, 12000)
+                .EUt(520000)
+                .duration(520)
                 .save();
     }
 }

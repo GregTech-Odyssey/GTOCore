@@ -550,7 +550,7 @@ public class MaterialSpaceEra {
                 .iconSet(DULL)
                 .element(GTOElements.CRUPTIX)
                 .blastTemp(3420, HIGH, GTValues.VA[GTValues.EV], 1200)
-                .flags(GENERATE_GEAR, GENERATE_SMALL_GEAR, GENERATE_LONG_ROD,
+                .flags(
                         GENERATE_FRAME, GENERATE_FOIL,
                         GENERATE_BOLT_SCREW, GENERATE_RING, DECOMPOSITION_BY_CENTRIFUGING)
                 .buildAndRegister();
@@ -561,20 +561,17 @@ public class MaterialSpaceEra {
                 .iconSet(DULL)
                 .element(GTOElements.UELIBRIUM)
                 .blastTemp(7420, HIGH, GTValues.VA[GTValues.EV], 1200)
-                .flags(GENERATE_GEAR, GENERATE_SMALL_GEAR, GENERATE_LONG_ROD,
-                        GENERATE_FRAME, GENERATE_FOIL,
-                        GENERATE_BOLT_SCREW, GENERATE_RING, DECOMPOSITION_BY_CENTRIFUGING)
+                .flags(GENERATE_GEAR, GENERATE_SMALL_GEAR,
+                        GENERATE_FRAME, GENERATE_FOIL, DECOMPOSITION_BY_CENTRIFUGING)
                 .buildAndRegister();
-        Astrium = material("astrium", "星尘")
+        Astrium = material("astrium", "宇晶质")
                 .ingot()
                 .color(0xe131bad5)
                 .secondaryColor(0xe1ee595a)
                 .iconSet(ASTRAL)
                 .element(GTOElements.ASTRIUM)
                 .blastTemp(10420, HIGH, GTValues.VA[GTValues.EV], 1200)
-                .flags(GENERATE_GEAR, GENERATE_SMALL_GEAR, GENERATE_LONG_ROD,
-                        GENERATE_FRAME, GENERATE_FOIL,
-                        GENERATE_BOLT_SCREW, GENERATE_RING, DECOMPOSITION_BY_CENTRIFUGING)
+                .flags(GENERATE_LONG_ROD, GENERATE_FOIL, DECOMPOSITION_BY_CENTRIFUGING)
                 .buildAndRegister();
         IceCrystalVolatiles = material("ice_crystal_volatiles", "冰晶挥发物")
                 .fluid()
@@ -596,16 +593,36 @@ public class MaterialSpaceEra {
                 .iconSet(DULL)
                 .flags(GENERATE_SMALL_DUST, GENERATE_TINY_DUST, DISABLE_DECOMPOSITION)
                 .buildAndRegister();
-        PhotonicKristallite = material("photonic_kristallite", "光通")
+        ScorchingCosmicDust = material("scorching_cosmic_dust", "炽热宇尘")
+                .dust()
+                .color(0xc65050)
+                .secondaryColor(0xf27878)
+                .iconSet(DULL)
+                .flags(GENERATE_SMALL_DUST, GENERATE_TINY_DUST, DISABLE_DECOMPOSITION)
+                .buildAndRegister();
+        ExcitedScorchingCosmicDust = material("excited_scorching_cosmic_dust", "激发炽热宇尘")
+                .dust()
+                .color(0xf2c6c6)
+                .secondaryColor(0xc65050)
+                .iconSet(DULL)
+                .flags(GENERATE_SMALL_DUST, GENERATE_TINY_DUST, DISABLE_DECOMPOSITION)
+                .buildAndRegister();
+        RearrangedCosmicDust = material("rearranged_cosmic_dust", "重排宇尘")
+                .dust()
+                .color(0xb1b1b1)
+                .secondaryColor(0xe2e2e2)
+                .iconSet(DULL)
+                .flags(GENERATE_SMALL_DUST, GENERATE_TINY_DUST, DISABLE_DECOMPOSITION)
+                .buildAndRegister();
+        PhotonicKristallite = material("photonic_kristallite", "光透域")
                 .ingot().fluid()
                 .color(0xfcfcfd)
                 .secondaryColor(0x1e1e1e)
                 .element(GTOElements.PHOTOKRYSTAL)
                 .iconSet(TRANSLUCENT)
                 .blastTemp(1790, HIGH, GTValues.VA[GTValues.UHV], 4000)
-                .flags(GENERATE_GEAR, GENERATE_SMALL_GEAR, GENERATE_LONG_ROD,
-                        GENERATE_FRAME, GENERATE_FOIL,
-                        GENERATE_BOLT_SCREW, GENERATE_RING, DECOMPOSITION_BY_CENTRIFUGING)
+                .flags(GENERATE_NANITES,
+                        GENERATE_FRAME, GENERATE_FOIL)
                 .buildAndRegister();
         PrussianBlueCopperINanotubes = material("prussian_blue_copper_i_nanotubes", "普鲁士蓝氧化铜(I)纳米管")
                 .dust()
@@ -624,10 +641,11 @@ public class MaterialSpaceEra {
                 .formula("(Cp2Hf)2O2")
                 .buildAndRegister();
         PolyVinylBpyRheniumCarbonylHexafluorophosphate = material("poly_vinyl_bpy_rhenium_carbonyl_hexafluorophosphate", "聚[(乙烯基-联吡啶)三羰基铼]六氟磷酸盐")
-                .dust()
+                .dust().polymer()
                 .color(0x262631)
                 .secondaryColor(0x3b3b46)
                 .iconSet(DULL)
+                .flags(GENERATE_FOIL)
                 .formula("[(vbpy)Re(CO)3]PF6")
                 .buildAndRegister();
         Vinyl2Bipyridine = material("vinyl_2_bipyridine", "4-乙烯基-2,2'-联吡啶")
@@ -651,13 +669,13 @@ public class MaterialSpaceEra {
                 .iconSet(DULL)
                 .formula("C10H8N2")
                 .buildAndRegister();
-        XenotimeCopperIKPBANanotubes = material("xenotime_copper_i_kpba_nanotubes", "异时空铜@KPBA纳米管")
+        CosmicCopperIKPBANanotubes = material("cosmic_dust_copper_i_kpba_nanotubes", "宇尘分散铜@KPBA纳米管")
                 .dust()
                 .color(0x3a373b)
                 .secondaryColor(0x59565a)
                 .iconSet(DULL)
                 .buildAndRegister();
-        PhototuningAgent = material("phototuning_agent", "光调谐剂")
+        PhototuningAgent = material("phototuning_agent", "流体光发射源")
                 .fluid()
                 .color(0xefe8ef)
                 .secondaryColor(0x2d3c2e)

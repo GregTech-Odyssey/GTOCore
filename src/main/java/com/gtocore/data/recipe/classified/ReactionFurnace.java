@@ -750,16 +750,17 @@ final class ReactionFurnace {
                 .duration(1200)
                 .save();
         REACTION_FURNACE_RECIPES.builder("astrium_dust")
-                .inputItems(TagPrefix.dust, GTOMaterials.CosmicDust, 64)
+                .inputItems(TagPrefix.dust, GTOMaterials.ScorchingCosmicDust, 8)
+                .inputItems(TagPrefix.dust, GTOMaterials.RearrangedCosmicDust, 32)
                 .inputItems(TagPrefix.dust, GTOMaterials.HyperthermophilicArchaeon, 8)
-                .outputItems(TagPrefix.dust, GTOMaterials.Astrium)
-                .outputItems(TagPrefix.dustSmall, GTOMaterials.Calorite, 16)
-                .inputFluids(GTOMaterials.PhototuningAgent, 1000)
-                .inputFluids(GTOMaterials.CosmicDustDispersant, 3000)
-                .outputFluids(GTOMaterials.CosmicDustDispersant, 1000)
-                .EUt(700000)
-                .blastFurnaceTemp(7500)
-                .duration(1250)
+                .outputItems(TagPrefix.dust, GTOMaterials.Astrium, 40)
+                .outputItems(TagPrefix.dustSmall, GTOMaterials.Calorite, 32)
+                .inputFluids(GTOMaterials.Sanguinite, 1000)
+                .inputFluids(GTOMaterials.CosmicDustDispersant, 1000)
+                .outputFluids(GTOMaterials.Salamander, 10000)
+                .EUt(1024000)
+                .blastFurnaceTemp(11500)
+                .duration(6500)
                 .save();
     }
 }

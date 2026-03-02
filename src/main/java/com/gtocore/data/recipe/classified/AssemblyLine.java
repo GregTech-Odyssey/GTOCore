@@ -1779,7 +1779,7 @@ final class AssemblyLine {
                 .inputItems(GTOItems.NON_LINEAR_OPTICAL_LENS, 4)
                 .inputItems(TagPrefix.foil, GTOMaterials.Kevlar, 8)
                 .inputItems(TagPrefix.plate, GTOMaterials.DegenerateRhenium, 4)
-                .inputItems(TagPrefix.dust, GTOMaterials.NanoGoldDepositedCarbonNanotubeModifiedNHSLipoicEsterQDot, 4)
+                .inputItems(GTOItems.SEALED_SINGULARITY_PLATFORM)
                 .inputFluids(GTOMaterials.MutatedLivingSolder, 576)
                 .inputFluids(GTOMaterials.QuantumDots, 80)
                 .outputItems(GTOItems.EXOTIC_PROCESSING_CORE, 8)

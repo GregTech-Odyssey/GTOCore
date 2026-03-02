@@ -1,5 +1,6 @@
 package com.gtocore.data.recipe.classified;
 
+import com.gtocore.common.data.GTOBlocks;
 import com.gtocore.common.data.GTOItems;
 import com.gtocore.common.data.GTOMaterials;
 
@@ -110,9 +111,9 @@ final class NeutronActivator {
                 .save();
         NEUTRON_ACTIVATOR_RECIPES.builder("small_photonic_kristallite_dust")
                 .inputItems(AEItems.MATTER_BALL.asItem(), 64)
-                .inputItems(TagPrefix.dust, GTOMaterials.XenotimeCopperIKPBANanotubes, 32)
-                .inputItems(TagPrefix.dust, GTOMaterials.Sunnarium)
-                .chancedInput(GTOItems.HIGH_FREQUENCY_LASER.asStack(), 75, 0)
+                .inputItems(TagPrefix.dust, GTOMaterials.Photonium, 16)
+                .notConsumable(GTOItems.HIGH_FREQUENCY_LASER.asStack())
+                .chancedInput(GTOBlocks.ELECTRON_PERMEABLE_AMPROSIUM_COATED_GLASS.asStack(), 75, 0)
                 .outputItems(TagPrefix.dustSmall, GTOMaterials.PhotonicKristallite, 16)
                 .inputFluids(GTOMaterials.Quantanium, 1000)
                 .outputFluids(GTOMaterials.PhotonicKristallite, 4000)
@@ -120,6 +121,18 @@ final class NeutronActivator {
                 .addData("ev_min", 960)
                 .addData("ev_max", 1080)
                 .addData("evt", 1920)
+                .save();
+        NEUTRON_ACTIVATOR_RECIPES.builder("rearranged_cosmic_dust_dust")
+                .inputItems(TagPrefix.dust, GTOMaterials.ExcitedScorchingCosmicDust, 40)
+                .outputItems(TagPrefix.dust, GTOMaterials.RearrangedCosmicDust, 30)
+                .outputItems(TagPrefix.dust, GTOMaterials.ScorchingCosmicDust, 2)
+                .outputItems(TagPrefix.dust, GTOMaterials.ExcitedScorchingCosmicDust, 8)
+                .inputFluids(GTOMaterials.CosmicDustDispersant, 1000)
+                .chancedOutput(GTOMaterials.Sanguinite.getFluid(500), 5000, 0)
+                .duration(100)
+                .addData("ev_min", 420)
+                .addData("ev_max", 1280)
+                .addData("evt", 7800)
                 .save();
     }
 }
