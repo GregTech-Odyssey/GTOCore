@@ -50,6 +50,7 @@ import static com.gregtechceu.gtceu.api.pattern.Predicates.*;
 import static com.gregtechceu.gtceu.api.pattern.util.RelativeDirection.*;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.Aluminium;
 import static com.gtocore.api.machine.part.GTOPartAbility.*;
+import static com.gtocore.api.pattern.GTOPredicates.autoIOAbilities;
 import static com.gtocore.common.block.BlockMap.CALMAP;
 import static com.gtocore.common.block.BlockMap.SCMAP;
 import static com.gtocore.common.data.GTORecipeTypes.*;
@@ -119,7 +120,7 @@ public final class MultiBlockA {
                     .where('D', blocks(GTBlocks.CASING_TITANIUM_PIPE.get()))
                     .where('E', abilities(MUFFLER))
                     .where('F', blocks(GTOBlocks.STAINLESS_EVAPORATION_CASING.get())
-                            .or(GTOPredicates.autoIOAbilities(definition.getRecipeTypes()))
+                            .or(autoIOAbilities(definition.getRecipeTypes()))
                             .or(abilities(PARALLEL_HATCH).setMaxGlobalLimited(1))
                             .or(abilities(ACCELERATE_HATCH).setMaxGlobalLimited(1)))
                     .where('G', blocks(GTOBlocks.STAINLESS_EVAPORATION_CASING.get()))
@@ -343,7 +344,7 @@ public final class MultiBlockA {
                     .where('H', blocks(GTOBlocks.AMPROSIUM_PIPE_CASING.get()))
                     .where('I', blocks(GTOBlocks.HYPER_CORE.get()))
                     .where('J', blocks(GTBlocks.HIGH_POWER_CASING.get())
-                            .or(GTOPredicates.autoIOAbilities(definition.getRecipeTypes()))
+                            .or(autoIOAbilities(definition.getRecipeTypes()))
                             .or(abilities(OVERCLOCK_HATCH).setMaxGlobalLimited(1)))
                     .where('K', blocks(GTOBlocks.SPS_CASING.get()))
                     .where('L', blocks(GTOBlocks.ENERGY_CONTROL_CASING_MK3.get()))
@@ -849,7 +850,7 @@ public final class MultiBlockA {
                     .where('R', blocks(GTBlocks.HERMETIC_CASING_UV.get()))
                     .where('S', controller(definition))
                     .where('T', blocks(GTBlocks.CASING_STAINLESS_CLEAN.get())
-                            .or(GTOPredicates.autoIOAbilities(definition.getRecipeTypes())))
+                            .or(autoIOAbilities(definition.getRecipeTypes())))
                     .where(' ', any())
                     .build())
             .workableCasingRenderer(GTCEu.id("block/casings/solid/machine_casing_clean_stainless_steel"), GTCEu.id("block/multiblock/gcym/large_maceration_tower"))
@@ -1792,7 +1793,7 @@ public final class MultiBlockA {
                     .where('F', GTOPredicates.frame(GTOMaterials.Inconel792))
                     .where('G', blocks(GTBlocks.FUSION_GLASS.get()))
                     .where('H', blocks(GTOBlocks.IRIDIUM_CASING.get())
-                            .or(GTOPredicates.autoIOAbilities(definition.getRecipeTypes())))
+                            .or(autoIOAbilities(definition.getRecipeTypes())))
                     .where('I', controller(definition))
                     .where(' ', any())
                     .build())
@@ -1845,7 +1846,7 @@ public final class MultiBlockA {
                     .where('E', blocks(GTOBlocks.TITANIUM_ALLOY_FRAME_INTERNAL.get()))
                     .where('F', blocks(GTBlocks.CASING_TUNGSTENSTEEL_ROBUST.get())
                             .or(abilities(INPUT_LASER).setMaxGlobalLimited(2))
-                            .or(GTOPredicates.autoIOAbilities(definition.getRecipeTypes()))
+                            .or(autoIOAbilities(definition.getRecipeTypes()))
                             .or(Predicates.abilities(OVERCLOCK_HATCH).setMaxGlobalLimited(1)))
                     .where('G', blocks(GTBlocks.HIGH_POWER_CASING.get()))
                     .where('H', blocks(GTOBlocks.TUNGSTEN_ALLOY_RADIATION_SHIELDING_MECHANICAL_BLOCK.get()))
@@ -1863,6 +1864,7 @@ public final class MultiBlockA {
             .allRotation()
             .recipeTypes(GTORecipeTypes.STELLAR_FORGE_RECIPES)
             .tooltips(GTOMachineTooltips.INSTANCE.getStellarForgeTooltips().getSupplier())
+            .moduleTooltips(OUTPUT_MANA)
             .lossyOCTooltips()
             .laserTooltips()
             .block(GCYMBlocks.CASING_ATOMIC)
@@ -1888,6 +1890,19 @@ public final class MultiBlockA {
                     .where('Q', controller(definition))
                     .where('R', blocks(GTOBlocks.CONTAINMENT_FIELD_GENERATOR.get()))
                     .where('S', blocks(GTOBlocks.HOLLOW_CASING.get()))
+                    .where(' ', any())
+                    .build())
+            .addSubPattern(definition -> MultiBlockFileReader.builder().LUF(
+                    UP, RIGHT, FRONT).name("stellar_forge_magic").startBuild(definition)
+                    .where('A', any())
+                    .where('B', blocks(GTOBlocks.HERETICAL_MECHANICAL_CASING.get()))
+                    .where('C', blocks(GCYMBlocks.CASING_ATOMIC.get()))
+                    .where('D', blocks(GTOBlocks.THE_END_CASING.get()))
+                    .where('E', blocks(GTOBlocks.MAGIC_CORE.get()))
+                    .where('F', blocks(GCYMBlocks.CASING_ATOMIC.get())
+                            .or(autoIOAbilities(definition.getRecipeTypes()))
+                            .or(abilities(OUTPUT_MANA)))
+                    .where('G', controller(definition))
                     .where(' ', any())
                     .build())
             .workableCasingRenderer(GTCEu.id("block/casings/gcym/atomic_casing"), GTCEu.id("block/multiblock/fusion_reactor"))

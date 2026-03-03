@@ -4,6 +4,7 @@ import com.gtocore.api.data.tag.GTOTagPrefix;
 import com.gtocore.common.data.GTOBlocks;
 import com.gtocore.common.data.GTOItems;
 import com.gtocore.common.data.GTOMaterials;
+import com.gtocore.common.data.GTORecipeCategories;
 
 import com.gtolib.api.GTOValues;
 
@@ -415,6 +416,56 @@ final class StellarForge {
                 .outputFluids(GTOMaterials.BlazeCube, FluidStorageKeys.PLASMA, 1000)
                 .EUt(31457280)
                 .duration(128)
+                .addData(GTOValues.STELLAR_CONTAINMENT_TIER, 1)
+                .save();
+
+        addManaProducingRecipe();
+    }
+
+    private static void addManaProducingRecipe() {
+        STELLAR_FORGE_RECIPES.recipeBuilder("mana1")
+                .notConsumable("botania:entropinnyum")
+                .inputItems(GTOBlocks.NAQUADRIA_CHARGE.asItem())
+                .chancedOutput(GTOMaterials.Mana.getFluid(14400), 7000, 10)
+                .circuitMeta(1)
+                .EUt(31457280)
+                .duration(40)
+                .MANAt(-125000)
+                .addData(GTOValues.STELLAR_CONTAINMENT_TIER, 1)
+                .category(GTORecipeCategories.STELLER_MANA_PRODUCING)
+                .save();
+        STELLAR_FORGE_RECIPES.recipeBuilder("mana2")
+                .notConsumable("botania:entropinnyum")
+                .inputItems(GTOBlocks.LEPTONIC_CHARGE.asItem())
+                .chancedOutput(GTOMaterials.Mana.getFluid(57600), 7000, 10)
+                .circuitMeta(2)
+                .EUt(31457280)
+                .duration(40)
+                .MANAt(-1000000)
+                .addData(GTOValues.STELLAR_CONTAINMENT_TIER, 2)
+                .category(GTORecipeCategories.STELLER_MANA_PRODUCING)
+                .save();
+        STELLAR_FORGE_RECIPES.recipeBuilder("mana3")
+                .notConsumable("botania:entropinnyum")
+                .inputItems(GTOBlocks.QUANTUM_CHROMODYNAMIC_CHARGE.asItem())
+                .chancedOutput(GTOMaterials.Mana.getFluid(307200), 7000, 10)
+                .circuitMeta(3)
+                .EUt(31457280)
+                .duration(40)
+                .MANAt(-8000000)
+                .addData(GTOValues.STELLAR_CONTAINMENT_TIER, 3)
+                .category(GTORecipeCategories.STELLER_MANA_PRODUCING)
+                .save();
+        STELLAR_FORGE_RECIPES.recipeBuilder("mana4")
+                .notConsumable("botania:entropinnyum")
+                .notConsumable("botania:alfheim_portal")
+                .inputItems(Items.BREAD.asItem(), 6400)
+                .chancedOutput(GTOMaterials.Mana.getFluid(7200), 7000, 10)
+                .EUt(69)
+                .duration(8)
+                .MANAt(-420)
+                .addData(GTOValues.STELLAR_CONTAINMENT_TIER, 1)
+                .category(GTORecipeCategories.STELLER_MANA_PRODUCING)
                 .save();
     }
 }

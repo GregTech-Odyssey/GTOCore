@@ -82,7 +82,10 @@ public final class GTEMIRecipe extends ModularEmiRecipe<Widget> {
     }
 
     private static int getHeight(RecipeDefinition recipe) {
-        return recipe.recipeType.getRecipeUI().getJEISize().height + recipe.conditions.size() * 10;
+        return recipe.recipeType.getRecipeUI().getJEISize().height +
+                recipe.recipeType.getDataInfos().size() * 10 +
+                (int) recipe.conditions.stream().filter(condition -> condition.getTooltips() != null).count() * 10 +
+                (recipe.manat < 0 ? 20 : 0);
     }
 
     @Override

@@ -4,6 +4,7 @@ import com.gtocore.api.lang.ComponentListSupplier
 import com.gtocore.api.lang.ComponentSupplier
 import com.gtocore.api.lang.toComponentSupplier
 import com.gtocore.api.lang.toLiteralSupplier
+import com.gtocore.common.data.translation.ComponentSlang.AfterModuleInstallation
 import com.gtocore.common.machine.electric.ElectricHeaterMachine
 import com.gtocore.common.machine.multiblock.generator.TurbineMachine
 import com.gtocore.common.machine.multiblock.storage.MEStorageMachine
@@ -1735,6 +1736,12 @@ object GTOMachineTooltips {
         function("配方等级不受能源仓限制，连续运行优化" translatedTo "Recipe tier is not limited by energy hatch. Continuous Operation can Optimize")
         increase("首次运行后继续运行，后续配方时间减少50%" translatedTo "After first run, continue → 50% duration reduction on subsequent runs")
         error(("运行中供电不足会产生巨大" translatedTo "Power shortage during operation causes massive ") + ComponentSlang.Explosion)
+
+        section(AfterModuleInstallation)
+        function("安装魔法模块后，可以运行魔法花朵的产魔配方" translatedTo "After installing the Magic Module, you can run magic flower producing recipes")
+        increase("连续运行对数级提升魔力产出量" translatedTo "Continuous operation logarithmically increases magic output")
+        command("产魔配方不执行超频" translatedTo "Magic producing recipes do not execute overclocking")
+        command("机器内魔力储存量满后，多余的魔力将被销毁" translatedTo "After the machine's magic storage is full, excess magic will be destroyed")
     }
 
     // 通天之路
