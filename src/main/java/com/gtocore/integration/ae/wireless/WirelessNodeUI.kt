@@ -375,7 +375,7 @@ fun createWirelessUIProvider(player: Player): IFancyUIProvider = object : IFancy
 
             // Connection status — derived from ISync list (isConnected field)
             val currentSelectedNetwork = MEWirelessMachineConfigurator.getConfiguringNetworkId(player)
-            val connSummaries = WirelessNetworkSavedData.getNetworkSummaries(player.uuid, currentSelectedNetwork)
+            val connSummaries = WirelessNetworkSavedData.getNetworkSummaries(player.uuid, currentSelectedNetwork, true)
             val connSummary = connSummaries.firstOrNull { it.isConnected }
             val connDisplay = connSummary?.nickname?.takeIf { it.isNotEmpty() }
                 ?: ("§c" + Component.translatable(WirelessMachine.KEY_NONE).string)
@@ -560,7 +560,7 @@ fun createWirelessUIProvider(player: Player): IFancyUIProvider = object : IFancy
             // This ensures client and server compute the same hash from the same data path,
             // preventing stale-data rebuilds (#2, #6).
             private fun computeHash(): Int {
-                var h = WirelessNetworkSavedData.getNetworkSummaries(player.uuid).hashCode()
+                var h = WirelessNetworkSavedData.getNetworkSummaries(player.uuid, filter = true).hashCode()
                 h = 31 * h + MEWirelessMachineConfigurator.getConfiguringNetworkId(player).hashCode()
                 return h
             }

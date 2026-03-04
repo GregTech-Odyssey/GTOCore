@@ -270,8 +270,8 @@ class WirelessNetworkSavedData : SavedData() {
          * 获取指定网络的摘要信息列表供GUI同步显示。
          */
         @JvmOverloads
-        fun getNetworkSummaries(requester: UUID, connectedId: String = ""): List<NetworkSummary> = get().networkPool.values
-            .filter { checkPermission(it.owner, requester) }
+        fun getNetworkSummaries(requester: UUID, connectedId: String = "", filter: Boolean = false): List<NetworkSummary> = get().networkPool.values
+            .filter { filter || checkPermission(it.owner, requester) }
             .sortedBy {
                 // Default network first
                 if (get().defaultMap[requester] == it.id) {

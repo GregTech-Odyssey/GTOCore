@@ -23,6 +23,8 @@ import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.recipe.*;
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
+import com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialFlag;
+import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.gui.widget.IntInputWidget;
 import com.gregtechceu.gtceu.api.gui.widget.PhantomFluidWidget;
@@ -295,6 +297,7 @@ public class MEWildcardPatternBufferPartMachine extends MEPatternBufferPartMachi
             }
             substitutingIngredients.addAndGet(System.nanoTime() - startSubstituting);
 
+            var test$materialsGen = new ReferenceOpenHashSet<Material>();
             var blacklistSet = blacklistedMaterials.values();
             GTCEuAPI.materialManager.getRegisteredMaterials().forEach(material -> {
                 if (blacklistSet.contains(material)) return;
@@ -332,6 +335,7 @@ public class MEWildcardPatternBufferPartMachine extends MEPatternBufferPartMachi
                         if (detail != null) {
                             var converted = IParallelPatternDetails.of(convertPattern(detail, 0), getLevel(), 1);
                             newPatterns.add(converted);
+                            test$materialsGen.add(material);
                         }
                         validatingPatterns.addAndGet(System.nanoTime() - startValidating1);
                     }
@@ -349,6 +353,26 @@ public class MEWildcardPatternBufferPartMachine extends MEPatternBufferPartMachi
             }
             // profiler end
         }
+    }
+
+    private Set<Material> test$get(MaterialFlag flag) {
+        Set<Material> list = new HashSet<>();
+        GTCEuAPI.materialManager.getRegisteredMaterials().forEach(material -> {
+            if (material.hasFlag(flag)) {
+                list.add(material);
+            }
+        });
+        return list;
+    }
+
+    private Set<Material> test$get(TagPrefix flag) {
+        Set<Material> list = new HashSet<>();
+        GTCEuAPI.materialManager.getRegisteredMaterials().forEach(material -> {
+            if (!ChemicalHelper.get(flag, material).isEmpty()) {
+                list.add(material);
+            }
+        });
+        return list;
     }
 
     @Override
@@ -414,8 +438,8 @@ public class MEWildcardPatternBufferPartMachine extends MEPatternBufferPartMachi
         ObjectHolder<RecipeDefinition> valid = new ObjectHolder<>(null);
         var inputHolder = virtual(sparseInput);
         if (recipeType == GTORecipeTypes.HATCH_COMBINED) {
-            if (!gto$getRecipeTypes().isEmpty()) {
-                for (var rt : gto$getRecipeTypes()) {
+            if (!getRecipeTypes().isEmpty()) {
+                for (var rt : getRecipeTypes()) {
                     if (rt.findRecipe(inputHolder, r -> {
                         if (checkProb(r)) {
                             valid.value = (RecipeDefinition) r;

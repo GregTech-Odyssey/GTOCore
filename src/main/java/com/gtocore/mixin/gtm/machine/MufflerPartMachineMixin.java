@@ -33,6 +33,8 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.AABB;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 import com.lowdragmc.lowdraglib.gui.modular.ModularUI;
 import com.lowdragmc.lowdraglib.gui.widget.LabelWidget;
@@ -64,6 +66,7 @@ public abstract class MufflerPartMachineMixin extends WorkableTieredPartMachine 
     @Nullable
     protected TickableSubscription particleSubs;
 
+    @OnlyIn(Dist.CLIENT)
     @Shadow(remap = false)
     protected abstract void particlesTick();
 
@@ -145,8 +148,18 @@ public abstract class MufflerPartMachineMixin extends WorkableTieredPartMachine 
         super.onLoad();
         gto$chanceOfNotProduceAsh = Math.min(Math.max(gto$chanceOfNotProduceAsh, 0), getTier() * 10);
         if (isRemote()) {
-            particleSubs = subscribeClientTick(particleSubs, this::particlesTick);
+            gto$subParticle();
         }
+    }
+
+    @Unique
+    private void gto$subParticle() {
+        particleSubs = subscribeClientTick(particleSubs, this::particlesTick);
+    }
+
+    @Unique
+    private void gto$unsubParticle() {
+        particleSubs = ITickSubscription.unsubscribe(particleSubs);
     }
 
     @Override
@@ -154,7 +167,7 @@ public abstract class MufflerPartMachineMixin extends WorkableTieredPartMachine 
         super.onUnload();
         gtolib$airScrubberCache = null;
         removeNetMachineCache();
-        particleSubs = ITickSubscription.unsubscribe(particleSubs);
+        gto$unsubParticle();
     }
 
     @Override

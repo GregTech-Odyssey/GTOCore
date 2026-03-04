@@ -2651,7 +2651,7 @@ final class Assembler {
 
         ASSEMBLER_RECIPES.recipeBuilder("smd_resistor_exotic")
                 .inputItems(TagPrefix.wireFine, GTOMaterials.Cinobite, 4)
-                .inputItems(TagPrefix.dust, GTOMaterials.Astrium)
+                .inputItems(plateDouble, GTOMaterials.Astrium)
                 .inputItems(TagPrefix.foil, GTMaterials.IndiumTinBariumTitaniumCuprate, 2)
                 .inputItems(TagPrefix.foil, GTOMaterials.Enderite, 2)
                 .inputFluids(GTOMaterials.FullerenePolymerMatrixPulp, 72)

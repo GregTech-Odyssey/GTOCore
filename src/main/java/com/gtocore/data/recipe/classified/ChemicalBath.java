@@ -256,7 +256,7 @@ final class ChemicalBath {
                 .cleanroom(CleanroomType.CLEANROOM)
                 .save();
         CHEMICAL_BATH_RECIPES.builder("scorching_cosmic_dust_dust")
-                .inputItems(TagPrefix.dust, GTOMaterials.CosmicDust, 8)
+                .inputItems(TagPrefix.dust, GTOMaterials.CosmicDust, 9)
                 .outputItems(TagPrefix.dust, GTOMaterials.ScorchingCosmicDust, 8)
                 .outputItems(TagPrefix.dust, GTOMaterials.ExcitedScorchingCosmicDust)
                 .inputFluids(GTOMaterials.Sanguinite, 16000)
