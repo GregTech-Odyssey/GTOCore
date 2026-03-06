@@ -863,5 +863,15 @@ public final class MagicRecipesB {
                 }
             }
         }
+
+        MANA_FLOW_ASSEMBLER_RECIPES.builder("lv_mana_assembler")
+                .inputItems("gtocore:lv_mana_machine_hull")
+                .inputItems("botania:floating_rannuncarpus_chibi", 2)
+                .inputItems(TagPrefix.plate, GTOMaterials.Manasteel, 4)
+                .inputItems("botania:mana_pylon", 8)
+                .outputItems("gtocore:lv_mana_assembler")
+                .duration(200)
+                .MANAt(32)
+                .save();
     }
 }
