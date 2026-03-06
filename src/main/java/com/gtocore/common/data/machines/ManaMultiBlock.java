@@ -570,7 +570,6 @@ public final class ManaMultiBlock {
             .recipeTypes(GTORecipeTypes.MANA_FLOW_ASSEMBLER_RECIPES)
             .block(GTOBlocks.MANASTEEL_CASING)
             .tooltipsSupplier(GTOMachineTooltipsA.INSTANCE.getManaFlowAssemblerTooltips().getSupplier())
-            .perfectOCTooltips()
             .pattern(definition -> FactoryBlockPattern.start(definition)
                     .aisle("HBBBI", "H   I", "D   D", "E   E")
                     .aisle("BFFFB", "     ", "     ", "     ")

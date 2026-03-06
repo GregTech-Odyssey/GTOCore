@@ -230,8 +230,8 @@ object GTOMachineTooltipsA : AutoInitialize<GTOMachineTooltipsA>() {
         info("盖亚水晶：提供§b512§rMana/t" translatedTo "Gaia Crystal: provides §b512§r Mana/t")
         content("向合成台上投掷物品以输入，输出产物将以同样的方式投掷出来" translatedTo "Throw items onto the crafting station for input, and the output products will be thrown out in the same way")
         important("只有前9个掉落物会被作为输入进行处理" translatedTo "Only the first 9 dropped items will be processed as input")
-        command("机器总是会以可使用的最大魔力强度运行(并且同时计算无损超频)" translatedTo "The machine will always operate at the maximum mana strength available(and calculate perfect overclocking at the same time)")
-        command("且以此方式计算后，时长超过10秒的配方无法运行" translatedTo "And after calculating in this way, recipes that last more than 10 seconds cannot run")
+        command("机器总是会以可使用的最大魔力强度运行,且配方时间固定为10秒" translatedTo "The machine will always operate at the maximum mana strength available, and the recipe time is fixed at 10 seconds")
+        command("且以此魔力强度计算配方时长(总魔力消耗量/魔力强度)，超过10秒的配方无法运行" translatedTo "And the recipe time is calculated based on this mana strength (total mana consumption / mana strength), recipes that exceed 10 seconds cannot run")
         important("无法运行电力配方" translatedTo "Cannot run recipes that require EU")
     }
 }

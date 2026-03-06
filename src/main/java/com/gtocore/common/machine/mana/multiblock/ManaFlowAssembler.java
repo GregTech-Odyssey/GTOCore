@@ -168,11 +168,12 @@ public class ManaFlowAssembler extends ManaMultiblockMachine {
     @Override
     protected @Nullable Recipe getRealRecipe(Recipe recipe) {
         if (recipe.eut != 0 || maxRate == 0) return null;
-        recipe.duration = Math.toIntExact(recipe.duration * recipe.manat / maxRate);
-        if (recipe.duration > 200) {
+        int duration = Math.toIntExact(recipe.duration * recipe.manat / maxRate);
+        if (duration > 200) {
             this.getEnhancedRecipeLogic().gtolib$setIdleReason(Component.translatable(MANA_FLOW_TOO_WEAK));
             return null;
         }
+        recipe.duration = 200;
         recipe.manat = maxRate;
         return super.getRealRecipe(recipe);
     }
