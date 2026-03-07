@@ -34,10 +34,7 @@ import com.gtolib.api.machine.impl.DrillingControlCenterMachine;
 import com.gtolib.api.machine.impl.DroneControlCenterMachine;
 import com.gtolib.api.machine.impl.MECPUMachine;
 import com.gtolib.api.machine.impl.WirelessChargerMachine;
-import com.gtolib.api.machine.multiblock.CoilMultiblockMachine;
-import com.gtolib.api.machine.multiblock.ElectricMultiblockMachine;
-import com.gtolib.api.machine.multiblock.TierCasingCrossRecipeMultiblockMachine;
-import com.gtolib.api.machine.multiblock.TierCasingMultiblockMachine;
+import com.gtolib.api.machine.multiblock.*;
 import com.gtolib.api.recipe.modifier.RecipeModifierFunction;
 import com.gtolib.utils.MultiBlockFileReader;
 import com.gtolib.utils.RLUtils;
@@ -654,9 +651,11 @@ public final class MultiBlockG {
             .renderer(() -> new CustomPartRenderer(GTOCore.id("block/casings/oxidation_resistant_hastelloy_n_mechanical_casing"), GTCEu.id("block/multiblock/fusion_reactor"), GTOCore.id("block/zirconia_ceramic_high_strength_bending_resistance_mechanical_block")))
             .register();
 
-    public static final MultiblockMachineDefinition RARITY_FORGE = multiblock("rarity_forge", "珍宝锻炉", ElectricMultiblockMachine::new)
+    public static final MultiblockMachineDefinition RARITY_FORGE = multiblock("rarity_forge", "珍宝锻炉", CrossRecipeMultiblockMachine::createHatchParallel)
             .allRotation()
             .tooltips(GTOMachineStories.INSTANCE.getRarityForgeTooltips().getSupplier())
+            .laserTooltips()
+            .multipleRecipesTooltips()
             .recipeTypes(GTORecipeTypes.RARITY_FORGE_RECIPES)
             .block(GTBlocks.MACHINE_CASING_LV)
             .pattern(definition -> FactoryBlockPattern.start(definition)
@@ -667,15 +666,14 @@ public final class MultiBlockG {
                     .aisle("A   A", "ABFBA", "A   A", " A   ", " A   ", "  A  ", "   A ", "   A ", "A   A", "ABBBA", "A   A")
                     .where('A', blocks(GTOBlocks.ORIGINAL_BRONZE_CASING.get()))
                     .where('B', blocks(GTBlocks.MACHINE_CASING_LV.get())
-                            .or(GTOPredicates.autoThreadLaserAbilities(definition.getRecipeTypes()))
-                            .or(abilities(INPUT_ENERGY)))
+                            .or(GTOPredicates.autoThreadLaserAbilities(definition.getRecipeTypes())))
                     .where('C', blocks(RegistriesUtils.getBlock("ars_nouveau:smooth_sourcestone")))
                     .where('D', blocks(GTBlocks.MACHINE_CASING_ULV.get()))
                     .where('E', blocks(RegistriesUtils.getBlock("botania:mana_glass")))
                     .where('F', controller(definition))
                     .where(' ', any())
                     .build())
-            .workableCasingRenderer(GTCEu.id("block/casings/voltage/ulv/side"), GTOCore.id("block/multiblock/general0"))
+            .workableCasingRenderer(GTCEu.id("block/casings/voltage/lv/side"), GTOCore.id("block/multiblock/general0"))
             .register();
 
     public static final MultiblockMachineDefinition ME_STORAGE = multiblock("me_storage", "ME存储器", MEStorageMachine::new)
