@@ -111,5 +111,19 @@ final class Vacuum {
                 .EUt(7680)
                 .duration(400)
                 .save();
+
+        VACUUM_RECIPES.builder("liquid_glacial_air")
+                .inputFluids(GTOMaterials.GlacioAir, FluidStorageKeys.GAS, 4000)
+                .outputFluids(GTOMaterials.GlacioAir, FluidStorageKeys.LIQUID, 4000)
+                .EUt(1920)
+                .duration(160)
+                .save();
+
+        VACUUM_RECIPES.builder("liquid_jupiter_air")
+                .inputFluids(GTOMaterials.JupiterAir, FluidStorageKeys.GAS, 4000)
+                .outputFluids(GTOMaterials.JupiterAir, FluidStorageKeys.LIQUID, 4000)
+                .EUt(120)
+                .duration(160)
+                .save();
     }
 }

@@ -182,9 +182,9 @@ public class ManaFlowAssembler extends ManaMultiblockMachine {
     public boolean handleTickRecipe(@Nullable Recipe recipe) {
         if (recipe != null) {
             long mana = recipe.manat;
-            if (mana != 0) {
+            if (mana > 0) {
                 if (!useMana(mana, false)) {
-                    IdleReason.setIdleReason(this, recipe.manat < 0 ? IdleReason.INSUFFICIENT_OUT : IdleReason.NO_MANA);
+                    IdleReason.setIdleReason(this, IdleReason.NO_MANA);
                     return false;
                 }
             }
@@ -338,12 +338,12 @@ public class ManaFlowAssembler extends ManaMultiblockMachine {
 
         @Override
         public long getMaxMana() {
-            return manaPools.stream().map(WeakReference::get).filter(Objects::nonNull).filter(m -> !m.isRemoved()).mapToInt(ManaPoolBlockEntity::getMaxMana).sum();
+            return manaPools.stream().map(WeakReference::get).filter(Objects::nonNull).filter(m -> !m.isRemoved()).mapToInt(ManaPoolBlockEntity::getMaxMana).asLongStream().sum();
         }
 
         @Override
         public long getCurrentMana() {
-            return manaPools.stream().map(WeakReference::get).filter(Objects::nonNull).filter(m -> !m.isRemoved()).mapToInt(ManaPoolBlockEntity::getCurrentMana).sum();
+            return manaPools.stream().map(WeakReference::get).filter(Objects::nonNull).filter(m -> !m.isRemoved()).mapToInt(ManaPoolBlockEntity::getCurrentMana).asLongStream().sum();
         }
 
         @Override

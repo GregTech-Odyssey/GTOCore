@@ -396,6 +396,8 @@ public final class GTOMaterials {
     public static Material SpecialCeramics;
     public static Material HydroiodicAcid;
     public static Material BarnardaAir;
+    public static Material JupiterAir;
+    public static Material GlacioAir;
     public static Material AlienAlgae;
     public static Material Bloodstone;
     public static Material PerditioCrystal;

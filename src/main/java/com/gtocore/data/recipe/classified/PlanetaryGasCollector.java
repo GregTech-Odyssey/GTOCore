@@ -7,6 +7,8 @@ import com.gtolib.api.data.Dimension;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.common.data.machines.GTMultiMachines;
 
+import static com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys.GAS;
+import static com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys.LIQUID;
 import static com.gtocore.common.data.GTORecipeTypes.SPACE_GAS_COLLECTOR_RECIPES;
 
 final class PlanetaryGasCollector {
@@ -68,6 +70,55 @@ final class PlanetaryGasCollector {
                 .circuitMeta(7)
                 .outputFluids(GTOMaterials.BarnardaAir, 256000)
                 .EUt(122880)
+                .duration(40)
+                .save();
+
+        SPACE_GAS_COLLECTOR_RECIPES.recipeBuilder("8")
+                .dimension(Dimension.IO.getOrbit())
+                .notConsumable(GTMultiMachines.VACUUM_FREEZER.asItem())
+                .circuitMeta(8)
+                .outputFluids(GTOMaterials.JupiterAir.getFluid(LIQUID), 256000)
+                .EUt(30720)
+                .duration(160)
+                .save();
+
+        SPACE_GAS_COLLECTOR_RECIPES.recipeBuilder("9")
+                .dimension(Dimension.IO.getOrbit())
+                .circuitMeta(9)
+                .outputFluids(GTOMaterials.JupiterAir.getFluid(GAS), 256000)
+                .EUt(7680)
+                .duration(40)
+                .save();
+        SPACE_GAS_COLLECTOR_RECIPES.recipeBuilder("10")
+                .dimension(Dimension.GANYMEDE.getOrbit())
+                .notConsumable(GTMultiMachines.VACUUM_FREEZER.asItem())
+                .circuitMeta(10)
+                .outputFluids(GTOMaterials.JupiterAir.getFluid(LIQUID), 256000)
+                .EUt(30720)
+                .duration(160)
+                .save();
+
+        SPACE_GAS_COLLECTOR_RECIPES.recipeBuilder("11")
+                .dimension(Dimension.GANYMEDE.getOrbit())
+                .circuitMeta(11)
+                .outputFluids(GTOMaterials.JupiterAir.getFluid(GAS), 256000)
+                .EUt(7680)
+                .duration(40)
+                .save();
+        SPACE_GAS_COLLECTOR_RECIPES.recipeBuilder("12")
+                .dimension(Dimension.GLACIO.getOrbit())
+                .notConsumable(GTMultiMachines.VACUUM_FREEZER.asItem())
+                .circuitMeta(12)
+                .outputFluids(GTOMaterials.GlacioAir.getFluid(LIQUID), 256000)
+                .EUt(30720)
+                .duration(160)
+                .save();
+
+        SPACE_GAS_COLLECTOR_RECIPES.recipeBuilder("13")
+                .dimension(Dimension.GLACIO.getOrbit())
+                .circuitMeta(13)
+                .outputFluids(GTOMaterials.GlacioAir.getFluid(GAS), 256000)
+                .EUt(7680)
                 .duration(40)
                 .save();
     }
