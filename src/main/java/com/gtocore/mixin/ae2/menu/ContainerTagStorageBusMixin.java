@@ -10,6 +10,7 @@ import appeng.api.stacks.GenericStack;
 import appeng.menu.implementations.UpgradeableMenu;
 import appeng.menu.slot.FakeSlot;
 import appeng.util.ConfigInventory;
+
 import com.glodblock.github.extendedae.common.parts.PartTagStorageBus;
 import com.glodblock.github.extendedae.container.ContainerTagStorageBus;
 import org.spongepowered.asm.mixin.Mixin;

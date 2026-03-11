@@ -1,9 +1,10 @@
 package com.gtocore.mixin.ae2.blockentity;
 
-import com.gtolib.api.ae2.GTOSettings;
-import com.gtolib.api.ae2.ShowMolecularAssembler;
-
 import appeng.util.ConfigManager;
+
+import gto_ae.api.config.ExtendedSettings;
+import gto_ae.menu.ShowMolecularAssembler;
+
 import com.glodblock.github.extendedae.common.parts.PartExPatternAccessTerminal;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -21,6 +22,6 @@ public abstract class PartExPatternAccessTerminalMixin {
 
     @Inject(method = "<init>", at = @At("TAIL"), remap = false)
     private void init(CallbackInfo ci) {
-        this.configManager.registerSetting(GTOSettings.TERMINAL_SHOW_MOLECULAR_ASSEMBLERS, ShowMolecularAssembler.ALL);
+        this.configManager.registerSetting(ExtendedSettings.TERMINAL_SHOW_MOLECULAR_ASSEMBLERS, ShowMolecularAssembler.ALL);
     }
 }

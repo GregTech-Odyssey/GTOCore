@@ -23,6 +23,7 @@ import net.minecraft.world.level.block.Blocks;
 
 import appeng.core.definitions.AEBlocks;
 import appeng.core.definitions.AEItems;
+
 import com.kyanite.deeperdarker.content.DDItems;
 import earth.terrarium.adastra.common.registry.ModItems;
 

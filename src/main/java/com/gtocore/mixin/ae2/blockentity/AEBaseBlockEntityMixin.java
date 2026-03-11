@@ -12,6 +12,7 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 
 import appeng.blockentity.AEBaseBlockEntity;
+
 import com.fast.fastcollection.O2OOpenCacheHashMap;
 import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.At;
@@ -49,7 +50,7 @@ public class AEBaseBlockEntityMixin extends BlockEntity implements IDirectionCac
      * @reason
      */
     @Overwrite(remap = false)
-    protected Item getItemFromBlockEntity() {
+    public Item getItemFromBlockEntity() {
         return REPRESENTATIVE_ITEMS.getOrDefault(getType(), Items.BARRIER);
     }
 

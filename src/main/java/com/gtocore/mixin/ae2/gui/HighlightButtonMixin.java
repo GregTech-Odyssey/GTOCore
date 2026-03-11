@@ -1,7 +1,6 @@
 package com.gtocore.mixin.ae2.gui;
 
 import com.gtocore.client.Message;
-import com.gtocore.integration.ae.hooks.IMouseNoRedirection;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.Tooltip;
@@ -13,6 +12,8 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.Level;
 
+import gto_ae.hooks.gui.INoMouseRedirectionWidget;
+
 import com.glodblock.github.extendedae.client.button.EPPButton;
 import com.glodblock.github.extendedae.client.button.HighlightButton;
 import com.glodblock.github.extendedae.client.gui.GuiExPatternTerminal;
@@ -23,7 +24,7 @@ import org.spongepowered.asm.mixin.Shadow;
 import java.util.Optional;
 
 @Mixin(value = HighlightButton.class, remap = false)
-public abstract class HighlightButtonMixin extends EPPButton implements IMouseNoRedirection {
+public abstract class HighlightButtonMixin extends EPPButton implements INoMouseRedirectionWidget {
 
     @Shadow
     private ResourceKey<Level> dim;

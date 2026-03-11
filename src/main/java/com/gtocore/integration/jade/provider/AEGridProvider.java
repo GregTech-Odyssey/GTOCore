@@ -18,6 +18,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 
 import appeng.api.networking.IInWorldGridNodeHost;
 import appeng.capabilities.Capabilities;
+
 import org.jetbrains.annotations.Nullable;
 import snownee.jade.api.BlockAccessor;
 import snownee.jade.api.ITooltip;

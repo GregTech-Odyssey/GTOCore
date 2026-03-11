@@ -1,6 +1,7 @@
 package com.gtocore.mixin.ae2.menu;
 
 import appeng.menu.me.crafting.CraftingStatusMenu;
+
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Accessor;
 

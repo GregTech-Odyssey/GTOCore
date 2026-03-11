@@ -22,6 +22,7 @@ import net.minecraftforge.fml.common.Mod;
 
 import appeng.client.gui.AEBaseScreen;
 import appeng.menu.SlotSemantic;
+
 import com.mojang.blaze3d.platform.InputConstants;
 import com.mojang.blaze3d.vertex.PoseStack;
 

@@ -2,9 +2,6 @@ package com.gtocore.mixin.eae;
 
 import com.gtocore.integration.jech.PinYinUtils;
 
-import com.gtolib.api.ae2.GTOSettings;
-import com.gtolib.api.ae2.IPatternAccessTermMenu;
-import com.gtolib.api.ae2.ShowMolecularAssembler;
 import com.gtolib.api.ae2.gui.hooks.IExtendedGuiEx;
 import com.gtolib.api.ae2.me2in1.Me2in1Menu;
 import com.gtolib.api.ae2.me2in1.Me2in1Screen;
@@ -22,6 +19,10 @@ import appeng.client.gui.me.patternaccess.PatternContainerRecord;
 import appeng.client.gui.style.ScreenStyle;
 import appeng.client.gui.widgets.AETextField;
 import appeng.client.gui.widgets.ServerSettingToggleButton;
+
+import gto_ae.api.config.ExtendedSettings;
+import gto_ae.menu.ShowMolecularAssembler;
+
 import com.fast.fastcollection.OpenCacheHashSet;
 import com.glodblock.github.extendedae.client.button.HighlightButton;
 import com.glodblock.github.extendedae.client.gui.GuiExPatternTerminal;
@@ -101,7 +102,7 @@ public abstract class GuiExPatternTerminalMixin<T extends ContainerExPatternTerm
 
     @Inject(method = "<init>", at = @At("TAIL"), remap = false)
     private void onInit(ContainerExPatternTerminal menu, Inventory playerInventory, Component title, ScreenStyle style, CallbackInfo ci) {
-        gtolib$showMolecularAssembler = new ServerSettingToggleButton<>(GTOSettings.TERMINAL_SHOW_MOLECULAR_ASSEMBLERS,
+        gtolib$showMolecularAssembler = new ServerSettingToggleButton<>(ExtendedSettings.TERMINAL_SHOW_MOLECULAR_ASSEMBLERS,
                 ShowMolecularAssembler.ALL);
         this.addToLeftToolbar(gtolib$showMolecularAssembler);
 
@@ -120,7 +121,7 @@ public abstract class GuiExPatternTerminalMixin<T extends ContainerExPatternTerm
 
     @Inject(method = "updateBeforeRender", at = @At("TAIL"), remap = false)
     private void updateBeforeRender(CallbackInfo ci) {
-        this.gtolib$showMolecularAssembler.set(((IPatternAccessTermMenu) this.getMenu()).gtolib$getShownMolecularAssemblers());
+        this.gtolib$showMolecularAssembler.set(getMenu().gtolib$showMolecularAssembler);
     }
 
     /**

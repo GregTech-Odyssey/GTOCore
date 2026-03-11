@@ -12,6 +12,7 @@ import appeng.client.gui.AEBaseScreen;
 import appeng.client.gui.widgets.ConfirmableTextField;
 import appeng.client.gui.widgets.NumberEntryWidget;
 import appeng.client.gui.widgets.ValidationIcon;
+
 import org.spongepowered.asm.mixin.*;
 
 import java.math.BigDecimal;

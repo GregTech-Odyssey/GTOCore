@@ -5,6 +5,7 @@ import com.gtocore.config.GTOConfig;
 import com.gregtechceu.gtceu.GTCEu;
 
 import appeng.helpers.patternprovider.PatternProviderLogic;
+
 import com.glodblock.github.extendedae.common.parts.PartExPatternProvider;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;

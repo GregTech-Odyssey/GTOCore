@@ -19,6 +19,7 @@ import appeng.menu.SlotSemantic;
 import appeng.menu.SlotSemantics;
 import appeng.menu.implementations.PatternProviderMenu;
 import appeng.menu.slot.AppEngSlot;
+
 import com.glodblock.github.extendedae.container.ContainerExPatternProvider;
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Mixin;

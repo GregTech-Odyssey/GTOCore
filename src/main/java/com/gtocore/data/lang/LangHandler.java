@@ -35,6 +35,8 @@ import com.gregtechceu.gtceu.api.pattern.MultiblockState;
 
 import net.minecraftforge.common.data.LanguageProvider;
 
+import gto_ae.core.localization.ExtendedLangs;
+
 import com.fast.fastcollection.O2OOpenCacheHashMap;
 
 import java.util.Arrays;
@@ -86,6 +88,10 @@ public final class LangHandler {
         for (var reasons : IdleReason.values()) {
             if (reasons.getEn() == null) continue;
             addCNEN(reasons.getKey(), reasons.getCn(), reasons.getEn());
+        }
+
+        for (var l : ExtendedLangs.values()) {
+            addCN(l.getTranslationKey(), l.getChineseText());
         }
 
         Arrays.stream(Dimension.values()).forEach(d -> addCNEN(d.getKey(), d.getCn(), d.getEn()));

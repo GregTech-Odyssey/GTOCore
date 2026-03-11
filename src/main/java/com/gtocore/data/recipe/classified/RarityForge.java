@@ -13,6 +13,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 
 import appeng.core.definitions.AEItems;
+
 import dev.shadowsoffire.apotheosis.adventure.Adventure;
 
 import static com.gregtechceu.gtceu.api.GTValues.VA;

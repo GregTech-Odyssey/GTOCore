@@ -16,10 +16,11 @@ import com.gregtechceu.gtceu.integration.ae2.machine.trait.GridNodeHolder;
 
 import net.minecraft.network.chat.Component;
 
-import appbot.ae2.ManaKey;
 import appeng.api.config.Actionable;
 import appeng.api.networking.IManagedGridNode;
 import appeng.api.networking.security.IActionSource;
+
+import appbot.ae2.ManaKey;
 import com.lowdragmc.lowdraglib.gui.texture.GuiTextureGroup;
 import com.lowdragmc.lowdraglib.gui.util.ClickData;
 import com.lowdragmc.lowdraglib.gui.widget.LabelWidget;

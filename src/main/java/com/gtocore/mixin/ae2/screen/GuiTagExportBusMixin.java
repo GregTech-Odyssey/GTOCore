@@ -3,7 +3,6 @@ package com.gtocore.mixin.ae2.screen;
 import com.gtolib.api.ae2.gui.hooks.ITagSelectableMenu;
 import com.gtolib.api.ae2.gui.hooks.ITagSelectableScreen;
 import com.gtolib.api.ae2.gui.widgets.AEListBox;
-import com.gtolib.api.ae2.gui.widgets.AESlotWidget;
 
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.Rect2i;
@@ -15,6 +14,9 @@ import appeng.client.Point;
 import appeng.client.gui.implementations.UpgradeableScreen;
 import appeng.client.gui.style.ScreenStyle;
 import appeng.menu.slot.FakeSlot;
+
+import gto_ae.client.gui.widgets.AESlotWidget;
+
 import com.glodblock.github.extendedae.client.gui.GuiTagExportBus;
 import com.glodblock.github.extendedae.client.gui.widget.MultilineTextFieldWidget;
 import com.glodblock.github.extendedae.container.ContainerTagExportBus;

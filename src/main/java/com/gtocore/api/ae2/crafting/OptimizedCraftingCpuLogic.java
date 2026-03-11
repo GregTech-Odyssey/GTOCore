@@ -45,6 +45,7 @@ import appeng.crafting.inv.ListCraftingInventory;
 import appeng.hooks.ticking.TickHandler;
 import appeng.me.cluster.implementations.CraftingCPUCluster;
 import appeng.me.service.CraftingService;
+
 import com.fast.fastcollection.OpenCacheHashSet;
 import com.google.common.collect.Multimaps;
 import com.google.common.collect.SetMultimap;

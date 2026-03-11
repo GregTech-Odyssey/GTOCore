@@ -8,10 +8,8 @@ import com.gtocore.common.machine.multiblock.part.ae.MEPartInv;
 import com.gtocore.integration.ae.hooks.IExtendedPatternContainer;
 import com.gtocore.integration.ae.hooks.IExtendedPatternEncodingTerm;
 
-import com.gtolib.GTOCore;
 import com.gtolib.api.ae2.IPatterEncodingTermMenu;
 import com.gtolib.api.ae2.pattern.PatternUtils;
-import com.gtolib.api.player.IEnhancedPlayer;
 import com.gtolib.utils.ClientUtil;
 import com.gtolib.utils.RLUtils;
 
@@ -25,11 +23,9 @@ import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.ItemStack;
 
 import appeng.api.config.Actionable;
-import appeng.api.crafting.PatternDetailsHelper;
 import appeng.api.implementations.blockentities.PatternContainerGroup;
 import appeng.api.stacks.AEItemKey;
 import appeng.api.storage.ITerminalHost;
-import appeng.api.storage.MEStorage;
 import appeng.core.definitions.AEItems;
 import appeng.crafting.pattern.AEPatternDecoder;
 import appeng.crafting.pattern.ProcessingPatternItem;
@@ -43,8 +39,8 @@ import appeng.menu.slot.RestrictedInputSlot;
 import appeng.parts.encoding.PatternEncodingLogic;
 import appeng.util.ConfigInventory;
 import appeng.util.inv.AppEngInternalInventory;
+
 import com.glodblock.github.extendedae.common.tileentities.matrix.TileAssemblerMatrixPattern;
-import com.llamalad7.mixinextras.sugar.Local;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -52,7 +48,6 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
@@ -73,9 +68,6 @@ public abstract class PatternEncodingTermMenuMixin extends MEStorageMenu impleme
     @Final
     @Shadow(remap = false)
     private RestrictedInputSlot encodedPatternSlot;
-    @Final
-    @Shadow(remap = false)
-    private RestrictedInputSlot blankPatternSlot;
     @Shadow(remap = false)
     @Final
     private PatternEncodingLogic encodingLogic;
@@ -182,7 +174,6 @@ public abstract class PatternEncodingTermMenuMixin extends MEStorageMenu impleme
     private void initHooks(MenuType<?> menuType, int id, Inventory ip, IPatternTerminalMenuHost host, boolean bindInventory, CallbackInfo ci) {
         registerClientAction("modifyPatter", Integer.class, this::gtolib$modifyPatter);
         registerClientAction("clearSecOutput", this::gtolib$clearSecOutput);
-        blankPatternSlot.setStackLimit(1);
         registerClientAction("addRecipe", String.class, this::gtolib$addRecipe);
         registerClientAction("clickRecipeInfo", this::gtolib$clickRecipeInfo);
         registerClientAction("addUUID", UUID.class, this::gtolib$addUUID);
@@ -223,37 +214,6 @@ public abstract class PatternEncodingTermMenuMixin extends MEStorageMenu impleme
         gto$isCraft = !(stack.getItem() instanceof ProcessingPatternItem);
     }
 
-    @Inject(method = "encode", at = @At(value = "INVOKE", target = "Lappeng/menu/slot/RestrictedInputSlot;set(Lnet/minecraft/world/item/ItemStack;)V", ordinal = 1, remap = true), remap = false, cancellable = true)
-    private void encoding(CallbackInfo ci, @Local(name = "encodedPattern") ItemStack stack) {
-        var player = getPlayer();
-        if (player instanceof IEnhancedPlayer enhancedPlayer) {
-            if (enhancedPlayer.getPlayerData().shiftState) {
-                var inventory = player.getInventory();
-                if (inventory.add(stack)) {
-                    encodedPatternSlot.clearStack();
-                    ci.cancel();
-                }
-            }
-        }
-    }
-
-    // 按住Shift时将玩家物品栏的已编码样板清空为空白样板
-    @Inject(method = "clearPattern", at = @At("HEAD"), remap = false)
-    private void clearInventoryPattern(CallbackInfo ci) {
-        var player = getPlayer();
-        if (player instanceof IEnhancedPlayer enhancedPlayer) {
-            if (enhancedPlayer.getPlayerData().shiftState) {
-                var inventory = player.getInventory();
-                for (int i = 0; i < inventory.getContainerSize(); ++i) {
-                    ItemStack itemStack = inventory.getItem(i);
-                    if (PatternDetailsHelper.isEncodedPattern(itemStack)) {
-                        inventory.setItem(i, AEItems.BLANK_PATTERN.stack(itemStack.getCount()));
-                    }
-                }
-            }
-        }
-    }
-
     @Inject(method = "broadcastChanges", at = @At("TAIL"))
     public void broadcastChanges(CallbackInfo ci) {
         if (isServerSide()) {
@@ -270,42 +230,6 @@ public abstract class PatternEncodingTermMenuMixin extends MEStorageMenu impleme
     @Shadow(remap = false)
     @Nullable
     protected abstract ItemStack encodePattern();
-
-    @Redirect(method = "encode",
-              at = @At(value = "INVOKE",
-                       target = "Lappeng/menu/slot/RestrictedInputSlot;getItem()Lnet/minecraft/world/item/ItemStack;",
-                       ordinal = 1))
-    private ItemStack fetchPattern(RestrictedInputSlot instance) {
-        var blankPattern = instance.getItem();
-        GTOCore.LOGGER.info("Fetching blank pattern from slot: {}", blankPattern);
-        if (!isPattern(blankPattern) && gtolib$tryExtractBlankPattern()) {
-            return new ItemStack(AEItems.BLANK_PATTERN, 1);
-        }
-        return blankPattern;
-    }
-
-    @Unique
-    private boolean gtolib$tryExtractBlankPattern() {
-        var host = getHost();
-        if (host == null) return false;
-
-        MEStorage inventory = host.getInventory();
-        if (inventory == null) return false;
-
-        AEItemKey blankPattern = AEItemKey.of(AEItems.BLANK_PATTERN);
-
-        var extracted = inventory.extract(blankPattern, 1, Actionable.MODULATE, getActionSource());
-        return extracted > 0;
-    }
-
-    @Redirect(
-              method = "transferStackToMenu",
-              at = @At(value = "INVOKE", target = "Lappeng/menu/slot/RestrictedInputSlot;mayPlace(Lnet/minecraft/world/item/ItemStack;)Z", remap = true),
-              remap = false)
-    private boolean gtolib$modifyTransferStackToMenu(RestrictedInputSlot instance, ItemStack itemStack) {
-        // 空白样板槽现在是幽灵槽位，无需手动补充
-        return itemStack.getItem() != AEItems.BLANK_PATTERN.asItem() && instance.mayPlace(itemStack);
-    }
 
     @Unique
     private List<IExtendedPatternContainer> gto$getPatternContainers() {

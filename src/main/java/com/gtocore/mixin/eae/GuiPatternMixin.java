@@ -8,6 +8,7 @@ import net.minecraft.world.inventory.Slot;
 
 import appeng.api.stacks.GenericStack;
 import appeng.integration.modules.emi.EmiStackHelper;
+
 import com.glodblock.github.extendedae.client.gui.pattern.GuiPattern;
 import com.glodblock.github.extendedae.container.pattern.ContainerPattern;
 import dev.emi.emi.api.EmiApi;

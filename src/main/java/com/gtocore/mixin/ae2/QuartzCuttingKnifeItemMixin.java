@@ -20,6 +20,7 @@ import appeng.api.integrations.igtooltip.TooltipContext;
 import appeng.api.parts.IPartHost;
 import appeng.integration.modules.igtooltip.parts.PartHostTooltips;
 import appeng.items.tools.quartz.QuartzCuttingKnifeItem;
+
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;

@@ -16,6 +16,7 @@ import appeng.crafting.execution.CraftingCpuLogic;
 import appeng.me.cluster.implementations.CraftingCPUCluster;
 import appeng.me.helpers.MachineSource;
 import appeng.util.ConfigManager;
+
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.At;
@@ -82,7 +83,7 @@ public abstract class CraftingCPUClusterMixin implements ICraftingCPUCluster {
 
         te.setCoreBlock(false);
         te.saveChanges();
-        this.blockEntities.add(0, te);
+        this.blockEntities.addFirst(te);
 
         if (te instanceof CraftingMonitorBlockEntity) {
             this.status.add((CraftingMonitorBlockEntity) te);
@@ -173,7 +174,6 @@ public abstract class CraftingCPUClusterMixin implements ICraftingCPUCluster {
     }
 
     @Override
-    @SuppressWarnings("all")
     public void setMachine(CraftingInterfacePartMachine machine) {
         this.gtolib$machine = machine;
     }

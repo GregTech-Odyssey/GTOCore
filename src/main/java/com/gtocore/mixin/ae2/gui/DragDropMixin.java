@@ -5,6 +5,7 @@ import com.gtolib.api.emi.stack.EmiTagprefixStack;
 
 import appeng.api.stacks.GenericStack;
 import appeng.integration.modules.emi.EmiStackHelper;
+
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.sugar.Local;
 import dev.emi.emi.api.stack.EmiIngredient;
