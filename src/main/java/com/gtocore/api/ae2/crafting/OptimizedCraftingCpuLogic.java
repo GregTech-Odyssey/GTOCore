@@ -1,7 +1,6 @@
 package com.gtocore.api.ae2.crafting;
 
 import com.gtocore.common.data.GTOItems;
-import com.gtocore.config.GTOConfig;
 import com.gtocore.integration.ae.CraftingCpuHelperExtended;
 import com.gtocore.integration.ae.hooks.ITemporaryCraftableService;
 
@@ -34,6 +33,7 @@ import appeng.api.stacks.AEItemKey;
 import appeng.api.stacks.AEKey;
 import appeng.api.stacks.GenericStack;
 import appeng.api.stacks.KeyCounter;
+import appeng.core.AEConfig;
 import appeng.core.sync.network.NetworkHandler;
 import appeng.core.sync.packets.CraftingJobStatusPacket;
 import appeng.crafting.CraftingLink;
@@ -88,7 +88,7 @@ public class OptimizedCraftingCpuLogic extends CraftingCpuLogic {
         if (!inventory.list.isEmpty()) GTOCore.LOGGER.error("Crafting CPU inventory is not empty yet a job was submitted.");
 
         KeyCounter missingIng;
-        if (GTOConfig.INSTANCE.gamePlay.allowMissingCraftingJobs && src.player().isPresent()) {
+        if (AEConfig.instance().isAllowMissingCraftingJobs() && src.player().isPresent()) {
             missingIng = CraftingCpuHelperExtended.tryExtractInitialItemsIgnoreMissing(plan, grid, inventory, src);
         } else {
             var missingIngredient = CraftingCpuHelper.tryExtractInitialItems(plan, grid, inventory, src);

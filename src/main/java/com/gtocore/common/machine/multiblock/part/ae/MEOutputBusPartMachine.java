@@ -22,7 +22,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 
 @MethodsReturnNonnullByDefault
 @ParametersAreNonnullByDefault
-public final class MEOutputBusPartMachine extends MEPartMachine {
+public final class MEOutputBusPartMachine extends StatusTrackedMEPartMachine {
 
     @Persisted
     private final KeyStorage internalBuffer;

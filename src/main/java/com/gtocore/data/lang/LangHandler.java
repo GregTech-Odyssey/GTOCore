@@ -112,6 +112,7 @@ public final class LangHandler {
         addCNEN("gtceu.machine.available_recipe_map_5.tooltip", "可用配方类型：%s，%s，%s，%s，%s", "Available Recipe Types: %s, %s, %s, %s, %s");
         addCNEN("gtceu.machine.available_recipe_map_6.tooltip", "可用配方类型：%s，%s，%s，%s，%s，%s", "Available Recipe Types: %s, %s, %s, %s, %s, %s");
 
+        addCN("item.ae2.facility_terminal", "IO设施管理终端");
         addCNEN("key.gtocore.flyingspeed", "飞行速度调节", "Flight Speed Adjustment");
         addCNEN("key.gtocore.nightvision", "夜视开关", "Night Vision Toggle");
         addCNEN("key.gtocore.vajra", "金刚杵按键", "Vajra Key");

@@ -68,6 +68,11 @@ public class AESearchPatternProviderListBox extends AEListBox {
     }
 
     @Override
+    public boolean onMouseWheel(Point mousePos, double delta) {
+        return getScrollbar().onMouseWheel(mousePos, delta);
+    }
+
+    @Override
     public void populateScreen(Consumer<AbstractWidget> addWidget, Rect2i bounds, AEBaseScreen<?> screen) {
         super.populateScreen(addWidget, bounds, screen);
         addWidget.accept(searchField);

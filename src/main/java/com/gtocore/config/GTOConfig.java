@@ -226,11 +226,6 @@ public final class GTOConfig {
         public String renamePatternDefaultString = "";
 
         @Configurable
-        @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Allow Missing Crafting Jobs", cn = "允许下单缺少材料的合成任务")
-        @Configurable.Comment({ "允许在 AE2 中下单缺少原料的任务", "缺少的原料将以“正在合成”的状态被等待接收", "Allow placing orders for tasks that are missing ingredients in AE2", "Missing ingredients will be in a 'crafting' state waiting to be received" })
-        public boolean allowMissingCraftingJobs = true;
-
-        @Configurable
         @Configurable.Comment({ "启用后，且未开启 EMI 作弊时，EMI 的作弊交互功能将转为试图从现有的ME终端/无线终端中提取物品", "When enabled, and EMI cheats are not enabled, EMI's cheat interaction feature will attempt to extract items from existing ME Terminals/Wireless Terminals" })
         @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Non-Cheat EMI Interaction", cn = "非作弊时EMI交互")
         public boolean nonCheatEmiInteraction = true;

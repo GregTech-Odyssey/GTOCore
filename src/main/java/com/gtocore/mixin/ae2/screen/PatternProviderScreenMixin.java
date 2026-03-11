@@ -13,12 +13,12 @@ import appeng.client.gui.AEBaseScreen;
 import appeng.client.gui.implementations.PatternProviderScreen;
 import appeng.client.gui.style.ScreenStyle;
 import appeng.client.gui.widgets.Scrollbar;
-import appeng.client.gui.widgets.ServerSettingToggleButton;
-import appeng.client.gui.widgets.SettingToggleButton;
 import appeng.menu.SlotSemantic;
 import appeng.menu.SlotSemantics;
 import appeng.menu.implementations.PatternProviderMenu;
 import appeng.menu.slot.AppEngSlot;
+
+import gto_ae.client.gui.widgets.ExpandableToggleButton;
 
 import com.glodblock.github.extendedae.container.ContainerExPatternProvider;
 import org.jetbrains.annotations.NotNull;
@@ -36,7 +36,7 @@ public abstract class PatternProviderScreenMixin<C extends PatternProviderMenu> 
                                                 implements IScrollableInvScreen<PatternProviderMenu, PatternProviderScreen<PatternProviderMenu>> {
 
     @Unique
-    private SettingToggleButton<BlockingType> gtolib$enhancedblockingmodebutton;
+    private ExpandableToggleButton<BlockingType> gtolib$enhancedblockingmodebutton;
 
     protected PatternProviderScreenMixin(C menu, Inventory playerInventory, Component title, ScreenStyle style) {
         super(menu, playerInventory, title, style);
@@ -54,7 +54,10 @@ public abstract class PatternProviderScreenMixin<C extends PatternProviderMenu> 
                                                 PatternProviderScreen<?> instance,
                                                 Button button// 原始方法参数
     ) {
-        this.gtolib$enhancedblockingmodebutton = new ServerSettingToggleButton<>(GTOSettings.BLOCKING_TYPE, BlockingType.NONE);
+        this.gtolib$enhancedblockingmodebutton = new ExpandableToggleButton<>(
+                GTOSettings.BLOCKING_TYPE,
+                BlockingType.NONE,
+                ExpandableToggleButton::sendToServer, ExpandableToggleButton.LayoutDirection.LEFT);
         this.addToLeftToolbar(this.gtolib$enhancedblockingmodebutton);
         return button;
     }

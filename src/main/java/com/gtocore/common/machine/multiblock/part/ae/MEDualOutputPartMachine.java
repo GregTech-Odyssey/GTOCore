@@ -24,7 +24,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public class MEDualOutputPartMachine extends MEPartMachine {
+public class MEDualOutputPartMachine extends StatusTrackedMEPartMachine {
 
     @Persisted
     private final KeyStorage internalBuffer;

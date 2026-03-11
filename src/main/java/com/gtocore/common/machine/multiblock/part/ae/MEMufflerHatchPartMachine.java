@@ -47,7 +47,7 @@ import java.util.Map;
 import java.util.Objects;
 
 @Scanned
-public class MEMufflerHatchPartMachine extends MEPartMachine implements IGTOMufflerMachine {
+public class MEMufflerHatchPartMachine extends StatusTrackedMEPartMachine implements IGTOMufflerMachine {
 
     @Persisted
     private final KeyStorage internalBuffer;
