@@ -24,6 +24,7 @@ import net.minecraft.world.item.ItemStack;
 import appeng.api.config.Actionable;
 import appeng.api.networking.IGrid;
 import appeng.api.networking.IGridNodeListener;
+import appeng.api.stacks.AEFluidKey;
 import appeng.api.stacks.GenericStack;
 import appeng.api.storage.MEStorage;
 
@@ -54,6 +55,12 @@ public class MEInputHatchPartMachine extends StatusTrackedMEPartMachine implemen
     public MEInputHatchPartMachine(MetaMachineBlockEntity holder) {
         super(holder, IO.IN);
         aeFluidHandler = createTank();
+        aeFluidHandler.addChangedListener(() -> {
+            getConfiguredSetting().clear();
+            aeFluidHandler.fastForEachFluids((i, l) -> {
+                getConfiguredSetting().put(AEFluidKey.of(i), l);
+            });
+        });
         circuitInventory = CircuitHandler.create(this);
     }
 

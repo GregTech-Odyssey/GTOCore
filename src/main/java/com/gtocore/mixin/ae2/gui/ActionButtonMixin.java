@@ -4,15 +4,18 @@ import com.gtocore.integration.ae.hooks.IExtendedPatternEncodingTerm;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 
 import appeng.client.gui.widgets.ActionButton;
 import appeng.client.gui.widgets.IconButton;
 import appeng.core.localization.ButtonToolTips;
 import appeng.core.localization.LocalizationEnum;
 
+import gto_ae.hooks.gui.IActionItems;
 import gto_ae.hooks.gui.INoMouseRedirectionWidget;
 
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -20,6 +23,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(ActionButton.class)
 public abstract class ActionButtonMixin extends IconButton implements INoMouseRedirectionWidget {
+
+    @Shadow(remap = false)
+    public abstract IActionItems getAction();
 
     @Unique
     boolean gtocore$useOtherButton = false;
@@ -32,6 +38,13 @@ public abstract class ActionButtonMixin extends IconButton implements INoMouseRe
     private void initHook(LocalizationEnum displayName, LocalizationEnum displayValue, CallbackInfoReturnable<Component> cir) {
         if (displayValue == ButtonToolTips.EncodeDescription) {
             gtocore$useOtherButton = true;
+            MutableComponent component = (MutableComponent) cir.getReturnValue();
+            Minecraft.getInstance().tell(() -> {
+                if (Minecraft.getInstance().screen instanceof IExtendedPatternEncodingTerm)
+                    component.append("\n")
+                            .append(Component.translatable("gtocore.ae.appeng.craft.encode_send"));
+                setMessage(component);
+            });
         }
     }
 

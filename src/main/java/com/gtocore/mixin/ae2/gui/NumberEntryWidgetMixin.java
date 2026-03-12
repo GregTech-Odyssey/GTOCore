@@ -86,7 +86,7 @@ public abstract class NumberEntryWidgetMixin {
     public void populateScreen(Consumer<AbstractWidget> addWidget, Rect2i bounds, AEBaseScreen<?> screen) {
         int left = bounds.getX() + this.bounds.getX();
         int top = bounds.getY() + this.bounds.getY();
-        List<Button> buttons = new ArrayList(11);
+        List<Button> buttons = new ArrayList<>(11);
         buttons.add(new ShiftActionButton(left, top, 22, 20,
                 this.makeLabel(PLUS, STEPS[0]),
                 this.makeLabel(gtolib$MULT, gtolib$MULT_STEP[0]),

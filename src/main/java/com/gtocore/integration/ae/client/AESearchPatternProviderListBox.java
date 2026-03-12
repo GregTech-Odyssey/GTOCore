@@ -49,6 +49,11 @@ public class AESearchPatternProviderListBox extends AEListBox {
                 return super.mouseClicked(mouseX, mouseY, button);
             }
         };
+        searchField.setBordered(false);
+        searchField.setMaxLength(25);
+        searchField.setTextColor(0xFFFFFF);
+        searchField.setSelectionColor(0xFF000080);
+        searchField.setVisible(true);
         searchField.setPlaceholder(GuiText.SearchPlaceholder.text());
         searchField.setResponder(value -> updateSearch());
     }

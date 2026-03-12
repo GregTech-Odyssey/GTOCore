@@ -24,6 +24,7 @@ import net.minecraft.world.item.ItemStack;
 import appeng.api.config.Actionable;
 import appeng.api.networking.IGrid;
 import appeng.api.networking.IGridNodeListener;
+import appeng.api.stacks.AEItemKey;
 import appeng.api.stacks.GenericStack;
 import appeng.api.storage.MEStorage;
 
@@ -52,6 +53,12 @@ public class MEInputBusPartMachine extends StatusTrackedMEPartMachine implements
     public MEInputBusPartMachine(MetaMachineBlockEntity holder) {
         super(holder, IO.IN);
         aeItemHandler = createInventory();
+        aeItemHandler.addChangedListener(() -> {
+            getConfiguredSetting().clear();
+            aeItemHandler.fastForEachItems((i, l) -> {
+                getConfiguredSetting().put(AEItemKey.of(i), l);
+            });
+        });
         circuitInventory = CircuitHandler.create(this);
     }
 

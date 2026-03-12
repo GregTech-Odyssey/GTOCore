@@ -1,7 +1,5 @@
 package com.gtocore.common.machine.monitor;
 
-import com.gtocore.mixin.ae2.menu.CraftingStatusMenuAccessor;
-
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
 
@@ -37,7 +35,7 @@ import java.util.concurrent.TimeUnit;
 public class MonitorAECPU extends AbstractAEInfoMonitor {
 
     private static final CraftingStatusMenu.CraftingCpuList EMPTY_CPU_LIST = new CraftingStatusMenu.CraftingCpuList(Collections.emptyList());
-    private static final Comparator<CraftingStatusMenu.CraftingCpuListEntry> CPU_COMPARATOR = CraftingStatusMenuAccessor.getCPU_COMPARATOR();
+    private static final Comparator<CraftingStatusMenu.CraftingCpuListEntry> CPU_COMPARATOR = CraftingStatusMenu.CPU_COMPARATOR;
     private static final Comparator<ICraftingCPU> RAW_CPU_COMPARATOR = Comparator
             .comparing((ICraftingCPU cpu) -> cpu.getName() == null)
             .thenComparing(cpu -> cpu.getName() == null ? "" : cpu.getName().getString())
