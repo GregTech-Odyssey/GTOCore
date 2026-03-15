@@ -18,6 +18,7 @@ import com.gtocore.integration.ae.PatternContentAccessTerminalPart;
 import com.gtocore.integration.ae.PatternContentAccessTerminalScreen;
 
 import com.gtolib.GTOCore;
+import com.gtolib.api.ae2.gui.GTOButtonAppearance;
 import com.gtolib.api.ae2.me2in1.Me2in1Menu;
 import com.gtolib.api.ae2.me2in1.Me2in1Screen;
 import com.gtolib.api.ae2.me2in1.Me2in1TerminalPart;
@@ -52,8 +53,10 @@ import net.minecraftforge.registries.ForgeRegistries;
 import appeng.api.client.AEKeyRendering;
 import appeng.api.parts.PartModels;
 import appeng.api.util.AEColor;
+import appeng.client.gui.widgets.SettingToggleButton;
 import appeng.client.render.StaticItemColor;
 import appeng.init.client.InitScreens;
+
 import com.lowdragmc.shimmer.client.light.ColorPointLight;
 import com.lowdragmc.shimmer.client.light.LightManager;
 import com.lowdragmc.shimmer.event.ShimmerReloadEvent.ReloadType;
@@ -83,6 +86,7 @@ public final class ClientProxy extends CommonProxy {
         registerAEModels();
         AEKeyRendering.register(TagPrefixKeyType.TYPE, TagPrefixKey.class, new TagPrefixRenderer.AEKeyHandler());
         if (GTCEu.Mods.isShimmerLoaded()) eventBus.addListener(ClientProxy::registerLights);
+        SettingToggleButton.deferAppearanceRegistration(GTOButtonAppearance::registerButtons);
     }
 
     private static void init() {

@@ -12,6 +12,7 @@ import appeng.client.gui.WidgetContainer;
 import appeng.client.gui.me.items.EncodingModePanel;
 import appeng.client.gui.me.items.PatternEncodingTermScreen;
 import appeng.client.gui.me.items.ProcessingEncodingPanel;
+
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;

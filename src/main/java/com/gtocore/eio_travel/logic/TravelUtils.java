@@ -21,6 +21,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import appeng.helpers.patternprovider.PatternProviderLogicHost;
+
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;

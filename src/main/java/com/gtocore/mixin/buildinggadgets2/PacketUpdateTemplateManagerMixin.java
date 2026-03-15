@@ -11,6 +11,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.network.NetworkEvent;
 
 import appeng.core.definitions.AEItems;
+
 import com.direwolf20.buildinggadgets2.common.containers.TemplateManagerContainer;
 import com.direwolf20.buildinggadgets2.common.network.packets.PacketUpdateTemplateManager;
 import com.direwolf20.buildinggadgets2.common.worlddata.BG2Data;

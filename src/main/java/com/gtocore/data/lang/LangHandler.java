@@ -35,6 +35,8 @@ import com.gregtechceu.gtceu.api.pattern.MultiblockState;
 
 import net.minecraftforge.common.data.LanguageProvider;
 
+import gto_ae.core.localization.ExtendedLangs;
+
 import com.fast.fastcollection.O2OOpenCacheHashMap;
 
 import java.util.Arrays;
@@ -88,6 +90,10 @@ public final class LangHandler {
             addCNEN(reasons.getKey(), reasons.getCn(), reasons.getEn());
         }
 
+        for (var l : ExtendedLangs.values()) {
+            addCN(l.getTranslationKey(), l.getChineseText());
+        }
+
         Arrays.stream(Dimension.values()).forEach(d -> addCNEN(d.getKey(), d.getCn(), d.getEn()));
 
         addCN("entity.gtocore.task_entity", "任务执行实体");
@@ -106,6 +112,7 @@ public final class LangHandler {
         addCNEN("gtceu.machine.available_recipe_map_5.tooltip", "可用配方类型：%s，%s，%s，%s，%s", "Available Recipe Types: %s, %s, %s, %s, %s");
         addCNEN("gtceu.machine.available_recipe_map_6.tooltip", "可用配方类型：%s，%s，%s，%s，%s，%s", "Available Recipe Types: %s, %s, %s, %s, %s, %s");
 
+        addCN("item.ae2.facility_terminal", "IO设施管理终端");
         addCNEN("key.gtocore.flyingspeed", "飞行速度调节", "Flight Speed Adjustment");
         addCNEN("key.gtocore.nightvision", "夜视开关", "Night Vision Toggle");
         addCNEN("key.gtocore.vajra", "金刚杵按键", "Vajra Key");

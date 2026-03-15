@@ -24,6 +24,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 
 import appeng.blockentity.AEBaseBlockEntity;
 import appeng.helpers.patternprovider.PatternProviderLogicHost;
+
 import com.lowdragmc.lowdraglib.LDLib;
 import org.jetbrains.annotations.Nullable;
 

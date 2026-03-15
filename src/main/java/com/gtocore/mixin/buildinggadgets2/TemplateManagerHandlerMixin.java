@@ -3,6 +3,7 @@ package com.gtocore.mixin.buildinggadgets2;
 import net.minecraft.world.item.ItemStack;
 
 import appeng.core.definitions.AEItems;
+
 import com.direwolf20.buildinggadgets2.common.containers.customhandler.TemplateManagerHandler;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;

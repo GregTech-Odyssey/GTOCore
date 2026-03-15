@@ -20,6 +20,7 @@ import appeng.client.gui.me.crafting.CraftingCPUScreen;
 import appeng.client.gui.style.ScreenStyle;
 import appeng.menu.me.crafting.CraftingCPUMenu;
 import appeng.menu.me.crafting.CraftingStatusEntry;
+
 import com.glodblock.github.extendedae.client.render.EAEHighlightHandler;
 import com.glodblock.github.extendedae.util.MessageUtil;
 import com.glodblock.github.glodium.network.packet.sync.IActionHolder;

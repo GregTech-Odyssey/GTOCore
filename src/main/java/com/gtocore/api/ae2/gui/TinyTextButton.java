@@ -11,6 +11,7 @@ import net.minecraft.network.chat.Component;
 
 import appeng.client.gui.Icon;
 import appeng.client.gui.widgets.ITooltip;
+
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.Tesselator;
 import lombok.Setter;

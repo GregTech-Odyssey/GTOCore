@@ -1,26 +1,19 @@
 package com.gtocore.mixin.ae2.screen;
 
 import com.gtocore.client.renderer.RenderUtil;
-import com.gtocore.integration.ae.hooks.IMouseNoRedirection;
-
-import com.gtolib.api.ae2.gui.hooks.IAEBaseScreenLifecycle;
-import com.gtolib.api.ae2.gui.hooks.IconSlot;
 
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.Rect2i;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.inventory.Slot;
 
 import appeng.client.gui.AEBaseScreen;
 import appeng.menu.AEBaseMenu;
-import com.llamalad7.mixinextras.sugar.Local;
+
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(AEBaseScreen.class)
@@ -30,60 +23,11 @@ public abstract class AEBaseScreenMixin<T extends AEBaseMenu> extends AbstractCo
         super(menu, playerInventory, title);
     }
 
-    @Shadow(remap = false)
-    public abstract boolean isHandlingRightClick();
-
-    @Inject(method = "init", at = @At("TAIL"))
-    private void gtolib$onInitAfterWidgets(CallbackInfo ci) {
-        if (this instanceof IAEBaseScreenLifecycle lifecycle) {
-            lifecycle.gtolib$initAfterWidgetsInitialized();
-        }
-    }
-
-    @Inject(method = "init", at = @At(value = "INVOKE", target = "Lappeng/client/gui/AEBaseScreen;positionSlots()V", shift = At.Shift.AFTER, remap = false))
-    private void gtolib$onInitAfterPositionSlot(CallbackInfo ci) {
-        if (this instanceof IAEBaseScreenLifecycle lifecycle) {
-            lifecycle.gtolib$initBeforeWidgetsInitialized();
-        }
-    }
-
-    @Inject(method = "init", at = @At(value = "INVOKE", target = "Lappeng/client/gui/AEBaseScreen;positionSlots()V", remap = false))
-    private void gtolib$onInitBeforePositionSlot(CallbackInfo ci) {
-        if (this instanceof IAEBaseScreenLifecycle lifecycle) {
-            lifecycle.gtolib$initBeforePositionSlot();
-        }
-    }
-
-    @Inject(method = "renderSlot", at = @At("HEAD"), cancellable = true)
-    private void gtolib$onRenderSlot(GuiGraphics guiGraphics, Slot s, CallbackInfo ci) {
-        if (s instanceof IconSlot iconSlot) {
-            if (iconSlot.getIcon() != null) {
-                iconSlot.getIcon().getBlitter()
-                        .dest(s.x, s.y)
-                        .opacity(iconSlot.getOpacityOfIcon())
-                        .blit(guiGraphics);
-                ci.cancel();
-            }
-        }
-    }
-
     @Inject(method = "fillRect", at = @At("HEAD"), remap = false, cancellable = true)
     private void gtolib$fillRect(GuiGraphics guiGraphics, Rect2i rect, int color, CallbackInfo ci) {
         if (color == 0x8A00FF00) {
             RenderUtil.drawRainbowBorder(guiGraphics, rect.getX(), rect.getY(), rect.getWidth(), rect.getHeight(), 300, 1.0f);
             ci.cancel();
         }
-    }
-
-    @Redirect(method = "mouseClicked", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screens/inventory/AbstractContainerScreen;mouseClicked(DDI)Z", ordinal = 0))
-    private boolean gtolib$redirectMouseClicked(AbstractContainerScreen<?> instance, double xCoord, double yCoord, int fakeBtn, @Local(argsOnly = true) int btn) {
-        if (isHandlingRightClick() && instance instanceof AEBaseScreen<?>) {
-            for (var widget : this.children()) {
-                if (widget.isMouseOver(xCoord, yCoord) && widget instanceof IMouseNoRedirection i && !i.gtocore$shouldRedirectMouse()) {
-                    return super.mouseClicked(xCoord, yCoord, btn);
-                }
-            }
-        }
-        return instance.mouseClicked(xCoord, yCoord, fakeBtn);
     }
 }

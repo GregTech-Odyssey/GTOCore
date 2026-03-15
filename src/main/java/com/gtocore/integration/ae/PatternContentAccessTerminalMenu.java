@@ -10,6 +10,7 @@ import appeng.menu.SlotSemantic;
 import appeng.menu.SlotSemantics;
 import appeng.menu.implementations.MenuTypeBuilder;
 import appeng.menu.slot.FakeSlot;
+
 import org.apache.commons.lang3.ArrayUtils;
 
 import java.util.Collections;

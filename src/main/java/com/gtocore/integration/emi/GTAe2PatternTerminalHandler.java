@@ -19,8 +19,8 @@ import appeng.api.stacks.GenericStack;
 import appeng.integration.modules.emi.EmiStackHelper;
 import appeng.integration.modules.jeirei.EncodingHelper;
 import appeng.integration.modules.jeirei.TransferHelper;
-import appeng.menu.me.common.GridInventoryEntry;
 import appeng.menu.me.items.PatternEncodingTermMenu;
+
 import dev.emi.emi.api.recipe.EmiPlayerInventory;
 import dev.emi.emi.api.recipe.EmiRecipe;
 import dev.emi.emi.api.recipe.handler.EmiCraftContext;
@@ -38,7 +38,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import static appeng.integration.modules.emi.AbstractRecipeHandler.getInnerBounds;
 import static appeng.integration.modules.emi.AbstractRecipeHandler.isInputSlot;
@@ -60,11 +59,7 @@ final class GTAe2PatternTerminalHandler<T extends PatternEncodingTermMenu> imple
     }
 
     private Set<AEKey> getCraftableKeys(T menu) {
-        return menu.getClientRepo() != null ? menu.getClientRepo().getAllEntries()
-                .stream()
-                .filter(GridInventoryEntry::isCraftable)
-                .map(GridInventoryEntry::getWhat)
-                .collect(Collectors.toSet()) : Set.of();
+        return menu.getClientRepo() != null ? menu.getClientRepo().getCraftableKeys() : Set.of();
     }
 
     @Override
