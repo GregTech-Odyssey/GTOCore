@@ -5,6 +5,7 @@ import net.minecraft.network.chat.Component;
 
 import appeng.me.cells.BasicCellHandler;
 import appeng.me.cells.BasicCellInventory;
+
 import com.llamalad7.mixinextras.sugar.Local;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;

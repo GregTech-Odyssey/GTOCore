@@ -5,6 +5,7 @@ import com.gregtechceu.gtceu.integration.ae2.slot.IConfigurableSlot;
 import net.minecraft.nbt.CompoundTag;
 
 import appeng.api.stacks.GenericStack;
+
 import com.lowdragmc.lowdraglib.syncdata.IContentChangeAware;
 import com.lowdragmc.lowdraglib.syncdata.ITagSerializable;
 import org.jetbrains.annotations.Nullable;

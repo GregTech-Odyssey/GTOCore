@@ -20,6 +20,7 @@ import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.minecraftforge.items.IItemHandler;
 
 import appeng.integration.modules.jade.JadeModule;
+
 import com.google.common.collect.ImmutableList;
 import dev.shadowsoffire.apotheosis.adventure.compat.AdventureHwylaPlugin;
 import dev.shadowsoffire.apotheosis.ench.compat.EnchHwylaPlugin;

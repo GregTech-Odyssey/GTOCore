@@ -8,6 +8,7 @@ import net.minecraft.world.inventory.ClickType;
 
 import appeng.client.gui.Icon;
 import appeng.menu.slot.RestrictedInputSlot;
+
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;

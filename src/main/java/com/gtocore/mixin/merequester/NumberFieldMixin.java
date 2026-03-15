@@ -4,6 +4,7 @@ import net.minecraft.client.gui.Font;
 
 import appeng.client.gui.style.ScreenStyle;
 import appeng.client.gui.widgets.ConfirmableTextField;
+
 import com.almostreliable.merequester.client.widgets.NumberField;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;

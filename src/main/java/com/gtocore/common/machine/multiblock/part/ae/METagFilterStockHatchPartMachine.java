@@ -8,6 +8,7 @@ import net.minecraft.nbt.CompoundTag;
 
 import appeng.api.stacks.AEKey;
 import appeng.util.prioritylist.IPartitionList;
+
 import com.glodblock.github.extendedae.common.me.taglist.TagPriorityList;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 

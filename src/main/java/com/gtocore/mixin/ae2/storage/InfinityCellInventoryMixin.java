@@ -1,6 +1,7 @@
 package com.gtocore.mixin.ae2.storage;
 
 import appeng.api.stacks.AEKey;
+
 import com.glodblock.github.extendedae.common.inventory.InfinityCellInventory;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;

@@ -20,6 +20,7 @@ import appeng.client.gui.AEBaseScreen;
 import appeng.client.gui.Tooltip;
 import appeng.client.gui.widgets.AETextField;
 import appeng.core.localization.GuiText;
+
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 
@@ -48,14 +49,19 @@ public class AESearchPatternProviderListBox extends AEListBox {
                 return super.mouseClicked(mouseX, mouseY, button);
             }
         };
+        searchField.setBordered(false);
+        searchField.setMaxLength(25);
+        searchField.setTextColor(0xFFFFFF);
+        searchField.setSelectionColor(0xFF000080);
+        searchField.setVisible(true);
         searchField.setPlaceholder(GuiText.SearchPlaceholder.text());
         searchField.setResponder(value -> updateSearch());
     }
 
     @Override
     public void updateBeforeRender() {
-        searchField.setX(getX() + getGuiLeft());
-        searchField.setY(getY() + getGuiTop() - 14);
+        searchField.setX(getX() + getScreen().getGuiLeft());
+        searchField.setY(getY() + getScreen().getGuiTop() - 14);
         searchField.setWidth(Math.max(getBounds().getWidth(), 30));
         super.updateBeforeRender();
     }
@@ -67,6 +73,11 @@ public class AESearchPatternProviderListBox extends AEListBox {
     }
 
     @Override
+    public boolean onMouseWheel(Point mousePos, double delta) {
+        return getScrollbar().onMouseWheel(mousePos, delta);
+    }
+
+    @Override
     public void populateScreen(Consumer<AbstractWidget> addWidget, Rect2i bounds, AEBaseScreen<?> screen) {
         super.populateScreen(addWidget, bounds, screen);
         addWidget.accept(searchField);
@@ -75,7 +86,7 @@ public class AESearchPatternProviderListBox extends AEListBox {
     @Override
     public void addExclusionZones(List<Rect2i> exclusionZones, Rect2i screenBounds) {
         super.addExclusionZones(exclusionZones, screenBounds);
-        exclusionZones.add(new Rect2i(getX() + getGuiLeft(), getY() - 14 + getGuiTop(), width(), 12));
+        exclusionZones.add(new Rect2i(getX() + getScreen().getGuiLeft(), getY() - 14 + getScreen().getGuiTop(), width(), 12));
     }
 
     public void reset() {

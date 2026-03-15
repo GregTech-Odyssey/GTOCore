@@ -16,6 +16,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.fluids.FluidStack;
 
 import appeng.core.definitions.AEBlocks;
+
 import earth.terrarium.adastra.common.registry.ModFluids;
 
 import static com.gregtechceu.gtceu.api.GTValues.VA;

@@ -5,6 +5,7 @@ import com.gtocore.integration.ae.hooks.IMoreLangCache;
 import net.minecraft.network.chat.Component;
 
 import appeng.api.stacks.AEKey;
+
 import com.ref.moremorelang.lang.ComponentTranslator;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;

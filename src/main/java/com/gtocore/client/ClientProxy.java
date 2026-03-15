@@ -8,6 +8,7 @@ import com.gtocore.client.hud.AdAstraHUD;
 import com.gtocore.client.hud.WirelessEnergyHUD;
 import com.gtocore.client.renderer.item.MonitorItemDecorations;
 import com.gtocore.common.CommonProxy;
+import com.gtocore.common.data.GTOAEParts;
 import com.gtocore.common.data.GTOFluids;
 import com.gtocore.common.forge.ClientForge;
 import com.gtocore.common.machine.monitor.MonitorBlockItem;
@@ -17,6 +18,7 @@ import com.gtocore.integration.ae.PatternContentAccessTerminalPart;
 import com.gtocore.integration.ae.PatternContentAccessTerminalScreen;
 
 import com.gtolib.GTOCore;
+import com.gtolib.api.ae2.gui.GTOButtonAppearance;
 import com.gtolib.api.ae2.me2in1.Me2in1Menu;
 import com.gtolib.api.ae2.me2in1.Me2in1Screen;
 import com.gtolib.api.ae2.me2in1.Me2in1TerminalPart;
@@ -39,6 +41,7 @@ import net.minecraft.world.item.BlockItem;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.ModelEvent;
+import net.minecraftforge.client.event.RegisterColorHandlersEvent;
 import net.minecraftforge.client.event.RegisterGuiOverlaysEvent;
 import net.minecraftforge.client.event.RegisterItemDecorationsEvent;
 import net.minecraftforge.common.MinecraftForge;
@@ -49,7 +52,11 @@ import net.minecraftforge.registries.ForgeRegistries;
 
 import appeng.api.client.AEKeyRendering;
 import appeng.api.parts.PartModels;
+import appeng.api.util.AEColor;
+import appeng.client.gui.widgets.SettingToggleButton;
+import appeng.client.render.StaticItemColor;
 import appeng.init.client.InitScreens;
+
 import com.lowdragmc.shimmer.client.light.ColorPointLight;
 import com.lowdragmc.shimmer.client.light.LightManager;
 import com.lowdragmc.shimmer.event.ShimmerReloadEvent.ReloadType;
@@ -70,6 +77,7 @@ public final class ClientProxy extends CommonProxy {
         eventBus.addListener(ClientProxy::registerGuiOverlays);
         eventBus.addListener(ClientProxy::registerAdditionalModels);
         eventBus.addListener(ClientProxy::registerMenuScreen);
+        eventBus.addListener(ClientProxy::registerItemColors);
         eventBus.register(GTOComponentRegistry.class);
         MinecraftForge.EVENT_BUS.register(ForgeClientEvent.class);
         MinecraftForge.EVENT_BUS.register(GTOComponentHandler.class);
@@ -78,6 +86,7 @@ public final class ClientProxy extends CommonProxy {
         registerAEModels();
         AEKeyRendering.register(TagPrefixKeyType.TYPE, TagPrefixKey.class, new TagPrefixRenderer.AEKeyHandler());
         if (GTCEu.Mods.isShimmerLoaded()) eventBus.addListener(ClientProxy::registerLights);
+        SettingToggleButton.deferAppearanceRegistration(GTOButtonAppearance::registerButtons);
     }
 
     private static void init() {
@@ -151,6 +160,10 @@ public final class ClientProxy extends CommonProxy {
                     PatternContentAccessTerminalScreen::new,
                     "/screens/terminals/pattern_content_access_terminal.json");
         });
+    }
+
+    private static void registerItemColors(RegisterColorHandlersEvent.Item event) {
+        event.register(new StaticItemColor(AEColor.TRANSPARENT), GTOAEParts.INSTANCE.getEXCHANGE_STORAGE_MONITOR().get(), GTOAEParts.INSTANCE.getME_2IN1_TERMINAL().get(), GTOAEParts.INSTANCE.getPattern_Content_Access_Terminal().get());
     }
 
     private static void registerAdditionalModels(ModelEvent.RegisterAdditional evt) {

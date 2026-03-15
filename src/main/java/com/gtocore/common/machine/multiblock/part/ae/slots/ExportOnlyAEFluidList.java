@@ -17,6 +17,7 @@ import com.gregtechceu.gtceu.utils.function.ObjLongPredicate;
 import net.minecraftforge.fluids.FluidStack;
 
 import appeng.api.stacks.AEFluidKey;
+
 import com.fast.recipesearch.IntLongMap;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import lombok.Getter;

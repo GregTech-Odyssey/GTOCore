@@ -1,6 +1,7 @@
 package com.gtocore.mixin.ae2.gui;
 
 import appeng.client.gui.style.StyleManager;
+
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
