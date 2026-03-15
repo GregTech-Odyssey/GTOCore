@@ -24,7 +24,9 @@ import xaero.pac.common.parties.party.IPartyPlayerInfo;
 import xaero.pac.common.parties.party.ally.IPartyAlly;
 import xaero.pac.common.parties.party.member.IPartyMember;
 import xaero.pac.common.server.IServerData;
+import xaero.pac.common.server.claims.IServerClaimsManager;
 import xaero.pac.common.server.claims.protection.ChunkProtection;
+import xaero.pac.common.server.claims.protection.api.IChunkProtectionAPI;
 import xaero.pac.common.server.parties.party.IServerParty;
 import xaero.pac.common.server.player.config.IPlayerConfig;
 import xaero.pac.common.server.player.config.api.IPlayerConfigAPI;
@@ -39,7 +41,7 @@ import java.util.function.Function;
 import javax.annotation.Nullable;
 
 @Mixin(ChunkProtection.class)
-public class ChunkProtectionMixin {
+public abstract class ChunkProtectionMixin<CM extends IServerClaimsManager<?, ?, ?>> implements IChunkProtectionAPI {
 
     /**
      * @author .
@@ -82,7 +84,7 @@ public class ChunkProtectionMixin {
      * @reason .
      */
     @Overwrite(remap = false)
-    public boolean onMobGrief(IServerData<?, ?> serverData, Entity entity) {
+    private boolean onMobGrief(IServerData<CM, ?> serverData, Entity entity, boolean blocks, boolean entities, boolean items) {
         return false;
     }
 
