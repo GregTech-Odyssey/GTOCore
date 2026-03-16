@@ -116,12 +116,14 @@ public final class GTOItems {
 
     public static final ItemEntry<ComponentItem> ORDER = item("order", "%s 订单", ComponentItem::create)
             .toolTips(GTOItemTooltips.INSTANCE.getOrderTooltips().getArray())
+            .lang("%s Order")
             .properties(p -> p.stacksTo(1))
             .onRegister(attach(OrderItem.INSTANCE))
             .onRegister(attachRenderer(() -> OrderItemProviderRenderer.INSTANCE))
             .register();
     public static final ItemEntry<ComponentItem> TEMP_ORDER = item("temporary_order", "%s 临时订单", ComponentItem::create)
             .toolTips(GTOItemTooltips.INSTANCE.getOrderTooltips().getArray())
+            .lang("%s Temporary Order")
             .onRegister(attach(OrderItem.INSTANCE))
             .onRegister(attachRenderer(() -> OrderItemProviderRenderer.INSTANCE))
             .register();
@@ -189,7 +191,7 @@ public final class GTOItems {
             .register();
 
     public static final ItemEntry<ComponentItem> MAX_ELECTRIC_PUMP = item("max_electric_pump", "§4§lMAX§r电动泵", ComponentItem::create)
-            .lang("MAX Electric Pump")
+            .lang("§4§lMAX§r Electric Pump")
             .onRegister(attach(new CoverPlaceBehavior(GTOCovers.ELECTRIC_PUMP_MAX)))
             .onRegister(attach(new TooltipBehavior(lines -> {
                 lines.add(Component.translatable("item.gtceu.electric.pump.tooltip"));
@@ -199,7 +201,7 @@ public final class GTOItems {
             .register();
 
     public static final ItemEntry<ComponentItem> MAX_CONVEYOR_MODULE = item("max_conveyor_module", "§4§lMAX§r传送带", ComponentItem::create)
-            .lang("MAX Conveyor Module")
+            .lang("§4§lMAX§r Conveyor Module")
             .onRegister(attach(new CoverPlaceBehavior(GTOCovers.CONVEYOR_MODULE_MAX)))
             .onRegister(attach(new TooltipBehavior(lines -> {
                 lines.add(Component.translatable("item.gtceu.conveyor.module.tooltip"));
@@ -208,7 +210,7 @@ public final class GTOItems {
             .register();
 
     public static final ItemEntry<ComponentItem> MAX_ROBOT_ARM = item("max_robot_arm", "§4§lMAX§r机械臂", ComponentItem::create)
-            .lang("MAX Robot Arm")
+            .lang("§4§lMAX§r Robot Arm")
             .onRegister(attach(new CoverPlaceBehavior(GTOCovers.ROBOT_ARM_MAX)))
             .onRegister(attach(new TooltipBehavior(lines -> {
                 lines.add(Component.translatable("item.gtceu.robot.arm.tooltip"));
@@ -216,11 +218,11 @@ public final class GTOItems {
             })))
             .register();
 
-    public static final ItemEntry<Item> MAX_ELECTRIC_MOTOR = registerLang("max_electric_motor", "MAX Electric Motor", "§4§lMAX§r电动马达");
-    public static final ItemEntry<Item> MAX_ELECTRIC_PISTON = registerLang("max_electric_piston", "MAX Electric Piston", "§4§lMAX§r电力活塞");
-    public static final ItemEntry<Item> MAX_FIELD_GENERATOR = registerLang("max_field_generator", "MAX Field Generator", "§4§lMAX§r力场发生器");
-    public static final ItemEntry<Item> MAX_EMITTER = registerLang("max_emitter", "MAX Emitte", "§4§lMAX§r发射器");
-    public static final ItemEntry<Item> MAX_SENSOR = registerLang("max_sensor", "MAX Sensor", "§4§lMAX§r传感器");
+    public static final ItemEntry<Item> MAX_ELECTRIC_MOTOR = registerLang("max_electric_motor", "§4§lMAX§r Electric Motor", "§4§lMAX§r电动马达");
+    public static final ItemEntry<Item> MAX_ELECTRIC_PISTON = registerLang("max_electric_piston", "§4§lMAX§r Electric Piston", "§4§lMAX§r电力活塞");
+    public static final ItemEntry<Item> MAX_FIELD_GENERATOR = registerLang("max_field_generator", "§4§lMAX§r Field Generator", "§4§lMAX§r力场发生器");
+    public static final ItemEntry<Item> MAX_EMITTER = registerLang("max_emitter", "§4§lMAX§r Emitter", "§4§lMAX§r发射器");
+    public static final ItemEntry<Item> MAX_SENSOR = registerLang("max_sensor", "§4§lMAX§r Sensor", "§4§lMAX§r传感器");
 
     public static final ItemEntry<Item> INTEGRATED_CONTROL_CORE_UV = registerLang("uv_integrated_control_core", "§3UV§r Integrated Control Core", "§3UV§r集控核心");
     public static final ItemEntry<Item> INTEGRATED_CONTROL_CORE_UHV = registerLang("uhv_integrated_control_core", "§4UHV§r Integrated Control Core", "§4UHV§r集控核心");
@@ -230,7 +232,7 @@ public final class GTOItems {
     public static final ItemEntry<Item> INTEGRATED_CONTROL_CORE_OpV = registerLang("opv_integrated_control_core", "§9§lOpV§r Integrated Control Core", "§9§lOpV§r集控核心");
     public static final ItemEntry<Item> INTEGRATED_CONTROL_CORE_MAX = registerLang("max_integrated_control_core", "§4§lMAX§r Integrated Control Core", "§4§lMAX§r集控核心");
 
-    public static final ItemEntry<ComponentItem> ULV_ELECTRIC_PUMP = item("ulv_electric_pump", "ULV电动泵", ComponentItem::create)
+    public static final ItemEntry<ComponentItem> ULV_ELECTRIC_PUMP = item("ulv_electric_pump", "§8ULV§r电动泵", ComponentItem::create)
             .lang("ULV Electric Pump")
             .onRegister(attach(new CoverPlaceBehavior(GTOCovers.ELECTRIC_PUMP_ULV)))
             .onRegister(attach(new TooltipBehavior(lines -> {
@@ -239,7 +241,7 @@ public final class GTOItems {
             })))
             .register();
 
-    public static final ItemEntry<ComponentItem> ULV_CONVEYOR_MODULE = item("ulv_conveyor_module", "ULV传送带", ComponentItem::create)
+    public static final ItemEntry<ComponentItem> ULV_CONVEYOR_MODULE = item("ulv_conveyor_module", "§8ULV§r传送带", ComponentItem::create)
             .lang("ULV Conveyor Module")
             .onRegister(attach(new CoverPlaceBehavior(GTOCovers.CONVEYOR_MODULE_ULV)))
             .onRegister(attach(new TooltipBehavior(lines -> {
@@ -248,7 +250,7 @@ public final class GTOItems {
             })))
             .register();
 
-    public static final ItemEntry<ComponentItem> ULV_FLUID_REGULATOR = item("ulv_fluid_regulator", "ULV流体校准器", ComponentItem::create)
+    public static final ItemEntry<ComponentItem> ULV_FLUID_REGULATOR = item("ulv_fluid_regulator", "§8ULV§r流体校准器", ComponentItem::create)
             .lang("ULV Fluid Regulator")
             .onRegister(attach(new CoverPlaceBehavior(GTOCovers.FLUID_REGULATOR_ULV)))
             .onRegister(attach(new TooltipBehavior(lines -> {
@@ -257,7 +259,7 @@ public final class GTOItems {
             })))
             .register();
 
-    public static final ItemEntry<ComponentItem> ULV_ROBOT_ARM = item("ulv_robot_arm", "ULV机械臂", ComponentItem::create)
+    public static final ItemEntry<ComponentItem> ULV_ROBOT_ARM = item("ulv_robot_arm", "§8ULV§r机械臂", ComponentItem::create)
             .lang("ULV Robot Arm")
             .onRegister(attach(new CoverPlaceBehavior(GTOCovers.ROBOT_ARM_ULV)))
             .onRegister(attach(new TooltipBehavior(lines -> {
@@ -266,8 +268,8 @@ public final class GTOItems {
             })))
             .register();
 
-    public static final ItemEntry<Item> ULV_ELECTRIC_MOTOR = registerLang("ulv_electric_motor", "ULV Electric Motor", "ULV电动马达");
-    public static final ItemEntry<Item> ULV_ELECTRIC_PISTON = registerLang("ulv_electric_piston", "ULV Electric Piston", "ULV电力活塞");
+    public static final ItemEntry<Item> ULV_ELECTRIC_MOTOR = registerLang("ulv_electric_motor", "ULV Electric Motor", "§8ULV§r电动马达");
+    public static final ItemEntry<Item> ULV_ELECTRIC_PISTON = registerLang("ulv_electric_piston", "ULV Electric Piston", "§8ULV§r电力活塞");
 
     public static final ItemEntry<ComponentItem> LV_POWER_AMPLIFIERS = item("lv_power_amplifiers", "LV功率增幅器", ComponentItem::create)
             .model((ctx, prov) -> prov.generated(ctx, GTOCore.id("item/power_amplifiers/lv_power_amplifiers")))

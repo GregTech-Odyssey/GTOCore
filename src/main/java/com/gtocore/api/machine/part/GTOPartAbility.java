@@ -70,7 +70,7 @@ public final class GTOPartAbility extends PartAbility {
             LANG.put("gtocore.part_ability.muffler", new CNEN("消声仓", "Muffler"));
             LANG.put("gtocore.part_ability.tank_valve", new CNEN("储罐阀门", "Tank Valve"));
             LANG.put("gtocore.part_ability.passthrough_hatch", new CNEN("通行仓", "Passthrough Hatch"));
-            LANG.put("gtocore.part_ability.parallel_hatch", new CNEN("并行仓", "Parallel Hatch"));
+            LANG.put("gtocore.part_ability.parallel_hatch", new CNEN("并行控制仓", "Parallel Control Hatch"));
             LANG.put("gtocore.part_ability.input_laser", new CNEN("激光能源仓", "Input Laser"));
             LANG.put("gtocore.part_ability.output_laser", new CNEN("激光动力仓", "Output Laser"));
             LANG.put("gtocore.part_ability.computation_data_reception", new CNEN("算力数据靶仓", "Computation Data Reception"));
