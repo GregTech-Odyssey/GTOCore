@@ -88,7 +88,7 @@ final class TitaniumRecipes {
 
         // 2NH4Cl + CaO -> CaCl2 + 2NH3 + H2O
         CHEMICAL_RECIPES.recipeBuilder("calcium_chloride_from_quicklime")
-                .inputItems(dust, AmmoniumChloride, 4)
+                .inputItems(dust, AmmoniumChloride, 12)
                 .inputItems(dust, Quicklime, 2)
                 .outputItems(dust, CalciumChloride, 3)
                 .outputFluids(Ammonia.getFluid(2000))
