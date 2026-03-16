@@ -114,6 +114,21 @@ final class PolymerizationReactor {
                 .outputFluids(PolyvinylButyral.getFluid(L))
                 .duration(400).EUt(VA[HV]).save();
 
+        POLYMERIZATION_REACTOR_RECIPES.recipeBuilder("raw_rubber_from_oxygen")
+                .circuitMeta(1)
+                .inputFluids(Oxygen, 4000)
+                .inputFluids(Isoprene, 288)
+                .outputItems(dust, RawRubber, 9)
+                .duration(320).EUt(VA[LV]).save();
+
+        POLYMERIZATION_REACTOR_RECIPES.recipeBuilder("raw_rubber_from_tetrachloride_oxygen")
+                .circuitMeta(2)
+                .inputFluids(Oxygen, 7500)
+                .inputFluids(Isoprene, 1080)
+                .inputFluids(TitaniumTetrachloride, 50)
+                .outputItems(dust, RawRubber, 45)
+                .duration(480).EUt(VA[LV]).save();
+
         POLYMERIZATION_REACTOR_RECIPES.recipeBuilder("raw_sbr_from_oxygen")
                 .circuitMeta(3)
                 .inputFluids(Butadiene, 3000)

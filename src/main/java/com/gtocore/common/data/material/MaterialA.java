@@ -127,6 +127,7 @@ public final class MaterialA {
 
         DarkSteel = material("dark_steel", "玄钢")
                 .ingot()
+                .fluid()
                 .color(0x414751)
                 .iconSet(METALLIC)
                 .flags(GENERATE_PLATE, DISABLE_DECOMPOSITION, GENERATE_GEAR)

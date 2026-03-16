@@ -887,6 +887,8 @@ public final class MultiBlockH {
     public static final MultiblockMachineDefinition BRICK_KILN = multiblock("brick_kiln", "砖窑", NoEnergyMultiblockMachine::new)
             .nonYAxisRotation()
             .tooltips(GTOMachineStories.INSTANCE.getBrickKilnTooltips().getSupplier())
+            .tooltips(NewDataAttributes.ALLOW_PARALLEL_NUMBER.create(4))
+            .recipeModifiers(RecipeModifierFunction.accurateParallel(4))
             .recipeTypes(GTORecipeTypes.BRICK_FURNACE_RECIPES)
             .block(GTBlocks.CASING_PRIMITIVE_BRICKS)
             .pattern(definition -> MultiBlockFileReader.start(definition)
