@@ -65,6 +65,7 @@ public final class RecipeTypeModify {
             var mana = b.tickInput.get(ManaRecipeCapability.CAP);
             if (mana != null && !mana.isEmpty()) {
                 b.category(GTORecipeCategories.MANA_ASSEMBLER);
+                MANA_FLOW_ASSEMBLER_RECIPES.copyFrom(b).save();
             }
             GenerateDisassembly.generateDisassembly(b);
         });

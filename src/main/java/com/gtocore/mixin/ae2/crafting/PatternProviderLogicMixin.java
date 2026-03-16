@@ -26,6 +26,7 @@ import appeng.helpers.patternprovider.PatternProviderLogicHost;
 import appeng.helpers.patternprovider.PatternProviderTarget;
 import appeng.util.ConfigManager;
 import appeng.util.inv.AppEngInternalInventory;
+
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap;
 import org.jetbrains.annotations.Nullable;

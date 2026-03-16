@@ -19,6 +19,7 @@ import appeng.api.config.Actionable;
 import appeng.api.stacks.AEItemKey;
 import appeng.api.stacks.AEKey;
 import appeng.api.stacks.GenericStack;
+
 import com.fast.recipesearch.IntLongMap;
 import it.unimi.dsi.fastutil.objects.Reference2LongOpenHashMap;
 import org.jetbrains.annotations.NotNull;
@@ -188,6 +189,7 @@ public class ExportOnlyAEStockingItemList extends ExportOnlyAEItemList {
                 long extracted = simulate ? stock.amount() : grid.getStorageService().getInventory().extract(stock.what(), amount, Actionable.MODULATE, machine.getActionSource());
                 if (extracted > 0) {
                     if (!simulate) {
+                        machine.getThroughputCounter().remove(stock.what(), extracted);
                         this.stock = ExportOnlyAESlot.copy(stock, stock.amount() - extracted);
                         if (this.stock.amount() == 0) {
                             this.stock = null;
@@ -212,6 +214,7 @@ public class ExportOnlyAEStockingItemList extends ExportOnlyAEItemList {
                 if (extracted > 0) {
                     ItemStack resultStack = key instanceof AEItemKey itemKey ? itemKey.toStack((int) extracted) : ItemStack.EMPTY;
                     if (!simulate) {
+                        machine.getThroughputCounter().remove(stock.what(), extracted);
                         this.stock = ExportOnlyAESlot.copy(stock, stock.amount() - extracted);
                         if (this.stock.amount() == 0) {
                             this.stock = null;

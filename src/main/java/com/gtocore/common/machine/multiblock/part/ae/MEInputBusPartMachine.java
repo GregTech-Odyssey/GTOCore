@@ -24,8 +24,12 @@ import net.minecraft.world.item.ItemStack;
 import appeng.api.config.Actionable;
 import appeng.api.networking.IGrid;
 import appeng.api.networking.IGridNodeListener;
+import appeng.api.stacks.AEItemKey;
 import appeng.api.stacks.GenericStack;
 import appeng.api.storage.MEStorage;
+
+import gto_ae.helpers.facility_management.WorkingStatus;
+
 import com.lowdragmc.lowdraglib.gui.widget.LabelWidget;
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
@@ -36,7 +40,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public class MEInputBusPartMachine extends MEPartMachine implements IDataStickInteractable {
+public class MEInputBusPartMachine extends StatusTrackedMEPartMachine implements IDataStickInteractable {
 
     private TickableSubscription autoIOSubs;
 
@@ -49,6 +53,12 @@ public class MEInputBusPartMachine extends MEPartMachine implements IDataStickIn
     public MEInputBusPartMachine(MetaMachineBlockEntity holder) {
         super(holder, IO.IN);
         aeItemHandler = createInventory();
+        aeItemHandler.addChangedListener(() -> {
+            getConfiguredSetting().clear();
+            aeItemHandler.fastForEachItems((i, l) -> {
+                getConfiguredSetting().put(AEItemKey.of(i), l);
+            });
+        });
         circuitInventory = CircuitHandler.create(this);
     }
 
@@ -82,6 +92,8 @@ public class MEInputBusPartMachine extends MEPartMachine implements IDataStickIn
     /////////////////////////////////
 
     private void autoIO() {
+        setStatus(throughputCounter.isEmpty() ? WorkingStatus.IDLE : WorkingStatus.WORKING);
+        throughputCounter.tickRefresh();
         if (this.updateMEStatus()) {
             this.syncME();
             this.updateInventorySubscription();
@@ -99,6 +111,7 @@ public class MEInputBusPartMachine extends MEPartMachine implements IDataStickIn
             if (exceedItem != null) {
                 long total = exceedItem.amount();
                 long inserted = networkInv.insert(exceedItem.what(), exceedItem.amount(), Actionable.MODULATE, this.getActionSourceField());
+                throughputCounter.add(exceedItem.what(), inserted);
                 if (inserted > 0) {
                     aeSlot.extractItem(inserted, false, true);
                     continue;
@@ -109,6 +122,7 @@ public class MEInputBusPartMachine extends MEPartMachine implements IDataStickIn
             GenericStack reqItem = aeSlot.requestStack();
             if (reqItem != null) {
                 long extracted = networkInv.extract(reqItem.what(), reqItem.amount(), Actionable.MODULATE, this.getActionSourceField());
+                throughputCounter.remove(reqItem.what(), extracted);
                 if (extracted != 0) {
                     aeSlot.addStack(new GenericStack(reqItem.what(), extracted));
                 }
@@ -120,6 +134,7 @@ public class MEInputBusPartMachine extends MEPartMachine implements IDataStickIn
         if (isWorkingEnabled() && getOnlineField()) {
             autoIOSubs = subscribeServerTick(autoIOSubs, this::autoIO, 40);
         } else if (autoIOSubs != null) {
+            setStatus(WorkingStatus.IDLE);
             autoIOSubs.unsubscribe();
             autoIOSubs = null;
         }

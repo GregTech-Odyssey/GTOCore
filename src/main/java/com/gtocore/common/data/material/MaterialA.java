@@ -160,6 +160,20 @@ public final class MaterialA {
                 .iconSet(DULL)
                 .buildAndRegister();
 
+        JupiterAir = material("jupiter_air", "木星空气")
+                .gas().liquid(new FluidBuilder().temperature(155).translation("fluid.gtocore.liquid_jupiter_air"))
+                .color(0x9e7e5a)
+                .iconSet(DULL)
+                .components(Methane, 34, Ammonia, 16, Hydrogen, 50, Helium, 1, Water, 1, CarbonDioxide, 1)
+                .buildAndRegister();
+
+        GlacioAir = material("glacial_air", "霜原星空气")
+                .gas().liquid(new FluidBuilder().temperature(12).translation("fluid.gtocore.liquid_glacio_air"))
+                .color(0x7fdff4)
+                .iconSet(DULL)
+                .components(Nitrogen, 70, Oxygen, 20, CarbonDioxide, 5, Argon, 4, Ice, 1)
+                .buildAndRegister();
+
         AlienAlgae = material("alien_algae", "异星藻类渣")
                 .ore()
                 .addOreByproducts(Paper, Agar)

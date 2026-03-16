@@ -38,6 +38,9 @@ public final class GTORecipeCategories {
             GTORecipeTypes.ATOMIZATION_CONDENSATION_RECIPES)
             .setIcon(GTOGuiTextures.CONDENSE_FROM_MOLTEN);
 
+    public static final GTRecipeCategory STELLER_MANA_PRODUCING = register("stellar_mana_producing", new CNEN("恒星爆炸魔力生产", "Stellar Explosion Mana Producing"),
+            GTORecipeTypes.STELLAR_FORGE_RECIPES);
+
     private static GTRecipeCategory register(String name, String cn, GTRecipeType type) {
         return register(name, new CNEN(cn, FormattingUtil.toEnglishName(name)), type);
     }

@@ -6,6 +6,7 @@ import appeng.api.config.FuzzyMode;
 import appeng.api.stacks.AEKey;
 import appeng.api.stacks.KeyCounter;
 import appeng.util.prioritylist.FuzzyPriorityList;
+
 import com.google.common.collect.ImmutableSet;
 import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.At;

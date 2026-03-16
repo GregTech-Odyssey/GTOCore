@@ -16,7 +16,6 @@ import appeng.api.networking.crafting.CalculationStrategy;
 import appeng.api.networking.crafting.ICraftingLink;
 import appeng.api.networking.crafting.ICraftingPlan;
 import appeng.api.networking.crafting.ICraftingSimulationRequester;
-import appeng.api.networking.security.IActionSource;
 import appeng.api.stacks.AEKey;
 import appeng.blockentity.crafting.CraftingBlockEntity;
 import appeng.crafting.CraftingLink;
@@ -25,11 +24,10 @@ import appeng.hooks.ticking.TickHandler;
 import appeng.me.cluster.implementations.CraftingCPUCluster;
 import appeng.me.service.CraftingService;
 import appeng.me.service.helpers.NetworkCraftingProviders;
-import com.llamalad7.mixinextras.sugar.Local;
+
 import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.Collection;
@@ -129,11 +127,6 @@ public abstract class CraftingServiceMixin implements ITemporaryCraftableService
             throw new IllegalArgumentException("Invalid Crafting Job Request");
         }
         return GTOUtils.ASYNC_SINGLE_THREAD_EXECUTOR.submit(() -> OptimizedCalculation.executeV2(grid, simRequester, what, amount, strategy));
-    }
-
-    @Redirect(method = "submitJob", at = @At(value = "INVOKE", target = "Lappeng/api/networking/crafting/ICraftingPlan;simulation()Z"), remap = false)
-    private boolean ignoreCantCraftWhileManuallySubmitted(ICraftingPlan instance, @Local(argsOnly = true) IActionSource src) {
-        return src.player().isEmpty() && instance.simulation();
     }
 
     /**

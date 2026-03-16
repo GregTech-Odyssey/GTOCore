@@ -7,6 +7,7 @@ import com.gtocore.common.data.GTOBlocks;
 import com.gtocore.common.data.GTOMaterials;
 import com.gtocore.common.data.GTORecipeTypes;
 import com.gtocore.common.data.translation.GTOMachineTooltips;
+import com.gtocore.common.data.translation.GTOMachineTooltipsA;
 import com.gtocore.common.machine.mana.multiblock.*;
 
 import com.gtolib.GTOCore;
@@ -562,5 +563,31 @@ public final class ManaMultiBlock {
                     .build())
             .renderer(CosmicCelestialSpireOfConvergenceRenderer::new)
             .hasTESR(true)
+            .register();
+
+    public static final MultiblockMachineDefinition MANA_FLOW_ASSEMBLER = multiblock("mana_beam_assembler", "魔力流合成台", ManaFlowAssembler::new)
+            .nonYAxisRotation()
+            .recipeTypes(GTORecipeTypes.MANA_FLOW_ASSEMBLER_RECIPES)
+            .block(GTOBlocks.MANASTEEL_CASING)
+            .tooltipsSupplier(GTOMachineTooltipsA.INSTANCE.getManaFlowAssemblerTooltips().getSupplier())
+            .pattern(definition -> FactoryBlockPattern.start(definition)
+                    .aisle("HBBBI", "H   I", "D   D", "E   E")
+                    .aisle("BFFFB", "     ", "     ", "     ")
+                    .aisle("BFGFB", "     ", "     ", "     ")
+                    .aisle("BFFFB", "     ", "     ", "     ")
+                    .aisle("ABBBC", "A   C", "D   D", "E   E")
+                    .where('A', blocks(RegistriesUtils.getBlock("ars_nouveau:blue_archwood_log")))
+                    .where('B', blocks(RegistriesUtils.getBlock("botania:livingrock_wall")))
+                    .where('C', blocks(RegistriesUtils.getBlock("ars_nouveau:purple_archwood_log")))
+                    .where('D', ManaFlowAssembler.MANA_POOL.get())
+                    .where('E', ManaFlowAssembler.MANA_PYLON.get())
+                    .where('F', blocks(GTOBlocks.MANASTEEL_CASING.get())
+                            .or(abilities(IMPORT_FLUIDS_1X).setMaxGlobalLimited(1)))
+                    .where('G', controller(definition))
+                    .where('H', blocks(RegistriesUtils.getBlock("ars_nouveau:red_archwood_log")))
+                    .where('I', blocks(RegistriesUtils.getBlock("ars_nouveau:green_archwood_log")))
+                    .where(' ', any())
+                    .build())
+            .workableCasingRenderer(GTOCore.id("block/casings/manasteel_casing"), GTCEu.id("block/multiblock/cleanroom"))
             .register();
 }

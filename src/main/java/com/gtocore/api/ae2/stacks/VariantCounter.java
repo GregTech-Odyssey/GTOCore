@@ -2,6 +2,7 @@ package com.gtocore.api.ae2.stacks;
 
 import appeng.api.config.FuzzyMode;
 import appeng.api.stacks.AEKey;
+
 import it.unimi.dsi.fastutil.objects.Object2LongMap;
 import it.unimi.dsi.fastutil.objects.Object2LongSortedMap;
 import org.jetbrains.annotations.NotNull;

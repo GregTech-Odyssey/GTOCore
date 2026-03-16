@@ -14,6 +14,7 @@ import appeng.client.gui.me.crafting.AbstractTableRenderer;
 import appeng.client.gui.me.crafting.CraftingStatusTableRenderer;
 import appeng.core.localization.GuiText;
 import appeng.menu.me.crafting.CraftingStatusEntry;
+
 import com.llamalad7.mixinextras.sugar.Local;
 import it.unimi.dsi.fastutil.objects.ReferenceOpenHashSet;
 import org.spongepowered.asm.mixin.Mixin;

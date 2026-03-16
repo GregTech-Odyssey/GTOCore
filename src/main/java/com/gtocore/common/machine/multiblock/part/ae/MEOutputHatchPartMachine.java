@@ -12,6 +12,7 @@ import net.minecraft.MethodsReturnNonnullByDefault;
 
 import appeng.api.config.Actionable;
 import appeng.api.networking.IGridNodeListener;
+
 import com.lowdragmc.lowdraglib.gui.widget.LabelWidget;
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
@@ -21,7 +22,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 
 @MethodsReturnNonnullByDefault
 @ParametersAreNonnullByDefault
-public class MEOutputHatchPartMachine extends MEPartMachine {
+public class MEOutputHatchPartMachine extends StatusTrackedMEPartMachine {
 
     @Persisted
     private final KeyStorage internalBuffer;

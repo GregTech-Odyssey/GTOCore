@@ -27,6 +27,7 @@ import appeng.blockentity.AEBaseBlockEntity;
 import appeng.blockentity.networking.CableBusBlockEntity;
 import appeng.client.gui.me.items.PatternEncodingTermScreen;
 import appeng.menu.me.common.MEStorageMenu;
+
 import org.jetbrains.annotations.Nullable;
 
 public final class Message {

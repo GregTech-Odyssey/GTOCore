@@ -10,6 +10,7 @@ import appeng.core.localization.ItemModText;
 import appeng.integration.modules.emi.AbstractRecipeHandler;
 import appeng.integration.modules.emi.EmiUseCraftingRecipeHandler;
 import appeng.util.CraftingRecipeUtil;
+
 import com.glodblock.github.extendedae.api.CraftingMode;
 import com.glodblock.github.extendedae.container.ContainerExCraftingTerminal;
 import com.glodblock.github.extendedae.network.EPPNetworkHandler;

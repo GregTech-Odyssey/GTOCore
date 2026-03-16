@@ -396,6 +396,8 @@ public final class GTOMaterials {
     public static Material SpecialCeramics;
     public static Material HydroiodicAcid;
     public static Material BarnardaAir;
+    public static Material JupiterAir;
+    public static Material GlacioAir;
     public static Material AlienAlgae;
     public static Material Bloodstone;
     public static Material PerditioCrystal;
@@ -973,6 +975,9 @@ public final class GTOMaterials {
     public static Material IceCrystalVolatiles;
     public static Material IrradiatedIceCrystalVolatiles;
     public static Material CosmicDustDispersant;
+    public static Material ScorchingCosmicDust;
+    public static Material ExcitedScorchingCosmicDust;
+    public static Material RearrangedCosmicDust;
     public static Material PhotonicKristallite;
     public static Material PrussianBlueCopperINanotubes;
     public static Material BisCyclopentadienylHafniumOxide;
@@ -980,7 +985,7 @@ public final class GTOMaterials {
     public static Material Vinyl2Bipyridine;
     public static Material RheniumPentacarbonylChloride;
     public static Material Bipyridine;
-    public static Material XenotimeCopperIKPBANanotubes;
+    public static Material CosmicCopperIKPBANanotubes;
     public static Material PhototuningAgent;
     public static Material HyperthermophilicArchaeon;
 

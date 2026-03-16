@@ -2,6 +2,7 @@ package com.gtocore.mixin.ae2.pattern;
 
 import appeng.api.stacks.AEKey;
 import appeng.api.stacks.GenericStack;
+
 import it.unimi.dsi.fastutil.objects.Object2LongLinkedOpenHashMap;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;

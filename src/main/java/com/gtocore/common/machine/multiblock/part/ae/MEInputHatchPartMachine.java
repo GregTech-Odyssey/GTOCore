@@ -24,8 +24,12 @@ import net.minecraft.world.item.ItemStack;
 import appeng.api.config.Actionable;
 import appeng.api.networking.IGrid;
 import appeng.api.networking.IGridNodeListener;
+import appeng.api.stacks.AEFluidKey;
 import appeng.api.stacks.GenericStack;
 import appeng.api.storage.MEStorage;
+
+import gto_ae.helpers.facility_management.WorkingStatus;
+
 import com.lowdragmc.lowdraglib.gui.widget.LabelWidget;
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
@@ -37,7 +41,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public class MEInputHatchPartMachine extends MEPartMachine implements IDataStickInteractable {
+public class MEInputHatchPartMachine extends StatusTrackedMEPartMachine implements IDataStickInteractable {
 
     @Nullable
     private TickableSubscription autoIOSubs;
@@ -51,6 +55,12 @@ public class MEInputHatchPartMachine extends MEPartMachine implements IDataStick
     public MEInputHatchPartMachine(MetaMachineBlockEntity holder) {
         super(holder, IO.IN);
         aeFluidHandler = createTank();
+        aeFluidHandler.addChangedListener(() -> {
+            getConfiguredSetting().clear();
+            aeFluidHandler.fastForEachFluids((i, l) -> {
+                getConfiguredSetting().put(AEFluidKey.of(i), l);
+            });
+        });
         circuitInventory = CircuitHandler.create(this);
     }
 
@@ -84,6 +94,8 @@ public class MEInputHatchPartMachine extends MEPartMachine implements IDataStick
     /////////////////////////////////
 
     private void autoIO() {
+        setStatus(throughputCounter.isEmpty() ? WorkingStatus.IDLE : WorkingStatus.WORKING);
+        throughputCounter.tickRefresh();
         if (this.updateMEStatus()) {
             this.syncME();
             this.updateTankSubscription();
@@ -101,6 +113,7 @@ public class MEInputHatchPartMachine extends MEPartMachine implements IDataStick
             if (exceedFluid != null) {
                 long total = exceedFluid.amount();
                 long inserted = networkInv.insert(exceedFluid.what(), exceedFluid.amount(), Actionable.MODULATE, this.getActionSourceField());
+                throughputCounter.add(exceedFluid.what(), inserted);
                 if (inserted > 0) {
                     aeTank.drain(inserted, false, true);
                     continue;
@@ -111,6 +124,7 @@ public class MEInputHatchPartMachine extends MEPartMachine implements IDataStick
             GenericStack reqFluid = aeTank.requestStack();
             if (reqFluid != null) {
                 long extracted = networkInv.extract(reqFluid.what(), reqFluid.amount(), Actionable.MODULATE, this.getActionSourceField());
+                throughputCounter.remove(reqFluid.what(), extracted);
                 if (extracted > 0) {
                     aeTank.addStack(new GenericStack(reqFluid.what(), extracted));
                 }
@@ -122,6 +136,7 @@ public class MEInputHatchPartMachine extends MEPartMachine implements IDataStick
         if (isWorkingEnabled() && getOnlineField()) {
             autoIOSubs = subscribeServerTick(autoIOSubs, this::autoIO, 40);
         } else if (autoIOSubs != null) {
+            setStatus(WorkingStatus.IDLE);
             autoIOSubs.unsubscribe();
             autoIOSubs = null;
         }

@@ -16,6 +16,7 @@ import appeng.api.parts.IPartItem;
 import appeng.helpers.patternprovider.PatternProviderLogicHost;
 import appeng.parts.AEBasePart;
 import appeng.parts.crafting.PatternProviderPart;
+
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;

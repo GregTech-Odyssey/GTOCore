@@ -5,6 +5,7 @@ import com.gtocore.api.ae2.crafting.ICraftingPlanAllocationAccessor;
 import appeng.api.crafting.IPatternDetails;
 import appeng.api.stacks.AEKey;
 import appeng.crafting.CraftingPlan;
+
 import it.unimi.dsi.fastutil.objects.Object2LongOpenHashMap;
 import it.unimi.dsi.fastutil.objects.Reference2ObjectOpenHashMap;
 import org.spongepowered.asm.mixin.Mixin;

@@ -1,7 +1,9 @@
 package com.gtocore.common.machine.multiblock.electric.processing;
 
+import com.gtocore.api.gui.configurators.MultiMachineModeFancyConfigurator;
 import com.gtocore.common.data.GTORecipeTypes;
 import com.gtocore.common.machine.multiblock.electric.space.spacestaion.AbstractSpaceStation;
+import com.gtocore.common.machine.multiblock.part.ae.MEPatternBufferPartMachine;
 import com.gtocore.common.machine.multiblock.part.ae.MEWildcardPatternBufferPartMachine;
 
 import com.gtolib.api.GTOValues;
@@ -35,6 +37,7 @@ import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
@@ -185,8 +188,19 @@ public final class ProcessingPlantMachine extends StorageMultiblockMachine imple
                 mismatched = true;
             }
             recipeTypeCache = definition.getRecipeTypes();
-            MEWildcardPatternBufferPartMachine.onMultiblockRecipeTypeChange(this);
+            onMultiblockRecipeTypeChange(this);
         }
+    }
+
+    private static void onMultiblockRecipeTypeChange(ProcessingPlantMachine machine) {
+        Arrays.stream(machine.getParts())
+                .filter(MEPatternBufferPartMachine.class::isInstance)
+                .map(MEPatternBufferPartMachine.class::cast)
+                .forEach(m -> {
+                    m.getRecipeTypes().clear();
+                    m.getRecipeTypes().addAll(MultiMachineModeFancyConfigurator.extractRecipeTypes(m.getControllers()));
+                });
+        MEWildcardPatternBufferPartMachine.onMultiblockRecipeTypeChange(machine);
     }
 
     @Override

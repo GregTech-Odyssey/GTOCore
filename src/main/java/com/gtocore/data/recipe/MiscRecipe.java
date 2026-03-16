@@ -655,11 +655,11 @@ public final class MiscRecipe {
 
             BRICK_FURNACE_RECIPES.builder("firebrick_exp")
                     .inputItems(Items.COAL)
-                    .inputItems(GTItems.FIRECLAY_BRICK, 6)
-                    .inputItems(GTOTagPrefix.dust, GTMaterials.Gypsum, 2)
-                    .outputItems(GTBlocks.CASING_PRIMITIVE_BRICKS.asItem())
-                    .inputFluids(GTMaterials.Concrete, 500)
-                    .duration(300)
+                    .inputItems(GTItems.FIRECLAY_BRICK, 12)
+                    .inputItems(GTOTagPrefix.dust, GTMaterials.Gypsum, 4)
+                    .outputItems(GTBlocks.CASING_PRIMITIVE_BRICKS.asItem(), 2)
+                    .inputFluids(GTMaterials.Concrete, 1000)
+                    .duration(450)
                     .save();
         } else {
             BRICK_FURNACE_RECIPES.builder("firebrick")

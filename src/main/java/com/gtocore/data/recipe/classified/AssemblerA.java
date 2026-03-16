@@ -16,6 +16,7 @@ import net.minecraft.world.item.Items;
 
 import appeng.core.definitions.AEBlocks;
 import appeng.core.definitions.AEItems;
+
 import com.glodblock.github.extendedae.common.EPPItemAndBlock;
 import com.hepdd.gtmthings.data.WirelessMachines;
 import vazkii.botania.common.item.BotaniaItems;
@@ -835,6 +836,30 @@ final class AssemblerA {
                 .outputItems(GTOMachines.DIRECTED_TESSERACT_GENERATOR.asItem())
                 .EUt(480)
                 .duration(400)
+                .save();
+
+        ASSEMBLER_RECIPES.builder("highly_concurrent_intensive_optical_computing_channel")
+                .inputItems(TagPrefix.plate, GTOMaterials.Shadowium, 4)
+                .inputItems(TagPrefix.foil, GTOMaterials.PhotonicKristallite, 2)
+                .inputItems(GTOTagPrefix.MXene, GTOMaterials.TungstenTetraborideCeramics, 4)
+                .inputItems(TagPrefix.dust, GTOMaterials.CosmicCopperIKPBANanotubes, 4)
+                .inputItems(TagPrefix.wireFine, GTMaterials.Tritanium, 16)
+                .outputItems(GTOItems.HIGHLY_CONCURRENT_INTENSIVE_OPTICAL_COMPUTING_CHANNEL)
+                .inputFluids(GTOMaterials.QuartzFiberReinforcedSilica, 288)
+                .EUt(45120)
+                .duration(228)
+                .save();
+        ASSEMBLER_RECIPES.builder("sealed_exotic_singularity_platform")
+                .inputItems(GTOItems.EMPTY_LASER_COOLING_CONTAINER)
+                .inputItems(GTItems.SENSOR_UV)
+                .inputItems(TagPrefix.dust, GTOMaterials.NanoGoldDepositedCarbonNanotubeModifiedNHSLipoicEsterQDot, 4)
+                .inputItems(TagPrefix.foil, GTOMaterials.PolyVinylBpyRheniumCarbonylHexafluorophosphate, 4)
+                .inputItems(TagPrefix.rod, GTOMaterials.LeadMagnesiumNiobateShapePiezoelectricCeramic, 2)
+                .inputItems(GTOTagPrefix.MXene, GTOMaterials.Titanium3Carbide, 4)
+                .outputItems(GTOItems.SEALED_SINGULARITY_PLATFORM)
+                .inputFluids(GTOMaterials.WoodsGlass, 1296)
+                .EUt(1228000)
+                .duration(244)
                 .save();
     }
 }

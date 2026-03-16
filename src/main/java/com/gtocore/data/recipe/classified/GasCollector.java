@@ -6,6 +6,7 @@ import com.gtolib.api.data.GTODimensions;
 
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
+import static com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys.GAS;
 import static com.gtocore.common.data.GTORecipeTypes.GAS_COLLECTOR_RECIPES;
 
 final class GasCollector {
@@ -33,6 +34,28 @@ final class GasCollector {
                 .EUt(16)
                 .duration(20)
                 .dimension(GTODimensions.VOID)
+                .save();
+
+        GAS_COLLECTOR_RECIPES.builder("jupiter_air")
+                .outputFluids(GTOMaterials.JupiterAir.getFluid(GAS), 1000)
+                .circuitMeta(7)
+                .EUt(16)
+                .duration(20)
+                .dimension(GTODimensions.IO)
+                .save();
+        GAS_COLLECTOR_RECIPES.builder("jupiter_air2")
+                .outputFluids(GTOMaterials.JupiterAir.getFluid(GAS), 1000)
+                .circuitMeta(8)
+                .EUt(16)
+                .duration(20)
+                .dimension(GTODimensions.GANYMEDE)
+                .save();
+        GAS_COLLECTOR_RECIPES.builder("glacial_air")
+                .outputFluids(GTOMaterials.GlacioAir.getFluid(GAS), 1000)
+                .circuitMeta(9)
+                .EUt(16)
+                .duration(20)
+                .dimension(GTODimensions.GLACIO)
                 .save();
     }
 }

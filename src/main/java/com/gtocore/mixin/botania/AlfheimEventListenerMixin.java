@@ -1,35 +1,26 @@
 package com.gtocore.mixin.botania;
 
+import com.gtocore.integration.mythic_botany.AlfheimHelper;
+
 import com.gtolib.api.data.Dimension;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
-import io.github.lounode.extrabotany.common.item.ExtraBotanyItems;
-import mythicbotany.MythicPlayerData;
 import mythicbotany.alfheim.Alfheim;
 import mythicbotany.alfheim.teleporter.AlfheimPortalHandler;
 import mythicbotany.alfheim.teleporter.AlfheimTeleporter;
 import mythicbotany.config.MythicConfig;
-import mythicbotany.register.ModBlocks;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
-import org.spongepowered.asm.mixin.Unique;
-import top.theillusivec4.curios.api.CuriosApi;
-import top.theillusivec4.curios.api.type.capability.ICuriosItemHandler;
-import top.theillusivec4.curios.api.type.inventory.ICurioStacksHandler;
 import vazkii.botania.api.recipe.ElvenPortalUpdateEvent;
 import vazkii.botania.common.block.block_entity.AlfheimPortalBlockEntity;
-import vazkii.botania.common.item.BotaniaItems;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -65,7 +56,7 @@ public abstract class AlfheimEventListenerMixin {
         }
         BlockPos portalPos = portal.getBlockPos();
         for (Player player : playersInPortal) {
-            if (player instanceof ServerPlayer serverPlayer && gtocore$canPlayerUsePortal(serverPlayer)) {
+            if (player instanceof ServerPlayer serverPlayer && AlfheimHelper.gtocore$canPlayerUsePortal(serverPlayer)) {
                 if (AlfheimPortalHandler.setInPortal(serverPlayer.level(), serverPlayer)) {
                     if (dimension == Dimension.OVERWORLD) {
                         if (!AlfheimTeleporter.teleportToAlfheim(serverPlayer, portalPos)) {
@@ -80,13 +71,6 @@ public abstract class AlfheimEventListenerMixin {
         }
     }
 
-    @Unique
-    private boolean gtocore$canPlayerUsePortal(ServerPlayer player) {
-        boolean hasKnowledge = MythicPlayerData.getData(player).getBoolean("KvasirKnowledge");
-        boolean passesAdditionalChecks = gtocore$additionalChecks(player);
-        return hasKnowledge && passesAdditionalChecks;
-    }
-
     /**
      * @author .
      * @reason .
@@ -95,59 +79,9 @@ public abstract class AlfheimEventListenerMixin {
     @SubscribeEvent
     public void playerTick(TickEvent.PlayerTickEvent event) {
         Player player = event.player;
-        if (player.tickCount % 20 == 1 && !player.level().isClientSide && Alfheim.DIMENSION == player.level().dimension() && !player.isCreative()) {
-            if (MythicConfig.lockAlfheim && !MythicPlayerData.getData(player).getBoolean("KvasirKnowledge") && !MythicPlayerData.getData(player).getBoolean("enterAlfheim"))
+        if (player.tickCount % 20 == 1 && player instanceof ServerPlayer s && Alfheim.DIMENSION == player.level().dimension() && !player.isCreative()) {
+            if (MythicConfig.lockAlfheim && !AlfheimHelper.gtocore$canPlayerUsePortal(s))
                 player.kill();
         }
-    }
-
-    @Unique
-    private boolean gtocore$additionalChecks(ServerPlayer player) {
-        Item[] REQUIRED_ITEMS = {
-                BotaniaItems.kingKey,
-                BotaniaItems.flugelEye,
-                BotaniaItems.infiniteFruit,
-                BotaniaItems.thorRing,
-                BotaniaItems.odinRing,
-                BotaniaItems.lokiRing,
-                ModBlocks.mjoellnir.asItem(),
-                ExtraBotanyItems.excalibur,
-                ExtraBotanyItems.failnaught,
-                ExtraBotanyItems.rheinHammer,
-                ExtraBotanyItems.achillesShield,
-                ExtraBotanyItems.voidArchives };
-        for (Item requiredItem : REQUIRED_ITEMS) {
-            boolean itemExists = gtocore$checkItemInIterable(requiredItem, player.getInventory().items) || gtocore$checkItemInIterable(requiredItem, List.of(player.getOffhandItem())) || gtocore$checkItemInIterable(requiredItem, gtocore$getCuriosItemStacks(player));
-            if (!itemExists) return false;
-        }
-        if (!MythicPlayerData.getData(player).getBoolean("enterAlfheim")) {
-            MythicPlayerData.getData(player).putBoolean("enterAlfheim", true);
-        }
-        return true;
-    }
-
-    @Unique
-    private Iterable<ItemStack> gtocore$getCuriosItemStacks(Player player) {
-        List<ItemStack> curiosItems = new ArrayList<>();
-        LazyOptional<ICuriosItemHandler> curiosHandlerOpt = CuriosApi.getCuriosInventory(player);
-        if (curiosHandlerOpt.isPresent()) {
-            for (ICurioStacksHandler slotHandler : curiosHandlerOpt.resolve().get().getCurios().values()) {
-                for (int slotIndex = 0; slotIndex < slotHandler.getSlots(); slotIndex++) {
-                    ItemStack stack = slotHandler.getStacks().getStackInSlot(slotIndex);
-                    if (!stack.isEmpty()) {
-                        curiosItems.add(stack);
-                    }
-                }
-            }
-        }
-        return curiosItems;
-    }
-
-    @Unique
-    private boolean gtocore$checkItemInIterable(Item targetItem, Iterable<ItemStack> iterable) {
-        for (ItemStack stack : iterable) {
-            if (!stack.isEmpty() && stack.getItem() == targetItem) return true;
-        }
-        return false;
     }
 }

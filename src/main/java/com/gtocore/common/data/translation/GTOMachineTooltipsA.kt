@@ -217,4 +217,21 @@ object GTOMachineTooltipsA : AutoInitialize<GTOMachineTooltipsA>() {
         info("原料效率仅正常裂化机的40%" translatedTo "The raw material efficiency is only 40% of that of a normal cracker")
         increase("每使用高一等级的蒸汽输入仓，配方产出提升100mb" translatedTo "For each higher level of steam input hatch used, the output increases by 100mb")
     }
+
+    val ManaFlowAssemblerTooltips = ComponentListSupplier {
+        setTranslationPrefix("mana_flow_assembler")
+        story("原始人的泰拉凝聚板" translatedTo "The original person's Terra Condenser Plate")
+        content("该机器利用四角魔力池内的魔力流来运行" translatedTo "This machine operates using the mana flow in the quadrilateral mana pool")
+        content("魔力流的强度取决于四角魔力池上方魔力水晶的等级相应提供量之和" translatedTo "The strength of the mana flow depends on the sum of the levels of the mana crystals above the quadrilateral mana pool")
+        info("每种魔力水晶强度：" translatedTo "Mana crystal strength: ")
+        info("魔力水晶：提供§b8§rMana/t" translatedTo "Mana Crystal: provides §b8§r Mana/t")
+        info("自然水晶：提供§b32§rMana/t" translatedTo "Natura Crystal: provides §b32§r Mana/t")
+        info("精灵水晶：提供§b128§rMana/t" translatedTo "Alfsteel Crystal: provides §b128§r Mana/t")
+        info("盖亚水晶：提供§b512§rMana/t" translatedTo "Gaia Crystal: provides §b512§r Mana/t")
+        content("向合成台上投掷物品以输入，输出产物将以同样的方式投掷出来" translatedTo "Throw items onto the crafting station for input, and the output products will be thrown out in the same way")
+        important("只有前9个掉落物会被作为输入进行处理" translatedTo "Only the first 9 dropped items will be processed as input")
+        command("机器总是会以可使用的最大魔力强度运行,且配方时间固定为10秒" translatedTo "The machine will always operate at the maximum mana strength available, and the recipe time is fixed at 10 seconds")
+        command("且以此魔力强度计算配方时长(总魔力消耗量/魔力强度)，超过10秒的配方无法运行" translatedTo "And the recipe time is calculated based on this mana strength (total mana consumption / mana strength), recipes that exceed 10 seconds cannot run")
+        important("无法运行电力配方" translatedTo "Cannot run recipes that require EU")
+    }
 }

@@ -1,5 +1,12 @@
 package com.gtocore.data.recipe.gtm.chemistry;
 
+import com.gtocore.common.data.GTOMaterials;
+
+import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
+import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
+import com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys;
+import com.gregtechceu.gtceu.common.data.GTMaterials;
+
 import static com.gregtechceu.gtceu.api.GTValues.*;
 import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.dust;
 import static com.gregtechceu.gtceu.common.data.GTItems.FERTILIZER;
@@ -173,5 +180,39 @@ final class DistillationRecipes {
                 .chancedOutput(dust, EnderPearl, 1000, 0)
                 .disableDistilleryRecipes(true)
                 .duration(2000).EUt(VA[IV]).save();
+
+        DISTILLATION_RECIPES.builder("io_ash")
+                .chancedOutput(ChemicalHelper.get(TagPrefix.dustTiny, GTMaterials.Naquadah, 2), 2500, 0)
+                .inputFluids(GTOMaterials.JupiterAir, FluidStorageKeys.LIQUID, 121000)
+                .outputFluids(GTOMaterials.Gnome, 3000)
+                .outputFluids(GTOMaterials.Undine, 3000)
+                .outputFluids(GTOMaterials.Sylph, 3000)
+                .outputFluids(GTOMaterials.Salamander, 3000)
+                .outputFluids(GTMaterials.Ethane, 5000)
+                .outputFluids(GTMaterials.CarbonDioxide, 1000)
+                .outputFluids(GTMaterials.Water, 1000)
+                .outputFluids(GTMaterials.Methane, 50000)
+                .outputFluids(GTMaterials.Ammonia, 16000)
+                .outputFluids(GTMaterials.Hydrogen, 50000)
+                .outputFluids(GTMaterials.Helium, 1000)
+                .outputFluids(GTOMaterials.MolybdenumFlue, 1000)
+                .EUt(1920)
+                .duration(1210)
+                .save();
+
+        DISTILLATION_RECIPES.builder("small_celestine_dust")
+                .chancedOutput(ChemicalHelper.get(TagPrefix.dustSmall, GTOMaterials.Celestine), 2500, 0)
+                .inputFluids(GTOMaterials.GlacioAir, FluidStorageKeys.LIQUID, 119000)
+                .outputFluids(GTMaterials.Water, 1000)
+                .outputFluids(GTMaterials.Oxygen, 20000)
+                .outputFluids(GTMaterials.CarbonDioxide, 5000)
+                .outputFluids(GTMaterials.Nitrogen, 70000)
+                .outputFluids(GTMaterials.Argon, 4000)
+                .outputFluids(GTMaterials.Helium, 3000)
+                .outputFluids(GTMaterials.Tritium, 125)
+                .outputFluids(GTMaterials.Deuterium, 160)
+                .EUt(1920)
+                .duration(1190)
+                .save();
     }
 }

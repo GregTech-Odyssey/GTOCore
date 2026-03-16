@@ -40,6 +40,7 @@ import appeng.menu.me.items.CraftingTermMenu;
 import appeng.parts.PartModel;
 import appeng.parts.reporting.AbstractTerminalPart;
 import appeng.util.inv.AppEngInternalInventory;
+
 import it.unimi.dsi.fastutil.objects.Reference2ReferenceOpenHashMap;
 import org.jetbrains.annotations.Nullable;
 

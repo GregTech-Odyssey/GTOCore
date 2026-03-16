@@ -1,17 +1,22 @@
 package com.gtocore.integration.emi;
 
+import com.gtocore.integration.mythic_botany.AlfheimHelper;
+
 import com.gtolib.GTOCore;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.FormattedCharSequence;
 
+import com.lowdragmc.lowdraglib.utils.ColorUtils;
 import dev.emi.emi.api.recipe.EmiRecipe;
 import dev.emi.emi.api.recipe.EmiRecipeCategory;
 import dev.emi.emi.api.stack.EmiIngredient;
 import dev.emi.emi.api.stack.EmiStack;
+import dev.emi.emi.api.widget.SlotWidget;
 import dev.emi.emi.api.widget.WidgetHolder;
 import dev.emi.emi.runtime.EmiDrawContext;
 import io.github.lounode.extrabotany.common.item.ExtraBotanyItems;
@@ -21,6 +26,7 @@ import vazkii.botania.common.item.BotaniaItems;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class AlfheimEntryRequirements implements EmiRecipe {
 
@@ -92,16 +98,27 @@ public class AlfheimEntryRequirements implements EmiRecipe {
 
     @Override
     public void addWidgets(WidgetHolder widgets) {
-        widgets.addSlot(EmiStack.of(ModItems.kvasirMead), 8, 18)
-                .appendTooltip(Component.translatable("gtocore.entry_alfheim.1")).recipeContext(this);
+        var player = CLIENT.player;
+        Objects.requireNonNull(player);
+        boolean fullmet = AlfheimHelper.clientCanPlayerUsePortal(player);
+        widgets.add(new Slot(EmiStack.of(ModItems.kvasirMead), 8, 18,
+                Component.translatable("gtocore.entry_alfheim.1.c"), Component.translatable("gtocore.entry_alfheim.1"),
+                metStatus(fullmet, AlfheimHelper.clientPlayerHasKnowledge(player)))).recipeContext(this);
 
+        var metItems = AlfheimHelper.itemObtained(player);
         for (int i = 0; i < 6; i++) {
-            widgets.addSlot(AlfheimNeed[i], 36 + 18 * i, 9)
-                    .appendTooltip(Component.translatable("gtocore.entry_alfheim.2")).recipeContext(this);
+            // widgets.addSlot(AlfheimNeed[i], 36 + 18 * i, 9)
+            // .appendTooltip(Component.translatable("gtocore.entry_alfheim.2")).recipeContext(this);
+            widgets.add(new Slot(AlfheimNeed[i], 36 + 18 * i, 9,
+                    Component.translatable("gtocore.entry_alfheim.2.c"), Component.translatable("gtocore.entry_alfheim.2"),
+                    metStatus(fullmet, metItems.contains(AlfheimNeed[i].getKey())))).recipeContext(this);
         }
         for (int i = 0; i < 6; i++) {
-            widgets.addSlot(AlfheimNeed[i + 6], 36 + 18 * i, 9 + 18)
-                    .appendTooltip(Component.translatable("gtocore.entry_alfheim.2")).recipeContext(this);
+            // widgets.addSlot(AlfheimNeed[i + 6], 36 + 18 * i, 9 + 18)
+            // .appendTooltip(Component.translatable("gtocore.entry_alfheim.2")).recipeContext(this);
+            widgets.add(new Slot(AlfheimNeed[i + 6], 36 + 18 * i, 9 + 18,
+                    Component.translatable("gtocore.entry_alfheim.2.c"), Component.translatable("gtocore.entry_alfheim.2"),
+                    metStatus(fullmet, metItems.contains(AlfheimNeed[i + 6].getKey())))).recipeContext(this);
         }
 
         int y = 54;
@@ -147,6 +164,49 @@ public class AlfheimEntryRequirements implements EmiRecipe {
 
         public int start() {
             return currentPage * pageSize;
+        }
+    }
+
+    private static final int FULL_MET = 2;
+    private static final int HALF_MET = 1;
+    private static final int NO_MET = 0;
+
+    private int metStatus(boolean fullMet, boolean halfMet) {
+        if (fullMet) return FULL_MET;
+        if (halfMet) return HALF_MET;
+        return NO_MET;
+    }
+
+    private static class Slot extends SlotWidget {
+
+        int metStatus;
+
+        public Slot(EmiIngredient ingredient, int x, int y, Component halfMetTooltip, Component noMetTooltip, int metStatus) {
+            super(ingredient, x, y);
+            this.metStatus = metStatus;
+            appendTooltip(switch (metStatus) {
+                case FULL_MET -> Component.translatable("gtocore.entry_alfheim.0.c");
+                case HALF_MET -> halfMetTooltip;
+                case NO_MET -> noMetTooltip;
+                default -> Component.empty();
+            });
+        }
+
+        @Override
+        public void drawBackground(GuiGraphics draw, int mouseX, int mouseY, float delta) {
+            float lerp = (float) (Math.sin((float) (System.currentTimeMillis() % 1000) / 1000f * Math.PI * 2) * 0.1f + 0.9f);
+            int slotColor = ColorUtils.color(255, 139, 139, 139);
+            var color = switch (metStatus) {
+                case FULL_MET -> ColorUtils.blendColor(0xff00FF00, slotColor, lerp);
+                case HALF_MET -> ColorUtils.blendColor(0xff0000FF, slotColor, lerp);
+                case NO_MET -> ColorUtils.blendColor(0xffFFFF00, slotColor, lerp);
+                default -> 0x00000000;
+            };
+            var bound = getBounds();
+            int x = bound.x();
+            int y = bound.y();
+            super.drawBackground(draw, mouseX, mouseY, delta);
+            draw.fill(x + 1, y + 1, x + 17, y + 17, color);
         }
     }
 }

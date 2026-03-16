@@ -1127,6 +1127,13 @@ public final class GTORecipeTypes {
             .setProgressBar(GuiTextures.PROGRESS_BAR_BATH, LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.BATH);
 
+    public static final RecipeType MANA_FLOW_ASSEMBLER_RECIPES = register("manaflow_assemble", "魔力流组装", MAGIC)
+            .setMANAIO(IO.IN)
+            .setMaxIOSize(9, 1, 1, 0)
+            .setProgressBar(GuiTextures.PROGRESS_BAR_BATH, LEFT_TO_RIGHT)
+            .setSmallRecipeMap(ASSEMBLER_RECIPES)
+            .setSound(GTSoundEntries.REPLICATOR);
+
     public static final RecipeType ELEMENTAL_RESONANCE = register("elemental_resonance", "元素共鸣", MAGIC)
             .setMaxIOSize(6, 6, 3, 3)
             .setProgressBar(GuiTextures.PROGRESS_BAR_BATH, LEFT_TO_RIGHT)

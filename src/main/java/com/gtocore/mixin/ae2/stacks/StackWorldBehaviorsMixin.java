@@ -13,6 +13,7 @@ import appeng.api.behaviors.StackExportStrategy;
 import appeng.api.behaviors.StackImportStrategy;
 import appeng.api.stacks.AEKeyType;
 import appeng.parts.automation.StackWorldBehaviors;
+
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 

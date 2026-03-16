@@ -3492,7 +3492,7 @@ final class ChemicaRreactor {
                 .duration(250)
                 .save();
         LARGE_CHEMICAL_RECIPES.builder("antimatter-ion_energy_release_cathode")
-                .inputItems(GTOTagPrefix.NANITES, GTOMaterials.Orichalcum)
+                .notConsumable(GTOTagPrefix.NANITES, GTOMaterials.Orichalcum)
                 .inputItems(dust, Astrium, 2)
                 .inputFluids(GTOMaterials.UltraLowViscosityIonicCarrier, 12000)
                 .inputFluids(GTOMaterials.Antiproton, 13000)
@@ -3503,7 +3503,7 @@ final class ChemicaRreactor {
                 .duration(250)
                 .save();
         LARGE_CHEMICAL_RECIPES.builder("antimatter-ion_energy_release_anode")
-                .inputItems(GTOTagPrefix.NANITES, GTMaterials.Neutronium)
+                .notConsumable(GTOTagPrefix.NANITES, GTMaterials.Neutronium)
                 .inputItems(dust, Astrium, 2)
                 .inputFluids(GTOMaterials.UltraLowViscosityIonicCarrier, 12000)
                 .inputFluids(GTOMaterials.PositiveElectron, 13000)

@@ -17,7 +17,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 
-import appbot.ae2.ManaKey;
 import appeng.api.config.Actionable;
 import appeng.api.networking.IManagedGridNode;
 import appeng.api.networking.security.IActionSource;
@@ -26,6 +25,8 @@ import appeng.api.stacks.KeyCounter;
 import appeng.api.storage.IStorageMounts;
 import appeng.api.storage.IStorageProvider;
 import appeng.api.storage.MEStorage;
+
+import appbot.ae2.ManaKey;
 import com.hepdd.gtmthings.utils.BigIntegerUtils;
 import com.lowdragmc.lowdraglib.gui.widget.LabelWidget;
 import com.lowdragmc.lowdraglib.gui.widget.Widget;

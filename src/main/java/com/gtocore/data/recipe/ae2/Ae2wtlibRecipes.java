@@ -12,6 +12,7 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.ItemLike;
 
 import appeng.core.definitions.AEItems;
+
 import de.mari_023.ae2wtlib.AE2wtlib;
 import de.mari_023.ae2wtlib.wut.recipe.Combine;
 import de.mari_023.ae2wtlib.wut.recipe.Upgrade;

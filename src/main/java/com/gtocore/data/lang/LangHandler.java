@@ -35,6 +35,8 @@ import com.gregtechceu.gtceu.api.pattern.MultiblockState;
 
 import net.minecraftforge.common.data.LanguageProvider;
 
+import gto_ae.core.localization.ExtendedLangs;
+
 import com.fast.fastcollection.O2OOpenCacheHashMap;
 
 import java.util.Arrays;
@@ -88,6 +90,10 @@ public final class LangHandler {
             addCNEN(reasons.getKey(), reasons.getCn(), reasons.getEn());
         }
 
+        for (var l : ExtendedLangs.values()) {
+            addCN(l.getTranslationKey(), l.getChineseText());
+        }
+
         Arrays.stream(Dimension.values()).forEach(d -> addCNEN(d.getKey(), d.getCn(), d.getEn()));
 
         addCN("entity.gtocore.task_entity", "任务执行实体");
@@ -106,6 +112,7 @@ public final class LangHandler {
         addCNEN("gtceu.machine.available_recipe_map_5.tooltip", "可用配方类型：%s，%s，%s，%s，%s", "Available Recipe Types: %s, %s, %s, %s, %s");
         addCNEN("gtceu.machine.available_recipe_map_6.tooltip", "可用配方类型：%s，%s，%s，%s，%s，%s", "Available Recipe Types: %s, %s, %s, %s, %s, %s");
 
+        addCN("item.ae2.facility_terminal", "IO设施管理终端");
         addCNEN("key.gtocore.flyingspeed", "飞行速度调节", "Flight Speed Adjustment");
         addCNEN("key.gtocore.nightvision", "夜视开关", "Night Vision Toggle");
         addCNEN("key.gtocore.vajra", "金刚杵按键", "Vajra Key");
@@ -453,8 +460,11 @@ public final class LangHandler {
         addCNEN("gtocore.emi.insert_item_into_ae", "§a将光标上的物品置入已有的ME网络中§r", "Insert the item on the cursor into the existing ME network");
 
         addCNEN("emi.category.gtocore.alfheim_entry_requirements", "亚尔夫海姆准入条件", "Alfheim Access Requirements");
+        addCNEN("gtocore.entry_alfheim.0.c", "§a你已完全满足进入亚尔夫海姆的条件", "§aYou have fully met the requirements to enter Alfheim");
         addCNEN("gtocore.entry_alfheim.1", "你需要饮下诗之蜜酒", "You must drink Kvasir’s Mead");
+        addCNEN("gtocore.entry_alfheim.1.c", "§a你已饮下诗之蜜酒", "§aYou have drunk Kvasir’s Mead");
         addCNEN("gtocore.entry_alfheim.2", "你需要携带十二遗物", "You must bear the Twelve Relics");
+        addCNEN("gtocore.entry_alfheim.2.c", "§a你已携带了这件遗物", "§aYou bear this relic");
         addCNEN("gtocore.entry_alfheim.3",
                 "夫迷雾蔽境，亚尔夫海姆启门之期将至。新章既降，唯饮诗泉之醴、聚十二古器者，可涉此秘域。凡欲绕法偷渡之徒，皆不为乾坤所容——寰宇律令自临，未符契而擅闯者，神魂俱殒。",
                 "The mists enshroud the realm, and the hour of Alfheim’s gate-opening draws nigh. A new chapter unfolds—only those who quaff the mead of the Kvasir’s Mead and gather the Twelve Ancient Relics may tread this secret domain. All who seek to trespass by craft or ruse shall not be borne by heaven and earth. For the Law of the Cosmos descends: whosoever dares to breach these halls without the sacred covenant shall perish, body and soul alike.");

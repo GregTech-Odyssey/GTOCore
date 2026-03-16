@@ -51,7 +51,7 @@ public record CelestialHandler(long maxCapacity) {
 
         switch (mode) {
             case SPACE -> {
-                stellarm = clampToMaxCapacity(stellarm + 20L * multiple);
+                stellarm = clampToMaxCapacity(stellarm + 40L * multiple);
             }
             case VOID -> {
                 solaris = clampToMaxCapacity(solaris + 5L * multiple);

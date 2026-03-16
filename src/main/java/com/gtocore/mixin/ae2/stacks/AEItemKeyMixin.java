@@ -17,6 +17,7 @@ import net.minecraft.world.level.ItemLike;
 
 import appeng.api.stacks.AEItemKey;
 import appeng.core.AELog;
+
 import com.fast.recipesearch.IntLongMap;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.*;

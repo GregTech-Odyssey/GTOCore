@@ -8,6 +8,7 @@ import net.minecraft.nbt.CompoundTag;
 
 import appeng.crafting.pattern.AEProcessingPattern;
 import appeng.parts.encoding.PatternEncodingLogic;
+
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;

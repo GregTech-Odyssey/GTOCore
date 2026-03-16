@@ -17,6 +17,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 
 import appeng.blockentity.crafting.MolecularAssemblerBlockEntity;
 import appeng.helpers.patternprovider.PatternContainer;
+
 import com.glodblock.github.extendedae.common.tileentities.TileExMolecularAssembler;
 import org.jetbrains.annotations.Nullable;
 

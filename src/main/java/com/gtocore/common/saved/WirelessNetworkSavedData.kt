@@ -144,7 +144,7 @@ class WirelessNetworkSavedData : SavedData() {
 
         // ==================== Server API ====================
 
-        fun findNetworkById(id: String): WirelessNetwork? = get().networkPool.get(id)
+        fun findNetworkById(id: String): WirelessNetwork? = get().networkPool[id]
 
         /**
          * 生成不重复的昵称。如果 base 已被占用，尝试 "base (1)", "base (2)" ...
@@ -194,7 +194,7 @@ class WirelessNetworkSavedData : SavedData() {
         }
 
         fun joinNetwork(networkId: String, node: WirelessMachine, requester: UUID): STATUS {
-            val net = INSTANCE.networkPool.get(networkId)
+            val net = INSTANCE.networkPool[networkId]
                 ?: return STATUS.NOT_FOUND_GRID
             if (!checkPermission(net.owner, requester)) return STATUS.NOT_PERMISSION
             // Check if already joined
@@ -238,7 +238,7 @@ class WirelessNetworkSavedData : SavedData() {
         fun getDefaultNetworkId(requester: UUID): String? = get().defaultMap[requester]
 
         fun renameNetwork(networkId: String, requester: UUID, nickname: String): STATUS {
-            val net = INSTANCE.networkPool.get(networkId)
+            val net = INSTANCE.networkPool[networkId]
                 ?: return STATUS.NOT_FOUND_GRID
             if (!checkPermission(net.owner, requester)) return STATUS.NOT_PERMISSION
             val nick = nickname.trim()
@@ -254,7 +254,7 @@ class WirelessNetworkSavedData : SavedData() {
          * 设置网络的源节点最大子节点连接数。
          */
         fun setMaxOutputsPerInput(networkId: String, requester: UUID, maxOutputs: Int): STATUS {
-            val net = INSTANCE.networkPool.get(networkId)
+            val net = INSTANCE.networkPool[networkId]
                 ?: return STATUS.NOT_FOUND_GRID
             if (!checkPermission(net.owner, requester)) return STATUS.NOT_PERMISSION
             val clamped = maxOutputs.coerceIn(1, 990000)
@@ -270,8 +270,8 @@ class WirelessNetworkSavedData : SavedData() {
          * 获取指定网络的摘要信息列表供GUI同步显示。
          */
         @JvmOverloads
-        fun getNetworkSummaries(requester: UUID, connectedId: String = ""): List<NetworkSummary> = get().networkPool.values
-            .filter { checkPermission(it.owner, requester) }
+        fun getNetworkSummaries(requester: UUID, connectedId: String = "", filter: Boolean = false): List<NetworkSummary> = get().networkPool.values
+            .filter { filter || checkPermission(it.owner, requester) }
             .sortedBy {
                 // Default network first
                 if (get().defaultMap[requester] == it.id) {
