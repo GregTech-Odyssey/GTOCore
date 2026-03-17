@@ -138,7 +138,6 @@ public final class MultiBlockA {
             .tooltips(GTOMachineStories.INSTANCE.getPlasmaCondenserTooltips().getSupplier())
             .tooltips(GTOMachineTooltips.INSTANCE.getPlasmaCondenserTooltips().getSupplier())
             .perfectOCTooltips()
-            .perfectOverclock()
             .block(GTOBlocks.ANTIFREEZE_HEATPROOF_MACHINE_CASING)
             .pattern(definition -> MultiBlockFileReader.start(definition)
                     .where('A', blocks(GTOBlocks.COLD_ICE_CASING.get()))
