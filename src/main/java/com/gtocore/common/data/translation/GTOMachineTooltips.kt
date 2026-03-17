@@ -1982,7 +1982,7 @@ object GTOMachineTooltips {
         command("时间消耗波动系数[0.05 ~ 20] · 元素消耗波动系数[0.1 ~ 16]" translatedTo "Time consumption fluctuation coefficient [0.05~20] · Element consumption fluctuation coefficient [0.1~16]")
         command("向主机存储放入物品延长稳定次数" translatedTo "Add items to host storage to extend stable time")
         info("放入§b下界之星§r：每颗增加5次的稳定次数" translatedTo "Put §bNether Star§r: +5 of the stable time per star")
-        info("放入§b稳定剂核心§r：每个增加10000000次的稳定次数" translatedTo "Put §bStabilizer Core§r: +10000000 for each stable time")
+        info("放入§b共鸣之花§r：每个增加10000000次的稳定次数" translatedTo "Put §bResonance Flower§r: +10000000 for each stable time")
 
         section("共鸣消耗" translatedTo "Resonance Consumption")
         function("配方带共鸣标签时，按频率消耗指定资源" translatedTo "Recipes with resonance tags consume specified resources at set frequency")
