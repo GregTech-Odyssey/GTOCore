@@ -294,7 +294,6 @@ public final class GTOConfig {
             @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Mob Natural Regeneration", cn = "生物自然回血")
             public boolean naturalRegeneration = true;
         }
-
     }
 
     @DataGeneratorScanned
