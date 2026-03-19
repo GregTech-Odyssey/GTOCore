@@ -108,6 +108,8 @@ final class ItemLang {
         addCNEN("item.gtceu.tool.hv_vajra", "%s 基础金刚杵", "%s Basic Vajra");
         addCNEN("item.gtceu.tool.ev_vajra", "%s 高级金刚杵", "%s Advanced Vajra");
         addCNEN("item.gtceu.tool.iv_vajra", "%s 终极金刚杵", "%s Ultimate Vajra");
+        addCNEN("block.ad_astra.gto_flag", "GTO旗帜", "GTO Flag");
+
         addCNEN("item.gtceu.tool.vajra.tooltip", "手持工具时按[%s]调整挖掘速度", "Hold [%s] to adjust mining speed when holding the tool");
         addCNEN("item.gtceu.tool.vajra.tooltip.shift", "手持工具时按[Shift + %s]启用/禁用矿工热忱", "Hold [Shift + %s] to enable/disable Miner Fervor when holding the tool");
         addCNEN("item.gtceu.tool.vajra.tooltip.max_speed", "当前挖掘速度: §a%s§r (最大§a%s§r)", "Current mining speed: §a%s§r (Max §a%s§r)");

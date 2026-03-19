@@ -124,7 +124,7 @@ class WirelessNetworkSavedData : SavedData() {
         @JvmStatic
         @SubscribeEvent
         fun onTickEnd(event: ServerTickEvent) {
-            if (event.phase == TickEvent.Phase.END && event.server != null) {
+            if (event.phase == TickEvent.Phase.END && event.server != null && !event.server.isCurrentlySaving) {
                 if (requiredWrite) {
                     write(event.server)
                     requiredWrite = false
