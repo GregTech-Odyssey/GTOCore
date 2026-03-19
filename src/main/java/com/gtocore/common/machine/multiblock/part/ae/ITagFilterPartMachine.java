@@ -66,7 +66,7 @@ interface ITagFilterPartMachine extends IDropSaveMachine {
 
         @Override
         public IGuiTexture getIcon() {
-            return GuiTextures.BUTTON_BLACKLIST.getSubTexture(0, 0, 20, 20);
+            return GuiTextures.BUTTON_BLACKLIST.getSubTexture(0, 0, 1, 0.5);
         }
 
         @Override

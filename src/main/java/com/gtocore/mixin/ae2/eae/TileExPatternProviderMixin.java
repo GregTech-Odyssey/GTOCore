@@ -27,8 +27,8 @@ public abstract class TileExPatternProviderMixin {
             cancellable = true,
             remap = false)
     private void modifyCreateLogic(CallbackInfoReturnable<PatternProviderLogic> cir) {
-        if (GTCEu.isDev() && GTOConfig.INSTANCE.gamePlay.exPatternSize > 36) {
-            cir.setReturnValue(new PatternProviderLogic(exae$getSelf().getMainNode(), exae$getSelf(), GTOConfig.INSTANCE.gamePlay.exPatternSize));
+        if (GTCEu.isDev() && GTOConfig.INSTANCE.devMode.exPatternSize > 36) {
+            cir.setReturnValue(new PatternProviderLogic(exae$getSelf().getMainNode(), exae$getSelf(), GTOConfig.INSTANCE.devMode.exPatternSize));
         }
     }
 }

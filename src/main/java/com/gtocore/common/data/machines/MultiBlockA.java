@@ -138,7 +138,6 @@ public final class MultiBlockA {
             .tooltips(GTOMachineStories.INSTANCE.getPlasmaCondenserTooltips().getSupplier())
             .tooltips(GTOMachineTooltips.INSTANCE.getPlasmaCondenserTooltips().getSupplier())
             .perfectOCTooltips()
-            .perfectOverclock()
             .block(GTOBlocks.ANTIFREEZE_HEATPROOF_MACHINE_CASING)
             .pattern(definition -> MultiBlockFileReader.start(definition)
                     .where('A', blocks(GTOBlocks.COLD_ICE_CASING.get()))
@@ -657,7 +656,7 @@ public final class MultiBlockA {
             .recipeTypes(GTORecipeTypes.PRECISION_LASER_ENGRAVER_RECIPES)
             .recipeTypes(GTRecipeTypes.LASER_ENGRAVER_RECIPES)
             .recipeTypes(GTORecipeTypes.LASER_WELDER_RECIPES)
-            .parallelizableTooltips()
+            .specialParallelizableTooltips()
             .perfectOCTooltips()
             .recipeModifiers((machine, recipe) -> {
                 if (machine instanceof ElectricMultiblockMachine workableElectricMultiblockMachine) {
@@ -687,6 +686,7 @@ public final class MultiBlockA {
                     .where('L', blocks(GCYMBlocks.ELECTROLYTIC_CELL.get()))
                     .where('M', blocks(GTOBlocks.MOLECULAR_CASING.get()))
                     .where('a', blocks(GTOBlocks.IRIDIUM_CASING.get())
+                            .or(abilities(PARALLEL_HATCH).setMaxGlobalLimited(1))
                             .or(abilities(IMPORT_ITEMS).setPreviewCount(1))
                             .or(abilities(IMPORT_FLUIDS).setPreviewCount(1))
                             .or(abilities(INPUT_ENERGY).setMaxGlobalLimited(2).setPreviewCount(1))
