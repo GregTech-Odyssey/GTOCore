@@ -185,11 +185,10 @@ class WirelessNetwork(val id: String, val owner: UUID, var nickname: String = id
                         if (input == null && !inputIterator.hasNext()) {
                             break@a
                         }
-                        if (count > maxOutputsPerInput) {
+                        if (count >= maxOutputsPerInput) {
                             input = null
-                            continue
                         }
-                        if (input == null) {
+                        if (input == null && inputIterator.hasNext()) {
                             input = inputIterator.next()
                             count = 0
                         }

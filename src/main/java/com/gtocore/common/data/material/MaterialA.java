@@ -165,6 +165,7 @@ public final class MaterialA {
                 .color(0x9e7e5a)
                 .iconSet(DULL)
                 .components(Methane, 34, Ammonia, 16, Hydrogen, 50, Helium, 1, Water, 1, CarbonDioxide, 1)
+                .flags(DISABLE_DECOMPOSITION)
                 .buildAndRegister();
 
         GlacioAir = material("glacial_air", "霜原星空气")
@@ -172,6 +173,7 @@ public final class MaterialA {
                 .color(0x7fdff4)
                 .iconSet(DULL)
                 .components(Nitrogen, 70, Oxygen, 20, CarbonDioxide, 5, Argon, 4, Ice, 1)
+                .flags(DISABLE_DECOMPOSITION)
                 .buildAndRegister();
 
         AlienAlgae = material("alien_algae", "异星藻类渣")
