@@ -203,6 +203,28 @@ object GTOItemTooltips : AutoInitialize<GTOItemTooltips>() {
                 }.editionByGTONormal(),
             )
         }
+        listOf(
+            AEBlocks.CRAFTING_STORAGE_1K,
+            AEBlocks.CRAFTING_STORAGE_4K,
+            AEBlocks.CRAFTING_STORAGE_16K,
+            AEBlocks.CRAFTING_STORAGE_64K,
+            AEBlocks.CRAFTING_STORAGE_256K,
+            AEBlocks.CRAFTING_ACCELERATOR,
+            AEBlocks.CRAFTING_UNIT,
+            AEBlocks.CRAFTING_MONITOR,
+        ).forEach {
+            val type = it.block().type
+            it.asItem().setTooltips(
+                ComponentListSupplier {
+                    setTranslationPrefix("crafting_storage_" + type.acceleratorThreads + "_" + type.storageBytes)
+
+                    info("提供§b${type.acceleratorThreads}§r并行处理" translatedTo "Provides §b${type.acceleratorThreads}§r parallel processing")
+                    if (type.storageBytes > 0) {
+                        info("提供§b${type.storageBytes / 1024}K§r存储容量" translatedTo "Provides §b${type.storageBytes / 1024}K§r storage capacity")
+                    }
+                }.editionByGTONormal(),
+            )
+        }
         val bomb = { block: Block, activateItem: Item ->
             block.asItem().setTooltips(
                 ComponentListSupplier {

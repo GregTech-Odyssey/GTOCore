@@ -132,7 +132,7 @@ public final class LangHandler {
         addCNEN("selectWorld.gto_difficulty.tooltip.easy", "简单模式：游戏流程的各环节（资源获取，制作，自动化等）均有大量简化，游戏难度低。", "Easy Mode: All aspects of the game process (resource acquisition, crafting, automation, etc.) are greatly simplified, making the game easier. ");
         addCNEN("selectWorld.gto_difficulty.tooltip.normal", "普通模式：标准的GTO体验，机制玩法均为默认设定。", "Normal Mode: Standard GTO experience, with all mechanics and gameplay set to default. ");
         addCNEN("selectWorld.gto_difficulty.tooltip.expert", "专家模式：具有更难的游戏机制和更复杂的配方，适合寻求挑战的玩家。", "Expert Mode: Features more difficult game mechanics and complex recipes, suitable for players seeking a challenge. ");
-        addCNEN("selectWorld.gto_difficulty.tooltip.generic", "具体机制可在config/gtocore/gtocore_startup.cfg中查看。", "Specific mechanics can be found in config/gtocore/gtocore_startup.cfg. ");
+        addCNEN("selectWorld.gto_difficulty.tooltip.generic", "具体机制可在GTO Wiki上查看。", "Specific mechanics can be found on the GTO Wiki.");
 
         addCNEN("structure_writer.export_order", "导出顺序： C:%s  S:%s  A:%s", "Export Order: C:%s  S:%s  A:%s");
         addCNEN("structure_writer.structural_scale", "结构规模： X:%s  Y:%s  Z:%s", "Structural Scale: X:%s  Y:%s  Z:%s");
