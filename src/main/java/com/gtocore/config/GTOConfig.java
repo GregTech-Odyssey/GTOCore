@@ -444,7 +444,7 @@ public final class GTOConfig {
     public static class DevMode {
 
         @Configurable
-        @Configurable.Comment({ "开启开发者模式", "Enable Developer Mode" })
+        @Configurable.Comment({ "开启开发者模式", "开启开发者模式会导致游戏无法正常游玩", "如果你不知道你在做什么，请不要开启", "Enable Developer Mode", "Enabling Developer Mode will cause the game to be unplayable", "If you don't know what you're doing, please do not enable" })
         @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Developer Mode", cn = "开发者模式")
         public boolean dev = false;
 
