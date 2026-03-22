@@ -812,7 +812,7 @@ public class SpaceMultiblock {
         var fFacing = m.getFrontFacing();
         var uFacing = m.getUpwardsFacing();
         boolean isFlipped = m.isFlipped();
-        var hallwayCenter = pos.relative(fFacing, 2).relative(RelativeDirection.RIGHT.getRelative(fFacing, uFacing, isFlipped), 27);
+        var hallwayCenter = pos.relative(fFacing, 2).relative(RelativeDirection.RIGHT.getRelative(fFacing, uFacing, isFlipped), 30);
         ImmutableSet.Builder<BlockPos> builder = ImmutableSet.builder();
         for (RelativeDirection dir : RelativeDirection.values()) {
             if (dir == RelativeDirection.LEFT || dir == RelativeDirection.UP || dir == RelativeDirection.DOWN) continue;
@@ -836,12 +836,12 @@ public class SpaceMultiblock {
             .recipeTypes(GTORecipeTypes.SPACE_GAS_COLLECTOR_RECIPES)
             .block(GTOBlocks.PRESSURE_RESISTANT_HOUSING_MECHANICAL_BLOCK)
             .pattern(definition -> MultiBlockFileReader.start(definition, RelativeDirection.FRONT, RelativeDirection.UP, RelativeDirection.RIGHT)
-                    .where('A', blocks(GTOBlocks.ALUMINUM_ALLOY_2090_SKIN_MECHANICAL_BLOCK.get()))
-                    .where('B', blocks(GTOBlocks.ALUMINUM_ALLOY_7050_SUPPORT_MECHANICAL_BLOCK.get()))
-                    .where('C', blocks(GTOBlocks.TITANIUM_ALLOY_FRAME_INTERNAL.get()))
-                    .where('D', blocks(GTOBlocks.SPACECRAFT_DOCKING_CASING.get()))
-                    .where('E', ISpacePredicateMachine.innerBlockPredicate.get())
-                    .where('F', controller(definition))
+                    .where('C', blocks(GTOBlocks.ALUMINUM_ALLOY_2090_SKIN_MECHANICAL_BLOCK.get()))
+                    .where('D', blocks(GTOBlocks.ALUMINUM_ALLOY_7050_SUPPORT_MECHANICAL_BLOCK.get()))
+                    .where('E', blocks(GTOBlocks.TITANIUM_ALLOY_FRAME_INTERNAL.get()))
+                    .where('B', blocks(GTOBlocks.SPACECRAFT_DOCKING_CASING.get()))
+                    .where('F', ISpacePredicateMachine.innerBlockPredicate.get())
+                    .where('A', controller(definition))
                     .where('G', blocks(GTOBlocks.SPACECRAFT_SEALING_MECHANICAL_BLOCK.get()))
                     .where('H', blocks(GTOBlocks.PRESSURE_RESISTANT_HOUSING_MECHANICAL_BLOCK.get()))
                     .where('I', GTOPredicates.light())
