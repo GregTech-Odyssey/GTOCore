@@ -388,7 +388,7 @@ final class AssemblyLineA {
                 .save();
 
         ASSEMBLY_LINE_RECIPES.builder("dyson_sphere_launch_silo")
-                .inputItems(GTOItems.EXOTIC_MAINFRAME, 64)
+                .inputItems(CustomTags.UXV_CIRCUITS, 64)
                 .inputItems(GTOBlocks.DYSON_CONTROL_TOROID.asItem(), 4)
                 .inputItems(GTOBlocks.DYSON_DEPLOYMENT_CORE.asItem(), 4)
                 .inputItems(GTOBlocks.DYSON_DEPLOYMENT_MAGNET.asItem(), 4)
