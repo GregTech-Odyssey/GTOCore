@@ -1,10 +1,7 @@
 package com.gtocore.data.tag;
 
 import com.gtocore.api.data.material.GTOMaterialFlags;
-import com.gtocore.common.data.GTOBlocks;
-import com.gtocore.common.data.GTOItems;
-import com.gtocore.common.data.GTOMachines;
-import com.gtocore.common.data.GTOMaterials;
+import com.gtocore.common.data.*;
 
 import com.gtolib.utils.TagUtils;
 
@@ -31,6 +28,7 @@ import net.minecraft.world.level.material.Fluid;
 
 import com.hollingsworth.arsnouveau.setup.registry.BlockRegistry;
 import com.kyanite.deeperdarker.content.DDBlocks;
+import com.teamresourceful.resourcefullib.common.registry.RegistryEntry;
 import com.tterrag.registrate.providers.RegistrateTagsProvider;
 import earth.terrarium.adastra.common.registry.ModBlocks;
 import vazkii.botania.common.block.BotaniaBlocks;
@@ -95,6 +93,11 @@ public final class TagsHandler {
                 BlockRegistry.ALTERATION_TABLE.get(),
                 BlockRegistry.ITEM_DETECTOR.get(),
                 BlockRegistry.REPOSITORY.get());
+
+        create(provider, CustomTags.MINEABLE_WITH_WRENCH, GTOGlobes.GLOBE_ENTRIES.stream().map(RegistryEntry::get).toArray(Block[]::new));
+        create(provider, BlockTags.MINEABLE_WITH_PICKAXE, GTOGlobes.GLOBE_ENTRIES.stream().map(RegistryEntry::get).toArray(Block[]::new));
+        create(provider, CustomTags.MINEABLE_WITH_WRENCH, GTOGlobes.Blocks.GTO_FLAG.get());
+        create(provider, BlockTags.MINEABLE_WITH_AXE, GTOGlobes.Blocks.GTO_FLAG.get());
 
         create(provider, BotaniaTags.Blocks.UNETHICAL_TNT_CHECK,
                 GTBlocks.INDUSTRIAL_TNT.get(),

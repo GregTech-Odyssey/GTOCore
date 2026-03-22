@@ -525,7 +525,6 @@ public final class ManaMultiBlock {
 
     public static final MultiblockMachineDefinition COSMIC_CELESTIAL_SPIRE_OF_CONVERGENCE = multiblock("cosmic_celestial_spire_of_convergence", "寰宇星穹天体聚合圣坛", CosmicCelestialSpireOfConvergence::new)
             .tooltips(GTOMachineTooltips.INSTANCE.getCosmicCelestialSpireOfConvergenceTooltips().getSupplier())
-            .parallelizableTooltips()
             .recipeTypes(GTORecipeTypes.CELESTIAL_CONDENSER_RECIPES)
             .block(GTOBlocks.SPELL_PRISM_CASING)
             .pattern(definition -> MultiBlockFileReader.start(definition, RelativeDirection.BACK, RelativeDirection.UP, RelativeDirection.RIGHT)

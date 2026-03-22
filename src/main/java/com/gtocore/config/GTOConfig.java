@@ -250,14 +250,6 @@ public final class GTOConfig {
         public int ftbUltimineRange = 3;
 
         @Configurable
-        @Configurable.Range(min = 36, max = 216)
-        @Configurable.Comment({ "扩展样板供应器容量", "仅用于性能测试",
-                "Extended Pattern Provider Size", "Only for performance testing" })
-        @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Extended Pattern Provider Size", cn = "扩展样板供应器容量")
-        @Configurable.Gui.Slider
-        public int exPatternSize = 36;
-
-        @Configurable
         @Configurable.Comment({ "连锁挖掘功能的方块黑名单", "Block blacklist for chain mining feature" })
         @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Chain Mining Blacklist", cn = "连锁挖掘黑名单")
         public String[] breakBlocksBlackList = { "ae2:cable_bus" };
@@ -452,7 +444,7 @@ public final class GTOConfig {
     public static class DevMode {
 
         @Configurable
-        @Configurable.Comment({ "开启开发者模式", "Enable Developer Mode" })
+        @Configurable.Comment({ "开启开发者模式", "开启开发者模式会导致游戏无法正常游玩", "如果你不知道你在做什么，请不要开启", "Enable Developer Mode", "Enabling Developer Mode will cause the game to be unplayable", "If you don't know what you're doing, please do not enable" })
         @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Developer Mode", cn = "开发者模式")
         public boolean dev = false;
 
@@ -504,5 +496,13 @@ public final class GTOConfig {
         @Configurable.Comment({ "Spark 性能分析器的启动阶段", "The startup phase of the Spark profiler" })
         @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Spark Profiler Start Phase", cn = "Spark 分析器启动阶段")
         public SparkRange startSpark = SparkRange.NONE;
+
+        @Configurable
+        @Configurable.Range(min = 36, max = 216)
+        @Configurable.Comment({ "扩展样板供应器容量", "仅用于性能测试",
+                "Extended Pattern Provider Size", "Only for performance testing" })
+        @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Extended Pattern Provider Size", cn = "扩展样板供应器容量")
+        @Configurable.Gui.Slider
+        public int exPatternSize = 36;
     }
 }

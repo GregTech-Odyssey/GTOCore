@@ -72,30 +72,40 @@ public final class EnergyInjectorMachine extends ElectricMultiblockMachine {
         fastForEachInputItems((stack, amount) -> {
             int count = MathUtil.saturatedCast(amount);
             ItemStack output = stack.copyWithCount(count);
+            boolean processed = false;
+
             if (GTCapabilityHelper.getElectricItem(output) instanceof ElectricItem electricItem && electricItem.getTier() <= getTier()) {
-                var change = BigInteger.valueOf(electricItem.getMaxCharge() - electricItem.getCharge()).multiply(BigInteger.valueOf(count));
-                if (change.compareTo(BigInteger.ZERO) > 0) {
+                long chargeNeeded = electricItem.getMaxCharge() - electricItem.getCharge();
+                if (chargeNeeded > 0) {
+                    // 需要充电
+                    var change = BigInteger.valueOf(chargeNeeded).multiply(BigInteger.valueOf(count));
                     eu.value = eu.value.add(change);
                     electricItem.setCharge(electricItem.getMaxCharge());
-                    builder.outputItems(output);
-                    builder.inputItems(stack.getItem(), count);
+                    processed = true;
                 }
-            } else if (output.getDamageValue() > 0) {
-                eu.value = eu.value.add(BigInteger.valueOf((long) output.getDamageValue() << 7));
+            }
+
+            if (!processed && output.getDamageValue() > 0) {
+                eu.value = eu.value.add(BigInteger.valueOf((long) output.getDamageValue() << 7).multiply(BigInteger.valueOf(count)));
                 output.setDamageValue(0);
-                builder.outputItems(output);
-                builder.inputItems(stack.getItem(), count);
-            } else {
+                processed = true;
+            }
+
+            if (!processed) {
                 IEnergyStorage energyStorage = GTCapabilityHelper.getForgeEnergyItem(output);
                 if (energyStorage != null) {
                     int change = (energyStorage.getMaxEnergyStored() - energyStorage.getEnergyStored()) * count;
                     if (change > 0) {
                         eu.value = eu.value.add(BigInteger.valueOf((long) Math.ceil((double) change / 64)));
                         energyStorage.receiveEnergy(change, false);
-                        builder.outputItems(output);
-                        builder.inputItems(stack.getItem(), count);
+                        processed = true;
                     }
                 }
+            }
+
+            if (processed) {
+                builder.outputItems(output);
+                builder.inputItems(stack);
             }
         });
         if (eu.value.compareTo(BigInteger.ZERO) > 0) {

@@ -119,6 +119,13 @@ final class Vanilla {
                 'A', AEItems.ENGINEERING_PROCESSOR, 'B', EPPItemAndBlock.EX_PATTERN_TERMINAL,
                 'D', TagUtils.createItemTag(RLUtils.ae("illuminated_panel")));
 
+        VanillaRecipeHelper.addShapedRecipe(GTOCore.id("facility_terminal"), RegistriesUtils.getItem("ae2:facility_terminal"),
+                "   ",
+                "ABC",
+                " D ",
+                'A', AEItems.FORMATION_CORE.asItem(), 'B', TagUtils.createItemTag(RLUtils.ae("illuminated_panel")),
+                'C', AEItems.ANNIHILATION_CORE.asItem(), 'D', AEItems.LOGIC_PROCESSOR.asItem());
+
         VanillaRecipeHelper.addShapedRecipe(GTOCore.id("me_2in1_terminal_wireless"), GTOItems.WIRELESS_ME2IN1.asItem(),
                 "A",
                 "B",
