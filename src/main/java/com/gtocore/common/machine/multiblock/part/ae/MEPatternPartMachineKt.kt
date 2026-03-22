@@ -300,6 +300,7 @@ abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.AbstractInterna
                             )
                     }
             }
+
             else -> {
                 AEItemKey.of(GTAEMachines.ME_PATTERN_BUFFER.asItem()) to
                     if (customName.isNotEmpty()) {
@@ -406,7 +407,7 @@ abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.AbstractInterna
                             height = 13,
                             onClick = { _ ->
                                 onPagePrev()
-                                if (!isRemote)newPageField.setAndSyncToClient((newPageField.get() - 1).coerceAtLeast(0))
+                                if (!isRemote) newPageField.setAndSyncToClient((newPageField.get() - 1).coerceAtLeast(0))
                             },
                             text = { "<<" },
                         )
@@ -416,7 +417,7 @@ abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.AbstractInterna
                             width = 30,
                             onClick = { _ ->
                                 onPageNext()
-                                if (!isRemote)newPageField.setAndSyncToClient((newPageField.get() + 1).coerceAtMost(pageWidget.getMaxPageSize() - 1))
+                                if (!isRemote) newPageField.setAndSyncToClient((newPageField.get() + 1).coerceAtMost(pageWidget.getMaxPageSize() - 1))
                             },
                             text = { ">>" },
                         )
@@ -457,6 +458,7 @@ abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.AbstractInterna
             getMainNode().isOnline -> {
                 updateSubs = subscribeServerTick(updateSubs, ::update)
             }
+
             updateSubs != null -> {
                 updateSubs?.unsubscribe()
                 updateSubs = null
@@ -500,6 +502,7 @@ abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.AbstractInterna
                     val output = item.getOutput(stack)
                     if (!output.isEmpty) output else stack
                 }
+
                 else -> stack
             }
         }

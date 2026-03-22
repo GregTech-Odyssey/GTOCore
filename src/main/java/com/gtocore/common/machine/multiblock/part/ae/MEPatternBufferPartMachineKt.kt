@@ -110,12 +110,13 @@ open class MEPatternBufferPartMachineKt(holder: MetaMachineBlockEntity, maxPatte
     }
 
     override fun getApplyIndex() = IntSupplier { configuratorField.get() }
-    override fun runOnUpdate() = run { if (isRemote)configuratorField.setAndSyncToServer(-1) }
+    override fun runOnUpdate() = run { if (isRemote) configuratorField.setAndSyncToServer(-1) }
 
     override fun VBoxBuilder.buildToolBoxContent() {
         when {
             configuratorField.get() < 0 -> {
             }
+
             configuratorField.get() in 0..<maxPatternCount -> {
                 vBox(width = availableWidth, alwaysHorizonCenter = true, style = { spacing = 2 }) {
                     val width = this@vBox.availableWidth

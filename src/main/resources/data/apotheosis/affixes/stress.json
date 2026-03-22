@@ -1,7 +1,7 @@
 {
-	"type": "apotheosis:mob_effect",
-	"mob_effect": "gtocore:mysterious_boost",
-	"target": "HURT_SELF",
+  "type": "apotheosis:mob_effect",
+  "mob_effect": "gtocore:mysterious_boost",
+  "target": "HURT_SELF",
     "values": {
       "rare": {
         "duration": {
@@ -52,7 +52,7 @@
         "cooldown": 300
       }
     },
-	"types": [
-		"boots"
-	]
+  "types": [
+    "boots"
+  ]
 }

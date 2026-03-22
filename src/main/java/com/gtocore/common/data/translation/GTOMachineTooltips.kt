@@ -1578,7 +1578,6 @@ object GTOMachineTooltips {
 
         section(ComponentSlang.EfficiencyBonus)
         increase("运行激光焊接配方时速度×5" translatedTo "Running Laser Welder recipes at 5x speed")
-        error("精密激光模式不支持并行" translatedTo "Precision Laser mode does not support parallel")
     }
 
     // 集成矿石处理厂
@@ -1596,7 +1595,7 @@ object GTOMachineTooltips {
         function("6号电路: 破碎-浸洗-研磨-离心" translatedTo "Circuit 6: Crusher → Chemical Bath → Macerator → Centrifuging")
         function("7号电路: 破碎-浸洗-筛选-离心" translatedTo "Circuit 7: Crusher → Chemical Bath → Sifter → Centrifuging")
 
-        section(ComponentSlang.AfterModuleInstallation)
+        section(AfterModuleInstallation)
         increase("解锁8线程处理" translatedTo "Unlock 8-thread processing")
     }
 

@@ -1,25 +1,25 @@
 {
-	"values": [
-		"minecraft:blaze",
-		"minecraft:magma_cube",
-		"minecraft:zombified_piglin",
-		"minecraft:zoglin",
-		"minecraft:enderman",
-		"minecraft:endermite",
-		"minecraft:ghast",
-		"minecraft:piglin",
-		"minecraft:piglin_brute",
-		"minecraft:skeleton",
-		"minecraft:strider",
-		"minecraft:wither_skeleton",
-		"minecraft:hoglin",
-		"deeperdarker:angler_fish",
-		"deeperdarker:sculk_centipede",
-		"deeperdarker:sculk_leech",
-		"deeperdarker:sculk_snapper",
-		"deeperdarker:shattered",
-		"deeperdarker:shriek_worm",
-		"deeperdarker:sludge",
-		"deeperdarker:stalker"
-	]
+  "values": [
+    "minecraft:blaze",
+    "minecraft:magma_cube",
+    "minecraft:zombified_piglin",
+    "minecraft:zoglin",
+    "minecraft:enderman",
+    "minecraft:endermite",
+    "minecraft:ghast",
+    "minecraft:piglin",
+    "minecraft:piglin_brute",
+    "minecraft:skeleton",
+    "minecraft:strider",
+    "minecraft:wither_skeleton",
+    "minecraft:hoglin",
+    "deeperdarker:angler_fish",
+    "deeperdarker:sculk_centipede",
+    "deeperdarker:sculk_leech",
+    "deeperdarker:sculk_snapper",
+    "deeperdarker:shattered",
+    "deeperdarker:shriek_worm",
+    "deeperdarker:sludge",
+    "deeperdarker:stalker"
+  ]
 }

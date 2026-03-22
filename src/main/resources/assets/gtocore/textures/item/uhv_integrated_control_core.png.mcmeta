@@ -1,8 +1,8 @@
 {
-	"animation": {
+  "animation": {
     "interpolate": true,
-		"frametime": 10,
-		"frames": [
+    "frametime": 10,
+    "frames": [
      {
        "index": 0,
        "time": 10
@@ -15,6 +15,6 @@
        "index": 0,
        "time": 10
      }
-		]
-	}
+    ]
+  }
 }

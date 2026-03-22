@@ -224,11 +224,13 @@ object ClientForge {
                             val nextPage = allVisible.indexOf(remaining[0]) + 1
                             showMessageScreen(remaining[0], nextPage, allVisible.size)
                         }
+
                         // 检查是否有历史消息
                         MESSAGE_DEFINITIONS.any { it.shouldShow(langCode) && !config.isConfirmed(it.contentHash) && !it.isRecent() } && !showHistoricalMessages -> {
                             // 显示带有展开和标记全部已读按钮的完成界面
                             showCompletionScreen()
                         }
+
                         // 全部完成 - 关闭 UI
                         else -> {
                             mc.player?.sendSystemMessage(

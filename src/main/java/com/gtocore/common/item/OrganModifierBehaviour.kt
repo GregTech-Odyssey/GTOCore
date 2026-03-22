@@ -59,7 +59,7 @@ class OrganModifierBehaviour :
             OrganType.entries.forEach { organType ->
                 handlers[organType]?.clear()
                 organStacks[organType]?.forEachIndexed { index, itemStack ->
-                    if (index < organType.slotCount)handlers[organType]?.setStackInSlot(index, itemStack)
+                    if (index < organType.slotCount) handlers[organType]?.setStackInSlot(index, itemStack)
                 }
             }
         }

@@ -1,3 +1,4 @@
+
 spotless {
     encoding 'UTF-8'
     java {
@@ -12,6 +13,12 @@ spotless {
         target 'src/main/java/**/*.kt'
         ktlint().setEditorConfigPath("$rootDir/gradle/spotless/spotless.ktlint")
         trimTrailingWhitespace()
+        endWithNewline()
+    }
+    json {
+        target('src/*/resources/**/*.json', 'src/*/resources/**/*.mcmeta')
+        targetExclude 'src/generated/resources/**'
+        leadingTabsToSpaces(2)
         endWithNewline()
     }
 }

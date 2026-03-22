@@ -1,7 +1,7 @@
 {
     "animation": {
-		"frametime": 2
-	},
+    "frametime": 2
+  },
     "ldlib": {
         "connection": "gtocore:block/spacetime_assembly_line_casing_ctm"
     }

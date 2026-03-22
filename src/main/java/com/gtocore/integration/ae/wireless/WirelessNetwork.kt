@@ -102,6 +102,7 @@ class WirelessNetwork(val id: String, val owner: UUID, var nickname: String = id
                 inputNodes.add(node)
                 needsRefresh = true
             }
+
             WirelessMachine.NodeType.CHILD -> {
                 outputNodes.add(node)
                 getAvailableInput()?.let {
