@@ -709,7 +709,7 @@ public final class AE2 {
                     .inputItems(GTItems.CONVEYOR_MODULE_EV, 2)
                     .inputItems(AEItems.ENGINEERING_PROCESSOR.asItem(), 4)
                     .inputItems(CustomTags.EV_CIRCUITS)
-                    .outputItems(AEBlocks.PATTERN_PROVIDER.asItem(), 12)
+                    .outputItems(AEBlocks.PATTERN_PROVIDER.asItem(), 6)
                     .inputFluids(GTMaterials.Polytetrafluoroethylene, 288)
                     .duration(600)
                     .EUt(GTValues.VA[GTValues.EV])
