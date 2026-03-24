@@ -72,7 +72,7 @@ final class MachineLang {
         addCNEN("gtocore.machine.pattern.error.tier", "§c必须使用同种等级方块§r", "§cMust use blocks of the same tier§r");
         addCNEN("gtocore.machine.primitive_magic_energy.tooltip.0", "无尽地吸收机器上方末地水晶的能量，如果能量已满，机器将会爆炸", "Endlessly absorbs the energy from ender crystals above the machine, if the energy capacity is full, the machine will explode");
         addCNEN("gtocore.machine.primitive_magic_energy.tooltip.1", "每秒需输入同电压x电流的魔力，否则爆炸", "Requires a constant mana input of [X] EU/s (Voltage × Current). Failure cause an explosion");
-        addCNEN("gtocore.machine.processing_plant.mismatched", "配方等级与小机器等级不匹配", "Recipe tier does not match small machine tier");
+        addCNEN("gtocore.machine.processing_plant.mismatched", "小机器电压与能源仓电压不匹配", "Small machine tier mismatch with Energy Hatch");
         addCNEN("gtocore.machine.radiation_hatch.inhibition_dose", "抑制量: %s Sv", "Inhibition Amount: %s Sv");
         addCNEN("gtocore.machine.radiation_hatch.time", "时间: %s / %s Tick", "Time: %s / %s Tick");
         addCNEN("gtocore.machine.simple_spacestation.distilled_water", "向外供给蒸馏水： %s mB 每秒·每仓", "Distilled Water Output: %s mB per second per hatch");

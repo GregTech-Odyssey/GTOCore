@@ -1054,15 +1054,14 @@ object GTOMachineTooltips {
         setTranslationPrefix("processing_plant")
 
         section(ComponentSlang.RunningRequirements)
-        command("需要放入对应配方等级的小机器" translatedTo "Requires corresponding tier small machine")
+        command("小机器电压应与能源仓匹配，§l§6双仓升压§r时能源仓电压+1级" translatedTo "The small machine tier must match that of the Energy Hatch; §lDual Hatch Boost§r increases its tier by one")
         error("无法通过超净维护仓获得洁净环境" translatedTo "Cannot obtain clean environment through clean maintenance")
 
-        section(ComponentSlang.EfficiencyBonus)
-        content("配方等级每高出ULV一级，并行数+2" translatedTo "For each tier above ULV, parallelism +2")
-        command("最终配方等级受限于整体框架等级" translatedTo "Final recipe tier is constrained by framework tier")
+        section("配方等级" translatedTo "Recipe Tier")
+        command("最终配方等级 = min(小机器, 整体框架)" translatedTo "Final recipe tier = min(small machine, whole structure)")
 
         section(ComponentSlang.AfterModuleInstallation)
-        increase("配方等级每高出ULV一级，并行数额外+2" translatedTo "For each tier above ULV, parallelism +2 additionally")
+        increase("并行翻倍" translatedTo "Parallelism is doubled")
     }
 
     // 培养缸
@@ -1676,7 +1675,10 @@ object GTOMachineTooltips {
 
         section(ComponentSlang.RunningRequirements)
         ok("运行时不消耗中子动能" translatedTo "Does not consume neutron kinetic energy while running.")
-        increase("安装附属结构后可开启能源转换模式，消耗电力自动适应配方的中子动能" translatedTo "After installing auxiliary structures, you can enable energy conversion mode, which automatically adapts the neutron kinetic energy consumption based on the recipe.")
+        command("在主机左下角切换能源接收器模式以引导不同的结构" translatedTo "Switch Energy Acceptor mode in the bottom left corner of the controller to guide different structures")
+        info("未激活：P:0，已激活：P:1" translatedTo "Inactive: P:0, Active: P:1")
+        info("引导后可使用终端搭建指定结构" translatedTo "After guiding, you can use the terminal to build the specified structure")
+        increase("能源接收器激活后，将消耗电力自动适应配方的中子动能" translatedTo "After activating the Energy Acceptor, it will consume electricity to automatically adapt to the neutron kinetic energy of the recipe")
     }
 
     // 微生物之主
@@ -1725,7 +1727,7 @@ object GTOMachineTooltips {
 
         section(ComponentSlang.RunningRequirements)
         command("在主机内更改机器模式以引导不同的结构" translatedTo "Change recipe type in the controller to guide different structures")
-        info("真空冷冻机/物化冷凝：P:0，等离子冷凝：P:1" translatedTo "Vacuum Freezer/Atomization Condensation: P:0, Plasma Condenser: P:1")
+        info("真空冷冻机/雾化冷凝：P:0，等离子冷凝：P:1" translatedTo "Vacuum Freezer/Atomization Condensation: P:0, Plasma Condenser: P:1")
         info("引导后可使用终端搭建指定结构" translatedTo "After guiding, you can use the terminal to build the specified structure")
     }
 
