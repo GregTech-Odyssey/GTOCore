@@ -656,14 +656,15 @@ public final class MultiBlockA {
             .recipeTypes(GTORecipeTypes.PRECISION_LASER_ENGRAVER_RECIPES)
             .recipeTypes(GTRecipeTypes.LASER_ENGRAVER_RECIPES)
             .recipeTypes(GTORecipeTypes.LASER_WELDER_RECIPES)
+            .parallelizableTooltips()
             .tooltips(NewDataAttributes.ALLOW_PARALLEL_NUMBER.create(
                     v -> v.addLines("由配方类型决定", "Determined by recipe type"),
                     p -> p.addCommentLines(
                             """
-                                    - 激光焊接/激光蚀刻：并型控制仓的并行数
+                                    - 激光焊接/激光蚀刻：并行控制仓
                                     - 精密激光蚀刻：1""",
                             """
-                                    - Laser Welder/Engraver: Parallelism of Parallel Hatches
+                                    - Laser Welder/Engraver: Parallel Control Hatch
                                     - Precision Laser Engraver: 1""")))
             .perfectOCTooltips()
             .recipeModifiers((machine, recipe) -> {

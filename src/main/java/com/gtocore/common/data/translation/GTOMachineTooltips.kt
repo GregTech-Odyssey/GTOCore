@@ -1054,7 +1054,7 @@ object GTOMachineTooltips {
         setTranslationPrefix("processing_plant")
 
         section(ComponentSlang.RunningRequirements)
-        command("小机器电压应与能源仓匹配，§l§6双仓升压§r时能源仓电压+1级" translatedTo "The small machine tier must match that of the Energy Hatch; §lDual Hatch Boost§r increases its tier by one")
+        command("小机器电压应与能源仓匹配，§b双仓升压§r时能源仓电压+1级" translatedTo "The small machine tier must match that of the Energy Hatch; §bDual Hatch Boost§r increases its tier by one")
         error("无法通过超净维护仓获得洁净环境" translatedTo "Cannot obtain clean environment through clean maintenance")
 
         section("配方等级" translatedTo "Recipe Tier")

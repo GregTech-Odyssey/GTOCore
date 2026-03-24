@@ -1,11 +1,11 @@
 {
   "values": [
-    "ad_astra:enceladus_globe",
-    "ad_astra:pluto_globe",
-    "ad_astra:ceres_globe",
-    "ad_astra:barnarda_c_globe",
-    "ad_astra:ganymede_globe",
     "ad_astra:titan_globe",
+    "ad_astra:ganymede_globe",
+    "ad_astra:ceres_globe",
+    "ad_astra:pluto_globe",
+    "ad_astra:enceladus_globe",
+    "ad_astra:barnarda_c_globe",
     "ad_astra:io_globe",
     "gtocore:create_aggregatione_core",
     "gtocore:reinforced_obsidian",
