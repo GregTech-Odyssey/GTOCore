@@ -6,6 +6,7 @@ import com.gtocore.api.lang.ComponentSupplier
 import com.gtocore.api.lang.toLiteralSupplier
 import com.gtocore.api.misc.AutoInitialize
 import com.gtocore.common.data.translation.ComponentSlang.AfterModuleInstallation
+import com.gtocore.common.data.translation.ComponentSlang.EfficiencyBonus
 import com.gtocore.common.data.translation.ComponentSlang.MainFunction
 import com.gtocore.common.data.translation.ComponentSlang.RunningRequirements
 
@@ -13,7 +14,6 @@ import net.minecraft.network.chat.Component
 
 import appeng.api.config.PowerUnits
 import com.gregtechceu.gtceu.config.ConfigHolder
-import com.gtocore.common.data.translation.ComponentSlang.EfficiencyBonus
 
 object GTOMachineTooltipsA : AutoInitialize<GTOMachineTooltipsA>() {
 
