@@ -19,7 +19,10 @@ import appeng.api.stacks.KeyCounter;
 import appeng.api.storage.cells.IBasicCellItem;
 import appeng.api.storage.cells.ISaveProvider;
 import appeng.api.storage.cells.StorageCell;
+import appeng.api.upgrades.IUpgradeInventory;
+import appeng.core.definitions.AEItems;
 import appeng.me.cells.BasicCellInventory;
+import appeng.util.ConfigInventory;
 import appeng.util.prioritylist.IPartitionList;
 
 import org.jetbrains.annotations.NotNull;
@@ -88,14 +91,36 @@ public abstract class BasicCellInventoryMixin implements StorageCell {
     @Final
     private IncludeExclude partitionListMode;
 
+    @Mutable
     @Shadow(remap = false)
     @Final
     private long maxItemsPerType;
+
+    @Shadow(remap = false)
+    public abstract IUpgradeInventory getUpgradesInventory();
+
+    @Shadow(remap = false)
+    public abstract ConfigInventory getConfigInventory();
 
     @Inject(method = "<init>", at = @At("TAIL"), remap = false)
     private void gtolib$init(IBasicCellItem cellType, ItemStack o, ISaveProvider container, CallbackInfo ci) {
         gtolib$totalbytes = Math.min(262144, cellType.getBytes(o));
         gtolib$totalAmount = (long) gtolib$totalbytes * keyType.getAmountPerByte();
+        var upgrades = getUpgradesInventory();
+        if (upgrades.isInstalled(AEItems.EQUAL_DISTRIBUTION_CARD)) {
+            long maxTypes;
+            boolean isFuzzy = upgrades.isInstalled(AEItems.FUZZY_CARD);
+            var config = getConfigInventory();
+            if (!isFuzzy && partitionListMode == IncludeExclude.WHITELIST && !config.keySet().isEmpty()) {
+                maxTypes = config.keySet().size();
+            } else {
+                return;
+            }
+            long totalStorage = (long) (gtolib$totalbytes) * keyType.getAmountPerByte();
+            this.maxItemsPerType = Math.max(0, (totalStorage + maxTypes - 1) / maxTypes);
+        } else {
+            this.maxItemsPerType = gtolib$totalAmount;
+        }
     }
 
     @Unique
@@ -281,8 +306,12 @@ public abstract class BasicCellInventoryMixin implements StorageCell {
             gtolib$cache = CellDataStorage.get(uuid);
         }
         var data = gtolib$getCellStorage();
+        long whatAmount = 0;
+        if (maxItemsPerType < gtolib$totalAmount) {
+            whatAmount = gtolib$getCellStoredMap().getLong(what);
+        }
         if (data == CellDataStorage.EMPTY) return 0;
-        amount = Math.min(Math.min(gtolib$totalAmount - (long) (data.getBytes() * keyType.getAmountPerByte()), amount), this.maxItemsPerType);
+        amount = Math.min(Math.min(gtolib$totalAmount - (long) (data.getBytes() * keyType.getAmountPerByte()), amount), this.maxItemsPerType - whatAmount);
         if (amount < 1) return 0;
         if (mode == Actionable.MODULATE) {
             gtolib$getCellStoredMap().addTo(what, amount);
