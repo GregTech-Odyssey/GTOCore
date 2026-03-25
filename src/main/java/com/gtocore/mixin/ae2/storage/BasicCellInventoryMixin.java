@@ -88,6 +88,10 @@ public abstract class BasicCellInventoryMixin implements StorageCell {
     @Final
     private IncludeExclude partitionListMode;
 
+    @Shadow(remap = false)
+    @Final
+    private long maxItemsPerType;
+
     @Inject(method = "<init>", at = @At("TAIL"), remap = false)
     private void gtolib$init(IBasicCellItem cellType, ItemStack o, ISaveProvider container, CallbackInfo ci) {
         gtolib$totalbytes = Math.min(262144, cellType.getBytes(o));
@@ -278,7 +282,7 @@ public abstract class BasicCellInventoryMixin implements StorageCell {
         }
         var data = gtolib$getCellStorage();
         if (data == CellDataStorage.EMPTY) return 0;
-        amount = Math.min(gtolib$totalAmount - (long) (data.getBytes() * keyType.getAmountPerByte()), amount);
+        amount = Math.min(Math.min(gtolib$totalAmount - (long) (data.getBytes() * keyType.getAmountPerByte()), amount), this.maxItemsPerType);
         if (amount < 1) return 0;
         if (mode == Actionable.MODULATE) {
             gtolib$getCellStoredMap().addTo(what, amount);

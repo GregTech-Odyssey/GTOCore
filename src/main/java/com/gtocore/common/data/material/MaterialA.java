@@ -765,9 +765,8 @@ public final class MaterialA {
                 .fluid()
                 .radioactiveHazard(10)
                 .element(GTOElements.STAR_MATTER)
-                .color(0xffffff)
                 .flags(GTOMaterialFlags.GENERATE_NANITES, GENERATE_FINE_WIRE)
-                .iconSet(BRIGHT)
+                .iconSet(WHITE_DWARF_MATTER)
                 .buildAndRegister();
 
         BlackDwarfMatter = material("black_dwarf_mtter", "黑矮星物质")
@@ -776,9 +775,8 @@ public final class MaterialA {
                 .fluid()
                 .radioactiveHazard(10)
                 .element(GTOElements.STAR_MATTER)
-                .color(0x000000)
                 .flags(GTOMaterialFlags.GENERATE_NANITES, GENERATE_FINE_WIRE)
-                .iconSet(BRIGHT)
+                .iconSet(BLACK_DWARF_MATTER)
                 .buildAndRegister();
 
         AstralTitanium = material("astral_titanium", "星体钛")

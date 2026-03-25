@@ -13,6 +13,8 @@ import net.minecraft.world.level.Level
 
 import appeng.api.networking.GridHelper
 import appeng.api.networking.IGridConnection
+import appeng.api.networking.pathing.ChannelMode
+import appeng.core.AEConfig
 import com.gregtechceu.gtceu.GTCEu
 import com.hepdd.gtmthings.api.capability.IBindable
 import com.lowdragmc.lowdraglib.LDLib
@@ -24,6 +26,8 @@ import it.unimi.dsi.fastutil.objects.Reference2ReferenceOpenHashMap
 import it.unimi.dsi.fastutil.objects.ReferenceOpenHashSet
 
 import java.util.*
+import kotlin.compareTo
+import kotlin.dec
 
 /**
  * 无线网络。每个网络有源节点（提供AE网络）和子节点（使用AE网络）。
@@ -107,6 +111,8 @@ class WirelessNetwork(val id: String, val owner: UUID, var nickname: String = id
                 outputNodes.add(node)
                 getAvailableInput()?.let {
                     createConnection(it, node)
+                } ?: run {
+                    needsRefresh = true
                 }
             }
         }
@@ -171,45 +177,78 @@ class WirelessNetwork(val id: String, val owner: UUID, var nickname: String = id
         assignments.clear()
         connections.clear()
 
-        if (!inputNodes.isEmpty() && !outputNodes.isEmpty()) {
-            val inputs = ReferenceOpenHashSet<WirelessMachine>()
-            inputNodes.forEach {
-                if (isNodeValid(it)) inputs.add(it)
+        if (outputNodes.isEmpty()) return
+
+        if (outputNodes.firstOrNull { isNodeValid(it) }?.mainNode?.grid?.pathingService?.channelMode !== ChannelMode.INFINITE) {
+            if (inputNodes.isEmpty()) return
+            assignNodesGreedy()
+        } else {
+            if (inputNodes.isEmpty()) {
+                val orphan = outputNodes.firstOrNull { isNodeValid(it) } ?: return
+                orphan.switchNodeType(WirelessMachine.NodeType.SOURCE)
+                return
             }
-            val inputIterator = inputs.iterator()
-            if (inputIterator.hasNext()) {
-                var input = inputIterator.next()
-                var count = 0
-                a@ for (output in outputNodes) {
-                    if (!isNodeValid(output)) continue
-                    while (true) {
-                        if (input == null && !inputIterator.hasNext()) {
-                            break@a
-                        }
-                        if (count >= maxOutputsPerInput) {
-                            input = null
-                        }
-                        if (input == null && inputIterator.hasNext()) {
-                            input = inputIterator.next()
-                            count = 0
-                        }
-                        if (createConnection(input, output)) {
-                            count++
-                            break
-                        }
+            if (inputNodes.size > 1) {
+                inputNodes.drop(1).forEach {
+                    if (isNodeValid(it)) {
+                        it.switchNodeType(WirelessMachine.NodeType.CHILD)
                     }
                 }
-
-                if (GTOConfig.INSTANCE.devMode.aeLog) {
-                    println(
-                        "WirelessNetwork '$nickname': ${inputNodes.size} sources, ${outputNodes.size} children, " +
-                            "${assignments.size} assigned, ${getUnassignedOutputCount()} unassigned",
-                    )
-                }
+                return
             }
+            assignNodesInfinity()
         }
+
+        if (GTOConfig.INSTANCE.devMode.aeLog) {
+            println(
+                "WirelessNetwork '$nickname': ${inputNodes.size} sources, ${outputNodes.size} children, " +
+                    "${assignments.size} assigned, ${getUnassignedOutputCount()} unassigned",
+            )
+        }
+
         val endTime = System.currentTimeMillis()
         profiledLoadTime += (endTime - startTime)
+    }
+
+    fun assignNodesInfinity() {
+        val inputs = ReferenceOpenHashSet<WirelessMachine>()
+        inputNodes.forEach {
+            if (isNodeValid(it)) inputs.add(it)
+        }
+        val input = inputs.iterator().next() ?: return
+        for (output in outputNodes) {
+            if (!isNodeValid(output)) continue
+            createConnection(input, output)
+        }
+    }
+
+    fun assignNodesGreedy() {
+        val validInputs = inputNodes.filter { isNodeValid(it) }
+        val validOutputs = outputNodes.filter { isNodeValid(it) }
+
+        if (validInputs.isEmpty()) return
+
+        data class InputCapacity(val input: WirelessMachine, var remainingCapacity: Int, var conns: Int = 0) : Comparable<InputCapacity> {
+            override fun compareTo(other: InputCapacity) = other.remainingCapacity.compareTo(this.remainingCapacity) // 降序
+        }
+
+        val inputCapacities = validInputs.map { input ->
+            InputCapacity(input, input.maxWorkloadChannels - input.workloadChannels)
+        }.toList()
+
+        for (output in validOutputs) {
+            val outputWorkload = output.workloadChannels
+            val bestInput = inputCapacities.maxByOrNull { it.remainingCapacity }
+                ?: continue
+
+            if (bestInput.conns >= maxOutputsPerInput) continue
+            if (bestInput.remainingCapacity < outputWorkload) continue
+
+            if (createConnection(bestInput.input, output)) {
+                bestInput.remainingCapacity -= outputWorkload
+                bestInput.conns++
+            }
+        }
     }
 
     /**
