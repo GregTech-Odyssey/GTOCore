@@ -202,7 +202,8 @@ final class DistillationRecipes {
 
         DISTILLATION_RECIPES.builder("small_celestine_dust")
                 .chancedOutput(ChemicalHelper.get(TagPrefix.dustSmall, GTOMaterials.Celestine), 2500, 0)
-                .inputFluids(GTOMaterials.GlacioAir, FluidStorageKeys.LIQUID, 119000)
+                .inputFluids(GTOMaterials.GlacioAir, FluidStorageKeys.LIQUID, 121000)
+                .outputFluids(GTOMaterials.Aether, 2000)
                 .outputFluids(GTMaterials.Water, 1000)
                 .outputFluids(GTMaterials.Oxygen, 20000)
                 .outputFluids(GTMaterials.CarbonDioxide, 5000)
