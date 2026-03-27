@@ -1,6 +1,6 @@
 {
   "dimension": "gtocore:pluto",
-  "gravity":  3.724,
+  "gravity": 3.724,
   "orbit": "gtocore:pluto_orbit",
   "oxygen": false,
   "solar_power": 7,

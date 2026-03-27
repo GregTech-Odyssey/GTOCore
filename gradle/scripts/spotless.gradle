@@ -18,6 +18,8 @@ spotless {
     json {
         target('src/*/resources/**/*.json', 'src/*/resources/**/*.mcmeta')
         targetExclude 'src/generated/resources/**'
+        biome()
+        trimTrailingWhitespace()
         leadingTabsToSpaces(2)
         endWithNewline()
     }

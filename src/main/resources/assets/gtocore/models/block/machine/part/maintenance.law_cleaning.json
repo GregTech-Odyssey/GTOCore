@@ -11,14 +11,24 @@
       "from": [0, 0, 0],
       "to": [16, 16, 0],
       "faces": {
-        "north": {"opv": [0, 0, 16, 16], "texture": "#overlay_maintenance", "cullface": "north"}
+        "north": {
+          "opv": [0, 0, 16, 16],
+          "texture": "#overlay_maintenance",
+          "cullface": "north"
+        }
       }
     },
     {
       "from": [0, 0, 0],
       "to": [16, 16, 0],
       "faces": {
-        "north": {"opv": [0, 0, 16, 16], "texture": "#overlay_maintenance_emissive", "cullface": "north", "tintindex": -101, "emissivity":  15}
+        "north": {
+          "opv": [0, 0, 16, 16],
+          "texture": "#overlay_maintenance_emissive",
+          "cullface": "north",
+          "tintindex": -101,
+          "emissivity": 15
+        }
       }
     }
   ]

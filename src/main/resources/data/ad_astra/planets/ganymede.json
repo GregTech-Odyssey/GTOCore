@@ -1,6 +1,6 @@
 {
   "dimension": "gtocore:ganymede",
-  "gravity":  4.214,
+  "gravity": 4.214,
   "orbit": "gtocore:ganymede_orbit",
   "oxygen": false,
   "solar_power": 12,

@@ -1,6 +1,6 @@
 {
   "dimension": "gtocore:barnarda_c",
-  "gravity":  8.722,
+  "gravity": 8.722,
   "orbit": "gtocore:barnarda_c_orbit",
   "oxygen": true,
   "solar_power": 48,

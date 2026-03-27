@@ -1,9 +1,11 @@
 {
   "type": "apotheosis:enchanting",
-  "conditions": [{
-    "type": "apotheosis:module",
-    "module": "enchantment"
-  }],
+  "conditions": [
+    {
+      "type": "apotheosis:module",
+      "module": "enchantment"
+    }
+  ],
   "input": {
     "item": "minecraft:experience_bottle"
   },

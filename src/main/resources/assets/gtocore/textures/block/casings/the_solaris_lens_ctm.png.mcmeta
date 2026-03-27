@@ -3,8 +3,8 @@
     "interpolate": true,
     "frametime": 16
   },
-  
-    "ldlib": {
-        "emissive": true
-    }
+
+  "ldlib": {
+    "emissive": true
+  }
 }

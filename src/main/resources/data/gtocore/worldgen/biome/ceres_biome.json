@@ -25,10 +25,7 @@
   "features": [
     [],
     [],
-    [
-      "minecraft:amethyst_geode",
-      "minecraft:forest_rock"
-    ],
+    ["minecraft:amethyst_geode", "minecraft:forest_rock"],
     [],
     [],
     [],
@@ -36,8 +33,6 @@
     [],
     [],
     [],
-    [
-      "minecraft:freeze_top_layer"
-    ]
+    ["minecraft:freeze_top_layer"]
   ]
 }

@@ -2,11 +2,11 @@
   "animation": {
     "frametime": 3
   },
-    "ldlib": {
-        "connection": "gtocore:block/quantum_force_transformer_coil_active_ctm",
-        "emissive": true
-    },
-    "shimmer": {
-        "bloom": true
-    }
+  "ldlib": {
+    "connection": "gtocore:block/quantum_force_transformer_coil_active_ctm",
+    "emissive": true
+  },
+  "shimmer": {
+    "bloom": true
+  }
 }

@@ -14,7 +14,8 @@
         "left": 8,
         "top": 6
       }
-    },"whitelist": {
+    },
+    "whitelist": {
       "text": {
         "translate": "gui.expatternprovider.tag_storage_bus.whitelist"
       },

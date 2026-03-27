@@ -1,5 +1,5 @@
 {
-    "ldlib": {
-        "connection": "gtocore:block/flotation_cell_ctm"
-    }
+  "ldlib": {
+    "connection": "gtocore:block/flotation_cell_ctm"
+  }
 }

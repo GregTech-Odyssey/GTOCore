@@ -52,12 +52,5 @@
       "cooldown": 300
     }
   },
-  "types": [
-    "sword",
-    "trident",
-    "heavy_weapon",
-        "bow",
-        "crossbow",
-        "trident"
-  ]
+  "types": ["sword", "trident", "heavy_weapon", "bow", "crossbow", "trident"]
 }

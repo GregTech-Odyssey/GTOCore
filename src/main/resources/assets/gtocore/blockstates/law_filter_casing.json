@@ -1,7 +1,7 @@
 {
-    "variants": {
-        "": {
-            "model": "gtocore:block/law_filter_casing"
-        }
+  "variants": {
+    "": {
+      "model": "gtocore:block/law_filter_casing"
     }
+  }
 }

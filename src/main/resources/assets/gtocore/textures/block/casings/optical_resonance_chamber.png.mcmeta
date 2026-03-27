@@ -3,9 +3,9 @@
     "interpolate": true,
     "frametime": 2
   },
-  
-    "ldlib": {
-        "connection": "gtocore:block/casings/optical_resonance_chamber_ctm",
-        "emissive": true
-    }
+
+  "ldlib": {
+    "connection": "gtocore:block/casings/optical_resonance_chamber_ctm",
+    "emissive": true
+  }
 }

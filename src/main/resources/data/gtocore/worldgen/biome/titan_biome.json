@@ -25,14 +25,8 @@
   "features": [
     [],
     [],
-    [
-      "minecraft:iceberg_packed",
-      "minecraft:iceberg_blue"
-    ],
-    [
-      "minecraft:fossil_upper",
-      "minecraft:fossil_lower"
-    ],
+    ["minecraft:iceberg_packed", "minecraft:iceberg_blue"],
+    ["minecraft:fossil_upper", "minecraft:fossil_lower"],
     [],
     [],
     [],
