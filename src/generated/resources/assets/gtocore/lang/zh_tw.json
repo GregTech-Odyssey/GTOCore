@@ -33,6 +33,8 @@
   "ae2.gto_extension.crafting_show_molecular_assembler_only": "只顯示合成樣板",
   "ae2.gto_extension.display_machine_config": "機器配置",
   "ae2.gto_extension.display_machine_throughput": "吞吐量顯示",
+  "ae2.gto_extension.emit_crafting": "髮信合成：%s",
+  "ae2.gto_extension.emit_crafting_notes": "髮信原料算作缺失合成物品的一部分",
   "ae2.gto_extension.expand_toggle_button": "展開設置",
   "ae2.gto_extension.facility_icon_filter_tooltip": "根據槽位中的物品所示的設備類型來過濾設施",
   "ae2.gto_extension.facility_management_short": "設施管理",

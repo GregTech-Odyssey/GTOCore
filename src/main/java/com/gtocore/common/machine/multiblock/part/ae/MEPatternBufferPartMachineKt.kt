@@ -135,7 +135,7 @@ open class MEPatternBufferPartMachineKt(holder: MetaMachineBlockEntity, maxPatte
                     }
                     val fluidHandler: Array<CustomFluidTank> = getInternalInventory()[configuratorField.get()].shareTank.storages
                     textBlock(maxWidth = width, textSupplier = { Component.translatable(fluid_special) })
-                    (0 until fluidHandler.size).chunked(9).forEach { indices ->
+                    fluidHandler.indices.chunked(9).forEach { indices ->
                         hBox(height = 18) {
                             indices.forEach { index ->
                                 widget(
