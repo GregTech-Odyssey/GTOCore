@@ -33,7 +33,7 @@ import java.util.regex.Pattern;
 @DataGeneratorScanned
 public final class PerformanceMonitorMachine extends MetaMachine implements IFancyUIMachine {
 
-    @RegisterLanguage(cn = "AE网络", en = "AE Grid")
+    @RegisterLanguage(cn = "ME网络", en = "ME Grid")
     private static final String GRID = "gtocore.performance_monitor.grid";
 
     private static final Pattern PATTERN = Pattern.compile(", ");
