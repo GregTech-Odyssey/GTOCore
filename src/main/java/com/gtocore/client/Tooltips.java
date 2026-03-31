@@ -29,6 +29,8 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
+import static com.gtocore.common.data.GTOMaterials.*;
+
 public final class Tooltips {
 
     public static final Map<String, CNEN> LANG = GTCEu.isDataGen() ? new O2OOpenCacheHashMap<>() : null;
@@ -40,6 +42,31 @@ public final class Tooltips {
         TooltipsHandler.FLUID_EVENT.addListener(Tooltips.class, t -> {
             var fluid = t.getLeft().getFluid();
             var tooltips = t.getMiddle();
+
+            // 火箭燃料等级
+            int tier = 0;
+            if (fluid == com.gregtechceu.gtceu.common.data.GTMaterials.RocketFuel.getFluid()) tier = 1;
+            else if (fluid == RocketFuelRp1.getFluid()) tier = 2;
+            else if (fluid == DenseHydrazineFuelMixture.getFluid()) tier = 3;
+            else if (fluid == RocketFuelCn3h7o3.getFluid()) tier = 4;
+            else if (fluid == RocketFuelH8n4c2o4.getFluid()) tier = 5;
+            else if (fluid == RegistriesUtils.getFluid("ad_astra:cryo_fuel")) tier = 6;
+            else if (fluid == StellarEnergyRocketFuel.getFluid()) tier = 7;
+
+            // 净化水等级
+            else if (fluid == FilteredSater.getFluid()) tier = 1;
+            else if (fluid == OzoneWater.getFluid()) tier = 2;
+            else if (fluid == FlocculentWater.getFluid()) tier = 3;
+            else if (fluid == PHNeutralWater.getFluid()) tier = 4;
+            else if (fluid == ExtremeTemperatureWater.getFluid()) tier = 5;
+            else if (fluid == ElectricEquilibriumWater.getFluid()) tier = 6;
+            else if (fluid == DegassedWater.getFluid()) tier = 7;
+            else if (fluid == BaryonicPerfectionWater.getFluid()) tier = 8;
+
+            if (tier > 0) {
+                for (var c : NewDataAttributes.LEVEL.create(tier).get()) tooltips.accept(c);
+            }
+
             var material = ChemicalHelper.getMaterial(fluid);
             if (FullCellGenerator.Wrapper.ELECTROLYTES_PER_MATERIAL_PER_MILLIBUCKET.containsKey(material)) {
                 long euPerMb = FullCellGenerator.Wrapper.ELECTROLYTES_PER_MATERIAL_PER_MILLIBUCKET.get(material);
