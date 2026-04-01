@@ -14,6 +14,7 @@ import com.gtolib.api.capability.ISync
 import com.gtolib.api.gui.ktflexible.LayoutBuilder
 import com.gtolib.api.gui.ktflexible.Style
 import com.gtolib.api.gui.ktflexible.VBoxBuilder
+import com.lowdragmc.lowdraglib.gui.widget.Widget
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup
 
 import java.util.function.IntSupplier
@@ -53,7 +54,7 @@ fun LayoutBuilder<*>.progressBar(currentSupplier: IntSupplier, totalSupplier: In
     widget(widget)
 }
 
-fun LayoutBuilder<*>.textBlock(textSupplier: Supplier<Component>, tab: Int = 0, maxWidth: Int = 40, textColor: Int? = null) {
+fun LayoutBuilder<*>.textBlock(textSupplier: Supplier<Component>, tab: Int = 0, maxWidth: Int = 40, textColor: Int? = null): Widget {
     val widget = object : SyncWidget(0, 0, 100, 12) {
         private val textField = syncComponent({ textSupplier.get() }, -1, textSupplier.get())
         private val yPadding: Int = 1
@@ -106,7 +107,7 @@ fun LayoutBuilder<*>.textBlock(textSupplier: Supplier<Component>, tab: Int = 0, 
             graphics.pose().popPose()
         }
     }
-    widget(widget)
+    return widget(widget)
 }
 class MultiPageDSLBuilder {
     private val pageSuppliers: MutableList<Supplier<VBoxBuilder.() -> Unit>> = mutableListOf()

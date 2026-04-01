@@ -2,6 +2,15 @@ package com.gtocore.common.machine.multiblock.part.ae
 
 import com.gtocore.api.gui.ktflexible.textBlock
 import com.gtocore.common.data.GTORecipes
+import com.gtocore.common.machine.multiblock.part.ae.MEPatternBufferPartMachineKt.Companion.add_recipe_msg
+import com.gtocore.common.machine.multiblock.part.ae.MEPatternBufferPartMachineKt.Companion.circuit_special
+import com.gtocore.common.machine.multiblock.part.ae.MEPatternBufferPartMachineKt.Companion.clear_recipe_slot
+import com.gtocore.common.machine.multiblock.part.ae.MEPatternBufferPartMachineKt.Companion.clear_recipe_slot_msg
+import com.gtocore.common.machine.multiblock.part.ae.MEPatternBufferPartMachineKt.Companion.fluid_special
+import com.gtocore.common.machine.multiblock.part.ae.MEPatternBufferPartMachineKt.Companion.item_special
+import com.gtocore.common.machine.multiblock.part.ae.MEPatternBufferPartMachineKt.Companion.no_recipe
+import com.gtocore.common.machine.multiblock.part.ae.MEPatternBufferPartMachineKt.Companion.recipe_special
+import com.gtocore.common.machine.multiblock.part.ae.MEPatternBufferPartMachineKt.Companion.view_recipe
 
 import net.minecraft.client.gui.GuiGraphics
 import net.minecraft.network.FriendlyByteBuf
@@ -62,6 +71,34 @@ open class MEPatternBufferPartMachineKt(holder: MetaMachineBlockEntity, maxPatte
 
         @RegisterLanguage(cn = "打开emi页面后，选择一个配方，用“+”按钮将其添加到样板中。", en = "After opening the emi page, select a recipe and use the \"+\" button to add it to the pattern.")
         const val add_recipe_msg: String = "gtceu.ae.pattern_part_machine.clear_recipe_msg2"
+
+        @RegisterLanguage(cn = "此样板物品与流体配置", en = "The item and fluid configuration of this pattern")
+        const val pattern_configuration: String = "gtceu.ae.pattern_part_machine.pattern_configuration"
+
+        @RegisterLanguage(cn = "发信合成模式", en = "Emitting crafting mode")
+        const val emitting_crafting_mode: String = "gtceu.ae.pattern_part_machine.emitting_crafting_mode"
+
+        @RegisterLanguage(cn = "物品不够时请求合成", en = "Request crafting when items are insufficient")
+        const val request_crafting_when_insufficient: String = "gtceu.ae.pattern_part_machine.request_crafting_when_insufficient"
+
+        @RegisterLanguage(
+            cn = "该模式与标准发信器的合成卡功能相似，在下单请求该物品后，机器会使用样板中的配方被动持续向机器内输入",
+            en = "This mode is similar to the crafting card function of a standard emitter. " +
+                "After placing an order for the item, the machine will passively and continuously input items into the machine using the recipe in the pattern.",
+        )
+        const val emitting_crafting_mode_tooltip: String = "gtceu.ae.pattern_part_machine.emitting_crafting_mode_tooltip"
+
+        @RegisterLanguage(cn = "低存量触发模式", en = "Low stock triggering mode")
+        const val low_stock_triggering_mode: String = "gtceu.ae.pattern_part_machine.low_stock_triggering_mode"
+
+        @RegisterLanguage(
+            cn = "该模式会在网络库存量低于设定数量时触发持续被动配方输入，直到库存量满足要求。",
+            en = "This mode will trigger continuous passive recipe input when the network inventory is below the set quantity, until the inventory meets the requirements.",
+        )
+        const val low_stock_triggering_mode_tooltip: String = "gtceu.ae.pattern_part_machine.low_stock_triggering_mode_tooltip"
+
+        @RegisterLanguage(cn = "低存量库存触发阈值", en = "Low stock triggering threshold")
+        const val low_stock_triggering_threshold: String = "gtceu.ae.pattern_part_machine.low_stock_triggering_threshold"
 
         val SET_ID_CHANNEL: NetworkPack = NetworkPack.registerC2S(
             "me_pattern_buffer_set_id_channel",

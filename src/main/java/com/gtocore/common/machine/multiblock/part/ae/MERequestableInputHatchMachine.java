@@ -34,7 +34,7 @@ public class MERequestableInputHatchMachine extends MEInputHatchPartMachine impl
         }
         var cg = grid.getCraftingService();
         MEStorage networkInv = grid.getStorageService().getInventory();
-        for (int i = 0; i < this.aeFluidHandler.getSize(); i++) {
+        for (int i = 0; i < this.aeFluidHandler.getTanks(); i++) {
             ExportOnlyAEFluidSlot aeTank = this.aeFluidHandler.getInventory()[i];
             GenericStack exceedFluid = aeTank.exceedStack();
             if (exceedFluid != null) {

@@ -17,6 +17,13 @@ import com.gregtechceu.gtceu.config.ConfigHolder
 
 object GTOMachineTooltipsA : AutoInitialize<GTOMachineTooltipsA>() {
 
+    var meInputBufferPartMachineTooltips: ComponentListSupplier = ComponentListSupplier {
+        setTranslationPrefix("me_input_buffer_part_machine")
+
+        section(MainFunction)
+        command("ME输入仓室的一种特殊模式，仅能使用样板进行配置" translatedTo "A special mode of the ME input hatch/bus, can only be configured using patterns")
+        command("在该模式下，每个槽位使用样板配置一组特定的物品或流体，仓室将从ME网络提取对应的物品与流体" translatedTo "In this mode, each slot is configured with a pattern for a specific group of items or fluids, and the hatch/bus will extract the corresponding items and fluids from the ME network")
+    }
     val planetaryGasCollectorTooltips: ComponentListSupplier = ComponentListSupplier {
         setTranslationPrefix("planetary_gas_collector")
 

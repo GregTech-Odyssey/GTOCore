@@ -8,7 +8,6 @@ import net.minecraft.network.chat.MutableComponent;
 
 import appeng.client.gui.widgets.ActionButton;
 import appeng.client.gui.widgets.IconButton;
-import appeng.core.localization.ButtonToolTips;
 import appeng.core.localization.LocalizationEnum;
 
 import gto_ae.hooks.gui.IActionItems;
@@ -29,23 +28,34 @@ public abstract class ActionButtonMixin extends IconButton implements INoMouseRe
 
     @Unique
     boolean gtocore$useOtherButton = false;
+    @Unique
+    Component gtocore$message;
 
     public ActionButtonMixin(OnPress onPress) {
         super(onPress);
     }
 
+    @SuppressWarnings("ConstantConditions")
     @Inject(method = "buildMessage", at = @At("RETURN"), remap = false)
     private void initHook(LocalizationEnum displayName, LocalizationEnum displayValue, CallbackInfoReturnable<Component> cir) {
-        if (displayValue == ButtonToolTips.EncodeDescription) {
-            gtocore$useOtherButton = true;
-            MutableComponent component = (MutableComponent) cir.getReturnValue();
-            Minecraft.getInstance().tell(() -> {
-                if (Minecraft.getInstance().screen instanceof IExtendedPatternEncodingTerm)
-                    component.append("\n")
-                            .append(Component.translatable("gtocore.ae.appeng.craft.encode_send"));
-                setMessage(component);
-            });
+        Minecraft.getInstance().tell(() -> {
+            if (Minecraft.getInstance().screen instanceof IExtendedPatternEncodingTerm screen &&
+                    screen.gto$getEncodeButton() == (Object) this) {
+                gtocore$useOtherButton = true;
+                MutableComponent component = (MutableComponent) cir.getReturnValue();
+                component.append("\n")
+                        .append(Component.translatable("gtocore.ae.appeng.craft.encode_send"));
+                gtocore$message = component;
+            }
+        });
+    }
+
+    @Override
+    public Component getMessage() {
+        if (gtocore$useOtherButton && gtocore$message != null) {
+            return gtocore$message;
         }
+        return super.getMessage();
     }
 
     @Override
