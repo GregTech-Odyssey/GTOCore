@@ -1396,6 +1396,11 @@ object GTOMachineTooltips {
     val PrimitiveDistillationTowerTooltips = ComponentListSupplier {
         setTranslationPrefix("primitive_distillation_tower")
 
+        section("运行机制" translatedTo "Operation Mechanics")
+        info("更高的温度和更长的连续运行时间能显著加快配方速度" translatedTo "Higher temperatures and longer continuous operation significantly speed up recipes")
+        function("最高13层，每个产物都需要一个对应高度的输出仓" translatedTo "Each fluid product requires a Fluid Hatch at a corresponding Y-level")
+        important("只能处理MV及以下的配方" translatedTo "Can only process recipes of MV tier or lower")
+
         section("热管理机制" translatedTo "Heat Management")
         info("需要 >400K 的热量才能运行配方" translatedTo "Requires >400K heat to process recipes")
         info("运行配方会消耗热量，有助于稳定温度" translatedTo "Processing recipes consumes heat, helping to stabilize temperature")
@@ -1406,13 +1411,7 @@ object GTOMachineTooltips {
         info("热量 > 373K 时会消耗水进行冷却" translatedTo "Consumes water for cooling when heat exceeds 373K")
         function("足量的水(>100mb)才能有效降温" translatedTo "Sufficient water (>100mb) is required for effective cooling")
         error("注意：水量不足(≤100mb)会适得其反，导致机器异常升温并加速燃料消耗！" translatedTo "Warning: Insufficient water (≤100mb) will backfire, causing extra heat gain and faster fuel consumption!")
-
         error("热量超过 850K 将导致爆炸！" translatedTo "Heat exceeding 850K will cause an explosion!")
-
-        section("运行机制" translatedTo "Operation Mechanics")
-        info("更高的温度和更长的连续运行时间能显著加快配方速度" translatedTo "Higher temperatures and longer continuous operation significantly speed up recipes")
-        function("每个流体产物都需要一个对应高度的流体输出仓" translatedTo "Each fluid product requires a Fluid Hatch at a corresponding Y-level")
-        important("只能处理MV及以下的配方" translatedTo "Can only process recipes of MV tier or lower")
 
         section(ComponentSlang.AfterModuleInstallation)
         info("安装模块后，机器所使用的冷却用水将只会由模块提供" translatedTo "After installing modules, the machine will only use water provided by the modules for cooling")
