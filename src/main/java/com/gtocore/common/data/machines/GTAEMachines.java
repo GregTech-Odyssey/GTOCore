@@ -1,6 +1,7 @@
 package com.gtocore.common.data.machines;
 
 import com.gtocore.common.data.translation.GTOMachineTooltips;
+import com.gtocore.common.data.translation.GTOMachineTooltipsA;
 import com.gtocore.common.machine.multiblock.part.ae.*;
 import com.gtocore.common.machine.noenergy.VirtualItemProviderMachine;
 
@@ -105,6 +106,39 @@ public final class GTAEMachines {
                     Component.translatable("gtceu.machine.me.copy_paste.tooltip"),
                     Component.translatable("gtceu.part_sharing.enabled"))
             .meAutoConnectable()
+            .register();
+
+    public static final MachineDefinition ME_REQUESTABLE_INPUT_BUS_MACHINE = machine("me_requestable_input_bus_machine", "ME可请求输入总线", MERequestableInputBusMachine::new)
+            .langValue("ME Requestable Input Bus")
+            .tooltips(GTOMachineTooltips.INSTANCE.getMeRequestableInputBusTooltips().getSupplier())
+            .meAutoConnectable()
+            .tier(LuV)
+            .allRotation()
+            .abilities(PartAbility.IMPORT_ITEMS)
+            .notAllowSharedTooltips()
+            .renderer(() -> new OverlayTieredMachineRenderer(LuV, GTCEu.id("block/machine/part/me_item_bus.import")))
+            .register();
+
+    public static final MachineDefinition ME_REQUESTABLE_INPUT_HATCH_MACHINE = machine("me_requestable_input_hatch_machine", "ME可请求输入仓", MERequestableInputHatchMachine::new)
+            .langValue("ME Requestable Input Hatch")
+            .tooltips(GTOMachineTooltips.INSTANCE.getMeRequestableInputHatchTooltips().getSupplier())
+            .meAutoConnectable()
+            .tier(LuV)
+            .allRotation()
+            .abilities(PartAbility.IMPORT_FLUIDS)
+            .notAllowSharedTooltips()
+            .renderer(() -> new OverlayTieredMachineRenderer(LuV, GTCEu.id("block/machine/part/me_fluid_hatch.import")))
+            .register();
+
+    public static final MachineDefinition ME_INPUT_BUFFER_PART_MACHINE = machine("me_input_buffer_part_machine", "ME样板配置输入总成", MEInputBufferPartMachine::new)
+            .langValue("ME Pattern-Configurable Input Buffer")
+            .tooltips(GTOMachineTooltipsA.INSTANCE.getMeInputBufferPartMachineTooltips().getSupplier())
+            .meAutoConnectable()
+            .tier(LuV)
+            .allRotation()
+            .abilities(PartAbility.IMPORT_ITEMS, PartAbility.IMPORT_FLUIDS)
+            .notAllowSharedTooltips()
+            .renderer(() -> new OverlayTieredMachineRenderer(LuV, GTCEu.id("block/machine/part/me_pattern_buffer_proxy")))
             .register();
 
     public static final MachineDefinition ME_CRAFT_PATTERN_PART_MACHINE = machine("me_craft_pattern_part_machine", "合成样板仓", MECraftPatternPartMachine::new)

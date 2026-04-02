@@ -19,6 +19,7 @@ import appeng.api.stacks.AEKey;
 import appeng.api.stacks.GenericStack;
 import appeng.api.stacks.KeyCounter;
 import appeng.crafting.CraftingLink;
+import appeng.crafting.CraftingPlan;
 import appeng.crafting.execution.ElapsedTimeTracker;
 import appeng.crafting.inv.ListCraftingInventory;
 import appeng.me.service.CraftingService;
@@ -73,7 +74,7 @@ class ExecutingCraftingJob {
         this.remainingAmount = this.finalOutput.amount();
         this.waitingFor = new ListCraftingInventory(changeListener);
 
-        if (plan instanceof ICraftingPlanAllocationAccessor accessor) {
+        if (plan instanceof CraftingPlan accessor) {
             var src = accessor.getGtocore$allocations();
             if (src != null && !src.isEmpty()) {
                 src.reference2ObjectEntrySet().fastForEach(e -> {

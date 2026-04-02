@@ -43,7 +43,7 @@ dependencies {
     compileOnly(annotationProcessor("com.github.bawnorton.mixinsquared:mixinsquared-common:0.3.2-beta.4"))
     implementation("com.github.bawnorton.mixinsquared:mixinsquared-neoforge:0.3.2-beta.4")
 
-    modImplementation("curse.maven:ldlib-626676:7412415")
+    modImplementation("curse.maven:ldlib-626676:7809449")
 
     modImplementation("org.appliedenergistics:guideme:20.1.13")
     modImplementation("curse.maven:applied-energistics-2-wireless-terminals-459929:7251206")
@@ -88,7 +88,7 @@ dependencies {
     modImplementation("curse.maven:ars-meteorites-1278083:7125271")
 
     modImplementation("curse.maven:glodium-957920:5006780")
-    modImplementation("curse.maven:ex-pattern-provider-892005:7624084")
+    modImplementation("curse.maven:ex-pattern-provider-892005:7804654")
 
     modImplementation("curse.maven:merequester-688367:5689932")
 
@@ -120,7 +120,6 @@ dependencies {
     modCompileOnly("curse.maven:ftb-quests-forge-289412:6259628")
     modCompileOnly("curse.maven:ftb-teams-forge-404468:6130786")
     modRuntimeOnly("curse.maven:ftb-teams-forge-404468:6130786")
-//    modRuntimeOnly("curse.maven:ftb-quests-forge-289412:6259628")  // 不能参与runData任务
 
     modCompileOnly("curse.maven:ftb-xmod-compat-889915:6402486")
     modRuntimeOnly("curse.maven:ftb-xmod-compat-889915:6402486")
@@ -166,7 +165,6 @@ dependencies {
     modRuntimeOnly("curse.maven:redstone-pen-461710:5242883")
     modRuntimeOnly("curse.maven:more-red-387638:4691333")
 
-//    modRuntimeOnly("curse.maven:worldedit-225608:4586218")
 
     modImplementation("curse.maven:ars-energistique-905641:5504444")
 
@@ -179,11 +177,7 @@ dependencies {
 
     modImplementation("dev:Jade-1.20.1-Forge-11.13.1")
 
-//    modRuntimeOnly("curse.maven:just-enough-characters-250702:7176519")
-    modRuntimeOnly("dev:jecharacters:1.20.1-forge-4.5.11-dev-shadow")
     modCompileOnly("dev:jecharacters:1.20.1-forge-4.5.11-dev-shadow")
-    modRuntimeOnly("curse.maven:imblocker-483760:6922546")
-//    modRuntimeOnly("curse.maven:effortless-building-302113:6330928")
 
     modRuntimeOnly("curse.maven:huge-structure-blocks-474114:4803547")
 
@@ -199,6 +193,7 @@ dependencies {
     modCompileOnly("curse.maven:emi-loot-681783:6449092")
 
     modCompileOnly("dev:gtoepp:1.0.1")
+    modCompileOnly("curse.maven:tool-belt-260262:5929061")
 
     modImplementation("curse.maven:jumbo-furnace-390880:4685578")
 

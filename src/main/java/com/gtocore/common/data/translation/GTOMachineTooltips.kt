@@ -2207,4 +2207,16 @@ object GTOMachineTooltips {
         section(ComponentSlang.MainFunction)
         highlight("安装后，空间站内的其他拓展舱体将能够使用§d激光仓§r/§d超频仓§r/§d线程仓§r等高级舱体" translatedTo "When installed, other expansion modules in the space station will be able to use advanced modules such as §dLaser Chamber§r/§dOverclocking Chamber§r/§dThread Chamber§r")
     }
+    val meRequestableInputBusTooltips: ComponentListSupplier = ComponentListSupplier {
+        setTranslationPrefix("me_requestable_input_bus")
+        section(ComponentSlang.MainFunction)
+        content("将物品从ME网络中提取出来，放入机器中进行加工" translatedTo "Extract items from the ME network and insert them into machines for processing")
+        content("提取不出来则会自己下单请求" translatedTo "If items cannot be extracted, it will place its own order request")
+    }
+    val meRequestableInputHatchTooltips: ComponentListSupplier = ComponentListSupplier {
+        setTranslationPrefix("me_requestable_input_hatch")
+        section(ComponentSlang.MainFunction)
+        content("将流体从ME网络中提取出来，放入机器中进行加工" translatedTo "Extract fluids from the ME network and insert them into machines for processing")
+        content("提取不出来则会自己下单请求" translatedTo "If items cannot be extracted, it will place its own order request")
+    }
 }

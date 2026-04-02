@@ -179,7 +179,7 @@ abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.AbstractInterna
 
         detailsSlotMap.forcePut(newPatternDetails, internalInv)
 
-        oldPatternDetails?.takeIf { it != newPatternDetails }?.let {
+        oldPatternDetails.takeIf { it != newPatternDetails }.let {
             internalInv.onPatternChange()
         }
 
@@ -196,6 +196,7 @@ abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.AbstractInterna
     open fun onPagePrev() {}
     open fun runOnUpdate() {}
     open fun addWidget(group: WidgetGroup) {}
+    open fun onDetailsPostInit() {}
 
     // ==================== 生命周期方法 ====================
     val newPageField = ISync.createIntField(this).set(0)
@@ -233,6 +234,7 @@ abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.AbstractInterna
                                 }
                             }
                             updatePatterns()
+                            onDetailsPostInit()
                             detailsInit = true
                         }, 10)
                     }
@@ -279,7 +281,7 @@ abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.AbstractInterna
                                                 { Component.empty() },
                                                 BiConsumer { c: MutableComponent?, t: MutableComponent? ->
                                                     c!!.append(
-                                                        if (c.string.isEmpty()) t else Component.literal("/").append(t),
+                                                        (if (c.string.isEmpty()) t else Component.literal("/").append(t as Component)) as Component,
                                                     )
                                                 },
                                                 { c1: MutableComponent?, c2: MutableComponent? ->
@@ -485,7 +487,7 @@ abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.AbstractInterna
         }
     }
 
-    private fun createPatternSlot(index: Int): AEPatternViewSlotWidgetKt {
+    fun createPatternSlot(index: Int): AEPatternViewSlotWidgetKt {
         val slot = AEPatternViewSlotWidgetKt(
             0,
             0,
@@ -532,8 +534,8 @@ abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.AbstractInterna
         tag.put("p", patternInventory.serializeNBT())
         tag.putString("n", customName)
         val list = ListTag()
-        for (i in 0 until internalInventory.size) {
-            list.add(internalInventory[i].serializeNBT())
+        for (element in internalInventory) {
+            list.add(element.serializeNBT())
         }
         tag.put("i", list)
     }
@@ -542,8 +544,8 @@ abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.AbstractInterna
         patternInventory.deserializeNBT(tag.getCompound("p"))
         customName = tag.getString("n")
         val list = tag.getList("i", Tag.TAG_COMPOUND.toInt())
-        for (i in 0 until internalInventory.size) {
-            internalInventory[i].deserializeNBT(list.getCompound(i))
+        for ((i, element) in internalInventory.withIndex()) {
+            element.deserializeNBT(list.getCompound(i))
         }
     }
 
