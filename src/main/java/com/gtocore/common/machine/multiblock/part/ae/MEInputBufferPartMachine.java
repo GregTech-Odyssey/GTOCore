@@ -256,7 +256,8 @@ public class MEInputBufferPartMachine extends MEPatternPartMachineKt<MEInputBuff
 
     @Override
     public boolean patternFilter(@NotNull ItemStack stack) {
-        return stack.getItem() instanceof ProcessingPatternItem;
+        return stack.getItem() instanceof ProcessingPatternItem &&
+                MEPatternPartMachineKtKt.checkDuplicatedPattern(this, stack);
     }
 
     public static final class InternalSlot extends AbstractInternalSlot implements ICraftingRequester {

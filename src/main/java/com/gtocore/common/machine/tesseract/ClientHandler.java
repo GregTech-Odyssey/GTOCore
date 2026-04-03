@@ -3,8 +3,6 @@ package com.gtocore.common.machine.tesseract;
 import com.gtocore.client.renderer.RenderHelper;
 import com.gtocore.common.item.TesseractTargetMarker;
 
-import com.gregtechceu.gtceu.utils.GTUtil;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.renderer.GameRenderer;
@@ -12,6 +10,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.client.event.RenderLevelStageEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -28,6 +27,8 @@ import org.joml.Matrix4f;
 
 import java.awt.*;
 import java.util.List;
+
+import static com.gregtechceu.gtceu.utils.GTUtil.getClientLevel;
 
 @Mod.EventBusSubscriber(Dist.CLIENT)
 public class ClientHandler {
@@ -65,7 +66,7 @@ public class ClientHandler {
 
     public static void onRenderDirected(RenderLevelStageEvent event, List<TesseractDirectedTarget> faces) {
         if (faces.isEmpty()) return;
-        var level = GTUtil.getClientLevel();
+        var level = getClientLevel();
         var poseStack = event.getPoseStack();
         poseStack.pushPose();
         {
@@ -166,7 +167,7 @@ public class ClientHandler {
 
     public static void onRenderBlocks(RenderLevelStageEvent event, List<Long> packedPositions) {
         if (packedPositions.isEmpty()) return;
-        var level = GTUtil.getClientLevel();
+        var level = getClientLevel();
         if (event.getStage() == RenderLevelStageEvent.Stage.AFTER_TRIPWIRE_BLOCKS) {
             var poseStack = event.getPoseStack();
             poseStack.pushPose();
@@ -229,6 +230,15 @@ public class ClientHandler {
                 }
             }
             poseStack.popPose();
+        }
+    }
+
+    @SubscribeEvent
+    public static void onInteractionKeyPressed(InputEvent.InteractionKeyMappingTriggered event) {
+        if (event.isPickBlock() &&
+                TesseractTargetMarker.isTesseractTargetMarker(Minecraft.getInstance().player.getMainHandItem())) {
+            event.setCanceled(true);
+            TesseractTargetMarker.sendCopyConfigPacket(getClientLevel(), Minecraft.getInstance().player);
         }
     }
 }

@@ -137,7 +137,9 @@ public class MEWildcardPatternBufferPartMachine extends MEPatternBufferPartMachi
 
     @Override
     public boolean patternFilter(ItemStack stack) {
-        return stack.getItem() instanceof ProcessingPatternItem;
+        var f = stack.getItem() instanceof ProcessingPatternItem;
+        if (!f) return false;
+        return MEPatternPartMachineKtKt.checkDuplicatedPattern(this, stack);
     }
 
     @Override

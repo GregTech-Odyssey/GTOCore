@@ -26,6 +26,7 @@ import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.phys.BlockHitResult
 
 import appeng.api.crafting.IPatternDetails
+import appeng.api.crafting.PatternDetailsHelper
 import appeng.api.implementations.blockentities.PatternContainerGroup
 import appeng.api.inventories.InternalInventory
 import appeng.api.networking.IGrid
@@ -142,7 +143,7 @@ abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.AbstractInterna
     val detailsSlotMap: BiMap<IPatternDetails, T> = HashBiMap.create(maxPatternCount)
     var detailsInit = false
 
-    private var patterns: List<IPatternDetails> = emptyList()
+    var patterns: List<IPatternDetails> = emptyList()
     private var needPatternSync: Boolean = false
     private var updateSubs: TickableSubscription? = null
 
@@ -569,4 +570,13 @@ class MEPartInv(val machine: MEPatternPartMachineKt<*>) : InternalInventory {
         }
         machine.onPatternChange(slotIndex)
     }
+}
+
+fun checkDuplicatedPattern(machine: MEPatternPartMachineKt<*>, stack: ItemStack): Boolean = with(machine) {
+    val patternDetails = PatternDetailsHelper.decodePattern(stack, level) ?: return false
+    if (level?.isClientSide == true) return true
+    if (detailsSlotMap.isEmpty()) return true
+    val primaryOutput = patternDetails.primaryOutput.what()
+    return patterns
+        .none { details: IPatternDetails -> details.primaryOutput.what() == primaryOutput }
 }

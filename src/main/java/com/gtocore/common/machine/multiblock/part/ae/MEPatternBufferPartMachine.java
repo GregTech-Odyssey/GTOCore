@@ -198,7 +198,9 @@ public abstract class MEPatternBufferPartMachine extends MEPatternPartMachineKt<
                 }
             }
         }
-        return stack.getItem() instanceof ProcessingPatternItem;
+        var f = stack.getItem() instanceof ProcessingPatternItem;
+        if (!f) return false;
+        return MEPatternPartMachineKtKt.checkDuplicatedPattern(this, stack);
     }
 
     @Override

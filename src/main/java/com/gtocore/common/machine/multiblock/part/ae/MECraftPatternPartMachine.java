@@ -36,7 +36,9 @@ public class MECraftPatternPartMachine extends MEPatternPartMachineKt<MECraftPat
 
     @Override
     public boolean patternFilter(ItemStack stack) {
-        return stack.getItem() instanceof EncodedPatternItem && !(stack.getItem() instanceof ProcessingPatternItem);
+        return stack.getItem() instanceof EncodedPatternItem &&
+                !(stack.getItem() instanceof ProcessingPatternItem) &&
+                MEPatternPartMachineKtKt.checkDuplicatedPattern(this, stack);
     }
 
     @Override
