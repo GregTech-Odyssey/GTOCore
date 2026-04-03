@@ -120,9 +120,9 @@ final class Vanilla {
                 'D', TagUtils.createItemTag(RLUtils.ae("illuminated_panel")));
 
         VanillaRecipeHelper.addShapedRecipe(GTOCore.id("facility_terminal"), RegistriesUtils.getItem("ae2:facility_terminal"),
-                "   ",
+                "A C",
                 "ABC",
-                " D ",
+                "ADC",
                 'A', AEItems.FORMATION_CORE.asItem(), 'B', TagUtils.createItemTag(RLUtils.ae("illuminated_panel")),
                 'C', AEItems.ANNIHILATION_CORE.asItem(), 'D', AEItems.LOGIC_PROCESSOR.asItem());
 

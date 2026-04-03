@@ -66,7 +66,7 @@ public class TravelHandler {
                     player.teleportTo(eventPos.get().x(), eventPos.get().y(), eventPos.get().z());
                     serverPlayer.connection.resetPosition();
                     player.fallDistance = 0;
-                    player.playNotifySound(SoundEvents.ENDERMAN_TELEPORT, SoundSource.PLAYERS, 1F, 1F);
+                    level.playSound(null, BlockPos.containing(eventPos.get()), SoundEvents.ENDERMAN_TELEPORT, SoundSource.PLAYERS, 0.8F, 1F);
                 } else {
                     player.playNotifySound(SoundEvents.DISPENSER_FAIL, SoundSource.PLAYERS, 1F, 1F);
                 }
@@ -115,7 +115,7 @@ public class TravelHandler {
                 player.teleportTo(teleportPosition.x(), teleportPosition.y(), teleportPosition.z());
                 // Stop "moved too quickly" warnings
                 serverPlayer.connection.resetPosition();
-                player.playNotifySound(SoundEvents.ENDERMAN_TELEPORT, SoundSource.PLAYERS, 0.75F, 1F);
+                level.playSound(null, BlockPos.containing(teleportPosition), SoundEvents.ENDERMAN_TELEPORT, SoundSource.PLAYERS, 0.8F, 1F);
             } else if (sendToServer) {
                 TravelNetworks.requestTravel(pos);
             }

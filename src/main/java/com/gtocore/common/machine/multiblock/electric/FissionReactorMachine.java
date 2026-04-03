@@ -109,6 +109,7 @@ public final class FissionReactorMachine extends ElectricMultiblockMachine imple
         }
     }
 
+    @SuppressWarnings("MathClampMigration")
     private void HeatUpdate() {
         HeatSubs.updateSubscription();
         if (getRecipeLogic().isWorking()) {
@@ -116,7 +117,7 @@ public final class FissionReactorMachine extends ElectricMultiblockMachine imple
             int required = recipeHeat * parallel * heat / 1500;
             if (required > 0) {
                 long[] a = getFluidAmount(DistilledWater, SodiumPotassium);
-                int capacity = (int) Math.clamp(a[0] / 800, a[1] / 20, (cooler - (coolerAdjacent / 3L)) << 3);
+                int capacity = (int) Math.min(Math.max(a[0] / 800, a[1] / 20), (cooler - (coolerAdjacent / 3L)) << 3);
                 if (capacity - required >= 0) {
                     if (inputFluid(DistilledWater, capacity * 800L)) {
                         isCooler = outputFluid(Steam, (int) (capacity * 800 * (heat > 373 ? 160 : 160 / Math.pow(1.4, 373 - heat))));
