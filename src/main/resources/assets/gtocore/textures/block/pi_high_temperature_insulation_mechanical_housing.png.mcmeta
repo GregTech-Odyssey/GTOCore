@@ -1,5 +1,5 @@
 {
-    "ldlib": {
-        "connection": "gtocore:block/pi_high_temperature_insulation_mechanical_housing_ctm"
-    }
+  "ldlib": {
+    "connection": "gtocore:block/pi_high_temperature_insulation_mechanical_housing_ctm"
+  }
 }

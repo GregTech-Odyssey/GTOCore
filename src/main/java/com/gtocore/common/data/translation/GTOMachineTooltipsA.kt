@@ -6,6 +6,7 @@ import com.gtocore.api.lang.ComponentSupplier
 import com.gtocore.api.lang.toLiteralSupplier
 import com.gtocore.api.misc.AutoInitialize
 import com.gtocore.common.data.translation.ComponentSlang.AfterModuleInstallation
+import com.gtocore.common.data.translation.ComponentSlang.EfficiencyBonus
 import com.gtocore.common.data.translation.ComponentSlang.MainFunction
 import com.gtocore.common.data.translation.ComponentSlang.RunningRequirements
 
@@ -16,6 +17,13 @@ import com.gregtechceu.gtceu.config.ConfigHolder
 
 object GTOMachineTooltipsA : AutoInitialize<GTOMachineTooltipsA>() {
 
+    var meInputBufferPartMachineTooltips: ComponentListSupplier = ComponentListSupplier {
+        setTranslationPrefix("me_input_buffer_part_machine")
+
+        section(MainFunction)
+        command("ME输入仓室的一种特殊模式，仅能使用样板进行配置" translatedTo "A special mode of the ME input hatch/bus, can only be configured using patterns")
+        command("在该模式下，每个槽位使用样板配置一组特定的物品或流体，仓室将从ME网络提取对应的物品与流体" translatedTo "In this mode, each slot is configured with a pattern for a specific group of items or fluids, and the hatch/bus will extract the corresponding items and fluids from the ME network")
+    }
     val planetaryGasCollectorTooltips: ComponentListSupplier = ComponentListSupplier {
         setTranslationPrefix("planetary_gas_collector")
 
@@ -93,7 +101,9 @@ object GTOMachineTooltipsA : AutoInitialize<GTOMachineTooltipsA>() {
 
         section(RunningRequirements)
         command("必须保证输入的流体与配方流体比例相同，否则无产物输出" translatedTo "Must ensure the ratio of input fluid to recipe fluid is the same, otherwise no product output")
-        increase("当安装附属模块时，模块将帮助机器自动进行原料配比，无上述条件限制" translatedTo "When the auxiliary module is installed, the module will help the machine automatically match the raw materials, without the above conditions")
+
+        section(AfterModuleInstallation)
+        increase("模块将帮助机器自动进行原料配比，无上述条件限制" translatedTo "The module will help the machine automatically match the raw materials, without the above conditions")
     }
 
     // 狂飙巨型核聚变反应堆
@@ -233,5 +243,19 @@ object GTOMachineTooltipsA : AutoInitialize<GTOMachineTooltipsA>() {
         command("机器总是会以可使用的最大魔力强度运行,且配方时间固定为10秒" translatedTo "The machine will always operate at the maximum mana strength available, and the recipe time is fixed at 10 seconds")
         command("且以此魔力强度计算配方时长(总魔力消耗量/魔力强度)，超过10秒的配方无法运行" translatedTo "And the recipe time is calculated based on this mana strength (total mana consumption / mana strength), recipes that exceed 10 seconds cannot run")
         important("无法运行电力配方" translatedTo "Cannot run recipes that require EU")
+    }
+
+    val magneticFluidGeneratorTooltips: ComponentListSupplier = ComponentListSupplier {
+        setTranslationPrefix("magnetic_fluid_generator")
+
+        section(RunningRequirements)
+        important("玻璃等级限制了能量输出仓等级" translatedTo "The glass tier limits the energy output hatch tier")
+        command("实际产出由等离子热值决定" translatedTo "Actual output is determined by plasma heat value")
+
+        section(EfficiencyBonus)
+        increase("如果使用激光仓，则提升发电量 x 2^等级" translatedTo "If a laser hatch is used, power generation is increased by x 2^tier")
+
+        section(AfterModuleInstallation)
+        increase("如果使用激光仓，则提升发电量 x 4^等级" translatedTo "If a laser hatch is used, power generation is increased by x 4^tier")
     }
 }

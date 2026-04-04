@@ -1,8 +1,8 @@
 {
-    "texture": {
-        "blur": true
-    },
-    "animation": {
-        "frametime": 1
-    }
+  "texture": {
+    "blur": true
+  },
+  "animation": {
+    "frametime": 1
+  }
 }

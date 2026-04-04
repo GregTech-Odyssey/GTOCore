@@ -197,9 +197,11 @@ object AdvMathExpParser {
         for (token in tokens) {
             when (token) {
                 is BigDecimal -> output.add(token)
+
                 is Op -> {
                     when (token) {
                         Op.L_PAREN -> stack.push(token)
+
                         Op.R_PAREN -> {
                             while (stack.isNotEmpty() && stack.peek() != Op.L_PAREN) {
                                 output.add(stack.peek())
@@ -208,6 +210,7 @@ object AdvMathExpParser {
                             if (stack.isEmpty()) throw IllegalArgumentException("Mismatched parentheses")
                             stack.pop()
                         }
+
                         else -> {
                             while (stack.isNotEmpty() && stack.peek() != Op.L_PAREN) {
                                 val top = stack.peek()
@@ -242,6 +245,7 @@ object AdvMathExpParser {
         for (token in rpn) {
             when (token) {
                 is BigDecimal -> stack.push(token)
+
                 is Op -> {
                     // Unary minus
                     if (token == Op.UNARY_MINUS) {
@@ -257,9 +261,13 @@ object AdvMathExpParser {
 
                     val res = when (token) {
                         Op.PLUS -> a.add(b, MATH_CONTEXT)
+
                         Op.MINUS -> a.subtract(b, MATH_CONTEXT)
+
                         Op.MULTIPLY -> a.multiply(b, MATH_CONTEXT)
+
                         Op.DIVIDE -> a.divide(b, MATH_CONTEXT)
+
                         Op.POWER -> {
                             b = b.stripTrailingZeros()
 
@@ -279,6 +287,7 @@ object AdvMathExpParser {
 
                             a.pow(b.intValueExact(), MATH_CONTEXT)
                         }
+
                         Op.L_SHIFT -> {
                             val bi = a.toBigInteger()
                             val shift = b.toInt()
@@ -287,6 +296,7 @@ object AdvMathExpParser {
                             }
                             BigDecimal(bi.shiftLeft(shift))
                         }
+
                         Op.R_SHIFT -> {
                             val bi = a.toBigInteger()
                             val shift = b.toInt()
@@ -295,6 +305,7 @@ object AdvMathExpParser {
                             }
                             BigDecimal(bi.shiftRight(shift))
                         }
+
                         else -> throw IllegalArgumentException("Unknown operator: $token")
                     }
                     stack.push(res)

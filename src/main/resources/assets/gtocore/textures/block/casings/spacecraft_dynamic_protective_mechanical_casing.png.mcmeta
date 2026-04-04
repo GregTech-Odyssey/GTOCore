@@ -3,8 +3,8 @@
     "interpolate": true,
     "frametime": 2
   },
-  
-    "ldlib": {
-        "connection": "gtocore:block/casings/spacecraft_dynamic_protective_mechanical_casing_ctm"
-    }
+
+  "ldlib": {
+    "connection": "gtocore:block/casings/spacecraft_dynamic_protective_mechanical_casing_ctm"
+  }
 }

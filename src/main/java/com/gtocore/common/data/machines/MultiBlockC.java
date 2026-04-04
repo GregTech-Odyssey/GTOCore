@@ -30,7 +30,6 @@ import com.gtolib.GTOCore;
 import com.gtolib.api.machine.MultiblockDefinition;
 import com.gtolib.api.machine.feature.multiblock.ITierCasingMachine;
 import com.gtolib.api.machine.multiblock.*;
-import com.gtolib.api.recipe.RecipeType;
 import com.gtolib.api.recipe.modifier.RecipeModifierFunction;
 import com.gtolib.utils.MultiBlockFileReader;
 
@@ -928,7 +927,6 @@ public final class MultiBlockC {
             .tooltips(GTOMachineStories.INSTANCE.getNeutronVortexTooltips().getSupplier())
             .tooltips(GTOMachineTooltips.INSTANCE.getNeutronVortexTooltips().getSupplier())
             .parallelizableTooltips()
-            .moduleTooltips(new RecipeType[0])
             .recipeTypes(GTORecipeTypes.NEUTRON_ACTIVATOR_RECIPES)
             .block(GTOBlocks.NAQUADAH_REINFORCED_PLANT_CASING)
             .pattern(definition -> NeutronVortexMachine.getBlockPattern(0, definition))

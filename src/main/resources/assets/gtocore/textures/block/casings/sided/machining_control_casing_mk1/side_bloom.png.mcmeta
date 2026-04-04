@@ -1,8 +1,8 @@
 {
-    "ldlib": {
-        "connection": "gtocore:block/casings/sided/machining_control_casing_mk1/side_bloom_ctm",
-      "emissive": true
-    },
+  "ldlib": {
+    "connection": "gtocore:block/casings/sided/machining_control_casing_mk1/side_bloom_ctm",
+    "emissive": true
+  },
   "shimmer": {
     "bloom": true
   }

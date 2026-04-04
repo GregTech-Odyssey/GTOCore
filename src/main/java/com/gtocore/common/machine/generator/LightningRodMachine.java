@@ -40,7 +40,7 @@ public final class LightningRodMachine extends TieredEnergyMachine {
     public void onLoad() {
         super.onLoad();
         if (!isRemote()) {
-            energySubs = subscribeServerTick(energySubs, this::checkEnergy, 10);
+            energySubs = subscribeServerTick(energySubs, this::checkEnergy, 8);
         }
     }
 
@@ -59,7 +59,7 @@ public final class LightningRodMachine extends TieredEnergyMachine {
             if (energyContainer.getEnergyStored() == getCharge()) {
                 doExplosion(getTier());
             } else {
-                energyContainer.addEnergy(getCharge() / 2 + GTValues.RNG.nextInt());
+                energyContainer.addEnergy(getCharge() / 2 + (GTValues.RNG.nextLong() % getCharge()) / 2);
             }
             if (GTOUtils.probability(breakProbability)) {
                 getLevel().setBlockAndUpdate(getPos().offset(0, 1, 0), Blocks.AIR.defaultBlockState());

@@ -207,7 +207,7 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
         setTranslationPrefix("fishing_farm")
         story("喜欢吃鱼？" translatedTo "Like eating fish?")
         story("AFFL-200智能大型渔场是舌尖上的格雷系列常客" translatedTo "AFFL-200 intelligent large fishing farm§r is a regular on GregTech cuisine series")
-        story("强大的§e智能养殖系统§t带来强大产能" translatedTo "Powerful §eintelligent breeding system§r brings powerful productivity")
+        story("强大的§e智能养殖系统§r带来强大产能" translatedTo "Powerful §eintelligent breeding system§r brings powerful productivity")
         story("能够满足整个分公司员工的水产食用需求" translatedTo "Can meet the entire branch office employees' §aaquatic food consumption needs")
     }
 

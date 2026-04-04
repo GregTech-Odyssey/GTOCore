@@ -1,6 +1,6 @@
 {
   "dimension": "gtocore:io",
-  "gravity":  4.704,
+  "gravity": 4.704,
   "orbit": "gtocore:io_orbit",
   "oxygen": false,
   "solar_power": 14,

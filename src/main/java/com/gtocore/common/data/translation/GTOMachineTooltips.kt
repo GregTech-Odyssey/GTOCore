@@ -1054,15 +1054,14 @@ object GTOMachineTooltips {
         setTranslationPrefix("processing_plant")
 
         section(ComponentSlang.RunningRequirements)
-        command("需要放入对应配方等级的小机器" translatedTo "Requires corresponding tier small machine")
+        command("小机器电压应与能源仓匹配，§b双仓升压§r时能源仓电压+1级" translatedTo "The small machine tier must match that of the Energy Hatch; §bDual Hatch Boost§r increases its tier by one")
         error("无法通过超净维护仓获得洁净环境" translatedTo "Cannot obtain clean environment through clean maintenance")
 
-        section(ComponentSlang.EfficiencyBonus)
-        content("配方等级每高出ULV一级，并行数+2" translatedTo "For each tier above ULV, parallelism +2")
-        command("最终配方等级受限于整体框架等级" translatedTo "Final recipe tier is constrained by framework tier")
+        section("配方等级" translatedTo "Recipe Tier")
+        command("最终配方等级 = min(小机器, 整体框架)" translatedTo "Final recipe tier = min(small machine, whole structure)")
 
         section(ComponentSlang.AfterModuleInstallation)
-        increase("配方等级每高出ULV一级，并行数额外+2" translatedTo "For each tier above ULV, parallelism +2 additionally")
+        increase("并行翻倍" translatedTo "Parallelism is doubled")
     }
 
     // 培养缸
@@ -1397,6 +1396,11 @@ object GTOMachineTooltips {
     val PrimitiveDistillationTowerTooltips = ComponentListSupplier {
         setTranslationPrefix("primitive_distillation_tower")
 
+        section("运行机制" translatedTo "Operation Mechanics")
+        info("更高的温度和更长的连续运行时间能显著加快配方速度" translatedTo "Higher temperatures and longer continuous operation significantly speed up recipes")
+        function("最高13层，每个产物都需要一个对应高度的输出仓" translatedTo "Each fluid product requires a Fluid Hatch at a corresponding Y-level")
+        important("只能处理MV及以下的配方" translatedTo "Can only process recipes of MV tier or lower")
+
         section("热管理机制" translatedTo "Heat Management")
         info("需要 >400K 的热量才能运行配方" translatedTo "Requires >400K heat to process recipes")
         info("运行配方会消耗热量，有助于稳定温度" translatedTo "Processing recipes consumes heat, helping to stabilize temperature")
@@ -1407,13 +1411,7 @@ object GTOMachineTooltips {
         info("热量 > 373K 时会消耗水进行冷却" translatedTo "Consumes water for cooling when heat exceeds 373K")
         function("足量的水(>100mb)才能有效降温" translatedTo "Sufficient water (>100mb) is required for effective cooling")
         error("注意：水量不足(≤100mb)会适得其反，导致机器异常升温并加速燃料消耗！" translatedTo "Warning: Insufficient water (≤100mb) will backfire, causing extra heat gain and faster fuel consumption!")
-
         error("热量超过 850K 将导致爆炸！" translatedTo "Heat exceeding 850K will cause an explosion!")
-
-        section("运行机制" translatedTo "Operation Mechanics")
-        info("更高的温度和更长的连续运行时间能显著加快配方速度" translatedTo "Higher temperatures and longer continuous operation significantly speed up recipes")
-        function("每个流体产物都需要一个对应高度的流体输出仓" translatedTo "Each fluid product requires a Fluid Hatch at a corresponding Y-level")
-        important("只能处理MV及以下的配方" translatedTo "Can only process recipes of MV tier or lower")
 
         section(ComponentSlang.AfterModuleInstallation)
         info("安装模块后，机器所使用的冷却用水将只会由模块提供" translatedTo "After installing modules, the machine will only use water provided by the modules for cooling")
@@ -1578,7 +1576,6 @@ object GTOMachineTooltips {
 
         section(ComponentSlang.EfficiencyBonus)
         increase("运行激光焊接配方时速度×5" translatedTo "Running Laser Welder recipes at 5x speed")
-        error("精密激光模式不支持并行" translatedTo "Precision Laser mode does not support parallel")
     }
 
     // 集成矿石处理厂
@@ -1596,7 +1593,7 @@ object GTOMachineTooltips {
         function("6号电路: 破碎-浸洗-研磨-离心" translatedTo "Circuit 6: Crusher → Chemical Bath → Macerator → Centrifuging")
         function("7号电路: 破碎-浸洗-筛选-离心" translatedTo "Circuit 7: Crusher → Chemical Bath → Sifter → Centrifuging")
 
-        section(ComponentSlang.AfterModuleInstallation)
+        section(AfterModuleInstallation)
         increase("解锁8线程处理" translatedTo "Unlock 8-thread processing")
     }
 
@@ -1677,7 +1674,10 @@ object GTOMachineTooltips {
 
         section(ComponentSlang.RunningRequirements)
         ok("运行时不消耗中子动能" translatedTo "Does not consume neutron kinetic energy while running.")
-        increase("安装附属结构后可开启能源转换模式，消耗电力自动适应配方的中子动能" translatedTo "After installing auxiliary structures, you can enable energy conversion mode, which automatically adapts the neutron kinetic energy consumption based on the recipe.")
+        command("在主机左下角切换能源接收器模式以引导不同的结构" translatedTo "Switch Energy Acceptor mode in the bottom left corner of the controller to guide different structures")
+        info("未激活：P:0，已激活：P:1" translatedTo "Inactive: P:0, Active: P:1")
+        info("引导后可使用终端搭建指定结构" translatedTo "After guiding, you can use the terminal to build the specified structure")
+        increase("能源接收器激活后，将消耗电力自动适应配方的中子动能" translatedTo "After activating the Energy Acceptor, it will consume electricity to automatically adapt to the neutron kinetic energy of the recipe")
     }
 
     // 微生物之主
@@ -1726,7 +1726,7 @@ object GTOMachineTooltips {
 
         section(ComponentSlang.RunningRequirements)
         command("在主机内更改机器模式以引导不同的结构" translatedTo "Change recipe type in the controller to guide different structures")
-        info("真空冷冻机/物化冷凝：P:0，等离子冷凝：P:1" translatedTo "Vacuum Freezer/Atomization Condensation: P:0, Plasma Condenser: P:1")
+        info("真空冷冻机/雾化冷凝：P:0，等离子冷凝：P:1" translatedTo "Vacuum Freezer/Atomization Condensation: P:0, Plasma Condenser: P:1")
         info("引导后可使用终端搭建指定结构" translatedTo "After guiding, you can use the terminal to build the specified structure")
     }
 
@@ -2206,5 +2206,17 @@ object GTOMachineTooltips {
         setTranslationPrefix("space_station_energy_conversion_module")
         section(ComponentSlang.MainFunction)
         highlight("安装后，空间站内的其他拓展舱体将能够使用§d激光仓§r/§d超频仓§r/§d线程仓§r等高级舱体" translatedTo "When installed, other expansion modules in the space station will be able to use advanced modules such as §dLaser Chamber§r/§dOverclocking Chamber§r/§dThread Chamber§r")
+    }
+    val meRequestableInputBusTooltips: ComponentListSupplier = ComponentListSupplier {
+        setTranslationPrefix("me_requestable_input_bus")
+        section(ComponentSlang.MainFunction)
+        content("将物品从ME网络中提取出来，放入机器中进行加工" translatedTo "Extract items from the ME network and insert them into machines for processing")
+        content("提取不出来则会自己下单请求" translatedTo "If items cannot be extracted, it will place its own order request")
+    }
+    val meRequestableInputHatchTooltips: ComponentListSupplier = ComponentListSupplier {
+        setTranslationPrefix("me_requestable_input_hatch")
+        section(ComponentSlang.MainFunction)
+        content("将流体从ME网络中提取出来，放入机器中进行加工" translatedTo "Extract fluids from the ME network and insert them into machines for processing")
+        content("提取不出来则会自己下单请求" translatedTo "If items cannot be extracted, it will place its own order request")
     }
 }

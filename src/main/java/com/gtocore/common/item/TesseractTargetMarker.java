@@ -3,6 +3,8 @@ package com.gtocore.common.item;
 import com.gtocore.common.machine.tesseract.ITesseractMarkerInteractable;
 import com.gtocore.common.machine.tesseract.TesseractDirectedTarget;
 
+import com.gtolib.api.network.NetworkPack;
+
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.item.ComponentItem;
 import com.gregtechceu.gtceu.api.item.component.IInteractionItem;
@@ -11,6 +13,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.GlobalPos;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
@@ -36,6 +39,8 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+
+import static com.gtocore.common.machine.tesseract.ITesseractMarkerInteractable.IMPORT_SUCCESS_TEXT;
 
 @Mod.EventBusSubscriber
 public class TesseractTargetMarker implements IInteractionItem {
@@ -63,13 +68,7 @@ public class TesseractTargetMarker implements IInteractionItem {
     @Override
     public InteractionResultHolder<ItemStack> use(Item item, Level level, Player player, InteractionHand usedHand) {
         if (player.isShiftKeyDown()) {
-            Vec3 playerPos = player.getEyePosition();
-            Vec3 lookVec = player.getLookAngle().normalize();
-            double range = player.getAttributeValue(ForgeMod.BLOCK_REACH.get());
-            Vec3 toPos = playerPos.add(lookVec.scale(range));
-
-            ClipContext clipCtx = new ClipContext(playerPos, toPos, ClipContext.Block.OUTLINE, ClipContext.Fluid.NONE, null);
-            BlockHitResult bhr = level.clip(clipCtx);
+            BlockHitResult bhr = rayTrace(level, player);
             if (bhr.getType() == HitResult.Type.MISS) {
                 ItemStack itemStack = player.getItemInHand(usedHand);
                 if (isTesseractTargetMarker(itemStack)) {
@@ -191,6 +190,34 @@ public class TesseractTargetMarker implements IInteractionItem {
         }
         return result.build();
     }
+
+    public static void copyConfigFrom(ITesseractMarkerInteractable source, ItemStack target) {
+        putToNBT(target, true, source.getMarkerTargets().stream().map(t -> new PatternFaceUnindexed(t.pos(), t.face())).toList());
+    }
+
+    public static void sendCopyConfigPacket(Level level, Player player) {
+        COPY_CONFIG_C2S.send(buf -> buf.writeBlockPos(rayTrace(level, player).getBlockPos()));
+    }
+
+    private static BlockHitResult rayTrace(Level level, Player player) {
+        Vec3 playerPos = player.getEyePosition();
+        Vec3 lookVec = player.getLookAngle().normalize();
+        double range = player.getAttributeValue(ForgeMod.BLOCK_REACH.get());
+        Vec3 toPos = playerPos.add(lookVec.scale(range));
+
+        ClipContext clipCtx = new ClipContext(playerPos, toPos, ClipContext.Block.OUTLINE, ClipContext.Fluid.NONE, null);
+        return level.clip(clipCtx);
+    }
+
+    public static final NetworkPack COPY_CONFIG_C2S = NetworkPack.registerC2S("copy_tesseract_marker_config", (pl, buf) -> {
+        var pos = buf.readBlockPos();
+        if (isTesseractTargetMarker(pl.getMainHandItem()) &&
+                pl.level().getBlockEntity(pos) instanceof MetaMachineBlockEntity mbe &&
+                mbe.getMetaMachine() instanceof ITesseractMarkerInteractable interactable) {
+            copyConfigFrom(interactable, pl.getMainHandItem());
+            pl.displayClientMessage(Component.translatable(IMPORT_SUCCESS_TEXT), true);
+        }
+    });
 
     private record PatternFaceUnindexed(GlobalPos pos, Direction face) implements Comparable<PatternFaceUnindexed> {
 

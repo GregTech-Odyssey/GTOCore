@@ -93,6 +93,7 @@ class WirelessNetworkSavedData : SavedData() {
                         to.players(),
                     )
                 }
+
                 is MinecraftServer -> {
                     if (to.playerList.playerCount == 0) return
                     gridCacheSYNCER.send(
@@ -100,6 +101,7 @@ class WirelessNetworkSavedData : SavedData() {
                         to,
                     )
                 }
+
                 is ServerPlayer -> gridCacheSYNCER.send(writer, to)
             }
         }

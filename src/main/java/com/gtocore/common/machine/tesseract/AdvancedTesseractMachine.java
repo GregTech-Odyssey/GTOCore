@@ -23,6 +23,7 @@ import com.gregtechceu.gtceu.api.transfer.fluid.IFluidHandlerModifiable;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.GlobalPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
@@ -293,5 +294,25 @@ public class AdvancedTesseractMachine extends MetaMachine implements IFancyUIMac
         }
         player.displayClientMessage(Component.translatable(WRITE_SUCCESS_TEXT), true);
         return true;
+    }
+
+    @Override
+    public List<TesseractDirectedTarget> getMarkerTargets() {
+        ImmutableList.Builder<TesseractDirectedTarget> builder = ImmutableList.builder();
+        var levelKey = getLevel().dimension();
+        for (int i = 0; i < poss.size(); i++) {
+            var pos = poss.get(i);
+            if (pos == null) continue;
+            var exposedInAirFace = Direction.NORTH;
+            for (var face : Direction.values()) {
+                var offsetPos = pos.relative(face);
+                if (getLevel().getBlockState(offsetPos).isAir()) {
+                    exposedInAirFace = face;
+                    break;
+                }
+            }
+            builder.add(new TesseractDirectedTarget(GlobalPos.of(levelKey, pos), exposedInAirFace, i));
+        }
+        return builder.build();
     }
 }

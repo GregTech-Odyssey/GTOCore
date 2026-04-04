@@ -1,5 +1,5 @@
 {
-    "ldlib": {
-        "connection": "gtocore:block/cobalt_oxide_ceramic_strong_thermally_conductive_mechanical_block_ctm"
-    }
+  "ldlib": {
+    "connection": "gtocore:block/cobalt_oxide_ceramic_strong_thermally_conductive_mechanical_block_ctm"
+  }
 }

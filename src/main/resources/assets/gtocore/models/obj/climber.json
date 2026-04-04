@@ -4,6 +4,6 @@
   "model": "gtocore:models/obj/climber.obj",
   "textures": {
     "texture0": "gtocore:block/obj/climber_overlay",
-    "particle":"gtocore:block/obj/climber_overlay"
+    "particle": "gtocore:block/obj/climber_overlay"
   }
 }

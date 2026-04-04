@@ -3,6 +3,6 @@
   "textures": {
     "layer0": "gtocore:item/circuit/magneto_resonatic_circuit_uev_base",
     "layer1": "gtocore:item/circuit/magneto_resonatic_electron_flow",
-                "layer2": "gtocore:item/circuit/magneto_uev"
+    "layer2": "gtocore:item/circuit/magneto_uev"
   }
 }

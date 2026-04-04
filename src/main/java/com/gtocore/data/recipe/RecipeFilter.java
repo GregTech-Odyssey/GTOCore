@@ -449,6 +449,9 @@ public final class RecipeFilter {
         filters.add(RLUtils.fromNamespaceAndPath("apotheosis", "sigil_of_withdrawal"));
         filters.add(RLUtils.fromNamespaceAndPath("apotheosis", "salvaging_table"));
 
+        // 去除简单模式下的原版末影珍珠配方
+        filters.add(RLUtils.mc("ender_eye"));
+
         if (Mods.BIOMESWEVEGONE.isLoaded()) {
             filters.add(RLUtils.fromNamespaceAndPath("biomeswevegone", "black_stained_glass_from_black_sand"));
             filters.add(RLUtils.fromNamespaceAndPath("biomeswevegone", "white_stained_glass_from_white_sand"));

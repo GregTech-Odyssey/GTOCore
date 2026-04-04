@@ -3,8 +3,8 @@
     "interpolate": false,
     "frametime": 2
   },
-  
-    "ldlib": {
-        "connection": "gtocore:block/casings/accelerator/accelerator_magnetic_constrained_rail_casing_ctm"
-    }
+
+  "ldlib": {
+    "connection": "gtocore:block/casings/accelerator/accelerator_magnetic_constrained_rail_casing_ctm"
+  }
 }

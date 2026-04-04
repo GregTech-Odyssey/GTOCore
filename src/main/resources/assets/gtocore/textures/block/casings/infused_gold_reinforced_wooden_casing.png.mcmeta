@@ -1,5 +1,5 @@
 {
-    "ldlib": {
-        "connection": "gtocore:block/casings/infused_gold_reinforced_wooden_casing_ctm"
-    }
+  "ldlib": {
+    "connection": "gtocore:block/casings/infused_gold_reinforced_wooden_casing_ctm"
+  }
 }

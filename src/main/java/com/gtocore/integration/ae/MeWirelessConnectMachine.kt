@@ -3,7 +3,6 @@ package com.gtocore.integration.ae
 import com.gtocore.api.gui.ktflexible.misc.InitFancyMachineUIWidget
 import com.gtocore.common.saved.NetworkSummary
 import com.gtocore.common.saved.TopologySummary
-import com.gtocore.common.saved.WirelessNetworkSavedData
 import com.gtocore.common.saved.createNetworkSummarySyncField
 import com.gtocore.common.saved.createTopologySyncField
 import com.gtocore.integration.ae.wireless.WirelessMachine
@@ -33,6 +32,8 @@ import com.lowdragmc.lowdraglib.gui.texture.IGuiTexture
 import com.lowdragmc.lowdraglib.gui.widget.Widget
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted
+
+import kotlin.math.max
 
 /**
  * ME 无线连接机 — 可切换 INPUT/OUTPUT 节点类型。

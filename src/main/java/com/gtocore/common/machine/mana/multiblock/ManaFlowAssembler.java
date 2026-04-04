@@ -150,8 +150,10 @@ public class ManaFlowAssembler extends ManaMultiblockMachine {
         maxRate = 0;
         manaPools.clear();
         colors.clear();
-        tickSubscription.unsubscribe();
-        tickSubscription = null;
+        if (tickSubscription != null) {
+            tickSubscription.unsubscribe();
+            tickSubscription = null;
+        }
         if (clientTickSubscription != null) {
             clientTickSubscription.unsubscribe();
             clientTickSubscription = null;

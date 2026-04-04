@@ -51,8 +51,6 @@
       "minecraft:classic_vines_cave_feature",
       "minecraft:seagrass_simple"
     ],
-    [
-      "minecraft:freeze_top_layer"
-    ]
+    ["minecraft:freeze_top_layer"]
   ]
 }

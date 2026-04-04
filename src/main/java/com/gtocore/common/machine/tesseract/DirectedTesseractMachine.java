@@ -212,6 +212,11 @@ public class DirectedTesseractMachine extends MetaMachine implements
     }
 
     @Override
+    public List<TesseractDirectedTarget> getMarkerTargets() {
+        return targets;
+    }
+
+    @Override
     public void onMachineRemoved() {
         unfinishedPushLists.unfinishedStacks.forEach(stack -> {
             if (getLevel() != null && stack.what() instanceof AEItemKey item) {

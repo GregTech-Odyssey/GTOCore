@@ -225,13 +225,13 @@ public final class LangHandler {
         addCNEN("config.jade.plugin_gtocore.mana_container_provider", "[GTOCore] 魔力容器", "[GTOCore] Mana Container");
         addCNEN("config.jade.plugin_gtocore.vacuum_tier_provider", "[GTOCore] 真空等级", "[GTOCore] Vacuum Tier");
         addCNEN("config.jade.plugin_gtocore.temperature_provider", "[GTOCore] 机器温度", "[GTOCore] Machine Temperature");
-        addCNEN("config.jade.plugin_gtocore.ae_grid_provider", "[GTOCore] AE网络信息", "[GTOCore] AE Grid Info");
-        addCNEN("config.jade.plugin_gtocore.ae_item_amount", "[GTOCore] AE物品数量", "[GTOCore] AE Item Amount");
+        addCNEN("config.jade.plugin_gtocore.ae_grid_provider", "[GTOCore] ME网络信息", "[GTOCore] ME Grid Info");
+        addCNEN("config.jade.plugin_gtocore.ae_item_amount", "[GTOCore] ME物品数量", "[GTOCore] ME Item Amount");
         addCNEN("config.jade.plugin_gtocore.tick_time_provider", "[GTOCore] Tick时间", "[GTOCore] Tick Time");
         addCNEN("config.jade.plugin_gtocore.wireless_interactor_provider", "[GTOCore] 无线交互机器信息", "[GTOCore] Wireless Interactive Machine Info");
         addCNEN("config.jade.plugin_gtocore.upgrade_module_provider", "[GTOCore] 升级模块信息", "[GTOCore] Upgrade Module Info");
         addCNEN("config.jade.plugin_gtocore.destroy_time_provider", "[GTOCore] 硬度信息", "[GTOCore] Destroy Time Info");
-        addCNEN("config.jade.plugin_gtocore.wireless_grid_provider", "[GTOCore] 无线AE网络信息", "[GTOCore] Wireless AE Network Info");
+        addCNEN("config.jade.plugin_gtocore.wireless_grid_provider", "[GTOCore] 无线ME网络信息", "[GTOCore] Wireless ME Network Info");
         addCNEN("config.jade.plugin_gtocore.maintenance_hatch_provider", "[GTOCore] 维护仓信息", "[GTOCore] Maintenance Hatch Info");
 
         addCNEN("gtocore.applicable_modules", "安装附属模块后可解锁的仓室类型 : %s",

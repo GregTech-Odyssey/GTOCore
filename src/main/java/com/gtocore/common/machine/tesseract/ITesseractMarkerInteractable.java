@@ -14,8 +14,12 @@ public interface ITesseractMarkerInteractable {
     String HIGHLIGHT_TEXT = "gui.gtceu.machine.tesseract.highlight_targets";
     @RegisterLanguage(cn = "成功将目标写入传送方块", en = "Successfully Written Targets to Tesseract")
     String WRITE_SUCCESS_TEXT = "gui.gtceu.machine.tesseract.write_targets_success";
+    @RegisterLanguage(cn = "成功导入目标传送方块的配置", en = "Successfully Imported Targets from Tesseract")
+    String IMPORT_SUCCESS_TEXT = "gui.gtceu.machine.tesseract.import_targets_success";
     @RegisterLanguage(cn = "坐标信息卡不足以存储更多目标", en = "Not Enough Space on Coordinate Card for More Targets")
     String WRITE_FAIL_TEXT = "gui.gtceu.machine.tesseract.write_targets_fail";
 
     boolean onMarkerInteract(Player player, List<TesseractDirectedTarget> targets);
+
+    List<TesseractDirectedTarget> getMarkerTargets();
 }

@@ -3,9 +3,9 @@
     "interpolate": true,
     "frametime": 16
   },
-  
-    "ldlib": {
-        "connection": "gtocore:block/casings/the_solaris_lens_ctm",
-        "emissive": true
-    }
+
+  "ldlib": {
+    "connection": "gtocore:block/casings/the_solaris_lens_ctm",
+    "emissive": true
+  }
 }

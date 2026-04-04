@@ -24,7 +24,6 @@ public abstract class CraftingCPUClusterMixin implements ICraftingCPUCluster {
 
     @Mutable
     @Shadow(remap = false)
-    @Final
     public CraftingCpuLogic craftingLogic;
 
     @Shadow(remap = false)

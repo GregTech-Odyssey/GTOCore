@@ -109,6 +109,7 @@ public final class FissionReactorMachine extends ElectricMultiblockMachine imple
         }
     }
 
+    @SuppressWarnings("MathClampMigration")
     private void HeatUpdate() {
         HeatSubs.updateSubscription();
         if (getRecipeLogic().isWorking()) {
@@ -131,6 +132,7 @@ public final class FissionReactorMachine extends ElectricMultiblockMachine imple
                     int surplusProgress = progress - getMaxProgress();
                     if (surplusProgress > 0) {
                         if (heat > 298) heat -= surplusProgress / 20;
+                        getRecipeLogic().setProgress(getMaxProgress());
                     } else {
                         getRecipeLogic().setProgress(progress);
                     }

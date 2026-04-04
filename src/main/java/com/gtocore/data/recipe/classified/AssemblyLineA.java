@@ -11,10 +11,7 @@ import com.gtolib.utils.RegistriesUtils;
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys;
-import com.gregtechceu.gtceu.common.data.GCYMBlocks;
-import com.gregtechceu.gtceu.common.data.GTItems;
-import com.gregtechceu.gtceu.common.data.GTMachines;
-import com.gregtechceu.gtceu.common.data.GTMaterials;
+import com.gregtechceu.gtceu.common.data.*;
 import com.gregtechceu.gtceu.common.data.machines.GTMultiMachines;
 import com.gregtechceu.gtceu.data.recipe.CustomTags;
 
@@ -22,6 +19,8 @@ import net.minecraft.world.item.Items;
 import net.minecraftforge.fluids.FluidStack;
 
 import appeng.core.definitions.AEItems;
+
+import com.almostreliable.merequester.Registration;
 
 import static com.gtocore.common.data.GTORecipeTypes.ASSEMBLY_LINE_RECIPES;
 
@@ -388,7 +387,7 @@ final class AssemblyLineA {
                 .save();
 
         ASSEMBLY_LINE_RECIPES.builder("dyson_sphere_launch_silo")
-                .inputItems(GTOItems.EXOTIC_MAINFRAME, 64)
+                .inputItems(CustomTags.UXV_CIRCUITS, 64)
                 .inputItems(GTOBlocks.DYSON_CONTROL_TOROID.asItem(), 4)
                 .inputItems(GTOBlocks.DYSON_DEPLOYMENT_CORE.asItem(), 4)
                 .inputItems(GTOBlocks.DYSON_DEPLOYMENT_MAGNET.asItem(), 4)
@@ -611,6 +610,49 @@ final class AssemblyLineA {
                         .duration(1800)
                         .EUt(GTValues.VA[GTValues.UEV])
                         .CWUt(1024))
+                .save();
+
+        ASSEMBLY_LINE_RECIPES.builder("me_requestable_input_bus_machine")
+                .inputItems("gtceu:me_input_bus")
+                .inputItems(AEItems.CRAFTING_CARD.asItem())
+                .inputItems(TagPrefix.plateDouble, GTMaterials.RhodiumPlatedPalladium, 4)
+                .inputItems(GTItems.ROBOT_ARM_IV, 2)
+                .outputItems("gtocore:me_requestable_input_bus_machine")
+                .inputFluids(GTMaterials.SolderingAlloy, 1296)
+                .EUt(480)
+                .duration(1440)
+                .scanner(GTAEMachines.ITEM_IMPORT_BUS_ME.asItem())
+                .save();
+
+        ASSEMBLY_LINE_RECIPES.builder("me_requestable_input_hatch_machine")
+                .inputItems("gtceu:me_input_hatch")
+                .inputItems(AEItems.CRAFTING_CARD.asItem())
+                .inputItems(TagPrefix.plateDouble, GTMaterials.RhodiumPlatedPalladium, 4)
+                .inputItems(GTItems.ROBOT_ARM_IV, 2)
+                .outputItems("gtocore:me_requestable_input_hatch_machine")
+                .inputFluids(GTMaterials.SolderingAlloy, 1296)
+                .EUt(480)
+                .duration(1440)
+                .scanner(GTAEMachines.FLUID_IMPORT_HATCH_ME.asItem())
+                .save();
+        ASSEMBLY_LINE_RECIPES.builder("me_input_buffer_part_machine")
+                .inputItems("gtocore:me_requestable_input_bus_machine", 2)
+                .inputItems("gtocore:me_requestable_input_hatch_machine", 2)
+                .inputItems("gtceu:me_pattern_buffer")
+                .inputItems(GTItems.FIELD_GENERATOR_LuV, 4)
+                .inputItems(GTMachines.BUFFER[GTValues.LuV].asItem(), 2)
+                .inputItems(TagPrefix.pipeNonupleFluid, GTMaterials.NiobiumTitanium, 2)
+                .inputItems(GTBlocks.CASING_LAMINATED_GLASS.asItem(), 2)
+                .inputItems(AEItems.SPEED_CARD.asItem(), 8)
+                .inputItems(AEItems.CAPACITY_CARD.asItem(), 4)
+                .inputItems(TagPrefix.wireFine, GTMaterials.Europium, 64)
+                .inputItems(TagPrefix.wireFine, GTMaterials.Europium, 64)
+                .outputItems("gtocore:me_input_buffer_part_machine")
+                .inputFluids(GTMaterials.SolderingAlloy, 1296)
+                .inputFluids(GTMaterials.Lubricant, 500)
+                .scanner(Registration.REQUESTER.asItem())
+                .EUt(480)
+                .duration(1440)
                 .save();
 
         if (GTOCore.isExpert() || GTOCore.isNormal()) {

@@ -2,10 +2,10 @@
   "animation": {
     "interpolate": true,
     "frametime": 20,
-    "frames": [0,1]
+    "frames": [0, 1]
   },
-  
-    "ldlib": {
-        "connection": "gtocore:block/casings/accelerator/accelerator_protection_casing_ctm"
-    }
+
+  "ldlib": {
+    "connection": "gtocore:block/casings/accelerator/accelerator_protection_casing_ctm"
+  }
 }

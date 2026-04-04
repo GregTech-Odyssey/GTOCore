@@ -2,8 +2,10 @@ package com.gtocore.mixin.gtm.recipe;
 
 import com.gtocore.data.recipe.generated.WoodRecipes;
 
+import com.gtolib.GTOCore;
 import com.gtolib.utils.RLUtils;
 
+import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.data.chemical.material.stack.MaterialEntry;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
@@ -72,6 +74,7 @@ public final class WoodMachineRecipesMixin {
         final String name = entry.woodName;
         TagKey<Item> logTag = entry.logTag;
         boolean hasPlanksRecipe = entry.planksRecipeName != null;
+        boolean skipDuplicateEasyRecipes = GTOCore.isEasy() && !GTCEu.MOD_ID.equals(entry.modid);
         // strip log
         if (entry.log != null && entry.strippedLog != null) LATHE_RECIPES.recipeBuilder("strip_" + entry.woodName + "_log")
                 .inputItems(entry.log)
@@ -114,9 +117,11 @@ public final class WoodMachineRecipesMixin {
             }
 
             // log -> plank saw crafting
-            VanillaRecipeHelper.addShapedRecipe(name + "_planks_saw",
-                    new ItemStack(entry.planks, ConfigHolder.INSTANCE.recipes.nerfWoodCrafting ? 4 : 6),
-                    "s", "L", 'L', logTag);
+            if (!skipDuplicateEasyRecipes) {
+                VanillaRecipeHelper.addShapedRecipe(name + "_planks_saw",
+                        new ItemStack(entry.planks, ConfigHolder.INSTANCE.recipes.nerfWoodCrafting ? 4 : 6),
+                        "s", "L", 'L', logTag);
+            }
 
             // log -> plank cutting
             CUTTER_RECIPES.recipeBuilder(name + "_planks")
@@ -133,12 +138,14 @@ public final class WoodMachineRecipesMixin {
             final boolean hasDoorRecipe = entry.doorRecipeName != null;
             String recipeName = hasDoorRecipe ? entry.doorRecipeName : name + "_door";
             if (entry.trapdoor != null) {
-                VanillaRecipeHelper.addShapedRecipe(recipeName, new ItemStack(entry.door),
-                        "PTd", "PRS", "PPs",
-                        'P', entry.planks,
-                        'T', entry.trapdoor,
-                        'R', new MaterialEntry(ring, Iron),
-                        'S', new MaterialEntry(screw, Iron));
+                if (!skipDuplicateEasyRecipes) {
+                    VanillaRecipeHelper.addShapedRecipe(recipeName, new ItemStack(entry.door),
+                            "PTd", "PRS", "PPs",
+                            'P', entry.planks,
+                            'T', entry.trapdoor,
+                            'R', new MaterialEntry(ring, Iron),
+                            'S', new MaterialEntry(screw, Iron));
+                }
 
                 // plank -> door assembling
                 ASSEMBLER_RECIPES.recipeBuilder(name + "_door")
@@ -148,12 +155,14 @@ public final class WoodMachineRecipesMixin {
                         .outputItems(entry.door)
                         .duration(400).EUt(4).save();
             } else {
-                VanillaRecipeHelper.addShapedRecipe(recipeName, new ItemStack(entry.door),
-                        "PTd", "PRS", "PPs",
-                        'P', entry.planks,
-                        'T', ItemTags.WOODEN_TRAPDOORS,
-                        'R', new MaterialEntry(ring, Iron),
-                        'S', new MaterialEntry(screw, Iron));
+                if (!skipDuplicateEasyRecipes) {
+                    VanillaRecipeHelper.addShapedRecipe(recipeName, new ItemStack(entry.door),
+                            "PTd", "PRS", "PPs",
+                            'P', entry.planks,
+                            'T', ItemTags.WOODEN_TRAPDOORS,
+                            'R', new MaterialEntry(ring, Iron),
+                            'S', new MaterialEntry(screw, Iron));
+                }
 
                 // plank -> door assembling
                 ASSEMBLER_RECIPES.recipeBuilder(name + "_door")
@@ -169,12 +178,14 @@ public final class WoodMachineRecipesMixin {
         if (entry.sign != null && entry.slab != null) {
             final boolean hasSignRecipe = entry.signRecipeName != null;
             String recipeName = hasSignRecipe ? entry.signRecipeName : name + "_sign";
-            VanillaRecipeHelper.addShapedRecipe(recipeName, new ItemStack(entry.sign),
-                    "LLL", "RPR", "sSd",
-                    'P', entry.planks,
-                    'R', new MaterialEntry(screw, Iron),
-                    'L', entry.slab,
-                    'S', entry.getStick());
+            if (!skipDuplicateEasyRecipes) {
+                VanillaRecipeHelper.addShapedRecipe(recipeName, new ItemStack(entry.sign),
+                        "LLL", "RPR", "sSd",
+                        'P', entry.planks,
+                        'R', new MaterialEntry(screw, Iron),
+                        'L', entry.slab,
+                        'S', entry.getStick());
+            }
 
             // plank -> sign assembling
             ASSEMBLER_RECIPES.recipeBuilder(recipeName)
@@ -190,12 +201,14 @@ public final class WoodMachineRecipesMixin {
                 final boolean hasHangingSignRecipe = entry.hangingSignRecipeName != null;
                 String recipeNameHanging = hasHangingSignRecipe ? entry.hangingSignRecipeName : name + "_hanging_sign";
 
-                VanillaRecipeHelper.addShapedRecipe(recipeNameHanging, new ItemStack(entry.hangingSign),
-                        "LLL", "C C", "RSR",
-                        'C', Items.CHAIN,
-                        'R', new MaterialEntry(ring, Iron),
-                        'S', new ItemStack(entry.sign),
-                        'L', new ItemStack(entry.slab));
+                if (!skipDuplicateEasyRecipes) {
+                    VanillaRecipeHelper.addShapedRecipe(recipeNameHanging, new ItemStack(entry.hangingSign),
+                            "LLL", "C C", "RSR",
+                            'C', Items.CHAIN,
+                            'R', new MaterialEntry(ring, Iron),
+                            'S', new ItemStack(entry.sign),
+                            'L', new ItemStack(entry.slab));
+                }
 
                 ASSEMBLER_RECIPES.recipeBuilder(name + "_hanging_sign")
                         .inputItems(entry.slab, 3)
@@ -211,11 +224,13 @@ public final class WoodMachineRecipesMixin {
         if (entry.trapdoor != null) {
             final boolean hasTrapdoorRecipe = entry.trapdoorRecipeName != null;
             String recipeName = hasTrapdoorRecipe ? entry.trapdoorRecipeName : name + "_trapdoor";
-            VanillaRecipeHelper.addShapedRecipe(recipeName, new ItemStack(entry.trapdoor),
-                    "BPS", "PdP", "SPB",
-                    'P', entry.planks,
-                    'B', new MaterialEntry(bolt, Iron),
-                    'S', entry.getStick());
+            if (!skipDuplicateEasyRecipes) {
+                VanillaRecipeHelper.addShapedRecipe(recipeName, new ItemStack(entry.trapdoor),
+                        "BPS", "PdP", "SPB",
+                        'P', entry.planks,
+                        'B', new MaterialEntry(bolt, Iron),
+                        'S', entry.getStick());
+            }
 
             // plank -> trapdoor assembling
             ASSEMBLER_RECIPES.recipeBuilder(recipeName)
@@ -229,7 +244,7 @@ public final class WoodMachineRecipesMixin {
         // stairs
         if (entry.stairs != null) {
             final boolean hasStairRecipe = entry.stairsRecipeName != null;
-            if (entry.addStairsCraftingRecipe) {
+            if (entry.addStairsCraftingRecipe && !skipDuplicateEasyRecipes) {
                 VanillaRecipeHelper.addShapedRecipe(
                         hasStairRecipe ? entry.stairsRecipeName : name + "_stairs",
                         new ItemStack(entry.stairs, 4),
@@ -248,8 +263,10 @@ public final class WoodMachineRecipesMixin {
         // slab
         if (entry.slab != null) {
             // plank -> slab crafting
-            VanillaRecipeHelper.addShapedRecipe(name + "_slab_saw", new ItemStack(entry.slab, 2),
-                    "sS", 'S', entry.planks);
+            if (!skipDuplicateEasyRecipes) {
+                VanillaRecipeHelper.addShapedRecipe(name + "_slab_saw", new ItemStack(entry.slab, 2),
+                        "sS", 'S', entry.planks);
+            }
 
             // plank -> slab cutting
             CUTTER_RECIPES.recipeBuilder(name + "_slab")
@@ -262,11 +279,13 @@ public final class WoodMachineRecipesMixin {
         // fence
         if (entry.fence != null) {
             final boolean hasFenceRecipe = entry.fenceRecipeName != null;
-            VanillaRecipeHelper.addShapedRecipe(hasFenceRecipe ? entry.fenceRecipeName : name + "_fence",
-                    new ItemStack(entry.fence),
-                    "PSP", "PSP", "PSP",
-                    'P', entry.planks,
-                    'S', entry.getStick());
+            if (!skipDuplicateEasyRecipes) {
+                VanillaRecipeHelper.addShapedRecipe(hasFenceRecipe ? entry.fenceRecipeName : name + "_fence",
+                        new ItemStack(entry.fence),
+                        "PSP", "PSP", "PSP",
+                        'P', entry.planks,
+                        'S', entry.getStick());
+            }
 
             // plank -> fence assembling
             ASSEMBLER_RECIPES.recipeBuilder(name + "_fence")
@@ -280,20 +299,22 @@ public final class WoodMachineRecipesMixin {
         // fence gate
         if (entry.fenceGate != null) {
             final boolean hasFenceGateRecipe = entry.fenceGateRecipeName != null;
-            VanillaRecipeHelper.addShapedRecipe(
-                    hasFenceGateRecipe ? entry.fenceGateRecipeName : name + "_fence_gate",
-                    new ItemStack(entry.fenceGate),
-                    "F F", "SPS", "SPS",
-                    'P', entry.planks,
-                    'S', entry.getStick(),
-                    'F', Items.FLINT);
+            if (!skipDuplicateEasyRecipes) {
+                VanillaRecipeHelper.addShapedRecipe(
+                        hasFenceGateRecipe ? entry.fenceGateRecipeName : name + "_fence_gate",
+                        new ItemStack(entry.fenceGate),
+                        "F F", "SPS", "SPS",
+                        'P', entry.planks,
+                        'S', entry.getStick(),
+                        'F', Items.FLINT);
 
-            VanillaRecipeHelper.addShapedRecipe(name + "_fence_gate_screws",
-                    new ItemStack(entry.fenceGate, 2),
-                    "IdI", "SPS", "SPS",
-                    'P', entry.planks,
-                    'S', entry.getStick(),
-                    'I', new MaterialEntry(screw, Iron));
+                VanillaRecipeHelper.addShapedRecipe(name + "_fence_gate_screws",
+                        new ItemStack(entry.fenceGate, 2),
+                        "IdI", "SPS", "SPS",
+                        'P', entry.planks,
+                        'S', entry.getStick(),
+                        'I', new MaterialEntry(screw, Iron));
+            }
 
             // plank -> fence gate assembling
             ASSEMBLER_RECIPES.recipeBuilder(name + "_fence_gate")
@@ -307,7 +328,7 @@ public final class WoodMachineRecipesMixin {
         // boat
         if (entry.boat != null) {
             final boolean hasBoatRecipe = entry.boatRecipeName != null;
-            if (entry.slab != null) {
+            if (entry.slab != null && !skipDuplicateEasyRecipes) {
                 VanillaRecipeHelper.addShapedRecipe(hasBoatRecipe ? entry.boatRecipeName : name + "_boat",
                         new ItemStack(entry.boat),
                         "PHP", "PkP", "SSS",
@@ -327,12 +348,14 @@ public final class WoodMachineRecipesMixin {
             if (entry.chestBoat != null) {
                 final boolean hasChestBoatRecipe = entry.chestBoatRecipeName != null;
                 String recipeName = hasChestBoatRecipe ? entry.chestBoatRecipeName : name + "_chest_boat";
-                VanillaRecipeHelper.addShapedRecipe(recipeName,
-                        new ItemStack(entry.chestBoat),
-                        " B ", "SCS", " w ",
-                        'B', entry.boat,
-                        'S', new MaterialEntry(bolt, Wood),
-                        'C', Tags.Items.CHESTS_WOODEN);
+                if (!skipDuplicateEasyRecipes) {
+                    VanillaRecipeHelper.addShapedRecipe(recipeName,
+                            new ItemStack(entry.chestBoat),
+                            " B ", "SCS", " w ",
+                            'B', entry.boat,
+                            'S', new MaterialEntry(bolt, Wood),
+                            'C', Tags.Items.CHESTS_WOODEN);
+                }
 
                 // boat -> chest boat assembling
                 ASSEMBLER_RECIPES.recipeBuilder(name + "_chest_boat")
@@ -346,8 +369,10 @@ public final class WoodMachineRecipesMixin {
 
         // button
         if (entry.button != null && entry.pressurePlate != null) {
-            VanillaRecipeHelper.addShapedRecipe(name + "_button", new ItemStack(entry.button, 6), "sP",
-                    'P', new ItemStack(entry.pressurePlate));
+            if (!skipDuplicateEasyRecipes) {
+                VanillaRecipeHelper.addShapedRecipe(name + "_button", new ItemStack(entry.button, 6), "sP",
+                        'P', new ItemStack(entry.pressurePlate));
+            }
 
             // plank -> button cutting
             CUTTER_RECIPES.recipeBuilder(name + "_button")
@@ -358,11 +383,13 @@ public final class WoodMachineRecipesMixin {
 
         // preesure plate
         if (entry.pressurePlate != null && entry.slab != null) {
-            VanillaRecipeHelper.addShapedRecipe(name + "_pressure_plate",
-                    new ItemStack(entry.pressurePlate, 2), "SrS", "LCL", "SdS",
-                    'S', new MaterialEntry(bolt, GTMaterials.Wood),
-                    'L', entry.slab.asItem(),
-                    'C', new MaterialEntry(spring, GTMaterials.Iron));
+            if (!skipDuplicateEasyRecipes) {
+                VanillaRecipeHelper.addShapedRecipe(name + "_pressure_plate",
+                        new ItemStack(entry.pressurePlate, 2), "SrS", "LCL", "SdS",
+                        'S', new MaterialEntry(bolt, GTMaterials.Wood),
+                        'L', entry.slab.asItem(),
+                        'C', new MaterialEntry(spring, GTMaterials.Iron));
+            }
 
             ASSEMBLER_RECIPES.recipeBuilder(name + "_pressure_plate")
                     .inputItems(entry.slab, 2)

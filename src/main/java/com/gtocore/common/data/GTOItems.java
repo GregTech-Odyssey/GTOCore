@@ -1325,6 +1325,8 @@ public final class GTOItems {
                             "§aRight-Click:§r Mark Position §7(in reverse order)§r")
                     .addLines("§aShift + 左键超立方体：§r 将当前的标签应用到该超立方体§r",
                             "§aShift + Left-Click Tesseract:§r Apply the current markers to this Tesseract§r")
+                    .addLines("§a中键选取键超立方体：§r 将当前超立方体的坐标配置复制到标签枪§r",
+                            "§aPick Block Key(default Middle-Click) Tesseract:§r Copy the coordinate configuration of this Tesseract to the marker gun§r")
                     .addLines("§6注意：§r 向基于坐标信息卡的超立方体应用标签时需要足量的坐标信息卡！§r",
                             "§6Note:§r Applying markers to a coordinate card-based Tesseract requires sufficient coordinate cards!§r")
                     .build().getArray())

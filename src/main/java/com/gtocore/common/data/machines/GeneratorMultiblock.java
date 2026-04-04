@@ -10,6 +10,7 @@ import com.gtocore.common.data.GTOMaterials;
 import com.gtocore.common.data.GTORecipeTypes;
 import com.gtocore.common.data.translation.GTOMachineStories;
 import com.gtocore.common.data.translation.GTOMachineTooltips;
+import com.gtocore.common.data.translation.GTOMachineTooltipsA;
 import com.gtocore.common.machine.multiblock.electric.space.DysonSphereLaunchSiloMachine;
 import com.gtocore.common.machine.multiblock.electric.space.DysonSphereReceivingStationMcahine;
 import com.gtocore.common.machine.multiblock.generator.*;
@@ -82,10 +83,8 @@ public final class GeneratorMultiblock {
     public static final MultiblockMachineDefinition MAGNETIC_FLUID_GENERATOR = multiblock("magnetic_fluid_generator", "磁流体发电机", MagneticFluidGeneratorMachine::new)
             .allRotation()
             .recipeTypes(GTRecipeTypes.PLASMA_GENERATOR_FUELS)
-            .tooltipsText("实际产出由等离子热值决定", "Actual output is determined by plasma heat value")
-            .tooltipsText("玻璃等级限制了能量输出仓等级", "The glass tier limits the energy output hatch tier")
-            .tooltipsText("如果使用激光仓，则提升发电量x(默认2，安装模块后4)^等级", "If a laser hatch is used, power generation is increased by x(Default 2, 4 after installing the module)^tier")
             .tooltipsText("等离子体洪流带着磅礴的能量奔涌", "A torrent of plasma rushes forward with majestic energy")
+            .tooltips(GTOMachineTooltipsA.INSTANCE.getMagneticFluidGeneratorTooltips().getSupplier())
             .laserTooltips()
             .generator()
             .moduleTooltips(new PartAbility[0])

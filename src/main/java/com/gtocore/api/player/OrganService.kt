@@ -47,11 +47,12 @@ class OrganService : IOrganService {
                 true -> run {
                     val modifierAmplify = MovementSpeedFunction(tier)
                     val shouldAdd = player.getAttribute(Attributes.MOVEMENT_SPEED)?.modifiers?.all { it.name != modifierNAME } ?: true
-                    if (!shouldAdd)return@run
+                    if (!shouldAdd) return@run
                     player.getAttribute(Attributes.MOVEMENT_SPEED)?.addPermanentModifier(
                         AttributeModifier(modifierUUID, modifierNAME, modifierAmplify, AttributeModifier.Operation.ADDITION),
                     )
                 }
+
                 false -> run {
                     player.getAttribute(Attributes.MOVEMENT_SPEED)?.removeModifier(modifierUUID)
                 }
@@ -65,11 +66,12 @@ class OrganService : IOrganService {
                 true -> run {
                     val modifierAmplify = BlockReachFunction
                     val shouldAdd = player.getAttribute(BLOCK_REACH.get())?.modifiers?.all { it.name != modifierNAME } ?: true
-                    if (!shouldAdd)return@run
+                    if (!shouldAdd) return@run
                     player.getAttribute(BLOCK_REACH.get())?.addPermanentModifier(
                         AttributeModifier(modifierUUID, modifierNAME, modifierAmplify.toDouble(), AttributeModifier.Operation.ADDITION),
                     )
                 }
+
                 false -> run {
                     player.getAttribute(BLOCK_REACH.get())?.removeModifier(modifierUUID)
                 }
@@ -150,6 +152,7 @@ class OrganService : IOrganService {
                     player.getFoodData().setSaturation(20.0f)
                     player.getFoodData().setExhaustion(0.0f)
                 }
+
                 false -> {}
             }
         }
@@ -165,6 +168,7 @@ class OrganService : IOrganService {
                         player.removeEffect(net.minecraft.world.effect.MobEffects.WITHER)
                     }
                 }
+
                 false -> {}
             }
         }
@@ -201,6 +205,7 @@ class OrganService : IOrganService {
                                 )
                         }
                     }
+
                     false -> run {
                         player.getAttribute(Attributes.ARMOR)?.removeModifier(armorModifierUUID)
                         player.getAttribute(Attributes.ARMOR_TOUGHNESS)?.removeModifier(toughnessModifierUUID)

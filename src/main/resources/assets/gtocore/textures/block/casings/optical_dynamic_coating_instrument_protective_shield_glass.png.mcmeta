@@ -3,9 +3,9 @@
     "interpolate": true,
     "frametime": 2
   },
-  
-    "ldlib": {
-        "connection": "gtocore:block/casings/optical_dynamic_coating_instrument_protective_shield_glass_ctm",
-        "emissive": true
-    }
+
+  "ldlib": {
+    "connection": "gtocore:block/casings/optical_dynamic_coating_instrument_protective_shield_glass_ctm",
+    "emissive": true
+  }
 }

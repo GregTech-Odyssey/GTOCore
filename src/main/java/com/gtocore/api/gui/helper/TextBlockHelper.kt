@@ -97,10 +97,12 @@ object TextBlockHelper {
         val testLine = if (currentLine.isEmpty()) word else "$currentLine $word"
         return when {
             font.width(testLine) <= maxLineWidth -> lines to testLine
+
             currentLine.isNotEmpty() -> {
                 lines.add(currentLine)
                 lines to word
             }
+
             else -> {
                 val forceSplitLines = word.splitByWidth(font, maxLineWidth)
                 lines.addAll(forceSplitLines)
@@ -118,6 +120,7 @@ object TextBlockHelper {
     private fun String.splitByWidth(font: Font, maxWidth: Int): List<String> = generateSequence(this) { remaining ->
         when {
             remaining.isEmpty() -> null
+
             else -> {
                 val cutIndex = findCutIndex(remaining, font, maxWidth)
                 remaining.drop(cutIndex).takeIf { it.isNotEmpty() }

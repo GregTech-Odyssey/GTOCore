@@ -37,12 +37,11 @@ public final class GTOMaterialIconSet extends MaterialIconSet {
     public static final GTOMaterialIconSet INFINITY = new GTOMaterialIconSet("infinity", null, true, HaloItemRenderer.INFINITY_HALO);
     public static final GTOMaterialIconSet ETERNITY = new GTOMaterialIconSet("eternity", null, true, HaloItemRenderer.ETERNITY_HALO);
     public static final GTOMaterialIconSet MAGMATTER = new GTOMaterialIconSet("magmatter", null, true, HaloItemRenderer.MAGMATTER_HALO);
-    public static final GTOMaterialIconSet PARTICLE_EMITTER = new GTOMaterialIconSet("particle_emitter", null, true, HaloItemRenderer.RADIOACTIVE);
+    public static final MaterialIconSet WHITE_DWARF_MATTER = new MaterialIconSet("white_dwarf_mtter", null, true);
+    public static final MaterialIconSet BLACK_DWARF_MATTER = new MaterialIconSet("black_dwarf_mtter", null, true);
+    public static final MaterialIconSet PARTICLE_EMITTER = new MaterialIconSet("particle_emitter", null, true);
     public static final MaterialIconSet LIMPID = new MaterialIconSet("limpid", DULL);
     public static final GTOMaterialIconSet INFINITY_CHAOS = new GTOMaterialIconSet("supracausal", METALLIC, false, SpinTransformRenderer.INSTANCE);
     public static final GTOMaterialIconSet TRANSLUCENT = new GTOMaterialIconSet("translucent", SHINY, false, TranslucentRenderer.INSTANCE);
     public static final GTOMaterialIconSet ASTRAL = new GTOMaterialIconSet("cosmic_translucent", BRIGHT, false, HaloItemRenderer.ASTRIUM);
-
-    // public static final GTOMaterialIconSet TEST_RENDERER = new GTOMaterialIconSet("test_renderer", METALLIC, false,
-    // VibrationItemRenderer.INSTANCE);
 }

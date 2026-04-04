@@ -16,6 +16,7 @@ import com.gregtechceu.gtceu.api.transfer.fluid.IFluidHandlerModifiable;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.GlobalPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
@@ -170,5 +171,19 @@ public class TesseractMachine extends MetaMachine implements IFancyUIMachine, IM
         inventory.storage.setStackInSlot(0, card);
         player.displayClientMessage(Component.translatable(WRITE_SUCCESS_TEXT), true);
         return true;
+    }
+
+    @Override
+    public List<TesseractDirectedTarget> getMarkerTargets() {
+        if (pos == null) return List.of();
+        var exposedInAirFace = Direction.NORTH;
+        for (var face : Direction.values()) {
+            var offsetPos = pos.relative(face);
+            if (getLevel().getBlockState(offsetPos).isAir()) {
+                exposedInAirFace = face;
+                break;
+            }
+        }
+        return List.of(new TesseractDirectedTarget(GlobalPos.of(getLevel().dimension(), pos), exposedInAirFace, 0));
     }
 }

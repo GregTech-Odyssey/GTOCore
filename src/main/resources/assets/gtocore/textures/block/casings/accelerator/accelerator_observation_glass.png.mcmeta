@@ -1,5 +1,5 @@
 {
-    "ldlib": {
-        "connection": "gtocore:block/casings/accelerator/accelerator_observation_glass_ctm"
-    }
+  "ldlib": {
+    "connection": "gtocore:block/casings/accelerator/accelerator_observation_glass_ctm"
+  }
 }

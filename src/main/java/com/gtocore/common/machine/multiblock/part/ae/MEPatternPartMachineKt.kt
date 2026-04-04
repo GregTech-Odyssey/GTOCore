@@ -26,6 +26,7 @@ import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.phys.BlockHitResult
 
 import appeng.api.crafting.IPatternDetails
+import appeng.api.crafting.PatternDetailsHelper
 import appeng.api.implementations.blockentities.PatternContainerGroup
 import appeng.api.inventories.InternalInventory
 import appeng.api.networking.IGrid
@@ -142,7 +143,7 @@ abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.AbstractInterna
     val detailsSlotMap: BiMap<IPatternDetails, T> = HashBiMap.create(maxPatternCount)
     var detailsInit = false
 
-    private var patterns: List<IPatternDetails> = emptyList()
+    var patterns: List<IPatternDetails> = emptyList()
     private var needPatternSync: Boolean = false
     private var updateSubs: TickableSubscription? = null
 
@@ -179,7 +180,7 @@ abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.AbstractInterna
 
         detailsSlotMap.forcePut(newPatternDetails, internalInv)
 
-        oldPatternDetails?.takeIf { it != newPatternDetails }?.let {
+        oldPatternDetails.takeIf { it != newPatternDetails }.let {
             internalInv.onPatternChange()
         }
 
@@ -196,6 +197,7 @@ abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.AbstractInterna
     open fun onPagePrev() {}
     open fun runOnUpdate() {}
     open fun addWidget(group: WidgetGroup) {}
+    open fun onDetailsPostInit() {}
 
     // ==================== 生命周期方法 ====================
     val newPageField = ISync.createIntField(this).set(0)
@@ -233,6 +235,7 @@ abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.AbstractInterna
                                 }
                             }
                             updatePatterns()
+                            onDetailsPostInit()
                             detailsInit = true
                         }, 10)
                     }
@@ -279,7 +282,7 @@ abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.AbstractInterna
                                                 { Component.empty() },
                                                 BiConsumer { c: MutableComponent?, t: MutableComponent? ->
                                                     c!!.append(
-                                                        if (c.string.isEmpty()) t else Component.literal("/").append(t),
+                                                        (if (c.string.isEmpty()) t else Component.literal("/").append(t as Component)) as Component,
                                                     )
                                                 },
                                                 { c1: MutableComponent?, c2: MutableComponent? ->
@@ -300,6 +303,7 @@ abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.AbstractInterna
                             )
                     }
             }
+
             else -> {
                 AEItemKey.of(GTAEMachines.ME_PATTERN_BUFFER.asItem()) to
                     if (customName.isNotEmpty()) {
@@ -406,7 +410,7 @@ abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.AbstractInterna
                             height = 13,
                             onClick = { _ ->
                                 onPagePrev()
-                                if (!isRemote)newPageField.setAndSyncToClient((newPageField.get() - 1).coerceAtLeast(0))
+                                if (!isRemote) newPageField.setAndSyncToClient((newPageField.get() - 1).coerceAtLeast(0))
                             },
                             text = { "<<" },
                         )
@@ -416,7 +420,7 @@ abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.AbstractInterna
                             width = 30,
                             onClick = { _ ->
                                 onPageNext()
-                                if (!isRemote)newPageField.setAndSyncToClient((newPageField.get() + 1).coerceAtMost(pageWidget.getMaxPageSize() - 1))
+                                if (!isRemote) newPageField.setAndSyncToClient((newPageField.get() + 1).coerceAtMost(pageWidget.getMaxPageSize() - 1))
                             },
                             text = { ">>" },
                         )
@@ -457,6 +461,7 @@ abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.AbstractInterna
             getMainNode().isOnline -> {
                 updateSubs = subscribeServerTick(updateSubs, ::update)
             }
+
             updateSubs != null -> {
                 updateSubs?.unsubscribe()
                 updateSubs = null
@@ -483,7 +488,7 @@ abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.AbstractInterna
         }
     }
 
-    private fun createPatternSlot(index: Int): AEPatternViewSlotWidgetKt {
+    fun createPatternSlot(index: Int): AEPatternViewSlotWidgetKt {
         val slot = AEPatternViewSlotWidgetKt(
             0,
             0,
@@ -500,6 +505,7 @@ abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.AbstractInterna
                     val output = item.getOutput(stack)
                     if (!output.isEmpty) output else stack
                 }
+
                 else -> stack
             }
         }
@@ -529,8 +535,8 @@ abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.AbstractInterna
         tag.put("p", patternInventory.serializeNBT())
         tag.putString("n", customName)
         val list = ListTag()
-        for (i in 0 until internalInventory.size) {
-            list.add(internalInventory[i].serializeNBT())
+        for (element in internalInventory) {
+            list.add(element.serializeNBT())
         }
         tag.put("i", list)
     }
@@ -539,8 +545,8 @@ abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.AbstractInterna
         patternInventory.deserializeNBT(tag.getCompound("p"))
         customName = tag.getString("n")
         val list = tag.getList("i", Tag.TAG_COMPOUND.toInt())
-        for (i in 0 until internalInventory.size) {
-            internalInventory[i].deserializeNBT(list.getCompound(i))
+        for ((i, element) in internalInventory.withIndex()) {
+            element.deserializeNBT(list.getCompound(i))
         }
     }
 
@@ -564,4 +570,13 @@ class MEPartInv(val machine: MEPatternPartMachineKt<*>) : InternalInventory {
         }
         machine.onPatternChange(slotIndex)
     }
+}
+
+fun checkDuplicatedPattern(machine: MEPatternPartMachineKt<*>, stack: ItemStack): Boolean = with(machine) {
+    val patternDetails = PatternDetailsHelper.decodePattern(stack, level) ?: return false
+    if (level?.isClientSide == true) return true
+    if (detailsSlotMap.isEmpty()) return true
+    val primaryOutput = patternDetails.primaryOutput.what()
+    return patterns
+        .none { details: IPatternDetails -> details.primaryOutput.what() == primaryOutput }
 }

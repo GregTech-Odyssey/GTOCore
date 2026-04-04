@@ -1,5 +1,5 @@
 {
-    "ldlib": {
-        "connection": "gtocore:block/calcium_oxide_ceramic_anti_metal_corrosion_mechanical_block_ctm"
-    }
+  "ldlib": {
+    "connection": "gtocore:block/calcium_oxide_ceramic_anti_metal_corrosion_mechanical_block_ctm"
+  }
 }
