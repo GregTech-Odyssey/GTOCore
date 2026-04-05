@@ -981,7 +981,7 @@ object GTOMachineTooltips {
 
             section(ComponentSlang.AfterModuleInstallation)
             increase("获得3倍速度" translatedTo "Gains 3x speed")
-            increase("获得额外130%涡轮效率" translatedTo "Gains additional 130% turbine efficiency")
+            increase("获得额外30%涡轮效率" translatedTo "Gains additional 30% turbine efficiency")
             decrease("转子损耗速度变为3倍" translatedTo "Rotor wear rate becomes 3x")
 
             section(ComponentSlang.CoilEfficiencyBonus)
