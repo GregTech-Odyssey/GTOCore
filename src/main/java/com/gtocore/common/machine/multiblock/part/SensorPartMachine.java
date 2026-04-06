@@ -1,6 +1,7 @@
 package com.gtocore.common.machine.multiblock.part;
 
 import com.gtocore.common.data.GTOMachines;
+
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.gui.widget.FloatInputWidget;
