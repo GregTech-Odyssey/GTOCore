@@ -1455,14 +1455,14 @@ object GTOMachineTooltips {
         setTranslationPrefix("biochemical_extraction")
 
         section("运行机制" translatedTo "Operation Mechanism")
-        command("机器运行时需要输入特定流体，否则中断配方" translatedTo "The machine requires specific fluids as input during operation; otherwise, the recipe is interrupted")
+        important("机器运行时需要输入特定流体，且只能输入当前要求的那一种，否则中断配方" translatedTo "The machine requires specific fluids during operation, and only the one currently required may be input; otherwise, the recipe is interrupted")
         command("每秒需要输入1B营养精华一次，成功后发出一次红石信号" translatedTo "It needs to input 1B nutrient distillation once per second, and upon success, emits a redstone signal once")
         command("连续运行5秒后需要输入1B浓缩云之精华一次" translatedTo "After continuous operation for 5 seconds, it needs to input 1B cloud seed concentrated once")
         command("连续运行15秒后需要输入1B火焰水一次" translatedTo "After continuous operation for 15 seconds, it needs to input 1B fire water once")
         command("连续运行20秒后需要输入1B轻盈之气一次" translatedTo "After continuous operation for 20 seconds, it needs to input 1B vapor of levity once")
         error("如果连续运行要求输入的流体不符合要求，则中断配方" translatedTo "If the required fluids for continuous operation do not meet the requirements, the recipe is interrupted")
-        content("营养精华可与其他流体同时输入" translatedTo "Nutrient distillation can be input simultaneously with other fluids")
-        content("20秒后只需完成每秒的营养精华输入要求，配方开始输出" translatedTo "After 20 seconds, only the requirement for inputting nutrient distillation once per second needs to be completed, recipe output begins")
+        content("营养精华可无视限制与其他流体同时输入" translatedTo "Nutrient distillation can be input simultaneously with other fluids, ignoring the restrictions")
+        content("20秒后配方开始输出，此后只需提供1B/s的营养精华" translatedTo "After 20 seconds, the recipe begins outputting, and from then on it only requires 1B/s of nutrient distillation")
     }
 
     // 星核钻机
