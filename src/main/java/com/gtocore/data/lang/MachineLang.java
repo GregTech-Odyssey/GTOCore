@@ -132,6 +132,8 @@ final class MachineLang {
         addCNEN("gtocore.machine.accelerate_hatch.tooltip.1", "加速仓的等级低于机器配方等级时加速效果减弱", "Acceleration effect is reduced when the accelerator hatch tier is lower than the machine recipe tier");
         addCNEN("gtocore.machine.recipe.run", "运行%s配方时: ", "When running the %s recipe: ");
         addCNEN("gtocore.machine.parallel", "最大并行数: %s", "Maximum number of parallel: %s");
+        addCNEN("gtocore.machine.processing_plant.parallel_per_tier_tooltip", "自ULV起，配方等级每高出1级，获得的并行数+%s", "From ULV, each voltage tier increases the obtained parallelism by %s");
+        addCNEN("gtocore.machine.processing_plant.parallel_per_tier_formula", "公式 : %s * (tier - 0), 算去吧", "Formula: %s * (tier - 0), go calculate it yourself");
         addCNEN("gtocore.machine.cwut_modification", "算力修正系数: %s", "Hashrate correction factor: %s");
         addCNEN("gtocore.machine.components_list", "组件列表: ", "Components List: ");
         addCNEN("gtocore.machine.tag_filter.tag_config_title", "标签过滤配置", "Tag Filtering Configuration");

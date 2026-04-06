@@ -6,6 +6,7 @@ import com.gtocore.common.machine.multiblock.electric.space.spacestaion.Abstract
 import com.gtocore.common.machine.multiblock.part.ae.MEPatternBufferPartMachine;
 import com.gtocore.common.machine.multiblock.part.ae.MEWildcardPatternBufferPartMachine;
 
+import com.gtolib.GTOCore;
 import com.gtolib.api.GTOValues;
 import com.gtolib.api.gui.ParallelConfigurator;
 import com.gtolib.api.machine.feature.multiblock.IParallelMachine;
@@ -111,8 +112,19 @@ public final class ProcessingPlantMachine extends StorageMultiblockMachine imple
 
     public ProcessingPlantMachine(MetaMachineBlockEntity holder) {
         super(holder, 1, ProcessingPlantMachine::filter);
-        customParallelTrait = new CustomParallelTrait(this, true, machine -> ((ProcessingPlantMachine) machine).getTier() > 0 ? (long) ((ProcessingPlantMachine) machine).getTier() * (((ProcessingPlantMachine) machine).getSubFormedAmount() > 0 ? 4 : 2) : 0);
+        customParallelTrait = new CustomParallelTrait(this, true, machine -> {
+            ProcessingPlantMachine processingPlantMachine = (ProcessingPlantMachine) machine;
+            if (processingPlantMachine.getTier() <= 0) return 0;
+            return (long) processingPlantMachine.getTier() * getParallelPerTier(processingPlantMachine.getSubFormedAmount() > 0);
+        });
         tierCasingTrait = new TierCasingTrait(this, GTOValues.INTEGRAL_FRAMEWORK_TIER);
+    }
+
+    public static int getParallelPerTier(boolean hasModule) {
+        if (GTOCore.isEasy()) {
+            return hasModule ? 8 : 4;
+        }
+        return hasModule ? 4 : 2;
     }
 
     private static boolean filter(ItemStack itemStack) {

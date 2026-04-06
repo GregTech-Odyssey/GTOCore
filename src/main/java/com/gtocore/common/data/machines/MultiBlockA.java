@@ -488,7 +488,7 @@ public final class MultiBlockA {
             .specialParallelizableTooltips()
             .tooltips(NewDataAttributes.ALLOW_PARALLEL_NUMBER.create(
                     h -> h.addLines("自EV起，每升一级电压，获得的并行x4", "From EV, every voltage tier increase grants x4 parallelism"),
-                    c -> c.addCommentLines("公式 : 2^(max(0, (2 * (tier - 4)))), 算去吧", "Formula: 2^(max(0, (2 * (tier - 4)))), do the math")))
+                    c -> c.addCommentLines("公式 : max(1, 4^(tier-4)), 算去吧", "Formula: max(1, 4^(tier-4)), do the math")))
             .overclock()
             .block(GTBlocks.STEEL_HULL)
             .pattern(definition -> MultiBlockFileReader.start(definition, RIGHT, UP, BACK)

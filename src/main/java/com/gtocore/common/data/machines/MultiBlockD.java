@@ -32,6 +32,7 @@ import com.gtocore.common.machine.multiblock.noenergy.NeutronActivatorMachine;
 
 import com.gtolib.GTOCore;
 import com.gtolib.api.annotation.NewDataAttributes;
+import com.gtolib.api.annotation.component_builder.StyleBuilder;
 import com.gtolib.api.lang.CNEN;
 import com.gtolib.api.machine.MultiblockDefinition;
 import com.gtolib.api.machine.multiblock.CoilCrossRecipeMultiblockMachine;
@@ -478,8 +479,12 @@ public final class MultiBlockD {
             .tooltips(GTOMachineTooltips.INSTANCE.getProcessingPlantTooltips().getSupplier())
             .specialParallelizableTooltips()
             .tooltips(NewDataAttributes.ALLOW_PARALLEL_NUMBER.create(
-                    h -> h.addLines("自ULV起，配方等级每高出1级，获得的并行数+2", "From ULV, each voltage tier increases the obtained parallelism by 2"),
-                    c -> c.addCommentLines("公式 : 2 * (tier - 0), 算去吧", "Formula: 2 * (tier - 0), go calculate it yourself")))
+                    h -> h.addLines(
+                            Component.translatable("gtocore.machine.processing_plant.parallel_per_tier_tooltip", ProcessingPlantMachine.getParallelPerTier(false)),
+                            s -> s),
+                    c -> c.addLines(
+                            Component.translatable("gtocore.machine.processing_plant.parallel_per_tier_formula", ProcessingPlantMachine.getParallelPerTier(false)),
+                            StyleBuilder::setGray)))
             .tooltips(NewDataAttributes.RECIPES_TYPE.create(ProcessingPlantMachine.getComponent()))
             .moduleTooltips(EXTRA_ENERGY_HATCH, CATALYST_HATCH, MANA_AMPLIFIER_HATCH)
             .block(GTOBlocks.MULTI_FUNCTIONAL_CASING)
