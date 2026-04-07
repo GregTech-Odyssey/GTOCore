@@ -536,7 +536,7 @@ final class ElectricCooking {
         ELECTRIC_COOKING_RECIPES.builder("honey_cookie")
                 .inputItems(Items.HONEY_BOTTLE)
                 .inputItems(Items.WHEAT, 2)
-                .outputItems("farmersdelight:honey_cookie")
+                .outputItems("farmersdelight:honey_cookie", 8)
                 .outputItems(Items.GLASS_BOTTLE)
                 .EUt(120)
                 .duration(120)

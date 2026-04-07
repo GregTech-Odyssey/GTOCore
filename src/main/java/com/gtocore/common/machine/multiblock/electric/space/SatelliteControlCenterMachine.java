@@ -3,8 +3,8 @@ package com.gtocore.common.machine.multiblock.electric.space;
 import com.gtocore.client.hud.Configurator;
 import com.gtocore.common.data.GTOItems;
 import com.gtocore.common.data.GTOMaterials;
-
 import com.gtocore.data.IdleReason;
+
 import com.gtolib.api.annotation.DataGeneratorScanned;
 import com.gtolib.api.annotation.language.RegisterLanguage;
 import com.gtolib.api.data.Dimension;
@@ -132,7 +132,7 @@ public final class SatelliteControlCenterMachine extends ElectricMultiblockMachi
     }
 
     @Override
-    public RecipeLogic createRecipeLogic(Object @NotNull ... args) {
+    public RecipeLogic createRecipeLogic(Object @NotNull... args) {
         return new CustomRecipeLogic(this, this::getRecipe, true);
     }
 
