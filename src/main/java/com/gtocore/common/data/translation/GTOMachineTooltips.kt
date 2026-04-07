@@ -931,14 +931,15 @@ object GTOMachineTooltips {
                 section(ComponentSlang.PowerGenerationEfficiency)
                 function(ComponentSlang.BaseProductionEut(baseEUt))
                 command(ComponentSlang.UsePerHourLubricant(FluidHelper.getBucket()))
-                increase("提供20mB/s的§a氧气§r，并消耗§4双倍§r燃料以产生§e$oxygenBoost EU/t§r的功率" translatedTo "Provide 20mB/s of §eOxygen§r, consuming §adouble§r fuel to produce up to §e$oxygenBoost §rEU/t")
 
                 if (canExtremeBoost) {
                     increase("提供80mB/s的§a液态氧§r，并消耗§4双倍§r燃料以产生§e$liquidOxygenBoost EU/t§r的功率" translatedTo "Provide 80mB/s of §eLiquid Oxygen§r, consuming §adouble§r fuel to produce up to §e$liquidOxygenBoost §rEU/t")
+                } else {
+                    increase("提供20mB/s的§a氧气§r，并消耗§4双倍§r燃料以产生§e$oxygenBoost EU/t§r的功率" translatedTo "Provide 20mB/s of §eOxygen§r, consuming §adouble§r fuel to produce up to §e$oxygenBoost §rEU/t")
                 }
 
                 section(ComponentSlang.AfterModuleInstallation)
-                increase("并行能力提升至 §e8§r" translatedTo "Parallelism increases to §e8x§r")
+                increase("并行能力提升至 §e4§r" translatedTo "Parallelism increases to §e4x§r")
                 increase("空气进气速度变为 §e4§r 倍" translatedTo "Air intake speed becomes §e4x§r faster")
             }
         }
