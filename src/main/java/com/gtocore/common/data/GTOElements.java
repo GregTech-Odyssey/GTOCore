@@ -6,6 +6,7 @@ public final class GTOElements {
 
     public static void init() {}
 
+    // SPACETIME的symbol值为了本地化做了mixin处理，见TooltipsHandlerMixin
     public static final Element SPACETIME = new Element(0, 1000, -1, null, "spacetime", "§7熔炼为流体的时空", false);
     public static final Element INFINITY = new Element(100000, 100000, -1, null, "infinity", "∞", false);
     public static final Element ORICHALCUM = new Element(320, 320, -1, null, "orichalcum", "Or", false);
