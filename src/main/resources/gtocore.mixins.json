@@ -142,6 +142,7 @@
     "endremastered.EREnderEyeMixin",
     "farmersdelight.CuttingBoardBlockEntityMixin",
     "ftbq.FTBQuestsCommandsMixin",
+    "ftbq.ItemRewardMixin",
     "ftbq.QuestMixin",
     "ftbq.ToggleEditingModeMessageMixin",
     "ftbu.FTBUltimineMixin",
