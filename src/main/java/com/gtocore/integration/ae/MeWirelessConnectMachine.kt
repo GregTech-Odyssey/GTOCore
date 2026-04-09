@@ -7,12 +7,14 @@ import com.gtocore.common.saved.createNetworkSummarySyncField
 import com.gtocore.common.saved.createTopologySyncField
 import com.gtocore.integration.ae.wireless.WirelessMachine
 
+import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.network.chat.Component
 import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.ItemStack
+import net.minecraft.world.level.block.Block
 
 import appeng.api.networking.GridFlags
 import appeng.api.networking.IManagedGridNode
@@ -24,6 +26,7 @@ import com.gregtechceu.gtceu.api.gui.fancy.TabsWidget
 import com.gregtechceu.gtceu.api.machine.MetaMachine
 import com.gregtechceu.gtceu.api.machine.feature.IFancyUIMachine
 import com.gregtechceu.gtceu.api.machine.feature.IMachineLife
+import com.gregtechceu.gtceu.api.machine.multiblock.part.WorkableTieredIOPartMachine
 import com.gregtechceu.gtceu.integration.ae2.machine.trait.GridNodeHolder
 import com.gtolib.api.capability.ISync
 import com.gtolib.api.network.SyncManagedFieldHolder
@@ -156,6 +159,11 @@ class MeWirelessConnectMachine(holder: MetaMachineBlockEntity) :
     override fun attachSideTabs(sideTabs: TabsWidget) {
         sideTabs.mainTab = this
         sideTabs.attachSubTab(topologyProvider)
+    }
+
+    override fun onNeighborChanged(block: Block, fromPos: BlockPos, isMoving: Boolean) {
+        super<MetaMachine>.onNeighborChanged(block, fromPos, isMoving)
+        super<WirelessMachine>.onNeighborChanged(fromPos)
     }
 
     override fun getTabIcon(): IGuiTexture = fancyUIProvider.tabIcon
