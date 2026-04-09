@@ -31,12 +31,14 @@ import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 
 import java.util.*;
 
+import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 public class DistillationTowerMachine extends ElectricMultiblockMachine {
 
+    @Nullable
     private List<IFluidHandler> fluidOutputs;
 
     public DistillationTowerMachine(MetaMachineBlockEntity holder) {
@@ -59,7 +61,7 @@ public class DistillationTowerMachine extends ElectricMultiblockMachine {
         final int startY = getPos().getY() + 1;
         List<IWorkableMultiPart> parts = Arrays.stream(getParts()).filter(IWorkableMultiPart.class::isInstance).map(IWorkableMultiPart.class::cast).filter(part -> PartAbility.EXPORT_FLUIDS.isApplicable(part.self().getBlockState().getBlock())).filter(part -> part.self().getPos().getY() >= startY).toList();
         if (!parts.isEmpty()) {
-            int maxY = parts.get(parts.size() - 1).self().getPos().getY();
+            int maxY = parts.getLast().self().getPos().getY();
             fluidOutputs = new ArrayList<>(maxY - startY);
             int outputIndex = 0;
             for (int y = startY; y <= maxY; ++y) {
@@ -69,7 +71,7 @@ public class DistillationTowerMachine extends ElectricMultiblockMachine {
                 }
                 var part = parts.get(outputIndex);
                 if (part.self().getPos().getY() == y) {
-                    var handler = part.getRecipeHandlers().get(0).getCapability(FluidRecipeCapability.CAP).stream().filter(IFluidHandler.class::isInstance).findFirst().map(IFluidHandler.class::cast).orElse(VoidFluidHandler.INSTANCE);
+                    var handler = part.getRecipeHandlers().getFirst().getCapability(FluidRecipeCapability.CAP).stream().filter(IFluidHandler.class::isInstance).findFirst().map(IFluidHandler.class::cast).orElse(VoidFluidHandler.INSTANCE);
                     addOutput(handler);
                     outputIndex++;
                 } else if (part.self().getPos().getY() > y) {
@@ -138,7 +140,10 @@ public class DistillationTowerMachine extends ElectricMultiblockMachine {
             var contents = recipe.getOutputContents(FluidRecipeCapability.CAP);
             var outputs = getMachine().getFluidOutputs();
             List<Content> trimmed = new ArrayList<>(12);
-            var size = Math.min(contents.size(), outputs.size());
+            int size = 0;
+            if (outputs != null) {
+                size = Math.min(contents.size(), outputs.size());
+            }
             for (int i = 0; i < size; ++i) {
                 if (!(outputs.get(i) instanceof VoidFluidHandler)) trimmed.add(contents.get(i));
             }
@@ -178,6 +183,7 @@ public class DistillationTowerMachine extends ElectricMultiblockMachine {
             if (fluids.isEmpty()) return true;
             boolean valid = true;
             var outputs = getMachine().getFluidOutputs();
+            if (outputs == null) return false;
             var size = Math.min(fluids.size(), outputs.size());
             for (int i = 0; i < size; ++i) {
                 var handler = outputs.get(i);
@@ -196,7 +202,7 @@ public class DistillationTowerMachine extends ElectricMultiblockMachine {
         }
     }
 
-    private List<IFluidHandler> getFluidOutputs() {
+    private @Nullable List<IFluidHandler> getFluidOutputs() {
         return this.fluidOutputs;
     }
 }
