@@ -34,6 +34,8 @@ import earth.terrarium.adastra.common.registry.ModBlocks;
 import vazkii.botania.common.block.BotaniaBlocks;
 import vazkii.botania.common.lib.BotaniaTags;
 
+import java.util.Comparator;
+
 public final class TagsHandler {
 
     public static void initBlock(RegistrateTagsProvider<Block> provider) {
@@ -94,8 +96,12 @@ public final class TagsHandler {
                 BlockRegistry.ITEM_DETECTOR.get(),
                 BlockRegistry.REPOSITORY.get());
 
-        create(provider, CustomTags.MINEABLE_WITH_WRENCH, GTOGlobes.GLOBE_ENTRIES.stream().map(RegistryEntry::get).toArray(Block[]::new));
-        create(provider, BlockTags.MINEABLE_WITH_PICKAXE, GTOGlobes.GLOBE_ENTRIES.stream().map(RegistryEntry::get).toArray(Block[]::new));
+        create(provider, CustomTags.MINEABLE_WITH_WRENCH, GTOGlobes.GLOBE_ENTRIES.stream()
+                .sorted(Comparator.comparing(s -> s.get().getDescriptionId()))
+                .map(RegistryEntry::get).toArray(Block[]::new));
+        create(provider, BlockTags.MINEABLE_WITH_PICKAXE, GTOGlobes.GLOBE_ENTRIES.stream()
+                .sorted(Comparator.comparing(s -> s.get().getDescriptionId()))
+                .map(RegistryEntry::get).toArray(Block[]::new));
         create(provider, CustomTags.MINEABLE_WITH_WRENCH, GTOGlobes.Blocks.GTO_FLAG.get());
         create(provider, BlockTags.MINEABLE_WITH_AXE, GTOGlobes.Blocks.GTO_FLAG.get());
 

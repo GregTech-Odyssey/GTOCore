@@ -1733,6 +1733,7 @@
   "gtceu.ae.pattern_part_machine.emitting_crafting_mode_tooltip": "This mode is similar to the crafting card function of a standard emitter. After placing an order for the item, the machine will passively and continuously input items into the machine using the recipe in the pattern.",
   "gtceu.ae.pattern_part_machine.fluid_special": "The fluid input slots of this pattern",
   "gtceu.ae.pattern_part_machine.item_special": "The item input slots of this pattern",
+  "gtceu.ae.pattern_part_machine.locked_emitting_crafting_mode": "Locked, automatically pull virtual items for crafting according to the recipe in the pattern",
   "gtceu.ae.pattern_part_machine.low_stock_triggering_mode": "Low stock triggering mode",
   "gtceu.ae.pattern_part_machine.low_stock_triggering_mode_tooltip": "This mode will trigger continuous passive recipe input when the network inventory is below the set quantity, until the inventory meets the requirements.",
   "gtceu.ae.pattern_part_machine.low_stock_triggering_threshold": "Low stock triggering threshold",

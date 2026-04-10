@@ -81,6 +81,9 @@ open class MEPatternBufferPartMachineKt(holder: MetaMachineBlockEntity, maxPatte
         @RegisterLanguage(cn = "物品不够时请求合成", en = "Request crafting when items are insufficient")
         const val request_crafting_when_insufficient: String = "gtceu.ae.pattern_part_machine.request_crafting_when_insufficient"
 
+        @RegisterLanguage(cn = "已锁定，由样板内的配方自动拉取虚拟物品进行合成", en = "Locked, automatically pull virtual items for crafting according to the recipe in the pattern")
+        const val item_locked: String = "gtceu.ae.pattern_part_machine.locked_emitting_crafting_mode"
+
         @RegisterLanguage(
             cn = "该模式与标准发信器的合成卡功能相似，在下单请求该物品后，机器会使用样板中的配方被动持续向机器内输入",
             en = "This mode is similar to the crafting card function of a standard emitter. " +
@@ -163,7 +166,23 @@ open class MEPatternBufferPartMachineKt(holder: MetaMachineBlockEntity, maxPatte
                         hBox(height = 18) {
                             indices.forEach { index ->
                                 widget(
-                                    SlotWidget(itemHandler, index, 0, 0, true, true).apply {
+                                    object : SlotWidget(itemHandler, index, 0, 0, true, true) {
+                                        override fun drawInBackground(graphics: GuiGraphics, mouseX: Int, mouseY: Int, partialTicks: Float) {
+                                            super.drawInBackground(graphics, mouseX, mouseY, partialTicks)
+                                            if (getInternalInventory()[configuratorField.get()].isLock) {
+                                                DrawerHelper.drawSolidRect(graphics, positionX, positionY, sizeWidth, sizeHeight, 0x80000000.toInt())
+                                            }
+                                        }
+
+                                        override fun getFullTooltipTexts(): List<Component> {
+                                            var superList = super.getFullTooltipTexts()
+                                            superList = superList.toMutableList()
+                                            if (getInternalInventory()[configuratorField.get()].isLock) {
+                                                superList.add(Component.translatable(item_locked))
+                                            }
+                                            return superList
+                                        }
+                                    }.apply {
                                         setBackgroundTexture(GuiTextures.SLOT)
                                     },
                                 )
