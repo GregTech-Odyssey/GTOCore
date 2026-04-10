@@ -170,11 +170,11 @@ public class ExportOnlyAEStockingFluidList extends ExportOnlyAEFluidList {
                 if (storage > 0) {
                     if (amount != storage) {
                         this.stock = new GenericStack(request, storage);
-                        this.stack = null;
+                        this.forgeStock = null;
                     }
                 } else {
                     this.stock = null;
-                    this.stack = null;
+                    this.forgeStock = null;
                 }
                 return storage;
             }
@@ -199,8 +199,8 @@ public class ExportOnlyAEStockingFluidList extends ExportOnlyAEFluidList {
                         this.stock = ExportOnlyAESlot.copy(stock, stock.amount() - extracted);
                         if (this.stock.amount() == 0) {
                             this.stock = null;
-                            stack = null;
-                        } else if (stack != null) stack.setAmount(MathUtil.saturatedCast(stock.amount()));
+                            forgeStock = null;
+                        } else if (forgeStock != null) forgeStock.setAmount(MathUtil.saturatedCast(stock.amount()));
                         if (notify) onContentsChanged();
                     }
                     return extracted;
@@ -224,8 +224,8 @@ public class ExportOnlyAEStockingFluidList extends ExportOnlyAEFluidList {
                         this.stock = ExportOnlyAESlot.copy(stock, stock.amount() - extracted);
                         if (this.stock.amount() == 0) {
                             this.stock = null;
-                            stack = null;
-                        } else if (stack != null) stack.setAmount(MathUtil.saturatedCast(stock.amount()));
+                            forgeStock = null;
+                        } else if (forgeStock != null) forgeStock.setAmount(MathUtil.saturatedCast(stock.amount()));
                         onContentsChanged();
                     }
                     return resultStack;

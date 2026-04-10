@@ -166,6 +166,7 @@ object AnimalsRevengeEvent {
         mob.setLastHurtByPlayer(target)
     }
 
+    @Suppress("DEPRECATION")
     @OptIn(ExperimentalCoroutinesApi::class)
     private suspend fun buildEntityLootCacheIncremental(level: ServerLevel) {
         if (lootCacheBuilt) return

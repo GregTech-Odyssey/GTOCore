@@ -1858,6 +1858,7 @@
   "gtceu.ae.pattern_part_machine.emitting_crafting_mode_tooltip": "该模式与标准发信器的合成卡功能相似，在下单请求该物品后，机器会使用样板中的配方被动持续向机器内输入",
   "gtceu.ae.pattern_part_machine.fluid_special": "此样板流体输入槽",
   "gtceu.ae.pattern_part_machine.item_special": "此样板物品输入槽",
+  "gtceu.ae.pattern_part_machine.locked_emitting_crafting_mode": "已锁定，由样板内的配方自动拉取虚拟物品进行合成",
   "gtceu.ae.pattern_part_machine.low_stock_triggering_mode": "低存量触发模式",
   "gtceu.ae.pattern_part_machine.low_stock_triggering_mode_tooltip": "该模式会在网络库存量低于设定数量时触发持续被动配方输入，直到库存量满足要求。",
   "gtceu.ae.pattern_part_machine.low_stock_triggering_threshold": "低存量库存触发阈值",

@@ -9,6 +9,7 @@ plugins {
     alias libs.plugins.spotless
     alias libs.plugins.kotlin.jvm
     alias libs.plugins.kotlin.plugin
+    alias libs.plugins.kotlin.lombok
 }
 
 version = mod_version

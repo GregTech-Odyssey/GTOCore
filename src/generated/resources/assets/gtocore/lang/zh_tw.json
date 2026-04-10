@@ -1858,6 +1858,7 @@
   "gtceu.ae.pattern_part_machine.emitting_crafting_mode_tooltip": "該模式與標准髮信器的合成卡功能相似，在下單請求該物品後，機器會使用樣板中的配方被動持續嚮機器內輸入",
   "gtceu.ae.pattern_part_machine.fluid_special": "此樣板流體輸入槽",
   "gtceu.ae.pattern_part_machine.item_special": "此樣板物品輸入槽",
+  "gtceu.ae.pattern_part_machine.locked_emitting_crafting_mode": "已鎖定，由樣板內的配方自動拉取虛擬物品進行合成",
   "gtceu.ae.pattern_part_machine.low_stock_triggering_mode": "低存量觸髮模式",
   "gtceu.ae.pattern_part_machine.low_stock_triggering_mode_tooltip": "該模式會在網絡庫存量低於設定數量時觸髮持續被動配方輸入，直到庫存量滿足要求。",
   "gtceu.ae.pattern_part_machine.low_stock_triggering_threshold": "低存量庫存觸髮閾值",
