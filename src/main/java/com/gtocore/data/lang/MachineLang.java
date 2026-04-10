@@ -128,8 +128,6 @@ final class MachineLang {
         addCNEN("gtocore.machine.processing_array.tooltip.1", "并行数由内部机器数量决定", "Parallel are determined by the number of internal machines");
         addCNEN("gtocore.machine.maximum_amount", "最大数量: %s", "Maximum amount: %s");
         addCNEN("gtocore.machine.binding_amount", "绑定数量: %s", "Binding amount: %s");
-        addCNEN("gtocore.machine.accelerate_hatch.tooltip.0", "加速机器运行", "Accelerates machine operation");
-        addCNEN("gtocore.machine.accelerate_hatch.tooltip.1", "加速仓的等级低于机器配方等级时加速效果减弱", "Acceleration effect is reduced when the accelerator hatch tier is lower than the machine recipe tier");
         addCNEN("gtocore.machine.recipe.run", "运行%s配方时: ", "When running the %s recipe: ");
         addCNEN("gtocore.machine.parallel", "最大并行数: %s", "Maximum number of parallel: %s");
         addCNEN("gtocore.machine.processing_plant.parallel_per_tier_tooltip", "自ULV起，配方等级每高出1级，获得的并行数+%s", "From ULV, each voltage tier increases the obtained parallelism by %s");
