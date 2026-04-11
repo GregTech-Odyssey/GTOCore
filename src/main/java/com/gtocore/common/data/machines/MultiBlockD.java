@@ -282,7 +282,7 @@ public final class MultiBlockD {
                     .where('a', controller(definition))
                     .where('b', blocks(GTOBlocks.ALUMINIUM_BRONZE_CASING.get())
                             .or(abilities(INPUT_ENERGY).setMaxGlobalLimited(2))
-                            .or(blocks(GTOMachines.BLOCK_BUS.get()).setMaxGlobalLimited(1)))
+                            .or(blocks(GTOMachines.BLOCK_BUS.get()).setMaxGlobalLimited(4)))
                     .where('c', blocks(GTOBlocks.SHINING_OBSIDIAN.get()))
                     .where('d', blocks(GTBlocks.CASING_TEMPERED_GLASS.get())
                             .or(blocks(Blocks.IRON_DOOR).setMaxGlobalLimited(4).setPreviewCount(1)))

@@ -1207,7 +1207,8 @@ object GTOMachineTooltips {
         highlight("每秒随机转化机器内部一个方块" translatedTo "Randomly converts one block inside the machine every second")
 
         section("电压等级加成" translatedTo "Voltage Tier Bonus")
-        increase("每高出MV1级，转换方块数量+64" translatedTo "For each tier above MV1, block conversion +64")
+        increase("UHV以下每高出MV1级，转换方块数量+64" translatedTo "Below UHV, each tier above MV increases block conversion by +64")
+        increase("从UHV开始，每升高1级电压，转换方块数量翻倍" translatedTo "Starting from UHV, each voltage tier doubles the block conversion amount")
         important("不会重复转换同一方块" translatedTo "Will not repeatedly convert the same block")
 
         function("在主机内放置§6转换模拟卡§r，且安装方块总线后，可直接转换方块总线内的方块" translatedTo "By placing §6Conversion Simulation Card§r in the mainframe and installing a block bus, blocks inside the block bus can be directly converted")

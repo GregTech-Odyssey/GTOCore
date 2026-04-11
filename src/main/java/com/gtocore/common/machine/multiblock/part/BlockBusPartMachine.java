@@ -28,7 +28,7 @@ public final class BlockBusPartMachine extends MultiblockPartMachine implements 
 
     public BlockBusPartMachine(MetaMachineBlockEntity holder) {
         super(holder);
-        inventory = new NotifiableItemStackHandler(this, 81, IO.NONE, IO.BOTH);
+        inventory = new NotifiableItemStackHandler(this, 100, IO.NONE, IO.BOTH);
     }
 
     @Override
@@ -38,7 +38,7 @@ public final class BlockBusPartMachine extends MultiblockPartMachine implements 
 
     @Override
     public Widget createUIWidget() {
-        int rowSize = 9;
+        int rowSize = 10;
         var group = new WidgetGroup(0, 0, 18 * rowSize + 16, 18 * rowSize + 16);
         var container = new WidgetGroup(4, 4, 18 * rowSize + 8, 18 * rowSize + 8);
         int index = 0;
