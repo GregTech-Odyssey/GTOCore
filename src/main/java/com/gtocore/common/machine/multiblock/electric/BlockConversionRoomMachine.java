@@ -166,7 +166,7 @@ public final class BlockConversionRoomMachine extends StorageMultiblockMachine {
 
     @Nullable
     private Recipe getRecipe() {
-        Recipe recipe = getRecipeBuilder().duration(400).EUt(getOverclockVoltage()).buildRawRecipe();
+        Recipe recipe = getRecipeBuilder().duration(400).EUt(GTValues.V[getTier()]).buildRawRecipe();
         if (RecipeRunner.matchTickRecipe(this, recipe)) return recipe;
         return null;
     }
