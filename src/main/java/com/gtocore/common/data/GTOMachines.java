@@ -626,7 +626,8 @@ public final class GTOMachines {
             .renderer(() -> new MaintenanceHatchPartRenderer(12, GTOCore.id("block/machine/part/maintenance.law_cleaning")))
             .register();
 
-    public static final MachineDefinition GRAVITY_HATCH = machine("gravity_hatch", "重力控制仓", GravityHatchPartMachine::new)
+    public static final MachineDefinition GRAVITY_HATCH = machine("gravity_hatch", "重力控制维护仓", GravityHatchPartMachine::new)
+            .langValue("Gravity Maintenance Hatch")
             .allRotation()
             .abilities(PartAbility.MAINTENANCE)
             .notAllowSharedTooltips()
@@ -634,6 +635,7 @@ public final class GTOMachines {
             .register();
 
     public static final MachineDefinition GRAVITY_CONFIGURATION_HATCH = machine("gravity_configuration_hatch", "可配置重力维护仓", CGCHatchPartMachine::new)
+            .langValue("Gravity Configuration Maintenance Hatch")
             .allRotation()
             .abilities(PartAbility.MAINTENANCE)
             .addTooltipsFromClass(ACMHatchPartMachine.class)
@@ -641,7 +643,8 @@ public final class GTOMachines {
             .renderer(() -> new MaintenanceHatchPartRenderer(10, GTCEu.id("block/machine/part/maintenance.full_auto")))
             .register();
 
-    public static final MachineDefinition VACUUM_HATCH = machine("vacuum_hatch", "真空仓", VacuumHatchPartMachine::new)
+    public static final MachineDefinition VACUUM_HATCH = machine("vacuum_hatch", "真空维护仓", VacuumHatchPartMachine::new)
+            .langValue("Vacuum Maintenance Hatch")
             .allRotation()
             .abilities(PartAbility.MAINTENANCE)
             .tooltips(Component.translatable("gtocore.recipe.vacuum.tier", 4))
@@ -650,6 +653,7 @@ public final class GTOMachines {
             .register();
 
     public static final MachineDefinition VACUUM_CONFIGURATION_HATCH = machine("vacuum_configuration_hatch", "可配置真空维护仓", CVCHatchPartMachine::new)
+            .langValue("Vacuum Configuration Maintenance Hatch")
             .allRotation()
             .abilities(PartAbility.MAINTENANCE)
             .addTooltipsFromClass(ACMHatchPartMachine.class)
