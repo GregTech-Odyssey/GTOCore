@@ -11,7 +11,8 @@ import appeng.api.stacks.KeyCounter;
 import appeng.api.storage.MEStorage;
 import appeng.me.storage.NetworkStorage;
 
-import it.unimi.dsi.fastutil.objects.ReferenceOpenHashSet;
+import it.unimi.dsi.fastutil.longs.LongOpenHashSet;
+import it.unimi.dsi.fastutil.longs.LongSet;
 import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -20,7 +21,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NavigableMap;
-import java.util.Set;
 
 @Mixin(NetworkStorage.class)
 public abstract class NetworkStorageMixin {
@@ -43,7 +43,7 @@ public abstract class NetworkStorageMixin {
     protected abstract void flushQueuedOperations();
 
     @Unique
-    private final Set<KeyCounter> gtocore$inUse = new ReferenceOpenHashSet<>();
+    private final LongSet gtocore$inUse = new LongOpenHashSet();
 
     @Inject(method = "<init>", at = @At("TAIL"), remap = false)
     private void gtolib$init(CallbackInfo ci) {
@@ -132,14 +132,14 @@ public abstract class NetworkStorageMixin {
     @Overwrite(remap = false)
     public void getAvailableStacks(KeyCounter out) {
         synchronized (gtocore$inUse) {
-            if (gtocore$inUse.contains(out)) return;
-            gtocore$inUse.add(out);
+            if (gtocore$inUse.contains(out.req)) return;
+            gtocore$inUse.add(out.req);
         }
         try {
             gtolib$inventory.forEach(entry -> entry.obj.getAvailableStacks(out));
         } finally {
             synchronized (gtocore$inUse) {
-                gtocore$inUse.remove(out);
+                gtocore$inUse.remove(out.req);
             }
         }
     }

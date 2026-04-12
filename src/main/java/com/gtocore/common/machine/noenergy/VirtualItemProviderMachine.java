@@ -211,7 +211,7 @@ public final class VirtualItemProviderMachine extends MetaMachine implements IUI
     }
 
     @Override
-    public KeyCounter getAvailableStacks() {
+    public KeyCounter getAvailableStacks(long req) {
         var keyCounter = storage.getKeyCounter();
         if (keyCounter == null) {
             keyCounter = new KeyCounter();
@@ -220,6 +220,7 @@ public final class VirtualItemProviderMachine extends MetaMachine implements IUI
         } else if (change) {
             keyCounter.clear();
         }
+        keyCounter.req = req;
         if (change) {
             getAvailableStacks(keyCounter);
             keyCounter.removeEmptySubmaps();
