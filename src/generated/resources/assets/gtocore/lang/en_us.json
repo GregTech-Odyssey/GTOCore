@@ -5846,7 +5846,7 @@
   "gtocore.tooltip.item.tier_circuit": "%s Tier Circuit",
   "gtocore.tooltip.item.transcendent_max_battery": "Filling it up can allow you to complete GregTech Odyssey",
   "gtocore.tooltip.item.universal_circuit": "A universal circuit",
-  "gtocore.tooltip.item.uruium_coil_block.0": "Can provide 32000K furnace temperature for the hyper-dimensional plasma furnace",
+  "gtocore.tooltip.item.uruium_coil_block.0": "Can provide 32000K furnace temperature for the Hyperdimensional Plasma Fusion Core",
   "gtocore.tooltip.item.uruium_coil_block.1": "Only this coil can be used in stellar furnace mode",
   "gtocore.tooltip.item.vacuum_tube.0": "Right-click the handheld rough vacuum tube to obtain vacuum supply from a machine with vacuum level greater than 0",
   "gtocore.tooltip.item.virtual_item_provider": "Provide items for the machine's virtual circuit slot.",
