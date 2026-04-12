@@ -365,6 +365,9 @@ public interface WirelessMachine extends IGridConnectedMachine, ISync, IBindable
             if (node == null || grid == null || !node.getConnectedSides().contains(mm.getFrontFacing().getOpposite())) {
                 return defaultWorkload;
             }
+            if (getNodeType() == NodeType.SOURCE) {
+                return Math.min(node.getUsedChannels(), getMaxWorkloadChannels());
+            }
             if (node.getMaxChannels() > 0) {
                 return Math.min(node.getMaxChannels() + 1, getMaxWorkloadChannels());
             }
