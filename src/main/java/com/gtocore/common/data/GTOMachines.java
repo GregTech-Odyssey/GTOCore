@@ -292,12 +292,12 @@ public final class GTOMachines {
                             p -> p.addCommentLines(
                                     """
                                             运行时长调整范围：%s%%~100%%
-                                            加速仓等级低于配方电压等级时，每低1级上调20个百分点（上限100%%）
+                                            加速仓等级低于配方电压等级时，每低1级回调20%%
                                             来自 GTO 的神秘力量
                                             尽情享受吧！""".formatted(FormattingUtil.formatNumber2Places(52.0 - tier * 2.0)),
                                     """
                                             Operation duration adjustment range: %s%%~100%%
-                                            When the accelerate hatch tier is lower than the recipe voltage tier, duration is increased by 20 percentage points per missing tier (capped at 100%%)
+                                            When the accelerate hatch tier is lower than the recipe voltage tier, duration is increased by 20%% per missing tier
                                             Mysterious power from GTO
                                             Enjoy it to the fullest!""".formatted(FormattingUtil.formatNumber2Places(52.0 - tier * 2.0)))))
                     .notAllowSharedTooltips()
@@ -312,8 +312,9 @@ public final class GTOMachines {
                     .allRotation()
                     .abilities(PartAbility.IMPORT_ITEMS)
                     .renderer(() -> new OverlayTieredMachineRenderer(tier, GTCEu.id("block/machine/part/dual_hatch.import")))
-                    .tooltipsKey("gtocore.machine.programmablec_hatch.tooltip")
                     .tooltips(Component.translatable("gtceu.machine.dual_hatch.import.tooltip"),
+                            Component.translatable("gtocore.machine.programmablec_hatch.extra_tooltip.0"),
+                            Component.translatable("gtocore.machine.programmablec_hatch.extra_tooltip.1"),
                             Component.translatable("gtceu.universal.tooltip.item_storage_capacity", tier * tier),
                             Component.translatable("gtceu.universal.tooltip.fluid_storage_capacity_mult", tier, DualHatchPartMachine.getTankCapacity(DualHatchPartMachine.INITIAL_TANK_CAPACITY, tier)),
                             Component.translatable("gtceu.part_sharing.enabled"))

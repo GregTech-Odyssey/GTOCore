@@ -591,7 +591,7 @@ object GTOMachineTooltips {
             function("可以放入样板，并进行一键发配" translatedTo "Can put patterns and distribute them one click")
             function("样板间分别隔离，互不干扰" translatedTo "Patterns are isolated from each other, do not interfere with each other")
             important("对着样板按鼠标中键可单独设置电路或者提供特别输入" translatedTo "Press the middle mouse button on the pattern to set the circuit or provide special input")
-            command("可独立选择配方类型，不受机器主体限制" translatedTo "Can independently select recipe types, unrestricted by the machine's own settings")
+            command("可独立指定仓室的配方类型，覆盖机器的默认设定" translatedTo "Can independently select recipe types, overriding the machine’s default setting")
             info(ComponentSlang.Capacity(capacity.toString()))
         }
     }
