@@ -156,6 +156,7 @@ public final class LangHandler {
         addCNEN("gtocore.reach_limit", "达到极限", "Reach Limit");
         addCNEN("gtocore.me_any", "ME仓允许任意面连接", "ME hatch allows connection from any side.");
         addCNEN("gtocore.me_front", "ME仓只允许正面连接", "ME hatch only allows connection from the front side.");
+        addCNEN("gtocore.ae.simple_crafting_terminal.in_use", "%s正在使用该简易终端", "%s is using this simple crafting terminal.");
         addCNEN("gtocore.unlocked", "解锁的", "Unlocked");
         addCNEN("gtocore.ununlocked", "未解锁", "Ununlocked");
         addCNEN("gtocore.build", "构建", "Build");

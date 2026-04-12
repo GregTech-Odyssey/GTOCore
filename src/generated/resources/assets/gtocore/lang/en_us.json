@@ -5583,6 +5583,7 @@
   "gtocore.machine.zpm_rolling.tooltip": "§7Hydraulic Precision Rolling",
   "gtocore.machine.zpm_unpacker.tooltip": "§7Precision Unpacking Master",
   "gtocore.machine.zpm_world_data_scanner.tooltip": "§7Dimensional Feature Analyzer",
+  "gtocore.ae.simple_crafting_terminal.in_use": "%s is using this simple crafting terminal.",
   "gtocore.me_any": "ME hatch allows connection from any side.",
   "gtocore.me_front": "ME hatch only allows connection from the front side.",
   "gtocore.message.otherside_pass_required": "You feel a sense of isolation from the Other Side...",
