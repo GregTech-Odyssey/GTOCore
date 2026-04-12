@@ -39,7 +39,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 public class DistillationTowerMachine extends ElectricMultiblockMachine {
 
     @Nullable
-    private List<IFluidHandler> fluidOutputs;
+    private volatile List<IFluidHandler> fluidOutputs;
 
     public DistillationTowerMachine(MetaMachineBlockEntity holder) {
         super(holder);
@@ -59,7 +59,10 @@ public class DistillationTowerMachine extends ElectricMultiblockMachine {
     public void onStructureFormed() {
         super.onStructureFormed();
         final int startY = getPos().getY() + 1;
-        List<IWorkableMultiPart> parts = Arrays.stream(getParts()).filter(IWorkableMultiPart.class::isInstance).map(IWorkableMultiPart.class::cast).filter(part -> PartAbility.EXPORT_FLUIDS.isApplicable(part.self().getBlockState().getBlock())).filter(part -> part.self().getPos().getY() >= startY).toList();
+        List<IWorkableMultiPart> parts = Arrays.stream(getParts())
+                .filter(IWorkableMultiPart.class::isInstance).map(IWorkableMultiPart.class::cast)
+                .filter(part -> PartAbility.EXPORT_FLUIDS.isApplicable(part.self().getBlockState().getBlock()))
+                .filter(part -> part.self().getPos().getY() >= startY).toList();
         if (!parts.isEmpty()) {
             int maxY = parts.getLast().self().getPos().getY();
             fluidOutputs = new ArrayList<>(maxY - startY);
