@@ -2,6 +2,7 @@ package com.gtocore.common.data
 
 import com.gtocore.common.data.translation.GTOMachineTooltips
 import com.gtocore.integration.ae.ExchangeStorageMonitorPart
+import com.gtocore.integration.ae.MEQuestDetectorPart
 import com.gtocore.integration.ae.PatternContentAccessTerminalPart
 import com.gtocore.integration.ae.SimpleCraftingTerminal
 
@@ -50,6 +51,20 @@ object GTOAEParts {
         factory = ::SimpleCraftingTerminal,
         tooltips = listOf(
             ComponentBuilder.create("将终端贴在箱子、存储器的某一面，打开合成面板就可以使用箱子内的物品进行合成。", "Attach the Terminal to any side of a chest or storage device, then open the crafting interface to use items from the container for crafting.") { p -> p }
+                .buildSingle(),
+        ),
+    )
+
+    val ME_QUEST_DETECTOR: Supplier<ItemDefinition<PartItem<MEQuestDetectorPart>>> = createPart(
+        id = "me_quest_detector",
+        en = "ME Quest Detector",
+        cn = "ME任务检测器",
+        partClass = MEQuestDetectorPart::class.java,
+        factory = ::MEQuestDetectorPart,
+        tooltips = listOf(
+            ComponentBuilder.create("右击绑定到当前FTB队伍并启用检测。", "Right click to bind to your current FTB team and enable detection.") { p -> p }
+                .buildSingle(),
+            ComponentBuilder.create("潜行右击可停用并解绑，停用时不会监听或提交任何任务。", "Shift right click to disable and clear the binding. Disabled detectors watch and submit nothing.") { p -> p }
                 .buildSingle(),
         ),
     )

@@ -8,6 +8,7 @@ import dev.ftb.mods.ftbquests.quest.task.TaskTypes;
 public class GTOQuestTypes {
 
     public static void init() {
+        MEQuestDetectorBootstrap.init();
         ModTask.MOD = TaskTypes.register(GTOCore.id("mod"), ModTask::new,
                 () -> Icons.ACCEPT_GRAY);
         DifficultyTask.GTODIFFICULTY = TaskTypes.register(GTOCore.id("gtodifficulty"), DifficultyTask::new,

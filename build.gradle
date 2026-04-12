@@ -87,6 +87,10 @@ tasks.withType(JavaCompile).configureEach {
     options.compilerArgs << "-Xlint:-deprecation" << "-Xlint:-removal"
 }
 
+tasks.withType(Test).configureEach {
+    useJUnitPlatform()
+}
+
 // Ensure Java compilation depends on Kotlin and can resolve Kotlin classes
 tasks.named('compileJava', JavaCompile) {
     dependsOn tasks.named('compileKotlin')
