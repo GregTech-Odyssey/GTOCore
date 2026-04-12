@@ -18,7 +18,6 @@ import com.gregtechceu.gtceu.integration.ae2.machine.feature.IGridConnectedMachi
 import com.gregtechceu.gtceu.utils.TaskHandler;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -390,9 +389,7 @@ public interface WirelessMachine extends IGridConnectedMachine, ISync, IBindable
     default void onNeighborChanged(BlockPos neighborPos) {
         if (self().isRemote()) return;
         if (getConnectedNetworkId().isEmpty()) return;
-        var pos = self().getPos();
-        var side = Direction.fromDelta(neighborPos.subtract(pos).getX(), neighborPos.subtract(pos).getY(), neighborPos.subtract(pos).getZ());
-        if (side == self().getFrontFacing()) {
+        if (getPos().relative(self().getFrontFacing()).equals(neighborPos)) {
             var netwoork = WirelessNetworkSavedData.get().getNetworkPool().get(getConnectedNetworkId());
             if (netwoork != null) {
                 netwoork.setNeedsRefresh(true);
