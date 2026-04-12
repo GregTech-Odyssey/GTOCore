@@ -456,6 +456,7 @@ public final class LangHandler {
         addCNEN("gtocore.pattern.recipeInfoButton.clickToClear", "点击清除已记录的配方信息", "Click to clear recorded recipe info");
 
         addCNEN("gtocore.recipe.recycler.random_output", "随机物品", "Random Item");
+        addCNEN("gtocore.recipe.coil.uruium", "超级热熔", "Uruium");
 
         addCNEN("gtocore.emi.search_text", "已保存的搜索: %s", "Saved Search: %s");
         addCNEN("gtocore.emi.search_text.how_to_use", "将它拖拽至文本框以快速填入搜索栏", "Drag it to the text box to quickly fill in the search bar");
