@@ -4,8 +4,6 @@ import com.gtocore.common.machine.multiblock.part.ae.StorageAccessPartMachine;
 
 import com.gtolib.utils.holder.IntObjectHolder;
 
-import net.minecraftforge.server.ServerLifecycleHooks;
-
 import appeng.api.config.Actionable;
 import appeng.api.networking.security.IActionSource;
 import appeng.api.stacks.AEKey;
@@ -44,9 +42,6 @@ public abstract class NetworkStorageMixin {
 
     @Unique
     private boolean gtocore$inUse;
-
-    @Unique
-    private final ThreadLocal<Boolean> gtocore$threadLocalInUse = new ThreadLocal<>();
 
     @Inject(method = "<init>", at = @At("TAIL"), remap = false)
     private void gtolib$init(CallbackInfo ci) {
@@ -135,22 +130,13 @@ public abstract class NetworkStorageMixin {
     @Overwrite(remap = false)
     public void getAvailableStacks(KeyCounter out) {
         if (gtolib$inventory.isEmpty()) return;
-        var server = ServerLifecycleHooks.getCurrentServer();
-        if (server == null || server.isSameThread()) {
+        synchronized (this) {
             if (gtocore$inUse) return;
             gtocore$inUse = true;
             try {
                 gtolib$inventory.forEach(entry -> entry.obj.getAvailableStacks(out));
             } finally {
                 gtocore$inUse = false;
-            }
-        } else {
-            if (gtocore$threadLocalInUse.get()) return;
-            gtocore$threadLocalInUse.set(true);
-            try {
-                gtolib$inventory.forEach(entry -> entry.obj.getAvailableStacks(out));
-            } finally {
-                gtocore$threadLocalInUse.set(false);
             }
         }
     }
