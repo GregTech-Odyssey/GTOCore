@@ -130,14 +130,12 @@ public abstract class NetworkStorageMixin {
     @Overwrite(remap = false)
     public void getAvailableStacks(KeyCounter out) {
         if (gtolib$inventory.isEmpty()) return;
-        synchronized (this) {
-            if (gtocore$inUse) return;
-            gtocore$inUse = true;
-            try {
-                gtolib$inventory.forEach(entry -> entry.obj.getAvailableStacks(out));
-            } finally {
-                gtocore$inUse = false;
-            }
+        if (gtocore$inUse) return;
+        gtocore$inUse = true;
+        try {
+            gtolib$inventory.forEach(entry -> entry.obj.getAvailableStacks(out));
+        } finally {
+            gtocore$inUse = false;
         }
     }
 }
