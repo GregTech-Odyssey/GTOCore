@@ -27,9 +27,10 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.Map;
+import java.util.function.Predicate;
 
 @Mixin(value = RecipeLogic.class, remap = false)
-public abstract class RecipeLogicMixin extends MachineTrait implements IEnhancedRecipeLogic {
+public abstract class RecipeLogicMixin extends MachineTrait implements IEnhancedRecipeLogic, Predicate<GTRecipeDefinition> {
 
     @Unique
     private ParallelCache gtolib$parallelCache;
@@ -92,10 +93,7 @@ public abstract class RecipeLogicMixin extends MachineTrait implements IEnhanced
     public void findAndHandleRecipe() {
         lastRecipe = null;
         lastOriginRecipe = null;
-        machine.getRecipeType().findRecipe(machine, match -> {
-            var r = (RecipeDefinition) match;
-            return RecipeRunner.checkTier(machine, r) && RecipeRunner.checkConditions(machine, r) && checkMatchedRecipeAvailable(r);
-        });
+        machine.getRecipeType().findRecipe(machine, this);
     }
 
     /**
@@ -153,5 +151,11 @@ public abstract class RecipeLogicMixin extends MachineTrait implements IEnhanced
             gtolib$recipeBuilder.reset();
         }
         return gtolib$recipeBuilder;
+    }
+
+    @Override
+    public boolean test(GTRecipeDefinition recipe) {
+        var r = (RecipeDefinition) recipe;
+        return RecipeRunner.checkTier(machine, r) && RecipeRunner.checkConditions(machine, r) && checkMatchedRecipeAvailable(r);
     }
 }

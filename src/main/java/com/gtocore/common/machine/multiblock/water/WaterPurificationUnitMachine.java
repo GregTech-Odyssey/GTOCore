@@ -3,11 +3,11 @@ package com.gtocore.common.machine.multiblock.water;
 import com.gtolib.api.capability.IIWirelessInteractor;
 import com.gtolib.api.machine.feature.multiblock.IParallelMachine;
 import com.gtolib.api.machine.multiblock.NoEnergyCustomParallelMultiblockMachine;
-import com.gtolib.api.machine.trait.CustomRecipeLogic;
 import com.gtolib.api.recipe.Recipe;
 import com.gtolib.utils.GTOUtils;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
+import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.machine.ConditionalSubscriptionHandler;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeHandlerList;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
@@ -134,11 +134,14 @@ abstract class WaterPurificationUnitMachine extends NoEnergyCustomParallelMultib
         return new CustomLogic(this);
     }
 
-    private static final class CustomLogic extends CustomRecipeLogic {
+    private static final class CustomLogic extends RecipeLogic {
 
         private CustomLogic(WaterPurificationUnitMachine machine) {
-            super(machine, () -> null);
+            super(machine);
         }
+
+        @Override
+        public void findAndHandleRecipe() {}
 
         @Override
         public void updateTickSubscription() {}
@@ -148,8 +151,20 @@ abstract class WaterPurificationUnitMachine extends NoEnergyCustomParallelMultib
 
         @Override
         public void onRecipeFinish() {
-            super.onRecipeFinish();
-            lastRecipe = null;
+            machine.afterWorking();
+            if (lastRecipe != null) {
+                handleRecipeIO(lastRecipe, IO.OUT);
+                lastRecipe = null;
+            }
+            if (suspendAfterFinish) {
+                setStatus(SUSPEND);
+                suspendAfterFinish = false;
+            } else {
+                setStatus(IDLE);
+            }
+            progress = 0;
+            duration = 0;
+            isActive = false;
         }
     }
 
