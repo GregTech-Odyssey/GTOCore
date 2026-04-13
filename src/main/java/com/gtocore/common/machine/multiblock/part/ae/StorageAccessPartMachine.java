@@ -291,7 +291,7 @@ public abstract class StorageAccessPartMachine extends AmountConfigurationPartMa
         }
 
         @Override
-        public KeyCounter getAvailableStacks(long req) {
+        public KeyCounter getAvailableStacks() {
             var data = getCellStorage();
             var keyCounter = data.getKeyCounter();
             if (keyCounter == null) {
@@ -300,7 +300,6 @@ public abstract class StorageAccessPartMachine extends AmountConfigurationPartMa
             } else {
                 keyCounter.clear();
             }
-            keyCounter.req = req;
             getAvailableStacks(keyCounter);
             keyCounter.removeEmptySubmaps();
             return keyCounter;
@@ -589,7 +588,7 @@ public abstract class StorageAccessPartMachine extends AmountConfigurationPartMa
         }
 
         @Override
-        public KeyCounter getAvailableStacks(long req) {
+        public KeyCounter getAvailableStacks() {
             var data = getCellStorage();
             var keyCounter = data.getKeyCounter();
             if (keyCounter == null) {
@@ -598,7 +597,6 @@ public abstract class StorageAccessPartMachine extends AmountConfigurationPartMa
             } else {
                 keyCounter.clear();
             }
-            keyCounter.req = req;
             getAvailableStacks(keyCounter);
             keyCounter.removeEmptySubmaps();
             return keyCounter;
