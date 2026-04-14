@@ -71,7 +71,7 @@ dependencies {
 
     modImplementation("top.theillusivec4.curios:curios-forge:${project.curiosVersion}+${project.minecraft_version}")
 
-    modImplementation("vazkii.botania:Botania:${project.minecraft_version}-448-FORGE")
+    modImplementation("vazkii.botania:Botania:${project.minecraft_version}-451-FORGE")
 
     modImplementation("vazkii.patchouli:Patchouli:${project.minecraft_version}-84.1-FORGE")
 
