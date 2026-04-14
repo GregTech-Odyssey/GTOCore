@@ -33,7 +33,7 @@ public abstract class PartTagStorageBusMixin extends PartSpecialStorageBus {
     private static final Pattern gtocore$whiteBlackPattern = Pattern.compile("<(.*?)><(.*?)>");
 
     @Unique
-    private static final IMapValueCache<String, TagPriorityList> FILTER_CACHE = IMapValueCache.create(
+    private static final IMapValueCache<String, TagPriorityList> FILTER_CACHE = IMapValueCache.createWeak(
             s -> {
                 var m = gtocore$whiteBlackPattern.matcher(s);
                 if (m.matches()) {
@@ -71,7 +71,9 @@ public abstract class PartTagStorageBusMixin extends PartSpecialStorageBus {
 
     @Override
     protected IPartitionList createFilter() {
-        this.filter = FILTER_CACHE.getCache("<" + oreExpWhite + "><" + oreExpBlack + ">");
+        if (this.filter == null) {
+            this.filter = FILTER_CACHE.getCache("<" + oreExpWhite + "><" + oreExpBlack + ">");
+        }
         return this.filter;
     }
 }

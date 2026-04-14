@@ -10,7 +10,7 @@ pluginManagement {
 dependencyResolutionManagement {
     versionCatalogs {
         libs {
-            version("modDevGradleLegacy", "2.0.116")
+            version("modDevGradleLegacy", "2.0.141")
 
             version("lombok", "8.11")
 
@@ -18,8 +18,8 @@ dependencyResolutionManagement {
 
             version("jetbrains-annotations", "26.0.2")
 
-            version("kotlin", "2.1.21")
-            version("kotlin-plugin", "2.1.21")
+            version("kotlin", "2.3.20")
+            version("kotlin-plugin", "2.3.20")
 
             plugin("modDevGradleLegacy", "net.neoforged.moddev.legacyforge").versionRef("modDevGradleLegacy")
 
