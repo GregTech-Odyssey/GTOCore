@@ -365,7 +365,7 @@ public final class MaterialA {
                 .element(GTOElements.DRACONIUM)
                 .color(0xa300cc)
                 .iconSet(RADIOACTIVE)
-                .flags(GTOMaterialFlags.GENERATE_NANITES, GENERATE_ROTOR, GENERATE_FRAME, NO_SMELTING)
+                .flags(GTOMaterialFlags.GENERATE_NANITES, GENERATE_ROTOR, GENERATE_FRAME, GENERATE_GEAR, NO_SMELTING)
                 .buildAndRegister();
 
         Chaos = material("chaos", "混沌物质")

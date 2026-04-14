@@ -79,7 +79,7 @@ public final class Temporary {
                 .inputItems(CustomTags.UEV_CIRCUITS, 2)
                 .outputItems(GTOBlocks.INTEGRAL_FRAMEWORK_UEV.asItem())
                 .inputFluids(GTOMaterials.Ceruclase, 288)
-                .EUt(8388608)
+                .EUt(7864320)
                 .duration(100)
                 .save();
 
@@ -91,7 +91,7 @@ public final class Temporary {
                 .inputItems(CustomTags.UIV_CIRCUITS, 2)
                 .outputItems(GTOBlocks.INTEGRAL_FRAMEWORK_UIV.asItem())
                 .inputFluids(GTOMaterials.Haderoth, 288)
-                .EUt(33554432)
+                .EUt(31457280)
                 .duration(100)
                 .save();
 
@@ -104,7 +104,31 @@ public final class Temporary {
                 .inputItems(CustomTags.UXV_CIRCUITS, 2)
                 .inputFluids(GTOMaterials.ChromaticGlass, 288)
                 .duration(100)
-                .EUt(134217728)
+                .EUt(125829120)
+                .save();
+
+        ASSEMBLER_RECIPES.builder("integral_framework_opv")
+                .inputItems(GTMachines.HULL[GTValues.OpV].asItem())
+                .inputItems(TagPrefix.gear, GTOMaterials.Draconium, 4)
+                .inputItems(TagPrefix.plate, GTOMaterials.Draconium, 4)
+                .inputItems(TagPrefix.cableGtOctal, GTOMaterials.CrystalMatrix)
+                .inputItems(CustomTags.OpV_CIRCUITS, 2)
+                .inputFluids(GTOMaterials.FullerenePolymerMatrixPulp, 288)
+                .outputItems(GTOBlocks.INTEGRAL_FRAMEWORK_OPV.asItem())
+                .EUt(503316480)
+                .duration(100)
+                .save();
+
+        ASSEMBLER_RECIPES.builder("integral_framework_max")
+                .inputItems(GTMachines.HULL[GTValues.MAX].asItem())
+                .inputItems(TagPrefix.gear, GTOMaterials.ChaosInfinityAlloy, 4)
+                .inputItems(TagPrefix.plate, GTOMaterials.ChaosInfinityAlloy, 4)
+                .inputItems(TagPrefix.cableGtOctal, GTOMaterials.CosmicNeutronium)
+                .inputItems(CustomTags.MAX_CIRCUITS, 2)
+                .inputFluids(GTOMaterials.Radox, 288)
+                .outputItems(GTOBlocks.INTEGRAL_FRAMEWORK_MAX.asItem())
+                .EUt(2013265920)
+                .duration(100)
                 .save();
 
         STELLAR_FORGE_RECIPES.builder("hexaphasecopper_plasma")
