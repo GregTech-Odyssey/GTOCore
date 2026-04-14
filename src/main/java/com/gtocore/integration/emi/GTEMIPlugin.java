@@ -20,6 +20,8 @@ import com.gtolib.api.emi.stack.EmiSearchTextStackSerializer;
 import com.gtolib.api.emi.stack.EmiTagprefixStack;
 import com.gtolib.api.emi.stack.EmiTagprefixStackSerializer;
 import com.gtolib.utils.GTOUtils;
+import com.gtolib.utils.RegistriesUtils;
+import com.gtolib.utils.register.BlockRegisterUtils;
 
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.GTCEuAPI;
@@ -49,6 +51,7 @@ import appeng.menu.me.items.PatternEncodingTermMenu;
 
 import com.arsmeteorites.arsmeteorites.ArsMeteorites;
 import com.arsmeteorites.arsmeteorites.emi.MeteoritesEmiPlugin;
+import com.glodblock.github.extendedae.common.EPPItemAndBlock;
 import com.glodblock.github.extendedae.container.ContainerExCraftingTerminal;
 import com.hollingsworth.arsnouveau.client.jei.JEIArsNouveauPlugin;
 import com.lowdragmc.lowdraglib.LDLib;
@@ -82,6 +85,7 @@ import snownee.jade.compat.JEICompat;
 import umpaz.farmersrespite.integration.jei.JEIFRPlugin;
 import vazkii.botania.api.BotaniaAPI;
 import vazkii.botania.client.integration.emi.BotaniaEmiPlugin;
+import vectorwing.farmersdelight.common.registry.ModItems;
 
 import java.util.function.Consumer;
 
@@ -118,6 +122,12 @@ public final class GTEMIPlugin implements EmiPlugin {
                 }));
             }
         }
+        GTOApi.EMI_HIDE_ITEM_EVENT.addListener(CommonProxy.class, c -> {
+            c.add(BlockRegisterUtils.REACTOR_CORE.asItem());
+            c.add(ModItems.WHEAT_DOUGH.get());
+            c.add(RegistriesUtils.getItem("morered:red_alloy_ingot"));
+            c.add(EPPItemAndBlock.CIRCUIT_CUTTER.asItem());
+        });
     }
 
     private static void addJEIPlugin(Consumer<IModPlugin> list) {

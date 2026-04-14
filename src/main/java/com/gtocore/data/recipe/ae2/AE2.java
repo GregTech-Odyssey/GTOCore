@@ -812,5 +812,11 @@ public final class AE2 {
         filters.add(AppEng.makeId("inscriber/engineering_processor_print"));
         filters.add(AppEng.makeId("inscriber/logic_processor_print"));
         filters.add(AppEng.makeId("inscriber/silicon_print"));
+
+        filters.add(ExtendedAE.id("cutter/calculation"));
+        filters.add(ExtendedAE.id("cutter/engineering"));
+        filters.add(ExtendedAE.id("cutter/logic"));
+        filters.add(ExtendedAE.id("cutter/silicon"));
+        filters.add(ExtendedAE.id("circuit_cutter"));
     }
 }
