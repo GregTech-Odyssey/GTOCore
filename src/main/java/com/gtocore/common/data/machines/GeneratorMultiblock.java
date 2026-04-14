@@ -296,7 +296,7 @@ public final class GeneratorMultiblock {
                     .where('F', GTOPredicates.frame(GTMaterials.StainlessSteel))
                     .where('G', GTOPredicates.frame(GTMaterials.BlackSteel))
                     .where('H', blocks(GTBlocks.FILTER_CASING.get()))
-                    .where('I', blocks(GTOBlocks.HSSS_BOROSILICATE_GLASS.get()))
+                    .where('I', blocks(GTBlocks.CASING_LAMINATED_GLASS.get()))
                     .where('J', blocks(GTBlocks.CASING_STAINLESS_STEEL_GEARBOX.get()))
                     .where('K', controller(definition))
                     .where(' ', any())
