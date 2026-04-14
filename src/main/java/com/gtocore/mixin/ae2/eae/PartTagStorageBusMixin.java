@@ -23,6 +23,8 @@ import java.util.regex.Pattern;
 @Mixin(PartTagStorageBus.class)
 public abstract class PartTagStorageBusMixin extends PartSpecialStorageBus {
 
+    private static final TagPriorityList EMPTY = new TagPriorityList("", "");
+
     @Shadow(remap = false)
     private @NotNull String oreExpWhite;
 
@@ -39,7 +41,7 @@ public abstract class PartTagStorageBusMixin extends PartSpecialStorageBus {
                 if (m.matches()) {
                     return new TagPriorityList(m.group(1), m.group(2));
                 } else {
-                    return new TagPriorityList("", "");
+                    return EMPTY;
                 }
             });
 
