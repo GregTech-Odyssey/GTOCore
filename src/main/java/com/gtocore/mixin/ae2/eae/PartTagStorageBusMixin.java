@@ -1,6 +1,6 @@
 package com.gtocore.mixin.ae2.eae;
 
-import com.gtolib.api.misc.IMapValueCache;
+import com.gtocore.utils.Caches;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.player.Player;
@@ -9,42 +9,21 @@ import appeng.api.parts.IPartItem;
 import appeng.util.SettingsFrom;
 import appeng.util.prioritylist.IPartitionList;
 
-import com.glodblock.github.extendedae.common.me.taglist.TagPriorityList;
 import com.glodblock.github.extendedae.common.parts.PartTagStorageBus;
 import com.glodblock.github.extendedae.common.parts.base.PartSpecialStorageBus;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.Unique;
-
-import java.util.regex.Pattern;
 
 @Mixin(PartTagStorageBus.class)
 public abstract class PartTagStorageBusMixin extends PartSpecialStorageBus {
-
-    @Unique
-    private static final TagPriorityList gtocore$EMPTY = new TagPriorityList("", "");
 
     @Shadow(remap = false)
     private @NotNull String oreExpWhite;
 
     @Shadow(remap = false)
     private @NotNull String oreExpBlack;
-
-    @Unique
-    private static final Pattern gtocore$whiteBlackPattern = Pattern.compile("<(.*?)><(.*?)>");
-
-    @Unique
-    private static final IMapValueCache<String, TagPriorityList> FILTER_CACHE = IMapValueCache.createWeak(
-            s -> {
-                var m = gtocore$whiteBlackPattern.matcher(s);
-                if (m.matches()) {
-                    return new TagPriorityList(m.group(1), m.group(2));
-                } else {
-                    return gtocore$EMPTY;
-                }
-            });
 
     public PartTagStorageBusMixin(IPartItem<?> partItem) {
         super(partItem);
@@ -76,7 +55,7 @@ public abstract class PartTagStorageBusMixin extends PartSpecialStorageBus {
     @Override
     protected IPartitionList createFilter() {
         if (this.filter == null) {
-            this.filter = FILTER_CACHE.getCache("<" + oreExpWhite + "><" + oreExpBlack + ">");
+            this.filter = Caches.getTagPriorityList(oreExpWhite, oreExpBlack);
         }
         return this.filter;
     }

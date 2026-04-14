@@ -65,7 +65,6 @@
     "ae2.eae.OutputResultSlotMixin",
     "ae2.eae.PartExPatternAccessTerminalMixin",
     "ae2.eae.PartExPatternProviderMixin",
-    "ae2.eae.PartSpecialExportBusMixin",
     "ae2.eae.PartTagStorageBusMixin",
     "ae2.eae.PartThresholdLevelEmitterMixin",
     "ae2.eae.TagPriorityListMixin",
