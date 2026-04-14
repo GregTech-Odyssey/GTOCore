@@ -1,6 +1,7 @@
 package com.gtocore.mixin.ae2.stacks;
 
 import com.gtolib.api.ae2.stacks.IKeyCounter;
+import com.gtolib.api.ae2.storage.CellDataStorage;
 import com.gtolib.api.misc.IUnique;
 import com.gtolib.utils.ExpandedO2LMap;
 
@@ -11,10 +12,7 @@ import appeng.api.stacks.GenericStack;
 import appeng.api.stacks.KeyCounter;
 
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
-import it.unimi.dsi.fastutil.objects.Object2LongMap;
-import it.unimi.dsi.fastutil.objects.Object2LongOpenHashMap;
-import it.unimi.dsi.fastutil.objects.Reference2LongMap;
-import it.unimi.dsi.fastutil.objects.Reference2LongOpenHashMap;
+import it.unimi.dsi.fastutil.objects.*;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
@@ -25,7 +23,6 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.Set;
 import java.util.function.Consumer;
-import java.util.stream.Collectors;
 
 @Mixin(KeyCounter.class)
 public class KeyCounterMixin implements Iterable<Reference2LongMap.Entry<AEKey>>, IKeyCounter {
@@ -38,6 +35,16 @@ public class KeyCounterMixin implements Iterable<Reference2LongMap.Entry<AEKey>>
 
     @Unique
     private boolean gtolib$fuzzyUpdate;
+
+    /**
+     * @author .
+     * @reason .
+     */
+    @Overwrite(remap = false)
+    public AEKeyMap<AEKey> getMap() {
+        if (gtolib$map == null) return CellDataStorage.EMPTY_MAP;
+        return gtolib$map;
+    }
 
     @Override
     public void forEach(Consumer<? super Reference2LongMap.Entry<AEKey>> consumer) {
@@ -60,10 +67,9 @@ public class KeyCounterMixin implements Iterable<Reference2LongMap.Entry<AEKey>>
                 } else {
                     gtolib$fuzzyMap.values().forEach(Object2LongOpenHashMap::clear);
                 }
-                gtolib$map.reference2LongEntrySet().fastForEach(e -> {
-                    var k = e.getKey();
+                gtolib$map.fastForEach((k, v) -> {
                     if (k.getPrimaryKey() instanceof IUnique u) {
-                        gtolib$fuzzyMap.computeIfAbsent(u.getUid(), _k -> new ExpandedO2LMap<>()).addTo(k, e.getLongValue());
+                        gtolib$fuzzyMap.computeIfAbsent(u.getUid(), _k -> new ExpandedO2LMap<>()).addTo(k, v);
                     }
                 });
             }
@@ -102,16 +108,12 @@ public class KeyCounterMixin implements Iterable<Reference2LongMap.Entry<AEKey>>
      */
     @Overwrite(remap = false)
     public void addAll(KeyCounter other) {
-        var l = IKeyCounter.of(other).gtolib$getMap();
-        if (l == null) return;
-        var size = l.size();
-        if (size < 1) return;
+        var m = other.getMap();
+        if (m.isEmpty()) return;
         if (gtolib$map == null) {
-            gtolib$map = new AEKeyMap<>(l.size());
-            l.reference2LongEntrySet().fastForEach(entry -> gtolib$map.addTo(entry.getKey(), entry.getLongValue()));
+            gtolib$map = m.clone();
         } else {
-            gtolib$map.ensureCapacity(size);
-            l.reference2LongEntrySet().fastForEach(entry -> gtolib$map.addTo(entry.getKey(), entry.getLongValue()));
+            gtolib$map.addAll(m);
         }
         gtolib$fuzzyUpdate = true;
     }
@@ -122,16 +124,13 @@ public class KeyCounterMixin implements Iterable<Reference2LongMap.Entry<AEKey>>
      */
     @Overwrite(remap = false)
     public void removeAll(KeyCounter other) {
-        var l = IKeyCounter.of(other).gtolib$getMap();
-        if (l == null) return;
-        var size = l.size();
-        if (size < 1) return;
+        var m = other.getMap();
+        if (m.isEmpty()) return;
+        var size = m.size();
         if (gtolib$map == null) {
             gtolib$map = new AEKeyMap<>(size);
-        } else {
-            gtolib$map.ensureCapacity(size);
         }
-        l.reference2LongEntrySet().fastForEach(entry -> gtolib$map.addTo(entry.getKey(), -entry.getLongValue()));
+        gtolib$map.removeAll(m);
         gtolib$fuzzyUpdate = true;
     }
 
@@ -175,7 +174,7 @@ public class KeyCounterMixin implements Iterable<Reference2LongMap.Entry<AEKey>>
     @Overwrite(remap = false)
     public void set(AEKey key, long amount) {
         if (gtolib$map == null) gtolib$map = new AEKeyMap<>();
-        gtolib$map.put(key, amount);
+        gtolib$map.set(key, amount);
         gtolib$fuzzyUpdate = true;
     }
 
@@ -186,7 +185,7 @@ public class KeyCounterMixin implements Iterable<Reference2LongMap.Entry<AEKey>>
     @Overwrite(remap = false)
     public long get(AEKey key) {
         if (gtolib$map == null) return 0;
-        return gtolib$map.getLong(key);
+        return gtolib$map.getAmount(key);
     }
 
     /**
@@ -307,12 +306,9 @@ public class KeyCounterMixin implements Iterable<Reference2LongMap.Entry<AEKey>>
     @Overwrite(remap = false)
     public Set<GenericStack> entrySet() {
         if (gtolib$map == null) return Collections.emptySet();
-        return gtolib$map.reference2LongEntrySet().stream().map(e -> new GenericStack(e.getKey(), e.getLongValue())).collect(Collectors.toSet());
-    }
-
-    @Override
-    public Reference2LongOpenHashMap<AEKey> gtolib$getMap() {
-        return gtolib$map;
+        var keys = new ReferenceOpenHashSet<GenericStack>(gtolib$map.size());
+        gtolib$map.fastForEach((k, v) -> keys.add(new GenericStack(k, v)));
+        return keys;
     }
 
     @Override

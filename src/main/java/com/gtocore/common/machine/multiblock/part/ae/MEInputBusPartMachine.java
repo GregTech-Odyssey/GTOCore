@@ -56,7 +56,7 @@ public class MEInputBusPartMachine extends StatusTrackedMEPartMachine implements
         aeItemHandler.addChangedListener(() -> {
             getConfiguredSetting().clear();
             aeItemHandler.fastForEachItems((i, l) -> {
-                getConfiguredSetting().put(AEItemKey.of(i), l);
+                getConfiguredSetting().set(AEItemKey.of(i), l);
             });
         });
         circuitInventory = CircuitHandler.create(this);

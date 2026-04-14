@@ -143,7 +143,7 @@ public abstract class BasicCellInventoryMixin implements StorageCell {
     private AEKeyMap<AEKey> gtolib$getCellStoredMap() {
         if (gtocore$aeKeyMap == null) {
             CellDataStorage storage = gtolib$getCellStorage();
-            if (storage == CellDataStorage.EMPTY) return CellDataStorage.EMPTY.getStoredMap();
+            if (storage == CellDataStorage.EMPTY) return CellDataStorage.EMPTY_MAP;
             gtocore$aeKeyMap = storage.getStoredMap();
             if (gtocore$aeKeyMap == null) {
                 gtocore$aeKeyMap = new AEKeyMap<>();
@@ -275,7 +275,7 @@ public abstract class BasicCellInventoryMixin implements StorageCell {
     @Overwrite(remap = false)
     public void getAvailableStacks(KeyCounter out) {
         var map = gtolib$getCellStoredMap();
-        IKeyCounter.addAll(out, map.size(), m -> map.reference2LongEntrySet().fastForEach(e -> m.addTo(e.getKey(), e.getLongValue())));
+        IKeyCounter.addAll(out, map.size(), m -> map.fastForEach(m::addTo));
     }
 
     /**
@@ -308,7 +308,7 @@ public abstract class BasicCellInventoryMixin implements StorageCell {
         var data = gtolib$getCellStorage();
         long whatAmount = 0;
         if (maxItemsPerType < gtolib$totalAmount) {
-            whatAmount = gtolib$getCellStoredMap().getLong(what);
+            whatAmount = gtolib$getCellStoredMap().getAmount(what);
         }
         if (data == CellDataStorage.EMPTY) return 0;
         amount = Math.min(Math.min(gtolib$totalAmount - (long) (data.getBytes() * keyType.getAmountPerByte()), amount), this.maxItemsPerType - whatAmount);
@@ -329,24 +329,15 @@ public abstract class BasicCellInventoryMixin implements StorageCell {
     @Overwrite(remap = false)
     public long extract(AEKey what, long amount, Actionable mode, IActionSource source) {
         var map = gtolib$getCellStoredMap();
-        var currentAmount = map.getLong(what);
-        if (currentAmount > 0) {
-            if (amount >= currentAmount) {
-                if (mode == Actionable.MODULATE) {
-                    map.remove(what, currentAmount);
-                    gtolib$getCellStorage().setDirty();
-                    this.saveChanges();
-                }
-                return currentAmount;
-            } else {
-                if (mode == Actionable.MODULATE) {
-                    map.put(what, currentAmount - amount);
-                    gtolib$getCellStorage().setDirty();
-                    this.saveChanges();
-                }
-                return amount;
+        if (mode == Actionable.MODULATE) {
+            var extract = map.extract(what, amount);
+            if (extract > 0) {
+                gtolib$getCellStorage().setDirty();
+                this.saveChanges();
             }
+            return extract;
+        } else {
+            return Math.min(amount, map.getAmount(what));
         }
-        return 0;
     }
 }
