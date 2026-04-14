@@ -60,7 +60,7 @@ public abstract class MaintenanceHatchPartMachineMixin extends WorkableTieredPar
     public void calculateMaintenance(IMaintenanceMachine maintenanceMachine, int duration) {
         if (maintenanceMachine.isFullAuto()) return;
         var pa = getController().getParts().length;
-        timeActive = MathUtil.saturatedCast((long) (timeActive + (duration * getDurationMultiplier() * GTOCore.difficulty * pa)));
+        timeActive = MathUtil.saturatedCast((long) (timeActive + (duration * getTimeMultiplier() * GTOCore.difficulty * pa)));
         var value = ((float) timeActive / MINIMUM_MAINTENANCE_TIME) - 0.7;
         if (GTValues.RNG.nextFloat() <= value && !GTOCore.isEasy()) {
             timeActive = 0;
