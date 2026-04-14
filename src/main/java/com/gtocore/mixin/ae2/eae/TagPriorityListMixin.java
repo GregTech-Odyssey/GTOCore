@@ -48,8 +48,8 @@ public abstract class TagPriorityListMixin {
     private void init(String whiteListExpression, String blackListExpression, CallbackInfo ci) {
         gtocore$isEmpty = this.rawWhiteListExpression.isBlank() && this.rawBlackListExpression.isBlank();
         memory = null;
+        INVALIDATOR.remove((TagPriorityList) (Object) this);
         if (!gtocore$isEmpty) {
-            INVALIDATOR.remove((TagPriorityList) (Object) this);
             CompletableFuture.runAsync(() -> {
                 var memory = new ReferenceOpenHashSet<>();
                 ForgeRegistries.ITEMS.forEach(i -> {
