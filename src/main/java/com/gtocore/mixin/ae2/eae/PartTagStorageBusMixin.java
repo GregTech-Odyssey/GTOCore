@@ -68,6 +68,7 @@ public abstract class PartTagStorageBusMixin extends PartSpecialStorageBus {
         this.oreExpWhite = white;
         this.oreExpBlack = black;
         if (flag) {
+            this.filter = null;
             this.forceUpdate();
         }
     }

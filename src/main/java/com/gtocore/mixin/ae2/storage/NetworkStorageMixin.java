@@ -2,7 +2,6 @@ package com.gtocore.mixin.ae2.storage;
 
 import com.gtocore.common.machine.multiblock.part.ae.StorageAccessPartMachine;
 
-import com.gtolib.utils.ServerUtils;
 import com.gtolib.utils.holder.IntObjectHolder;
 
 import appeng.api.config.Actionable;
@@ -10,7 +9,6 @@ import appeng.api.networking.security.IActionSource;
 import appeng.api.stacks.AEKey;
 import appeng.api.stacks.KeyCounter;
 import appeng.api.storage.MEStorage;
-import appeng.me.service.StorageService;
 import appeng.me.storage.NetworkStorage;
 
 import org.spongepowered.asm.mixin.*;
@@ -132,9 +130,6 @@ public abstract class NetworkStorageMixin {
     @Overwrite(remap = false)
     public void getAvailableStacks(KeyCounter out) {
         if (gtolib$inventory.isEmpty()) return;
-        if (ServerUtils.getServer().isSameThread()) {
-            StorageService.join(ServerUtils.getServer());
-        }
         if (gtocore$inUse) return;
         gtocore$inUse = true;
         try {
