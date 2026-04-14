@@ -21,7 +21,8 @@ public enum Mods {
     CONSTRUCTION_WAND("constructionwand"),
     JECHARACTERS("jecharacters"),
     LANG("moremorelang"),
-    FACTORY_BLOCKS("factory_blocks");
+    FACTORY_BLOCKS("factory_blocks"),
+    MYTHICBOTANY("mythicbotany");
 
     @Getter
     private final boolean loaded;

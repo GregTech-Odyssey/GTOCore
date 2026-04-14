@@ -8,6 +8,7 @@ import com.gtocore.data.recipe.mod.ImmersiveAircraft;
 import com.gtocore.data.recipe.mod.ModularRouters;
 import com.gtocore.data.recipe.mod.Sophisticated;
 import com.gtocore.integration.Mods;
+import com.gtocore.integration.biomeswevegone.BYGWoodTypes;
 
 import com.gtolib.GTOCore;
 import com.gtolib.utils.RLUtils;
@@ -453,6 +454,10 @@ public final class RecipeFilter {
         filters.add(RLUtils.mc("ender_eye"));
 
         if (Mods.BIOMESWEVEGONE.isLoaded()) {
+            for (String woodName : BYGWoodTypes.WOOD_NAMES) {
+                filters.add(RLUtils.fromNamespaceAndPath("biomeswevegone", woodName + "_bookshelf"));
+            }
+            filters.add(RLUtils.fromNamespaceAndPath("biomeswevegone", "red_stained_glass_from_red_sand"));
             filters.add(RLUtils.fromNamespaceAndPath("biomeswevegone", "black_stained_glass_from_black_sand"));
             filters.add(RLUtils.fromNamespaceAndPath("biomeswevegone", "white_stained_glass_from_white_sand"));
             filters.add(RLUtils.fromNamespaceAndPath("biomeswevegone", "blue_stained_glass_from_blue_sand"));

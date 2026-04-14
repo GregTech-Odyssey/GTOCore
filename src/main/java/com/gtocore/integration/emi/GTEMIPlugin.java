@@ -5,6 +5,7 @@ import com.gtocore.common.machine.multiblock.part.ae.MEPatternBufferPartMachine;
 import com.gtocore.common.machine.multiblock.part.ae.MEPatternBufferPartMachineKt;
 import com.gtocore.config.GTOConfig;
 import com.gtocore.integration.Mods;
+import com.gtocore.integration.biomeswevegone.BYGWoodTypes;
 import com.gtocore.integration.chisel.ChiselRecipe;
 import com.gtocore.integration.emi.multipage.MultiblockInfoEmiRecipe;
 import com.gtocore.integration.emi.oreprocessing.OreProcessingEmiCategory;
@@ -127,6 +128,18 @@ public final class GTEMIPlugin implements EmiPlugin {
             c.add(ModItems.WHEAT_DOUGH.get());
             c.add(RegistriesUtils.getItem("morered:red_alloy_ingot"));
             c.add(EPPItemAndBlock.CIRCUIT_CUTTER.asItem());
+
+            if (Mods.MYTHICBOTANY.isLoaded()) {
+                c.add(RegistriesUtils.getItem("mythicbotany:feysythia"));
+                c.add(RegistriesUtils.getItem("mythicbotany:feysythia_floating"));
+            }
+
+            if (Mods.BIOMESWEVEGONE.isLoaded()) {
+                for (String woodName : BYGWoodTypes.WOOD_NAMES) {
+                    c.add(RegistriesUtils.getItem("biomeswevegone:" + woodName + "_bookshelf"));
+                    c.add(RegistriesUtils.getItem("biomeswevegone:" + woodName + "_crafting_table"));
+                }
+            }
         });
     }
 
