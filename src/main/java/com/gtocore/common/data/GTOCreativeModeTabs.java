@@ -4,7 +4,6 @@ import com.gtolib.GTOCore;
 
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
-import com.gregtechceu.gtceu.common.data.GTCreativeModeTabs;
 import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.pipelike.cable.Insulation;
 
@@ -18,7 +17,6 @@ public final class GTOCreativeModeTabs {
 
     public static final RegistryEntry<CreativeModeTab> GTO_ITEM = GTO
             .defaultCreativeTab("item", builder -> builder
-                    .displayItems(new GTCreativeModeTabs.RegistrateDisplayItemsGenerator("item", GTO))
                     .title(GTO.addLang("itemGroup", GTOCore.id("item"), GTOCore.NAME + " | Item"))
                     .icon(GTOItems.MEGA_MAX_BATTERY::asStack)
                     .build())
@@ -26,7 +24,6 @@ public final class GTOCreativeModeTabs {
 
     public static final RegistryEntry<CreativeModeTab> GTO_BLOCK = GTO
             .defaultCreativeTab("block", builder -> builder
-                    .displayItems(new GTCreativeModeTabs.RegistrateDisplayItemsGenerator("block", GTO))
                     .title(GTO.addLang("itemGroup", GTOCore.id("block"), GTOCore.NAME + " | Block"))
                     .icon(GTOBlocks.IRIDIUM_CASING::asStack)
                     .withTabsBefore(GTO_ITEM.getKey())
@@ -35,7 +32,6 @@ public final class GTOCreativeModeTabs {
 
     public static final RegistryEntry<CreativeModeTab> GTO_MACHINE = GTO
             .defaultCreativeTab("machine", builder -> builder
-                    .displayItems(new GTCreativeModeTabs.RegistrateDisplayItemsGenerator("machine", GTO))
                     .title(GTO.addLang("itemGroup", GTOCore.id("machine"), GTOCore.NAME + " | Machine"))
                     .icon(GTOMachines.ARC_GENERATOR[1]::asStack)
                     .withTabsBefore(GTO_BLOCK.getKey())
@@ -44,7 +40,6 @@ public final class GTOCreativeModeTabs {
 
     public static final RegistryEntry<CreativeModeTab> GTO_MATERIAL_BLOCK = GTO
             .defaultCreativeTab("material_block", builder -> builder
-                    .displayItems(new GTCreativeModeTabs.RegistrateDisplayItemsGenerator("material_block", GTO))
                     .title(GTO.addLang("itemGroup", GTOCore.id("material_block"), GTOCore.NAME + " | Material Block"))
                     .icon(() -> ChemicalHelper.get(TagPrefix.block, GTOMaterials.Hypogen))
                     .withTabsBefore(GTO_MACHINE.getKey())
@@ -53,7 +48,6 @@ public final class GTOCreativeModeTabs {
 
     public static final RegistryEntry<CreativeModeTab> GTO_MATERIAL_ITEM = GTO
             .defaultCreativeTab("material_item", builder -> builder
-                    .displayItems(new GTCreativeModeTabs.RegistrateDisplayItemsGenerator("material_item", GTO))
                     .title(GTO.addLang("itemGroup", GTOCore.id("material_item"), GTOCore.NAME + " | Material Item"))
                     .icon(() -> ChemicalHelper.get(TagPrefix.ingot, GTOMaterials.Hypogen))
                     .withTabsBefore(GTO_MATERIAL_BLOCK.getKey())
@@ -62,7 +56,6 @@ public final class GTOCreativeModeTabs {
 
     public static final RegistryEntry<CreativeModeTab> GTO_MATERIAL_PIPE = GTO
             .defaultCreativeTab("material_pipe", builder -> builder
-                    .displayItems(new GTCreativeModeTabs.RegistrateDisplayItemsGenerator("material_pipe", GTO))
                     .title(GTO.addLang("itemGroup", GTOCore.id("material_pipe"), GTOCore.NAME + " | Material Pipe"))
                     .icon(() -> ChemicalHelper.get(Insulation.WIRE_QUADRUPLE.tagPrefix, GTOMaterials.Hypogen))
                     .withTabsBefore(GTO_MATERIAL_ITEM.getKey())
@@ -71,7 +64,6 @@ public final class GTOCreativeModeTabs {
 
     public static final RegistryEntry<CreativeModeTab> GTO_MATERIAL_FLUID = GTO
             .defaultCreativeTab("material_fluid", builder -> builder
-                    .displayItems(new GTCreativeModeTabs.RegistrateDisplayItemsGenerator("material_fluid", GTO))
                     .title(GTO.addLang("itemGroup", GTOCore.id("material_fluid"), GTOCore.NAME + " | Material Fluid"))
                     .icon(() -> GTItems.FLUID_CELL_LARGE_TUNGSTEN_STEEL.asStack())
                     .withTabsBefore(GTO_MATERIAL_PIPE.getKey())

@@ -27,7 +27,7 @@ public class ColorSprayBehaviourMixin {
     private DyeColor color;
 
     @Shadow(remap = false)
-    private static boolean recolorBlockNoState(Map<DyeColor, Block> map, DyeColor color, Level world, BlockPos pos, Block _default) {
+    private static boolean recolorBlockNoState(Map<DyeColor, Block> map, DyeColor color, Level level, BlockPos pos, Block defaultBlock) {
         return false;
     }
 
