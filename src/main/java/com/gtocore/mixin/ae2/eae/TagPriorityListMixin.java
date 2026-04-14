@@ -51,27 +51,6 @@ public abstract class TagPriorityListMixin {
     private final Lock gtocore$readLock = gtocore$lock.readLock();
 
     @Unique
-    private final Runnable gtocore$build = () -> {
-        gtocore$lock.writeLock().lock();
-        try {
-            var memory = new ReferenceOpenHashSet<>();
-            ForgeRegistries.ITEMS.forEach(i -> {
-                if (eval(i)) {
-                    memory.add(i);
-                }
-            });
-            ForgeRegistries.FLUIDS.forEach(f -> {
-                if (eval(f)) {
-                    memory.add(f);
-                }
-            });
-            gto$underlyingMemory = memory;
-        } finally {
-            gtocore$lock.writeLock().unlock();
-        }
-    };
-
-    @Unique
     private boolean gtocore$isEmpty;
 
     @Inject(method = "<init>", at = @At("TAIL"), remap = false)
@@ -79,8 +58,26 @@ public abstract class TagPriorityListMixin {
         gtocore$isEmpty = this.rawWhiteListExpression.isBlank() && this.rawBlackListExpression.isBlank();
         memory = null;
         if (!gtocore$isEmpty) {
-            INVALIDATOR.put((TagPriorityList) (Object) this, () -> gto$underlyingMemory = null);
-            CompletableFuture.runAsync(gtocore$build, Util.backgroundExecutor());
+            INVALIDATOR.remove((TagPriorityList) (Object) this);
+            CompletableFuture.runAsync(() -> {
+                gtocore$lock.writeLock().lock();
+                try {
+                    var memory = new ReferenceOpenHashSet<>();
+                    ForgeRegistries.ITEMS.forEach(i -> {
+                        if (eval(i)) {
+                            memory.add(i);
+                        }
+                    });
+                    ForgeRegistries.FLUIDS.forEach(f -> {
+                        if (eval(f)) {
+                            memory.add(f);
+                        }
+                    });
+                    gto$underlyingMemory = memory;
+                } finally {
+                    gtocore$lock.writeLock().unlock();
+                }
+            }, Util.backgroundExecutor());
         }
     }
 
@@ -102,7 +99,7 @@ public abstract class TagPriorityListMixin {
         if (gtocore$isEmpty) return true;
         gtocore$readLock.lock();
         try {
-            if (gto$underlyingMemory == null) gtocore$build.run();
+            if (gto$underlyingMemory == null) return false;
             return gto$underlyingMemory.contains(input.getPrimaryKey());
         } finally {
             gtocore$readLock.unlock();
