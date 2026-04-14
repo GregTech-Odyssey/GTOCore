@@ -51,7 +51,7 @@ public abstract class GTMaterialBlocksMixin {
      */
     @Overwrite(remap = false)
     public static void generateMaterialBlocks() {
-        GTORegistration.GTO.creativeModeTab(() -> GTOCreativeModeTabs.GTO_MATERIAL_BLOCK);
+        GTORegistration.GTO.defaultCreativeTab(GTOCreativeModeTabs.GTO_MATERIAL_BLOCK);
         for (TagPrefix tagPrefix : TagPrefix.values()) {
             if (tagPrefix.doGenerateBlock() && !TagPrefix.ORES.containsKey(tagPrefix)) {
                 for (MaterialRegistry registry : GTCEuAPI.materialManager.getRegistries()) {

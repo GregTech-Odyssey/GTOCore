@@ -25,7 +25,6 @@
     "ae2.screen.FacilityManagementScreenMixin",
     "ae2.screen.PatternProviderScreenMixin",
     "ae2.search.RepoSearchMixin",
-    "gtm.GTRecipeEMICategoryMixin",
     "gtm.TooltipsHandlerMixin",
     "gtm.renderer.TagPrefixItemRendererMixin",
     "inventoryessentials.ClientOnlyInventoryControlsMixin",

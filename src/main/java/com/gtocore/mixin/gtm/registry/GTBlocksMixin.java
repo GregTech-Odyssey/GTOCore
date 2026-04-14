@@ -26,8 +26,8 @@ public class GTBlocksMixin {
         MACHINECASINGMAP.put(tier, block);
     }
 
-    @Inject(method = "init", at = @At(value = "INVOKE", target = "Lcom/gregtechceu/gtceu/api/registry/registrate/GTRegistrate;creativeModeTab(Ljava/util/function/Supplier;)V", ordinal = 1), remap = false)
+    @Inject(method = "init", at = @At(value = "INVOKE", target = "Lcom/gregtechceu/gtceu/api/registry/registrate/GTRegistrate;defaultCreativeTab(Lcom/tterrag/registrate/util/entry/RegistryEntry;)Lcom/tterrag/registrate/AbstractRegistrate;", ordinal = 1), remap = false)
     private static void setPipeCreativeModeTab(CallbackInfo ci) {
-        GTORegistration.GTO.creativeModeTab(() -> GTOCreativeModeTabs.GTO_MATERIAL_PIPE);
+        GTORegistration.GTO.defaultCreativeTab(GTOCreativeModeTabs.GTO_MATERIAL_PIPE);
     }
 }

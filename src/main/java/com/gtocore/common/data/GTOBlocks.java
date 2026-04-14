@@ -30,7 +30,7 @@ import static com.gtolib.utils.register.BlockRegisterUtils.*;
 public final class GTOBlocks {
 
     public static void init() {
-        GTORegistration.GTO.creativeModeTab(() -> null);
+        GTORegistration.GTO.removeDefaultCreativeTab();
         REACTOR_CORE = createStoneBlock("reactor_core", "远古反应核", GTOCore.id("block/multiblock/ancient_reactor_core/overlay_front"));
     }
 

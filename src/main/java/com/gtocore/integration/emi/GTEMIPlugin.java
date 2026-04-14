@@ -195,7 +195,6 @@ public final class GTEMIPlugin implements EmiPlugin {
         registry.addRecipeHandler(ContainerExCraftingTerminal.TYPE, new XModTransferHandlers.ExCraftingTransferHandler<>(ContainerExCraftingTerminal.class));
         registry.addCategory(GTProgrammedCircuitCategory.CATEGORY);
 
-        GTRecipeEMICategory.registerDisplays(registry);
         OreProcessingEmiCategory.registerDisplays(registry);
         GTOreVeinEmiCategory.registerDisplays(registry);
         GTBedrockFluidEmiCategory.registerDisplays(registry);
