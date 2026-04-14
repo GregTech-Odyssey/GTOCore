@@ -16,9 +16,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReadWriteLock;
-import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 @Mixin(TagPriorityList.class)
 public abstract class TagPriorityListMixin {
@@ -45,12 +42,6 @@ public abstract class TagPriorityListMixin {
     private volatile ReferenceOpenHashSet<Object> gto$underlyingMemory;
 
     @Unique
-    private final ReadWriteLock gtocore$lock = new ReentrantReadWriteLock();
-
-    @Unique
-    private final Lock gtocore$readLock = gtocore$lock.readLock();
-
-    @Unique
     private boolean gtocore$isEmpty;
 
     @Inject(method = "<init>", at = @At("TAIL"), remap = false)
@@ -60,23 +51,19 @@ public abstract class TagPriorityListMixin {
         if (!gtocore$isEmpty) {
             INVALIDATOR.remove((TagPriorityList) (Object) this);
             CompletableFuture.runAsync(() -> {
-                gtocore$lock.writeLock().lock();
-                try {
-                    var memory = new ReferenceOpenHashSet<>();
-                    ForgeRegistries.ITEMS.forEach(i -> {
-                        if (eval(i)) {
-                            memory.add(i);
-                        }
-                    });
-                    ForgeRegistries.FLUIDS.forEach(f -> {
-                        if (eval(f)) {
-                            memory.add(f);
-                        }
-                    });
-                    gto$underlyingMemory = memory;
-                } finally {
-                    gtocore$lock.writeLock().unlock();
-                }
+                var memory = new ReferenceOpenHashSet<>();
+                ForgeRegistries.ITEMS.forEach(i -> {
+                    if (eval(i)) {
+                        memory.add(i);
+                    }
+                });
+                ForgeRegistries.FLUIDS.forEach(f -> {
+                    if (eval(f)) {
+                        memory.add(f);
+                    }
+                });
+                gto$underlyingMemory = memory;
+
             }, Util.backgroundExecutor());
         }
     }
@@ -97,12 +84,7 @@ public abstract class TagPriorityListMixin {
     @Overwrite(remap = false)
     public boolean isListed(AEKey input) {
         if (gtocore$isEmpty) return true;
-        gtocore$readLock.lock();
-        try {
-            if (gto$underlyingMemory == null) return false;
-            return gto$underlyingMemory.contains(input.getPrimaryKey());
-        } finally {
-            gtocore$readLock.unlock();
-        }
+        if (gto$underlyingMemory == null) return false;
+        return gto$underlyingMemory.contains(input.getPrimaryKey());
     }
 }
