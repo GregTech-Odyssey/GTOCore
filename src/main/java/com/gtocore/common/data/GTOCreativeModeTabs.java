@@ -9,7 +9,7 @@ import com.gregtechceu.gtceu.common.pipelike.cable.Insulation;
 
 import net.minecraft.world.item.CreativeModeTab;
 
-import com.tterrag.registrate.util.entry.RegistryEntry;
+import com.gto.registrate.util.entry.RegistryEntry;
 
 import static com.gtolib.api.registries.GTORegistration.GTO;
 

@@ -8,7 +8,7 @@ import com.gregtechceu.gtceu.common.data.GTBlocks;
 
 import net.minecraft.world.level.block.Block;
 
-import com.tterrag.registrate.util.entry.BlockEntry;
+import com.gto.registrate.util.entry.BlockEntry;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -20,13 +20,13 @@ import static com.gtocore.common.block.BlockMap.MACHINECASINGMAP;
 @Mixin(GTBlocks.class)
 public class GTBlocksMixin {
 
-    @Inject(method = "createMachineCasingBlock(I)Lcom/tterrag/registrate/util/entry/BlockEntry;", at = @At("TAIL"), remap = false)
+    @Inject(method = "createMachineCasingBlock(I)Lcom/gto/registrate/util/entry/BlockEntry;", at = @At("TAIL"), remap = false)
     private static void createMachineCasingBlock(int tier, CallbackInfoReturnable<BlockEntry<Block>> cir) {
         BlockEntry<Block> block = cir.getReturnValue();
         MACHINECASINGMAP.put(tier, block);
     }
 
-    @Inject(method = "init", at = @At(value = "INVOKE", target = "Lcom/gregtechceu/gtceu/api/registry/registrate/GTRegistrate;defaultCreativeTab(Lcom/tterrag/registrate/util/entry/RegistryEntry;)Lcom/tterrag/registrate/AbstractRegistrate;", ordinal = 1), remap = false)
+    @Inject(method = "init", at = @At(value = "INVOKE", target = "Lcom/gregtechceu/gtceu/api/registry/registrate/GTRegistrate;defaultCreativeTab(Lcom/gto/registrate/util/entry/RegistryEntry;)Lcom/gto/registrate/AbstractRegistrate;", ordinal = 1), remap = false)
     private static void setPipeCreativeModeTab(CallbackInfo ci) {
         GTORegistration.GTO.defaultCreativeTab(GTOCreativeModeTabs.GTO_MATERIAL_PIPE);
     }

@@ -20,8 +20,8 @@ import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 import net.minecraft.world.level.material.MapColor;
 
-import com.tterrag.registrate.util.entry.BlockEntry;
-import com.tterrag.registrate.util.nullness.NonNullBiConsumer;
+import com.gto.registrate.util.entry.BlockEntry;
+import com.gto.registrate.util.nullness.NonNullBiConsumer;
 
 import static com.gtocore.common.block.BlockMap.*;
 import static com.gtocore.common.block.GlowingBlock.createStarStone;

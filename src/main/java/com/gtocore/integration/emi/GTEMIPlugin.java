@@ -128,6 +128,7 @@ public final class GTEMIPlugin implements EmiPlugin {
             c.add(ModItems.WHEAT_DOUGH.get());
             c.add(RegistriesUtils.getItem("morered:red_alloy_ingot"));
             c.add(EPPItemAndBlock.CIRCUIT_CUTTER.asItem());
+            c.add(EPPItemAndBlock.SILICON_BLOCK.asItem());
 
             if (Mods.MYTHICBOTANY.isLoaded()) {
                 c.add(RegistriesUtils.getItem("mythicbotany:feysythia"));

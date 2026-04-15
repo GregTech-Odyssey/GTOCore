@@ -49,7 +49,7 @@ import com.gregtechceu.gtceu.integration.emi.recipe.GTRecipeEMICategory;
 import net.minecraft.world.level.storage.loot.BuiltInLootTables;
 
 import com.google.common.collect.ImmutableSet;
-import com.tterrag.registrate.builders.BlockBuilder;
+import com.gto.registrate.builders.BlockBuilder;
 import dev.emi.emi.api.recipe.EmiRecipe;
 import dev.emi.emi.api.recipe.EmiRecipeCategory;
 import dev.emi.emi.config.EmiConfig;

@@ -19,7 +19,7 @@ import net.minecraft.world.level.block.Block;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableTable;
-import com.tterrag.registrate.util.entry.BlockEntry;
+import com.gto.registrate.util.entry.BlockEntry;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;

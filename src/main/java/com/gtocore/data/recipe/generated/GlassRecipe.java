@@ -13,7 +13,7 @@ import com.gregtechceu.gtceu.common.data.GTRecipeCategories;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.fluids.FluidStack;
 
-import com.tterrag.registrate.util.entry.BlockEntry;
+import com.gto.registrate.util.entry.BlockEntry;
 
 import static com.gtocore.common.data.GTORecipeTypes.*;
 

@@ -818,5 +818,7 @@ public final class AE2 {
         filters.add(ExtendedAE.id("cutter/logic"));
         filters.add(ExtendedAE.id("cutter/silicon"));
         filters.add(ExtendedAE.id("circuit_cutter"));
+        filters.add(ExtendedAE.id("silicon_block"));
+        filters.add(ExtendedAE.id("silicon_block_disassembler"));
     }
 }

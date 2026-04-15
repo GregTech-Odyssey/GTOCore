@@ -17,7 +17,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 
 import com.google.common.collect.ImmutableMap;
-import com.tterrag.registrate.util.entry.ItemEntry;
+import com.gto.registrate.util.entry.ItemEntry;
 import it.unimi.dsi.fastutil.objects.Reference2ReferenceOpenHashMap;
 
 import java.util.ArrayList;

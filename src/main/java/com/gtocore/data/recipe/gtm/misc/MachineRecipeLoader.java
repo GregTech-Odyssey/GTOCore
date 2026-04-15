@@ -36,7 +36,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.common.Tags;
 
-import com.tterrag.registrate.util.entry.ItemEntry;
+import com.gto.registrate.util.entry.ItemEntry;
 
 import java.util.List;
 import java.util.Locale;

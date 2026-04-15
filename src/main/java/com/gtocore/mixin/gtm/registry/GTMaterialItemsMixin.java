@@ -19,7 +19,7 @@ import net.minecraft.world.item.Item;
 
 import com.google.common.collect.ImmutableTable;
 import com.google.common.collect.Table;
-import com.tterrag.registrate.util.entry.ItemEntry;
+import com.gto.registrate.util.entry.ItemEntry;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
@@ -39,7 +39,7 @@ public final class GTMaterialItemsMixin {
     @Shadow(remap = false)
     public static Table<TagPrefix, Material, ItemEntry<Item>> MATERIAL_ITEMS;
 
-    @Inject(method = "generateTools", at = @At(value = "INVOKE", target = "Lcom/gregtechceu/gtceu/api/registry/registrate/GTRegistrate;defaultCreativeTab(Lcom/tterrag/registrate/util/entry/RegistryEntry;)Lcom/tterrag/registrate/AbstractRegistrate;"), remap = false)
+    @Inject(method = "generateTools", at = @At(value = "INVOKE", target = "Lcom/gregtechceu/gtceu/api/registry/registrate/GTRegistrate;defaultCreativeTab(Lcom/gto/registrate/util/entry/RegistryEntry;)Lcom/gto/registrate/AbstractRegistrate;"), remap = false)
     private static void setToolCreativeModeTab(CallbackInfo ci) {
         GTORegistration.GTO.defaultCreativeTab(GTOCreativeModeTabs.GTO_ITEM);
     }

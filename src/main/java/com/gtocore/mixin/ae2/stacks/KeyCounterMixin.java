@@ -25,7 +25,7 @@ import java.util.Set;
 import java.util.function.Consumer;
 
 @Mixin(KeyCounter.class)
-public class KeyCounterMixin implements Iterable<Reference2LongMap.Entry<AEKey>>, IKeyCounter {
+public abstract class KeyCounterMixin implements Iterable<Reference2LongMap.Entry<AEKey>>, IKeyCounter {
 
     @Unique
     private AEKeyMap<AEKey> gtolib$map;
