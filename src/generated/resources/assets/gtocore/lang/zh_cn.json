@@ -2780,6 +2780,8 @@
   "gtocore.idle_reason.voltage_tier_not_satisfies": "电压等级未达到要求",
   "gtocore.item.time_twister.consumed_eu": "消耗了 %s EU，使方块实体额外执行了 %s Tick",
   "gtocore.item.time_twister.consumed_mana": "消耗了 %s Mana，使方块实体额外执行了 %s Tick",
+  "gtocore.item.time_twister.expected_eu": "预计消耗 %s EU（当前无线能源的 %s%%）",
+  "gtocore.item.time_twister.expected_mana": "预计消耗 %s Mana（当前无线魔力的 %s%%）",
   "gtocore.jade.grid_latency": "网络延迟：%s",
   "gtocore.jade.node_amount": "节点数量：%s",
   "gtocore.lang.-1014137552": "扩展结构可安装额外的仓，带来额外的加成",

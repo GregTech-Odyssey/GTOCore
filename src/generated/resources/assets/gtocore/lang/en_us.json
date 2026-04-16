@@ -2655,6 +2655,8 @@
   "gtocore.idle_reason.voltage_tier_not_satisfies": "Voltage Tier Not Satisfies",
   "gtocore.item.time_twister.consumed_eu": "Consumed %s EU, making the block entity execute an additional %s ticks",
   "gtocore.item.time_twister.consumed_mana": "Consumed %s Mana, making the block entity execute an additional %s ticks",
+  "gtocore.item.time_twister.expected_eu": "Expected to consume %s EU (%s%% of current energy storage)",
+  "gtocore.item.time_twister.expected_mana": "Expected to consume %s Mana (%s%% of current mana storage)",
   "gtocore.jade.grid_latency": "Grid Latency: %s",
   "gtocore.jade.node_amount": "Node Amount: %s",
   "gtocore.lang.-1014137552": "Expansion structures can install additional hatches to bring additional bonuses",

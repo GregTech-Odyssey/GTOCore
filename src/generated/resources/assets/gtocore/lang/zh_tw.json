@@ -2780,6 +2780,8 @@
   "gtocore.idle_reason.voltage_tier_not_satisfies": "電壓等級未達到要求",
   "gtocore.item.time_twister.consumed_eu": "消耗瞭 %s EU，使方塊實體額外執行瞭 %s Tick",
   "gtocore.item.time_twister.consumed_mana": "消耗瞭 %s Mana，使方塊實體額外執行瞭 %s Tick",
+  "gtocore.item.time_twister.expected_eu": "預計消耗 %s EU（當前無線能源的 %s%%）",
+  "gtocore.item.time_twister.expected_mana": "預計消耗 %s Mana（當前無線魔力的 %s%%）",
   "gtocore.jade.grid_latency": "網絡延遲：%s",
   "gtocore.jade.node_amount": "節點數量：%s",
   "gtocore.lang.-1014137552": "擴展結構可安裝額外的倉，帶來額外的加成",
