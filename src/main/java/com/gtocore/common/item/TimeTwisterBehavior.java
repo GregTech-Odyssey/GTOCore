@@ -48,8 +48,6 @@ import java.math.RoundingMode;
 
 import javax.annotation.Nullable;
 
-import static com.gtocore.integration.jade.GTOJadePlugin.getProgress;
-
 @DataGeneratorScanned
 public final class TimeTwisterBehavior implements IInteractionItem {
 
@@ -64,6 +62,9 @@ public final class TimeTwisterBehavior implements IInteractionItem {
 
     public static final TimeTwisterBehavior INSTANCE = new TimeTwisterBehavior();
     public static final int TASK_DURATION = 100;
+    private static final String HUD_COST_KEY = "time_twister_cost";
+    private static final String HUD_IS_MANA_KEY = "time_twister_is_mana";
+    private static final String HUD_CONSUMPTION_KEY = "time_twister_consumption";
 
     @Override
     public InteractionResult onItemUseFirst(ItemStack stack, UseOnContext context) {
@@ -97,7 +98,10 @@ public final class TimeTwisterBehavior implements IInteractionItem {
         ExtendWirelessEnergyContainer euContainer = (ExtendWirelessEnergyContainer) WirelessEnergyContainer.getOrCreateContainer(player.getUUID());
         WirelessManaContainer manaContainer = WirelessManaContainer.getOrCreateContainer(player.getUUID());
 
-        var machine = blockAccessor.getBlockEntity() instanceof MetaMachineBlockEntity ? ((MetaMachineBlockEntity) blockAccessor.getBlockEntity()).metaMachine : null;
+        var blockEntity = blockAccessor.getBlockEntity();
+        var machine = blockEntity instanceof MetaMachineBlockEntity ? ((MetaMachineBlockEntity) blockEntity).metaMachine : null;
+        RecipeLogic recipeLogic = GTCapabilityHelper.getRecipeLogic(blockEntity);
+        GTRecipe recipe = recipeLogic == null ? null : recipeLogic.getLastRecipe();
         BigInteger euOrMana = tickGT(euContainer, manaContainer, new UseOnContext(
                 player, InteractionHand.MAIN_HAND, blockAccessor.getHitResult()), true);
         boolean isMana = machine instanceof IManaContainerMachine;
@@ -106,24 +110,117 @@ public final class TimeTwisterBehavior implements IInteractionItem {
             return;
         }
         if (euOrMana == null && machine == null) {
-            euOrMana = BigInteger.valueOf(8192L);
+            euOrMana = player.isShiftKeyDown() ? BigInteger.valueOf(819200L) : BigInteger.valueOf(8192L);
         }
-        if (player.isShiftKeyDown() && euOrMana != null) {
-            euOrMana = euOrMana.multiply(BigInteger.valueOf(100L));
+        if (player.isShiftKeyDown() && euOrMana != null && machine != null && recipeLogic != null && recipe != null) {
+            var totalCost = estimateContinuousCostFast(recipeLogic, recipe, euContainer, manaContainer, isMana);
+            if (totalCost != null) {
+                euOrMana = totalCost;
+            }
         }
 
         if (euOrMana != null) {
-            data.putString("time_twister_cost", euOrMana.toString());
-            data.putBoolean("time_twister_is_mana", isMana);
-            data.putFloat("time_twister_consumption", new BigDecimal(euOrMana).divide(new BigDecimal(storage), 2, RoundingMode.HALF_UP).floatValue());
+            data.putString(HUD_COST_KEY, euOrMana.toString());
+            data.putBoolean(HUD_IS_MANA_KEY, isMana);
+            float consumption = storage.compareTo(BigInteger.ZERO) > 0 ? new BigDecimal(euOrMana).divide(new BigDecimal(storage), 2, RoundingMode.HALF_UP).floatValue() : 0F;
+            data.putFloat(HUD_CONSUMPTION_KEY, consumption);
         }
     }
 
+    private static @Nullable BigInteger estimateContinuousCostFast(RecipeLogic recipeLogic, GTRecipe recipe,
+                                                                   ExtendWirelessEnergyContainer euContainer,
+                                                                   WirelessManaContainer manaContainer,
+                                                                   boolean isMana) {
+        BigInteger unitCost = getUnitCost(recipe, isMana);
+        if (unitCost == null) return null;
+
+        int duration = recipeLogic.getDuration();
+        if (duration <= 0 || TimeTwisterBehavior.TASK_DURATION <= 0) return null;
+
+        int firstRemaining = Math.max(duration - recipeLogic.getProgress(), 0);
+        if (firstRemaining == 0) firstRemaining = duration;
+
+        BigInteger storage = isMana ? manaContainer.getStorage() : euContainer.getStorage();
+        if (storage.compareTo(unitCost) < 0) return null;
+
+        int maxPerTickByRate = isMana ? Integer.MAX_VALUE : Math.max(BigInteger.valueOf(euContainer.getRate()).divide(unitCost).intValue(), 0);
+        if (maxPerTickByRate == 0) return null;
+
+        int energyTicksLeft = storage.divide(unitCost).intValue();
+        int twisterTicksLeft = TimeTwisterBehavior.TASK_DURATION;
+        int remaining = firstRemaining;
+        long estimatedEnergyTicks = 0;
+
+        // Approximate by recipe cycles instead of per-tick simulation: O(number of completed recipes).
+        while (twisterTicksLeft > 0 && energyTicksLeft > 0) {
+            var finish = estimateFinish(remaining, maxPerTickByRate);
+            if (finish.ticks <= 0 || finish.energyTicks <= 0) break;
+
+            if (twisterTicksLeft >= finish.ticks && energyTicksLeft >= finish.energyTicks) {
+                estimatedEnergyTicks += finish.energyTicks;
+                twisterTicksLeft -= finish.ticks;
+                energyTicksLeft -= finish.energyTicks;
+                remaining = duration;
+                continue;
+            }
+
+            int partialTicks = Math.min(twisterTicksLeft, finish.ticks);
+            // Use average energy/tick of this cycle for a fast partial estimate.
+            int avgEnergyPerTwisterTick = Math.max(1, ceilDiv(finish.energyTicks, finish.ticks));
+            int partialEnergyTicks = Math.min(energyTicksLeft, partialTicks * avgEnergyPerTwisterTick);
+            estimatedEnergyTicks += partialEnergyTicks;
+            break;
+        }
+
+        return estimatedEnergyTicks > 0 ? unitCost.multiply(BigInteger.valueOf(estimatedEnergyTicks)) : null;
+    }
+
+    private static @Nullable BigInteger getUnitCost(GTRecipe recipe, boolean isMana) {
+        int energyMultiplier = 2 << GTOCore.difficulty;
+        BigInteger unitCost = isMana ? BigInteger.valueOf(Recipe.of(recipe).getInputMANAt()) : BigInteger.valueOf(recipe.getInputEUt());
+        if (unitCost.compareTo(BigInteger.ZERO) <= 0) return null;
+        return unitCost.multiply(BigInteger.valueOf(energyMultiplier));
+    }
+
+    private static FinishEstimate estimateFinish(int remaining, int maxPerTickByRate) {
+        if (remaining <= 0 || maxPerTickByRate <= 0) return FinishEstimate.ZERO;
+
+        if (maxPerTickByRate < 10) {
+            int ticks = ceilDiv(remaining, maxPerTickByRate);
+            return new FinishEstimate(ticks, ticks * maxPerTickByRate);
+        }
+
+        int r = remaining;
+        int ticks = 0;
+        int energyTicks = 0;
+
+        while (r > 20) {
+            int reduced = Math.min(maxPerTickByRate, r / 2);
+            r -= reduced;
+            ticks++;
+            energyTicks += reduced;
+        }
+
+        int tailTicks = r <= 10 ? 1 : 2;
+        ticks += tailTicks;
+        energyTicks += tailTicks * 10;
+        return new FinishEstimate(ticks, energyTicks);
+    }
+
+    private static int ceilDiv(int x, int y) {
+        return (x + y - 1) / y;
+    }
+
+    private record FinishEstimate(int ticks, int energyTicks) {
+
+        private static final FinishEstimate ZERO = new FinishEstimate(0, 0);
+    }
+
     public static void appendWailaTooltip(CompoundTag data, ITooltip iTooltip, BlockAccessor blockAccessor, IPluginConfig iPluginConfig) {
-        var cost = data.getString("time_twister_cost");
+        var cost = data.getString(HUD_COST_KEY);
         if (cost.isEmpty()) return;
-        var isMana = data.getBoolean("time_twister_is_mana");
-        var consumption = data.getFloat("time_twister_consumption");
+        var isMana = data.getBoolean(HUD_IS_MANA_KEY);
+        var consumption = data.getFloat(HUD_CONSUMPTION_KEY);
         var formattedBig = FormattingUtil.formatNumbers(new BigInteger(cost));
         var formattedPercent = FormattingUtil.formatNumber2Places(consumption * 100);
         if (isMana) {
