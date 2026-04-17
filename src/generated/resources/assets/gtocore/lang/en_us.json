@@ -1633,6 +1633,7 @@
   "config.gtocore.option.cannibalismDamage": "Carnivory Punish Damage",
   "config.gtocore.option.cannibalismRadius": "Carnivory Punish Radius",
   "config.gtocore.option.client": "Client",
+  "config.gtocore.option.defaultMinOverclockDuration": "Default Minimum Overclock Duration",
   "config.gtocore.option.detailedLogging": "[Debug] Detailed Logging",
   "config.gtocore.option.dev": "Developer Mode",
   "config.gtocore.option.devMode": "Dev Mode",

@@ -1758,6 +1758,7 @@
   "config.gtocore.option.cannibalismDamage": "食肉懲罰傷害",
   "config.gtocore.option.cannibalismRadius": "食肉懲罰半徑",
   "config.gtocore.option.client": "客戶端",
+  "config.gtocore.option.defaultMinOverclockDuration": "默認最小超頻時間",
   "config.gtocore.option.detailedLogging": "[調試] 詳細日誌輸出",
   "config.gtocore.option.dev": "開發者模式",
   "config.gtocore.option.devMode": "開發模式",
