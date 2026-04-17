@@ -163,6 +163,11 @@ public class MEWildcardPatternBufferPartMachine extends MEPatternBufferPartMachi
     }
 
     @Override
+    public void onDetailsPostInit() {
+        requestPatternUpdate();
+    }
+
+    @Override
     public void onPatternChange(int index) {
         super.onPatternChange(index);
         requestPatternUpdate();
