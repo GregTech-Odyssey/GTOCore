@@ -2269,7 +2269,6 @@
   "gtocore.ae.appeng.wildcard_pattern_buffer.max_item_output_types": "Max Item Output Types: ",
   "gtocore.ae.appeng.wildcard_pattern_buffer.max_item_output_types.desc": "The maximum number of item types allowed in the outputs of auto-generated patterns.",
   "gtocore.ae.appeng.wildcard_pattern_buffer.max_item_output_types.example": "For example, in generated patterns, if the recipe outputs both items and fluids, setting this to 0 will only allow fluids as outputs of the pattern.",
-  "gtocore.ae.simple_crafting_terminal.in_use": "%s is using this simple crafting terminal.",
   "gtocore.ae2.pattern_provider.push_result.name.BREAK": "Push Completed",
   "gtocore.ae2.pattern_provider.push_result.name.BREAK_TASK_LOOP": "Current Push Round Completed",
   "gtocore.ae2.pattern_provider.push_result.name.GRID_NODE_MISSING": "Related AE Nodes Offline",

@@ -2394,7 +2394,6 @@
   "gtocore.ae.appeng.wildcard_pattern_buffer.max_item_output_types": "最大物品輸出種數：",
   "gtocore.ae.appeng.wildcard_pattern_buffer.max_item_output_types.desc": "自動生成的樣板中產物允許的最大物品種類數。",
   "gtocore.ae.appeng.wildcard_pattern_buffer.max_item_output_types.example": "例如，生成的樣板中，若配方輸出既含有物品，又含有流體，將此項設為0，則僅允許流體作為樣板的產物。",
-  "gtocore.ae.simple_crafting_terminal.in_use": "%s正在使用該簡易終端",
   "gtocore.ae2.pattern_provider.push_result.name.BREAK": "已完成推送",
   "gtocore.ae2.pattern_provider.push_result.name.BREAK_TASK_LOOP": "已完成當前輪次推送",
   "gtocore.ae2.pattern_provider.push_result.name.GRID_NODE_MISSING": "相關AE節點不在線",
