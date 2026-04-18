@@ -4,6 +4,7 @@ import com.gtocore.config.GTOConfig;
 import com.gtocore.eio_travel.logic.TravelSavedData;
 import com.gtocore.eio_travel.logic.TravelUtils;
 import com.gtocore.integration.ae.hooks.IExtendedPatternContainer;
+import com.gtocore.integration.ae.hooks.PatternProviderPlacementHelper;
 
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
@@ -11,6 +12,7 @@ import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 
@@ -66,6 +68,15 @@ public abstract class PartExPatternProviderMixin extends AEBasePart implements P
         if (level instanceof ServerLevel) {
             TravelUtils.removeAndReadd(level, this);
         }
+    }
+
+    @Inject(method = "onPlacement", at = @At("TAIL"), remap = false)
+    private void gtocore$configureAdjacentMachine(Player player, CallbackInfo ci) {
+        Level level = getLevel();
+        if (level == null || level.isClientSide() || !player.isShiftKeyDown()) {
+            return;
+        }
+        PatternProviderPlacementHelper.configureAdjacentMachine(this);
     }
 
     @Override
