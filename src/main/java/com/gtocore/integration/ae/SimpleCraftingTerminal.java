@@ -4,9 +4,7 @@ import com.gtolib.GTOCore;
 import com.gtolib.api.ae2.ExternalStorageCacheStrategy;
 
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.MenuType;
@@ -38,7 +36,6 @@ import appeng.me.service.StorageService;
 import appeng.me.storage.CompositeStorage;
 import appeng.me.storage.MEInventoryHandler;
 import appeng.me.storage.NullInventory;
-import appeng.menu.AEBaseMenu;
 import appeng.menu.me.items.CraftingTermMenu;
 import appeng.parts.PartModel;
 import appeng.parts.reporting.AbstractTerminalPart;
@@ -49,7 +46,6 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 public class SimpleCraftingTerminal extends AbstractTerminalPart
                                     implements IAEPowerStorage, IStorageProvider {
@@ -66,8 +62,6 @@ public class SimpleCraftingTerminal extends AbstractTerminalPart
     private final StorageBusInventory handler = new StorageBusInventory(NullInventory.of());
     @Nullable
     private Map<AEKeyType, ExternalStorageStrategy> externalStorageStrategies;
-    @Nullable
-    private UUID activePlayerId;
     private int tick;
 
     public SimpleCraftingTerminal(IPartItem<?> partItem) {
@@ -81,16 +75,8 @@ public class SimpleCraftingTerminal extends AbstractTerminalPart
 
     @Override
     public boolean onPartActivate(Player player, InteractionHand hand, Vec3 pos) {
-        if (!player.level().isClientSide() && tryNotifyOccupied(player)) {
-            return true;
-        }
         updateTarget();
-
-        var opened = super.onPartActivate(player, hand, pos);
-        if (!player.level().isClientSide()) {
-            this.updateActivePlayer(player);
-        }
-        return opened;
+        return super.onPartActivate(player, hand, pos);
     }
 
     @Override
@@ -220,44 +206,6 @@ public class SimpleCraftingTerminal extends AbstractTerminalPart
         getMainNode().ifPresent((grid, node) -> {
             grid.getTickManager().alertDevice(node);
         });
-    }
-
-    private boolean tryNotifyOccupied(Player player) {
-        var activePlayer = getActivePlayer();
-        if (activePlayer == null || activePlayer == player) {
-            return false;
-        }
-
-        player.displayClientMessage(
-                Component.translatable("gtocore.ae.simple_crafting_terminal.in_use", activePlayer.getDisplayName()),
-                true);
-        return true;
-    }
-
-    @Nullable
-    private ServerPlayer getActivePlayer() {
-        if (activePlayerId == null || getLevel() == null || getLevel().getServer() == null) {
-            return null;
-        }
-
-        var player = getLevel().getServer().getPlayerList().getPlayer(activePlayerId);
-        if (player == null || !isUsingThisTerminal(player)) {
-            activePlayerId = null;
-            return null;
-        }
-        return player;
-    }
-
-    private void updateActivePlayer(Player player) {
-        if (player instanceof ServerPlayer serverPlayer && isUsingThisTerminal(serverPlayer)) {
-            activePlayerId = serverPlayer.getUUID();
-        } else {
-            activePlayerId = null;
-        }
-    }
-
-    private boolean isUsingThisTerminal(ServerPlayer player) {
-        return player.containerMenu instanceof AEBaseMenu menu && menu.getTarget() == this;
     }
 
     private void checkStorageBusOnInterface() {
