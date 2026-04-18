@@ -1,6 +1,7 @@
 package com.gtocore.integration.emi;
 
 import com.gtocore.common.CommonProxy;
+import com.gtocore.common.data.GTOItems;
 import com.gtocore.common.machine.multiblock.part.ae.MEPatternBufferPartMachine;
 import com.gtocore.common.machine.multiblock.part.ae.MEPatternBufferPartMachineKt;
 import com.gtocore.config.GTOConfig;
@@ -16,6 +17,7 @@ import com.gtolib.api.ae2.me2in1.Me2in1Menu;
 import com.gtolib.api.ae2.me2in1.UtilsMiscs;
 import com.gtolib.api.ae2.me2in1.Wireless;
 import com.gtolib.api.ae2.me2in1.emi.CategoryMappingSubMenu;
+import com.gtolib.api.data.Dimension;
 import com.gtolib.api.emi.stack.EmiSearchTextStack;
 import com.gtolib.api.emi.stack.EmiSearchTextStackSerializer;
 import com.gtolib.api.emi.stack.EmiTagprefixStack;
@@ -41,6 +43,7 @@ import com.gregtechceu.gtceu.integration.emi.recipe.GTRecipeEMICategory;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.alchemy.PotionUtils;
 
 import appeng.core.AppEng;
@@ -66,6 +69,7 @@ import dev.emi.emi.api.EmiPlugin;
 import dev.emi.emi.api.EmiRegistry;
 import dev.emi.emi.api.stack.Comparison;
 import dev.emi.emi.api.stack.EmiIngredient;
+import dev.emi.emi.api.stack.EmiStack;
 import dev.emi.emi.api.stack.EmiStackInteraction;
 import dev.emi.emi.jemi.JemiPlugin;
 import dev.emi.emi.registry.EmiPluginContainer;
@@ -88,6 +92,7 @@ import vazkii.botania.api.BotaniaAPI;
 import vazkii.botania.client.integration.emi.BotaniaEmiPlugin;
 import vectorwing.farmersdelight.common.registry.ModItems;
 
+import java.util.Arrays;
 import java.util.function.Consumer;
 
 public final class GTEMIPlugin implements EmiPlugin {
@@ -184,6 +189,16 @@ public final class GTEMIPlugin implements EmiPlugin {
         }
     }
 
+    // 用于在 EMI 中注册维度数据的变体
+    private static void registerDimensionDataVariants(EmiRegistry registry) {
+        var previousDimensionData = EmiStack.of(GTOItems.DIMENSION_DATA.asItem());
+        for (ResourceLocation layer : Arrays.stream(Dimension.values()).filter(Dimension::canGenerate).map(Dimension::getLocation).toList()) {
+            var dimensionData = EmiStack.of(GTOItems.DIMENSION_DATA.get().getDimensionData(layer));
+            registry.addEmiStackAfter(dimensionData, previousDimensionData);
+            previousDimensionData = dimensionData;
+        }
+    }
+
     @Override
     public void register(EmiRegistry registry) {
         if (Mods.CHISEL.isLoaded()) ChiselRecipe.register(registry);
@@ -220,6 +235,8 @@ public final class GTEMIPlugin implements EmiPlugin {
         GTOreVeinEmiCategory.registerWorkStations(registry);
         GTBedrockFluidEmiCategory.registerWorkStations(registry);
         registry.setDefaultComparison(GTItems.PROGRAMMED_CIRCUIT.asItem(), Comparison.compareNbt());
+        registry.setDefaultComparison(GTOItems.DIMENSION_DATA.asItem(), Comparison.compareNbt());
+        registerDimensionDataVariants(registry);
 
         Comparison potionComparison = Comparison.compareData(stack -> PotionUtils.getPotion(stack.getNbt()));
         PotionFluid potionFluid = GTFluids.POTION.get();
