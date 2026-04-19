@@ -318,7 +318,7 @@ public final class ComponentRecipes {
                 .inputFluids(GTOMaterials.BlackDwarfMatter, 110592)
                 .inputFluids(GTOMaterials.WhiteDwarfMatter, 110592)
                 .inputFluids(GTOMaterials.Infinity, 27648)
-                .inputFluids(GTOMaterials.TranscendentMetal, 95232)
+                .inputFluids(GTOMaterials.TranscendentMetal, 95 * L * 8)
                 .outputItems(GTOItems.MAX_ELECTRIC_MOTOR, 64)
                 .EUt(2013265920)
                 .duration(12000)
@@ -570,7 +570,16 @@ public final class ComponentRecipes {
                 .outputItems(motor)
                 .duration(600).EUt(VA[tier]);
 
-        if (tier > ZPM) {
+        if (tier >= UXV) {
+            builder_motor.inputItems(wireFine, material[1], 64)
+                    .inputItems(wireFine, material[1], 64)
+                    .inputItems(wireFine, material[1], 64)
+                    .inputItems(wireFine, material[1], 64)
+                    .researchStation(b -> b
+                            .researchStack((Item) MOTOR.get(tier - 1))
+                            .CWUt(1 << (tier - 3))
+                            .EUt(VA[tier - 1]));
+        } else if (tier >= UV) {
             builder_motor.inputItems(wireFine, material[1], 64)
                     .inputItems(wireFine, material[1], 64)
                     .researchStation(b -> b
@@ -592,12 +601,13 @@ public final class ComponentRecipes {
         }
         builder_motor.inputItems(cableGtSingle, material[2], 2).save();
 
+        // UV 有特判，线缆两倍但是其他流体遵循正常倍率
         COMPONENT_ASSEMBLY_RECIPES.recipeBuilder(String.format("motor_%s", VN[tier].toLowerCase()))
                 .circuitMeta(1)
                 .inputItems(magnetic, 12)
                 .inputItems(cableGtSingle, material[2], 24)
                 .inputFluids(material[0], L * 95)
-                .inputFluids(material[1], L * 48 * fluidMultiplier)
+                .inputFluids(material[1], tier == UV ? L * 192 : L * 24 * fluidMultiplier)
                 .inputFluids(material[3], L * 12 * fluidMultiplier)
                 .inputFluids(material[4], 3000 * fluidMultiplier)
                 .inputFluids(material[5], L * 12 * fluidMultiplier)
