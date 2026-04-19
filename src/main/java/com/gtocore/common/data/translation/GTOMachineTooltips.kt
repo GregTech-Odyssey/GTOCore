@@ -447,6 +447,15 @@ object GTOMachineTooltips {
         command(ComponentSlang.TemperatureMax(2400))
     }
 
+    val ManaCondenserTooltips = ComponentListSupplier {
+        setTranslationPrefix("mana_condenser")
+
+        section(ComponentSlang.RunningRequirements)
+        command("在特定环境下只有特定的结构能够工作" translatedTo "Only specific structure forms can work in specific environments")
+        info("默认：P:0，亚尔夫海姆：P:1" translatedTo "Default: P:0, Alfheim: P:1")
+        info("在特定环境下终端仅能搭建指定结构，无视\"模块搭建\"设置" translatedTo "In specific environments, only specified structures can be built at the terminal, ignoring the \"Module Build\" setting")
+    }
+
     // 苍穹凝聚器
     val CelestialCondenserTooltips = ComponentListSupplier {
         setTranslationPrefix("celestial_condenser")
@@ -765,6 +774,11 @@ object GTOMachineTooltips {
 
         section(ComponentSlang.RecommendedUseAs("生产魔力" translatedTo "mana production"))
         function("在机器内放置64朵太阳花以使机器不再发电，转而采集魔力" translatedTo "Place 64 dayblooms in the machine to stop power generation and start collecting mana")
+
+        section("结构形态" translatedTo "Structure Forms")
+        command("在特定环境下只有特定的结构能够工作" translatedTo "Only specific structure forms can work in specific environments")
+        info("星球：P:0，星球轨道：P:1" translatedTo "Planet: P:0, Planet Orbit: P:1")
+        info("在特定环境下终端仅能搭建指定结构，无视\"模块搭建\"设置" translatedTo "In specific environments, only specified structures can be built at the terminal, ignoring the \"Module Build\" setting")
     }
 
     // 加热器
@@ -1088,7 +1102,7 @@ object GTOMachineTooltips {
         section(ComponentSlang.RunningRequirements)
         command("往主机内放入纳米蜂群引导结构等级" translatedTo "Place nanites in the controller to guide structure tier")
         info("碳：1，安普洛：2，龙：3" translatedTo "Carbon: 1, Amprosium: 2, Draconium: 3")
-        info("引导后可使用终端搭建指定结构" translatedTo "After guiding, you can use the terminal to build the specified structure")
+        info("引导后可使用终端搭建指定结构，无视\"模块搭建\"设置" translatedTo "After guiding, you can use the terminal to build the specified structure, ignoring \"Module Build\" setting")
     }
 
     // 中子活化器
@@ -1176,7 +1190,7 @@ object GTOMachineTooltips {
         section(ComponentSlang.RunningRequirements)
         command("往主机内放入纳米蜂群引导结构等级" translatedTo "Place nanites in the controller to guide structure tier")
         info("金：1，山铜：2，末影素：3" translatedTo "Gold: 1, Orichalcum: 2, Enderium: 3")
-        info("引导后可使用终端搭建指定结构" translatedTo "After guiding, you can use the terminal to build the specified structure")
+        info("引导后可使用终端搭建指定结构，无视\"模块搭建\"设置" translatedTo "After guiding, you can use the terminal to build the specified structure, ignoring \"Module Build\" setting")
     }
 
     // 进阶装配线
@@ -1678,7 +1692,7 @@ object GTOMachineTooltips {
         ok("运行时不消耗中子动能" translatedTo "Does not consume neutron kinetic energy while running.")
         command("在主机左下角切换能源接收器模式以引导不同的结构" translatedTo "Switch Energy Acceptor mode in the bottom left corner of the controller to guide different structures")
         info("未激活：P:0，已激活：P:1" translatedTo "Inactive: P:0, Active: P:1")
-        info("引导后可使用终端搭建指定结构" translatedTo "After guiding, you can use the terminal to build the specified structure")
+        info("引导后可使用终端搭建指定结构，无视\"模块搭建\"设置" translatedTo "After guiding, you can use the terminal to build the specified structure, ignoring \"Module Build\" setting")
         increase("能源接收器激活后，将消耗电力自动适应配方的中子动能" translatedTo "After activating the Energy Acceptor, it will consume electricity to automatically adapt to the neutron kinetic energy of the recipe")
     }
 
@@ -1729,7 +1743,7 @@ object GTOMachineTooltips {
         section(ComponentSlang.RunningRequirements)
         command("在主机内更改机器模式以引导不同的结构" translatedTo "Change recipe type in the controller to guide different structures")
         info("真空冷冻机/雾化冷凝：P:0，等离子冷凝：P:1" translatedTo "Vacuum Freezer/Atomization Condensation: P:0, Plasma Condenser: P:1")
-        info("引导后可使用终端搭建指定结构" translatedTo "After guiding, you can use the terminal to build the specified structure")
+        info("引导后可使用终端搭建指定结构，无视\"模块搭建\"设置" translatedTo "After guiding, you can use the terminal to build the specified structure, ignoring \"Module Build\" setting")
     }
 
     // 恒星炎炀锻炉

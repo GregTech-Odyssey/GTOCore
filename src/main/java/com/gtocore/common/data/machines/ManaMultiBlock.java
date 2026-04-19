@@ -185,6 +185,7 @@ public final class ManaMultiBlock {
             .parallelizableTooltips()
             .perfectOCTooltips()
             .parallelizableManaOverclock()
+            .tooltipsSupplier(GTOMachineTooltips.INSTANCE.getManaCondenserTooltips().getSupplier())
             .recipeTypes(GTORecipeTypes.MANA_CONDENSER_RECIPES)
             .block(GTOBlocks.MANASTEEL_CASING)
             .pattern(definition -> ManaCondenserMachine.getBlockPattern(0, definition))
