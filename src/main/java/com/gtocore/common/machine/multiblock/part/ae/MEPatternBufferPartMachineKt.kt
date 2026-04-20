@@ -169,6 +169,7 @@ open class MEPatternBufferPartMachineKt(holder: MetaMachineBlockEntity, maxPatte
                                     object : SlotWidget(itemHandler, index, 0, 0, true, true) {
                                         override fun drawInBackground(graphics: GuiGraphics, mouseX: Int, mouseY: Int, partialTicks: Float) {
                                             super.drawInBackground(graphics, mouseX, mouseY, partialTicks)
+                                            if (configuratorField.get() < 0) return
                                             if (getInternalInventory()[configuratorField.get()].isLock) {
                                                 DrawerHelper.drawSolidRect(graphics, positionX, positionY, sizeWidth, sizeHeight, 0x80000000.toInt())
                                             }
@@ -177,8 +178,11 @@ open class MEPatternBufferPartMachineKt(holder: MetaMachineBlockEntity, maxPatte
                                         override fun getFullTooltipTexts(): List<Component> {
                                             var superList = super.getFullTooltipTexts()
                                             superList = superList.toMutableList()
-                                            if (getInternalInventory()[configuratorField.get()].isLock) {
-                                                superList.add(Component.translatable(item_locked))
+                                            run {
+                                                if (configuratorField.get() < 0) return@run
+                                                if (getInternalInventory()[configuratorField.get()].isLock) {
+                                                    superList.add(Component.translatable(item_locked))
+                                                }
                                             }
                                             return superList
                                         }
