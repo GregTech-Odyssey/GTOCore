@@ -85,6 +85,7 @@ public class MERequestableInputBusMachine extends MEInputBusPartMachine implemen
 
     @Override
     public void jobStateChange(ICraftingLink link) {
+        craftingTracker.jobStateChange(link);
         updateInventorySubscription();
     }
 

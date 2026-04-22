@@ -87,6 +87,7 @@ public class MERequestableInputHatchMachine extends MEInputHatchPartMachine impl
 
     @Override
     public void jobStateChange(ICraftingLink link) {
+        craftingTracker.jobStateChange(link);
         updateTankSubscription();
     }
 
