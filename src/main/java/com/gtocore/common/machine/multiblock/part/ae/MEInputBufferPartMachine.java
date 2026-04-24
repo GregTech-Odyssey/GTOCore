@@ -595,6 +595,7 @@ public class MEInputBufferPartMachine extends MEPatternPartMachineKt<MEInputBuff
 
         @Override
         public void jobStateChange(ICraftingLink link) {
+            craftingTracker.jobStateChange(link);
             machine.updateSubscription();
         }
 

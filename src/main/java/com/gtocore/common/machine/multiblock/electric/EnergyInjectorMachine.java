@@ -105,7 +105,7 @@ public final class EnergyInjectorMachine extends ElectricMultiblockMachine {
 
             if (processed) {
                 builder.outputItems(output);
-                builder.inputItems(stack);
+                builder.inputItems(stack.getItem(), count);
             }
         });
         if (eu.value.compareTo(BigInteger.ZERO) > 0) {
