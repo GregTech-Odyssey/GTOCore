@@ -51,6 +51,10 @@ public final class RecipeLogicProvider implements IBlockComponentProvider, IServ
 
     @RegisterLanguage(cn = "该机器所在区块未强制加载", en = "The chunk the machine is in is not forced loaded")
     private static final String LOADED = "gtocore.machine.forced_loaded";
+    @RegisterLanguage(cn = "耗能 %s §cA §a@ %s §f(%s)", en = "Energy Consumption %s §cA §a@ %s §f(%s)")
+    private static final String ENERGY_CONSUMPTION = "gtocore.machine.energy_consumption";
+    @RegisterLanguage(cn = "产能 %s §cA §a@ %s §f(%s)", en = "Energy Production %s §cA §a@ %s §f(%s)")
+    private static final String ENERGY_PRODUCTION = "gtocore.machine.energy_production";
 
     @Override
     public ResourceLocation getUid() {
@@ -69,8 +73,7 @@ public final class RecipeLogicProvider implements IBlockComponentProvider, IServ
                 double totalEu = recipeInfo.getDouble("totalEu");
                 if (totalEu > 0) {
                     long voltage = recipeInfo.contains("voltage") ? recipeInfo.getLong("voltage") : totalEu > Long.MAX_VALUE ? Long.MAX_VALUE : (long) totalEu;
-                    var text = formatEUt(totalEu, voltage, String.format(" (%s EU)", NumberUtils.formatDouble(totalEu)));
-                    tooltip.add(Component.translatable(recipeInfo.getBoolean("isGenerator") ? "gtceu.top.energy_production" : "gtceu.top.energy_consumption").append(" ").append(text));
+                    tooltip.add(formatEnergyLine(recipeInfo.getBoolean("isGenerator"), totalEu, voltage, NumberUtils.formatDouble(totalEu) + " EU"));
                 } else {
                     var EUt = recipeInfo.getLong("EUt");
                     var Manat = recipeInfo.getLong("Manat");
@@ -241,38 +244,36 @@ public final class RecipeLogicProvider implements IBlockComponentProvider, IServ
                 text = Component.literal(FormattingUtil.formatNumbers(EUt)).withStyle(ChatFormatting.GREEN)
                         .append(Component.literal(" mB/t").withStyle(ChatFormatting.RESET));
             } else {
-                text = formatEUt(EUt, voltage, String.format(" (%s EU/t)", FormattingUtil.formatNumbers(EUt)));
+                text = formatEnergyLine(!isInput, EUt, voltage, FormattingUtil.formatNumbers(EUt) + " EU/t");
             }
 
-            if (isInput) {
-                tooltip.add(Component.translatable("gtceu.top.energy_consumption").append(" ").append(text));
-            } else {
-                tooltip.add(Component.translatable("gtceu.top.energy_production").append(" ").append(text));
-            }
+            tooltip.add(text);
         }
     }
 
-    private static MutableComponent formatEUt(double EUt, long voltage, String raw) {
+    private static MutableComponent formatEnergyLine(boolean isGenerator, double EUt, long voltage, String eutText) {
         if (voltage <= 0) {
             voltage = (long) EUt;
         }
-        var tier = GTUtil.getOCTierByVoltage(voltage);
-        MutableComponent text = Component.literal(String.format("%s A", FormattingUtil.formatNumber2Places(EUt / GTValues.VEX[tier])))
-                .withStyle(ChatFormatting.RED)
-                .append(Component.literal(" @ ").withStyle(ChatFormatting.GREEN));
+        byte tier = GTUtil.getOCTierByVoltage(voltage);
+        return Component.translatable(isGenerator ? ENERGY_PRODUCTION : ENERGY_CONSUMPTION,
+                Component.literal(FormattingUtil.formatNumber2Places(EUt / GTValues.VEX[tier])).withStyle(ChatFormatting.RED),
+                getTierText(tier),
+                Component.literal(eutText).withStyle(ChatFormatting.WHITE));
+    }
+
+    private static MutableComponent getTierText(byte tier) {
         if (tier < GTValues.TIER_COUNT) {
-            text = text.append(Component.literal(GTValues.VNF[tier])
-                    .withStyle(style -> style.withColor(GTValues.VC[tier])));
-        } else {
-            int speed = tier - 14;
-            text = text.append(Component.literal("MAX")
-                    .withStyle(style -> style.withColor(TooltipHelper.rainbowColor(speed)))
-                    .append(Component.literal("+")
-                            .withStyle(style -> style.withColor(GTValues.VC[Math.min(14, speed)]))
-                            .append(Component.literal(FormattingUtil.formatNumbers(tier - 14)))
-                            .withStyle(style -> style.withColor(GTValues.VC[Math.min(14, speed)]))));
+            return Component.literal(GTValues.VNF[tier])
+                    .withStyle(style -> style.withColor(GTValues.VC[tier]));
         }
-        return text.append(Component.literal(raw).withStyle(ChatFormatting.WHITE));
+        int speed = tier - 14;
+        return Component.literal("MAX")
+                .withStyle(style -> style.withColor(TooltipHelper.rainbowColor(speed)))
+                .append(Component.literal("+")
+                        .withStyle(style -> style.withColor(GTValues.VC[Math.min(14, speed)]))
+                        .append(Component.literal(FormattingUtil.formatNumbers(tier - 14)))
+                        .withStyle(style -> style.withColor(GTValues.VC[Math.min(14, speed)])));
     }
 
     public static long getVoltage(RecipeLogic capability) {
