@@ -4,8 +4,6 @@ import com.gtocore.common.machine.multiblock.part.ae.slots.ExportOnlyAEFluidSlot
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 
-import net.minecraft.nbt.CompoundTag;
-
 import appeng.api.config.Actionable;
 import appeng.api.networking.IGrid;
 import appeng.api.networking.crafting.ICraftingLink;
@@ -16,7 +14,6 @@ import appeng.api.storage.MEStorage;
 import appeng.helpers.MultiCraftingTracker;
 
 import com.google.common.collect.ImmutableSet;
-import org.jetbrains.annotations.NotNull;
 
 public class MERequestableInputHatchMachine extends MEInputHatchPartMachine implements ICraftingRequester {
 
@@ -94,19 +91,5 @@ public class MERequestableInputHatchMachine extends MEInputHatchPartMachine impl
     @Override
     public ImmutableSet<ICraftingLink> getRequestedJobs() {
         return craftingTracker.getRequestedJobs();
-    }
-
-    @Override
-    public void loadCustomPersistedData(@NotNull CompoundTag tag) {
-        super.loadCustomPersistedData(tag);
-        craftingTracker.readFromNBT(tag.getCompound("craftingTracker"));
-    }
-
-    @Override
-    public void saveCustomPersistedData(@NotNull CompoundTag tag, boolean forDrop) {
-        super.saveCustomPersistedData(tag, forDrop);
-        var craftingTrackerTag = new CompoundTag();
-        craftingTracker.writeToNBT(craftingTrackerTag);
-        tag.put("craftingTracker", craftingTrackerTag);
     }
 }
