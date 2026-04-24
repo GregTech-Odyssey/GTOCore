@@ -418,7 +418,7 @@ public class DigitalMiner extends TierCasingMultiblockMachine implements IDigita
             textList.add(Component.translatable("gtceu.multiblock.large_miner.needspower")
                     .setStyle(Style.EMPTY.withColor(ChatFormatting.RED)));
         textList.addAll(NewDataAttributes.LEVEL.create(tier).get());
-        RecipeLogicProvider.getEUtTooltip(textList, energyPerTick, false);
+        RecipeLogicProvider.getEUtTooltip(textList, energyPerTick, false, RecipeLogicProvider.getVoltage(getRecipeLogic()));
         textList.add(Component.translatable(PARALLEL, parallelMining));
     }
 

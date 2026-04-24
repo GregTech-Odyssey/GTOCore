@@ -21,7 +21,6 @@ import xaero.pac.common.server.claims.IServerDimensionClaimsManager;
 import xaero.pac.common.server.claims.IServerRegionClaims;
 import xaero.pac.common.server.claims.player.IServerPlayerClaimInfo;
 import xaero.pac.common.server.parties.party.IServerParty;
-import xaero.pac.common.server.player.config.IPlayerConfigManager;
 
 @Mixin(value = CommonEvents.class, remap = false)
 public abstract class CommonEventsMixin {
@@ -34,7 +33,7 @@ public abstract class CommonEventsMixin {
         }
         @SuppressWarnings("unchecked")
         IServerData<IServerClaimsManager<IPlayerChunkClaim, IServerPlayerClaimInfo<IPlayerDimensionClaims<IPlayerClaimPosList>>, IServerDimensionClaimsManager<IServerRegionClaims>>, IServerParty<IPartyMember, IPartyPlayerInfo, IPartyAlly>> serverData = (IServerData<IServerClaimsManager<IPlayerChunkClaim, IServerPlayerClaimInfo<IPlayerDimensionClaims<IPlayerClaimPosList>>, IServerDimensionClaimsManager<IServerRegionClaims>>, IServerParty<IPartyMember, IPartyPlayerInfo, IPartyAlly>>) serverDataApi;
-        IPlayerConfigManager playerConfigManager = (IPlayerConfigManager) serverDataApi.getPlayerConfigs();
+        var playerConfigManager = ((IServerData<?, ?>) serverDataApi).getPlayerConfigManager();
         serverData.getServerClaimsManager().getTypedPlayerInfoStream().forEach(playerInfo -> {
             serverData.getForceLoadManager().updateTicketsFor(playerConfigManager, playerInfo.getPlayerId(), true);
         });
