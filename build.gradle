@@ -73,7 +73,10 @@ def configureLegacyWriter = { taskName , preferredConfigName, outFileName ->
             def cfg = configurations.findByName(preferredConfigName) ?: configurations.getByName("runtimeClasspath")
             def out = file("$buildDir/moddev/${outFileName}")
             out.parentFile.mkdirs()
-            out.text += cfg.files.collect { it.absolutePath }.findAll {it.contains("commons-math3")}.join(System.lineSeparator())
+            out.text += cfg.files.collect { it.absolutePath }.findAll {
+                it.contains("commons-math3") || it.contains("opencc4j") ||
+                        it.contains("heaven") || it.contains("nlp-common")
+            }.join(System.lineSeparator())
         }
     }
 }
