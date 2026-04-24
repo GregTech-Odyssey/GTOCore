@@ -256,6 +256,9 @@ public final class RecipeLogicProvider implements IBlockComponentProvider, IServ
             voltage = (long) EUt;
         }
         byte tier = GTUtil.getOCTierByVoltage(voltage);
+        if (EUt / GTValues.VEX[tier] < 0.125) {
+            tier = GTUtil.getOCTierByVoltage((long) EUt);
+        }
         return Component.translatable(isGenerator ? ENERGY_PRODUCTION : ENERGY_CONSUMPTION,
                 Component.literal(FormattingUtil.formatNumber2Places(EUt / GTValues.VEX[tier])).withStyle(ChatFormatting.RED),
                 getTierText(tier),
