@@ -4,7 +4,7 @@ import com.gtocore.common.data.translation.GTOTarotArcanumTooltips;
 
 import com.gtolib.GTOCore;
 
-import com.tterrag.registrate.util.entry.ItemEntry;
+import com.gto.registrate.util.entry.ItemEntry;
 
 import static com.gtocore.data.tag.Tags.TAROT_ARCANUM;
 import static com.gtolib.utils.register.ItemRegisterUtils.item;

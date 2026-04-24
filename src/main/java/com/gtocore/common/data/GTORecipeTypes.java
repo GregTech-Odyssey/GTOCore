@@ -328,7 +328,7 @@ public final class GTORecipeTypes {
                 int temp = data.getInt("ebf_temp");
                 ICoilType requiredCoil = ICoilType.getMinRequiredType(temp);
                 if (requiredCoil != null && requiredCoil.getMaterial() != null) {
-                    return LocalizationUtils.format("gtceu.recipe.coil.tier", (temp > 21600 && temp <= 32000) ? "超级热容" : I18n.get(requiredCoil.getMaterial().getUnlocalizedName()));
+                    return LocalizationUtils.format("gtceu.recipe.coil.tier", (temp > 21600 && temp <= 32000) ? I18n.get("gtocore.recipe.coil.uruium") : I18n.get(requiredCoil.getMaterial().getUnlocalizedName()));
                 }
                 return "";
             })

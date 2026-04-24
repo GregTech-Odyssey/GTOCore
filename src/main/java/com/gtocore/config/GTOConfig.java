@@ -243,6 +243,13 @@ public final class GTOConfig {
         public int batchProcessingMaxDuration = 1200;
 
         @Configurable
+        @Configurable.Comment({ "多方块机器默认最小超频时间（tick）", "仅影响新创建的多方块机器", "The default minimum overclock duration for multiblock machines (ticks)", "Only affects newly created multiblock machines" })
+        @Configurable.Range(min = 1, max = 200)
+        @Configurable.Gui.Slider
+        @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Default Minimum Overclock Duration", cn = "默认最小超频时间")
+        public int defaultMinOverclockDuration = 20;
+
+        @Configurable
         @Configurable.Comment({ "连锁挖掘（不连续模式）时，检查相邻方块的范围", "The range to check adjacent blocks during chain mining (non-continuous mode)" })
         @Configurable.Range(min = 1, max = 20)
         @Configurable.Gui.Slider

@@ -40,7 +40,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.phys.shapes.Shapes;
 
-import com.tterrag.registrate.util.entry.BlockEntry;
+import com.gto.registrate.util.entry.BlockEntry;
 
 import java.util.function.Supplier;
 
@@ -296,7 +296,7 @@ public final class GeneratorMultiblock {
                     .where('F', GTOPredicates.frame(GTMaterials.StainlessSteel))
                     .where('G', GTOPredicates.frame(GTMaterials.BlackSteel))
                     .where('H', blocks(GTBlocks.FILTER_CASING.get()))
-                    .where('I', blocks(GTOBlocks.HSSS_BOROSILICATE_GLASS.get()))
+                    .where('I', blocks(GTBlocks.CASING_LAMINATED_GLASS.get()))
                     .where('J', blocks(GTBlocks.CASING_STAINLESS_STEEL_GEARBOX.get()))
                     .where('K', controller(definition))
                     .where(' ', any())

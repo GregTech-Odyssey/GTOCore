@@ -18,7 +18,7 @@ import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.data.event.GatherDataEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
-import com.tterrag.registrate.providers.ProviderType;
+import com.gto.registrate.providers.ProviderType;
 
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;

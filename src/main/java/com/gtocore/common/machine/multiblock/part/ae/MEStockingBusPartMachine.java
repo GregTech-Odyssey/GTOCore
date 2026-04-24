@@ -25,26 +25,23 @@ import net.minecraft.world.phys.BlockHitResult;
 
 import appeng.api.config.Actionable;
 import appeng.api.networking.IGrid;
-import appeng.api.networking.storage.IStorageService;
 import appeng.api.stacks.AEItemKey;
 import appeng.api.stacks.AEKey;
 import appeng.api.stacks.GenericStack;
 import appeng.api.storage.MEStorage;
 
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import it.unimi.dsi.fastutil.objects.ReferenceOpenHashSet;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Comparator;
 import java.util.PriorityQueue;
-import java.util.Set;
 import java.util.function.Predicate;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public class MEStockingBusPartMachine extends MEInputBusPartMachine implements IMEStockingPart, IStorageService.UpdateRequester {
+public class MEStockingBusPartMachine extends MEInputBusPartMachine implements IMEStockingPart {
 
     @Persisted
     private boolean autoPull;
@@ -275,14 +272,4 @@ public class MEStockingBusPartMachine extends MEInputBusPartMachine implements I
 
     @Override
     public void setAutoPullTest(final Predicate<GenericStack> autoPullTest) {}
-
-    @Override
-    public boolean isUpdateRequested(IStorageService service) {
-        return true;
-    }
-
-    @Override
-    public Set<Runnable> getListener() {
-        return new ReferenceOpenHashSet<>();
-    }
 }

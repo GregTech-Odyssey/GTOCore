@@ -11,7 +11,6 @@ import appeng.api.stacks.KeyCounter;
 import appeng.api.storage.MEStorage;
 import appeng.me.storage.NetworkStorage;
 
-import it.unimi.dsi.fastutil.objects.ReferenceOpenHashSet;
 import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -20,7 +19,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NavigableMap;
-import java.util.Set;
 
 @Mixin(NetworkStorage.class)
 public abstract class NetworkStorageMixin {
@@ -43,7 +41,7 @@ public abstract class NetworkStorageMixin {
     protected abstract void flushQueuedOperations();
 
     @Unique
-    private final Set<KeyCounter> gtocore$inUse = new ReferenceOpenHashSet<>();
+    private boolean gtocore$inUse;
 
     @Inject(method = "<init>", at = @At("TAIL"), remap = false)
     private void gtolib$init(CallbackInfo ci) {
@@ -74,10 +72,7 @@ public abstract class NetworkStorageMixin {
 
     @Inject(method = "unmount", at = @At(value = "INVOKE", target = "Ljava/util/NavigableMap;entrySet()Ljava/util/Set;"), remap = false, cancellable = true)
     private void gtolib$unmount(MEStorage inventory, CallbackInfo ci) {
-        var ii = gtolib$inventory.iterator();
-        while (ii.hasNext()) {
-            if (ii.next().obj == inventory) ii.remove();
-        }
+        gtolib$inventory.removeIf(meStorageIntObjectHolder -> meStorageIntObjectHolder.obj == inventory);
         ci.cancel();
     }
 
@@ -134,12 +129,13 @@ public abstract class NetworkStorageMixin {
      */
     @Overwrite(remap = false)
     public void getAvailableStacks(KeyCounter out) {
-        if (gtocore$inUse.contains(out)) return;
-        gtocore$inUse.add(out);
+        if (gtocore$inUse) return;
+        gtocore$inUse = true;
         try {
+            if (gtolib$inventory.isEmpty()) return;
             gtolib$inventory.forEach(entry -> entry.obj.getAvailableStacks(out));
         } finally {
-            gtocore$inUse.remove(out);
+            gtocore$inUse = false;
         }
     }
 }

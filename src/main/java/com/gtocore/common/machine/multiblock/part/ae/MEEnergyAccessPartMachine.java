@@ -86,7 +86,7 @@ public class MEEnergyAccessPartMachine extends MEPartMachine implements IAEPower
 
     @Override
     public double injectAEPower(double amt, Actionable mode) {
-        return 0;
+        return amt;
     }
 
     @Override

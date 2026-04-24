@@ -26,10 +26,10 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.material.Fluid;
 
+import com.gto.registrate.providers.RegistrateTagsProvider;
 import com.hollingsworth.arsnouveau.setup.registry.BlockRegistry;
 import com.kyanite.deeperdarker.content.DDBlocks;
 import com.teamresourceful.resourcefullib.common.registry.RegistryEntry;
-import com.tterrag.registrate.providers.RegistrateTagsProvider;
 import earth.terrarium.adastra.common.registry.ModBlocks;
 import vazkii.botania.common.block.BotaniaBlocks;
 import vazkii.botania.common.lib.BotaniaTags;

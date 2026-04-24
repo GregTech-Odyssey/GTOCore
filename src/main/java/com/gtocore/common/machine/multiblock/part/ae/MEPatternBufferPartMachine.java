@@ -571,6 +571,7 @@ public abstract class MEPatternBufferPartMachine extends MEPatternPartMachineKt<
         public final NotifiableItemStackHandler circuitInventory;
         final LockableItemStackHandler lockableInventory;
         @Getter
+        @DescSynced
         private boolean lock;
         @Setter
         private boolean shouldLockRecipe = true;

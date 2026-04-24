@@ -19,8 +19,8 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 
+import com.gto.registrate.util.entry.ItemProviderEntry;
 import com.hepdd.gtmthings.integration.jade.provider.WirelessEnergyHatchProvider;
-import com.tterrag.registrate.util.entry.ItemProviderEntry;
 import snownee.jade.addon.harvest.HarvestToolProvider;
 import snownee.jade.addon.harvest.SimpleToolHandler;
 import snownee.jade.api.IWailaClientRegistration;
@@ -44,6 +44,7 @@ public final class GTOJadePlugin implements IWailaPlugin {
         registration.registerBlockDataProvider(new ControllableBlockProvider(), MetaMachineBlockEntity.class);
         registration.registerBlockDataProvider(BlockEntityProvider.INSTANCE, BlockEntity.class);
         registration.registerBlockDataProvider(new RecipeLogicProvider(), MetaMachineBlockEntity.class);
+        registration.registerBlockDataProvider(new MaintenanceParamProvider(), MetaMachineBlockEntity.class);
         registration.registerBlockDataProvider(new ParallelProvider(), MetaMachineBlockEntity.class);
         registration.registerBlockDataProvider(new RecipeOutputProvider(), MetaMachineBlockEntity.class);
         registration.registerBlockDataProvider(new MultiblockStructureProvider(), MetaMachineBlockEntity.class);
@@ -78,6 +79,7 @@ public final class GTOJadePlugin implements IWailaPlugin {
         registration.registerBlockComponent(new ControllableBlockProvider(), MetaMachineBlock.class);
         registration.registerBlockComponent(BlockEntityProvider.INSTANCE, Block.class);
         registration.registerBlockComponent(new RecipeLogicProvider(), MetaMachineBlock.class);
+        registration.registerBlockComponent(new MaintenanceParamProvider(), MetaMachineBlock.class);
         registration.registerBlockComponent(new ParallelProvider(), MetaMachineBlock.class);
         registration.registerBlockComponent(new RecipeOutputProvider(), MetaMachineBlock.class);
         registration.registerBlockComponent(new MultiblockStructureProvider(), MetaMachineBlock.class);

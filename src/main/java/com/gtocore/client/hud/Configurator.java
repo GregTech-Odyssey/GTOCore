@@ -15,7 +15,7 @@ import lombok.Setter;
 import java.util.List;
 import java.util.function.BiConsumer;
 
-import static com.tterrag.registrate.util.nullness.NonNullBiConsumer.noop;
+import static com.gto.registrate.util.nullness.NonNullBiConsumer.noop;
 
 public class Configurator extends IFancyConfiguratorButton.Toggle {
 

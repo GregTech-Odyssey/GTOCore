@@ -52,9 +52,9 @@ import net.minecraftforge.common.Tags;
 
 import appeng.items.materials.StorageComponentItem;
 
+import com.gto.registrate.util.entry.ItemEntry;
+import com.gto.registrate.util.nullness.NonNullBiConsumer;
 import com.lowdragmc.lowdraglib.utils.LocalizationUtils;
-import com.tterrag.registrate.util.entry.ItemEntry;
-import com.tterrag.registrate.util.nullness.NonNullBiConsumer;
 import earth.terrarium.adastra.common.registry.ModFluids;
 import org.jetbrains.annotations.NotNull;
 

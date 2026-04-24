@@ -224,6 +224,7 @@ public final class ProcessingPlantMachine extends StorageMultiblockMachine imple
             }
             getRecipeLogic().updateTickSubscription();
             update();
+            customParallelTrait.onStructureFormed();
         }
     }
 

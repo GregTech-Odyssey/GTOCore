@@ -1,5 +1,7 @@
 package com.gtocore.mixin.gtm.api.machine;
 
+import com.gtocore.config.GTOConfig;
+
 import com.gtolib.api.gui.OverclockConfigurator;
 import com.gtolib.api.machine.feature.IElectricMachine;
 import com.gtolib.api.machine.feature.IOverclockConfigMachine;
@@ -70,7 +72,7 @@ public abstract class WorkableElectricMultiblockMachineMixin extends WorkableMul
         gtolib$powerAmplifier = 1;
         gtolib$speed = 1;
         gtolib$energy = 1;
-        gtolib$ocLimit = 20;
+        gtolib$ocLimit = GTOConfig.INSTANCE.gamePlay.defaultMinOverclockDuration;
     }
 
     protected WorkableElectricMultiblockMachineMixin(MetaMachineBlockEntity holder, Object... args) {

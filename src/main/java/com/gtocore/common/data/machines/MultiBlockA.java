@@ -890,6 +890,7 @@ public final class MultiBlockA {
     public static final MultiblockMachineDefinition LARGE_CRACKER = multiblock("large_cracker", "大型裂化机", CoilMultiblockMachine.createCoilMachine(false, false))
             .allRotation()
             .recipeTypes(GTRecipeTypes.CRACKING_RECIPES)
+            .tooltips(Component.translatable("gtceu.machine.cracker.tooltip.1"))
             .parallelizableTooltips()
             .recipeModifiers(RecipeModifierFunction.HATCH_PARALLEL, RecipeModifierFunction::crackerOverclock)
             .block(GTBlocks.CASING_STAINLESS_CLEAN)

@@ -211,9 +211,10 @@ public abstract class StorageAccessPartMachine extends AmountConfigurationPartMa
                 observe = false;
                 CellDataStorage storage = getCellStorage();
                 double totalAmount = 0;
-                for (var it = getCellStoredMap().reference2LongEntrySet().fastIterator(); it.hasNext();) {
-                    var entry = it.next();
-                    totalAmount += (double) entry.getLongValue() / entry.getKey().getType().getAmountPerByte();
+                if (storage.getStoredMap() != null) {
+                    for (var entry : storage.getStoredMap()) {
+                        totalAmount += (double) entry.getLongValue() / entry.getKey().getType().getAmountPerByte();
+                    }
                 }
                 storage.setBytes(totalAmount);
             } else if (!isInfinite && getOffsetTimer() % 20 == 7) {
@@ -226,16 +227,6 @@ public abstract class StorageAccessPartMachine extends AmountConfigurationPartMa
             if (uuid == null || isRemote()) return CellDataStorage.EMPTY;
             dataStorage = CellDataStorage.get(uuid);
             return dataStorage;
-        }
-
-        private AEKeyMap<AEKey> getCellStoredMap() {
-            var data = getCellStorage();
-            var map = data.getStoredMap();
-            if (map == null) {
-                map = new AEKeyMap<>();
-                data.setStoredMap(map);
-            }
-            return map;
         }
 
         @Override
@@ -253,7 +244,12 @@ public abstract class StorageAccessPartMachine extends AmountConfigurationPartMa
             }
             if (amount < 1) return 0;
             if (mode == Actionable.MODULATE) {
-                getCellStoredMap().addTo(what, amount);
+                var map = data.getStoredMap();
+                if (map == null) {
+                    map = new AEKeyMap<>();
+                    data.setStoredMap(map);
+                }
+                map.insert(what, amount);
                 dirty = true;
             }
             return amount;
@@ -261,24 +257,17 @@ public abstract class StorageAccessPartMachine extends AmountConfigurationPartMa
 
         @Override
         public long extract(AEKey what, long amount, Actionable mode, IActionSource source) {
-            var map = getCellStoredMap();
-            long currentAmount = map.getLong(what);
-            if (currentAmount > 0) {
-                if (amount >= currentAmount) {
-                    if (mode == Actionable.MODULATE) {
-                        map.remove(what, currentAmount);
-                        dirty = true;
-                    }
-                    return currentAmount;
-                } else {
-                    if (mode == Actionable.MODULATE) {
-                        map.put(what, currentAmount - amount);
-                        dirty = true;
-                    }
-                    return amount;
-                }
+            var data = getCellStorage();
+            if (data == CellDataStorage.EMPTY) return 0;
+            var map = data.getStoredMap();
+            if (map == null) return 0;
+            if (mode == Actionable.MODULATE) {
+                var extract = map.extract(what, amount);
+                if (extract > 0) dirty = true;
+                return extract;
+            } else {
+                return Math.min(amount, map.getAmount(what));
             }
-            return 0;
         }
 
         @Override
@@ -287,7 +276,7 @@ public abstract class StorageAccessPartMachine extends AmountConfigurationPartMa
             if (data == CellDataStorage.EMPTY) return;
             var map = data.getStoredMap();
             if (map == null) return;
-            IKeyCounter.addAll(out, map.size(), m -> map.reference2LongEntrySet().fastForEach(e -> m.addTo(e.getKey(), e.getLongValue())));
+            IKeyCounter.addAll(out, map.size(), m -> map.fastForEach(m::addTo));
         }
 
         @Override

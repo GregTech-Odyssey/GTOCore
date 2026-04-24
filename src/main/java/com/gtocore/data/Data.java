@@ -46,9 +46,10 @@ import com.gregtechceu.gtceu.data.recipe.misc.StoneMachineRecipes;
 import com.gregtechceu.gtceu.data.recipe.misc.WoodMachineRecipes;
 import com.gregtechceu.gtceu.integration.emi.recipe.GTRecipeEMICategory;
 
-import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.storage.loot.BuiltInLootTables;
 
 import com.google.common.collect.ImmutableSet;
+import com.gto.registrate.builders.BlockBuilder;
 import dev.emi.emi.api.recipe.EmiRecipe;
 import dev.emi.emi.api.recipe.EmiRecipeCategory;
 import dev.emi.emi.config.EmiConfig;
@@ -160,8 +161,11 @@ public final class Data {
         ItemMaterialData.ITEM_MATERIAL_INFO.clear();
         RecipeBuilder.finish();
         LootSystem.defaultBlockTable(RegistriesUtils.getBlock("farmersrespite:kettle"));
-        GTOLoots.BLOCKS.forEach(b -> LootSystem.defaultBlockTable((Block) b));
-        GTOLoots.BLOCKS = null;
+        BlockBuilder.DEFAULT_LOOTS.forEach(b -> {
+            if (!b.getLootTable().equals(BuiltInLootTables.EMPTY)) {
+                LootSystem.defaultBlockTable(b);
+            }
+        });
         GTOLoots.init();
         MixinHelpers.registryGTDynamicTags();
 

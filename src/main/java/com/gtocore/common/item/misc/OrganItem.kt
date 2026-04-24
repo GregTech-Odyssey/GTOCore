@@ -13,11 +13,11 @@ import net.minecraft.world.item.TooltipFlag
 import net.minecraft.world.level.Level
 
 import com.gregtechceu.gtceu.api.item.ComponentItem
+import com.gto.registrate.util.entry.ItemEntry
+import com.gto.registrate.util.nullness.NonNullConsumer
 import com.gtolib.GTOCore
 import com.gtolib.utils.TagUtils
 import com.gtolib.utils.register.ItemRegisterUtils.item
-import com.tterrag.registrate.util.entry.ItemEntry
-import com.tterrag.registrate.util.nullness.NonNullConsumer
 
 class TierData {
     companion object {
