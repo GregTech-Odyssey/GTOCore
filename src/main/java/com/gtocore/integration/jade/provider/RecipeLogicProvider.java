@@ -51,9 +51,9 @@ public final class RecipeLogicProvider implements IBlockComponentProvider, IServ
 
     @RegisterLanguage(cn = "该机器所在区块未强制加载", en = "The chunk the machine is in is not forced loaded")
     private static final String LOADED = "gtocore.machine.forced_loaded";
-    @RegisterLanguage(cn = "耗能 %s §cA §a@ %s §f(%s)", en = "Energy Consumption %s §cA §a@ %s §f(%s)")
+    @RegisterLanguage(cn = "耗能 %s §cA §a@ %s §f(%s§f)", en = "Energy Consumption %s §cA §a@ %s §f(%s§f)")
     private static final String ENERGY_CONSUMPTION = "gtocore.machine.energy_consumption";
-    @RegisterLanguage(cn = "产能 %s §cA §a@ %s §f(%s)", en = "Energy Production %s §cA §a@ %s §f(%s)")
+    @RegisterLanguage(cn = "产能 %s §cA §a@ %s §f(%s§f)", en = "Energy Production %s §cA §a@ %s §f(%s§f)")
     private static final String ENERGY_PRODUCTION = "gtocore.machine.energy_production";
 
     @Override
