@@ -221,6 +221,7 @@
     "merequester.RequesterBlockEntityMixin",
     "merequester.RequestMixin",
     "opac.ChunkProtectionMixin",
+    "opac.CommonEventsMixin",
     "patchouli.BookCategoryMixin",
     "patchouli.BookEntryMixin",
     "patchouli.BookMixin",
