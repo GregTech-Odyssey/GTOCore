@@ -1,4 +1,4 @@
-package io.github.tonycrane.tcpatch.mixin.opac;
+package com.gtocore.mixin.opac;
 
 import net.minecraft.server.MinecraftServer;
 
