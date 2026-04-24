@@ -323,6 +323,12 @@ public final class GTOConfig {
         public boolean disableEmbeddiumBECulling = true;
 
         @Configurable
+        @Configurable.Comment({ "启用后，机器功率显示方式将类似于 GTM 最新版的样式，显示为(电流 @ 电压等级 - 运行电压)",
+                "When enabled, the machine power display will be similar to the style of the latest version of GTM, displayed as (Current @ Voltage - Power Value)" })
+        @RegisterLanguage(namePrefix = "config.gtocore.option", en = "GTM Style Voltage Display", cn = "GTM 样式电压显示")
+        public boolean gtmStyleVoltageDisplay = false;
+
+        @Configurable
         @RegisterLanguage(namePrefix = "config.gtocore.option", en = "HUD Settings", cn = "HUD 设置")
         public HUDConfig hud = new HUDConfig();
 

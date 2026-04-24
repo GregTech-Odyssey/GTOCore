@@ -1649,6 +1649,7 @@
   "config.gtocore.option.fastMultiBlockPage": "Fast Multiblock Page Loading",
   "config.gtocore.option.ftbUltimineRange": "Chain Mining Range",
   "config.gtocore.option.gamePlay": "Game Play",
+  "config.gtocore.option.gtmStyleVoltageDisplay": "GTM Style Voltage Display",
   "config.gtocore.option.hud": "HUD Settings",
   "config.gtocore.option.itemRange": "Travel Anchor Item Range (blocks)",
   "config.gtocore.option.lightningRodEffect": "Lightning Rod Effect",

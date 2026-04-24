@@ -1774,6 +1774,7 @@
   "config.gtocore.option.fastMultiBlockPage": "快速多方塊頁面加載",
   "config.gtocore.option.ftbUltimineRange": "連鎖挖掘檢查範圍",
   "config.gtocore.option.gamePlay": "遊戲玩法",
+  "config.gtocore.option.gtmStyleVoltageDisplay": "GTM 樣式電壓顯示",
   "config.gtocore.option.hud": "HUD 設置",
   "config.gtocore.option.itemRange": "旅行錨物品範圍（格）",
   "config.gtocore.option.lightningRodEffect": "引雷針特效",
