@@ -104,6 +104,14 @@ final class Vanilla {
                 "ABA",
                 "   ",
                 'A', CustomTags.MV_CIRCUITS, 'B', RegistriesUtils.getItemStack("ae2:storage_monitor"));
+        if (Mods.FTBQUESTS.isLoaded()) {
+            VanillaRecipeHelper.addShapedRecipe(GTOCore.id("me_quest_detector"), GTOAEParts.INSTANCE.getME_QUEST_DETECTOR().get().stack(1),
+                    "ABA",
+                    "CDC",
+                    "ABA",
+                    'A', CustomTags.MV_CIRCUITS, 'B', AEItems.LOGIC_PROCESSOR.asItem(),
+                    'C', RegistriesUtils.getItemStack("ae2:storage_monitor"), 'D', RegistriesUtils.getItemStack("ftbquests:book"));
+        }
 
         VanillaRecipeHelper.addShapedRecipe(GTOCore.id("simple_crafting_terminal"), GTOAEParts.INSTANCE.getSIMPLE_CRAFTING_TERMINAL().get().stack(1),
                 "   ",
