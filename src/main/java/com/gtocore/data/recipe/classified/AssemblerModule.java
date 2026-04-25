@@ -3,10 +3,14 @@ package com.gtocore.data.recipe.classified;
 import com.gtocore.api.data.tag.GTOTagPrefix;
 import com.gtocore.common.data.GTOBlocks;
 import com.gtocore.common.data.GTOItems;
+import com.gtocore.common.data.GTOMachines;
 import com.gtocore.common.data.GTOMaterials;
+import com.gtocore.common.data.machines.MultiBlockD;
+import com.gtocore.common.data.machines.MultiBlockH;
 
 import com.gtolib.api.GTOValues;
 
+import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.common.data.GTBlocks;
 import com.gregtechceu.gtceu.common.data.GTItems;
@@ -17,7 +21,7 @@ import net.minecraft.world.item.Items;
 
 import appeng.core.definitions.AEItems;
 
-import static com.gregtechceu.gtceu.api.GTValues.L;
+import static com.gregtechceu.gtceu.api.GTValues.*;
 import static com.gtocore.common.data.GTORecipeTypes.ASSEMBLER_MODULE_RECIPES;
 
 final class AssemblerModule {
@@ -486,6 +490,42 @@ final class AssemblerModule {
                 .EUt(62914560)
                 .duration(1600)
                 .addData(GTOValues.POWER_MODULE_TIER, 4)
+                .save();
+
+        ASSEMBLER_MODULE_RECIPES.builder("mega_se_mining")
+                .inputItems(MultiBlockD.RESOURCE_COLLECTION_MODULE.asItem(), 4)
+                .inputItems(GTOItems.SPACE_DRONE_MK4, 8)
+                .inputItems(GTOItems.DRONE_ULTIMATE_BATTERY, 8)
+                .inputItems(TagPrefix.gear, GTOMaterials.MoonGoddessTitanium, 4)
+                .inputItems(TagPrefix.gear, GTOMaterials.OdysseyNanoSuperalloy, 4)
+                .inputItems(GTOItems.SCINTILLATOR_CRYSTAL, 2)
+                .inputItems(GTOMachines.DRONE_HATCH[GTValues.IV].asItem())
+                .inputItems(GTOItems.INTEGRATED_CONTROL_CORE_UEV, 2)
+                .outputItems(MultiBlockH.MEGA_RESOURCE_MINING.asItem())
+                .inputFluids(GTMaterials.Lubricant, 5000)
+                .inputFluids(GTOMaterials.Echoite, 8320)
+                .duration(1200)
+                .EUt(VA[UXV])
+                .addData(GTOValues.POWER_MODULE_TIER, 3)
+                .save();
+
+        ASSEMBLER_MODULE_RECIPES.builder("mega_se_assembler")
+                .inputItems(MultiBlockD.ASSEMBLER_MODULE.asItem(), 4)
+                .inputItems(GTOItems.MAGNETIC_TRAP, 8)
+                .inputItems(GTOItems.UNSTABLE_STAR, 8)
+                .inputItems(TagPrefix.gear, GTOMaterials.PlatinumManganeseAntimonyHeuslerAlloy, 32)
+                .inputItems(TagPrefix.gear, GTOMaterials.NanoStrengthenedShapeMemoryAlloy, 8)
+                .inputItems(GTOItems.LEPTON_TRAP_CRYSTAL, 2)
+                .inputItems(TagPrefix.rodLong, GTOMaterials.Astrium, 4)
+                .inputItems(GTOItems.INTEGRATED_CONTROL_CORE_UEV, 2)
+                .inputItems(GTOItems.PRECISION_CIRCUIT_ASSEMBLY_ROBOT_MK3, 2)
+                .inputItems(GTOItems.PRECISION_CIRCUIT_ASSEMBLY_ROBOT_MK4, 2)
+                .outputItems(MultiBlockH.MEGA_ASSEMBLER.asItem())
+                .inputFluids(GTMaterials.Lubricant, 5000)
+                .inputFluids(GTOMaterials.Echoite, 8320)
+                .duration(1200)
+                .EUt(VA[UXV])
+                .addData(GTOValues.POWER_MODULE_TIER, 3)
                 .save();
     }
 }
