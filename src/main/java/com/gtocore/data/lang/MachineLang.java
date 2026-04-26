@@ -146,7 +146,7 @@ final class MachineLang {
         addCNEN("gtocore.machine.me_dual_hatch_stock.turns.3", "仅拉取流体", "Auto-Pull Fluid");
         addCNEN("gtocore.machine.me_dual_hatch_stock.tooltip.0", "可标记64种流体或物品", "Keeps 64 fluid or item types in stock");
         addCNEN("gtocore.machine.me_dual_hatch_stock.tooltip.1", "直接从ME网络抽取流体或物品", "Retrieves fluids or item directly from the ME network");
-        addCNEN("gtocore.machine.me_dual_hatch_stock.data_stick.name", "§oME Stock Input Dual Hatch Config Data", "§oME库存输入总成配置数据");
+        addCNEN("gtocore.machine.me_dual_hatch_stock.data_stick.name", "§oME库存输入总成配置数据", "§oME Stock Input Dual Hatch Config Data");
         addCNEN("gtocore.machine.scanning", "扫描中...", "Scanning...");
         addCNEN("gtocore.machine.analysis", "分析中...", "Analysing...");
         addCNEN("gtocore.machine.assembling", "装配中...", "Assembling...");

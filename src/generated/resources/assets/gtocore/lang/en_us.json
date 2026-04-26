@@ -5228,7 +5228,7 @@
   "gtocore.machine.mana_stored": "Total Mana: %s",
   "gtocore.machine.maximum_amount": "Maximum amount: %s",
   "gtocore.machine.me_big_storage_access_hatch.tooltip.0": "Use BigInteger Storage",
-  "gtocore.machine.me_dual_hatch_stock.data_stick.name": "§oME库存输入总成配置数据",
+  "gtocore.machine.me_dual_hatch_stock.data_stick.name": "§oME Stock Input Dual Hatch Config Data",
   "gtocore.machine.me_dual_hatch_stock.tooltip.0": "Keeps 64 fluid or item types in stock",
   "gtocore.machine.me_dual_hatch_stock.tooltip.1": "Retrieves fluids or item directly from the ME network",
   "gtocore.machine.me_dual_hatch_stock.turns.0": "Auto-Pull Disable",
