@@ -57,9 +57,9 @@ public final class GenerateDisassembly {
         }
         var outIng = ItemRecipeCapability.CAP.of(c.getFirst());
         var output = outIng.getItem();
-        var outAmount = outIng.getAmount();
         if (output.isEmpty()) return;
         var item = output.getItem();
+        var amount = outIng.getAmount();
         if (recipeBuilder.recipeType == LASER_WELDER_RECIPES && !(item instanceof MetaMachineItem)) {
             return;
         }
@@ -74,7 +74,7 @@ public final class GenerateDisassembly {
             return;
         }
         RecipeBuilder builder = DISASSEMBLY_RECIPES.recipeBuilder(id)
-                .inputItems(output.getItem(), outAmount)
+                .inputItems(item, amount)
                 .duration(recipeBuilder.duration)
                 .EUt(eut);
         boolean hasOutput = false;
