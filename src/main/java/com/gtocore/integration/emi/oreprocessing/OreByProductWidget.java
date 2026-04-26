@@ -3,6 +3,7 @@ package com.gtocore.integration.emi.oreprocessing;
 import com.gtocore.common.data.machines.MultiBlockC;
 import com.gtocore.data.recipe.generated.GTOOreRecipeHandler;
 
+import com.gtolib.GTOCore;
 import com.gtolib.api.recipe.ContentBuilder;
 
 import com.gregtechceu.gtceu.api.GTValues;
@@ -78,6 +79,7 @@ final class OreByProductWrapper {
         var property = material.getProperty(PropertyKey.ORE);
         int oreMultiplier = property.getOreMultiplier();
         int byproductMultiplier = property.getByProductMultiplier();
+        int rawOreCrushedAmount = Math.max(1, oreMultiplier * (GTOCore.isExpert() ? 4 : 6) / 2);
         currentSlot = 0;
         Material[] byproducts = (new Material[] { property.getOreByProduct(0, material), property.getOreByProduct(1, material), property.getOreByProduct(2, material), property.getOreByProduct(3, material) });
         // "INPUTS"
@@ -148,7 +150,7 @@ final class OreByProductWrapper {
             addEmptyOutputs(1);
         }
         // macerate ore -> crushed
-        addToOutputs(material, TagPrefix.crushed, 2 * oreMultiplier);
+        addToOutputs(material, TagPrefix.crushed, rawOreCrushedAmount);
         if (!ChemicalHelper.get(TagPrefix.gem, byproducts[0]).isEmpty()) {
             addToOutputs(byproducts[0], TagPrefix.gem, 1);
         } else {
