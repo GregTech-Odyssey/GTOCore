@@ -132,25 +132,6 @@ public final class GeneratorArrayMachine extends StorageMultiblockMachine implem
     }
 
     @Override
-    public boolean onWorking() {
-        if (!super.onWorking()) return false;
-        if (isw) {
-            if (eut > 0) {
-                var container = getWirelessEnergyContainer();
-                if (container != null) {
-                    int loss = container.getLoss();
-                    container.setLoss(loss + f_loss * 10);
-                    container.addEnergy(eut, this);
-                    container.setLoss(loss);
-                }
-            } else {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    @Override
     public boolean canVoidRecipeOutputs(RecipeCapability<?> capability) {
         return true;
     }
@@ -173,8 +154,7 @@ public final class GeneratorArrayMachine extends StorageMultiblockMachine implem
                 if (recipe == null) return null;
                 recipe.duration = recipe.duration * GTOUtils.getGeneratorEfficiency(getRecipeType(), getTier()) / 100;
                 if (isw) {
-                    recipe.setOutputEUt(0);
-                    eut = EUt * recipe.parallels;
+                    eut = recipe.getOutputEUt();
                 }
                 return recipe;
             }
@@ -199,10 +179,21 @@ public final class GeneratorArrayMachine extends StorageMultiblockMachine implem
         if (!clickData.isRemote) {
             if ("wireless_switch".equals(componentData)) {
                 isw = !isw;
+                if (isw) {
+                    transferBufferedEnergyToWireless();
+                }
                 eut = 0;
                 getRecipeLogic().markLastRecipeDirty();
             } else super.handleDisplayClick(componentData, clickData);
         }
+    }
+
+    @Override
+    public boolean useEnergy(long eu, boolean simulate) {
+        if (!isw || eu >= 0) {
+            return super.useEnergy(eu, simulate);
+        }
+        return transferEnergyToWireless(-eu, simulate);
     }
 
     @Override
@@ -224,6 +215,25 @@ public final class GeneratorArrayMachine extends StorageMultiblockMachine implem
     @Override
     public boolean matchTickRecipe(Recipe recipe) {
         return isw || super.matchTickRecipe(recipe);
+    }
+
+    private void transferBufferedEnergyToWireless() {
+        long stored = getEnergyContainer().getEnergyStored();
+        if (stored <= 0) return;
+        if (!transferEnergyToWireless(stored, false)) return;
+        getEnergyContainer().removeEnergy(stored);
+    }
+
+    private boolean transferEnergyToWireless(long energy, boolean simulate) {
+        if (energy <= 0) return true;
+        var container = getWirelessEnergyContainer();
+        if (container == null) return false;
+        if (simulate) return true;
+        int loss = container.getLoss();
+        container.setLoss(loss + f_loss * 10);
+        container.addEnergy(energy, this);
+        container.setLoss(loss);
+        return true;
     }
 
     private static class Wrapper {
