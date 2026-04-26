@@ -132,6 +132,16 @@ final class Vanilla {
                 "D",
                 'A', AEItems.WIRELESS_RECEIVER.asItem(), 'B', GTOAEParts.INSTANCE.getME_2IN1_TERMINAL().get().asItem(),
                 'D', AEBlocks.DENSE_ENERGY_CELL.asItem());
+        VanillaRecipeHelper.addShapedRecipe(GTOCore.id("wireless_requester_terminal"), GTOItems.WIRELESS_WRT.asItem(),
+                "A",
+                "B",
+                "C",
+                'A', AEItems.WIRELESS_RECEIVER.asItem(), 'B', RegistriesUtils.getItem("merequester:requester_terminal"), 'C', AEBlocks.DENSE_ENERGY_CELL.asItem());
+        VanillaRecipeHelper.addShapedRecipe(GTOCore.id("wireless_facility_management_terminal"), GTOItems.WIRELESS_WFT.asItem(),
+                "A",
+                "B",
+                "C",
+                'A', AEItems.WIRELESS_RECEIVER.asItem(), 'B', RegistriesUtils.getItem("ae2:facility_terminal"), 'C', AEBlocks.DENSE_ENERGY_CELL.asItem());
 
         VanillaRecipeHelper.addShapedRecipe(GTOCore.id("paper_dust"), ChemicalHelper.get(TagPrefix.dust, GTMaterials.Paper), "S", "m", 'S', RegistriesUtils.getItemStack("farmersdelight:tree_bark"));
         VanillaRecipeHelper.addShapedFluidContainerRecipe(GTOCore.id("cooking_pot"), RegistriesUtils.getItemStack("farmersdelight:cooking_pot"),

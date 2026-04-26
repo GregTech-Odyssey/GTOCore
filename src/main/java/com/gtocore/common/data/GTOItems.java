@@ -13,6 +13,8 @@ import com.gtocore.common.item.devtool.CreativeAllFluidCellItem;
 import com.gtocore.common.item.misc.GrassHarvesterBehaviour;
 import com.gtocore.config.GTOConfig;
 import com.gtocore.data.lootTables.RewardBagLoot;
+import com.gtocore.integration.ae.wtlib.WFTMenu;
+import com.gtocore.integration.ae.wtlib.WRTMenu;
 
 import com.gtolib.GTOCore;
 import com.gtolib.api.ae2.me2in1.Wireless;
@@ -1004,6 +1006,8 @@ public final class GTOItems {
     }
 
     public static final ItemEntry<Wireless.Item> WIRELESS_ME2IN1 = item("wireless_me2in1_terminal", "无线ME2合1终端", Wireless.Item::new).register();
+    public static final ItemEntry<WRTMenu.WRTItem> WIRELESS_WRT = item("wireless_requester_terminal", "无线请求终端", WRTMenu.WRTItem::new).register();
+    public static final ItemEntry<WFTMenu.WFTItem> WIRELESS_WFT = item("wireless_facility_management_terminal", "无线设施管理终端", WFTMenu.WFTItem::new).register();
 
     public static final ItemEntry<SpaceArmorComponentItem> SPACE_NANOMUSCLE_CHESTPLATE = item("space_nanomuscle_chestplate", "纳米肌体™套装太空胸甲",
             (p) -> new SpaceArmorComponentItem(GTArmorMaterials.ARMOR,
