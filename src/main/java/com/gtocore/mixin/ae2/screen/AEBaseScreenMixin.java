@@ -5,6 +5,8 @@ import com.gtocore.client.renderer.RenderUtil;
 import com.gtolib.api.ae2.gui.hooks.IWUTScreen;
 import com.gtolib.api.ae2.wtlib.CycleTerminalButton;
 
+import com.gregtechceu.gtceu.GTCEu;
+
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
@@ -25,12 +27,18 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+import java.util.List;
+
 @Mixin(AEBaseScreen.class)
 public abstract class AEBaseScreenMixin<T extends AEBaseMenu> extends AbstractContainerScreen<T> implements IWUTScreen {
 
     @Shadow(remap = false)
     @Final
     private VerticalButtonBar verticalToolbar;
+
+    @Shadow(remap = false)
+    public abstract List<Rect2i> getExclusionZones();
+
     @Unique
     private CycleTerminalButton gtocore$cycleTerminalButton = null;
 
@@ -57,6 +65,14 @@ public abstract class AEBaseScreenMixin<T extends AEBaseMenu> extends AbstractCo
         if (button instanceof de.mari_023.ae2wtlib.wut.CycleTerminalButton) {
             verticalToolbar.add(new CycleTerminalButton(CycleTerminalButton.LayoutDirection.LEFT));
             cir.setReturnValue(button);
+        }
+    }
+
+    @Inject(method = "renderLabels", at = @At(value = "INVOKE", target = "Lappeng/client/gui/AEBaseScreen;drawFG(Lnet/minecraft/client/gui/GuiGraphics;IIII)V"), remap = false)
+    private void gtolib$debugRenderExclusionZones(GuiGraphics guiGraphics, int x, int y, CallbackInfo ci) {
+        if (!GTCEu.isDev()) return;
+        for (Rect2i rect : getExclusionZones()) {
+            RenderUtil.drawRainbowBorder(guiGraphics, rect.getX() - leftPos, rect.getY() - topPos, rect.getWidth(), rect.getHeight(), 300, 1.0f);
         }
     }
 }
