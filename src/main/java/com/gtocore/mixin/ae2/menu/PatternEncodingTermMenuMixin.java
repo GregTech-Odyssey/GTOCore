@@ -256,9 +256,10 @@ public abstract class PatternEncodingTermMenuMixin extends MEStorageMenu impleme
 
         machines.removeIf(container -> {
             var patternInv = container.getTerminalPatternInventory();
+            var simulate = patternInv.simulateAdd(stack);
 
             if (!container.isVisibleInTerminal() ||
-                    patternInv.simulateAdd(stack) == stack)
+                    ItemStack.isSameItemSameTags(simulate, stack) && simulate.getCount() == stack.getCount())
                 return true;
             if (patternInv instanceof AppEngInternalInventory aeInv &&
                     aeInv.getHost() instanceof TileAssemblerMatrixPattern matrixPattern) {
