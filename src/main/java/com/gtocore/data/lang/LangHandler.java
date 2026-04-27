@@ -233,8 +233,8 @@ public final class LangHandler {
         addCNEN("config.jade.plugin_gtocore.upgrade_module_provider", "[GTOCore] 升级模块信息", "[GTOCore] Upgrade Module Info");
         addCNEN("config.jade.plugin_gtocore.destroy_time_provider", "[GTOCore] 硬度信息", "[GTOCore] Destroy Time Info");
         addCNEN("config.jade.plugin_gtocore.wireless_grid_provider", "[GTOCore] 无线ME网络信息", "[GTOCore] Wireless ME Network Info");
-        addCNEN("config.jade.plugin_gtocore.maintenance_hatch_provider", "[GTOCore] 维护仓信息", "[GTOCore] Maintenance Hatch Info");
-        addCNEN("config.jade.plugin_gtocore.maintenance_param_provider", "[GTOCore] 维护仓参数", "[GTOCore] Maintenance Hatch Params");
+        addCNEN("config.jade.plugin_gtocore.maintenance_hatch_provider", "[GTOCore] 维护仓耗时信息", "[GTOCore] Maintenance Hatch Duration Info");
+        addCNEN("config.jade.plugin_gtocore.maintenance_param_provider", "[GTOCore] 维护仓损坏信息", "[GTOCore] Maintenance Hatch Damage Info");
 
         addCNEN("gtocore.applicable_modules", "安装附属模块后可解锁的仓室类型 : %s",
                 "Hatch types unlocked by installing auxiliary modules : %s");
