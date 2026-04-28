@@ -26,6 +26,8 @@ import com.gregtechceu.gtceu.integration.xei.handlers.item.CycleItemStackHandler
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.client.renderer.ItemBlockRenderTypes;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
@@ -75,7 +77,8 @@ public final class PatternPreview extends WidgetGroup {
     private boolean isLoaded;
     private static TrackedDummyWorld LEVEL;
     private static final Map<MultiblockMachineDefinition, MBPattern[]> CACHE = new Reference2ReferenceOpenHashMap<>();
-    private final SceneWidget sceneWidget;
+    private final MySceneWidget sceneWidget;
+    private SceneWidget translucentSceneWidget;
     private final DraggableScrollableWidgetGroup scrollableWidgetGroup;
     private final MBPattern[] patterns;
     private final List<SimplePredicate> predicates = new ArrayList<>();
@@ -89,7 +92,9 @@ public final class PatternPreview extends WidgetGroup {
         this.recipe = recipe;
         setClientSideWidget();
         layer = -1;
-        addWidget(sceneWidget = new MySceneWidget().setOnSelected(this::onPosSelected).setRenderFacing(false).setRenderFacing(false));
+        sceneWidget = new MySceneWidget();
+        sceneWidget.setOnSelected(this::onPosSelected).setRenderFacing(false).setRenderFacing(false);
+        addWidget(sceneWidget);
         scrollableWidgetGroup = new DraggableScrollableWidgetGroup(3, 132, 154, 22).setXScrollBarHeight(4).setXBarStyle(GuiTextures.SLIDER_BACKGROUND, GuiTextures.BUTTON).setScrollable(true).setDraggable(true).setScrollWheelDirection(DraggableScrollableWidgetGroup.ScrollWheelDirection.HORIZONTAL);
         scrollableWidgetGroup.setScrollYOffset(0);
         addWidget(scrollableWidgetGroup);
@@ -233,14 +238,52 @@ public final class PatternPreview extends WidgetGroup {
         if (pattern.controllerBase.isFormed()) {
             LongSet set = pattern.controllerBase.getMultiblockState().getMatchContext().getOrDefault(Predicates.DataKey.RENDER_MASK, LongSets.EMPTY_SET);
             if (!set.isEmpty()) {
-                sceneWidget.setRenderedCore(longStream.filter(pos -> !set.contains(pos)).mapToObj(BlockPos::of).filter(pos -> layer == -1 || layer + pattern.minY == pos.getY()).collect(Collectors.toList()), null);
+                applyRenderedBlocks(pattern, longStream.filter(pos -> !set.contains(pos)));
             } else {
-                sceneWidget.setRenderedCore(longStream.mapToObj(BlockPos::of).filter(pos -> layer == -1 || layer + pattern.minY == pos.getY()).toList(), null);
+                applyRenderedBlocks(pattern, longStream);
             }
         } else {
-            sceneWidget.setRenderedCore(longStream.mapToObj(BlockPos::of).filter(pos -> layer == -1 || layer + pattern.minY == pos.getY()).toList(), null);
+            applyRenderedBlocks(pattern, longStream);
         }
         sceneWidget.setCenter(pattern.center.getCenter().toVector3f());
+        syncSceneWidgets();
+    }
+
+    private void applyRenderedBlocks(MBPattern pattern, LongStream positions) {
+        RenderGroups groups = splitRenderedBlocks(pattern, positions);
+        sceneWidget.setRenderedCore(groups);
+        if (groups.realtime().isEmpty()) {
+            if (translucentSceneWidget != null) {
+                translucentSceneWidget.setVisible(false);
+            }
+        } else {
+            var widget = getOrCreateTranslucentSceneWidget();
+            widget.setVisible(true);
+            widget.setRenderedCore(groups.realtime(), null);
+        }
+    }
+
+    private SceneWidget getOrCreateTranslucentSceneWidget() {
+        if (translucentSceneWidget == null) {
+            translucentSceneWidget = new SceneWidget(3, 3, 150, 150, LEVEL).setRenderFacing(false).setRenderSelect(false).setDraggable(false).setScalable(false).setIntractable(false).setClearColor(0);
+            addWidget(translucentSceneWidget);
+        }
+        return translucentSceneWidget;
+    }
+
+    private RenderGroups splitRenderedBlocks(MBPattern pattern, LongStream positions) {
+        List<BlockPos> cached = new ArrayList<>();
+        List<BlockPos> realtime = new ArrayList<>();
+        positions.mapToObj(BlockPos::of)
+                .filter(pos -> layer == -1 || layer + pattern.minY == pos.getY())
+                .forEach(pos -> {
+                    if (pattern.translucentSet.contains(pos.asLong())) {
+                        realtime.add(pos);
+                    } else {
+                        cached.add(pos);
+                    }
+                });
+        return new RenderGroups(cached, realtime);
     }
 
     public static PatternPreview getPatternWidget(MultiblockInfoEmiRecipe recipe, MultiblockMachineDefinition controllerDefinition) {
@@ -284,7 +327,7 @@ public final class PatternPreview extends WidgetGroup {
             layer = -1;
             loadControllerFormed(pattern.predicateMap.keySet(), controllerBase, index);
         } else {
-            sceneWidget.setRenderedCore(pattern.predicateMap.keySet().longStream().mapToObj(BlockPos::of).toList(), null);
+            applyRenderedBlocks(pattern, pattern.predicateMap.keySet().longStream());
             controllerBase.onStructureInvalid();
         }
     }
@@ -362,9 +405,9 @@ public final class PatternPreview extends WidgetGroup {
         if (controllerBase.isFormed()) {
             LongSet set = state.getMatchContext().getOrDefault(Predicates.DataKey.RENDER_MASK, LongSets.EMPTY_SET);
             if (!set.isEmpty()) {
-                sceneWidget.setRenderedCore(poses.longStream().filter(pos -> !set.contains(pos)).mapToObj(BlockPos::of).toList(), null);
+                applyRenderedBlocks(patterns[index], poses.longStream().filter(pos -> !set.contains(pos)));
             } else {
-                sceneWidget.setRenderedCore(poses.longStream().mapToObj(BlockPos::of).toList(), null);
+                applyRenderedBlocks(patterns[index], poses.longStream());
             }
         } else {
             GTCEu.LOGGER.warn("Pattern formed checking failed: {}", controllerBase.self().getDefinition());
@@ -378,8 +421,12 @@ public final class PatternPreview extends WidgetGroup {
         Long2ReferenceOpenHashMap<BlockInfo> blockMap = new Long2ReferenceOpenHashMap<>(patternMap.values().stream().mapToInt(LongOpenHashSet::size).sum());
         patternMap.forEach((b, i) -> i.forEach(p -> blockMap.put(p, b)));
         IMultiController controllerBase = blockMap.get(pos.asLong()).getBlockEntity(pos) instanceof MetaMachineBlockEntity blockEntity ? blockEntity.metaMachine instanceof IMultiController controller ? controller : null : null;
+        LongSet translucentSet = new LongOpenHashSet();
         for (var it = blockMap.long2ReferenceEntrySet().fastIterator(); it.hasNext();) {
             var entry = it.next();
+            if (usesTranslucentLayer(entry.getValue().getBlockState())) {
+                translucentSet.add(entry.getLongKey());
+            }
             LEVEL.addBlock(BlockPos.of(entry.getLongKey()), entry.getValue());
         }
         if (controllerBase != null) {
@@ -391,7 +438,12 @@ public final class PatternPreview extends WidgetGroup {
             loadControllerFormed(predicateMap.keySet(), controllerBase, index);
             predicateMap = controllerBase.getMultiblockState().getMatchContext().getPredicates();
         }
-        return controllerBase == null ? null : new MBPattern(blockMap, pattern.parts(), predicateMap, controllerBase);
+        return controllerBase == null ? null : new MBPattern(blockMap, pattern.parts(), predicateMap, controllerBase, translucentSet);
+    }
+
+    private static boolean usesTranslucentLayer(BlockState blockState) {
+        return ItemBlockRenderTypes.getRenderLayers(blockState).contains(RenderType.translucent()) ||
+                (!blockState.getFluidState().isEmpty() && ItemBlockRenderTypes.getRenderLayer(blockState.getFluidState()) == RenderType.translucent());
     }
 
     @Override
@@ -441,8 +493,18 @@ public final class PatternPreview extends WidgetGroup {
 
     @Override
     public void drawInBackground(@NotNull GuiGraphics graphics, int mouseX, int mouseY, float partialTicks) {
+        syncSceneWidgets();
         RenderSystem.enableBlend();
         super.drawInBackground(graphics, mouseX, mouseY, partialTicks);
+    }
+
+    private void syncSceneWidgets() {
+        if (translucentSceneWidget == null || !translucentSceneWidget.isVisible()) {
+            return;
+        }
+        translucentSceneWidget.setCenter(sceneWidget.getCenter());
+        translucentSceneWidget.setZoom(sceneWidget.getZoom());
+        translucentSceneWidget.setCameraYawAndPitch(sceneWidget.getRotationYaw(), sceneWidget.getRotationPitch());
     }
 
     public static class MBPattern {
@@ -455,17 +517,19 @@ public final class PatternPreview extends WidgetGroup {
         private final IMultiController controllerBase;
         private final LongSet partsSet;
         private final LongSet placeHolderSet;
+        private final LongSet translucentSet;
         private final int maxY;
         private final int minY;
         private final BlockPos center;
 
-        private MBPattern(@NotNull Long2ReferenceOpenHashMap<BlockInfo> blockMap, @NotNull List<ItemStack> parts, @NotNull Long2ObjectOpenHashMap<TraceabilityPredicate> predicateMap, @NotNull IMultiController controllerBase) {
+        private MBPattern(@NotNull Long2ReferenceOpenHashMap<BlockInfo> blockMap, @NotNull List<ItemStack> parts, @NotNull Long2ObjectOpenHashMap<TraceabilityPredicate> predicateMap, @NotNull IMultiController controllerBase, @NotNull LongSet translucentSet) {
             this.parts = parts;
             this.partsSet = new LongOpenHashSet();
             this.placeHolderSet = new LongOpenHashSet();
             this.predicateMap = predicateMap;
             this.controllerBase = controllerBase;
             this.center = controllerBase.self().getPos();
+            this.translucentSet = translucentSet;
             for (var entry : predicateMap.long2ObjectEntrySet()) {
                 var pos = entry.getLongKey();
                 var predicate = entry.getValue();
@@ -498,6 +562,38 @@ public final class PatternPreview extends WidgetGroup {
 
         private MySceneWidget() {
             super(3, 3, 150, 150, LEVEL);
+        }
+
+        private void setRenderedCore(RenderGroups groups) {
+            core.clear();
+            core.addAll(groups.cached());
+            core.addAll(groups.realtime());
+            if (dummyWorld != null) {
+                dummyWorld.setRenderFilter(core::contains);
+            }
+            int minX = Integer.MAX_VALUE;
+            int minY = Integer.MAX_VALUE;
+            int minZ = Integer.MAX_VALUE;
+            int maxX = Integer.MIN_VALUE;
+            int maxY = Integer.MIN_VALUE;
+            int maxZ = Integer.MIN_VALUE;
+            for (BlockPos vPos : core) {
+                minX = Math.min(minX, vPos.getX());
+                minY = Math.min(minY, vPos.getY());
+                minZ = Math.min(minZ, vPos.getZ());
+                maxX = Math.max(maxX, vPos.getX());
+                maxY = Math.max(maxY, vPos.getY());
+                maxZ = Math.max(maxZ, vPos.getZ());
+            }
+            center = new Vector3f((minX + maxX) / 2f + 0.5F, (minY + maxY) / 2f + 0.5F, (minZ + maxZ) / 2f + 0.5F);
+            renderer.renderedBlocksMap.clear();
+            if (!groups.cached().isEmpty()) {
+                renderer.addRenderedBlocks(groups.cached(), null);
+            }
+            this.zoom = (float) (3.5 * Math.sqrt(Math.max(Math.max(Math.max(maxX - minX + 1, maxY - minY + 1), maxZ - minZ + 1), 1)));
+            renderer.setCameraOrtho(range * zoom, range * zoom, range * zoom);
+            renderer.setCameraLookAt(center, camZoom(), Math.toRadians(rotationPitch), Math.toRadians(rotationYaw));
+            needCompileCache();
         }
 
         @Override
@@ -555,4 +651,6 @@ public final class PatternPreview extends WidgetGroup {
             }
         }
     }
+
+    private record RenderGroups(List<BlockPos> cached, List<BlockPos> realtime) {}
 }
