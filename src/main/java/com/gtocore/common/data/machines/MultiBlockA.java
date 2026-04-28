@@ -4,6 +4,7 @@ import com.gtocore.api.machine.part.GTOPartAbility;
 import com.gtocore.api.pattern.GTOPredicates;
 import com.gtocore.client.renderer.machine.DigitalMinerRenderer;
 import com.gtocore.common.data.*;
+import com.gtocore.common.data.GTORecipeDataKeys;
 import com.gtocore.common.data.translation.GTOMachineStories;
 import com.gtocore.common.data.translation.GTOMachineTooltips;
 import com.gtocore.common.machine.multiblock.electric.FishingGroundMachine;
@@ -131,8 +132,8 @@ public final class MultiBlockA {
             .register();
 
     public static final MultiblockMachineDefinition PLASMA_CONDENSER = multiblock("plasma_condenser", "等离子冷凝器",
-            TierCasingMultiblockMachine.createMachine(GLASS_TIER))
-            .recipeModifier((machine, recipe) -> RecipeModifierFunction.overclocking(machine, recipe, false, 1, Math.pow(1 / 1.1d, ((ITierCasingMachine) machine).getCasingTier(GLASS_TIER)), 0.25))
+            TierCasingMultiblockMachine.createMachine(GTORecipeDataKeys.GLASS_TIER))
+            .recipeModifier((machine, recipe) -> RecipeModifierFunction.overclocking(machine, recipe, false, 1, Math.pow(1 / 1.1d, ((ITierCasingMachine) machine).getCasingTier(GTORecipeDataKeys.GLASS_TIER)), 0.25))
             .allRotation()
             .recipeTypes(GTORecipeTypes.PLASMA_CONDENSER_RECIPES)
             .tooltips(GTOMachineStories.INSTANCE.getPlasmaCondenserTooltips().getSupplier())
@@ -505,7 +506,7 @@ public final class MultiBlockA {
                     .build())
             .workableCasingRenderer(GTCEu.id("block/casings/steam/steel/side"), GTCEu.id("block/multiblock/gcym/large_maceration_tower"))
             .onWorking(m -> {
-                if (m.getProgress() == m.getMaxProgress() - 1 && m.getRecipeLogic().getLastRecipe() != null && m.getRecipeLogic().getLastRecipe().data.getBoolean("isCustom")) {
+                if (m.getProgress() == m.getMaxProgress() - 1 && m.getRecipeLogic().getLastRecipe() != null && m.getRecipeLogic().getLastRecipe().data.getBoolean(GTORecipeDataKeys.IS_CUSTOM)) {
                     m.getRecipeLogic().markLastRecipeDirty();
                 }
                 return true;
@@ -1297,7 +1298,7 @@ public final class MultiBlockA {
                     .where('E', blocks(GTBlocks.CASING_PRIMITIVE_BRICKS.get()))
                     .where('F', GTOPredicates.frame(GTMaterials.Steel))
                     .where('G', controller(definition))
-                    .where('H', GTOPredicates.countBlock("SteelFrame", ChemicalHelper.getBlock(TagPrefix.frameGt, GTMaterials.Steel)))
+                    .where('H', GTOPredicates.countBlock(GTOPredicates.DataKeys.STEEL_FRAME, ChemicalHelper.getBlock(TagPrefix.frameGt, GTMaterials.Steel)))
                     .where(' ', any())
                     .build())
             .workableCasingRenderer(GTCEu.id("block/casings/solid/machine_primitive_bricks"), GTCEu.id("block/multiblock/primitive_blast_furnace"))
@@ -1893,7 +1894,7 @@ public final class MultiBlockA {
                     .where('J', blocks(GTOBlocks.MAGNESIUM_OXIDE_CERAMIC_HIGH_TEMPERATURE_INSULATION_MECHANICAL_BLOCK.get()))
                     .where('K', blocks(GTOBlocks.MAGTECH_CASING.get()))
                     .where('L', blocks(GTOBlocks.PLASMA_HEATER_CASING.get()))
-                    .where('M', GTOPredicates.tierBlock(SCMAP, STELLAR_CONTAINMENT_TIER))
+                    .where('M', GTOPredicates.tierBlock(SCMAP, GTORecipeDataKeys.STELLAR_CONTAINMENT_TIER))
                     .where('N', blocks(GTOBlocks.QUANTUM_GLASS.get()))
                     .where('O', blocks(GTOBlocks.NEUTRONIUM_STABLE_CASING.get()))
                     .where('P', blocks(GTOBlocks.EXTREME_DENSITY_CASING.get()))
@@ -1918,7 +1919,7 @@ public final class MultiBlockA {
             .workableCasingRenderer(GTCEu.id("block/casings/gcym/atomic_casing"), GTCEu.id("block/multiblock/fusion_reactor"))
             .register();
 
-    public static final MultiblockMachineDefinition COMPONENT_ASSEMBLY_LINE = multiblock("component_assembly_line", "部件装配车间", TierCasingCrossRecipeMultiblockMachine.createParallel(MachineUtils::getHatchParallel, COMPONENT_ASSEMBLY_CASING_TIER))
+    public static final MultiblockMachineDefinition COMPONENT_ASSEMBLY_LINE = multiblock("component_assembly_line", "部件装配车间", TierCasingCrossRecipeMultiblockMachine.createParallel(MachineUtils::getHatchParallel, GTORecipeDataKeys.COMPONENT_ASSEMBLY_CASING_TIER))
             .allRotation()
             .recipeTypes(GTORecipeTypes.COMPONENT_ASSEMBLY_RECIPES)
             .tooltips(GTOMachineStories.INSTANCE.getComponentAssemblyLineTooltips().getSupplier())
@@ -1957,7 +1958,7 @@ public final class MultiBlockA {
                     .where('X', blocks(GTOBlocks.SPACETIME_ASSEMBLY_LINE_UNIT.get()))
                     .where('Y', blocks(GTBlocks.CASING_ASSEMBLY_LINE.get()))
                     .where('Z', blocks(GTOBlocks.PRESSURE_CONTAINMENT_CASING.get()))
-                    .where('[', GTOPredicates.tierBlock(CALMAP, COMPONENT_ASSEMBLY_CASING_TIER))
+                    .where('[', GTOPredicates.tierBlock(CALMAP, GTORecipeDataKeys.COMPONENT_ASSEMBLY_CASING_TIER))
                     .where('\\', controller(definition))
                     .where(' ', any())
                     .build())

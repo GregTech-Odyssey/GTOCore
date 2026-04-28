@@ -1,6 +1,7 @@
 package com.gtocore.common.machine.multiblock.electric.processing;
 
-import com.gtolib.api.GTOValues;
+import com.gtocore.common.data.GTORecipeDataKeys;
+
 import com.gtolib.api.item.MachineItemStackHandler;
 import com.gtolib.api.machine.feature.multiblock.IArrayMachine;
 import com.gtolib.api.machine.feature.multiblock.IParallelMachine;
@@ -50,14 +51,14 @@ public final class ProcessingArrayMachine extends TierCasingMultiblockMachine im
     private final int arrayTier;
 
     public ProcessingArrayMachine(MetaMachineBlockEntity holder, int tier) {
-        super(holder, GTOValues.GLASS_TIER);
+        super(holder, GTORecipeDataKeys.GLASS_TIER);
         this.arrayTier = tier;
         inventory = createMachineStorage();
     }
 
     private NotifiableItemStackHandler createMachineStorage() {
         NotifiableItemStackHandler storage = new NotifiableItemStackHandler(this, 1, IO.NONE, IO.BOTH, slots -> new MachineItemStackHandler(() -> getMachineLimit(arrayTier)));
-        storage.setFilter(i -> storageFilter(i, getCasingTier(GTOValues.GLASS_TIER)));
+        storage.setFilter(i -> storageFilter(i, getCasingTier(GTORecipeDataKeys.GLASS_TIER)));
         storage.addChangedListener(this::onStorageChanged);
         return storage;
     }

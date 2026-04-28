@@ -3,6 +3,7 @@ package com.gtocore.data.recipe.classified;
 import com.gtocore.api.data.tag.GTOTagPrefix;
 import com.gtocore.common.data.GTOItems;
 import com.gtocore.common.data.GTOMaterials;
+import com.gtocore.common.data.GTORecipeDataKeys;
 
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys;
@@ -33,7 +34,7 @@ final class NanitesIntegratedProcessingCenter {
                 .EUt(125829120)
                 .duration(3200)
                 .blastFurnaceTemp(18900)
-                .addData("module", 3)
+                .addData(GTORecipeDataKeys.MODULE, 3)
                 .save();
 
         NANITES_INTEGRATED_PROCESSING_CENTER_RECIPES.recipeBuilder("biological_cells")
@@ -52,7 +53,7 @@ final class NanitesIntegratedProcessingCenter {
                 .EUt(491520)
                 .duration(4000)
                 .blastFurnaceTemp(16200)
-                .addData("module", 2)
+                .addData(GTORecipeDataKeys.MODULE, 2)
                 .save();
 
         NANITES_INTEGRATED_PROCESSING_CENTER_RECIPES.recipeBuilder("hexanitrohexaaxaisowurtzitane_dust")
@@ -79,7 +80,7 @@ final class NanitesIntegratedProcessingCenter {
                 .EUt(125829120)
                 .duration(6400)
                 .blastFurnaceTemp(21600)
-                .addData("module", 3)
+                .addData(GTORecipeDataKeys.MODULE, 3)
                 .save();
 
         NANITES_INTEGRATED_PROCESSING_CENTER_RECIPES.recipeBuilder("silicone_rubber")
@@ -94,7 +95,7 @@ final class NanitesIntegratedProcessingCenter {
                 .EUt(30720)
                 .duration(320)
                 .blastFurnaceTemp(1200)
-                .addData("module", 3)
+                .addData(GTORecipeDataKeys.MODULE, 3)
                 .save();
 
         NANITES_INTEGRATED_PROCESSING_CENTER_RECIPES.recipeBuilder("euv_photoresist")
@@ -117,7 +118,7 @@ final class NanitesIntegratedProcessingCenter {
                 .EUt(503316480)
                 .duration(12800)
                 .blastFurnaceTemp(21600)
-                .addData("module", 3)
+                .addData(GTORecipeDataKeys.MODULE, 3)
                 .save();
 
         NANITES_INTEGRATED_PROCESSING_CENTER_RECIPES.recipeBuilder("cycloparaphenylene")
@@ -135,7 +136,7 @@ final class NanitesIntegratedProcessingCenter {
                 .EUt(31457280)
                 .duration(2000)
                 .blastFurnaceTemp(16200)
-                .addData("module", 3)
+                .addData(GTORecipeDataKeys.MODULE, 3)
                 .save();
 
         NANITES_INTEGRATED_PROCESSING_CENTER_RECIPES.recipeBuilder("cosmic_superconductor")
@@ -162,7 +163,7 @@ final class NanitesIntegratedProcessingCenter {
                 .EUt(2013265920)
                 .duration(16000)
                 .blastFurnaceTemp(36000)
-                .addData("module", 3)
+                .addData(GTORecipeDataKeys.MODULE, 3)
                 .save();
 
         NANITES_INTEGRATED_PROCESSING_CENTER_RECIPES.recipeBuilder("unfolded_fullerene_dust")
@@ -177,7 +178,7 @@ final class NanitesIntegratedProcessingCenter {
                 .EUt(31457280)
                 .duration(16000)
                 .blastFurnaceTemp(16800)
-                .addData("module", 3)
+                .addData(GTORecipeDataKeys.MODULE, 3)
                 .save();
 
         NANITES_INTEGRATED_PROCESSING_CENTER_RECIPES.recipeBuilder("polyimide")
@@ -192,7 +193,7 @@ final class NanitesIntegratedProcessingCenter {
                 .EUt(8388608)
                 .duration(2000)
                 .blastFurnaceTemp(14400)
-                .addData("module", 3)
+                .addData(GTORecipeDataKeys.MODULE, 3)
                 .save();
 
         NANITES_INTEGRATED_PROCESSING_CENTER_RECIPES.recipeBuilder("platinum_dust")
@@ -215,7 +216,7 @@ final class NanitesIntegratedProcessingCenter {
                 .EUt(491520)
                 .duration(2400)
                 .blastFurnaceTemp(9000)
-                .addData("module", 1)
+                .addData(GTORecipeDataKeys.MODULE, 1)
                 .save();
 
         NANITES_INTEGRATED_PROCESSING_CENTER_RECIPES.recipeBuilder("photopolymer")
@@ -239,7 +240,7 @@ final class NanitesIntegratedProcessingCenter {
                 .EUt(2013265920)
                 .duration(5120)
                 .blastFurnaceTemp(21600)
-                .addData("module", 3)
+                .addData(GTORecipeDataKeys.MODULE, 3)
                 .save();
 
         NANITES_INTEGRATED_PROCESSING_CENTER_RECIPES.recipeBuilder("photoresist")
@@ -258,7 +259,7 @@ final class NanitesIntegratedProcessingCenter {
                 .EUt(7864320)
                 .duration(9600)
                 .blastFurnaceTemp(16200)
-                .addData("module", 3)
+                .addData(GTORecipeDataKeys.MODULE, 3)
                 .save();
 
         NANITES_INTEGRATED_PROCESSING_CENTER_RECIPES.recipeBuilder("stem_cells")
@@ -281,7 +282,7 @@ final class NanitesIntegratedProcessingCenter {
                 .EUt(1966080)
                 .duration(600)
                 .blastFurnaceTemp(12200)
-                .addData("module", 2)
+                .addData(GTORecipeDataKeys.MODULE, 2)
                 .save();
 
         NANITES_INTEGRATED_PROCESSING_CENTER_RECIPES.recipeBuilder("polyvinyl_chloride")
@@ -295,7 +296,7 @@ final class NanitesIntegratedProcessingCenter {
                 .EUt(7680)
                 .duration(160)
                 .blastFurnaceTemp(800)
-                .addData("module", 3)
+                .addData(GTORecipeDataKeys.MODULE, 3)
                 .save();
 
         NANITES_INTEGRATED_PROCESSING_CENTER_RECIPES.recipeBuilder("styrene_butadiene_rubber")
@@ -311,7 +312,7 @@ final class NanitesIntegratedProcessingCenter {
                 .EUt(122880)
                 .duration(120)
                 .blastFurnaceTemp(1800)
-                .addData("module", 3)
+                .addData(GTORecipeDataKeys.MODULE, 3)
                 .save();
 
         NANITES_INTEGRATED_PROCESSING_CENTER_RECIPES.recipeBuilder("polybenzimidazole")
@@ -330,7 +331,7 @@ final class NanitesIntegratedProcessingCenter {
                 .EUt(1966080)
                 .duration(2000)
                 .blastFurnaceTemp(6000)
-                .addData("module", 3)
+                .addData(GTORecipeDataKeys.MODULE, 3)
                 .save();
 
         NANITES_INTEGRATED_PROCESSING_CENTER_RECIPES.recipeBuilder("polytetrafluoroethylene")
@@ -344,7 +345,7 @@ final class NanitesIntegratedProcessingCenter {
                 .EUt(122880)
                 .duration(240)
                 .blastFurnaceTemp(2600)
-                .addData("module", 3)
+                .addData(GTORecipeDataKeys.MODULE, 3)
                 .save();
 
         NANITES_INTEGRATED_PROCESSING_CENTER_RECIPES.recipeBuilder("acidic_naquadria_solution")
@@ -356,7 +357,7 @@ final class NanitesIntegratedProcessingCenter {
                 .EUt(491520)
                 .duration(200)
                 .blastFurnaceTemp(9000)
-                .addData("module", 1)
+                .addData(GTORecipeDataKeys.MODULE, 1)
                 .save();
 
         NANITES_INTEGRATED_PROCESSING_CENTER_RECIPES.recipeBuilder("zirconium_dust")
@@ -375,7 +376,7 @@ final class NanitesIntegratedProcessingCenter {
                 .EUt(7864320)
                 .duration(6400)
                 .blastFurnaceTemp(16200)
-                .addData("module", 1)
+                .addData(GTORecipeDataKeys.MODULE, 1)
                 .save();
 
         NANITES_INTEGRATED_PROCESSING_CENTER_RECIPES.recipeBuilder("liquidcrystalkevlar")
@@ -392,7 +393,7 @@ final class NanitesIntegratedProcessingCenter {
                 .EUt(31457280)
                 .duration(4000)
                 .blastFurnaceTemp(17200)
-                .addData("module", 3)
+                .addData(GTORecipeDataKeys.MODULE, 3)
                 .save();
 
         NANITES_INTEGRATED_PROCESSING_CENTER_RECIPES.recipeBuilder("naquadria_dust")
@@ -416,7 +417,7 @@ final class NanitesIntegratedProcessingCenter {
                 .EUt(1966080)
                 .duration(3600)
                 .blastFurnaceTemp(12600)
-                .addData("module", 1)
+                .addData(GTORecipeDataKeys.MODULE, 1)
                 .save();
 
         NANITES_INTEGRATED_PROCESSING_CENTER_RECIPES.recipeBuilder("epoxy")
@@ -435,7 +436,7 @@ final class NanitesIntegratedProcessingCenter {
                 .EUt(122880)
                 .duration(240)
                 .blastFurnaceTemp(5600)
-                .addData("module", 3)
+                .addData(GTORecipeDataKeys.MODULE, 3)
                 .save();
 
         NANITES_INTEGRATED_PROCESSING_CENTER_RECIPES.recipeBuilder("polyphenylene_sulfide")
@@ -448,7 +449,7 @@ final class NanitesIntegratedProcessingCenter {
                 .EUt(491520)
                 .duration(120)
                 .blastFurnaceTemp(800)
-                .addData("module", 3)
+                .addData(GTORecipeDataKeys.MODULE, 3)
                 .save();
 
         NANITES_INTEGRATED_PROCESSING_CENTER_RECIPES.recipeBuilder("mutagen")
@@ -461,7 +462,7 @@ final class NanitesIntegratedProcessingCenter {
                 .EUt(491520)
                 .duration(2000)
                 .blastFurnaceTemp(12600)
-                .addData("module", 2)
+                .addData(GTORecipeDataKeys.MODULE, 2)
                 .save();
 
         NANITES_INTEGRATED_PROCESSING_CENTER_RECIPES.recipeBuilder("polyurethaneresin")
@@ -481,7 +482,7 @@ final class NanitesIntegratedProcessingCenter {
                 .EUt(7864320)
                 .duration(2700)
                 .blastFurnaceTemp(16200)
-                .addData("module", 3)
+                .addData(GTORecipeDataKeys.MODULE, 3)
                 .save();
 
         NANITES_INTEGRATED_PROCESSING_CENTER_RECIPES.recipeBuilder("acidic_enriched_naquadah_solution")
@@ -493,7 +494,7 @@ final class NanitesIntegratedProcessingCenter {
                 .EUt(491520)
                 .duration(200)
                 .blastFurnaceTemp(9000)
-                .addData("module", 1)
+                .addData(GTORecipeDataKeys.MODULE, 1)
                 .save();
 
         NANITES_INTEGRATED_PROCESSING_CENTER_RECIPES.recipeBuilder("polyetheretherketone")
@@ -512,7 +513,7 @@ final class NanitesIntegratedProcessingCenter {
                 .EUt(31457280)
                 .duration(16400)
                 .blastFurnaceTemp(14400)
-                .addData("module", 3)
+                .addData(GTORecipeDataKeys.MODULE, 3)
                 .save();
 
         NANITES_INTEGRATED_PROCESSING_CENTER_RECIPES.recipeBuilder("polyvinyl_butyral")
@@ -529,7 +530,7 @@ final class NanitesIntegratedProcessingCenter {
                 .EUt(491520)
                 .duration(2400)
                 .blastFurnaceTemp(6000)
-                .addData("module", 3)
+                .addData(GTORecipeDataKeys.MODULE, 3)
                 .save();
 
         NANITES_INTEGRATED_PROCESSING_CENTER_RECIPES.builder("tcetieseaweedextract")
@@ -550,7 +551,7 @@ final class NanitesIntegratedProcessingCenter {
                 .EUt(7864320)
                 .blastFurnaceTemp(16200)
                 .duration(5000)
-                .addData("module", 2)
+                .addData(GTORecipeDataKeys.MODULE, 2)
                 .save();
 
         NANITES_INTEGRATED_PROCESSING_CENTER_RECIPES.builder("agar_dust")
@@ -567,7 +568,7 @@ final class NanitesIntegratedProcessingCenter {
                 .EUt(1966080)
                 .blastFurnaceTemp(12600)
                 .duration(2500)
-                .addData("module", 2)
+                .addData(GTORecipeDataKeys.MODULE, 2)
                 .save();
 
         NANITES_INTEGRATED_PROCESSING_CENTER_RECIPES.builder("pedot_dust")
@@ -591,7 +592,7 @@ final class NanitesIntegratedProcessingCenter {
                 .EUt(1966080)
                 .blastFurnaceTemp(14400)
                 .duration(3000)
-                .addData("module", 3)
+                .addData(GTORecipeDataKeys.MODULE, 3)
                 .save();
 
         NANITES_INTEGRATED_PROCESSING_CENTER_RECIPES.builder("rare_earth1")  // 铼纳米蜂群
@@ -618,7 +619,7 @@ final class NanitesIntegratedProcessingCenter {
                 .EUt(1966080)
                 .blastFurnaceTemp(10800)
                 .duration(488)
-                .addData("module", 1)
+                .addData(GTORecipeDataKeys.MODULE, 1)
                 .save();
 
         NANITES_INTEGRATED_PROCESSING_CENTER_RECIPES.builder("rare_earth2")  // 银纳米蜂群
@@ -644,7 +645,7 @@ final class NanitesIntegratedProcessingCenter {
                 .EUt(1966080)
                 .blastFurnaceTemp(10800)
                 .duration(488)
-                .addData("module", 1)
+                .addData(GTORecipeDataKeys.MODULE, 1)
                 .save();
 
         NANITES_INTEGRATED_PROCESSING_CENTER_RECIPES.builder("rare_earth3")  // 铜纳米蜂群
@@ -672,7 +673,7 @@ final class NanitesIntegratedProcessingCenter {
                 .EUt(491520)
                 .blastFurnaceTemp(10800)
                 .duration(1120)
-                .addData("module", 1)
+                .addData(GTORecipeDataKeys.MODULE, 1)
                 .save();
     }
 }

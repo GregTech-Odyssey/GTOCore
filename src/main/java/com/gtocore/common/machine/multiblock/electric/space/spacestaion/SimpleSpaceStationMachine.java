@@ -1,5 +1,6 @@
 package com.gtocore.common.machine.multiblock.electric.space.spacestaion;
 
+import com.gtocore.api.pattern.GTOPredicates;
 import com.gtocore.client.forge.ForgeClientEvent;
 
 import com.gtolib.api.machine.trait.CustomRecipeLogic;
@@ -15,6 +16,7 @@ import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.machine.multiblock.CleanroomType;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeHandlerList;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
+import com.gregtechceu.gtceu.api.pattern.Predicates;
 import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
@@ -72,9 +74,9 @@ public class SimpleSpaceStationMachine extends AbstractSpaceStation {
     /// @see com.gregtechceu.gtceu.common.machine.multiblock.electric.CleanroomMachine#onStructureFormed()
     @Override
     public void onStructureFormed() {
-        this.outputDistilledWaterHatches = getMultiblockState().getMatchContext().getOrDefault("spaceMachinePhotovoltaicSupp", Collections.emptySet());
+        this.outputDistilledWaterHatches = getMultiblockState().getMatchContext().getOrDefault(GTOPredicates.DataKeys.SPACE_MACHINE_PHOTOVOLTAIC_SUPP, Collections.emptySet());
         super.onStructureFormed();
-        IFilterType filterType = getMultiblockState().getMatchContext().get("FilterType");
+        IFilterType filterType = getMultiblockState().getMatchContext().get(Predicates.DataKey.FILTER_TYPE);
         if (filterType != null) {
             this.cleanroomType = filterType.getCleanroomType();
         } else {

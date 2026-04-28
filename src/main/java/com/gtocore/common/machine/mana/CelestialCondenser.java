@@ -60,7 +60,7 @@ public class CelestialCondenser extends SimpleNoEnergyMachine implements IWailaD
         int lunaraCost = recipe.data.getInt(LUNARA);
         int voidfluxCost = recipe.data.getInt(VOIDFLUX);
         int stellarmCost = recipe.data.getInt(STELLARM);
-        int anyCost = recipe.data.getInt("any");
+        int anyCost = recipe.data.getInt(ANY);
 
         ResourceResult deductResult = null;
         if (solarisCost > 0) {
@@ -72,7 +72,7 @@ public class CelestialCondenser extends SimpleNoEnergyMachine implements IWailaD
         } else if (stellarmCost > 0) {
             deductResult = celestialHandler.deductResource(STELLARM, stellarmCost, 1, solaris, lunara, voidflux, stellarm);
         } else if (anyCost > 0) {
-            deductResult = celestialHandler.deductResource("ANY", anyCost, 1, solaris, lunara, voidflux, stellarm);
+            deductResult = celestialHandler.deductResource(ANY, anyCost, 1, solaris, lunara, voidflux, stellarm);
         }
 
         if (deductResult == null || !deductResult.success()) {
@@ -148,10 +148,10 @@ public class CelestialCondenser extends SimpleNoEnergyMachine implements IWailaD
 
     @Override
     public void appendWailaTooltip(CompoundTag data, ITooltip iTooltip, BlockAccessor blockAccessor, IPluginConfig iPluginConfig) {
-        long solaris = data.getLong(SOLARIS);
-        long lunara = data.getLong(LUNARA);
-        long voidflux = data.getLong(VOIDFLUX);
-        long stellarm = data.getLong(STELLARM);
+        long solaris = data.getLong(SOLARIS.name);
+        long lunara = data.getLong(LUNARA.name);
+        long voidflux = data.getLong(VOIDFLUX.name);
+        long stellarm = data.getLong(STELLARM.name);
         long maxCapacity = data.getLong("max_capacity");
         if (solaris > 0) iTooltip.add(Component.translatable("gtocore.celestial_condenser.solaris", solaris + "/" + maxCapacity));
         if (lunara > 0) iTooltip.add(Component.translatable("gtocore.celestial_condenser.lunara", lunara + "/" + maxCapacity));
@@ -161,10 +161,10 @@ public class CelestialCondenser extends SimpleNoEnergyMachine implements IWailaD
 
     @Override
     public void appendWailaData(CompoundTag data, BlockAccessor blockAccessor) {
-        data.putLong(SOLARIS, this.solaris);
-        data.putLong(LUNARA, this.lunara);
-        data.putLong(VOIDFLUX, this.voidflux);
-        data.putLong(STELLARM, this.stellarm);
+        data.putLong(SOLARIS.name, this.solaris);
+        data.putLong(LUNARA.name, this.lunara);
+        data.putLong(VOIDFLUX.name, this.voidflux);
+        data.putLong(STELLARM.name, this.stellarm);
         data.putLong("max_capacity", MAX_CAPACITY);
     }
 }

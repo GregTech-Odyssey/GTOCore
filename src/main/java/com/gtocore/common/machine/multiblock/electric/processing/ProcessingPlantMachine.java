@@ -1,13 +1,13 @@
 package com.gtocore.common.machine.multiblock.electric.processing;
 
 import com.gtocore.api.gui.configurators.MultiMachineModeFancyConfigurator;
+import com.gtocore.common.data.GTORecipeDataKeys;
 import com.gtocore.common.data.GTORecipeTypes;
 import com.gtocore.common.machine.multiblock.electric.space.spacestaion.AbstractSpaceStation;
 import com.gtocore.common.machine.multiblock.part.ae.MEPatternBufferPartMachine;
 import com.gtocore.common.machine.multiblock.part.ae.MEWildcardPatternBufferPartMachine;
 
 import com.gtolib.GTOCore;
-import com.gtolib.api.GTOValues;
 import com.gtolib.api.gui.ParallelConfigurator;
 import com.gtolib.api.machine.feature.multiblock.IParallelMachine;
 import com.gtolib.api.machine.feature.multiblock.ITierCasingMachine;
@@ -16,6 +16,7 @@ import com.gtolib.api.machine.trait.CustomParallelTrait;
 import com.gtolib.api.machine.trait.TierCasingTrait;
 import com.gtolib.api.recipe.Recipe;
 import com.gtolib.api.recipe.RecipeType;
+import com.gtolib.api.recipe.TierDataKey;
 import com.gtolib.api.recipe.modifier.RecipeModifierFunction;
 import com.gtolib.utils.MachineUtils;
 
@@ -35,7 +36,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import it.unimi.dsi.fastutil.objects.Object2IntMap;
+import it.unimi.dsi.fastutil.objects.Reference2IntMap;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Arrays;
@@ -117,7 +118,7 @@ public final class ProcessingPlantMachine extends StorageMultiblockMachine imple
             if (processingPlantMachine.getTier() <= 0) return 0;
             return (long) processingPlantMachine.getTier() * getParallelPerTier(processingPlantMachine.getSubFormedAmount() > 0);
         });
-        tierCasingTrait = new TierCasingTrait(this, GTOValues.INTEGRAL_FRAMEWORK_TIER);
+        tierCasingTrait = new TierCasingTrait(this, GTORecipeDataKeys.INTEGRAL_FRAMEWORK_TIER);
     }
 
     public static int getParallelPerTier(boolean hasModule) {
@@ -256,11 +257,11 @@ public final class ProcessingPlantMachine extends StorageMultiblockMachine imple
     @Override
     public int getTier() {
         if (!isFormed) return 0;
-        return Math.min(getCasingTier(GTOValues.INTEGRAL_FRAMEWORK_TIER), tier);
+        return Math.min(getCasingTier(GTORecipeDataKeys.INTEGRAL_FRAMEWORK_TIER), tier);
     }
 
     @Override
-    public Object2IntMap<String> getCasingTiers() {
+    public Reference2IntMap<TierDataKey> getCasingTiers() {
         return tierCasingTrait.getCasingTiers();
     }
 }

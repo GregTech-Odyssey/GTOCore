@@ -5,10 +5,9 @@ import com.gtocore.common.data.GTOBlocks;
 import com.gtocore.common.data.GTOItems;
 import com.gtocore.common.data.GTOMachines;
 import com.gtocore.common.data.GTOMaterials;
+import com.gtocore.common.data.GTORecipeDataKeys;
 import com.gtocore.common.data.machines.MultiBlockD;
 import com.gtocore.common.data.machines.MultiBlockH;
-
-import com.gtolib.api.GTOValues;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
@@ -40,7 +39,7 @@ final class AssemblerModule {
                 .outputItems(GTOItems.MACROWORMHOLE_GENERATOR)
                 .EUt(1000000)
                 .duration(400)
-                .addData(GTOValues.POWER_MODULE_TIER, 4)
+                .addData(GTORecipeDataKeys.POWER_MODULE_TIER, 4)
                 .save();
 
         ASSEMBLER_MODULE_RECIPES.recipeBuilder("stabilized_wormhole_generator")
@@ -56,7 +55,7 @@ final class AssemblerModule {
                 .outputItems(GTOItems.STABILIZED_WORMHOLE_GENERATOR)
                 .EUt(10000000)
                 .duration(800)
-                .addData(GTOValues.POWER_MODULE_TIER, 4)
+                .addData(GTORecipeDataKeys.POWER_MODULE_TIER, 4)
                 .save();
 
         ASSEMBLER_MODULE_RECIPES.recipeBuilder("space_drone_mk4")
@@ -83,7 +82,7 @@ final class AssemblerModule {
                 .outputItems(GTOItems.SPACE_DRONE_MK4)
                 .EUt(31457280)
                 .duration(600)
-                .addData(GTOValues.POWER_MODULE_TIER, 3)
+                .addData(GTORecipeDataKeys.POWER_MODULE_TIER, 3)
                 .save();
 
         ASSEMBLER_MODULE_RECIPES.recipeBuilder("space_drone_mk3")
@@ -110,7 +109,7 @@ final class AssemblerModule {
                 .outputItems(GTOItems.SPACE_DRONE_MK3)
                 .EUt(7864320)
                 .duration(600)
-                .addData(GTOValues.POWER_MODULE_TIER, 2)
+                .addData(GTORecipeDataKeys.POWER_MODULE_TIER, 2)
                 .save();
 
         ASSEMBLER_MODULE_RECIPES.recipeBuilder("space_drone_mk6")
@@ -137,7 +136,7 @@ final class AssemblerModule {
                 .outputItems(GTOItems.SPACE_DRONE_MK6)
                 .EUt(503316480)
                 .duration(600)
-                .addData(GTOValues.POWER_MODULE_TIER, 5)
+                .addData(GTORecipeDataKeys.POWER_MODULE_TIER, 5)
                 .save();
 
         ASSEMBLER_MODULE_RECIPES.recipeBuilder("space_drone_mk5")
@@ -164,7 +163,7 @@ final class AssemblerModule {
                 .outputItems(GTOItems.SPACE_DRONE_MK5)
                 .EUt(125829120)
                 .duration(600)
-                .addData(GTOValues.POWER_MODULE_TIER, 4)
+                .addData(GTORecipeDataKeys.POWER_MODULE_TIER, 4)
                 .save();
 
         ASSEMBLER_MODULE_RECIPES.recipeBuilder("space_drone_mk2")
@@ -191,7 +190,7 @@ final class AssemblerModule {
                 .outputItems(GTOItems.SPACE_DRONE_MK2)
                 .EUt(1966080)
                 .duration(600)
-                .addData(GTOValues.POWER_MODULE_TIER, 1)
+                .addData(GTORecipeDataKeys.POWER_MODULE_TIER, 1)
                 .save();
 
         ASSEMBLER_MODULE_RECIPES.recipeBuilder("space_drone_mk1")
@@ -218,7 +217,7 @@ final class AssemblerModule {
                 .outputItems(GTOItems.SPACE_DRONE_MK1)
                 .EUt(491520)
                 .duration(600)
-                .addData(GTOValues.POWER_MODULE_TIER, 1)
+                .addData(GTORecipeDataKeys.POWER_MODULE_TIER, 1)
                 .save();
 
         ASSEMBLER_MODULE_RECIPES.recipeBuilder("relativistic_spinorial_memory_system")
@@ -236,7 +235,7 @@ final class AssemblerModule {
                 .outputItems(GTOItems.RELATIVISTIC_SPINORIAL_MEMORY_SYSTEM)
                 .EUt(125829120)
                 .duration(800)
-                .addData(GTOValues.POWER_MODULE_TIER, 4)
+                .addData(GTORecipeDataKeys.POWER_MODULE_TIER, 4)
                 .save();
 
         ASSEMBLER_MODULE_RECIPES.recipeBuilder("space_probe_mk3")
@@ -254,7 +253,7 @@ final class AssemblerModule {
                 .outputItems(GTOItems.SPACE_PROBE_MK3)
                 .EUt(503316480)
                 .duration(400)
-                .addData(GTOValues.POWER_MODULE_TIER, 5)
+                .addData(GTORecipeDataKeys.POWER_MODULE_TIER, 5)
                 .save();
 
         ASSEMBLER_MODULE_RECIPES.recipeBuilder("space_probe_mk1")
@@ -271,7 +270,7 @@ final class AssemblerModule {
                 .outputItems(GTOItems.SPACE_PROBE_MK1)
                 .EUt(31457280)
                 .duration(400)
-                .addData(GTOValues.POWER_MODULE_TIER, 3)
+                .addData(GTORecipeDataKeys.POWER_MODULE_TIER, 3)
                 .save();
 
         ASSEMBLER_MODULE_RECIPES.recipeBuilder("space_probe_mk2")
@@ -289,7 +288,7 @@ final class AssemblerModule {
                 .outputItems(GTOItems.SPACE_PROBE_MK2)
                 .EUt(125829120)
                 .duration(400)
-                .addData(GTOValues.POWER_MODULE_TIER, 4)
+                .addData(GTORecipeDataKeys.POWER_MODULE_TIER, 4)
                 .save();
 
         ASSEMBLER_MODULE_RECIPES.recipeBuilder("scintillator")
@@ -307,7 +306,7 @@ final class AssemblerModule {
                 .outputItems(GTOItems.SCINTILLATOR)
                 .EUt(7864320)
                 .duration(400)
-                .addData(GTOValues.POWER_MODULE_TIER, 2)
+                .addData(GTORecipeDataKeys.POWER_MODULE_TIER, 2)
                 .save();
 
         ASSEMBLER_MODULE_RECIPES.recipeBuilder("nuclear_clock")
@@ -324,7 +323,7 @@ final class AssemblerModule {
                 .outputItems(GTOItems.NUCLEAR_CLOCK)
                 .EUt(33550000)
                 .duration(1600)
-                .addData(GTOValues.POWER_MODULE_TIER, 3)
+                .addData(GTORecipeDataKeys.POWER_MODULE_TIER, 3)
                 .save();
 
         ASSEMBLER_MODULE_RECIPES.recipeBuilder("microwormhole_generator")
@@ -340,7 +339,7 @@ final class AssemblerModule {
                 .outputItems(GTOItems.MICROWORMHOLE_GENERATOR)
                 .EUt(100000)
                 .duration(200)
-                .addData(GTOValues.POWER_MODULE_TIER, 4)
+                .addData(GTORecipeDataKeys.POWER_MODULE_TIER, 4)
                 .save();
 
         ASSEMBLER_MODULE_RECIPES.recipeBuilder("closed_timelike_curvecomputational_unit_container")
@@ -367,7 +366,7 @@ final class AssemblerModule {
                 .outputItems(GTOItems.CLOSED_TIMELIKE_CURVE_COMPUTATIONAL_UNIT_CONTAINER)
                 .EUt(125829120)
                 .duration(800)
-                .addData(GTOValues.POWER_MODULE_TIER, 5)
+                .addData(GTORecipeDataKeys.POWER_MODULE_TIER, 5)
                 .save();
 
         ASSEMBLER_MODULE_RECIPES.recipeBuilder("really_max_battery")
@@ -394,7 +393,7 @@ final class AssemblerModule {
                 .outputItems(GTOItems.REALLY_MAX_BATTERY)
                 .EUt(8388608)
                 .duration(1200)
-                .addData(GTOValues.POWER_MODULE_TIER, 3)
+                .addData(GTORecipeDataKeys.POWER_MODULE_TIER, 3)
                 .save();
 
         ASSEMBLER_MODULE_RECIPES.recipeBuilder("optical_data_stick")
@@ -411,7 +410,7 @@ final class AssemblerModule {
                 .outputItems(GTOItems.OPTICAL_DATA_STICK)
                 .EUt(524288)
                 .duration(240)
-                .addData(GTOValues.POWER_MODULE_TIER, 1)
+                .addData(GTORecipeDataKeys.POWER_MODULE_TIER, 1)
                 .save();
 
         ASSEMBLER_MODULE_RECIPES.recipeBuilder("energy_cluster")
@@ -436,7 +435,7 @@ final class AssemblerModule {
                 .outputItems(GTItems.ENERGY_CLUSTER)
                 .EUt(524288)
                 .duration(700)
-                .addData(GTOValues.POWER_MODULE_TIER, 1)
+                .addData(GTORecipeDataKeys.POWER_MODULE_TIER, 1)
                 .save();
 
         ASSEMBLER_MODULE_RECIPES.recipeBuilder("max_battery")
@@ -463,7 +462,7 @@ final class AssemblerModule {
                 .outputItems(GTItems.ULTIMATE_BATTERY)
                 .EUt(2097152)
                 .duration(1000)
-                .addData(GTOValues.POWER_MODULE_TIER, 2)
+                .addData(GTORecipeDataKeys.POWER_MODULE_TIER, 2)
                 .save();
 
         ASSEMBLER_MODULE_RECIPES.recipeBuilder("obsidian_matrix")
@@ -489,7 +488,7 @@ final class AssemblerModule {
                 .inputFluids(GTOMaterials.SuperMutatedLivingSolder, 32000)
                 .EUt(62914560)
                 .duration(1600)
-                .addData(GTOValues.POWER_MODULE_TIER, 4)
+                .addData(GTORecipeDataKeys.POWER_MODULE_TIER, 4)
                 .save();
 
         ASSEMBLER_MODULE_RECIPES.builder("mega_se_mining")
@@ -506,7 +505,7 @@ final class AssemblerModule {
                 .inputFluids(GTOMaterials.Echoite, 8320)
                 .duration(1200)
                 .EUt(VA[UXV])
-                .addData(GTOValues.POWER_MODULE_TIER, 3)
+                .addData(GTORecipeDataKeys.POWER_MODULE_TIER, 3)
                 .save();
 
         ASSEMBLER_MODULE_RECIPES.builder("mega_se_assembler")
@@ -525,7 +524,7 @@ final class AssemblerModule {
                 .inputFluids(GTOMaterials.Echoite, 8320)
                 .duration(1200)
                 .EUt(VA[UXV])
-                .addData(GTOValues.POWER_MODULE_TIER, 3)
+                .addData(GTORecipeDataKeys.POWER_MODULE_TIER, 3)
                 .save();
     }
 }

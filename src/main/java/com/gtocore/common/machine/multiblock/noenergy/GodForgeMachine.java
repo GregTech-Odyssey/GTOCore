@@ -4,12 +4,14 @@ import com.gtocore.api.pattern.GTOPredicates;
 import com.gtocore.client.renderer.StructurePattern;
 import com.gtocore.client.renderer.StructureVBO;
 import com.gtocore.common.data.GTOBlocks;
+import com.gtocore.common.data.GTORecipeDataKeys;
 
 import com.gtolib.api.machine.feature.multiblock.ITierCasingMachine;
 import com.gtolib.api.machine.multiblock.NoEnergyMultiblockMachine;
 import com.gtolib.api.machine.trait.CustomRecipeLogic;
 import com.gtolib.api.machine.trait.TierCasingTrait;
 import com.gtolib.api.recipe.Recipe;
+import com.gtolib.api.recipe.TierDataKey;
 import com.gtolib.utils.ClientUtil;
 import com.gtolib.utils.MultiBlockFileReader;
 
@@ -32,7 +34,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import it.unimi.dsi.fastutil.objects.Object2IntMap;
+import it.unimi.dsi.fastutil.objects.Reference2IntMap;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
@@ -59,11 +61,11 @@ public final class GodForgeMachine extends NoEnergyMultiblockMachine implements 
 
     public GodForgeMachine(MetaMachineBlockEntity holder) {
         super(holder);
-        tierCasingTrait = new TierCasingTrait(this, GRAVITON_FLOW_TIER);
+        tierCasingTrait = new TierCasingTrait(this, GTORecipeDataKeys.GRAVITON_FLOW_TIER);
     }
 
     @Override
-    public Object2IntMap<String> getCasingTiers() {
+    public Reference2IntMap<TierDataKey> getCasingTiers() {
         return tierCasingTrait.getCasingTiers();
     }
 
@@ -98,8 +100,8 @@ public final class GodForgeMachine extends NoEnergyMultiblockMachine implements 
     @Override
     public void onStructureFormed() {
         super.onStructureFormed();
-        color = 1 - 0.1F * getCasingTier(GRAVITON_FLOW_TIER);
-        tier = getCasingTier(GRAVITON_FLOW_TIER);
+        color = 1 - 0.1F * getCasingTier(GTORecipeDataKeys.GRAVITON_FLOW_TIER);
+        tier = getCasingTier(GTORecipeDataKeys.GRAVITON_FLOW_TIER);
     }
 
     private BlockPos getRealPos(int x, int y, int z) {
@@ -184,7 +186,7 @@ public final class GodForgeMachine extends NoEnergyMultiblockMachine implements 
                 .where('D', Predicates.blocks(GTOBlocks.BOUNDLESS_GRAVITATIONALLY_SEVERED_STRUCTURE_CASING.get()))
                 .where('E', Predicates.blocks(GTOBlocks.TRANSCENDENTALLY_AMPLIFIED_MAGNETIC_CONFINEMENT_CASING.get()))
                 .where('F', Predicates.blocks(GTOBlocks.STELLAR_ENERGY_SIPHON_CASING.get()))
-                .where('G', GTOPredicates.tierBlock(GRAVITONFLOWMAP, GRAVITON_FLOW_TIER))
+                .where('G', GTOPredicates.tierBlock(GRAVITONFLOWMAP, GTORecipeDataKeys.GRAVITON_FLOW_TIER))
                 .where('H', Predicates.blocks(GTOBlocks.SPATIALLY_TRANSCENDENT_GRAVITATIONAL_LENS_BLOCK.get()))
                 .build();
     }

@@ -1,6 +1,7 @@
 package com.gtocore.common.machine.multiblock.electric;
 
 import com.gtocore.common.data.GTOBlocks;
+import com.gtocore.common.data.GTORecipeDataKeys;
 
 import com.gtolib.api.annotation.DataGeneratorScanned;
 import com.gtolib.api.annotation.language.RegisterLanguage;
@@ -44,7 +45,7 @@ public final class StellarForgeMachine extends TierCasingMultiblockMachine imple
     private int consecutiveRecipes;
 
     public StellarForgeMachine(MetaMachineBlockEntity holder) {
-        super(holder, STELLAR_CONTAINMENT_TIER);
+        super(holder, GTORecipeDataKeys.STELLAR_CONTAINMENT_TIER);
         this.manaTrait = new ManaTrait(this) {
 
             @Override
@@ -59,7 +60,7 @@ public final class StellarForgeMachine extends TierCasingMultiblockMachine imple
     @Override
     public void onStructureFormed() {
         super.onStructureFormed();
-        tier = switch (getCasingTier(STELLAR_CONTAINMENT_TIER)) {
+        tier = switch (getCasingTier(GTORecipeDataKeys.STELLAR_CONTAINMENT_TIER)) {
             case 3 -> GTValues.MAX;
             case 2 -> GTValues.OpV;
             default -> GTValues.UXV;

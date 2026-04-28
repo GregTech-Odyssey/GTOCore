@@ -12,7 +12,6 @@ import com.gtolib.api.misc.ManaContainerList;
 import com.gtolib.api.recipe.IdleReason;
 import com.gtolib.api.recipe.Recipe;
 import com.gtolib.api.recipe.RecipeType;
-import com.gtolib.utils.FunctionContainer;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.recipe.*;
@@ -39,6 +38,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.AABB;
 
 import com.fast.recipesearch.IntLongMap;
+import com.gto.datasynclib.datasream.DataComponentKey;
 import mythicbotany.pylon.BlockAlfsteelPylon;
 import mythicbotany.register.ModBlocks;
 import org.jetbrains.annotations.NotNull;
@@ -58,6 +58,9 @@ import static com.gtolib.api.recipe.lookup.MapIngredient.ITEM_CONVERTER;
 
 @DataGeneratorScanned
 public class ManaFlowAssembler extends ManaMultiblockMachine {
+
+    private static final DataComponentKey<AtomicInteger> MAX_RATE = DataComponentKey.create("maxRate", null);
+    private static final DataComponentKey<List<BlockPos>> POOL = DataComponentKey.create("manaPool", null);
 
     private final static int SIZE = 9;
     private final ItemEntityRecipeHandler itemIn = new ItemEntityRecipeHandler();
@@ -79,11 +82,11 @@ public class ManaFlowAssembler extends ManaMultiblockMachine {
         addHandlerList(RecipeHandlerList.of(IO.IN, itemIn));
         addHandlerList(RecipeHandlerList.of(IO.OUT, itemIn));
 
-        var f = getMultiblockState().getMatchContext().<FunctionContainer<AtomicInteger, ?>>get("maxRate");
-        maxRate = f == null ? 0 : f.getValue().get();
+        var f = getMultiblockState().getMatchContext().get(MAX_RATE);
+        maxRate = f == null ? 0 : f.get();
         manaPools.clear();
-        var f1 = getMultiblockState().getMatchContext().<FunctionContainer<ArrayList<BlockPos>, ?>>get("manaPool");
-        var poolPositions = f1 == null ? List.<BlockPos>of() : f1.getValue();
+        var f1 = getMultiblockState().getMatchContext().get(POOL);
+        var poolPositions = f1 == null ? Collections.<BlockPos>emptyList() : f1;
         var level = getLevel();
         if (level != null) {
             for (var pos : poolPositions) {
@@ -381,31 +384,25 @@ public class ManaFlowAssembler extends ManaMultiblockMachine {
     }
 
     public static Supplier<TraceabilityPredicate> MANA_PYLON = GTMemoizer.memoize(
-            () -> GTOPredicates.containerBlock(
-                    () -> new FunctionContainer<>(new AtomicInteger(),
-                            (data, state) -> {
-                                if (state.getBlockState().getBlock() instanceof PylonBlock block) {
-                                    switch (block.variant) {
-                                        case MANA -> data.getAndAdd(8);
-                                        case NATURA -> data.getAndAdd(8 << 2);
-                                        case GAIA -> data.getAndAdd(8 << 6);
-                                    }
-                                }
-                                if (state.getBlockState().getBlock() instanceof BlockAlfsteelPylon) {
-                                    data.getAndAdd(8 << 4);
-                                }
-                                return data;
-                            }),
-                    "maxRate", BotaniaBlocks.manaPylon, BotaniaBlocks.naturaPylon, BotaniaBlocks.gaiaPylon, ModBlocks.alfsteelPylon));
+            () -> GTOPredicates.dataBlock(MAX_RATE, AtomicInteger::new, (data, state) -> {
+                if (state.getBlockState().getBlock() instanceof PylonBlock block) {
+                    switch (block.variant) {
+                        case MANA -> data.getAndAdd(8);
+                        case NATURA -> data.getAndAdd(8 << 2);
+                        case GAIA -> data.getAndAdd(8 << 6);
+                    }
+                }
+                if (state.getBlockState().getBlock() instanceof BlockAlfsteelPylon) {
+                    data.getAndAdd(8 << 4);
+                }
+                return data;
+            }, BotaniaBlocks.manaPylon, BotaniaBlocks.naturaPylon, BotaniaBlocks.gaiaPylon, ModBlocks.alfsteelPylon));
 
     public static Supplier<TraceabilityPredicate> MANA_POOL = GTMemoizer.memoize(
-            () -> GTOPredicates.containerBlock(
-                    () -> new FunctionContainer<>(new ArrayList<BlockPos>(),
-                            (data, state) -> {
-                                data.add(state.getPos());
-                                return data;
-                            }),
-                    "manaPool", BotaniaBlocks.manaPool));
+            () -> GTOPredicates.dataBlock(POOL, ArrayList::new, (data, state) -> {
+                data.add(state.getPos());
+                return data;
+            }, BotaniaBlocks.manaPool));
 
     @RegisterLanguage(cn = "魔力流太弱了", en = "Mana flow is too weak")
     public static final String MANA_FLOW_TOO_WEAK = "gtocore.machine.mana_flow_assembler.mana_flow_too_weak";

@@ -1,6 +1,7 @@
 package com.gtocore.common.machine.multiblock.noenergy;
 
 import com.gtocore.common.data.GTOMaterials;
+import com.gtocore.common.data.GTORecipeDataKeys;
 
 import com.gtolib.api.machine.multiblock.NoEnergyMultiblockMachine;
 import com.gtolib.api.recipe.Recipe;
@@ -47,7 +48,7 @@ public final class HeatExchangerMachine extends NoEnergyMultiblockMachine implem
                 .duration(200)
                 .buildRawRecipe(), Integer.MAX_VALUE);
         if (result == null) return null;
-        hs = result.parallels * recipe.data.getLong("eu") / 2;
+        hs = result.parallels * recipe.data.getLong(GTORecipeDataKeys.EU) / 2;
         if (inputFluid(water ? Fluids.WATER : DistilledWater, hs / 40)) {
             return result;
         } else {

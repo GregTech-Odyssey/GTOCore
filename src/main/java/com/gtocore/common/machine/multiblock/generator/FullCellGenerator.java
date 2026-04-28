@@ -3,6 +3,7 @@ package com.gtocore.common.machine.multiblock.generator;
 import com.gtocore.api.data.tag.GTOTagPrefix;
 import com.gtocore.common.data.GTOFluidStorageKey;
 import com.gtocore.common.data.GTOMaterials;
+import com.gtocore.common.data.GTORecipeDataKeys;
 import com.gtocore.common.data.GTORecipeTypes;
 
 import com.gtolib.api.annotation.Scanned;
@@ -109,7 +110,7 @@ public class FullCellGenerator extends ElectricMultiblockMachine {
     }
 
     private Recipe getAbsorptionRecipe(Recipe recipe) {
-        var fuelEnergyPerUnit = recipe.data.getLong("convertedEnergy");
+        var fuelEnergyPerUnit = recipe.data.getLong(GTORecipeDataKeys.CONVERTED_ENERGY);
 
         // membrane bonus
         int membraneTier;
@@ -187,10 +188,10 @@ public class FullCellGenerator extends ElectricMultiblockMachine {
     }
 
     private Recipe getElectrolyteTransferRecipe(Recipe recipe) {
-        if (recipe.data.getFloat("efficiency") <= 0) {
+        if (recipe.data.getFloat(GTORecipeDataKeys.EFFICIENCY) <= 0) {
             return null;
         }
-        bonusEfficiency = recipe.data.getFloat("efficiency") * 0.25d;
+        bonusEfficiency = recipe.data.getFloat(GTORecipeDataKeys.EFFICIENCY) * 0.25d;
         return ParallelLogic.accurateParallel(this, recipe, Long.MAX_VALUE);
     }
 

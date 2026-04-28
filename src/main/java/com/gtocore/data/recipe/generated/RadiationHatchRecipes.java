@@ -1,5 +1,7 @@
 package com.gtocore.data.recipe.generated;
 
+import com.gtocore.common.data.GTORecipeDataKeys;
+
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
 import com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialFlags;
@@ -26,14 +28,14 @@ public final class RadiationHatchRecipes {
             RADIATION_HATCH_RECIPES.recipeBuilder("radioactive_material_rod" + material.getName().toLowerCase(Locale.ROOT))
                     .inputItems(ChemicalHelper.get(TagPrefix.rod, material, 1))
                     .duration(duration)
-                    .addData("radioactivity", radioactivity)
+                    .addData(GTORecipeDataKeys.RADIOACTIVITY, radioactivity)
                     .save();
 
         if (material.hasFlag(MaterialFlags.GENERATE_LONG_ROD))
             RADIATION_HATCH_RECIPES.recipeBuilder("radioactive_material_long_rod" + material.getName().toLowerCase(Locale.ROOT))
                     .inputItems(ChemicalHelper.get(TagPrefix.rodLong, material, 1))
                     .duration((int) (duration * 1.5))
-                    .addData("radioactivity", (int) (radioactivity * 1.2))
+                    .addData(GTORecipeDataKeys.RADIOACTIVITY, (int) (radioactivity * 1.2))
                     .save();
     }
 }

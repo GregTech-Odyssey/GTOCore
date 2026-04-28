@@ -7,6 +7,7 @@ import com.gtocore.common.block.BlockMap;
 import com.gtocore.common.data.GTOBlocks;
 import com.gtocore.common.data.GTOMachines;
 import com.gtocore.common.data.GTOMaterials;
+import com.gtocore.common.data.GTORecipeDataKeys;
 import com.gtocore.common.data.translation.GTOMachineTooltips;
 import com.gtocore.common.machine.multiblock.electric.AnalysisAndResearchCenterMachine;
 import com.gtocore.common.machine.multiblock.electric.ScanningStationMachine;
@@ -22,7 +23,6 @@ import com.gtocore.common.machine.multiblock.part.research.ExResearchCoolerPartM
 import com.gtocore.common.machine.multiblock.part.research.ExResearchEmptyPartMachine;
 
 import com.gtolib.GTOCore;
-import com.gtolib.api.GTOValues;
 import com.gtolib.api.registries.GTOMachineBuilder;
 
 import com.gregtechceu.gtceu.GTCEu;
@@ -122,9 +122,9 @@ public final class ExResearchMachines {
                             .or(abilities(INPUT_ENERGY).setMaxGlobalLimited(2))
                             .or(abilities(COMPUTATION_DATA_TRANSMISSION).setMaxGlobalLimited(1))
                             .or(abilities(MAINTENANCE).setExactLimit(1)))
-                    .where('S', GTOPredicates.tierBlock(BlockMap.COMPUTER_HEAT_MAP, GTOValues.COMPUTER_HEAT_TIER))
+                    .where('S', GTOPredicates.tierBlock(BlockMap.COMPUTER_HEAT_MAP, GTORecipeDataKeys.COMPUTER_HEAT_TIER))
                     .where('T', abilities(GTOPartAbility.COMPUTING_COMPONENT, HPCA_COMPONENT))
-                    .where('U', GTOPredicates.tierBlock(BlockMap.COMPUTER_CASING_MAP, GTOValues.COMPUTER_CASING_TIER))
+                    .where('U', GTOPredicates.tierBlock(BlockMap.COMPUTER_CASING_MAP, GTORecipeDataKeys.COMPUTER_CASING_TIER))
                     .where('V', GTOPredicates.glass())
                     .where('W', controller(definition))
                     .where('X', blocks(Blocks.ANDESITE_WALL))

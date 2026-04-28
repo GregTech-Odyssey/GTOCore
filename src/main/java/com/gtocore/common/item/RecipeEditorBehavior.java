@@ -42,7 +42,6 @@ import com.gregtechceu.gtceu.data.recipe.CustomTags;
 import com.gregtechceu.gtceu.integration.ae2.gui.widget.AETextInputButtonWidget;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
@@ -64,6 +63,7 @@ import net.minecraftforge.fluids.FluidStack;
 import com.fast.fastcollection.O2OOpenCacheHashMap;
 import com.fast.fastcollection.OpenCacheHashSet;
 import com.google.common.collect.Tables;
+import com.gto.datasynclib.datasream.DataComponentMap;
 import com.lowdragmc.lowdraglib.gui.factory.HeldItemUIFactory;
 import com.lowdragmc.lowdraglib.gui.modular.ModularUI;
 import com.lowdragmc.lowdraglib.gui.texture.GuiTextureGroup;
@@ -306,7 +306,7 @@ public final class RecipeEditorBehavior implements IItemUIFactory, IFancyUIProvi
                 storages.put(IO.IN, FluidRecipeCapability.CAP, machine.importFluids);
                 storages.put(IO.OUT, FluidRecipeCapability.CAP, machine.exportFluids);
             }
-            recipeUI.createEditableUITemplate(false, false).setupUI(template, new GTRecipeTypeUI.RecipeHolder(() -> 0, storages, new CompoundTag(), Collections.emptyList(), false, false));
+            recipeUI.createEditableUITemplate(false, false).setupUI(template, new GTRecipeTypeUI.RecipeHolder(() -> 0, storages, new DataComponentMap(), Collections.emptyList(), false, false));
         });
         var template = editableUI.createCustomUI();
         if (template == null) {

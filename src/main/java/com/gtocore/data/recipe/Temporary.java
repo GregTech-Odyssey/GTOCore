@@ -5,9 +5,8 @@ import com.gtocore.common.data.GTOBlocks;
 import com.gtocore.common.data.GTOItems;
 import com.gtocore.common.data.GTOMachines;
 import com.gtocore.common.data.GTOMaterials;
+import com.gtocore.common.data.GTORecipeDataKeys;
 import com.gtocore.common.data.machines.SpaceMultiblock;
-
-import com.gtolib.api.GTOValues;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
@@ -139,7 +138,7 @@ public final class Temporary {
                 .outputFluids(GTOMaterials.HexaphaseCopper.getFluid(FluidStorageKeys.PLASMA, 1000))
                 .EUt(33554432)
                 .duration(200)
-                .addData(GTOValues.STELLAR_CONTAINMENT_TIER, 2)
+                .addData(GTORecipeDataKeys.STELLAR_CONTAINMENT_TIER, 2)
                 .save();
 
         ASSEMBLER_RECIPES.builder("wyvern_core")

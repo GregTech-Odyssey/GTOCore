@@ -1,14 +1,15 @@
 package com.gtocore.common.machine.multiblock.electric.space.spacestaion;
 
 import com.gtocore.api.machine.part.ILargeSpaceStationMachine;
+import com.gtocore.common.data.GTORecipeDataKeys;
 
-import com.gtolib.api.GTOValues;
 import com.gtolib.api.capability.IIWirelessInteractor;
 import com.gtolib.api.machine.feature.IWirelessDimensionProvider;
 import com.gtolib.api.machine.trait.CustomRecipeLogic;
 import com.gtolib.api.machine.trait.TierCasingTrait;
 import com.gtolib.api.recipe.Recipe;
 import com.gtolib.api.recipe.RecipeBuilder;
+import com.gtolib.api.recipe.TierDataKey;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.feature.IRecipeLogicMachine;
@@ -26,10 +27,7 @@ import net.minecraft.server.TickTask;
 
 import com.hepdd.gtmthings.api.misc.WirelessEnergyContainer;
 import earth.terrarium.adastra.api.planets.PlanetApi;
-import it.unimi.dsi.fastutil.objects.Object2IntMap;
-import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
-import it.unimi.dsi.fastutil.objects.Reference2ObjectOpenHashMap;
-import it.unimi.dsi.fastutil.objects.ReferenceOpenHashSet;
+import it.unimi.dsi.fastutil.objects.*;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -62,7 +60,7 @@ public class Core extends AbstractSpaceStation implements ILargeSpaceStationMach
     public Core(MetaMachineBlockEntity metaMachineBlockEntity) {
         super(metaMachineBlockEntity);
         this.subMachinesFlat = new ObjectOpenHashSet<>();
-        tierCasingTrait = new TierCasingTrait(this, GTOValues.INTEGRAL_FRAMEWORK_TIER);
+        tierCasingTrait = new TierCasingTrait(this, GTORecipeDataKeys.INTEGRAL_FRAMEWORK_TIER);
     }
 
     @Override
@@ -218,7 +216,7 @@ public class Core extends AbstractSpaceStation implements ILargeSpaceStationMach
     }
 
     @Override
-    public Object2IntMap<String> getCasingTiers() {
+    public Reference2IntMap<TierDataKey> getCasingTiers() {
         return tierCasingTrait.getCasingTiers();
     }
 

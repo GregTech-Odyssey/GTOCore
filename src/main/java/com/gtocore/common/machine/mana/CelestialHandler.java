@@ -1,18 +1,23 @@
 package com.gtocore.common.machine.mana;
 
+import com.gtocore.common.data.GTORecipeDataKeys;
+
 import com.gtolib.api.data.Dimension;
 import com.gtolib.api.data.GTODimensions;
 
 import net.minecraft.world.level.Level;
 
+import com.gto.datasynclib.datasream.DataComponentKey;
+import com.gto.datasynclib.datasream.codec.DataCodec;
 import earth.terrarium.adastra.api.planets.PlanetApi;
 
 public record CelestialHandler(long maxCapacity) {
 
-    public static final String SOLARIS = "solaris";
-    public static final String LUNARA = "lunara";
-    public static final String VOIDFLUX = "voidflux";
-    public static final String STELLARM = "stellarm";
+    public static final DataComponentKey<Integer> SOLARIS = GTORecipeDataKeys.register("solaris", DataCodec.INT_CODEC);
+    public static final DataComponentKey<Integer> LUNARA = GTORecipeDataKeys.register("lunara", DataCodec.INT_CODEC);
+    public static final DataComponentKey<Integer> VOIDFLUX = GTORecipeDataKeys.register("voidflux", DataCodec.INT_CODEC);
+    public static final DataComponentKey<Integer> STELLARM = GTORecipeDataKeys.register("stellarm", DataCodec.INT_CODEC);
+    public static final DataComponentKey<Integer> ANY = GTORecipeDataKeys.register("any", DataCodec.INT_CODEC);
 
     public enum Mode {
         VOID,
@@ -81,54 +86,46 @@ public record CelestialHandler(long maxCapacity) {
         return new Resource(solaris, lunara, voidflux, stellarm);
     }
 
-    public ResourceResult deductResource(String type, int cost, long parallel, long solaris, long lunara, long voidflux, long stellarm) {
+    public ResourceResult deductResource(DataComponentKey<Integer> type, int cost, long parallel, long solaris, long lunara, long voidflux, long stellarm) {
         long totalCost = (long) cost * parallel;
         if (totalCost <= 0) return new ResourceResult(true, solaris, lunara, voidflux, stellarm);
-
-        switch (type) {
-            case SOLARIS -> {
-                if (solaris < totalCost) return new ResourceResult(false, solaris, lunara, voidflux, stellarm);
-                solaris = Math.max(0L, solaris - totalCost);
+        if (type == SOLARIS) {
+            if (solaris < totalCost) return new ResourceResult(false, solaris, lunara, voidflux, stellarm);
+            solaris = Math.max(0L, solaris - totalCost);
+        } else if (type == LUNARA) {
+            if (lunara < totalCost) return new ResourceResult(false, solaris, lunara, voidflux, stellarm);
+            lunara = Math.max(0L, lunara - totalCost);
+        } else if (type == VOIDFLUX) {
+            if (voidflux < totalCost) return new ResourceResult(false, solaris, lunara, voidflux, stellarm);
+            voidflux = Math.max(0L, voidflux - totalCost);
+        } else if (type == STELLARM) {
+            if (stellarm < totalCost) return new ResourceResult(false, solaris, lunara, voidflux, stellarm);
+            stellarm = Math.max(0L, stellarm - totalCost);
+        } else if (type == ANY) {
+            long remainingCost = totalCost;
+            if (remainingCost > 0 && solaris > 0) {
+                long deduct = Math.min(solaris, remainingCost);
+                solaris = Math.max(0, solaris - deduct);
+                remainingCost -= deduct;
             }
-            case LUNARA -> {
-                if (lunara < totalCost) return new ResourceResult(false, solaris, lunara, voidflux, stellarm);
-                lunara = Math.max(0L, lunara - totalCost);
+            if (remainingCost > 0 && lunara > 0) {
+                long deduct = Math.min(lunara, remainingCost);
+                lunara = Math.max(0, lunara - deduct);
+                remainingCost -= deduct;
             }
-            case VOIDFLUX -> {
-                if (voidflux < totalCost) return new ResourceResult(false, solaris, lunara, voidflux, stellarm);
-                voidflux = Math.max(0L, voidflux - totalCost);
+            if (remainingCost > 0 && voidflux > 0) {
+                long deduct = Math.min(voidflux, remainingCost);
+                voidflux = Math.max(0, voidflux - deduct);
+                remainingCost -= deduct;
             }
-            case STELLARM -> {
-                if (stellarm < totalCost) return new ResourceResult(false, solaris, lunara, voidflux, stellarm);
-                stellarm = Math.max(0L, stellarm - totalCost);
+            if (remainingCost > 0 && stellarm > 0) {
+                long deduct = Math.min(stellarm, remainingCost);
+                stellarm = Math.max(0, stellarm - deduct);
+                remainingCost -= deduct;
             }
-            case "ANY" -> {
-                long remainingCost = totalCost;
-                if (remainingCost > 0 && solaris > 0) {
-                    long deduct = Math.min(solaris, remainingCost);
-                    solaris = Math.max(0, solaris - deduct);
-                    remainingCost -= deduct;
-                }
-                if (remainingCost > 0 && lunara > 0) {
-                    long deduct = Math.min(lunara, remainingCost);
-                    lunara = Math.max(0, lunara - deduct);
-                    remainingCost -= deduct;
-                }
-                if (remainingCost > 0 && voidflux > 0) {
-                    long deduct = Math.min(voidflux, remainingCost);
-                    voidflux = Math.max(0, voidflux - deduct);
-                    remainingCost -= deduct;
-                }
-                if (remainingCost > 0 && stellarm > 0) {
-                    long deduct = Math.min(stellarm, remainingCost);
-                    stellarm = Math.max(0, stellarm - deduct);
-                    remainingCost -= deduct;
-                }
-                if (remainingCost > 0) return new ResourceResult(false, solaris, lunara, voidflux, stellarm);
-            }
-            default -> {
-                return new ResourceResult(false, solaris, lunara, voidflux, stellarm);
-            }
+            if (remainingCost > 0) return new ResourceResult(false, solaris, lunara, voidflux, stellarm);
+        } else {
+            return new ResourceResult(false, solaris, lunara, voidflux, stellarm);
         }
         return new ResourceResult(true, solaris, lunara, voidflux, stellarm);
     }

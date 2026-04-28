@@ -4,6 +4,7 @@ import com.gtocore.api.data.tag.GTOTagPrefix;
 import com.gtocore.common.data.GTOItems;
 import com.gtocore.common.data.GTOMachines;
 import com.gtocore.common.data.GTOMaterials;
+import com.gtocore.common.data.GTORecipeDataKeys;
 import com.gtocore.common.machine.multiblock.part.SensorPartMachine;
 
 import com.gtolib.api.machine.feature.multiblock.IStorageMultiblock;
@@ -71,8 +72,8 @@ public class FastNeutronBreederReactor extends CustomParallelMultiblockMachine i
     @Nullable
     @Override
     protected Recipe getRealRecipe(@NotNull Recipe recipe) {
-        if (recipe.data.contains("neutron_flux")) {
-            var neededNeutronFlux = recipe.data.getFloat("neutron_flux");
+        if (recipe.data.contains(GTORecipeDataKeys.NEUTRON_FLUX)) {
+            var neededNeutronFlux = recipe.data.getFloat(GTORecipeDataKeys.NEUTRON_FLUX);
             if (neutronFluxkeV < neededNeutronFlux) {
                 ((IEnhancedRecipeLogic) getRecipeLogic()).gtolib$setIdleReason(Component.translatable("gtocore.idle_reason.neutron_kinetic_energy_not_satisfies"));
                 return null;
@@ -99,9 +100,9 @@ public class FastNeutronBreederReactor extends CustomParallelMultiblockMachine i
     public boolean onWorking() {
         if (getRecipeLogic().getLastRecipe() != null && getOffsetTimer() % 20 == 0) {
             var recipe = getRecipeLogic().getLastRecipe();
-            var change = recipe.data.getFloat("neutron_flux_change");
+            var change = recipe.data.getFloat(GTORecipeDataKeys.NEUTRON_FLUX_CHANGE);
             neutronFluxkeV = Math.max(0, neutronFluxkeV + change);
-            var neededNeutronFlux = recipe.data.getFloat("neutron_flux");
+            var neededNeutronFlux = recipe.data.getFloat(GTORecipeDataKeys.NEUTRON_FLUX);
             if (neutronFluxkeV < neededNeutronFlux) {
                 ((IEnhancedRecipeLogic) getRecipeLogic()).gtolib$setIdleReason(Component.translatable("gtocore.idle_reason.neutron_kinetic_energy_not_satisfies"));
                 return false;
@@ -163,8 +164,8 @@ public class FastNeutronBreederReactor extends CustomParallelMultiblockMachine i
     }
 
     private double getRecipeHeat(Recipe recipe) {
-        if (recipe.data.contains("heat")) {
-            return (recipe.data.getFloat("heat") * 1.27 * Math.pow(neutronFluxkeV / 100d, 1.88));
+        if (recipe.data.contains(GTORecipeDataKeys.HEAT)) {
+            return (recipe.data.getFloat(GTORecipeDataKeys.HEAT) * 1.27 * Math.pow(neutronFluxkeV / 100d, 1.88));
         }
         return 0;
     }

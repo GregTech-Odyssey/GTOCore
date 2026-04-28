@@ -2,6 +2,7 @@ package com.gtocore.data.recipe.classified;
 
 import com.gtocore.api.data.tag.GTOTagPrefix;
 import com.gtocore.common.data.GTOMaterials;
+import com.gtocore.common.data.GTORecipeDataKeys;
 import com.gtocore.common.data.machines.MultiBlockH;
 
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
@@ -23,9 +24,9 @@ class FastNeutronBreeder {
                 .outputItems(GTOTagPrefix.DEPLETED_BREEDER_ROD, GTMaterials.Thorium)
                 .EUt(30)
                 .duration(128000)
-                .addData("neutron_flux", 5.04f)
-                .addData("neutron_flux_change", 0.01f)
-                .addData("heat", 0.01f)
+                .addData(GTORecipeDataKeys.NEUTRON_FLUX, 5.04f)
+                .addData(GTORecipeDataKeys.NEUTRON_FLUX_CHANGE, 0.01f)
+                .addData(GTORecipeDataKeys.HEAT, 0.01f)
                 .save();
         // 最低中子通量：5.04 keV
         // 中子通量变化：0.01 keV
@@ -37,9 +38,9 @@ class FastNeutronBreeder {
                 .outputItems(GTOTagPrefix.DEPLETED_BREEDER_ROD, GTMaterials.Protactinium)
                 .EUt(30)
                 .duration(128000)
-                .addData("neutron_flux", 100.08f)
-                .addData("neutron_flux_change", 0.03f)
-                .addData("heat", 0.06f)
+                .addData(GTORecipeDataKeys.NEUTRON_FLUX, 100.08f)
+                .addData(GTORecipeDataKeys.NEUTRON_FLUX_CHANGE, 0.03f)
+                .addData(GTORecipeDataKeys.HEAT, 0.06f)
                 .save();
         // 最低中子通量：100.08 keV
         // 中子通量变化：0.03 keV
@@ -51,9 +52,9 @@ class FastNeutronBreeder {
                 .outputItems(GTOTagPrefix.DEPLETED_BREEDER_ROD, GTMaterials.Protactinium)
                 .EUt(30)
                 .duration(128000)
-                .addData("neutron_flux", 100.08f)
-                .addData("neutron_flux_change", 0.03f)
-                .addData("heat", 0.06f)
+                .addData(GTORecipeDataKeys.NEUTRON_FLUX, 100.08f)
+                .addData(GTORecipeDataKeys.NEUTRON_FLUX_CHANGE, 0.03f)
+                .addData(GTORecipeDataKeys.HEAT, 0.06f)
                 .save();
         // 最低中子通量：100.08 keV
         // 中子通量变化：0.03 keV
@@ -65,9 +66,9 @@ class FastNeutronBreeder {
                 .outputItems(GTOTagPrefix.DEPLETED_BREEDER_ROD, GTMaterials.Uranium238)
                 .EUt(30)
                 .duration(128000)
-                .addData("neutron_flux", 49.92f)
-                .addData("neutron_flux_change", 0.01f)
-                .addData("heat", 0.03f)
+                .addData(GTORecipeDataKeys.NEUTRON_FLUX, 49.92f)
+                .addData(GTORecipeDataKeys.NEUTRON_FLUX_CHANGE, 0.01f)
+                .addData(GTORecipeDataKeys.HEAT, 0.03f)
                 .save();
         // 最低中子通量：49.92 keV
         // 中子通量变化：0.01 keV
@@ -79,9 +80,9 @@ class FastNeutronBreeder {
                 .outputItems(GTOTagPrefix.DEPLETED_BREEDER_ROD, GTMaterials.Uranium235)
                 .EUt(30)
                 .duration(192000)
-                .addData("neutron_flux", 49.92f)
-                .addData("neutron_flux_change", 0.05f)
-                .addData("heat", 0.04f)
+                .addData(GTORecipeDataKeys.NEUTRON_FLUX, 49.92f)
+                .addData(GTORecipeDataKeys.NEUTRON_FLUX_CHANGE, 0.05f)
+                .addData(GTORecipeDataKeys.HEAT, 0.04f)
                 .save();
         // 最低中子通量：0.48 keV
         // 中子通量变化：-0.05 keV
@@ -93,9 +94,9 @@ class FastNeutronBreeder {
                 .outputItems(GTOTagPrefix.DEPLETED_BREEDER_ROD, GTMaterials.Neptunium)
                 .EUt(30)
                 .duration(128000)
-                .addData("neutron_flux", 400.08f)
-                .addData("neutron_flux_change", 0.04f)
-                .addData("heat", 0.08f)
+                .addData(GTORecipeDataKeys.NEUTRON_FLUX, 400.08f)
+                .addData(GTORecipeDataKeys.NEUTRON_FLUX_CHANGE, 0.04f)
+                .addData(GTORecipeDataKeys.HEAT, 0.08f)
                 .save();
         // 最低中子通量：400.08 keV
         // 中子通量变化：0.04 keV
@@ -107,9 +108,9 @@ class FastNeutronBreeder {
                 .outputItems(GTOTagPrefix.DEPLETED_BREEDER_ROD, GTMaterials.Neptunium)
                 .EUt(30)
                 .duration(64000)
-                .addData("neutron_flux", 400.08f)
-                .addData("neutron_flux_change", 0.08f)
-                .addData("heat", 0.12f)
+                .addData(GTORecipeDataKeys.NEUTRON_FLUX, 400.08f)
+                .addData(GTORecipeDataKeys.NEUTRON_FLUX_CHANGE, 0.08f)
+                .addData(GTORecipeDataKeys.HEAT, 0.12f)
                 .save();
         // 最低中子通量：400.08 keV
         // 中子通量变化：0.08 keV
@@ -121,9 +122,9 @@ class FastNeutronBreeder {
                 .outputItems(GTOTagPrefix.DEPLETED_BREEDER_ROD, GTMaterials.Plutonium239)
                 .EUt(30)
                 .duration(128000)
-                .addData("neutron_flux", 199.92f)
-                .addData("neutron_flux_change", 0.08f)
-                .addData("heat", 0.06f)
+                .addData(GTORecipeDataKeys.NEUTRON_FLUX, 199.92f)
+                .addData(GTORecipeDataKeys.NEUTRON_FLUX_CHANGE, 0.08f)
+                .addData(GTORecipeDataKeys.HEAT, 0.06f)
                 .save();
         // 最低中子通量：199.92 keV
         // 中子通量变化：0.08 keV
@@ -135,9 +136,9 @@ class FastNeutronBreeder {
                 .outputItems(GTOTagPrefix.DEPLETED_BREEDER_ROD, GTMaterials.Plutonium241)
                 .EUt(30)
                 .duration(64000)
-                .addData("neutron_flux", 300f)
-                .addData("neutron_flux_change", 0.08f)
-                .addData("heat", 0.12f)
+                .addData(GTORecipeDataKeys.NEUTRON_FLUX, 300f)
+                .addData(GTORecipeDataKeys.NEUTRON_FLUX_CHANGE, 0.08f)
+                .addData(GTORecipeDataKeys.HEAT, 0.12f)
                 .save();
         // 最低中子通量：300 keV
         // 中子通量变化：0.08 keV
@@ -149,9 +150,9 @@ class FastNeutronBreeder {
                 .outputItems(GTOTagPrefix.DEPLETED_BREEDER_ROD, GTMaterials.Americium)
                 .EUt(30)
                 .duration(128000)
-                .addData("neutron_flux", 600f)
-                .addData("neutron_flux_change", 0.06f)
-                .addData("heat", 0.15f)
+                .addData(GTORecipeDataKeys.NEUTRON_FLUX, 600f)
+                .addData(GTORecipeDataKeys.NEUTRON_FLUX_CHANGE, 0.06f)
+                .addData(GTORecipeDataKeys.HEAT, 0.15f)
                 .save();
         // 最低中子通量：600 keV
         // 中子通量变化：0.06 keV
@@ -163,9 +164,9 @@ class FastNeutronBreeder {
                 .outputItems(GTOTagPrefix.DEPLETED_BREEDER_ROD, GTMaterials.Curium)
                 .EUt(30)
                 .duration(128000)
-                .addData("neutron_flux", 1200f)
-                .addData("neutron_flux_change", 0.1f)
-                .addData("heat", 0.2f)
+                .addData(GTORecipeDataKeys.NEUTRON_FLUX, 1200f)
+                .addData(GTORecipeDataKeys.NEUTRON_FLUX_CHANGE, 0.1f)
+                .addData(GTORecipeDataKeys.HEAT, 0.2f)
                 .save();
         // 最低中子通量：1200 keV
         // 中子通量变化：0.1 keV
@@ -177,9 +178,9 @@ class FastNeutronBreeder {
                 .outputItems(GTOTagPrefix.DEPLETED_BREEDER_ROD, GTMaterials.Berkelium)
                 .EUt(30)
                 .duration(128000)
-                .addData("neutron_flux", 2400f)
-                .addData("neutron_flux_change", 0.15f)
-                .addData("heat", 0.3f)
+                .addData(GTORecipeDataKeys.NEUTRON_FLUX, 2400f)
+                .addData(GTORecipeDataKeys.NEUTRON_FLUX_CHANGE, 0.15f)
+                .addData(GTORecipeDataKeys.HEAT, 0.3f)
                 .save();
         // 最低中子通量：2400 keV
         // 中子通量变化：0.15 keV
@@ -191,9 +192,9 @@ class FastNeutronBreeder {
                 .outputItems(GTOTagPrefix.DEPLETED_BREEDER_ROD, GTMaterials.Berkelium)
                 .EUt(30)
                 .duration(64000)
-                .addData("neutron_flux", 2400f)
-                .addData("neutron_flux_change", 0.19f)
-                .addData("heat", 0.4f)
+                .addData(GTORecipeDataKeys.NEUTRON_FLUX, 2400f)
+                .addData(GTORecipeDataKeys.NEUTRON_FLUX_CHANGE, 0.19f)
+                .addData(GTORecipeDataKeys.HEAT, 0.4f)
                 .save();
         // 最低中子通量：2400 keV
         // 中子通量变化：0.19 keV

@@ -2,6 +2,7 @@ package com.gtocore.common.machine.multiblock.electric.space;
 
 import com.gtocore.api.gui.GTOGuiTextures;
 import com.gtocore.common.data.GTOItems;
+import com.gtocore.common.data.GTORecipeDataKeys;
 import com.gtocore.common.machine.multiblock.electric.space.spacestaion.SpaceElevatorConnectorModule;
 import com.gtocore.data.IdleReason;
 
@@ -58,7 +59,7 @@ public class SpaceElevatorMachine extends TierCasingMultiblockMachine implements
     private TickableSubscription highSubscription;
 
     public SpaceElevatorMachine(MetaMachineBlockEntity holder) {
-        super(holder, POWER_MODULE_TIER);
+        super(holder, GTORecipeDataKeys.POWER_MODULE_TIER);
     }
 
     void initialize() {
@@ -248,7 +249,7 @@ public class SpaceElevatorMachine extends TierCasingMultiblockMachine implements
     public boolean firstTestMachine(SpaceElevatorConnectorModule machine) {
         Level level = machine.getLevel();
         if (level != null && testMachine(machine)) {
-            machine.registerElevator(this, getCasingTier(POWER_MODULE_TIER));
+            machine.registerElevator(this, getCasingTier(GTORecipeDataKeys.POWER_MODULE_TIER));
             return true;
         }
         return false;

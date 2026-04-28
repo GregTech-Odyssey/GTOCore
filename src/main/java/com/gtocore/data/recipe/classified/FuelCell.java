@@ -2,6 +2,7 @@ package com.gtocore.data.recipe.classified;
 
 import com.gtocore.api.data.tag.GTOTagPrefix;
 import com.gtocore.common.data.GTOFluidStorageKey;
+import com.gtocore.common.data.GTORecipeDataKeys;
 import com.gtocore.common.machine.multiblock.generator.FullCellGenerator;
 
 import com.gtolib.utils.FluidUtils;
@@ -54,7 +55,7 @@ public class FuelCell {
                         .outputFluids(material.getFluid(GTOFluidStorageKey.ENERGY_RELEASE_CATHODE), 19 * partialEuPerMb2)
                         .EUt(1)
                         .duration(20)
-                        .addData("efficiency", (float) partialEuPerMb1 / partialEuPerMb2 * euPerMb2 / euPerMb * 0.95f)
+                        .addData(GTORecipeDataKeys.EFFICIENCY, (float) partialEuPerMb1 / partialEuPerMb2 * euPerMb2 / euPerMb * 0.95f)
                         .save();
             }
         }
@@ -69,7 +70,7 @@ public class FuelCell {
                     .inputFluids(fluid, fluidStack.getAmount())
                     .EUt(1)
                     .duration(20)
-                    .addData("convertedEnergy", totalEu)
+                    .addData(GTORecipeDataKeys.CONVERTED_ENERGY, totalEu)
                     .save();
         });
     }

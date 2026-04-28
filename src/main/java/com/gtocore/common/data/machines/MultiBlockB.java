@@ -7,6 +7,7 @@ import com.gtocore.client.renderer.machine.SpaceElevatorRenderer;
 import com.gtocore.common.data.GTOBlocks;
 import com.gtocore.common.data.GTOMachines;
 import com.gtocore.common.data.GTOMaterials;
+import com.gtocore.common.data.GTORecipeDataKeys;
 import com.gtocore.common.data.translation.GTOMachineStories;
 import com.gtocore.common.data.translation.GTOMachineTooltips;
 import com.gtocore.common.machine.multiblock.electric.nano.NanoPhagocytosisPlantMachine;
@@ -738,7 +739,7 @@ public final class MultiBlockB {
                     .where('l', GTOPredicates.frame(GTOMaterials.HastelloyN))
                     .where('m', blocks(GTOBlocks.NEUTRONIUM_STABLE_CASING.get()))
                     .where('n', blocks(GTOBlocks.BORON_CARBIDE_CERAMIC_RADIATION_RESISTANT_MECHANICAL_CUBE.get()))
-                    .where('o', GTOPredicates.tierBlock(SEPMMAP, POWER_MODULE_TIER))
+                    .where('o', GTOPredicates.tierBlock(SEPMMAP, GTORecipeDataKeys.POWER_MODULE_TIER))
                     .where('p', GTOPredicates.frame(GTMaterials.Naquadah))
                     .where('q', blocks(GTBlocks.CASING_TUNGSTENSTEEL_PIPE.get()))
                     .where('r', blocks(GTOBlocks.PRESSURE_CONTAINMENT_CASING.get()))

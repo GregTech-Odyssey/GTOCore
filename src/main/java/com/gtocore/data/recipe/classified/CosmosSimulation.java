@@ -179,7 +179,7 @@ final class CosmosSimulation {
                 .outputFluids(GTOMaterials.UnknowWater, 2147483647)
                 .outputFluids(GTMaterials.UUMatter, 2147483647)
                 .duration(12000)
-                .addData("tier", 10)
+                .addData(GTORecipeDataKeys.TIER, 10)
                 .save();
 
         Int2ObjectOpenHashMap<Reference2IntOpenHashMap<Material>> dustContent = new Int2ObjectOpenHashMap<>();
@@ -194,7 +194,7 @@ final class CosmosSimulation {
             Reference2IntOpenHashMap<Material> materialMap = new Reference2IntOpenHashMap<>();
             Reference2IntOpenHashMap<Fluid> fluid = new Reference2IntOpenHashMap<>();
             RecipeBuilder builder = COSMOS_SIMULATION_RECIPES.recipeBuilder(dimension.location().getPath())
-                    .addData("tier", tier)
+                    .addData(GTORecipeDataKeys.TIER, tier)
                     .inputFluids(GTOMaterials.CosmicElement, 1024000)
                     .notConsumable(GTOItems.DIMENSION_DATA.get().getDimensionData(dimension));
 

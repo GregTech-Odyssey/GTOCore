@@ -3,6 +3,7 @@ package com.gtocore.data.recipe.classified;
 import com.gtocore.api.data.tag.GTOTagPrefix;
 import com.gtocore.common.data.GTOItems;
 import com.gtocore.common.data.GTOMaterials;
+import com.gtocore.common.data.GTORecipeDataKeys;
 
 import com.gregtechceu.gtceu.api.data.chemical.material.MarkerMaterials;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
@@ -61,7 +62,7 @@ final class LaserEngraver {
                 .outputFluids(GTMaterials.Ammonia, 10000)
                 .EUt(1966080)
                 .duration(320)
-                .addData("special", true)
+                .addData(GTORecipeDataKeys.SPECIAL, true)
                 .save();
 
         LASER_ENGRAVER_RECIPES.recipeBuilder("lpic_wafer")
@@ -99,7 +100,7 @@ final class LaserEngraver {
                 .outputFluids(GTMaterials.Ammonia, 10000)
                 .EUt(2000000)
                 .duration(400)
-                .addData("special", true)
+                .addData(GTORecipeDataKeys.SPECIAL, true)
                 .save();
 
         LASER_ENGRAVER_RECIPES.recipeBuilder("nand_memory_wafer")

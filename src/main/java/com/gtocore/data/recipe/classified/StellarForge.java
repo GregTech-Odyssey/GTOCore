@@ -5,8 +5,7 @@ import com.gtocore.common.data.GTOBlocks;
 import com.gtocore.common.data.GTOItems;
 import com.gtocore.common.data.GTOMaterials;
 import com.gtocore.common.data.GTORecipeCategories;
-
-import com.gtolib.api.GTOValues;
+import com.gtocore.common.data.GTORecipeDataKeys;
 
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys;
@@ -27,7 +26,7 @@ final class StellarForge {
                 .chancedOutput(TagPrefix.nugget, GTOMaterials.Bedrockium, 1, 100, 1)
                 .EUt(31457280)
                 .duration(200)
-                .addData(GTOValues.STELLAR_CONTAINMENT_TIER, 1)
+                .addData(GTORecipeDataKeys.STELLAR_CONTAINMENT_TIER, 1)
                 .save();
 
         STELLAR_FORGE_RECIPES.recipeBuilder("neutron")
@@ -36,7 +35,7 @@ final class StellarForge {
                 .outputFluids(GTOMaterials.Neutron, 100)
                 .EUt(31457280)
                 .duration(200)
-                .addData(GTOValues.STELLAR_CONTAINMENT_TIER, 1)
+                .addData(GTORecipeDataKeys.STELLAR_CONTAINMENT_TIER, 1)
                 .save();
 
         STELLAR_FORGE_RECIPES.recipeBuilder("contained_reissner_nordstrom_singularity")
@@ -46,7 +45,7 @@ final class StellarForge {
                 .outputItems(GTOItems.CONTAINED_REISSNER_NORDSTROM_SINGULARITY, 64)
                 .EUt(31457280)
                 .duration(200)
-                .addData(GTOValues.STELLAR_CONTAINMENT_TIER, 1)
+                .addData(GTORecipeDataKeys.STELLAR_CONTAINMENT_TIER, 1)
                 .save();
 
         STELLAR_FORGE_RECIPES.recipeBuilder("closed_timelike_curvecomputational_unit")
@@ -56,7 +55,7 @@ final class StellarForge {
                 .outputItems(GTOItems.CLOSED_TIMELIKE_CURVE_COMPUTATIONAL_UNIT)
                 .EUt(503316480)
                 .duration(200)
-                .addData(GTOValues.STELLAR_CONTAINMENT_TIER, 3)
+                .addData(GTORecipeDataKeys.STELLAR_CONTAINMENT_TIER, 3)
                 .save();
 
         STELLAR_FORGE_RECIPES.recipeBuilder("cosmic_mesh_plasma")
@@ -65,7 +64,7 @@ final class StellarForge {
                 .outputFluids(GTOMaterials.CosmicMesh.getFluid(FluidStorageKeys.PLASMA, 1000))
                 .EUt(503316480)
                 .duration(200)
-                .addData(GTOValues.STELLAR_CONTAINMENT_TIER, 3)
+                .addData(GTORecipeDataKeys.STELLAR_CONTAINMENT_TIER, 3)
                 .save();
 
         STELLAR_FORGE_RECIPES.recipeBuilder("legendarium_plasma")
@@ -84,7 +83,7 @@ final class StellarForge {
                 .outputFluids(GTOMaterials.Legendarium.getFluid(FluidStorageKeys.PLASMA, 2304))
                 .EUt(125829120)
                 .duration(200)
-                .addData(GTOValues.STELLAR_CONTAINMENT_TIER, 2)
+                .addData(GTORecipeDataKeys.STELLAR_CONTAINMENT_TIER, 2)
                 .save();
 
         STELLAR_FORGE_RECIPES.recipeBuilder("degenerate_rhenium_plasma")
@@ -93,7 +92,7 @@ final class StellarForge {
                 .outputFluids(GTOMaterials.DegenerateRhenium.getFluid(FluidStorageKeys.PLASMA, 10000))
                 .EUt(31457280)
                 .duration(200)
-                .addData(GTOValues.STELLAR_CONTAINMENT_TIER, 1)
+                .addData(GTORecipeDataKeys.STELLAR_CONTAINMENT_TIER, 1)
                 .save();
 
         STELLAR_FORGE_RECIPES.recipeBuilder("free_proton_gas")
@@ -103,7 +102,7 @@ final class StellarForge {
                 .outputFluids(GTOMaterials.FreeProtonGas, 10000)
                 .EUt(31457280)
                 .duration(200)
-                .addData(GTOValues.STELLAR_CONTAINMENT_TIER, 1)
+                .addData(GTORecipeDataKeys.STELLAR_CONTAINMENT_TIER, 1)
                 .save();
 
         STELLAR_FORGE_RECIPES.recipeBuilder("recursively_folded_negative_space")
@@ -113,7 +112,7 @@ final class StellarForge {
                 .outputItems(GTOItems.RECURSIVELY_FOLDED_NEGATIVE_SPACE)
                 .EUt(503316480)
                 .duration(200)
-                .addData(GTOValues.STELLAR_CONTAINMENT_TIER, 3)
+                .addData(GTORecipeDataKeys.STELLAR_CONTAINMENT_TIER, 3)
                 .save();
 
         STELLAR_FORGE_RECIPES.recipeBuilder("dense_neutron_plasma")
@@ -126,7 +125,7 @@ final class StellarForge {
                 .outputFluids(GTOMaterials.DenseNeutron.getFluid(FluidStorageKeys.PLASMA, 6000))
                 .EUt(503316480)
                 .duration(200)
-                .addData(GTOValues.STELLAR_CONTAINMENT_TIER, 3)
+                .addData(GTORecipeDataKeys.STELLAR_CONTAINMENT_TIER, 3)
                 .save();
 
         STELLAR_FORGE_RECIPES.recipeBuilder("quantum_chromo_dynamically_confined_matter_plasma")
@@ -135,7 +134,7 @@ final class StellarForge {
                 .outputFluids(GTOMaterials.QuantumChromoDynamicallyConfinedMatter.getFluid(FluidStorageKeys.PLASMA, 2000))
                 .EUt(503316480)
                 .duration(200)
-                .addData(GTOValues.STELLAR_CONTAINMENT_TIER, 3)
+                .addData(GTORecipeDataKeys.STELLAR_CONTAINMENT_TIER, 3)
                 .save();
 
         STELLAR_FORGE_RECIPES.recipeBuilder("chaos_shard")
@@ -146,7 +145,7 @@ final class StellarForge {
                 .outputItems(GTOItems.CHAOS_SHARD)
                 .EUt(503316480)
                 .duration(200)
-                .addData(GTOValues.STELLAR_CONTAINMENT_TIER, 3)
+                .addData(GTORecipeDataKeys.STELLAR_CONTAINMENT_TIER, 3)
                 .save();
 
         STELLAR_FORGE_RECIPES.recipeBuilder("contained_kerr_newmann_singularity")
@@ -156,7 +155,7 @@ final class StellarForge {
                 .outputItems(GTOItems.TIME_DILATION_CONTAINMENT_UNIT, 63)
                 .EUt(125829120)
                 .duration(200)
-                .addData(GTOValues.STELLAR_CONTAINMENT_TIER, 2)
+                .addData(GTORecipeDataKeys.STELLAR_CONTAINMENT_TIER, 2)
                 .save();
 
         STELLAR_FORGE_RECIPES.recipeBuilder("adamantium_plasma")
@@ -170,7 +169,7 @@ final class StellarForge {
                 .outputFluids(GTOMaterials.Adamantium.getFluid(FluidStorageKeys.PLASMA, 2304))
                 .EUt(31457280)
                 .duration(200)
-                .addData(GTOValues.STELLAR_CONTAINMENT_TIER, 1)
+                .addData(GTORecipeDataKeys.STELLAR_CONTAINMENT_TIER, 1)
                 .save();
 
         STELLAR_FORGE_RECIPES.recipeBuilder("contained_exotic_matter")
@@ -180,7 +179,7 @@ final class StellarForge {
                 .outputItems(GTOItems.CONTAINED_EXOTIC_MATTER)
                 .EUt(125829120)
                 .duration(200)
-                .addData(GTOValues.STELLAR_CONTAINMENT_TIER, 2)
+                .addData(GTORecipeDataKeys.STELLAR_CONTAINMENT_TIER, 2)
                 .save();
 
         STELLAR_FORGE_RECIPES.recipeBuilder("celestial_tungsten_plasma")
@@ -194,7 +193,7 @@ final class StellarForge {
                 .outputFluids(GTOMaterials.CelestialTungsten.getFluid(FluidStorageKeys.PLASMA, 1000))
                 .EUt(31457280)
                 .duration(200)
-                .addData(GTOValues.STELLAR_CONTAINMENT_TIER, 1)
+                .addData(GTORecipeDataKeys.STELLAR_CONTAINMENT_TIER, 1)
                 .save();
 
         STELLAR_FORGE_RECIPES.recipeBuilder("neutron_plasma_containment_cell")
@@ -205,7 +204,7 @@ final class StellarForge {
                 .outputItems(GTOItems.NEUTRON_PLASMA_CONTAINMENT_CELL)
                 .EUt(31457280)
                 .duration(200)
-                .addData(GTOValues.STELLAR_CONTAINMENT_TIER, 1)
+                .addData(GTORecipeDataKeys.STELLAR_CONTAINMENT_TIER, 1)
                 .save();
 
         STELLAR_FORGE_RECIPES.recipeBuilder("starmetal_plasma")
@@ -217,7 +216,7 @@ final class StellarForge {
                 .outputFluids(GTOMaterials.Starmetal.getFluid(FluidStorageKeys.PLASMA, 1000))
                 .EUt(125829120)
                 .duration(200)
-                .addData(GTOValues.STELLAR_CONTAINMENT_TIER, 2)
+                .addData(GTORecipeDataKeys.STELLAR_CONTAINMENT_TIER, 2)
                 .save();
 
         STELLAR_FORGE_RECIPES.recipeBuilder("exciteddtec")
@@ -227,7 +226,7 @@ final class StellarForge {
                 .outputFluids(GTOMaterials.ExcitedDtec, 10000)
                 .EUt(503316480)
                 .duration(200)
-                .addData(GTOValues.STELLAR_CONTAINMENT_TIER, 3)
+                .addData(GTORecipeDataKeys.STELLAR_CONTAINMENT_TIER, 3)
                 .save();
 
         STELLAR_FORGE_RECIPES.recipeBuilder("eternity_dust")
@@ -239,7 +238,7 @@ final class StellarForge {
                 .outputFluids(GTOMaterials.TemporalFluid, 1000)
                 .EUt(2013265920)
                 .duration(800)
-                .addData(GTOValues.STELLAR_CONTAINMENT_TIER, 3)
+                .addData(GTORecipeDataKeys.STELLAR_CONTAINMENT_TIER, 3)
                 .save();
 
         STELLAR_FORGE_RECIPES.recipeBuilder("extremely_durable_plasma_cell")
@@ -249,7 +248,7 @@ final class StellarForge {
                 .outputItems(GTOItems.EXTREMELY_DURABLE_PLASMA_CELL)
                 .EUt(503316480)
                 .duration(200)
-                .addData(GTOValues.STELLAR_CONTAINMENT_TIER, 3)
+                .addData(GTORecipeDataKeys.STELLAR_CONTAINMENT_TIER, 3)
                 .save();
 
         STELLAR_FORGE_RECIPES.recipeBuilder("infinity_ingot")
@@ -261,7 +260,7 @@ final class StellarForge {
                 .outputFluids(GTOMaterials.Infinity, 10)
                 .EUt(503316480)
                 .duration(200)
-                .addData(GTOValues.STELLAR_CONTAINMENT_TIER, 3)
+                .addData(GTORecipeDataKeys.STELLAR_CONTAINMENT_TIER, 3)
                 .save();
 
         STELLAR_FORGE_RECIPES.recipeBuilder("heavy_quark_degenerate_matter_plasma")
@@ -274,7 +273,7 @@ final class StellarForge {
                 .outputFluids(GTOMaterials.HeavyQuarkDegenerateMatter.getFluid(FluidStorageKeys.PLASMA, 1152))
                 .EUt(125829120)
                 .duration(200)
-                .addData(GTOValues.STELLAR_CONTAINMENT_TIER, 2)
+                .addData(GTORecipeDataKeys.STELLAR_CONTAINMENT_TIER, 2)
                 .save();
 
         STELLAR_FORGE_RECIPES.recipeBuilder("astral_titanium_plasma")
@@ -287,7 +286,7 @@ final class StellarForge {
                 .outputFluids(GTOMaterials.AstralTitanium.getFluid(FluidStorageKeys.PLASMA, 1000))
                 .EUt(31457280)
                 .duration(200)
-                .addData(GTOValues.STELLAR_CONTAINMENT_TIER, 1)
+                .addData(GTORecipeDataKeys.STELLAR_CONTAINMENT_TIER, 1)
                 .save();
 
         STELLAR_FORGE_RECIPES.recipeBuilder("dragon_heart")
@@ -297,7 +296,7 @@ final class StellarForge {
                 .outputItems(GTOItems.DRAGON_HEART)
                 .EUt(31457280)
                 .duration(200)
-                .addData(GTOValues.STELLAR_CONTAINMENT_TIER, 1)
+                .addData(GTORecipeDataKeys.STELLAR_CONTAINMENT_TIER, 1)
                 .save();
 
         STELLAR_FORGE_RECIPES.recipeBuilder("quark_gluon_plasma")
@@ -306,7 +305,7 @@ final class StellarForge {
                 .outputFluids(GTOMaterials.QuarkGluon.getFluid(FluidStorageKeys.PLASMA, 10000))
                 .EUt(125829120)
                 .duration(200)
-                .addData(GTOValues.STELLAR_CONTAINMENT_TIER, 2)
+                .addData(GTORecipeDataKeys.STELLAR_CONTAINMENT_TIER, 2)
                 .save();
 
         STELLAR_FORGE_RECIPES.recipeBuilder("contained_high_density_protonic_matter")
@@ -316,7 +315,7 @@ final class StellarForge {
                 .outputItems(GTOItems.CONTAINED_HIGH_DENSITY_PROTONIC_MATTER)
                 .EUt(125829120)
                 .duration(200)
-                .addData(GTOValues.STELLAR_CONTAINMENT_TIER, 2)
+                .addData(GTORecipeDataKeys.STELLAR_CONTAINMENT_TIER, 2)
                 .save();
 
         STELLAR_FORGE_RECIPES.recipeBuilder("temporalfluid")
@@ -328,7 +327,7 @@ final class StellarForge {
                 .outputFluids(GTOMaterials.SpatialFluid, 500)
                 .EUt(2013265920)
                 .duration(800)
-                .addData(GTOValues.STELLAR_CONTAINMENT_TIER, 3)
+                .addData(GTORecipeDataKeys.STELLAR_CONTAINMENT_TIER, 3)
                 .save();
 
         STELLAR_FORGE_RECIPES.recipeBuilder("enderium_plasma")
@@ -342,7 +341,7 @@ final class StellarForge {
                 .outputFluids(GTOMaterials.Enderium.getFluid(FluidStorageKeys.PLASMA, 2304))
                 .EUt(31457280)
                 .duration(200)
-                .addData(GTOValues.STELLAR_CONTAINMENT_TIER, 1)
+                .addData(GTORecipeDataKeys.STELLAR_CONTAINMENT_TIER, 1)
                 .save();
 
         STELLAR_FORGE_RECIPES.recipeBuilder("crystal_matrix_plasma")
@@ -352,7 +351,7 @@ final class StellarForge {
                 .outputFluids(GTOMaterials.CrystalMatrix.getFluid(FluidStorageKeys.PLASMA, 1000))
                 .EUt(125829120)
                 .duration(200)
-                .addData(GTOValues.STELLAR_CONTAINMENT_TIER, 2)
+                .addData(GTORecipeDataKeys.STELLAR_CONTAINMENT_TIER, 2)
                 .save();
 
         STELLAR_FORGE_RECIPES.recipeBuilder("high_energy_quark_gluon_plasma")
@@ -362,7 +361,7 @@ final class StellarForge {
                 .outputFluids(GTOMaterials.HighEnergyQuarkGluon.getFluid(FluidStorageKeys.PLASMA, 2000))
                 .EUt(125829120)
                 .duration(200)
-                .addData(GTOValues.STELLAR_CONTAINMENT_TIER, 2)
+                .addData(GTORecipeDataKeys.STELLAR_CONTAINMENT_TIER, 2)
                 .save();
 
         STELLAR_FORGE_RECIPES.recipeBuilder("infuscolium_plasma")
@@ -374,7 +373,7 @@ final class StellarForge {
                 .outputFluids(GTOMaterials.Infuscolium.getFluid(FluidStorageKeys.PLASMA, 2304))
                 .EUt(31457280)
                 .duration(200)
-                .addData(GTOValues.STELLAR_CONTAINMENT_TIER, 1)
+                .addData(GTORecipeDataKeys.STELLAR_CONTAINMENT_TIER, 1)
                 .save();
 
         STELLAR_FORGE_RECIPES.recipeBuilder("actinium_superhydride_plasma")
@@ -384,7 +383,7 @@ final class StellarForge {
                 .outputFluids(GTOMaterials.ActiniumSuperhydride.getFluid(FluidStorageKeys.PLASMA, 36000))
                 .EUt(31457280)
                 .duration(200)
-                .addData(GTOValues.STELLAR_CONTAINMENT_TIER, 1)
+                .addData(GTORecipeDataKeys.STELLAR_CONTAINMENT_TIER, 1)
                 .save();
 
         STELLAR_FORGE_RECIPES.recipeBuilder("eigenfolded_kerr_manifold")
@@ -394,7 +393,7 @@ final class StellarForge {
                 .outputItems(GTOItems.EIGENFOLDED_KERR_MANIFOLD)
                 .EUt(503316480)
                 .duration(200)
-                .addData(GTOValues.STELLAR_CONTAINMENT_TIER, 3)
+                .addData(GTORecipeDataKeys.STELLAR_CONTAINMENT_TIER, 3)
                 .save();
 
         STELLAR_FORGE_RECIPES.builder("resonarium_plasma")
@@ -403,7 +402,7 @@ final class StellarForge {
                 .outputFluids(GTOMaterials.Resonarium, FluidStorageKeys.PLASMA, 1152)
                 .EUt(20971520)
                 .duration(200)
-                .addData(GTOValues.STELLAR_CONTAINMENT_TIER, 1)
+                .addData(GTORecipeDataKeys.STELLAR_CONTAINMENT_TIER, 1)
                 .save();
 
         STELLAR_FORGE_RECIPES.builder("blazecube_plasma")
@@ -416,7 +415,7 @@ final class StellarForge {
                 .outputFluids(GTOMaterials.BlazeCube, FluidStorageKeys.PLASMA, 1000)
                 .EUt(31457280)
                 .duration(128)
-                .addData(GTOValues.STELLAR_CONTAINMENT_TIER, 1)
+                .addData(GTORecipeDataKeys.STELLAR_CONTAINMENT_TIER, 1)
                 .save();
 
         addManaProducingRecipe();
@@ -431,7 +430,7 @@ final class StellarForge {
                 .EUt(31457280)
                 .duration(40)
                 .MANAt(-125000)
-                .addData(GTOValues.STELLAR_CONTAINMENT_TIER, 1)
+                .addData(GTORecipeDataKeys.STELLAR_CONTAINMENT_TIER, 1)
                 .category(GTORecipeCategories.STELLER_MANA_PRODUCING)
                 .save();
         STELLAR_FORGE_RECIPES.recipeBuilder("mana2")
@@ -442,7 +441,7 @@ final class StellarForge {
                 .EUt(31457280)
                 .duration(40)
                 .MANAt(-1000000)
-                .addData(GTOValues.STELLAR_CONTAINMENT_TIER, 2)
+                .addData(GTORecipeDataKeys.STELLAR_CONTAINMENT_TIER, 2)
                 .category(GTORecipeCategories.STELLER_MANA_PRODUCING)
                 .save();
         STELLAR_FORGE_RECIPES.recipeBuilder("mana3")
@@ -453,7 +452,7 @@ final class StellarForge {
                 .EUt(31457280)
                 .duration(40)
                 .MANAt(-8000000)
-                .addData(GTOValues.STELLAR_CONTAINMENT_TIER, 3)
+                .addData(GTORecipeDataKeys.STELLAR_CONTAINMENT_TIER, 3)
                 .category(GTORecipeCategories.STELLER_MANA_PRODUCING)
                 .save();
         STELLAR_FORGE_RECIPES.recipeBuilder("mana4")
@@ -464,7 +463,7 @@ final class StellarForge {
                 .EUt(69)
                 .duration(8)
                 .MANAt(-420)
-                .addData(GTOValues.STELLAR_CONTAINMENT_TIER, 1)
+                .addData(GTORecipeDataKeys.STELLAR_CONTAINMENT_TIER, 1)
                 .category(GTORecipeCategories.STELLER_MANA_PRODUCING)
                 .save();
     }

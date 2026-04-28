@@ -2,11 +2,8 @@ package com.gtocore.common.data.machines;
 
 import com.gtocore.api.machine.part.GTOPartAbility;
 import com.gtocore.api.pattern.GTOPredicates;
-import com.gtocore.common.block.BlockMap;
-import com.gtocore.common.data.GTOBlocks;
-import com.gtocore.common.data.GTOMachines;
-import com.gtocore.common.data.GTOMaterials;
-import com.gtocore.common.data.GTORecipeTypes;
+import com.gtocore.common.data.*;
+import com.gtocore.common.data.GTORecipeDataKeys;
 import com.gtocore.common.data.translation.GTOMachineStories;
 import com.gtocore.common.data.translation.GTOMachineTooltips;
 import com.gtocore.common.machine.multiblock.electric.FastNeutronBreederReactor;
@@ -690,7 +687,7 @@ public final class MultiBlockH {
                     .build())
             .workableCasingRenderer(GTOCore.id("block/casings/space_elevator_mechanical_casing"), GTCEu.id("block/multiblock/gcym/large_chemical_bath"))
             .register();
-    public static final MultiblockMachineDefinition MEGA_ASSEMBLY_LINE = multiblock("mega_se_assembly_line", "太空电梯装配线", (h) -> new MegaSpaceElevatorModuleMachine(h, true, m -> ((SpaceElevatorModuleMachine) m).getSpaceElevatorTier() > 7 ? (int) Math.pow(2, ((SpaceElevatorModuleMachine) m).getSpaceElevatorMachine().getCasingTier(POWER_MODULE_TIER) - 1) : 0))
+    public static final MultiblockMachineDefinition MEGA_ASSEMBLY_LINE = multiblock("mega_se_assembly_line", "太空电梯装配线", (h) -> new MegaSpaceElevatorModuleMachine(h, true, m -> ((SpaceElevatorModuleMachine) m).getSpaceElevatorTier() > 7 ? (int) Math.pow(2, ((SpaceElevatorModuleMachine) m).getSpaceElevatorMachine().getCasingTier(GTORecipeDataKeys.POWER_MODULE_TIER) - 1) : 0))
             .langValue("Mega Space Elevator Assembly Line")
             .nonYAxisRotation()
             .specialParallelizableTooltips()
@@ -807,7 +804,7 @@ public final class MultiBlockH {
             .register();
 
     // 雾化冷凝器
-    public static final MultiblockMachineDefinition ATOMIZING_CONDENSER = multiblock("atomizing_condenser", "雾化冷凝器", TierCasingParallelMultiblockMachine.createParallel(m -> (4L * (m.getCasingTier(BlockMap.hermetic_casing))), false, BlockMap.hermetic_casing))
+    public static final MultiblockMachineDefinition ATOMIZING_CONDENSER = multiblock("atomizing_condenser", "雾化冷凝器", TierCasingParallelMultiblockMachine.createParallel(m -> (4L * (m.getCasingTier(GTORecipeDataKeys.HERMETIC_CASING_TIER))), false, GTORecipeDataKeys.HERMETIC_CASING_TIER))
             .nonYAxisRotation()
             .specialParallelizableTooltips()
             .tooltips(GTOMachineStories.INSTANCE.getAtomizingCondenserTooltips().getSupplier())
@@ -830,7 +827,7 @@ public final class MultiBlockH {
             .register();
 
     // 热压成型机
-    public static final MultiblockMachineDefinition THERMO_PRESS = multiblock("thermo_press", "热压成型机", TierCasingMultiblockMachine.createMachine(BlockMap.hermetic_casing))
+    public static final MultiblockMachineDefinition THERMO_PRESS = multiblock("thermo_press", "热压成型机", TierCasingMultiblockMachine.createMachine(GTORecipeDataKeys.HERMETIC_CASING_TIER))
             .nonYAxisRotation()
             .parallelizableTooltips()
             .tooltips(GTOMachineStories.INSTANCE.getThermoPressTooltips().getSupplier())
@@ -838,7 +835,7 @@ public final class MultiBlockH {
             .recipeTypes(GTORecipeTypes.THERMO_PRESSING_RECIPES)
             .recipeModifier((m, r) -> {
                 if (m instanceof ITierCasingMachine tm) {
-                    r.duration = (int) Math.max(Math.pow(0.9, tm.getCasingTier(BlockMap.hermetic_casing)) * r.duration, 1);
+                    r.duration = (int) Math.max(Math.pow(0.9, tm.getCasingTier(GTORecipeDataKeys.HERMETIC_CASING_TIER)) * r.duration, 1);
                 }
                 return RecipeModifierFunction.overclocking(m, RecipeModifierFunction.hatchParallel(m, r));
             })

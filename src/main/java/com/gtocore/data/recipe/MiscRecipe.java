@@ -1,10 +1,7 @@
 package com.gtocore.data.recipe;
 
 import com.gtocore.api.data.tag.GTOTagPrefix;
-import com.gtocore.common.data.GTOBlocks;
-import com.gtocore.common.data.GTOFluids;
-import com.gtocore.common.data.GTOItems;
-import com.gtocore.common.data.GTOMaterials;
+import com.gtocore.common.data.*;
 import com.gtocore.common.item.DimensionDataItem;
 import com.gtocore.common.machine.multiblock.electric.BlockConversionRoomMachine;
 import com.gtocore.common.recipe.condition.GravityCondition;
@@ -135,25 +132,25 @@ public final class MiscRecipe {
         VACUUM_PUMP_RECIPES.recipeBuilder("a")
                 .notConsumable(pipeHugeFluid, Bronze)
                 .EUt(7).duration(200)
-                .addData("tier", 0)
+                .addData(GTORecipeDataKeys.TIER, 0)
                 .save();
 
         VACUUM_PUMP_RECIPES.recipeBuilder("b")
                 .notConsumable(FLUID_REGULATOR_LV)
                 .EUt(30).duration(200)
-                .addData("tier", 1)
+                .addData(GTORecipeDataKeys.TIER, 1)
                 .save();
 
         VACUUM_PUMP_RECIPES.recipeBuilder("c")
                 .notConsumable(FLUID_REGULATOR_MV)
                 .EUt(120).duration(200)
-                .addData("tier", 2)
+                .addData(GTORecipeDataKeys.TIER, 2)
                 .save();
 
         VACUUM_PUMP_RECIPES.recipeBuilder("d")
                 .notConsumable(FLUID_REGULATOR_HV)
                 .EUt(480).duration(200)
-                .addData("tier", 3)
+                .addData(GTORecipeDataKeys.TIER, 3)
                 .save();
 
         WOOD_DISTILLATION_RECIPES.builder("muhuayihaodianlu")
@@ -701,7 +698,7 @@ public final class MiscRecipe {
                 .EUt(120)
                 .blastFurnaceTemp(3200)
                 .duration(25600)
-                .addData("spool", 5)
+                .addData(GTORecipeDataKeys.SPOOL, 5)
                 .save();
     }
 }

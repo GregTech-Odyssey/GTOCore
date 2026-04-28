@@ -3,6 +3,7 @@ package com.gtocore.data.recipe.classified;
 import com.gtocore.api.data.tag.GTOTagPrefix;
 import com.gtocore.common.data.GTOItems;
 import com.gtocore.common.data.GTOMaterials;
+import com.gtocore.common.data.GTORecipeDataKeys;
 
 import com.gregtechceu.gtceu.api.data.chemical.material.MarkerMaterials;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
@@ -26,7 +27,7 @@ final class NanoForge {
                 .outputItems(GTOTagPrefix.NANITES, GTMaterials.Gold)
                 .EUt(491520)
                 .duration(2000)
-                .addData("nano_forge_tier", 1)
+                .addData(GTORecipeDataKeys.NANO_FORGE_TIER, 1)
                 .save();
 
         NANO_FORGE_RECIPES.recipeBuilder("osmium_nanites")
@@ -39,7 +40,7 @@ final class NanoForge {
                 .outputItems(GTOTagPrefix.NANITES, GTMaterials.Osmium)
                 .EUt(491520)
                 .duration(4000)
-                .addData("nano_forge_tier", 1)
+                .addData(GTORecipeDataKeys.NANO_FORGE_TIER, 1)
                 .save();
 
         NANO_FORGE_RECIPES.recipeBuilder("infuscolium_nanites")
@@ -53,7 +54,7 @@ final class NanoForge {
                 .outputItems(GTOTagPrefix.NANITES, GTOMaterials.Infuscolium)
                 .EUt(7864320)
                 .duration(2000)
-                .addData("nano_forge_tier", 2)
+                .addData(GTORecipeDataKeys.NANO_FORGE_TIER, 2)
                 .save();
 
         NANO_FORGE_RECIPES.recipeBuilder("draconium_nanites")
@@ -69,7 +70,7 @@ final class NanoForge {
                 .outputItems(GTOTagPrefix.NANITES, GTOMaterials.Draconium)
                 .EUt(7864320)
                 .duration(16000)
-                .addData("nano_forge_tier", 2)
+                .addData(GTORecipeDataKeys.NANO_FORGE_TIER, 2)
                 .save();
 
         NANO_FORGE_RECIPES.recipeBuilder("spacetime_nanites")
@@ -85,7 +86,7 @@ final class NanoForge {
                 .outputItems(GTOTagPrefix.NANITES, GTOMaterials.SpaceTime)
                 .EUt(125829120)
                 .duration(8000)
-                .addData("nano_forge_tier", 3)
+                .addData(GTORecipeDataKeys.NANO_FORGE_TIER, 3)
                 .save();
 
         NANO_FORGE_RECIPES.recipeBuilder("neutronium_nanites")
@@ -99,7 +100,7 @@ final class NanoForge {
                 .outputItems(GTOTagPrefix.NANITES, GTMaterials.Neutronium)
                 .EUt(491520)
                 .duration(32000)
-                .addData("nano_forge_tier", 1)
+                .addData(GTORecipeDataKeys.NANO_FORGE_TIER, 1)
                 .save();
 
         NANO_FORGE_RECIPES.recipeBuilder("naquadah_nanites")
@@ -112,7 +113,7 @@ final class NanoForge {
                 .outputItems(GTOTagPrefix.NANITES, GTMaterials.Naquadah)
                 .EUt(491520)
                 .duration(16000)
-                .addData("nano_forge_tier", 1)
+                .addData(GTORecipeDataKeys.NANO_FORGE_TIER, 1)
                 .save();
 
         NANO_FORGE_RECIPES.recipeBuilder("carbon_nanites")
@@ -124,7 +125,7 @@ final class NanoForge {
                 .outputItems(GTOTagPrefix.NANITES, GTMaterials.Carbon, 64)
                 .EUt(491520)
                 .duration(4000)
-                .addData("nano_forge_tier", 1)
+                .addData(GTORecipeDataKeys.NANO_FORGE_TIER, 1)
                 .save();
 
         NANO_FORGE_RECIPES.recipeBuilder("starmetal_nanites")
@@ -140,7 +141,7 @@ final class NanoForge {
                 .outputItems(GTOTagPrefix.NANITES, GTOMaterials.Starmetal)
                 .EUt(7864320)
                 .duration(8000)
-                .addData("nano_forge_tier", 2)
+                .addData(GTORecipeDataKeys.NANO_FORGE_TIER, 2)
                 .save();
 
         NANO_FORGE_RECIPES.recipeBuilder("silver_nanites")
@@ -153,7 +154,7 @@ final class NanoForge {
                 .outputItems(GTOTagPrefix.NANITES, GTMaterials.Silver)
                 .EUt(491520)
                 .duration(2000)
-                .addData("nano_forge_tier", 1)
+                .addData(GTORecipeDataKeys.NANO_FORGE_TIER, 1)
                 .save();
 
         NANO_FORGE_RECIPES.recipeBuilder("orichalcum_nanites")
@@ -167,7 +168,7 @@ final class NanoForge {
                 .outputItems(GTOTagPrefix.NANITES, GTOMaterials.Orichalcum)
                 .EUt(491520)
                 .duration(32000)
-                .addData("nano_forge_tier", 1)
+                .addData(GTORecipeDataKeys.NANO_FORGE_TIER, 1)
                 .save();
 
         NANO_FORGE_RECIPES.recipeBuilder("iridium_nanites")
@@ -180,7 +181,7 @@ final class NanoForge {
                 .outputItems(GTOTagPrefix.NANITES, GTMaterials.Iridium)
                 .EUt(491520)
                 .duration(4000)
-                .addData("nano_forge_tier", 1)
+                .addData(GTORecipeDataKeys.NANO_FORGE_TIER, 1)
                 .save();
 
         NANO_FORGE_RECIPES.recipeBuilder("black_dwarf_mtter_nanites")
@@ -193,7 +194,7 @@ final class NanoForge {
                 .outputItems(GTOTagPrefix.NANITES, GTOMaterials.BlackDwarfMatter)
                 .EUt(125829120)
                 .duration(4000)
-                .addData("nano_forge_tier", 3)
+                .addData(GTORecipeDataKeys.NANO_FORGE_TIER, 3)
                 .save();
 
         NANO_FORGE_RECIPES.recipeBuilder("copper_nanites")
@@ -206,7 +207,7 @@ final class NanoForge {
                 .outputItems(GTOTagPrefix.NANITES, GTMaterials.Copper)
                 .EUt(491520)
                 .duration(2000)
-                .addData("nano_forge_tier", 1)
+                .addData(GTORecipeDataKeys.NANO_FORGE_TIER, 1)
                 .save();
 
         NANO_FORGE_RECIPES.recipeBuilder("rhenium_nanites")
@@ -219,7 +220,7 @@ final class NanoForge {
                 .outputItems(GTOTagPrefix.NANITES, GTMaterials.Rhenium)
                 .EUt(491520)
                 .duration(8000)
-                .addData("nano_forge_tier", 1)
+                .addData(GTORecipeDataKeys.NANO_FORGE_TIER, 1)
                 .save();
 
         NANO_FORGE_RECIPES.recipeBuilder("iron_nanites")
@@ -232,7 +233,7 @@ final class NanoForge {
                 .outputItems(GTOTagPrefix.NANITES, GTMaterials.Iron)
                 .EUt(491520)
                 .duration(2000)
-                .addData("nano_forge_tier", 1)
+                .addData(GTORecipeDataKeys.NANO_FORGE_TIER, 1)
                 .save();
 
         NANO_FORGE_RECIPES.recipeBuilder("enderium_nanites")
@@ -246,7 +247,7 @@ final class NanoForge {
                 .outputItems(GTOTagPrefix.NANITES, GTOMaterials.Enderium)
                 .EUt(7864320)
                 .duration(2000)
-                .addData("nano_forge_tier", 2)
+                .addData(GTORecipeDataKeys.NANO_FORGE_TIER, 2)
                 .save();
 
         NANO_FORGE_RECIPES.recipeBuilder("transcendent_metal_nanites")
@@ -262,7 +263,7 @@ final class NanoForge {
                 .outputItems(GTOTagPrefix.NANITES, GTOMaterials.TranscendentMetal)
                 .EUt(125829120)
                 .duration(16000)
-                .addData("nano_forge_tier", 3)
+                .addData(GTORecipeDataKeys.NANO_FORGE_TIER, 3)
                 .save();
 
         NANO_FORGE_RECIPES.recipeBuilder("eternity_nanites")
@@ -278,7 +279,7 @@ final class NanoForge {
                 .outputItems(GTOTagPrefix.NANITES, GTOMaterials.Eternity)
                 .EUt(125829120)
                 .duration(64000)
-                .addData("nano_forge_tier", 3)
+                .addData(GTORecipeDataKeys.NANO_FORGE_TIER, 3)
                 .save();
 
         NANO_FORGE_RECIPES.recipeBuilder("cosmic_neutronium_nanites")
@@ -294,7 +295,7 @@ final class NanoForge {
                 .outputItems(GTOTagPrefix.NANITES, GTOMaterials.CosmicNeutronium)
                 .EUt(125829120)
                 .duration(8000)
-                .addData("nano_forge_tier", 3)
+                .addData(GTORecipeDataKeys.NANO_FORGE_TIER, 3)
                 .save();
 
         NANO_FORGE_RECIPES.recipeBuilder("vibranium_nanites")
@@ -308,7 +309,7 @@ final class NanoForge {
                 .outputItems(GTOTagPrefix.NANITES, GTOMaterials.Vibranium)
                 .EUt(7864320)
                 .duration(4000)
-                .addData("nano_forge_tier", 2)
+                .addData(GTORecipeDataKeys.NANO_FORGE_TIER, 2)
                 .save();
 
         NANO_FORGE_RECIPES.recipeBuilder("white_dwarf_mtter_nanites")
@@ -321,7 +322,7 @@ final class NanoForge {
                 .outputItems(GTOTagPrefix.NANITES, GTOMaterials.WhiteDwarfMatter)
                 .EUt(125829120)
                 .duration(4000)
-                .addData("nano_forge_tier", 3)
+                .addData(GTORecipeDataKeys.NANO_FORGE_TIER, 3)
                 .save();
 
         NANO_FORGE_RECIPES.recipeBuilder("uruium_nanites")
@@ -335,7 +336,7 @@ final class NanoForge {
                 .outputItems(GTOTagPrefix.NANITES, GTOMaterials.Uruium)
                 .EUt(7864320)
                 .duration(4000)
-                .addData("nano_forge_tier", 2)
+                .addData(GTORecipeDataKeys.NANO_FORGE_TIER, 2)
                 .save();
 
         NANO_FORGE_RECIPES.recipeBuilder("glowstone_nanites")
@@ -348,7 +349,7 @@ final class NanoForge {
                 .outputItems(GTOTagPrefix.NANITES, GTMaterials.Glowstone, 64)
                 .EUt(491520)
                 .duration(16000)
-                .addData("nano_forge_tier", 1)
+                .addData(GTORecipeDataKeys.NANO_FORGE_TIER, 1)
                 .save();
     }
 }

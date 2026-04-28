@@ -1,9 +1,6 @@
 package com.gtocore.data.recipe.classified;
 
-import com.gtocore.common.data.GTOBlocks;
-import com.gtocore.common.data.GTOFluids;
-import com.gtocore.common.data.GTOItems;
-import com.gtocore.common.data.GTOMaterials;
+import com.gtocore.common.data.*;
 import com.gtocore.common.recipe.condition.GravityCondition;
 
 import com.gtolib.GTOCore;
@@ -62,7 +59,7 @@ final class Incubator {
                 .EUt(1920)
                 .duration(1200)
                 .addCondition(new GravityCondition(true))
-                .addData("filter_casing", 2)
+                .addData(GTORecipeDataKeys.FILTER_CASING, 2)
                 .save();
 
         INCUBATOR_RECIPES.recipeBuilder("iron_vein_essence")
@@ -88,8 +85,8 @@ final class Incubator {
                 .outputItems(GTOBlocks.VARIATION_WOOD.asItem(), 64)
                 .EUt(1966080)
                 .duration(2400)
-                .addData("filter_casing", 3)
-                .addData("radioactivity", 440)
+                .addData(GTORecipeDataKeys.FILTER_CASING, 3)
+                .addData(GTORecipeDataKeys.RADIOACTIVITY, 440)
                 .save();
 
         INCUBATOR_RECIPES.builder("barnarda_c_log_from_echo")
@@ -101,8 +98,8 @@ final class Incubator {
                 .outputItems(GTOBlocks.BARNARDA_C_LOG.asItem(), 64)
                 .inputFluids(GTOMaterials.BarnardaAir, 10000)
                 .EUt(VA[UEV])
-                .addData("filter_casing", 3)
-                .addData("radioactivity", 440)
+                .addData(GTORecipeDataKeys.FILTER_CASING, 3)
+                .addData(GTORecipeDataKeys.RADIOACTIVITY, 440)
                 .duration(1200)
                 .save();
 
@@ -139,7 +136,7 @@ final class Incubator {
                 .outputItems(GTItems.STEM_CELLS, 64)
                 .EUt(30720)
                 .duration(300)
-                .addData("filter_casing", 2)
+                .addData(GTORecipeDataKeys.FILTER_CASING, 2)
                 .save();
 
         INCUBATOR_RECIPES.recipeBuilder("copper_vein_essence")
@@ -198,7 +195,7 @@ final class Incubator {
                 .outputItems(Items.CHORUS_FRUIT.asItem(), 64)
                 .EUt(120)
                 .duration(1200)
-                .addData("radioactivity", 230)
+                .addData(GTORecipeDataKeys.RADIOACTIVITY, 230)
                 .save();
 
         INCUBATOR_RECIPES.recipeBuilder("magnetite_vein_end_essence")
@@ -236,8 +233,8 @@ final class Incubator {
                 .outputFluids(GTOMaterials.SeaweedBroth, 50000)
                 .EUt(7680)
                 .duration(4800)
-                .addData("filter_casing", 2)
-                .addData("radioactivity", 80)
+                .addData(GTORecipeDataKeys.FILTER_CASING, 2)
+                .addData(GTORecipeDataKeys.RADIOACTIVITY, 80)
                 .save();
 
         INCUBATOR_RECIPES.recipeBuilder("galena_vein_essence")
@@ -285,7 +282,7 @@ final class Incubator {
                 .outputItems(GTOItems.DRAGON_CELLS, 64)
                 .EUt(491520)
                 .duration(1600)
-                .addData("filter_casing", 3)
+                .addData(GTORecipeDataKeys.FILTER_CASING, 3)
                 .save();
 
         INCUBATOR_RECIPES.recipeBuilder("salts_vein_essence")
@@ -332,8 +329,8 @@ final class Incubator {
                 .outputFluids(GTOMaterials.Xenoxene, 20000)
                 .EUt(491520)
                 .duration(2400)
-                .addData("filter_casing", 3)
-                .addData("radioactivity", 360)
+                .addData(GTORecipeDataKeys.FILTER_CASING, 3)
+                .addData(GTORecipeDataKeys.RADIOACTIVITY, 360)
                 .save();
 
         INCUBATOR_RECIPES.recipeBuilder("sheldonite_vein_essence")
@@ -527,7 +524,7 @@ final class Incubator {
                 .outputItems(GTOItems.BIOLOGICAL_CELLS, 64)
                 .EUt(122880)
                 .duration(800)
-                .addData("filter_casing", 2)
+                .addData(GTORecipeDataKeys.FILTER_CASING, 2)
                 .save();
 
         INCUBATOR_RECIPES.recipeBuilder("glacio_spirit")
@@ -539,7 +536,7 @@ final class Incubator {
                 .outputItems(GTOItems.GLACIO_SPIRIT, 64)
                 .EUt(30720)
                 .duration(2000)
-                .addData("radioactivity", 40)
+                .addData(GTORecipeDataKeys.RADIOACTIVITY, 40)
                 .save();
 
         INCUBATOR_RECIPES.recipeBuilder("tetrahedrite_vein_essence")
@@ -576,7 +573,7 @@ final class Incubator {
                 .outputItems(GTOItems.SPACE_ESSENCE)
                 .EUt(480)
                 .duration(1200)
-                .addData("radioactivity", 180)
+                .addData(GTORecipeDataKeys.RADIOACTIVITY, 180)
                 .save();
 
         INCUBATOR_RECIPES.recipeBuilder("echo")
@@ -590,8 +587,8 @@ final class Incubator {
                 .outputFluids(GTMaterials.EchoShard, 10000)
                 .EUt(1920)
                 .duration(2400)
-                .addData("filter_casing", 3)
-                .addData("radioactivity", 380)
+                .addData(GTORecipeDataKeys.FILTER_CASING, 3)
+                .addData(GTORecipeDataKeys.RADIOACTIVITY, 380)
                 .save();
 
         INCUBATOR_RECIPES.recipeBuilder("sulfur_vein_essence")
@@ -616,8 +613,8 @@ final class Incubator {
                 .outputItems(GTOBlocks.VARIATION_WOOD.asItem(), 64)
                 .EUt(1966080)
                 .duration(2400)
-                .addData("filter_casing", 3)
-                .addData("radioactivity", 440)
+                .addData(GTORecipeDataKeys.FILTER_CASING, 3)
+                .addData(GTORecipeDataKeys.RADIOACTIVITY, 440)
                 .save();
 
         INCUBATOR_RECIPES.recipeBuilder("coal_vein_essence")
@@ -650,8 +647,8 @@ final class Incubator {
                 .inputFluids(GTMaterials.Mutagen, 100)
                 .EUt(7680)
                 .duration(200)
-                .addData("filter_casing", 2)
-                .addData("radioactivity", 60)
+                .addData(GTORecipeDataKeys.FILTER_CASING, 2)
+                .addData(GTORecipeDataKeys.RADIOACTIVITY, 60)
                 .save();
 
         INCUBATOR_RECIPES.recipeBuilder("brevibacterium")
@@ -662,7 +659,7 @@ final class Incubator {
                 .inputFluids(GTMaterials.Bacteria, 100)
                 .EUt(480)
                 .duration(200)
-                .addData("filter_casing", 2)
+                .addData(GTORecipeDataKeys.FILTER_CASING, 2)
                 .save();
 
         INCUBATOR_RECIPES.recipeBuilder("bifidobacteriumm")
@@ -673,7 +670,7 @@ final class Incubator {
                 .inputFluids(GTMaterials.Bacteria, 100)
                 .EUt(480)
                 .duration(200)
-                .addData("filter_casing", 2)
+                .addData(GTORecipeDataKeys.FILTER_CASING, 2)
                 .save();
 
         INCUBATOR_RECIPES.recipeBuilder("eschericia")
@@ -684,7 +681,7 @@ final class Incubator {
                 .inputFluids(GTMaterials.Bacteria, 100)
                 .EUt(480)
                 .duration(200)
-                .addData("filter_casing", 2)
+                .addData(GTORecipeDataKeys.FILTER_CASING, 2)
                 .save();
 
         INCUBATOR_RECIPES.recipeBuilder("streptococcus")
@@ -695,7 +692,7 @@ final class Incubator {
                 .inputFluids(GTMaterials.Bacteria, 100)
                 .EUt(480)
                 .duration(200)
-                .addData("filter_casing", 2)
+                .addData(GTORecipeDataKeys.FILTER_CASING, 2)
                 .save();
 
         INCUBATOR_RECIPES.recipeBuilder("cupriavidus")
@@ -706,7 +703,7 @@ final class Incubator {
                 .inputFluids(GTMaterials.Bacteria, 100)
                 .EUt(480)
                 .duration(200)
-                .addData("filter_casing", 2)
+                .addData(GTORecipeDataKeys.FILTER_CASING, 2)
                 .save();
 
         INCUBATOR_RECIPES.recipeBuilder("clostridium_pasteurianum")
@@ -717,7 +714,7 @@ final class Incubator {
                 .inputFluids(GTMaterials.Bacteria, 100)
                 .EUt(480)
                 .duration(200)
-                .addData("filter_casing", 2)
+                .addData(GTORecipeDataKeys.FILTER_CASING, 2)
                 .save();
 
         INCUBATOR_RECIPES.recipeBuilder("shewanella")
@@ -728,7 +725,7 @@ final class Incubator {
                 .inputFluids(GTMaterials.Bacteria, 100)
                 .EUt(480)
                 .duration(200)
-                .addData("filter_casing", 2)
+                .addData(GTORecipeDataKeys.FILTER_CASING, 2)
                 .save();
         INCUBATOR_RECIPES.builder("spider_eye")
                 .chancedInput(new ItemStack(Items.SPIDER_EYE.asItem()), 4000, 100)
@@ -750,7 +747,7 @@ final class Incubator {
                 .outputFluids(GTOMaterials.Dopamine, 1000)
                 .EUt(7200)
                 .duration(1440)
-                .addData("filter_casing", 2)
+                .addData(GTORecipeDataKeys.FILTER_CASING, 2)
                 .save();
         INCUBATOR_RECIPES.builder("hyperthermophilic_archaeon_dust")
                 .notConsumable(GTOItems.HYPERTHERMOPHILIC_ARCHAEON_DISH)
@@ -761,7 +758,7 @@ final class Incubator {
                 .outputFluids(GTOMaterials.Salamander, FluidStorageKeys.LIQUID, 1000)
                 .EUt(495000)
                 .duration(1280)
-                .addData("filter_casing", 2)
+                .addData(GTORecipeDataKeys.FILTER_CASING, 2)
                 .save();
     }
 }

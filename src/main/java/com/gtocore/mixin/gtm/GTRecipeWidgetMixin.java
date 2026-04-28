@@ -10,10 +10,9 @@ import com.gregtechceu.gtceu.api.recipe.GTRecipeDefinition;
 import com.gregtechceu.gtceu.api.recipe.OverclockingLogic;
 import com.gregtechceu.gtceu.api.recipe.RecipeCondition;
 import com.gregtechceu.gtceu.api.recipe.content.Content;
+import com.gregtechceu.gtceu.common.data.GTRecipeDataKeys;
 import com.gregtechceu.gtceu.common.recipe.condition.DimensionCondition;
 import com.gregtechceu.gtceu.integration.xei.widgets.GTRecipeWidget;
-
-import net.minecraft.nbt.CompoundTag;
 
 import com.google.common.collect.Table;
 import com.google.common.collect.Tables;
@@ -31,7 +30,6 @@ import org.spongepowered.asm.mixin.Shadow;
 import java.util.EnumMap;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.function.Function;
 import java.util.regex.Pattern;
 
 @Mixin(GTRecipeWidget.class)
@@ -104,7 +102,7 @@ public abstract class GTRecipeWidgetMixin extends WidgetGroup {
         collectStorage(storages, contents, recipe);
 
         WidgetGroup group = recipe.recipeType.getRecipeUI().createUITemplate(ProgressWidget.JEIProgress, storages,
-                recipe.data.copy(), recipe.conditions);
+                recipe.data.clone(), recipe.conditions);
         addSlots(contents, group, recipe);
 
         var size = group.getSize();
@@ -121,7 +119,7 @@ public abstract class GTRecipeWidgetMixin extends WidgetGroup {
         int yOffset = 5 + size.height;
         this.yOffset = yOffset;
         yOffset += EUt > 0 ? 20 : 0;
-        if (recipe.data.getBoolean("duration_is_total_cwu")) {
+        if (recipe.data.getBoolean(GTRecipeDataKeys.DURATION_IS_TOTAL_CWU)) {
             yOffset -= 10;
         }
 
@@ -142,7 +140,7 @@ public abstract class GTRecipeWidgetMixin extends WidgetGroup {
                 }
             } else addWidget(new LabelWidget(3 - xOffset, yOff.addAndGet(10), condition.getTooltips().getString()));
         }
-        for (Function<CompoundTag, String> dataInfo : recipe.recipeType.getDataInfos()) {
+        for (var dataInfo : recipe.recipeType.getDataInfos()) {
             addWidget(new LabelWidget(3 - xOffset, yOff.addAndGet(10), dataInfo.apply(recipe.data)));
         }
         recipe.recipeType.getRecipeUI().appendJEIUI(recipe, this);

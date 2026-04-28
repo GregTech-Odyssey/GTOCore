@@ -4,6 +4,7 @@ import com.gtocore.api.data.tag.GTOTagPrefix;
 import com.gtocore.api.pattern.GTOPredicates;
 import com.gtocore.common.data.GTOBlocks;
 import com.gtocore.common.data.GTOMaterials;
+import com.gtocore.common.data.GTORecipeDataKeys;
 
 import com.gtolib.api.machine.feature.multiblock.IMultiStructureMachine;
 import com.gtolib.api.machine.feature.multiblock.IParallelMachine;
@@ -53,12 +54,12 @@ public final class NanoForgeMachine extends StorageMultiblockMachine implements 
     @Nullable
     @Override
     protected Recipe getRealRecipe(Recipe recipe) {
-        if (recipe.data.getInt("nano_forge_tier") > machineTier) {
+        if (recipe.data.getInt(GTORecipeDataKeys.NANO_FORGE_TIER) > machineTier) {
             return null;
         }
-        recipe = ParallelLogic.accurateParallel(this, recipe, getParallel() * (1L << (machineTier - recipe.data.getInt("nano_forge_tier"))));
+        recipe = ParallelLogic.accurateParallel(this, recipe, getParallel() * (1L << (machineTier - recipe.data.getInt(GTORecipeDataKeys.NANO_FORGE_TIER))));
         if (recipe == null) return null;
-        return RecipeModifierFunction.overclocking(this, recipe, false, 1, 1, machineTier > recipe.data.getInt("nano_forge_tier") ? 0.25 : 0.5);
+        return RecipeModifierFunction.overclocking(this, recipe, false, 1, 1, machineTier > recipe.data.getInt(GTORecipeDataKeys.NANO_FORGE_TIER) ? 0.25 : 0.5);
     }
 
     @Override

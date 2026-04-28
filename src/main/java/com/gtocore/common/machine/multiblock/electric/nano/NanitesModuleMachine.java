@@ -1,10 +1,13 @@
 package com.gtocore.common.machine.multiblock.electric.nano;
 
+import com.gtocore.common.data.GTORecipeDataKeys;
+
 import com.gtolib.api.machine.multiblock.ElectricMultiblockMachine;
 import com.gtolib.api.recipe.Recipe;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiModule;
+import com.gregtechceu.gtceu.common.data.GTRecipeDataKeys;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 
 import net.minecraft.ChatFormatting;
@@ -57,7 +60,7 @@ public final class NanitesModuleMachine extends ElectricMultiblockMachine implem
 
     @Override
     public boolean beforeWorking(@NotNull Recipe recipe) {
-        if (controller == null || recipe.data.getInt("ebf_temp") > controller.getTemperature() || recipe.data.getInt("module") != type) return false;
+        if (controller == null || recipe.data.getInt(GTRecipeDataKeys.EBF_TEMP) > controller.getTemperature() || recipe.data.getInt(GTORecipeDataKeys.MODULE) != type) return false;
         return super.beforeWorking(recipe);
     }
 

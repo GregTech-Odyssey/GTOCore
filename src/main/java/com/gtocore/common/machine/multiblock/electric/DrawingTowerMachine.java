@@ -1,11 +1,12 @@
 package com.gtocore.common.machine.multiblock.electric;
 
+import com.gtocore.api.pattern.GTOPredicates;
+import com.gtocore.common.data.GTORecipeDataKeys;
 import com.gtocore.common.machine.multiblock.part.SpoolHatchPartMachine;
 
 import com.gtolib.api.machine.multiblock.CoilMultiblockMachine;
 import com.gtolib.api.recipe.Recipe;
 import com.gtolib.api.recipe.modifier.ParallelLogic;
-import com.gtolib.utils.FunctionContainer;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
@@ -47,9 +48,9 @@ public final class DrawingTowerMachine extends CoilMultiblockMachine {
     @Override
     public void onStructureFormed() {
         super.onStructureFormed();
-        FunctionContainer<Integer, ?> container = getMultiblockState().getMatchContext().get("laminated_glass");
+        var container = getMultiblockState().getMatchContext().get(GTOPredicates.DataKeys.LAMINATED_GLASS);
         if (container != null) {
-            height = container.getValue();
+            height = container;
         }
         reduction = Math.max(0.00001, 2 / Math.pow(1.2, ((height / 8D) * ((getTemperature() - 5000D) / 900D))));
         parallels = (getTemperature() <= 10000) ? 1 : (int) Math.round(Math.log(getTemperature() - 9600) / Math.log(1.08) - 84);
@@ -70,7 +71,7 @@ public final class DrawingTowerMachine extends CoilMultiblockMachine {
         int tier = getItemTier(item);
 
         // Check if the item is a valid spool and matches the required tier in the recipe
-        if (tier == recipe.data.getInt("spool")) {
+        if (tier == recipe.data.getInt(GTORecipeDataKeys.SPOOL)) {
             // Decrease the item count instead of increasing damage
             if (item.getCount() > 1) {
                 item.shrink(1); // Reduce the stack size by one

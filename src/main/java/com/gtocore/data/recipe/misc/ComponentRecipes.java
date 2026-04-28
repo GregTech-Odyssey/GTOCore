@@ -7,7 +7,6 @@ import com.gtocore.common.data.machines.ExResearchMachines;
 import com.gtocore.data.CraftingComponents;
 
 import com.gtolib.GTOCore;
-import com.gtolib.api.GTOValues;
 import com.gtolib.api.recipe.RecipeBuilder;
 
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
@@ -28,8 +27,8 @@ import static com.gregtechceu.gtceu.common.data.GTItems.*;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
 import static com.gregtechceu.gtceu.data.recipe.GTCraftingComponents.*;
 import static com.gtocore.common.data.GTOMaterials.*;
+import static com.gtocore.common.data.GTORecipeDataKeys.COMPONENT_ASSEMBLY_CASING_TIER;
 import static com.gtocore.common.data.GTORecipeTypes.*;
-import static com.gtolib.api.GTOValues.COMPONENT_ASSEMBLY_CASING_TIER;
 
 public final class ComponentRecipes {
 
@@ -211,7 +210,7 @@ public final class ComponentRecipes {
                 .outputItems(GTOItems.INTEGRATED_CONTROL_CORE_MAX, 64)
                 .EUt(2013265920)
                 .duration(12000)
-                .addData(GTOValues.COMPONENT_ASSEMBLY_CASING_TIER, 14)
+                .addData(COMPONENT_ASSEMBLY_CASING_TIER, 14)
                 .save();
 
         COMPONENT_ASSEMBLY_RECIPES.recipeBuilder("max_field_generator")
@@ -231,7 +230,7 @@ public final class ComponentRecipes {
                 .outputItems(GTOItems.MAX_FIELD_GENERATOR, 64)
                 .EUt(2013265920)
                 .duration(12000)
-                .addData(GTOValues.COMPONENT_ASSEMBLY_CASING_TIER, 14)
+                .addData(COMPONENT_ASSEMBLY_CASING_TIER, 14)
                 .save();
 
         COMPONENT_ASSEMBLY_RECIPES.recipeBuilder("max_sensor")
@@ -251,7 +250,7 @@ public final class ComponentRecipes {
                 .outputItems(GTOItems.MAX_SENSOR, 64)
                 .EUt(2013265920)
                 .duration(12000)
-                .addData(GTOValues.COMPONENT_ASSEMBLY_CASING_TIER, 14)
+                .addData(COMPONENT_ASSEMBLY_CASING_TIER, 14)
                 .save();
 
         COMPONENT_ASSEMBLY_RECIPES.recipeBuilder("max_electric_piston")
@@ -267,7 +266,7 @@ public final class ComponentRecipes {
                 .outputItems(GTOItems.MAX_ELECTRIC_PISTON, 64)
                 .EUt(2013265920)
                 .duration(12000)
-                .addData(GTOValues.COMPONENT_ASSEMBLY_CASING_TIER, 14)
+                .addData(COMPONENT_ASSEMBLY_CASING_TIER, 14)
                 .save();
 
         COMPONENT_ASSEMBLY_RECIPES.recipeBuilder("max_electric_pump")
@@ -287,7 +286,7 @@ public final class ComponentRecipes {
                 .outputItems(GTOItems.MAX_ELECTRIC_PUMP, 64)
                 .EUt(2013265920)
                 .duration(12000)
-                .addData(GTOValues.COMPONENT_ASSEMBLY_CASING_TIER, 14)
+                .addData(COMPONENT_ASSEMBLY_CASING_TIER, 14)
                 .save();
 
         COMPONENT_ASSEMBLY_RECIPES.recipeBuilder("max_conveyor_module")
@@ -305,7 +304,7 @@ public final class ComponentRecipes {
                 .outputItems(GTOItems.MAX_CONVEYOR_MODULE, 64)
                 .EUt(2013265920)
                 .duration(12000)
-                .addData(GTOValues.COMPONENT_ASSEMBLY_CASING_TIER, 14)
+                .addData(COMPONENT_ASSEMBLY_CASING_TIER, 14)
                 .save();
 
         COMPONENT_ASSEMBLY_RECIPES.recipeBuilder("max_electric_motor")
@@ -322,7 +321,7 @@ public final class ComponentRecipes {
                 .outputItems(GTOItems.MAX_ELECTRIC_MOTOR, 64)
                 .EUt(2013265920)
                 .duration(12000)
-                .addData(GTOValues.COMPONENT_ASSEMBLY_CASING_TIER, 14)
+                .addData(COMPONENT_ASSEMBLY_CASING_TIER, 14)
                 .save();
 
         COMPONENT_ASSEMBLY_RECIPES.recipeBuilder("max_robot_arm")
@@ -341,7 +340,7 @@ public final class ComponentRecipes {
                 .outputItems(GTOItems.MAX_ROBOT_ARM, 64)
                 .EUt(2013265920)
                 .duration(12000)
-                .addData(GTOValues.COMPONENT_ASSEMBLY_CASING_TIER, 14)
+                .addData(COMPONENT_ASSEMBLY_CASING_TIER, 14)
                 .save();
 
         COMPONENT_ASSEMBLY_RECIPES.recipeBuilder("max_emitter")
@@ -362,7 +361,7 @@ public final class ComponentRecipes {
                 .outputItems(GTOItems.MAX_EMITTER, 64)
                 .EUt(2013265920)
                 .duration(12000)
-                .addData(GTOValues.COMPONENT_ASSEMBLY_CASING_TIER, 14)
+                .addData(COMPONENT_ASSEMBLY_CASING_TIER, 14)
                 .save();
     }
 

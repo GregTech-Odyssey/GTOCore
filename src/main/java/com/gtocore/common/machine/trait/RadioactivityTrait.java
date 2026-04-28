@@ -1,5 +1,6 @@
 package com.gtocore.common.machine.trait;
 
+import com.gtocore.common.data.GTORecipeDataKeys;
 import com.gtocore.common.machine.multiblock.part.RadiationHatchPartMachine;
 import com.gtocore.data.IdleReason;
 
@@ -50,7 +51,7 @@ public class RadioactivityTrait extends MultiblockTrait {
 
     @Override
     public Recipe modifyRecipe(@NotNull Recipe recipe) {
-        recipeRadioactivity = recipe.data.getInt("radioactivity");
+        recipeRadioactivity = recipe.data.getInt(GTORecipeDataKeys.RADIOACTIVITY);
         if (recipeRadioactivity > 0 && outside()) {
             if (machine instanceof IRecipeLogicMachine recipeLogicMachine) IdleReason.setIdleReason(recipeLogicMachine, IdleReason.RADIATION);
             return null;

@@ -6,6 +6,7 @@ import com.gtocore.client.renderer.machine.PrimitiveDistillationRenderer;
 import com.gtocore.common.data.GTOBlocks;
 import com.gtocore.common.data.GTOMachines;
 import com.gtocore.common.data.GTOMaterials;
+import com.gtocore.common.data.GTORecipeDataKeys;
 import com.gtocore.common.data.GTORecipeTypes;
 import com.gtocore.common.data.translation.GTOMachineStories;
 import com.gtocore.common.data.translation.GTOMachineTooltips;
@@ -343,7 +344,7 @@ public final class MultiBlockC {
                     .where('C', blocks(GTBlocks.CASING_GRATE.get()))
                     .where('D', blocks(GTBlocks.CASING_TEMPERED_GLASS.get()))
                     .where('E', blocks(GTBlocks.STEEL_HULL.get()))
-                    .where('F', GTOPredicates.tierBlock(CALMAP, COMPONENT_ASSEMBLY_CASING_TIER))
+                    .where('F', GTOPredicates.tierBlock(CALMAP, GTORecipeDataKeys.COMPONENT_ASSEMBLY_CASING_TIER))
                     .where('G', blocks(GTOBlocks.MULTI_FUNCTIONAL_CASING.get()))
                     .where('H', GTOPredicates.frame(GTMaterials.Steel))
                     .where('I', blocks(Blocks.IRON_BARS))
@@ -367,7 +368,7 @@ public final class MultiBlockC {
                     .where('A', blocks(GTBlocks.CASING_STEEL_SOLID.get())
                             .or(GTOPredicates.autoIOAbilities(definition.getRecipeTypes()))
                             .or(abilities(ACCELERATE_HATCH).setMaxGlobalLimited(1)))
-                    .where('B', GTOPredicates.tierBlock(CALMAP, COMPONENT_ASSEMBLY_CASING_TIER))
+                    .where('B', GTOPredicates.tierBlock(CALMAP, GTORecipeDataKeys.COMPONENT_ASSEMBLY_CASING_TIER))
                     .where('C', blocks(GCYMBlocks.CASING_NONCONDUCTING.get()))
                     .where('D', blocks(GTBlocks.CASING_STEEL_SOLID.get()))
                     .where('E', blocks(GTBlocks.CASING_ASSEMBLY_CONTROL.get()))
@@ -565,11 +566,11 @@ public final class MultiBlockC {
             .register();
 
     public static final MultiblockMachineDefinition PHYSICAL_VAPOR_DEPOSITION = multiblock("physical_vapor_deposition", "物理气相沉积系统",
-            TierCasingParallelMultiblockMachine.createParallel(m -> 1L << (2 * (m.getTier() - 1)), true, GLASS_TIER))
+            TierCasingParallelMultiblockMachine.createParallel(m -> 1L << (2 * (m.getTier() - 1)), true, GTORecipeDataKeys.GLASS_TIER))
             .nonYAxisRotation()
             .tooltips(GTOMachineTooltips.INSTANCE.getPhysicalVaporDepositionTooltips().getSupplier())
             .recipeTypes(GTORecipeTypes.PHYSICAL_VAPOR_DEPOSITION_RECIPES)
-            .recipeModifiers((machine, recipe) -> RecipeModifierFunction.recipeReduction(recipe, 1, Math.sqrt(1.0D / ((ITierCasingMachine) machine).getCasingTier(GLASS_TIER))), RecipeModifierFunction.OVERCLOCKING)
+            .recipeModifiers((machine, recipe) -> RecipeModifierFunction.recipeReduction(recipe, 1, Math.sqrt(1.0D / ((ITierCasingMachine) machine).getCasingTier(GTORecipeDataKeys.GLASS_TIER))), RecipeModifierFunction.OVERCLOCKING)
             .block(GTBlocks.PLASTCRETE)
             .pattern(definition -> MultiBlockFileReader.start(definition)
                     .where('A', blocks(GTBlocks.CASING_TUNGSTENSTEEL_ROBUST.get()))
@@ -585,7 +586,7 @@ public final class MultiBlockC {
                     .where('I', blocks(GTBlocks.FILTER_CASING.get()))
                     .where(' ', any())
                     .build())
-            .additionalDisplay((controller, components) -> components.add(Component.translatable("gtocore.machine.duration_multiplier.tooltip", Component.literal(FormattingUtil.formatNumbers(Math.sqrt(1.0D / ((ITierCasingMachine) controller).getCasingTier(GLASS_TIER)))))))
+            .additionalDisplay((controller, components) -> components.add(Component.translatable("gtocore.machine.duration_multiplier.tooltip", Component.literal(FormattingUtil.formatNumbers(Math.sqrt(1.0D / ((ITierCasingMachine) controller).getCasingTier(GTORecipeDataKeys.GLASS_TIER)))))))
             .workableCasingRenderer(GTCEu.id("block/casings/cleanroom/plascrete"), GTCEu.id("block/multiblock/gcym/large_chemical_bath"))
             .register();
 

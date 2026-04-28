@@ -15,6 +15,7 @@ import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.capability.recipe.IRecipeHandler;
 import com.gregtechceu.gtceu.api.machine.ConditionalSubscriptionHandler;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
+import com.gregtechceu.gtceu.common.data.GTRecipeDataKeys;
 import com.gregtechceu.gtceu.utils.GTUtil;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
@@ -103,7 +104,7 @@ public final class AdvancedFusionReactorMachine extends CrossRecipeMultiblockMac
     @Override
     @Nullable
     public Recipe getRealRecipe(Recipe recipe) {
-        long eu_to_start = recipe.data.getLong("eu_to_start");
+        long eu_to_start = recipe.data.getLong(GTRecipeDataKeys.EU_TO_START);
         if (eu_to_start > energyContainer.getEnergyCapacity()) {
             setIdleReason(IdleReason.INSUFFICIENT_ENERGY_BUFFER);
             return null;

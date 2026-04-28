@@ -1,5 +1,6 @@
 package com.gtocore.common.machine.multiblock.electric;
 
+import com.gtocore.common.data.GTORecipeDataKeys;
 import com.gtocore.common.machine.multiblock.part.BallHatchPartMachine;
 import com.gtocore.data.IdleReason;
 
@@ -48,7 +49,7 @@ public final class IsaMillMachine extends ElectricMultiblockMachine {
         CustomItemStackHandler storage = ballHatchPartMachine.getInventory().storage;
         ItemStack item = storage.getStackInSlot(0);
         int tier = BallHatchPartMachine.GRINDBALL.getOrDefault(item.getItem(), 0);
-        if (tier == recipe.data.getInt("grindball")) {
+        if (tier == recipe.data.getInt(GTORecipeDataKeys.GRINDBALL)) {
             var level = EnchantmentHelper.getItemEnchantmentLevel(Enchantments.UNBREAKING, item) + 1;
             int damage = item.getDamageValue() + MathUtil.saturatedCast(recipe.parallels / level) + 1;
             if (damage < item.getMaxDamage()) {

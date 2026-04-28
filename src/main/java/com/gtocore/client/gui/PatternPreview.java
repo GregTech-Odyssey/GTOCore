@@ -16,6 +16,7 @@ import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiController;
 import com.gregtechceu.gtceu.api.machine.multiblock.part.MultiblockPartMachine;
 import com.gregtechceu.gtceu.api.pattern.BlockPattern;
+import com.gregtechceu.gtceu.api.pattern.Predicates;
 import com.gregtechceu.gtceu.api.pattern.TraceabilityPredicate;
 import com.gregtechceu.gtceu.api.pattern.predicates.SimplePredicate;
 import com.gregtechceu.gtceu.common.block.LampBlock;
@@ -230,7 +231,7 @@ public final class PatternPreview extends WidgetGroup {
     private void setupScene(MBPattern pattern) {
         LongStream longStream = pattern.predicateMap.keySet().longStream();
         if (pattern.controllerBase.isFormed()) {
-            LongSet set = pattern.controllerBase.getMultiblockState().getMatchContext().getOrDefault("renderMask", LongSets.EMPTY_SET);
+            LongSet set = pattern.controllerBase.getMultiblockState().getMatchContext().getOrDefault(Predicates.DataKey.RENDER_MASK, LongSets.EMPTY_SET);
             if (!set.isEmpty()) {
                 sceneWidget.setRenderedCore(longStream.filter(pos -> !set.contains(pos)).mapToObj(BlockPos::of).filter(pos -> layer == -1 || layer + pattern.minY == pos.getY()).collect(Collectors.toList()), null);
             } else {
@@ -359,7 +360,7 @@ public final class PatternPreview extends WidgetGroup {
         }
         state.clearCache();
         if (controllerBase.isFormed()) {
-            LongSet set = state.getMatchContext().getOrDefault("renderMask", LongSets.EMPTY_SET);
+            LongSet set = state.getMatchContext().getOrDefault(Predicates.DataKey.RENDER_MASK, LongSets.EMPTY_SET);
             if (!set.isEmpty()) {
                 sceneWidget.setRenderedCore(poses.longStream().filter(pos -> !set.contains(pos)).mapToObj(BlockPos::of).toList(), null);
             } else {

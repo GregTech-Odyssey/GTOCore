@@ -1,11 +1,11 @@
 package com.gtocore.common.machine.multiblock.noenergy;
 
+import com.gtocore.api.pattern.GTOPredicates;
 import com.gtocore.common.data.GTODamageTypes;
 
 import com.gtolib.api.machine.multiblock.NoEnergyCustomParallelMultiblockMachine;
 import com.gtolib.api.recipe.Recipe;
 import com.gtolib.api.recipe.modifier.ParallelLogic;
-import com.gtolib.utils.FunctionContainer;
 import com.gtolib.utils.MachineUtils;
 
 import com.gregtechceu.gtceu.api.GTValues;
@@ -75,9 +75,9 @@ public final class AdvancedPrimitiveBlastFurnaceMachine extends NoEnergyCustomPa
     public void onStructureFormed() {
         super.onStructureFormed();
         height = 0;
-        FunctionContainer<Integer, ?> container = getMultiblockState().getMatchContext().get("SteelFrame");
+        var container = getMultiblockState().getMatchContext().get(GTOPredicates.DataKeys.STEEL_FRAME);
         if (container != null) {
-            height = container.getValue();
+            height = container;
         }
         pos = MachineUtils.getOffsetPos(7, getFrontFacing(), getPos());
         tickSubs.initialize(getLevel());

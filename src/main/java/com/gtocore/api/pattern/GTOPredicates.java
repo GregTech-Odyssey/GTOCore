@@ -4,9 +4,11 @@ import com.gtocore.api.machine.part.GTOPartAbility;
 import com.gtocore.common.block.MEStorageCoreBlock;
 import com.gtocore.common.block.WirelessEnergyUnitBlock;
 import com.gtocore.common.data.GTOBlocks;
+import com.gtocore.common.data.GTORecipeDataKeys;
 import com.gtocore.common.data.machines.ManaMachine;
 
-import com.gtolib.utils.FunctionContainer;
+import com.gtolib.api.machine.feature.IWorkInSpaceMachine;
+import com.gtolib.api.recipe.TierDataKey;
 import com.gtolib.utils.GTOUtils;
 
 import com.gregtechceu.gtceu.api.block.MetaMachineBlock;
@@ -39,15 +41,14 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 
+import com.gto.datasynclib.datasream.DataComponentKey;
 import com.lowdragmc.lowdraglib.utils.BlockInfo;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import vazkii.botania.common.block.block_entity.mana.ManaPoolBlockEntity;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.Objects;
+import java.util.*;
+import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
@@ -63,15 +64,15 @@ public final class GTOPredicates {
     }
 
     public static TraceabilityPredicate glass() {
-        return tierBlock(GLASSMAP, GLASS_TIER);
+        return tierBlock(GLASSMAP, GTORecipeDataKeys.GLASS_TIER);
     }
 
     public static TraceabilityPredicate machineCasing() {
-        return tierBlock(MACHINECASINGMAP, MACHINE_CASING_TIER);
+        return tierBlock(MACHINECASINGMAP, GTORecipeDataKeys.MACHINE_CASING_TIER);
     }
 
     public static TraceabilityPredicate integralFramework() {
-        return tierBlock(INTEGRALFRAMEWORKMAP, INTEGRAL_FRAMEWORK_TIER);
+        return tierBlock(INTEGRALFRAMEWORKMAP, GTORecipeDataKeys.INTEGRAL_FRAMEWORK_TIER);
     }
 
     public static TraceabilityPredicate absBlocks() {
@@ -83,7 +84,7 @@ public final class GTOPredicates {
     }
 
     public static TraceabilityPredicate hermeticCasing() {
-        return tierBlock(HERMETIC_CASING, hermetic_casing);
+        return tierBlock(HERMETIC_CASING, GTORecipeDataKeys.HERMETIC_CASING_TIER);
     }
 
     public static TraceabilityPredicate autoIOAbilities(GTRecipeType... recipeType) {
@@ -124,7 +125,7 @@ public final class GTOPredicates {
                 .or(Predicates.abilities(GTOPartAbility.ACCELERATE_HATCH).setMaxGlobalLimited(1));
     }
 
-    public static TraceabilityPredicate tierBlock(Int2ObjectMap<Supplier<?>> map, String tierType) {
+    public static TraceabilityPredicate tierBlock(Int2ObjectMap<Supplier<?>> map, TierDataKey tierType) {
         Block[] blocks = new Block[map.size()];
         int index = 0;
         var list = new ArrayList<>(map.int2ObjectEntrySet());
@@ -237,35 +238,35 @@ public final class GTOPredicates {
     }
 
     public static TraceabilityPredicate MEStorageCore() {
-        return containerBlock(() -> new FunctionContainer<>(0D, (data, state) -> {
+        return dataBlock(DataKeys.ME_STORAGE_CORE, () -> 0D, (data, state) -> {
             if (state.getBlockState().getBlock() instanceof MEStorageCoreBlock block) {
                 data += block.getCapacity();
             }
             return data;
-        }), "MEStorageCore", ME_STORAGE_CORE);
+        }, ME_STORAGE_CORE);
     }
 
     public static TraceabilityPredicate craftingStorageCore() {
-        return containerBlock(() -> new FunctionContainer<>(new double[2], (data, state) -> {
+        return dataBlock(DataKeys.CRAFTING_STORAGE_CORE, () -> new double[2], (data, state) -> {
             if (state.getBlockState().getBlock() instanceof MEStorageCoreBlock block) {
                 data[0] += block.getCapacity();
                 data[1]++;
             }
             return data;
-        }), "CraftingStorageCore", CRAFTING_STORAGE_CORE);
+        }, CRAFTING_STORAGE_CORE);
     }
 
     public static TraceabilityPredicate wirelessEnergyUnit() {
-        return containerBlock(() -> new FunctionContainer<>(new ArrayList<WirelessEnergyUnitBlock.BlockData>(), (data, state) -> {
+        return dataBlock(DataKeys.WIRELESS_ENERGY_UNIT, ArrayList::new, (data, state) -> {
             if (state.getBlockState().getBlock() instanceof WirelessEnergyUnitBlock block) {
                 data.add(new WirelessEnergyUnitBlock.BlockData(block, state.getPos()));
             } else data.add(new WirelessEnergyUnitBlock.BlockData(null, state.getPos()));
             return data;
-        }), "wirelessEnergyUnit", WIRELESS_ENERGY_UNIT).setPreviewCount(1);
+        }, WIRELESS_ENERGY_UNIT).setPreviewCount(1);
     }
 
     public static TraceabilityPredicate fissionComponent() {
-        return containerBlock(() -> new FunctionContainer<>(new int[4], (integer, state) -> {
+        return dataBlock(DataKeys.FISSION_COMPONENT, () -> new int[4], (integer, state) -> {
             Block block = state.getBlockState().getBlock();
             if (block == GTOBlocks.FISSION_FUEL_COMPONENT.get()) {
                 integer[0]++;
@@ -275,19 +276,19 @@ public final class GTOPredicates {
                 integer[3] += GTOUtils.adjacentBlock(side -> getBlockState(state, state.pos.relative(side)).getBlock(), GTOBlocks.FISSION_COOLER_COMPONENT.get());
             }
             return integer;
-        }), "fissionComponent", GTOBlocks.FISSION_FUEL_COMPONENT.get(), GTOBlocks.FISSION_COOLER_COMPONENT.get()).setPreviewCount(1);
+        }, GTOBlocks.FISSION_FUEL_COMPONENT.get(), GTOBlocks.FISSION_COOLER_COMPONENT.get()).setPreviewCount(1);
     }
 
-    public static TraceabilityPredicate countBlock(String name, Block... blocks) {
-        return containerBlock(() -> new FunctionContainer<>(0, (integer, state) -> ++integer), name, blocks);
+    public static TraceabilityPredicate countBlock(DataComponentKey<Integer> key, Block... blocks) {
+        return dataBlock(key, () -> 0, (integer, state) -> ++integer, blocks);
     }
 
-    public static <T> TraceabilityPredicate containerBlock(Supplier<FunctionContainer<T, MultiblockState>> containerSupplier, String name, Block... blocks) {
+    public static <T> TraceabilityPredicate dataBlock(DataComponentKey<T> key, Supplier<T> dataSupplier, BiFunction<T, MultiblockState, T> dataFunction, Block... blocks) {
         TraceabilityPredicate predicate = Predicates.blocks(blocks);
         return new TraceabilityPredicate(new SimplePredicate(state -> {
             if (predicate.test(state)) {
-                FunctionContainer<T, MultiblockState> container = state.getMatchContext().getOrPut(name, containerSupplier.get());
-                container.apply(state);
+                var context = state.getMatchContext();
+                context.set(key, dataFunction.apply(context.getOrCreate(key, dataSupplier), state));
                 return true;
             }
             return false;
@@ -298,13 +299,13 @@ public final class GTOPredicates {
         return state.blockStateCache.computeIfAbsent(pos.asLong(), k -> state.world.getBlockState(pos));
     }
 
-    public static TraceabilityPredicate recordPosition(String name, TraceabilityPredicate original) {
+    public static TraceabilityPredicate recordPosition(DataComponentKey<Set<BlockPos>> key, TraceabilityPredicate original) {
         return new TraceabilityPredicate(original) {
 
             @Override
             public boolean test(MultiblockState blockWorldState) {
                 if (super.test(blockWorldState)) {
-                    blockWorldState.getMatchContext().getOrCreate(name, ObjectOpenHashSet::new).add(blockWorldState.getPos());
+                    blockWorldState.getMatchContext().getOrCreate(key, ObjectOpenHashSet::new).add(blockWorldState.getPos());
                     return true;
                 }
                 return false;
@@ -341,5 +342,34 @@ public final class GTOPredicates {
 
     static {
         BlockPattern.addWhitelistBlockEntity(ManaPoolBlockEntity.class);
+    }
+
+    public static final class DataKeys {
+
+        public static final DataComponentKey<Collection<IWorkInSpaceMachine>> SPACE_MACHINE = createCollection("spaceMachine");
+        public static final DataComponentKey<Set<BlockPos>> SPACE = createCollection("space");
+        public static final DataComponentKey<Set<BlockPos>> SPACE_MACHINE_PHOTOVOLTAIC_SUPP = createCollection("spaceMachinePhotovoltaicSupp");
+        public static final DataComponentKey<Double> ME_STORAGE_CORE = create("MEStorageCore");
+        public static final DataComponentKey<double[]> CRAFTING_STORAGE_CORE = create("CraftingStorageCore");
+        public static final DataComponentKey<ArrayList<WirelessEnergyUnitBlock.BlockData>> WIRELESS_ENERGY_UNIT = createCollection("wirelessEnergyUnit");
+        public static final DataComponentKey<int[]> FISSION_COMPONENT = create("fissionComponent");
+
+        public static final DataComponentKey<Integer> STEEL_FRAME = create("SteelFrame");
+        public static final DataComponentKey<Integer> SPEED_PIPE = create("SpeedPipe");
+        public static final DataComponentKey<Integer> LAMINATED_GLASS = create("laminated_glass");
+
+        public static final DataComponentKey<Set<BlockPos>> CYAN = createCollection("cyan");
+        public static final DataComponentKey<Set<BlockPos>> MAGENTA = createCollection("magenta");
+        public static final DataComponentKey<Set<BlockPos>> YELLOW = createCollection("yellow");
+        public static final DataComponentKey<Set<BlockPos>> BLACK = createCollection("black");
+        public static final DataComponentKey<Set<BlockPos>> WHITE = createCollection("white");
+
+        private static <T> DataComponentKey<T> create(String name) {
+            return DataComponentKey.create(name, null);
+        }
+
+        private static <T, C extends Collection<T>> DataComponentKey<C> createCollection(String name) {
+            return DataComponentKey.createCollection(name, null);
+        }
     }
 }

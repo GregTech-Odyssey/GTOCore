@@ -9,6 +9,7 @@ import com.gtolib.api.recipe.Recipe;
 import com.gtolib.utils.MachineUtils;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
+import com.gregtechceu.gtceu.common.data.GTRecipeDataKeys;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 
 import net.minecraft.ChatFormatting;
@@ -36,7 +37,7 @@ public final class DimensionallyTranscendentPlasmaForgeMachine extends CoilCross
                 getEnhancedRecipeLogic().gtolib$setIdleReason(Component.translatable("gtocore.machine.dimensionally_transcendent_plasma_forge.coil"));
                 return null;
             }
-        } else if (recipe.data.getInt("ebf_temp") > getTemperature()) {
+        } else if (recipe.data.getInt(GTRecipeDataKeys.EBF_TEMP) > getTemperature()) {
             setIdleReason(IdleReason.INSUFFICIENT_TEMPERATURE);
             return null;
         }

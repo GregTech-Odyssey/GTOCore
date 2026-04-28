@@ -7,6 +7,7 @@ import com.gtocore.common.block.FusionCasings;
 import com.gtocore.common.data.GTOBlocks;
 import com.gtocore.common.data.GTOMachines;
 import com.gtocore.common.data.GTOMaterials;
+import com.gtocore.common.data.GTORecipeDataKeys;
 import com.gtocore.common.data.GTORecipeTypes;
 import com.gtocore.common.data.translation.GTOMachineStories;
 import com.gtocore.common.data.translation.GTOMachineTooltips;
@@ -602,7 +603,7 @@ public final class MultiBlockD {
                             .or(abilities(IMPORT_ITEMS).setMaxGlobalLimited(2).setPreviewCount(1)))
                     .where('D', blocks(GTOBlocks.PROCESS_MACHINE_CASING.get()))
                     .where('E', blocks(GTBlocks.CASING_LAMINATED_GLASS.get()))
-                    .where('F', GTOPredicates.countBlock("SpeedPipe",
+                    .where('F', GTOPredicates.countBlock(GTOPredicates.DataKeys.SPEED_PIPE,
                             GTOBlocks.SPEEDING_PIPE.get()))
                     .where(' ', any())
                     .build())
@@ -725,7 +726,7 @@ public final class MultiBlockD {
                     .where('E', frames(GTMaterials.Neutronium))
                     .where('F', blocks(GTOBlocks.SPACE_ELEVATOR_MODULE_BASE.get()))
                     .where('G', blocks(GTOBlocks.HIGH_STRENGTH_CONCRETE.get()).or(blocks(GTOBlocks.MODULE_CONNECTOR.get()).setPreviewCount(1)))
-                    .where('H', GTOPredicates.tierBlock(SEPMMAP, POWER_MODULE_TIER))
+                    .where('H', GTOPredicates.tierBlock(SEPMMAP, GTORecipeDataKeys.POWER_MODULE_TIER))
                     .where('I', air())
                     .where('J', blocks(GTOBlocks.SPACE_ELEVATOR_POWER_CORE.get()))
                     .where('X', blocks(GTOBlocks.SPACE_ELEVATOR_MECHANICAL_CASING.get())

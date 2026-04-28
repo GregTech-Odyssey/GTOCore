@@ -1,6 +1,7 @@
 package com.gtocore.common.machine.mana.multiblock;
 
 import com.gtocore.common.data.GTOItems;
+import com.gtocore.common.data.GTORecipeDataKeys;
 
 import com.gtolib.api.machine.feature.multiblock.IStorageMultiblock;
 import com.gtolib.api.recipe.Recipe;
@@ -87,8 +88,8 @@ public class ResonanceFlowerMachine extends ManaMultiblockMachine implements ISt
         String id = recipe.definition.id.getPath();
         Object[] tierEffect = getTierEffect("");
 
-        if (recipe.data.contains("resonance")) {
-            Object[] resonance = fromResonanceTag(recipe.data.getCompound("resonance"));
+        if (recipe.data.contains(GTORecipeDataKeys.RESONANCE)) {
+            Object[] resonance = fromResonanceTag(recipe.data.getData(GTORecipeDataKeys.RESONANCE));
             if (resonance[0] instanceof ItemStack itemStack) {
                 resonanceItem = itemStack;
                 resonanceFluid = FluidStack.EMPTY;

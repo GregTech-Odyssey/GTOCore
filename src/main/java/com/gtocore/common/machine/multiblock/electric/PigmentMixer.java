@@ -1,6 +1,7 @@
 package com.gtocore.common.machine.multiblock.electric;
 
 import com.gtocore.api.machine.IMultiFluidRendererMachine;
+import com.gtocore.api.pattern.GTOPredicates;
 
 import com.gtolib.api.machine.multiblock.ElectricMultiblockMachine;
 import com.gtolib.api.recipe.Recipe;
@@ -39,11 +40,11 @@ public class PigmentMixer extends ElectricMultiblockMachine implements IMultiFlu
 
     @Override
     protected boolean beforeWorking(@NotNull Recipe recipe) {
-        cachedYellowOffsets.addAll(getMultiblockState().getMatchContext().getOrDefault("yellow", new OpenCacheHashSet<>()));
-        cachedCyanOffsets.addAll(getMultiblockState().getMatchContext().getOrDefault("cyan", new OpenCacheHashSet<>()));
-        cachedMagentaOffsets.addAll(getMultiblockState().getMatchContext().getOrDefault("magenta", new OpenCacheHashSet<>()));
-        cachedBlackOffsets.addAll(getMultiblockState().getMatchContext().getOrDefault("black", new OpenCacheHashSet<>()));
-        cachedWhiteOffsets.addAll(getMultiblockState().getMatchContext().getOrDefault("white", new OpenCacheHashSet<>()));
+        cachedYellowOffsets.addAll(getMultiblockState().getMatchContext().getOrDefault(GTOPredicates.DataKeys.YELLOW, new OpenCacheHashSet<>()));
+        cachedCyanOffsets.addAll(getMultiblockState().getMatchContext().getOrDefault(GTOPredicates.DataKeys.CYAN, new OpenCacheHashSet<>()));
+        cachedMagentaOffsets.addAll(getMultiblockState().getMatchContext().getOrDefault(GTOPredicates.DataKeys.MAGENTA, new OpenCacheHashSet<>()));
+        cachedBlackOffsets.addAll(getMultiblockState().getMatchContext().getOrDefault(GTOPredicates.DataKeys.BLACK, new OpenCacheHashSet<>()));
+        cachedWhiteOffsets.addAll(getMultiblockState().getMatchContext().getOrDefault(GTOPredicates.DataKeys.WHITE, new OpenCacheHashSet<>()));
         return super.beforeWorking(recipe);
     }
 

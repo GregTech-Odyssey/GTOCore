@@ -1,6 +1,7 @@
 package com.gtocore.common.recipe.custom;
 
 import com.gtocore.common.data.GTOItems;
+import com.gtocore.common.data.GTORecipeDataKeys;
 import com.gtocore.common.data.GTORecipeTypes;
 import com.gtocore.common.item.ItemMap;
 
@@ -41,7 +42,7 @@ public final class RecyclerLogic implements GTRecipeType.ICustomRecipeLogic {
             }
             map.forEach(builder::outputItems);
             GTRecipeDefinition recipe = builder.build();
-            recipe.data.putBoolean("isCustom", true);
+            recipe.data.put(GTORecipeDataKeys.IS_CUSTOM, true);
             return recipe;
         }
         return null;

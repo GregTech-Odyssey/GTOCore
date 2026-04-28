@@ -1,8 +1,8 @@
 package com.gtocore.common.machine.multiblock.electric.miner;
 
+import com.gtocore.common.data.GTORecipeDataKeys;
 import com.gtocore.integration.jade.provider.RecipeLogicProvider;
 
-import com.gtolib.api.GTOValues;
 import com.gtolib.api.annotation.DataGeneratorScanned;
 import com.gtolib.api.annotation.NewDataAttributes;
 import com.gtolib.api.machine.feature.IDigitalMiner;
@@ -122,7 +122,7 @@ public class DigitalMiner extends TierCasingMultiblockMachine implements IDigita
     private ButtonWidget showRangeButton;
 
     public DigitalMiner(MetaMachineBlockEntity holder) {
-        super(holder, GTOValues.INTEGRAL_FRAMEWORK_TIER);
+        super(holder, GTORecipeDataKeys.INTEGRAL_FRAMEWORK_TIER);
         this.filterInventory = createFilterItemHandler();
         this.silkLevel = 0;
         this.minHeight = 0;
@@ -169,7 +169,7 @@ public class DigitalMiner extends TierCasingMultiblockMachine implements IDigita
     @Override
     public void onStructureFormed() {
         super.onStructureFormed();
-        tier = Math.min(getCasingTier(GTOValues.INTEGRAL_FRAMEWORK_TIER), tier);
+        tier = Math.min(getCasingTier(GTORecipeDataKeys.INTEGRAL_FRAMEWORK_TIER), tier);
         this.energyPerTickBase = (int) Math.pow(4, getTier()) * 2L;
         this.energyPerTick = energyPerTickBase * (silkLevel == 0 ? 1 : 4);
         this.parallelMining = (int) Math.min(4096, 4 * Math.pow(2, getTier()));

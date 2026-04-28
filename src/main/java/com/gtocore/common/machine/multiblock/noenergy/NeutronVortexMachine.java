@@ -5,6 +5,7 @@ import com.gtocore.api.pattern.GTOPredicates;
 import com.gtocore.common.data.GTOBlocks;
 import com.gtocore.common.data.GTOMachines;
 import com.gtocore.common.data.GTOMaterials;
+import com.gtocore.common.data.GTORecipeDataKeys;
 
 import com.gtolib.api.machine.feature.IElectricMachine;
 import com.gtolib.api.machine.feature.multiblock.IMultiStructureMachine;
@@ -55,7 +56,7 @@ public final class NeutronVortexMachine extends NeutronActivatorMachine implemen
     @Override
     protected Recipe getRealRecipe(@NotNull Recipe recipe) {
         if (energy) {
-            int ev = (recipe.data.getInt("ev_max") + recipe.data.getInt("ev_min")) * 5;
+            int ev = (recipe.data.getInt(GTORecipeDataKeys.EV_MAX) + recipe.data.getInt(GTORecipeDataKeys.EV_MIN)) * 5;
             eV = ev * 100000;
             recipe.duration = recipe.duration / 5;
             recipe.eut = ev;

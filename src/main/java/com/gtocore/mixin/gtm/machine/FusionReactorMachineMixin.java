@@ -7,6 +7,7 @@ import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableEnergyContainer;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
+import com.gregtechceu.gtceu.common.data.GTRecipeDataKeys;
 import com.gregtechceu.gtceu.common.machine.multiblock.electric.FusionReactorMachine;
 
 import org.jetbrains.annotations.NotNull;
@@ -34,7 +35,7 @@ public abstract class FusionReactorMachineMixin extends WorkableElectricMultiblo
 
     @Override
     public @Nullable GTRecipe getRealRecipe(@NotNull GTRecipe recipe) {
-        var eu = recipe.data.getLong("eu_to_start");
+        var eu = recipe.data.getLong(GTRecipeDataKeys.EU_TO_START);
         if (eu > energyContainer.getEnergyCapacity()) return null;
         long heatDiff = eu - heat;
         if (heatDiff > 0) {

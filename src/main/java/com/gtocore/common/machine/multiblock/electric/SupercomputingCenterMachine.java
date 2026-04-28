@@ -1,13 +1,13 @@
 package com.gtocore.common.machine.multiblock.electric;
 
 import com.gtocore.common.data.GTOItems;
+import com.gtocore.common.data.GTORecipeDataKeys;
 import com.gtocore.common.machine.multiblock.part.ThermalConductorHatchPartMachine;
 import com.gtocore.common.machine.multiblock.part.research.ExResearchBasePartMachine;
 import com.gtocore.common.machine.multiblock.part.research.ExResearchBridgePartMachine;
 import com.gtocore.common.machine.multiblock.part.research.ExResearchComputationPartMachine;
 import com.gtocore.common.machine.multiblock.part.research.ExResearchCoolerPartMachine;
 
-import com.gtolib.api.GTOValues;
 import com.gtolib.api.item.IItem;
 import com.gtolib.api.machine.multiblock.StorageMultiblockMachine;
 import com.gtolib.api.recipe.Recipe;
@@ -123,17 +123,17 @@ public final class SupercomputingCenterMachine extends StorageMultiblockMachine 
 
         clean(scanOnly);
         if (!isFormed) return;
-        Integer computerTier = getMultiblockState().getMatchContext().get(GTOValues.COMPUTER_CASING_TIER);
+        Integer computerTier = getMultiblockState().getMatchContext().get(GTORecipeDataKeys.COMPUTER_CASING_TIER);
         if (computerTier == null || machineTier != computerTier) {
             incompatible = true;
             return;
         }
-        Integer heatTier = getMultiblockState().getMatchContext().get(GTOValues.COMPUTER_HEAT_TIER);
+        Integer heatTier = getMultiblockState().getMatchContext().get(GTORecipeDataKeys.COMPUTER_HEAT_TIER);
         if (heatTier == null || machineTier != heatTier) {
             incompatible = true;
             return;
         }
-        Integer glassTier = getMultiblockState().getMatchContext().get(GTOValues.GLASS_TIER);
+        Integer glassTier = getMultiblockState().getMatchContext().get(GTORecipeDataKeys.GLASS_TIER);
         if (glassTier == null || glassTier < GLASS_MAP.get(machineTier)) {
             incompatible = true;
             return;
