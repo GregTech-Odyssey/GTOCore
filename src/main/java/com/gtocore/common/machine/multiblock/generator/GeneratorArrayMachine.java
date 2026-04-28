@@ -180,7 +180,17 @@ public final class GeneratorArrayMachine extends StorageMultiblockMachine implem
             if ("wireless_switch".equals(componentData)) {
                 isw = !isw;
                 if (isw) {
-                    transferBufferedEnergyToWireless();
+                    long stored = getEnergyContainer().getEnergyStored();
+                    if (stored > 0) {
+                        var container = getWirelessEnergyContainer();
+                        if (container != null) {
+                            int loss = container.getLoss();
+                            container.setLoss(loss + f_loss * 10);
+                            container.addEnergy(stored, this);
+                            container.setLoss(loss);
+                            getEnergyContainer().removeEnergy(stored);
+                        }
+                    }
                 }
                 eut = 0;
                 getRecipeLogic().markLastRecipeDirty();
@@ -193,7 +203,15 @@ public final class GeneratorArrayMachine extends StorageMultiblockMachine implem
         if (!isw || eu >= 0) {
             return super.useEnergy(eu, simulate);
         }
-        return transferEnergyToWireless(-eu, simulate);
+        long energy = -eu;
+        var container = getWirelessEnergyContainer();
+        if (container == null) return false;
+        if (simulate || energy <= 0) return true;
+        int loss = container.getLoss();
+        container.setLoss(loss + f_loss * 10);
+        container.addEnergy(energy, this);
+        container.setLoss(loss);
+        return true;
     }
 
     @Override
@@ -215,25 +233,6 @@ public final class GeneratorArrayMachine extends StorageMultiblockMachine implem
     @Override
     public boolean matchTickRecipe(Recipe recipe) {
         return isw || super.matchTickRecipe(recipe);
-    }
-
-    private void transferBufferedEnergyToWireless() {
-        long stored = getEnergyContainer().getEnergyStored();
-        if (stored <= 0) return;
-        if (!transferEnergyToWireless(stored, false)) return;
-        getEnergyContainer().removeEnergy(stored);
-    }
-
-    private boolean transferEnergyToWireless(long energy, boolean simulate) {
-        if (energy <= 0) return true;
-        var container = getWirelessEnergyContainer();
-        if (container == null) return false;
-        if (simulate) return true;
-        int loss = container.getLoss();
-        container.setLoss(loss + f_loss * 10);
-        container.addEnergy(energy, this);
-        container.setLoss(loss);
-        return true;
     }
 
     private static class Wrapper {
