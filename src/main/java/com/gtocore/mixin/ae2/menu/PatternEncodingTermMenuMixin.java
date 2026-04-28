@@ -309,7 +309,24 @@ public abstract class PatternEncodingTermMenuMixin extends MEStorageMenu impleme
             return Comparator.comparing(IExtendedPatternContainer::hasEmptyPatternSlot);
         }
         return Comparator.comparing(IExtendedPatternContainer::hasEmptyPatternSlot)
-                .thenComparing((IExtendedPatternContainer p) -> p.getSupportedRecipeTypes().contains(recipeType));
+                .thenComparing((IExtendedPatternContainer p) -> p.getSupportedRecipeTypes().contains(recipeType))
+                .thenComparing((IExtendedPatternContainer p) -> gto$matchesRecipeName(p, recipeType));
+    }
+
+    @Unique
+    private static boolean gto$matchesRecipeName(IExtendedPatternContainer container, GTRecipeType recipeType) {
+        var name = container.getTerminalGroup().name().getString().toLowerCase(Locale.ROOT);
+        var path = recipeType.registryName.getPath().toLowerCase(Locale.ROOT);
+        var languageKey = recipeType.registryName.toLanguageKey();
+        var recipeNames = new LinkedHashSet<String>();
+        recipeNames.add(path.replace('_', ' '));
+        recipeNames.add(Component.translatable(languageKey).getString().toLowerCase(Locale.ROOT));
+        for (var recipeName : recipeNames) {
+            if (!recipeName.isEmpty() && name.contains(recipeName)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override
