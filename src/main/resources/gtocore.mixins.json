@@ -55,6 +55,7 @@
     "ae2.crafting.CraftingCPUClusterMixin",
     "ae2.crafting.CraftingServiceMixin",
     "ae2.crafting.ElapsedTimeTrackerMixin",
+    "ae2.crafting.PatternContainerGroupMixin",
     "ae2.crafting.PatternProviderLogicMixin",
     "ae2.eae.BlockExIOPortMixin",
     "ae2.eae.BlockExPatternProviderMixin",
