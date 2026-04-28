@@ -1,6 +1,7 @@
 package com.gtocore.common.data;
 
 import com.gtocore.common.block.BlockMap;
+import com.gtocore.common.machine.mana.CelestialHandler;
 import com.gtocore.utils.DataCodecs;
 
 import com.gtolib.api.GTOValues;
@@ -73,5 +74,7 @@ public final class GTORecipeDataKeys {
         return GTRecipeDataKeys.REGISTRY.register(name, codec);
     }
 
-    public static void init() {}
+    public static void init() {
+        CelestialHandler.init();
+    }
 }

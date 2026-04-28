@@ -13,7 +13,10 @@ import earth.terrarium.adastra.api.planets.PlanetApi;
 
 public record CelestialHandler(long maxCapacity) {
 
+    public static void init() {}
+
     public static final DataComponentKey<Integer> SOLARIS = GTORecipeDataKeys.register("solaris", DataCodec.INT_CODEC);
+
     public static final DataComponentKey<Integer> LUNARA = GTORecipeDataKeys.register("lunara", DataCodec.INT_CODEC);
     public static final DataComponentKey<Integer> VOIDFLUX = GTORecipeDataKeys.register("voidflux", DataCodec.INT_CODEC);
     public static final DataComponentKey<Integer> STELLARM = GTORecipeDataKeys.register("stellarm", DataCodec.INT_CODEC);
