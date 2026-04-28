@@ -200,7 +200,7 @@ public final class GeneratorArrayMachine extends StorageMultiblockMachine implem
             if ("wireless_switch".equals(componentData)) {
                 isw = !isw;
                 eut = 0;
-                getRecipeLogic().markLastRecipeDirty();
+                requestCheck();
             } else super.handleDisplayClick(componentData, clickData);
         }
     }
