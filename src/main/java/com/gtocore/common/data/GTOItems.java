@@ -336,7 +336,7 @@ public final class GTOItems {
     public static final ItemEntry<ComponentItem> WIRELESS_CHARGER_COVER = item("wireless_charger_cover", "无线充能覆盖板", ComponentItem::create)
             .toolTips(ComponentBuilder.create()
                     .addLines("贴在存储方块上可使内部的物品自动充能", "Attach to a storage block to automatically charge its contents")
-                    .addLines("需要链接无线充能器使用", "Requires a wireless charger to use")
+                    .addLines("需要链接HV及以上等级的无线充能器使用", "Requires linking with a HV or higher wireless charger to use")
                     .build().getArray())
             .onRegister(attach(new CoverPlaceBehavior(GTOCovers.WIRELESS_CHARGER_COVER)))
             .register();
