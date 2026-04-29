@@ -627,6 +627,9 @@ public final class PatternPreview extends WidgetGroup {
                     }
                 }
             }
+            if (this.afterWorldRender != null) {
+                this.afterWorldRender.accept(this);
+            }
             if (hoverPosFace != null) {
                 var state = getDummyWorld().getBlockState(hoverPosFace.pos);
                 hoverItem = state.getBlock().getCloneItemStack(getDummyWorld(), hoverPosFace.pos, state);
@@ -642,9 +645,6 @@ public final class PatternPreview extends WidgetGroup {
             }
             if (selectedPosFace != null && renderSelect) {
                 RenderUtils.renderBlockOverLay(poseStack, selectedPosFace.pos, 0.6F, 0, 0, 1.03F);
-            }
-            if (this.afterWorldRender != null) {
-                this.afterWorldRender.accept(this);
             }
         }
     }
