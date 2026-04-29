@@ -110,7 +110,7 @@ public final class GTOMachines {
     // *** Simple Machine ***//
     /// ///////////////////////////////////
     public static final Pair<MachineDefinition, MachineDefinition> STEAM_VACUUM_PUMP = registerSteamMachines("steam_vacuum_pump", "真空泵", SteamVacuumPumpMachine::new, (pressure, builder) -> builder
-            .allRotation()
+            .noneRotation()
             .recipeType(GTORecipeTypes.VACUUM_PUMP_RECIPES)
             .recipeModifier(SimpleSteamMachine::recipeModifier)
             .tooltips(Component.translatable("gtocore.recipe.vacuum.tier", pressure ? 2 : 1))

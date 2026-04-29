@@ -1,7 +1,9 @@
 package com.gtocore.data.recipe.gtm.misc;
 
+import com.gtocore.common.data.GTOItems;
 import com.gtocore.common.data.GTOMaterials;
 
+import com.gtolib.GTOCore;
 import com.gtolib.utils.RegistriesUtils;
 
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
@@ -127,6 +129,14 @@ public final class CraftingRecipeLoader {
         VanillaRecipeHelper.addShapedRecipe("nano_saber", NANO_SABER.asItem(), "PIC", "PIC",
                 "XEX", 'P', new MaterialEntry(plate, Platinum), 'I', new MaterialEntry(plate, Ruridit), 'C',
                 CARBON_FIBER_PLATE.asItem(), 'X', CustomTags.EV_CIRCUITS, 'E', ENERGIUM_CRYSTAL.asItem());
+
+        VanillaRecipeHelper.addShapedRecipe(GTOCore.id("solar_panel"), GTItems.COVER_SOLAR_PANEL.asItem(),
+                " A ",
+                "BCB",
+                "EDE",
+                'A', Items.GLASS_PANE, 'B', new MaterialEntry(TagPrefix.plate, GTMaterials.WroughtIron),
+                'C', new MaterialEntry(TagPrefix.dust, GTMaterials.Silicon), 'D', GTOItems.SUPER_CAPACITOR.asItem(),
+                'E', CustomTags.LV_CIRCUITS);
 
         VanillaRecipeHelper.addShapedRecipe("universal_fluid_cell", FLUID_CELL_UNIVERSAL.asItem(), "C ",
                 "  ", 'C', FLUID_CELL);

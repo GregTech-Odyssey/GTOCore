@@ -55,7 +55,6 @@ import java.util.function.Supplier;
 import static com.gregtechceu.gtceu.api.machine.multiblock.PartAbility.INPUT_LASER;
 import static com.gregtechceu.gtceu.api.pattern.Predicates.abilities;
 import static com.gtocore.common.block.BlockMap.*;
-import static com.gtolib.api.GTOValues.*;
 
 public final class GTOPredicates {
 

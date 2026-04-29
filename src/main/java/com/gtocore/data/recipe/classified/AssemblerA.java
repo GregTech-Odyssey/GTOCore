@@ -871,7 +871,7 @@ final class AssemblerA {
                 .inputItems(GTItems.CARBON_FIBER_PLATE)
                 .inputItems(CustomTags.LV_CIRCUITS, 2)
                 .outputItems(GTItems.COVER_SOLAR_PANEL_ULV)
-                .EUt(30)
+                .EUt(7)
                 .duration(200)
                 .save();
         ASSEMBLER_RECIPES.builder("solar_panel1")
@@ -880,7 +880,7 @@ final class AssemblerA {
                 .inputItems(TagPrefix.wireGtQuadruple, GTMaterials.Graphene)
                 .inputItems(CustomTags.HV_CIRCUITS, 2)
                 .outputItems(GTItems.COVER_SOLAR_PANEL_LV)
-                .EUt(480)
+                .EUt(30)
                 .duration(200)
                 .save();
         ASSEMBLER_RECIPES.builder("mv_solar_panel")
@@ -891,7 +891,7 @@ final class AssemblerA {
                 .inputItems(TagPrefix.rodLong, GTOMaterials.Photonium)
                 .outputItems(GTItems.COVER_SOLAR_PANEL_MV)
                 .inputFluids(GTMaterials.Helium, 120)
-                .EUt(7680)
+                .EUt(480)
                 .duration(200)
                 .save();
         ASSEMBLER_RECIPES.builder("hv_solar_panel")
@@ -903,7 +903,7 @@ final class AssemblerA {
                 .inputItems(TagPrefix.foil, GTOMaterials.CarbonNanotubeReinforcedAluminumMatrixComposite, 16)
                 .outputItems(GTItems.COVER_SOLAR_PANEL_HV)
                 .inputFluids(GTMaterials.Helium, FluidStorageKeys.LIQUID, 1000)
-                .EUt(122880)
+                .EUt(1920)
                 .duration(200)
                 .save();
         ASSEMBLER_RECIPES.builder("ev_solar_panel")
@@ -917,7 +917,7 @@ final class AssemblerA {
                 .inputItems(TagPrefix.plateDouble, GTOMaterials.PhotonicKristallite, 8)
                 .outputItems(GTItems.COVER_SOLAR_PANEL_EV)
                 .inputFluids(GTOMaterials.Shadowium, 1296)
-                .EUt(1966080)
+                .EUt(7680)
                 .duration(200)
                 .save();
         ASSEMBLER_RECIPES.builder("iv_solar_panel")
@@ -932,7 +932,7 @@ final class AssemblerA {
                 .inputItems(GTOItems.SOURCE_ENERGY_CATALYST_CRYSTAL, 4)
                 .outputItems(GTItems.COVER_SOLAR_PANEL_IV)
                 .inputFluids(RegistriesUtils.getFluid("gtocore:gelid_cryotheum"), 3000)
-                .EUt(3932160)
+                .EUt(30720)
                 .duration(200)
                 .save();
     }
