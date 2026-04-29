@@ -45,6 +45,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 import com.google.common.collect.ObjectArrays;
 import com.lowdragmc.lowdraglib.client.scene.WorldSceneRenderer;
+import com.lowdragmc.lowdraglib.client.scene.ImmediateWorldSceneRenderer;
 import com.lowdragmc.lowdraglib.client.utils.RenderBufferUtils;
 import com.lowdragmc.lowdraglib.client.utils.RenderUtils;
 import com.lowdragmc.lowdraglib.gui.editor.ColorPattern;
@@ -78,7 +79,7 @@ public final class PatternPreview extends WidgetGroup {
     private static TrackedDummyWorld LEVEL;
     private static final Map<MultiblockMachineDefinition, MBPattern[]> CACHE = new Reference2ReferenceOpenHashMap<>();
     private final MySceneWidget sceneWidget;
-    private SceneWidget translucentSceneWidget;
+    private OverlayWorldSceneRenderer translucentRenderer;
     private final DraggableScrollableWidgetGroup scrollableWidgetGroup;
     private final MBPattern[] patterns;
     private final List<SimplePredicate> predicates = new ArrayList<>();
@@ -123,6 +124,7 @@ public final class PatternPreview extends WidgetGroup {
         addWidget(new ButtonWidget(138, 70, 18, 18, new GuiTextureGroup(ColorPattern.T_GRAY.rectTexture(), new TextTexture("1").setSupplier(() -> isPartHighlighting ? "H:ON" : "H:OFF")), cd -> isPartHighlighting = !isPartHighlighting).setHoverBorderTexture(1, -1));
 
         sceneWidget.setAfterWorldRender((w) -> {
+            renderTranslucentBlocks();
             if (!isPartHighlighting) return;
             patterns[index].partsSet.forEach(
                     pos -> {
@@ -246,29 +248,34 @@ public final class PatternPreview extends WidgetGroup {
             applyRenderedBlocks(pattern, longStream);
         }
         sceneWidget.setCenter(pattern.center.getCenter().toVector3f());
-        syncSceneWidgets();
     }
 
     private void applyRenderedBlocks(MBPattern pattern, LongStream positions) {
         RenderGroups groups = splitRenderedBlocks(pattern, positions);
         sceneWidget.setRenderedCore(groups);
         if (groups.realtime().isEmpty()) {
-            if (translucentSceneWidget != null) {
-                translucentSceneWidget.setVisible(false);
+            if (translucentRenderer != null) {
+                translucentRenderer.renderedBlocksMap.clear();
             }
         } else {
-            var widget = getOrCreateTranslucentSceneWidget();
-            widget.setVisible(true);
-            widget.setRenderedCore(groups.realtime(), null);
+            var renderer = getOrCreateTranslucentRenderer();
+            renderer.renderedBlocksMap.clear();
+            renderer.addRenderedBlocks(groups.realtime(), null);
         }
     }
 
-    private SceneWidget getOrCreateTranslucentSceneWidget() {
-        if (translucentSceneWidget == null) {
-            translucentSceneWidget = new SceneWidget(3, 3, 150, 150, LEVEL).setRenderFacing(false).setRenderSelect(false).setDraggable(false).setScalable(false).setIntractable(false).setClearColor(0);
-            addWidget(translucentSceneWidget);
+    private OverlayWorldSceneRenderer getOrCreateTranslucentRenderer() {
+        if (translucentRenderer == null) {
+            translucentRenderer = new OverlayWorldSceneRenderer(sceneWidget.getDummyWorld());
         }
-        return translucentSceneWidget;
+        return translucentRenderer;
+    }
+
+    private void renderTranslucentBlocks() {
+        if (translucentRenderer == null || translucentRenderer.renderedBlocksMap.isEmpty()) {
+            return;
+        }
+        translucentRenderer.renderOverlay(sceneWidget.getCenter(), sceneWidget.camZoom(), Math.toRadians(sceneWidget.getRotationPitch()), Math.toRadians(sceneWidget.getRotationYaw()));
     }
 
     private RenderGroups splitRenderedBlocks(MBPattern pattern, LongStream positions) {
@@ -493,18 +500,8 @@ public final class PatternPreview extends WidgetGroup {
 
     @Override
     public void drawInBackground(@NotNull GuiGraphics graphics, int mouseX, int mouseY, float partialTicks) {
-        syncSceneWidgets();
         RenderSystem.enableBlend();
         super.drawInBackground(graphics, mouseX, mouseY, partialTicks);
-    }
-
-    private void syncSceneWidgets() {
-        if (translucentSceneWidget == null || !translucentSceneWidget.isVisible()) {
-            return;
-        }
-        translucentSceneWidget.setCenter(sceneWidget.getCenter());
-        translucentSceneWidget.setZoom(sceneWidget.getZoom());
-        translucentSceneWidget.setCameraYawAndPitch(sceneWidget.getRotationYaw(), sceneWidget.getRotationPitch());
     }
 
     public static class MBPattern {
@@ -649,6 +646,18 @@ public final class PatternPreview extends WidgetGroup {
             if (this.afterWorldRender != null) {
                 this.afterWorldRender.accept(this);
             }
+        }
+    }
+
+    private static final class OverlayWorldSceneRenderer extends ImmediateWorldSceneRenderer {
+
+        private OverlayWorldSceneRenderer(Level world) {
+            super(world);
+        }
+
+        private void renderOverlay(Vector3f center, double radius, double rotationPitch, double rotationYaw) {
+            setCameraLookAt(center, radius, rotationPitch, rotationYaw);
+            drawWorld();
         }
     }
 
