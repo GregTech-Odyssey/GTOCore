@@ -9,7 +9,9 @@ import com.gtolib.api.machine.MultiblockDefinition;
 import com.gtolib.api.machine.feature.multiblock.IMultiStructureMachine;
 
 import com.gregtechceu.gtceu.GTCEu;
+import com.gregtechceu.gtceu.api.block.MaterialBlock;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
+import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.gui.widget.SlotWidget;
 import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
@@ -26,8 +28,6 @@ import com.gregtechceu.gtceu.integration.xei.handlers.item.CycleItemStackHandler
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.GameRenderer;
-import net.minecraft.client.renderer.ItemBlockRenderTypes;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
@@ -431,7 +431,7 @@ public final class PatternPreview extends WidgetGroup {
         LongSet translucentSet = new LongOpenHashSet();
         for (var it = blockMap.long2ReferenceEntrySet().fastIterator(); it.hasNext();) {
             var entry = it.next();
-            if (usesTranslucentLayer(entry.getValue().getBlockState())) {
+            if (needsRealtimePreview(entry.getValue().getBlockState())) {
                 translucentSet.add(entry.getLongKey());
             }
             LEVEL.addBlock(BlockPos.of(entry.getLongKey()), entry.getValue());
@@ -448,9 +448,8 @@ public final class PatternPreview extends WidgetGroup {
         return controllerBase == null ? null : new MBPattern(blockMap, pattern.parts(), predicateMap, controllerBase, translucentSet);
     }
 
-    private static boolean usesTranslucentLayer(BlockState blockState) {
-        return ItemBlockRenderTypes.getRenderLayers(blockState).contains(RenderType.translucent()) ||
-                (!blockState.getFluidState().isEmpty() && ItemBlockRenderTypes.getRenderLayer(blockState.getFluidState()) == RenderType.translucent());
+    private static boolean needsRealtimePreview(BlockState blockState) {
+        return blockState.getBlock() instanceof MaterialBlock materialBlock && materialBlock.tagPrefix == TagPrefix.block;
     }
 
     @Override
