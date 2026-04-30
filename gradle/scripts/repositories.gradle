@@ -15,11 +15,6 @@ repositories {
         filter { includeGroup("dev.emi") }
     }
 
-    exclusiveContent { // tterrag - registrate
-        forRepository { maven { url = "https://maven.tterrag.com/" } }
-        filter { includeGroup("com.tterrag.registrate") }
-    }
-
     maven {
         url "https://maven.shadowsoffire.dev/releases"
         content {

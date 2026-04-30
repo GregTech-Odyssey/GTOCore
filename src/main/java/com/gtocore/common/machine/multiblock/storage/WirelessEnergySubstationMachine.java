@@ -1,14 +1,15 @@
 package com.gtocore.common.machine.multiblock.storage;
 
+import com.gtocore.api.pattern.GTOPredicates;
 import com.gtocore.client.hud.Configurator;
 import com.gtocore.common.block.WirelessEnergyUnitBlock;
+import com.gtocore.common.data.GTORecipeDataKeys;
 
-import com.gtolib.api.GTOValues;
 import com.gtolib.api.capability.IExtendWirelessEnergyContainerHolder;
 import com.gtolib.api.machine.feature.multiblock.ITierCasingMachine;
 import com.gtolib.api.machine.multiblock.NoRecipeLogicMultiblockMachine;
 import com.gtolib.api.machine.trait.TierCasingTrait;
-import com.gtolib.utils.FunctionContainer;
+import com.gtolib.api.recipe.TierDataKey;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
@@ -34,8 +35,8 @@ import com.hepdd.gtmthings.utils.BigIntegerUtils;
 import com.hepdd.gtmthings.utils.TeamUtil;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
-import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
+import it.unimi.dsi.fastutil.objects.Reference2IntMap;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -57,7 +58,7 @@ public final class WirelessEnergySubstationMachine extends NoRecipeLogicMultiblo
 
     public WirelessEnergySubstationMachine(MetaMachineBlockEntity holder) {
         super(holder);
-        tierCasingTrait = new TierCasingTrait(this, GTOValues.GLASS_TIER);
+        tierCasingTrait = new TierCasingTrait(this, GTORecipeDataKeys.GLASS_TIER);
     }
 
     private void loadContainer() {
@@ -66,14 +67,13 @@ public final class WirelessEnergySubstationMachine extends NoRecipeLogicMultiblo
         if (level == null) return;
         var container = getWirelessEnergyContainer();
         if (container == null) return;
-        int tier = getCasingTier(GTOValues.GLASS_TIER);
-        FunctionContainer<ArrayList<WirelessEnergyUnitBlock.BlockData>, ?> functionContainer = getMultiblockState().getMatchContext().get("wirelessEnergyUnit");
+        int tier = getCasingTier(GTORecipeDataKeys.GLASS_TIER);
+        var data = getMultiblockState().getMatchContext().get(GTOPredicates.DataKeys.WIRELESS_ENERGY_UNIT);
         int loss = 0;
         int i = 0;
         BigInteger capacity = BigInteger.ZERO;
-        if (functionContainer != null) {
-            ArrayList<WirelessEnergyUnitBlock.BlockData> blocks = functionContainer.getValue();
-            for (WirelessEnergyUnitBlock.BlockData block : blocks) {
+        if (data != null) {
+            for (WirelessEnergyUnitBlock.BlockData block : data) {
                 if (block.block() == null) {
                     wirelessEnergyUnitPositions.put(0, block.pos());
                     continue;
@@ -85,7 +85,7 @@ public final class WirelessEnergySubstationMachine extends NoRecipeLogicMultiblo
                 }
                 wirelessEnergyUnitPositions.put(block.block().getTier(), block.pos());
             }
-            blocks.clear();
+            data.clear();
         }
         container.setLoss(i == 0 ? 0 : loss / i);
         if (i > 2) {
@@ -153,7 +153,7 @@ public final class WirelessEnergySubstationMachine extends NoRecipeLogicMultiblo
         textList.add(Component.translatable("gtmthings.machine.wireless_energy_monitor.tooltip.1", valueComponent).withStyle(ChatFormatting.GRAY));
         textList.add(Component.translatable("gtmthings.machine.wireless_energy_monitor.tooltip.2", FormattingUtil.formatNumbers(container.getRate()), container.getRate() / GTValues.VEX[GTUtil.getFloorTierByVoltage(container.getRate())], Component.literal(GTValues.VNF[GTUtil.getFloorTierByVoltage(container.getRate())])).withStyle(ChatFormatting.GRAY));
         textList.add(Component.translatable("gtceu.machine.fluid_drilling_rig.depletion", (double) container.getLoss() / 10));
-        int casingTier = getCasingTier(GTOValues.GLASS_TIER);
+        int casingTier = getCasingTier(GTORecipeDataKeys.GLASS_TIER);
         wirelessEnergyUnitPositions.keySet().stream()
                 .sorted()
                 .forEach(tier -> {
@@ -199,7 +199,7 @@ public final class WirelessEnergySubstationMachine extends NoRecipeLogicMultiblo
     }
 
     @Override
-    public Object2IntMap<String> getCasingTiers() {
+    public Reference2IntMap<TierDataKey> getCasingTiers() {
         return tierCasingTrait.getCasingTiers();
     }
 

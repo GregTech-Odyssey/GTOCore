@@ -6,6 +6,7 @@ dependencies {
     implementation("dev:gtonativelib:1.0")//jarJar无法加载
 
     implementation("dev:RecipeSearch-1.3")
+    implementation("com.github.houbb:opencc4j:1.14.0")//用来datagen繁中的
 
 
     if (project.publishingBuild == "true"){
@@ -13,7 +14,6 @@ dependencies {
         jarJar(implementation("dev:fastcollection:1.0"))
         // https://mvnrepository.com/artifact/org.apache.commons/commons-math3
         jarJar(implementation("org.apache.commons:commons-math3:3.6.1"))
-        jarJar(modImplementation("dev:Registrate:$project.registrate_version"))
         jarJar(modImplementation("appeng:appliedenergistics2-forge:${project.ae2_version}"))
         jarJar(modImplementation("dev:gtceu-$project.minecraft_version:$project.gtceu_version"))
         jarJar(modImplementation("dev:gtmthings:1.5.5-GTO-Port"))
@@ -21,7 +21,6 @@ dependencies {
         // 在非发布构建中，直接使用依赖，不进行jarJar，以减小包大小，便于调试与开发
         implementation("dev:fastcollection:1.0")
         implementation("org.apache.commons:commons-math3:3.6.1")
-        modImplementation("dev:Registrate:$project.registrate_version")
         modImplementation("appeng:appliedenergistics2-forge:${project.ae2_version}")
         modImplementation("dev:gtceu-$project.minecraft_version:$project.gtceu_version")
         modImplementation("dev:gtmthings:1.5.5-GTO-Port")
@@ -71,7 +70,7 @@ dependencies {
 
     modImplementation("top.theillusivec4.curios:curios-forge:${project.curiosVersion}+${project.minecraft_version}")
 
-    modImplementation("vazkii.botania:Botania:${project.minecraft_version}-448-FORGE")
+    modImplementation("vazkii.botania:Botania:${project.minecraft_version}-452-FORGE")
 
     modImplementation("vazkii.patchouli:Patchouli:${project.minecraft_version}-84.1-FORGE")
 
@@ -88,7 +87,7 @@ dependencies {
     modImplementation("curse.maven:ars-meteorites-1278083:7125271")
 
     modImplementation("curse.maven:glodium-957920:5006780")
-    modImplementation("curse.maven:ex-pattern-provider-892005:7804654")
+    modImplementation("curse.maven:ex-pattern-provider-892005:7986603")
 
     modImplementation("curse.maven:merequester-688367:5689932")
 
@@ -97,14 +96,14 @@ dependencies {
 
     modImplementation("curse.maven:deeperdarker-659011:5906086")
 
-    modImplementation("curse.maven:modernfix-790626:7515215")
+    modImplementation("curse.maven:modernfix-790626:7928686")
 
     modCompileOnly("curse.maven:moremorelang-1444917:7565351")
     modRuntimeOnly("curse.maven:moremorelang-1444917:7565351")
 
     modImplementation("curse.maven:render-blender-1346485:7035162")
 
-    modImplementation("curse.maven:farmers-delight-398521:6917255")
+    modImplementation("curse.maven:farmers-delight-398521:8007609")
     modImplementation("curse.maven:farmers-respite-551453:5543547")
 
     modImplementation("curse.maven:endremastered-404183:5598990")
@@ -117,14 +116,14 @@ dependencies {
 
     modImplementation("curse.maven:ftb-library-forge-404465:6807424")
 
-    modCompileOnly("curse.maven:ftb-quests-forge-289412:6259628")
-    modCompileOnly("curse.maven:ftb-teams-forge-404468:6130786")
-    modRuntimeOnly("curse.maven:ftb-teams-forge-404468:6130786")
+    modCompileOnly("curse.maven:ftb-quests-forge-289412:7909594")
+    modCompileOnly("curse.maven:ftb-teams-forge-404468:7499810")
+    modRuntimeOnly("curse.maven:ftb-teams-forge-404468:7499810")
 
     modCompileOnly("curse.maven:ftb-xmod-compat-889915:6402486")
     modRuntimeOnly("curse.maven:ftb-xmod-compat-889915:6402486")
 
-    modImplementation("curse.maven:ftb-ultimine-forge-386134:5363345")
+    modImplementation("curse.maven:ftb-ultimine-forge-386134:7880472")
 
     modCompileOnly("curse.maven:ftb-essentials-410811:4896152")
 
@@ -144,7 +143,7 @@ dependencies {
 
     modCompileOnly("curse.maven:emi-trades-villager-trading-emi-plugin-735523:4901194")
 
-    modCompileOnly("curse.maven:open-parties-and-claims-636608:7652872")
+    modCompileOnly("curse.maven:open-parties-and-claims-636608:7987205")
 
     modCompileOnly("curse.maven:sophisticated-backpacks-422301:6539219")
     modCompileOnly("curse.maven:sophisticated-core-618298:6545102")

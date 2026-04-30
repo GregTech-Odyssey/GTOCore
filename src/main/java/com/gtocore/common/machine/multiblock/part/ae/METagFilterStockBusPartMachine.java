@@ -1,5 +1,7 @@
 package com.gtocore.common.machine.multiblock.part.ae;
 
+import com.gtocore.utils.Caches;
+
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.gui.fancy.ConfiguratorPanel;
 
@@ -9,7 +11,6 @@ import net.minecraft.nbt.CompoundTag;
 import appeng.api.stacks.AEKey;
 import appeng.util.prioritylist.IPartitionList;
 
-import com.glodblock.github.extendedae.common.me.taglist.TagPriorityList;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -37,7 +38,7 @@ public class METagFilterStockBusPartMachine extends MEStockingBusPartMachine imp
 
     @Override
     boolean test(AEKey what) {
-        if (filter == null) filter = new TagPriorityList(this.tagWhite, this.tagBlack);
+        if (filter == null) filter = Caches.getTagPriorityList(tagWhite, tagBlack);
         return filter.isListed(what);
     }
 
@@ -63,13 +64,13 @@ public class METagFilterStockBusPartMachine extends MEStockingBusPartMachine imp
     @Override
     public void setTagWhite(final String tagWhite) {
         this.tagWhite = tagWhite;
-        filter = new TagPriorityList(this.tagWhite, this.tagBlack);
+        filter = Caches.getTagPriorityList(tagWhite, tagBlack);
     }
 
     @Override
     public void setTagBlack(final String tagBlack) {
         this.tagBlack = tagBlack;
-        filter = new TagPriorityList(this.tagWhite, this.tagBlack);
+        filter = Caches.getTagPriorityList(tagWhite, tagBlack);
     }
 
     @Override

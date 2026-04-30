@@ -1,5 +1,7 @@
 package com.gtocore.common.machine.mana.multiblock;
 
+import com.gtocore.common.data.GTORecipeDataKeys;
+
 import com.gtolib.api.recipe.Recipe;
 import com.gtolib.api.recipe.modifier.ParallelLogic;
 
@@ -48,7 +50,7 @@ public final class LargeAlchemicalDeviceMachine extends ManaMultiblockMachine {
         long parallels = getHatchParallel(this);
         recipe.duration = Math.max(1, (int) (recipe.duration * timeReduction));
         for (int i = 0; i < 3; i++) {
-            String key = "param" + (i + 1);
+            var key = GTORecipeDataKeys.PARAM[i];
             param = param || recipe.data.contains(key);
             currentRecipeParams[i] = recipe.data.contains(key) ? recipe.data.getInt(key) * 100 : 10000;
         }

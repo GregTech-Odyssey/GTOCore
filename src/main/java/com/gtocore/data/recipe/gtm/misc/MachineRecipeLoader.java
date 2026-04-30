@@ -1,6 +1,7 @@
 package com.gtocore.data.recipe.gtm.misc;
 
 import com.gtocore.common.data.GTOItems;
+import com.gtocore.common.data.GTOMachines;
 import com.gtocore.common.data.machines.GTAEMachines;
 
 import com.gtolib.GTOCore;
@@ -35,7 +36,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.common.Tags;
 
-import com.tterrag.registrate.util.entry.ItemEntry;
+import com.gto.registrate.util.entry.ItemEntry;
 
 import java.util.List;
 import java.util.Locale;
@@ -1317,6 +1318,12 @@ public final class MachineRecipeLoader {
                 "d", "B", 'B', STEAM_IMPORT_BUS.asItem());
         VanillaRecipeHelper.addShapedRecipe("steam_bus_input_to_output", STEAM_IMPORT_BUS.asItem(),
                 "d", "B", 'B', STEAM_EXPORT_BUS.asItem());
+        VanillaRecipeHelper.addShapedRecipe("steam_fluid_hatch_output_to_input",
+                GTOMachines.STEAM_FLUID_INPUT_HATCH.asItem(), "d", "B", 'B',
+                GTOMachines.STEAM_FLUID_OUTPUT_HATCH.asItem());
+        VanillaRecipeHelper.addShapedRecipe("steam_fluid_hatch_input_to_output",
+                GTOMachines.STEAM_FLUID_OUTPUT_HATCH.asItem(), "d", "B", 'B',
+                GTOMachines.STEAM_FLUID_INPUT_HATCH.asItem());
 
         VanillaRecipeHelper.addShapedRecipe("me_fluid_hatch_output_to_input",
                 GTAEMachines.FLUID_IMPORT_HATCH_ME.asItem(), "d", "B", 'B',

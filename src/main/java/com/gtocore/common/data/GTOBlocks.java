@@ -20,8 +20,8 @@ import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 import net.minecraft.world.level.material.MapColor;
 
-import com.tterrag.registrate.util.entry.BlockEntry;
-import com.tterrag.registrate.util.nullness.NonNullBiConsumer;
+import com.gto.registrate.util.entry.BlockEntry;
+import com.gto.registrate.util.nullness.NonNullBiConsumer;
 
 import static com.gtocore.common.block.BlockMap.*;
 import static com.gtocore.common.block.GlowingBlock.createStarStone;
@@ -30,7 +30,7 @@ import static com.gtolib.utils.register.BlockRegisterUtils.*;
 public final class GTOBlocks {
 
     public static void init() {
-        GTORegistration.GTO.creativeModeTab(() -> null);
+        GTORegistration.GTO.removeDefaultCreativeTab();
         REACTOR_CORE = createStoneBlock("reactor_core", "远古反应核", GTOCore.id("block/multiblock/ancient_reactor_core/overlay_front"));
     }
 

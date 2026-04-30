@@ -17,6 +17,7 @@ public abstract class ExportOnlyAESlot implements IConfigurableSlot, ITagSeriali
     private Runnable onContentsChanged = () -> {};
     @Nullable
     GenericStack config;
+    /** 槽位的当前库存，可为空。 */
     @Nullable
     GenericStack stock;
 

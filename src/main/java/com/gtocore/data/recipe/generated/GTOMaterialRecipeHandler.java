@@ -4,6 +4,7 @@ import com.gtocore.api.data.tag.GTOTagPrefix;
 import com.gtocore.common.data.GTOFluidStorageKey;
 import com.gtocore.common.data.GTOMaterials;
 import com.gtocore.common.data.GTORecipeCategories;
+import com.gtocore.common.data.GTORecipeDataKeys;
 
 import com.gtolib.api.recipe.RecipeBuilder;
 import com.gtolib.utils.GTOUtils;
@@ -505,7 +506,7 @@ final class GTOMaterialRecipeHandler {
                         .circuitMeta(4)
                         .inputItems(dust, material, 256)
                         .outputItems(GTOTagPrefix.FIBER, material, amount * 256)
-                        .addData("spool", 5)
+                        .addData(GTORecipeDataKeys.SPOOL, 5)
                         .duration((200 + mass * 4) * 512)
                         .EUt((50 + mass * 2L) * 16)
                         .blastFurnaceTemp(4300 + fiberTemp)

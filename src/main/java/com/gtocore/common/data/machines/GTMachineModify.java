@@ -30,7 +30,9 @@ import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import com.gregtechceu.gtceu.common.data.machines.GTMachineUtils;
 import com.gregtechceu.gtceu.common.data.machines.GTMultiMachines;
+import com.gregtechceu.gtceu.utils.FormattingUtil;
 
+import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
@@ -158,7 +160,6 @@ public final class GTMachineModify {
         for (int tier : GTMachineUtils.ELECTRIC_TIERS) {
             GTMachines.MACERATOR[tier].setRecipeModifier(RecipeModifierFunction.OVERCLOCKING);
             GTMachines.ROCK_CRUSHER[tier].setRecipeModifier(RecipeModifierFunction.OVERCLOCKING);
-            if (tier < GTValues.IV) GTMachines.AIR_SCRUBBER[tier].setRecipeModifier(RecipeModifierFunction.OVERCLOCKING);
             if (tier > GTValues.LV) {
                 GTMachines.SCANNER[tier].setOnWorking(machine -> {
                     if (machine.getProgress() == machine.getMaxProgress() - 1) {
@@ -180,6 +181,26 @@ public final class GTMachineModify {
                 });
             }
         }
+
+        for (int tier : GTMachineUtils.LOW_TIERS) {
+            GTMachines.AIR_SCRUBBER[tier].setTooltipBuilder((itemStack, components) -> {
+                components.add(Component.translatable("gtocore.machine.air_scrubber.ash_chance",
+                        Component.literal(FormattingUtil.formatNumbers(getAirScrubberAshTransferChance(tier))).withStyle(ChatFormatting.WHITE))
+                        .withStyle(ChatFormatting.GRAY));
+                components.add(Component.translatable("gtocore.machine.air_scrubber.range",
+                        Component.literal(FormattingUtil.formatNumbers(getAirScrubberRange(tier))).withStyle(ChatFormatting.WHITE))
+                        .withStyle(ChatFormatting.GRAY));
+            });
+            GTMachines.AIR_SCRUBBER[tier].setRecipeModifier(RecipeModifierFunction.OVERCLOCKING);
+        }
+    }
+
+    private static double getAirScrubberAshTransferChance(int tier) {
+        return 100.0 - 50.0 / tier;
+    }
+
+    private static int getAirScrubberRange(int tier) {
+        return 1 << (tier + 3);
     }
 
     private static ItemStack ash;

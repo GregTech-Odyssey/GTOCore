@@ -1,6 +1,7 @@
 package com.gtocore.common.machine.multiblock.generator;
 
-import com.gtolib.api.GTOValues;
+import com.gtocore.common.data.GTORecipeDataKeys;
+
 import com.gtolib.api.machine.impl.part.WirelessEnergyHatchPartMachine;
 import com.gtolib.api.machine.multiblock.TierCasingMultiblockMachine;
 import com.gtolib.api.recipe.Recipe;
@@ -23,7 +24,7 @@ public final class MagneticFluidGeneratorMachine extends TierCasingMultiblockMac
     private int base = 2;
 
     public MagneticFluidGeneratorMachine(MetaMachineBlockEntity holder) {
-        super(holder, GTOValues.GLASS_TIER);
+        super(holder, GTORecipeDataKeys.GLASS_TIER);
     }
 
     @Override
@@ -41,7 +42,7 @@ public final class MagneticFluidGeneratorMachine extends TierCasingMultiblockMac
     @Override
     public void onStructureFormed() {
         super.onStructureFormed();
-        int tier = getCasingTier(GTOValues.GLASS_TIER);
+        int tier = getCasingTier(GTORecipeDataKeys.GLASS_TIER);
         if (tier < outputTier) outputTier = 0;
         if (getSubFormedAmount() > 0) base = 4;
     }

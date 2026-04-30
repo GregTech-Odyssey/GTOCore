@@ -2,6 +2,7 @@ package com.gtocore.data.recipe.processing;
 
 import com.gtocore.api.data.tag.GTOTagPrefix;
 import com.gtocore.common.data.GTOMaterials;
+import com.gtocore.common.data.GTORecipeDataKeys;
 
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
@@ -627,7 +628,7 @@ public final class Lanthanidetreatment {
                     .outputFluids(nanoResin.getFluid(1000))
                     .duration(1200)
                     .EUt(491520)
-                    .addData("special", true)
+                    .addData(GTORecipeDataKeys.SPECIAL, true)
                     .save();
 
             DIMENSIONAL_FOCUS_ENGRAVING_ARRAY_RECIPES.recipeBuilder("make_extraction_nano_resin_" + i)

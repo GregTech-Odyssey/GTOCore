@@ -19,7 +19,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraftforge.common.Tags;
 
-import com.tterrag.registrate.util.entry.ItemEntry;
+import com.gto.registrate.util.entry.ItemEntry;
 
 import static com.gregtechceu.gtceu.api.GTValues.*;
 import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.*;

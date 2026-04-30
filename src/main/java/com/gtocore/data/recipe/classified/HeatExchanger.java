@@ -1,6 +1,7 @@
 package com.gtocore.data.recipe.classified;
 
 import com.gtocore.common.data.GTOMaterials;
+import com.gtocore.common.data.GTORecipeDataKeys;
 
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
@@ -16,7 +17,7 @@ final class HeatExchanger {
                 .outputFluids(GTMaterials.Steam, 25600)
                 .outputFluids(GTOMaterials.HighPressureSteam, 6400)
                 .duration(200)
-                .addData("eu", 12800)
+                .addData(GTORecipeDataKeys.EU, 12800L)
                 .save();
 
         HEAT_EXCHANGER_RECIPES.recipeBuilder("supercritical_sodium_potassium")
@@ -26,7 +27,7 @@ final class HeatExchanger {
                 .outputFluids(GTOMaterials.HighPressureSteam, 6400)
                 .outputFluids(GTOMaterials.SupercriticalSteam, 1600)
                 .duration(200)
-                .addData("eu", 12800)
+                .addData(GTORecipeDataKeys.EU, 12800L)
                 .save();
     }
 }

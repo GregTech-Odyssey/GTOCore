@@ -32,7 +32,7 @@ import appeng.core.definitions.AEItems;
 
 import com.glodblock.github.extendedae.common.EPPItemAndBlock;
 import vectorwing.farmersdelight.common.registry.ModItems;
-import vectorwing.farmersdelight.common.tag.ForgeTags;
+import vectorwing.farmersdelight.common.tag.CommonTags;
 import vectorwing.farmersdelight.data.builder.CuttingBoardRecipeBuilder;
 
 import static com.gregtechceu.gtceu.common.data.GTMaterials.Water;
@@ -50,7 +50,7 @@ final class Vanilla {
         }
 
         if (Mods.FARMERSDELIGHT.isLoaded()) {
-            CuttingBoardRecipeBuilder.cuttingRecipe(Ingredient.of(ModItems.ONION.get()), Ingredient.of(ForgeTags.TOOLS_KNIVES), ModItems.ONION.get(), 1, 0).build(GTDynamicDataPack.CONSUMER, GTOCore.id("cutting/onion"));
+            CuttingBoardRecipeBuilder.cuttingRecipe(Ingredient.of(ModItems.ONION.get()), Ingredient.of(CommonTags.Items.TOOLS_KNIVES), ModItems.ONION.get(), 1, 0).save(GTDynamicDataPack.CONSUMER, GTOCore.id("cutting/onion"));
         }
 
         VanillaRecipeHelper.addSmeltingRecipe(GTOCore.id("raw_aluminum"), GTOItems.RAW_ALUMINUM.asStack(), ChemicalHelper.get(TagPrefix.ingot, GTMaterials.Aluminium), 0);
@@ -59,9 +59,9 @@ final class Vanilla {
         switch (GTOCore.difficulty) {
             case 1 -> {
                 VanillaRecipeHelper.addShapedRecipe(GTOCore.id("ender_eye"), ChemicalHelper.get(TagPrefix.gem, GTMaterials.EnderEye),
-                        " A ",
-                        "ABA",
-                        " A ",
+                        "A A",
+                        " B ",
+                        "A A",
                         'A', new MaterialEntry(TagPrefix.dust, GTMaterials.Blaze), 'B', new MaterialEntry(TagPrefix.gem, GTMaterials.EnderPearl));
                 VanillaRecipeHelper.addShapedRecipe(true, GTOCore.id("steam_assembly_block"), GTOBlocks.STEAM_ASSEMBLY_BLOCK.asItem(),
                         "ABA",
@@ -132,6 +132,16 @@ final class Vanilla {
                 "D",
                 'A', AEItems.WIRELESS_RECEIVER.asItem(), 'B', GTOAEParts.INSTANCE.getME_2IN1_TERMINAL().get().asItem(),
                 'D', AEBlocks.DENSE_ENERGY_CELL.asItem());
+        VanillaRecipeHelper.addShapedRecipe(GTOCore.id("wireless_requester_terminal"), GTOItems.WIRELESS_WRT.asItem(),
+                "A",
+                "B",
+                "C",
+                'A', AEItems.WIRELESS_RECEIVER.asItem(), 'B', RegistriesUtils.getItem("merequester:requester_terminal"), 'C', AEBlocks.DENSE_ENERGY_CELL.asItem());
+        VanillaRecipeHelper.addShapedRecipe(GTOCore.id("wireless_facility_management_terminal"), GTOItems.WIRELESS_WFT.asItem(),
+                "A",
+                "B",
+                "C",
+                'A', AEItems.WIRELESS_RECEIVER.asItem(), 'B', RegistriesUtils.getItem("ae2:facility_terminal"), 'C', AEBlocks.DENSE_ENERGY_CELL.asItem());
 
         VanillaRecipeHelper.addShapedRecipe(GTOCore.id("paper_dust"), ChemicalHelper.get(TagPrefix.dust, GTMaterials.Paper), "S", "m", 'S', RegistriesUtils.getItemStack("farmersdelight:tree_bark"));
         VanillaRecipeHelper.addShapedFluidContainerRecipe(GTOCore.id("cooking_pot"), RegistriesUtils.getItemStack("farmersdelight:cooking_pot"),

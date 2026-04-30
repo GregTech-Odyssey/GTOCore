@@ -21,6 +21,7 @@ import com.gtolib.utils.holder.ObjectHolder;
 import com.gregtechceu.gtceu.api.GTCEuAPI;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.recipe.*;
+import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
@@ -136,7 +137,7 @@ public class MEWildcardPatternBufferPartMachine extends MEPatternBufferPartMachi
     }
 
     @Override
-    public boolean patternFilter(ItemStack stack) {
+    public boolean patternFilter(@NotNull ItemStack stack) {
         var f = stack.getItem() instanceof ProcessingPatternItem;
         if (!f) return false;
         return MEPatternPartMachineKtKt.checkDuplicatedPattern(this, stack);
@@ -156,8 +157,13 @@ public class MEWildcardPatternBufferPartMachine extends MEPatternBufferPartMachi
     }
 
     @Override
-    public void addedToController(IMultiController controller) {
+    public void addedToController(@NotNull IMultiController controller) {
         super.addedToController(controller);
+        requestPatternUpdate();
+    }
+
+    @Override
+    public void onDetailsPostInit() {
         requestPatternUpdate();
     }
 
@@ -181,7 +187,7 @@ public class MEWildcardPatternBufferPartMachine extends MEPatternBufferPartMachi
     }
 
     @Override
-    public boolean pushPattern(IPatternDetails patternDetails, KeyCounter[] inputHolder) {
+    public boolean pushPattern(@NotNull IPatternDetails patternDetails, KeyCounter @NotNull [] inputHolder) {
         try {
             lock = true;
             return getInternalInventory()[0].pushPattern(patternDetails, inputHolder);
@@ -298,7 +304,6 @@ public class MEWildcardPatternBufferPartMachine extends MEPatternBufferPartMachi
             }
             substitutingIngredients.addAndGet(System.nanoTime() - startSubstituting);
 
-            var test$materialsGen = new ReferenceOpenHashSet<Material>();
             var blacklistSet = blacklistedMaterials.values();
             GTCEuAPI.materialManager.getRegisteredMaterials().forEach(material -> {
                 if (blacklistSet.contains(material)) return;
@@ -336,7 +341,6 @@ public class MEWildcardPatternBufferPartMachine extends MEPatternBufferPartMachi
                         if (detail != null) {
                             var converted = IParallelPatternDetails.of(convertPattern(detail, 0), getLevel(), 1);
                             newPatterns.add(converted);
-                            test$materialsGen.add(material);
                         }
                         validatingPatterns.addAndGet(System.nanoTime() - startValidating1);
                     }

@@ -1,5 +1,7 @@
 package com.gtocore.common.machine.multiblock.electric.assembly;
 
+import com.gtocore.common.data.GTORecipeDataKeys;
+
 import com.gtolib.api.machine.multiblock.TierCasingParallelMultiblockMachine;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
@@ -10,12 +12,12 @@ import static com.gtolib.api.GTOValues.MACHINE_CASING_TIER;
 public final class PrecisionAssemblerMachine extends TierCasingParallelMultiblockMachine {
 
     public PrecisionAssemblerMachine(MetaMachineBlockEntity holder) {
-        super(holder, true, m -> 1L << (2 * (m.getCasingTier(GLASS_TIER))), GLASS_TIER, MACHINE_CASING_TIER);
+        super(holder, true, m -> 1L << (2 * (m.getCasingTier(GTORecipeDataKeys.GLASS_TIER))), GTORecipeDataKeys.GLASS_TIER, GTORecipeDataKeys.MACHINE_CASING_TIER);
     }
 
     @Override
     public void onStructureFormed() {
         super.onStructureFormed();
-        tier = Math.min(getCasingTier(MACHINE_CASING_TIER), tier);
+        tier = Math.min(getCasingTier(GTORecipeDataKeys.MACHINE_CASING_TIER), tier);
     }
 }

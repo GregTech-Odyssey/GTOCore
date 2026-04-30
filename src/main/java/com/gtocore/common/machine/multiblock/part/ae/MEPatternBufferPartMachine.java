@@ -25,7 +25,6 @@ import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.gui.fancy.ConfiguratorPanel;
 import com.gregtechceu.gtceu.api.gui.fancy.TabsWidget;
-import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
 import com.gregtechceu.gtceu.api.machine.fancyconfigurator.ButtonConfigurator;
 import com.gregtechceu.gtceu.api.machine.fancyconfigurator.CircuitFancyConfigurator;
@@ -224,14 +223,6 @@ public abstract class MEPatternBufferPartMachine extends MEPatternPartMachineKt<
     }
 
     private Set<MEPatternBufferProxyPartMachine> getProxies() {
-        if (proxyMachines.size() != proxies.size() && getLevel() != null) {
-            proxyMachines.clear();
-            for (var pos : proxies) {
-                if (MetaMachine.getMachine(getLevel(), pos) instanceof MEPatternBufferProxyPartMachine proxy) {
-                    proxy.setBuffer(getPos());
-                }
-            }
-        }
         return proxyMachines;
     }
 
@@ -571,6 +562,7 @@ public abstract class MEPatternBufferPartMachine extends MEPatternPartMachineKt<
         public final NotifiableItemStackHandler circuitInventory;
         final LockableItemStackHandler lockableInventory;
         @Getter
+        @DescSynced
         private boolean lock;
         @Setter
         private boolean shouldLockRecipe = true;

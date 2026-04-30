@@ -14,7 +14,8 @@ final class MachineLang {
     static void init() {
         addCNEN("gui.tooltips.redstone_mode.enabled", "启用红石模式，机器接收红石信号", "Enable redstone mode, the machine will receive redstone signals");
         addCNEN("gui.tooltips.redstone_mode.disabled", "禁用红石模式，机器无视红石信号", "Disable redstone mode, the machine will ignore redstone signals");
-        addCNEN("gtocore.machine.programmablec_hatch.tooltip", "通过虚拟物品提供器来设置电路槽物品", "Set the circuit slot items through a virtual item provider");
+        addCNEN("gtocore.machine.programmablec_hatch.extra_tooltip.0", "通过虚拟物品提供器来设置电路槽物品", "Set the circuit slot items through a virtual item provider");
+        addCNEN("gtocore.machine.programmablec_hatch.extra_tooltip.1", "可独立指定仓室的配方类型，覆盖机器的默认设定", "Can independently select recipe types, overriding the machine’s default setting");
         addCNEN("gtocore.machine.energy_loss", "能量损失: %s", "Energy loss: %s");
         addCNEN("gtocore.machine.highlight_module", "高亮显示模块位置", "Highlight module position");
         addCNEN("gtocore.machine.highlight_obstruction", "高亮显示会被阻挡的区域", "Highlight areas that will be obstructed");
@@ -28,6 +29,7 @@ final class MachineLang {
         addCNEN("gtocore.machine.rest_burn_time", "剩余燃烧时间: %s Tick", "Rest Burn Time %s Tick");
         addCNEN("gtocore.machine.total_time.duration", "额外耗时减免: %s", "Additional Duration Reduction: %s");
         addCNEN("gtocore.machine.block_conversion_room.am", "每次转化数量: %s", "Amount converted each time: %s");
+        addCNEN("gtocore.machine.vacuum_pump.tooltip.0", "仅向水平相邻方块提供真空", "Only provides vacuum to horizontally adjacent blocks");
         addCNEN("gtocore.machine.dimensionally_transcendent_plasma_forge.coil", "当前配方模式无法使用该线圈", "Current recipe mode cannot use this coil");
         addCNEN("gtocore.machine.duration_multiplier.tooltip", "耗时倍数: %s", "Duration Multiplication: %s");
         addCNEN("gtocore.machine.dyson_sphere.number", "该星系发射次数: %s / 10000", "Launch Times: %s / 10000");
@@ -116,7 +118,7 @@ final class MachineLang {
         addCNEN("gtocore.recipe.fuelcell.converted_energy", "可转换的基础能量: %s EU", "Convertible Base Energy: %s EU");
         addCNEN("gtocore.recipe.fuelcell.converted_efficiency", "效率: %s%%%%", "Efficiency: %s%%%%");
         addCNEN("gtocore.machine.advanced_infinite_driller.drilled_fluid", "流体: %s 产量: %s", "Fluid: %s Output: %s");
-        addCNEN("gtocore.machine.steam.tooltip.1", "默认支持%s等级及以下的配方处理", "default can process &s-Tier recipes and below, processing time is 1.5 times");
+        addCNEN("gtocore.machine.steam.tooltip.1", "默认支持%s等级及以下的配方处理", "default can process %s Tier recipes and below, processing time is 1.5 times");
         addCNEN("gtocore.machine.steam.tooltip.2", "安装大型蒸汽输入仓后提升一个配方等级，并解锁超频功能", "After installing a large steam input hatch, upgrade one recipe tier and unlock the overclocking function");
         addCNEN("gtocore.machine.mana_stored", "魔力总量: %s", "Total Mana: %s");
         addCNEN("gtocore.machine.mana_consumption", "最大魔力消耗: %s", "Max Mana Consumption Rate: %s");
@@ -128,10 +130,12 @@ final class MachineLang {
         addCNEN("gtocore.machine.processing_array.tooltip.1", "并行数由内部机器数量决定", "Parallel are determined by the number of internal machines");
         addCNEN("gtocore.machine.maximum_amount", "最大数量: %s", "Maximum amount: %s");
         addCNEN("gtocore.machine.binding_amount", "绑定数量: %s", "Binding amount: %s");
-        addCNEN("gtocore.machine.accelerate_hatch.tooltip.0", "加速机器运行", "Accelerates machine operation");
-        addCNEN("gtocore.machine.accelerate_hatch.tooltip.1", "加速仓的等级低于机器配方等级时加速效果减弱", "Acceleration effect is reduced when the accelerator hatch tier is lower than the machine recipe tier");
         addCNEN("gtocore.machine.recipe.run", "运行%s配方时: ", "When running the %s recipe: ");
         addCNEN("gtocore.machine.parallel", "最大并行数: %s", "Maximum number of parallel: %s");
+        addCNEN("gtocore.machine.processing_plant.parallel_per_tier_tooltip", "自ULV起，配方等级每高出1级，获得的并行数+%s", "From ULV, each voltage tier increases the obtained parallelism by %s");
+        addCNEN("gtocore.machine.processing_plant.parallel_per_tier_formula", "公式 : %s * (tier - 0), 算去吧", "Formula: %s * (tier - 0), go calculate it yourself");
+        addCNEN("gtocore.machine.air_scrubber.ash_chance", "掏灰概率：%s%%", "Ash extraction chance: %s%%");
+        addCNEN("gtocore.machine.air_scrubber.range", "工作半径：%s格", "Working radius: %s blocks");
         addCNEN("gtocore.machine.cwut_modification", "算力修正系数: %s", "Hashrate correction factor: %s");
         addCNEN("gtocore.machine.components_list", "组件列表: ", "Components List: ");
         addCNEN("gtocore.machine.tag_filter.tag_config_title", "标签过滤配置", "Tag Filtering Configuration");
@@ -143,7 +147,7 @@ final class MachineLang {
         addCNEN("gtocore.machine.me_dual_hatch_stock.turns.3", "仅拉取流体", "Auto-Pull Fluid");
         addCNEN("gtocore.machine.me_dual_hatch_stock.tooltip.0", "可标记64种流体或物品", "Keeps 64 fluid or item types in stock");
         addCNEN("gtocore.machine.me_dual_hatch_stock.tooltip.1", "直接从ME网络抽取流体或物品", "Retrieves fluids or item directly from the ME network");
-        addCNEN("gtocore.machine.me_dual_hatch_stock.data_stick.name", "§oME Stock Input Dual Hatch Config Data", "§oME库存输入总成配置数据");
+        addCNEN("gtocore.machine.me_dual_hatch_stock.data_stick.name", "§oME库存输入总成配置数据", "§oME Stock Input Dual Hatch Config Data");
         addCNEN("gtocore.machine.scanning", "扫描中...", "Scanning...");
         addCNEN("gtocore.machine.analysis", "分析中...", "Analysing...");
         addCNEN("gtocore.machine.assembling", "装配中...", "Assembling...");

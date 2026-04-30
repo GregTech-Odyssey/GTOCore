@@ -34,7 +34,7 @@ public final class OptionalMachine {
 
             machine("me_simple_pattern_buffer", "ME简单样板总成", MESimplePatternBufferPartMachine::new)
                     .langValue("ME Simple Pattern Buffer")
-                    .addTooltipsFromClass(MESimplePatternBufferPartMachine.class)
+                    .tooltips(GTOMachineTooltips.INSTANCE.getMePatternHatchTooltips().invoke(9).getSupplier())
                     .tier(MV)
                     .allRotation()
                     .abilities(PartAbility.IMPORT_ITEMS, PartAbility.IMPORT_FLUIDS)

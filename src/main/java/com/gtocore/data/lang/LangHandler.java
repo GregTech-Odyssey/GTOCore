@@ -150,6 +150,7 @@ public final class LangHandler {
         addCNEN("gtocore.gtm", "整合包使用的GregTech-Modern模组，以及Applied Energistics 2模组均为非官方版本，如果您遇到任何问题或有任何建议，请前往%s提供反馈，而不是模组官方渠道", "The GregTech-Modern and Applied Energistics 2 mod used in the modpack is an unofficial version. If you encounter any issues or have any suggestions, please go to %s to provide feedback instead of the official mod channel.");
         addCNEN("gtocore.dev", "当前版本是开发测试版本，不能保证内容的稳定性和完整性。如果您遇到任何问题或有任何建议，请前往%s提供反馈。", "The current version is a development test version and cannot guarantee the stability and completeness of the content. If you encounter any issues or have any suggestions, please go to %s to provide feedback.");
         addCNEN("gtodyssey.com", "GTOdyssey 官方维基网站", "GTOdyssey Official Wiki Website");
+        addCNEN("gtocore.spacetime.element", "熔炼为流体的时空", "Spacetime, Smelted into Fluid");
         addCNEN("gtocore.fly_speed_reset", "飞行速度已重置", "fly Speed Reset");
         addCNEN("gtocore.fly_speed", "飞行速度 x%s", "fly Speed x%s");
         addCNEN("gtocore.reach_limit", "达到极限", "Reach Limit");
@@ -232,7 +233,8 @@ public final class LangHandler {
         addCNEN("config.jade.plugin_gtocore.upgrade_module_provider", "[GTOCore] 升级模块信息", "[GTOCore] Upgrade Module Info");
         addCNEN("config.jade.plugin_gtocore.destroy_time_provider", "[GTOCore] 硬度信息", "[GTOCore] Destroy Time Info");
         addCNEN("config.jade.plugin_gtocore.wireless_grid_provider", "[GTOCore] 无线ME网络信息", "[GTOCore] Wireless ME Network Info");
-        addCNEN("config.jade.plugin_gtocore.maintenance_hatch_provider", "[GTOCore] 维护仓信息", "[GTOCore] Maintenance Hatch Info");
+        addCNEN("config.jade.plugin_gtocore.maintenance_hatch_provider", "[GTOCore] 维护仓耗时信息", "[GTOCore] Maintenance Hatch Duration Info");
+        addCNEN("config.jade.plugin_gtocore.maintenance_param_provider", "[GTOCore] 维护仓损坏信息", "[GTOCore] Maintenance Hatch Damage Info");
 
         addCNEN("gtocore.applicable_modules", "安装附属模块后可解锁的仓室类型 : %s",
                 "Hatch types unlocked by installing auxiliary modules : %s");
@@ -358,9 +360,9 @@ public final class LangHandler {
         addCNEN("gtocore.ae.appeng.me2in1.material_slot.2", "编码时将自动应用材料类型到可替换的物品上", "The material type will be automatically applied to replaceable items when encoding");
         addCNEN("gtocore.ae.appeng.me2in1.auto_encode_rename_pattern", "自动编码重命名样板", "Auto Encode Renaming Pattern");
         addCNEN("gtocore.ae.appeng.me2in1.auto_encode_rename_pattern.1", "启用后，所有重命名后的物品将额外编码一份样板，数量与原样板中设置的一致。", "When enabled, all renamed items will encode an additional pattern, with the same quantity as set in the original pattern.");
-        addCNEN("gtocore.ae.appeng.me2in1.emi.catalyst", "编码默认不填充催化剂", "Shift + Left Click: Fill catalysts into the pattern");
-        addCNEN("gtocore.ae.appeng.me2in1.emi.catalyst.fill", "Shift + 左击：将催化剂填充至样板", "Shift + Left Click: Fill catalysts into the pattern");
-        addCNEN("gtocore.ae.appeng.me2in1.emi.catalyst.virtual", "Ctrl + 左击：将催化剂（虚拟物品）填充至样板", "Hold Ctrl to encode catalysts as virtual item catalysts");
+        addCNEN("gtocore.ae.appeng.me2in1.emi.catalyst", "编码默认不填充催化剂", "Catalysts are skipped by default");
+        addCNEN("gtocore.ae.appeng.me2in1.emi.catalyst.fill", "Shift + 左击：将催化剂填充至样板", "Shift + Click: Fill catalysts into the pattern");
+        addCNEN("gtocore.ae.appeng.me2in1.emi.catalyst.virtual", "Ctrl + 左击：将催化剂（虚拟物品）填充至样板", "Ctrl + Click: Encode catalysts as virtual items");
         addCNEN("gtocore.ae.appeng.me2in1.emi.multiblock.sub", "Shift + 左击：编码基础结构和当前模块", "Shift + Click: Encode base structure and this module");
         addCNEN("gtocore.ae.appeng.me2in1.emi.multiblock.sub.all", "Ctrl + 左击：编码到当前模块为止的全部结构", "Ctrl + Click: Encode all modules up to this one");
         addCNEN("gtocore.ae.appeng.me2in1.emi.gt_batch_encode", "Alt + 左击：批量编码，试图替换的材料用黄色标记", "Batch encoding is available while holding Alt, materials to be replaced are marked in yellow");
@@ -404,9 +406,13 @@ public final class LangHandler {
         addCNEN("gtocore.ae.appeng.craft.resume_job", "继续", "Resume");
         addCNEN("gtocore.ae.appeng.craft.pause_job.desc", "暂停正在进行中的发配；已推送的样板不会被撤回", "Pause the ongoing crafting; pushed patterns will not be withdrawn");
         addCNEN("gtocore.ae.appeng.craft.resume_job.desc", "继续已暂停的发配", "Resume the paused crafting");
-        addCNEN("gtocore.ae.appeng.craft.temp_order", "中键点击以创建临时合成订单，下单一份该配方的原材料", "Middle-click to create a temporary crafting order, ordering one set of raw materials for this recipe");
+        addCNEN("gtocore.ae.appeng.craft.temp_order", "中键点击以创建临时合成订单，下单一份该配方的原材料", "Middle-click: order one set of materials for this recipe");
         addCNEN("gtocore.ae.appeng.craft.encode_send", "§o[右键点击] 编码并发送样板§r", "§o[Right Click] Encode and send pattern§r");
-        addCNEN("gtocore.ae.appeng.craft.encode_send.desc", "点击选择目的地样板供应器，并将样板发送至该供应器", "Click to select the destination Pattern Provider and encode the current recipe to it");
+        addCNEN("gtocore.ae.appeng.craft.encode_send.desc", "点击将样板发送至该目的地", "Click to send the pattern to this destination");
+        addCNEN("gtocore.ae.appeng.craft.encode_send.full", "满", "Full");
+        addCNEN("gtocore.ae.appeng.craft.encode_send.full.desc", "该目的地样板槽已满", "This destination has no empty pattern slot");
+        addCNEN("gtocore.ae.appeng.wft.wireless", "无线设施管理终端", "Wireless Facility Management Terminal");
+        addCNEN("gtocore.ae.appeng.wrt.wireless", "无线请求器终端", "Wireless Requester Terminal");
 
         addCNEN("gtocore.adv_terminal.block.confirm", "确认", "Confirm");
         addCNEN("gtocore.adv_terminal.block.cancel", "取消", "Cancel");
@@ -454,6 +460,7 @@ public final class LangHandler {
         addCNEN("gtocore.pattern.recipeInfoButton.clickToClear", "点击清除已记录的配方信息", "Click to clear recorded recipe info");
 
         addCNEN("gtocore.recipe.recycler.random_output", "随机物品", "Random Item");
+        addCNEN("gtocore.recipe.coil.uruium", "超级热熔", "Uruium");
 
         addCNEN("gtocore.emi.search_text", "已保存的搜索: %s", "Saved Search: %s");
         addCNEN("gtocore.emi.search_text.how_to_use", "将它拖拽至文本框以快速填入搜索栏", "Drag it to the text box to quickly fill in the search bar");

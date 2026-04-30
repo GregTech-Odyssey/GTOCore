@@ -20,7 +20,6 @@ import gto_ae.helpers.facility_management.ThroughputCounter;
 import gto_ae.helpers.facility_management.WorkingStatus;
 
 import com.google.common.collect.ImmutableSet;
-import it.unimi.dsi.fastutil.objects.Reference2LongMap;
 import lombok.Getter;
 import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
@@ -36,7 +35,7 @@ public abstract class StatusTrackedMEPartMachine extends MEPartMachine implement
     @Setter
     protected WorkingStatus status = WorkingStatus.IDLE;
     @Getter
-    Reference2LongMap<AEKey> configuredSetting = new AEKeyMap<>();
+    AEKeyMap<AEKey> configuredSetting = new AEKeyMap<>();
 
     public StatusTrackedMEPartMachine(@NotNull MetaMachineBlockEntity holder, @NotNull IO io) {
         super(holder, io);

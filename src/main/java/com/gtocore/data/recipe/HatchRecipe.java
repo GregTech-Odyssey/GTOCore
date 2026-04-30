@@ -27,8 +27,8 @@ import com.gregtechceu.gtceu.data.recipe.VanillaRecipeHelper;
 
 import net.minecraft.world.item.Item;
 
+import com.gto.registrate.util.entry.ItemEntry;
 import com.hepdd.gtmthings.data.CustomItems;
-import com.tterrag.registrate.util.entry.ItemEntry;
 
 import java.util.List;
 

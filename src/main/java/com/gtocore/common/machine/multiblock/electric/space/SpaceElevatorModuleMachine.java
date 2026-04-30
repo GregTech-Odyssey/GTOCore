@@ -1,5 +1,7 @@
 package com.gtocore.common.machine.multiblock.electric.space;
 
+import com.gtocore.common.data.GTORecipeDataKeys;
+
 import com.gtolib.api.machine.multiblock.CustomParallelMultiblockMachine;
 import com.gtolib.api.recipe.Recipe;
 import com.gtolib.api.recipe.modifier.ParallelLogic;
@@ -32,7 +34,7 @@ public class SpaceElevatorModuleMachine extends CustomParallelMultiblockMachine 
     private final boolean powerModuleTier;
 
     public SpaceElevatorModuleMachine(MetaMachineBlockEntity holder, boolean powerModuleTier) {
-        this(holder, powerModuleTier, m -> ((SpaceElevatorModuleMachine) m).getSpaceElevatorTier() > 7 ? (int) Math.pow(((SpaceElevatorModuleMachine) m).isSuper() ? 8 : 4, ((SpaceElevatorModuleMachine) m).spaceElevatorMachine.getCasingTier(POWER_MODULE_TIER) - 1) : 0);
+        this(holder, powerModuleTier, m -> ((SpaceElevatorModuleMachine) m).getSpaceElevatorTier() > 7 ? (int) Math.pow(((SpaceElevatorModuleMachine) m).isSuper() ? 8 : 4, ((SpaceElevatorModuleMachine) m).spaceElevatorMachine.getCasingTier(GTORecipeDataKeys.POWER_MODULE_TIER) - 1) : 0);
     }
 
     SpaceElevatorModuleMachine(MetaMachineBlockEntity holder, boolean powerModuleTier, ToLongFunction<CustomParallelMultiblockMachine> getParallel) {
@@ -67,7 +69,7 @@ public class SpaceElevatorModuleMachine extends CustomParallelMultiblockMachine 
     @Override
     protected Recipe getRealRecipe(Recipe recipe) {
         if (getSpaceElevatorTier() < 8) return null;
-        if (powerModuleTier && recipe.data.getInt(POWER_MODULE_TIER) > spaceElevatorMachine.getCasingTier(POWER_MODULE_TIER)) return null;
+        if (powerModuleTier && recipe.data.getInt(GTORecipeDataKeys.POWER_MODULE_TIER) > spaceElevatorMachine.getCasingTier(GTORecipeDataKeys.POWER_MODULE_TIER)) return null;
         return RecipeModifierFunction.overclocking(this, ParallelLogic.accurateParallel(this, recipe, getParallel()), false, 1, getDurationMultiplier(), 0.5);
     }
 

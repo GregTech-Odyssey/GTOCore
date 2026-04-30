@@ -447,6 +447,15 @@ object GTOMachineTooltips {
         command(ComponentSlang.TemperatureMax(2400))
     }
 
+    val ManaCondenserTooltips = ComponentListSupplier {
+        setTranslationPrefix("mana_condenser")
+
+        section(ComponentSlang.RunningRequirements)
+        command("在特定环境下只有特定的结构能够工作" translatedTo "Only specific structure forms can work in specific environments")
+        info("默认：P:0，亚尔夫海姆：P:1" translatedTo "Default: P:0, Alfheim: P:1")
+        info("在特定环境下终端仅能搭建指定结构，无视\"模块搭建\"设置" translatedTo "In specific environments, only specified structures can be built at the terminal, ignoring the \"Module Build\" setting")
+    }
+
     // 苍穹凝聚器
     val CelestialCondenserTooltips = ComponentListSupplier {
         setTranslationPrefix("celestial_condenser")
@@ -591,7 +600,7 @@ object GTOMachineTooltips {
             function("可以放入样板，并进行一键发配" translatedTo "Can put patterns and distribute them one click")
             function("样板间分别隔离，互不干扰" translatedTo "Patterns are isolated from each other, do not interfere with each other")
             important("对着样板按鼠标中键可单独设置电路或者提供特别输入" translatedTo "Press the middle mouse button on the pattern to set the circuit or provide special input")
-            command("可独立选择配方类型，不受机器主体限制" translatedTo "Can independently select recipe types, unrestricted by the machine's own settings")
+            command("可独立指定仓室的配方类型，覆盖机器的默认设定" translatedTo "Can independently select recipe types, overriding the machine’s default setting")
             info(ComponentSlang.Capacity(capacity.toString()))
         }
     }
@@ -765,6 +774,11 @@ object GTOMachineTooltips {
 
         section(ComponentSlang.RecommendedUseAs("生产魔力" translatedTo "mana production"))
         function("在机器内放置64朵太阳花以使机器不再发电，转而采集魔力" translatedTo "Place 64 dayblooms in the machine to stop power generation and start collecting mana")
+
+        section("结构形态" translatedTo "Structure Forms")
+        command("在特定环境下只有特定的结构能够工作" translatedTo "Only specific structure forms can work in specific environments")
+        info("星球：P:0，星球轨道：P:1" translatedTo "Planet: P:0, Planet Orbit: P:1")
+        info("在特定环境下终端仅能搭建指定结构，无视\"模块搭建\"设置" translatedTo "In specific environments, only specified structures can be built at the terminal, ignoring the \"Module Build\" setting")
     }
 
     // 加热器
@@ -931,14 +945,15 @@ object GTOMachineTooltips {
                 section(ComponentSlang.PowerGenerationEfficiency)
                 function(ComponentSlang.BaseProductionEut(baseEUt))
                 command(ComponentSlang.UsePerHourLubricant(FluidHelper.getBucket()))
-                increase("提供20mB/s的§a氧气§r，并消耗§4双倍§r燃料以产生§e$oxygenBoost EU/t§r的功率" translatedTo "Provide 20mB/s of §eOxygen§r, consuming §adouble§r fuel to produce up to §e$oxygenBoost §rEU/t")
 
                 if (canExtremeBoost) {
                     increase("提供80mB/s的§a液态氧§r，并消耗§4双倍§r燃料以产生§e$liquidOxygenBoost EU/t§r的功率" translatedTo "Provide 80mB/s of §eLiquid Oxygen§r, consuming §adouble§r fuel to produce up to §e$liquidOxygenBoost §rEU/t")
+                } else {
+                    increase("提供20mB/s的§a氧气§r，并消耗§4双倍§r燃料以产生§e$oxygenBoost EU/t§r的功率" translatedTo "Provide 20mB/s of §eOxygen§r, consuming §adouble§r fuel to produce up to §e$oxygenBoost §rEU/t")
                 }
 
                 section(ComponentSlang.AfterModuleInstallation)
-                increase("并行能力提升至 §e8§r" translatedTo "Parallelism increases to §e8x§r")
+                increase("并行能力提升至 §e4§r" translatedTo "Parallelism increases to §e4x§r")
                 increase("空气进气速度变为 §e4§r 倍" translatedTo "Air intake speed becomes §e4x§r faster")
             }
         }
@@ -981,7 +996,7 @@ object GTOMachineTooltips {
 
             section(ComponentSlang.AfterModuleInstallation)
             increase("获得3倍速度" translatedTo "Gains 3x speed")
-            increase("获得额外130%涡轮效率" translatedTo "Gains additional 130% turbine efficiency")
+            increase("获得额外30%涡轮效率" translatedTo "Gains additional 30% turbine efficiency")
             decrease("转子损耗速度变为3倍" translatedTo "Rotor wear rate becomes 3x")
 
             section(ComponentSlang.CoilEfficiencyBonus)
@@ -1087,7 +1102,7 @@ object GTOMachineTooltips {
         section(ComponentSlang.RunningRequirements)
         command("往主机内放入纳米蜂群引导结构等级" translatedTo "Place nanites in the controller to guide structure tier")
         info("碳：1，安普洛：2，龙：3" translatedTo "Carbon: 1, Amprosium: 2, Draconium: 3")
-        info("引导后可使用终端搭建指定结构" translatedTo "After guiding, you can use the terminal to build the specified structure")
+        info("引导后可使用终端搭建指定结构，无视\"模块搭建\"设置" translatedTo "After guiding, you can use the terminal to build the specified structure, ignoring \"Module Build\" setting")
     }
 
     // 中子活化器
@@ -1175,7 +1190,7 @@ object GTOMachineTooltips {
         section(ComponentSlang.RunningRequirements)
         command("往主机内放入纳米蜂群引导结构等级" translatedTo "Place nanites in the controller to guide structure tier")
         info("金：1，山铜：2，末影素：3" translatedTo "Gold: 1, Orichalcum: 2, Enderium: 3")
-        info("引导后可使用终端搭建指定结构" translatedTo "After guiding, you can use the terminal to build the specified structure")
+        info("引导后可使用终端搭建指定结构，无视\"模块搭建\"设置" translatedTo "After guiding, you can use the terminal to build the specified structure, ignoring \"Module Build\" setting")
     }
 
     // 进阶装配线
@@ -1206,7 +1221,8 @@ object GTOMachineTooltips {
         highlight("每秒随机转化机器内部一个方块" translatedTo "Randomly converts one block inside the machine every second")
 
         section("电压等级加成" translatedTo "Voltage Tier Bonus")
-        increase("每高出MV1级，转换方块数量+64" translatedTo "For each tier above MV1, block conversion +64")
+        increase("UHV以下每高出MV1级，转换方块数量+64" translatedTo "Below UHV, each tier above MV increases block conversion by +64")
+        increase("从UHV开始，每升高1级电压，转换方块数量翻倍" translatedTo "Starting from UHV, each voltage tier doubles the block conversion amount")
         important("不会重复转换同一方块" translatedTo "Will not repeatedly convert the same block")
 
         function("在主机内放置§6转换模拟卡§r，且安装方块总线后，可直接转换方块总线内的方块" translatedTo "By placing §6Conversion Simulation Card§r in the mainframe and installing a block bus, blocks inside the block bus can be directly converted")
@@ -1455,14 +1471,14 @@ object GTOMachineTooltips {
         setTranslationPrefix("biochemical_extraction")
 
         section("运行机制" translatedTo "Operation Mechanism")
-        command("机器运行时需要输入特定流体，否则中断配方" translatedTo "The machine requires specific fluids as input during operation; otherwise, the recipe is interrupted")
+        important("机器运行时需要输入特定流体，且只能输入当前要求的那一种，否则中断配方" translatedTo "The machine requires specific fluids during operation, and only the one currently required may be input; otherwise, the recipe is interrupted")
         command("每秒需要输入1B营养精华一次，成功后发出一次红石信号" translatedTo "It needs to input 1B nutrient distillation once per second, and upon success, emits a redstone signal once")
         command("连续运行5秒后需要输入1B浓缩云之精华一次" translatedTo "After continuous operation for 5 seconds, it needs to input 1B cloud seed concentrated once")
         command("连续运行15秒后需要输入1B火焰水一次" translatedTo "After continuous operation for 15 seconds, it needs to input 1B fire water once")
         command("连续运行20秒后需要输入1B轻盈之气一次" translatedTo "After continuous operation for 20 seconds, it needs to input 1B vapor of levity once")
         error("如果连续运行要求输入的流体不符合要求，则中断配方" translatedTo "If the required fluids for continuous operation do not meet the requirements, the recipe is interrupted")
-        content("营养精华可与其他流体同时输入" translatedTo "Nutrient distillation can be input simultaneously with other fluids")
-        content("20秒后只需完成每秒的营养精华输入要求，配方开始输出" translatedTo "After 20 seconds, only the requirement for inputting nutrient distillation once per second needs to be completed, recipe output begins")
+        content("营养精华可无视限制与其他流体同时输入" translatedTo "Nutrient distillation can be input simultaneously with other fluids, ignoring the restrictions")
+        content("20秒后配方开始输出，此后只需提供1B/s的营养精华" translatedTo "After 20 seconds, the recipe begins outputting, and from then on it only requires 1B/s of nutrient distillation")
     }
 
     // 星核钻机
@@ -1676,7 +1692,7 @@ object GTOMachineTooltips {
         ok("运行时不消耗中子动能" translatedTo "Does not consume neutron kinetic energy while running.")
         command("在主机左下角切换能源接收器模式以引导不同的结构" translatedTo "Switch Energy Acceptor mode in the bottom left corner of the controller to guide different structures")
         info("未激活：P:0，已激活：P:1" translatedTo "Inactive: P:0, Active: P:1")
-        info("引导后可使用终端搭建指定结构" translatedTo "After guiding, you can use the terminal to build the specified structure")
+        info("引导后可使用终端搭建指定结构，无视\"模块搭建\"设置" translatedTo "After guiding, you can use the terminal to build the specified structure, ignoring \"Module Build\" setting")
         increase("能源接收器激活后，将消耗电力自动适应配方的中子动能" translatedTo "After activating the Energy Acceptor, it will consume electricity to automatically adapt to the neutron kinetic energy of the recipe")
     }
 
@@ -1727,7 +1743,7 @@ object GTOMachineTooltips {
         section(ComponentSlang.RunningRequirements)
         command("在主机内更改机器模式以引导不同的结构" translatedTo "Change recipe type in the controller to guide different structures")
         info("真空冷冻机/雾化冷凝：P:0，等离子冷凝：P:1" translatedTo "Vacuum Freezer/Atomization Condensation: P:0, Plasma Condenser: P:1")
-        info("引导后可使用终端搭建指定结构" translatedTo "After guiding, you can use the terminal to build the specified structure")
+        info("引导后可使用终端搭建指定结构，无视\"模块搭建\"设置" translatedTo "After guiding, you can use the terminal to build the specified structure, ignoring \"Module Build\" setting")
     }
 
     // 恒星炎炀锻炉

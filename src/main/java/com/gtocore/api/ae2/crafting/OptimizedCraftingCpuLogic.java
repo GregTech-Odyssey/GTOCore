@@ -224,7 +224,7 @@ public class OptimizedCraftingCpuLogic extends CraftingCpuLogic {
             ObjectHolder<KeyCounter[]> craftingContainer = new ObjectHolder<>(null);
             long parallelValue = 1;
             if (isParallel && progress.value > 1) {
-                var parallel = getMaxParallel(progress.value, tmp_details, IKeyCounter.of(inventory.list).gtolib$getMap());
+                var parallel = getMaxParallel(progress.value, tmp_details, inventory.list.getMap());
                 if (parallel == 0) continue;
                 if (parallel > 1) {
                     var parallelPatternDetails = ((IParallelPatternDetails) tmp_details).getCopy();
@@ -723,7 +723,7 @@ public class OptimizedCraftingCpuLogic extends CraftingCpuLogic {
     }
 
     private static long getMaxParallel(long maxParallel, IPatternDetails details, Reference2LongOpenHashMap<AEKey> sourceInv) {
-        if (sourceInv == null) return 0;
+        if (sourceInv.isEmpty()) return 0;
         for (IPatternDetails.IInput input : details.getInputs()) {
             long extracted = 0;
             for (var stack : input.getPossibleInputs()) {

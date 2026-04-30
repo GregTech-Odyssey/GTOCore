@@ -261,6 +261,7 @@ final class ChemicalBath {
                 .outputItems(TagPrefix.dust, GTOMaterials.ExcitedScorchingCosmicDust)
                 .inputFluids(GTOMaterials.Sanguinite, 16000)
                 .outputFluids(GTOMaterials.Salamander, 16000)
+                .circuitMeta(1)
                 .EUt(520000)
                 .duration(520)
                 .save();

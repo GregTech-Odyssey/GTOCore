@@ -2,6 +2,7 @@ package com.gtocore.common.machine.multiblock.electric.nano;
 
 import com.gtocore.api.data.tag.GTOTagPrefix;
 import com.gtocore.common.data.GTOMaterials;
+import com.gtocore.common.data.GTORecipeDataKeys;
 import com.gtocore.common.data.machines.MultiBlockC;
 
 import com.gtolib.api.machine.feature.multiblock.IStorageMultiblock;
@@ -101,7 +102,7 @@ public final class NanitesIntegratedMachine extends CoilCrossRecipeMultiblockMac
 
     @Override
     public Recipe fullModifyRecipe(@NotNull Recipe recipe) {
-        if (module.contains(recipe.data.getInt("module"))) {
+        if (module.contains(recipe.data.getInt(GTORecipeDataKeys.MODULE))) {
             recipe = super.fullModifyRecipe(recipe);
             if (recipe != null) {
                 trimRecipe(recipe, chance);

@@ -1,10 +1,13 @@
 package com.gtocore.integration.emi;
 
 import com.gtocore.common.CommonProxy;
+import com.gtocore.common.data.GTOItems;
+import com.gtocore.common.data.GTORecipeTypes;
 import com.gtocore.common.machine.multiblock.part.ae.MEPatternBufferPartMachine;
 import com.gtocore.common.machine.multiblock.part.ae.MEPatternBufferPartMachineKt;
 import com.gtocore.config.GTOConfig;
 import com.gtocore.integration.Mods;
+import com.gtocore.integration.biomeswevegone.BYGWoodTypes;
 import com.gtocore.integration.chisel.ChiselRecipe;
 import com.gtocore.integration.emi.multipage.MultiblockInfoEmiRecipe;
 import com.gtocore.integration.emi.oreprocessing.OreProcessingEmiCategory;
@@ -15,11 +18,14 @@ import com.gtolib.api.ae2.me2in1.Me2in1Menu;
 import com.gtolib.api.ae2.me2in1.UtilsMiscs;
 import com.gtolib.api.ae2.me2in1.Wireless;
 import com.gtolib.api.ae2.me2in1.emi.CategoryMappingSubMenu;
+import com.gtolib.api.data.Dimension;
 import com.gtolib.api.emi.stack.EmiSearchTextStack;
 import com.gtolib.api.emi.stack.EmiSearchTextStackSerializer;
 import com.gtolib.api.emi.stack.EmiTagprefixStack;
 import com.gtolib.api.emi.stack.EmiTagprefixStackSerializer;
 import com.gtolib.utils.GTOUtils;
+import com.gtolib.utils.RegistriesUtils;
+import com.gtolib.utils.register.BlockRegisterUtils;
 
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.GTCEuAPI;
@@ -38,6 +44,7 @@ import com.gregtechceu.gtceu.integration.emi.recipe.GTRecipeEMICategory;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.alchemy.PotionUtils;
 
 import appeng.core.AppEng;
@@ -49,6 +56,7 @@ import appeng.menu.me.items.PatternEncodingTermMenu;
 
 import com.arsmeteorites.arsmeteorites.ArsMeteorites;
 import com.arsmeteorites.arsmeteorites.emi.MeteoritesEmiPlugin;
+import com.glodblock.github.extendedae.common.EPPItemAndBlock;
 import com.glodblock.github.extendedae.container.ContainerExCraftingTerminal;
 import com.hollingsworth.arsnouveau.client.jei.JEIArsNouveauPlugin;
 import com.lowdragmc.lowdraglib.LDLib;
@@ -62,6 +70,7 @@ import dev.emi.emi.api.EmiPlugin;
 import dev.emi.emi.api.EmiRegistry;
 import dev.emi.emi.api.stack.Comparison;
 import dev.emi.emi.api.stack.EmiIngredient;
+import dev.emi.emi.api.stack.EmiStack;
 import dev.emi.emi.api.stack.EmiStackInteraction;
 import dev.emi.emi.jemi.JemiPlugin;
 import dev.emi.emi.registry.EmiPluginContainer;
@@ -82,7 +91,9 @@ import snownee.jade.compat.JEICompat;
 import umpaz.farmersrespite.integration.jei.JEIFRPlugin;
 import vazkii.botania.api.BotaniaAPI;
 import vazkii.botania.client.integration.emi.BotaniaEmiPlugin;
+import vectorwing.farmersdelight.common.registry.ModItems;
 
+import java.util.Arrays;
 import java.util.function.Consumer;
 
 public final class GTEMIPlugin implements EmiPlugin {
@@ -118,6 +129,25 @@ public final class GTEMIPlugin implements EmiPlugin {
                 }));
             }
         }
+        GTOApi.EMI_HIDE_ITEM_EVENT.addListener(CommonProxy.class, c -> {
+            c.add(BlockRegisterUtils.REACTOR_CORE.asItem());
+            c.add(ModItems.WHEAT_DOUGH.get());
+            c.add(RegistriesUtils.getItem("morered:red_alloy_ingot"));
+            c.add(EPPItemAndBlock.CIRCUIT_CUTTER.asItem());
+            c.add(EPPItemAndBlock.SILICON_BLOCK.asItem());
+
+            if (Mods.MYTHICBOTANY.isLoaded()) {
+                c.add(RegistriesUtils.getItem("mythicbotany:feysythia"));
+                c.add(RegistriesUtils.getItem("mythicbotany:feysythia_floating"));
+            }
+
+            if (Mods.BIOMESWEVEGONE.isLoaded()) {
+                for (String woodName : BYGWoodTypes.WOOD_NAMES) {
+                    c.add(RegistriesUtils.getItem("biomeswevegone:" + woodName + "_bookshelf"));
+                    c.add(RegistriesUtils.getItem("biomeswevegone:" + woodName + "_crafting_table"));
+                }
+            }
+        });
     }
 
     private static void addJEIPlugin(Consumer<IModPlugin> list) {
@@ -160,6 +190,16 @@ public final class GTEMIPlugin implements EmiPlugin {
         }
     }
 
+    // 用于在 EMI 中注册维度数据的变体
+    private static void registerDimensionDataVariants(EmiRegistry registry) {
+        var previousDimensionData = EmiStack.of(GTOItems.DIMENSION_DATA.asItem());
+        for (ResourceLocation layer : Arrays.stream(Dimension.values()).filter(Dimension::canGenerate).map(Dimension::getLocation).toList()) {
+            var dimensionData = EmiStack.of(GTOItems.DIMENSION_DATA.get().getDimensionData(layer));
+            registry.addEmiStackAfter(dimensionData, previousDimensionData);
+            previousDimensionData = dimensionData;
+        }
+    }
+
     @Override
     public void register(EmiRegistry registry) {
         if (Mods.CHISEL.isLoaded()) ChiselRecipe.register(registry);
@@ -168,7 +208,13 @@ public final class GTEMIPlugin implements EmiPlugin {
         registry.addCategory(OreProcessingEmiCategory.CATEGORY);
         registry.addCategory(GTOreVeinEmiCategory.CATEGORY);
         registry.addCategory(GTBedrockFluidEmiCategory.CATEGORY);
+        registry.addCategory(NanitesIntegratedProcessingEmiCategory.ORE_EXTRACTION_MODULE);
+        registry.addCategory(NanitesIntegratedProcessingEmiCategory.BIOENGINEERING_MODULE);
+        registry.addCategory(NanitesIntegratedProcessingEmiCategory.POLYMER_TWISTING_MODULE);
         for (GTRecipeCategory category : GTRegistries.RECIPE_CATEGORIES) {
+            if (category.getRecipeType() == GTORecipeTypes.NANITES_INTEGRATED_PROCESSING_CENTER_RECIPES) {
+                continue;
+            }
             if (GTCEu.isDev() || category.isXEIVisible()) {
                 registry.addCategory(GTRecipeEMICategory.CATEGORIES.apply(category));
             }
@@ -185,7 +231,6 @@ public final class GTEMIPlugin implements EmiPlugin {
         registry.addRecipeHandler(ContainerExCraftingTerminal.TYPE, new XModTransferHandlers.ExCraftingTransferHandler<>(ContainerExCraftingTerminal.class));
         registry.addCategory(GTProgrammedCircuitCategory.CATEGORY);
 
-        GTRecipeEMICategory.registerDisplays(registry);
         OreProcessingEmiCategory.registerDisplays(registry);
         GTOreVeinEmiCategory.registerDisplays(registry);
         GTBedrockFluidEmiCategory.registerDisplays(registry);
@@ -196,7 +241,10 @@ public final class GTEMIPlugin implements EmiPlugin {
         GTRecipeEMICategory.registerWorkStations(registry);
         GTOreVeinEmiCategory.registerWorkStations(registry);
         GTBedrockFluidEmiCategory.registerWorkStations(registry);
+        NanitesIntegratedProcessingEmiCategory.registerWorkstations(registry);
         registry.setDefaultComparison(GTItems.PROGRAMMED_CIRCUIT.asItem(), Comparison.compareNbt());
+        registry.setDefaultComparison(GTOItems.DIMENSION_DATA.asItem(), Comparison.compareNbt());
+        registerDimensionDataVariants(registry);
 
         Comparison potionComparison = Comparison.compareData(stack -> PotionUtils.getPotion(stack.getNbt()));
         PotionFluid potionFluid = GTFluids.POTION.get();

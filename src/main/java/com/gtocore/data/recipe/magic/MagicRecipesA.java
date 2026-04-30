@@ -18,6 +18,7 @@ import com.gregtechceu.gtceu.api.data.chemical.material.stack.MaterialEntry;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.common.data.GTBlocks;
 import com.gregtechceu.gtceu.common.data.GTItems;
+import com.gregtechceu.gtceu.common.data.GTMachines;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.data.recipe.CustomTags;
 import com.gregtechceu.gtceu.data.recipe.VanillaRecipeHelper;
@@ -52,14 +53,15 @@ public final class MagicRecipesA {
 
     public static void init() {
         // 机器外壳
+        // 硅岩是临时加来充数的，有正式的魔法材料记得换掉
         Material[] ManaSteels = {
-                OriginalBronze, Manasteel, Terrasteel, Elementium, Alfsteel, Gaiasteel, Orichalcos
+                OriginalBronze, Manasteel, Terrasteel, Elementium, Alfsteel, Gaiasteel, Orichalcos, Naquadah
         };
         Item[] ManaCasing = {
                 GTOBlocks.ORIGINAL_BRONZE_CASING.asItem(), GTOBlocks.MANASTEEL_CASING.asItem(),
                 GTOBlocks.TERRASTEEL_CASING.asItem(), GTOBlocks.ELEMENTIUM_CASING.asItem(),
                 GTOBlocks.ALFSTEEL_CASING.asItem(), GTOBlocks.GAIASTEEL_CASING.asItem(),
-                GTOBlocks.ORICHALCOS_CASING.asItem(),
+                GTOBlocks.ORICHALCOS_CASING.asItem(), GTMachines.HULL[ZPM].asItem(),
         };
         for (int i = 0; i < ManaSteels.length; i++) {
             VanillaRecipeHelper.addShapedRecipe(id(GTOValues.MANAN[i].toLowerCase() + "_mana_hull"), ManaMachine.MANA_HULL[i].asItem(),
@@ -75,9 +77,9 @@ public final class MagicRecipesA {
                     .chancedOutput(FractalPetalSolvent.getFluid(1000), 10, 0)
                     .duration(240)
                     .temperature(500)
-                    .addData("param1", 80)
-                    .addData("param2", 80)
-                    .addData("param3", 80)
+                    .addData(GTORecipeDataKeys.PARAM1, 80)
+                    .addData(GTORecipeDataKeys.PARAM2, 80)
+                    .addData(GTORecipeDataKeys.PARAM3, 80)
                     .save();
 
             ALCHEMY_CAULDRON_RECIPES.recipeBuilder("cycle_of_blossoms_solvent")
@@ -93,9 +95,9 @@ public final class MagicRecipesA {
                     .chancedOutput(FractalPetalSolvent.getFluid(250), 1, 0)
                     .duration(480)
                     .temperature(500)
-                    .addData("param1", 50)
-                    .addData("param2", 50)
-                    .addData("param3", 50)
+                    .addData(GTORecipeDataKeys.PARAM1, 50)
+                    .addData(GTORecipeDataKeys.PARAM2, 50)
+                    .addData(GTORecipeDataKeys.PARAM3, 50)
                     .save();
 
             ALCHEMY_CAULDRON_RECIPES.recipeBuilder("gaia_solvent_slow")
@@ -105,9 +107,9 @@ public final class MagicRecipesA {
                     .duration(600)
                     .MANAt(8)
                     .temperature(800)
-                    .addData("param1", 140)
-                    .addData("param2", 60)
-                    .addData("param3", 60)
+                    .addData(GTORecipeDataKeys.PARAM1, 140)
+                    .addData(GTORecipeDataKeys.PARAM2, 60)
+                    .addData(GTORecipeDataKeys.PARAM3, 60)
                     .save();
 
             ALCHEMY_CAULDRON_RECIPES.recipeBuilder("wilden_essence_1")
@@ -121,9 +123,9 @@ public final class MagicRecipesA {
                     .chancedOutput(WildenEssence.getFluid(1000), 10, 0)
                     .duration(600)
                     .temperature(1200)
-                    .addData("param1", 60)
-                    .addData("param2", 140)
-                    .addData("param3", 60)
+                    .addData(GTORecipeDataKeys.PARAM1, 60)
+                    .addData(GTORecipeDataKeys.PARAM2, 140)
+                    .addData(GTORecipeDataKeys.PARAM3, 60)
                     .save();
 
             ALCHEMY_CAULDRON_RECIPES.recipeBuilder("wilden_essence_2")
@@ -135,9 +137,9 @@ public final class MagicRecipesA {
                     .chancedOutput(WildenEssence.getFluid(1000), 10, 0)
                     .duration(600)
                     .temperature(1500)
-                    .addData("param1", 60)
-                    .addData("param2", 140)
-                    .addData("param3", 60)
+                    .addData(GTORecipeDataKeys.PARAM1, 60)
+                    .addData(GTORecipeDataKeys.PARAM2, 140)
+                    .addData(GTORecipeDataKeys.PARAM3, 60)
                     .save();
 
             String[] names = { "gnome", "sylph", "undine", "salamander" };
@@ -153,9 +155,9 @@ public final class MagicRecipesA {
                         .chancedOutput(FractalPetalSolvent.getFluid(800), 8000, 0)
                         .duration(80)
                         .temperature(650)
-                        .addData("param1", param[i][0])
-                        .addData("param2", param[i][1])
-                        .addData("param3", param[i][2])
+                        .addData(GTORecipeDataKeys.PARAM1, param[i][0])
+                        .addData(GTORecipeDataKeys.PARAM2, param[i][1])
+                        .addData(GTORecipeDataKeys.PARAM3, param[i][2])
                         .save();
 
                 ALCHEMY_CAULDRON_RECIPES.recipeBuilder("alchemy_" + names[i] + 4 + "_gas")
@@ -167,9 +169,9 @@ public final class MagicRecipesA {
                         .duration(650)
                         .MANAt(2)
                         .temperature(800)
-                        .addData("param1", param[i][0] + 20)
-                        .addData("param2", param[i][1] + 20)
-                        .addData("param3", param[i][2] + 20)
+                        .addData(GTORecipeDataKeys.PARAM1, param[i][0] + 20)
+                        .addData(GTORecipeDataKeys.PARAM2, param[i][1] + 20)
+                        .addData(GTORecipeDataKeys.PARAM3, param[i][2] + 20)
                         .save();
             }
 
@@ -181,9 +183,9 @@ public final class MagicRecipesA {
                     .chancedOutput(FractalPetalSolvent.getFluid(600), 6000, 0)
                     .duration(80)
                     .temperature(650)
-                    .addData("param1", 120)
-                    .addData("param2", 120)
-                    .addData("param3", 120)
+                    .addData(GTORecipeDataKeys.PARAM1, 120)
+                    .addData(GTORecipeDataKeys.PARAM2, 120)
+                    .addData(GTORecipeDataKeys.PARAM3, 120)
                     .save();
 
             ALCHEMY_CAULDRON_RECIPES.recipeBuilder("alchemy_aether_2_gas")
@@ -195,9 +197,9 @@ public final class MagicRecipesA {
                     .duration(650)
                     .MANAt(2)
                     .temperature(800)
-                    .addData("param1", 140)
-                    .addData("param2", 140)
-                    .addData("param3", 140)
+                    .addData(GTORecipeDataKeys.PARAM1, 140)
+                    .addData(GTORecipeDataKeys.PARAM2, 140)
+                    .addData(GTORecipeDataKeys.PARAM3, 140)
                     .save();
 
             ALCHEMY_CAULDRON_RECIPES.recipeBuilder("alchemy_ender_eye")
@@ -246,9 +248,9 @@ public final class MagicRecipesA {
                     .duration(600)
                     .temperature(1200)
                     .MANAt(32)
-                    .addData("param1", 100)
-                    .addData("param2", 100)
-                    .addData("param3", 114)
+                    .addData(GTORecipeDataKeys.PARAM1, 100)
+                    .addData(GTORecipeDataKeys.PARAM2, 100)
+                    .addData(GTORecipeDataKeys.PARAM3, 114)
                     .save();
 
             ALCHEMY_CAULDRON_RECIPES.recipeBuilder("alchemy_unstable_gaia_soul")
@@ -380,9 +382,9 @@ public final class MagicRecipesA {
                     .inputFluids(Gnome.getFluid(LIQUID, 100))
                     .inputFluids(Sylph.getFluid(LIQUID, 100))
                     .chancedOutput(HerosBrawlers.getFluid(2000), 10, 0)
-                    .addData("param1", 40)
-                    .addData("param2", 40)
-                    .addData("param3", 160)
+                    .addData(GTORecipeDataKeys.PARAM1, 40)
+                    .addData(GTORecipeDataKeys.PARAM2, 40)
+                    .addData(GTORecipeDataKeys.PARAM3, 160)
                     .duration(200)
                     .MANAt(32)
                     .temperature(1600)
@@ -398,9 +400,9 @@ public final class MagicRecipesA {
                     .inputFluids(Undine.getFluid(LIQUID, 100))
                     .inputFluids(Salamander.getFluid(LIQUID, 100))
                     .chancedOutput(HerosBreach.getFluid(2000), 10, 0)
-                    .addData("param1", 40)
-                    .addData("param2", 60)
-                    .addData("param3", 140)
+                    .addData(GTORecipeDataKeys.PARAM1, 40)
+                    .addData(GTORecipeDataKeys.PARAM2, 60)
+                    .addData(GTORecipeDataKeys.PARAM3, 140)
                     .duration(200)
                     .MANAt(32)
                     .temperature(1600)
@@ -416,9 +418,9 @@ public final class MagicRecipesA {
                     .inputFluids(FlowingCiphers.getFluid(LIQUID, 500))
                     .inputFluids(Aether.getFluid(LIQUID, 100))
                     .chancedOutput(HerosSplendor.getFluid(2000), 10, 0)
-                    .addData("param1", 60)
-                    .addData("param2", 40)
-                    .addData("param3", 140)
+                    .addData(GTORecipeDataKeys.PARAM1, 60)
+                    .addData(GTORecipeDataKeys.PARAM2, 40)
+                    .addData(GTORecipeDataKeys.PARAM3, 140)
                     .duration(200)
                     .MANAt(32)
                     .temperature(1600)

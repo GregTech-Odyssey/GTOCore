@@ -39,8 +39,8 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 
+import com.gto.registrate.util.entry.BlockEntry;
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
-import com.tterrag.registrate.util.entry.BlockEntry;
 import earth.terrarium.adastra.api.planets.PlanetApi;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;

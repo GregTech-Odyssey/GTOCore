@@ -282,6 +282,7 @@ object GTOItemTooltips : AutoInitialize<GTOItemTooltips>() {
                 ComponentListSupplier {
                     highlight("Shift+右键方块可以复制其名称" translatedTo "Shift+Right click a block to copy its name")
                     highlight("右键物品可以复制其名称" translatedTo "Right click an item to copy its name")
+                    highlight("重命名以 + 开头可添加后缀" translatedTo "Rename with a + prefix to add a suffix")
                 }.editionByGTONormal(),
             )
         }

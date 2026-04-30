@@ -110,10 +110,11 @@ public final class GTOMachines {
     // *** Simple Machine ***//
     /// ///////////////////////////////////
     public static final Pair<MachineDefinition, MachineDefinition> STEAM_VACUUM_PUMP = registerSteamMachines("steam_vacuum_pump", "真空泵", SteamVacuumPumpMachine::new, (pressure, builder) -> builder
-            .allRotation()
+            .noneRotation()
             .recipeType(GTORecipeTypes.VACUUM_PUMP_RECIPES)
             .recipeModifier(SimpleSteamMachine::recipeModifier)
             .tooltips(Component.translatable("gtocore.recipe.vacuum.tier", pressure ? 2 : 1))
+            .tooltips(Component.translatable("gtocore.machine.vacuum_pump.tooltip.0"))
             .renderer(() -> new WorkableSteamMachineRenderer(pressure, GTOCore.id("block/machines/vacuum_pump")))
             .register());
 
@@ -168,6 +169,7 @@ public final class GTOMachines {
                     .recipeType(GTORecipeTypes.VACUUM_PUMP_RECIPES)
                     .workableTieredHullRenderer(GTOCore.id("block/machines/vacuum_pump"))
                     .tooltips(Component.translatable("gtocore.recipe.vacuum.tier", tier + 1))
+                    .tooltips(Component.translatable("gtocore.machine.vacuum_pump.tooltip.0"))
                     .tooltips(GTMachineUtils.workableTiered(tier, V[tier], V[tier] << 6, GTORecipeTypes.VACUUM_PUMP_RECIPES, GTMachineUtils.defaultTankSizeFunction.apply(tier), true))
                     .register(),
             LV, MV, HV);
@@ -292,12 +294,12 @@ public final class GTOMachines {
                             p -> p.addCommentLines(
                                     """
                                             运行时长调整范围：%s%%~100%%
-                                            加速仓的等级低于配方电压等级时加速效力减弱20%%每级
+                                            加速仓等级低于配方电压等级时，每低1级回调20%%
                                             来自 GTO 的神秘力量
                                             尽情享受吧！""".formatted(FormattingUtil.formatNumber2Places(52.0 - tier * 2.0)),
                                     """
                                             Operation duration adjustment range: %s%%~100%%
-                                            The acceleration effect is weakened by 20%% per level when the level of the accelerate hatch is lower than the recipe's voltage level
+                                            When the accelerate hatch tier is lower than the recipe voltage tier, duration is increased by 20%% per missing tier
                                             Mysterious power from GTO
                                             Enjoy it to the fullest!""".formatted(FormattingUtil.formatNumber2Places(52.0 - tier * 2.0)))))
                     .notAllowSharedTooltips()
@@ -312,8 +314,9 @@ public final class GTOMachines {
                     .allRotation()
                     .abilities(PartAbility.IMPORT_ITEMS)
                     .renderer(() -> new OverlayTieredMachineRenderer(tier, GTCEu.id("block/machine/part/dual_hatch.import")))
-                    .tooltipsKey("gtocore.machine.programmablec_hatch.tooltip")
                     .tooltips(Component.translatable("gtceu.machine.dual_hatch.import.tooltip"),
+                            Component.translatable("gtocore.machine.programmablec_hatch.extra_tooltip.0"),
+                            Component.translatable("gtocore.machine.programmablec_hatch.extra_tooltip.1"),
                             Component.translatable("gtceu.universal.tooltip.item_storage_capacity", tier * tier),
                             Component.translatable("gtceu.universal.tooltip.fluid_storage_capacity_mult", tier, DualHatchPartMachine.getTankCapacity(DualHatchPartMachine.INITIAL_TANK_CAPACITY, tier)),
                             Component.translatable("gtceu.part_sharing.enabled"))
@@ -626,7 +629,8 @@ public final class GTOMachines {
             .renderer(() -> new MaintenanceHatchPartRenderer(12, GTOCore.id("block/machine/part/maintenance.law_cleaning")))
             .register();
 
-    public static final MachineDefinition GRAVITY_HATCH = machine("gravity_hatch", "重力控制仓", GravityHatchPartMachine::new)
+    public static final MachineDefinition GRAVITY_HATCH = machine("gravity_hatch", "重力控制维护仓", GravityHatchPartMachine::new)
+            .langValue("Gravity Maintenance Hatch")
             .allRotation()
             .abilities(PartAbility.MAINTENANCE)
             .notAllowSharedTooltips()
@@ -634,6 +638,7 @@ public final class GTOMachines {
             .register();
 
     public static final MachineDefinition GRAVITY_CONFIGURATION_HATCH = machine("gravity_configuration_hatch", "可配置重力维护仓", CGCHatchPartMachine::new)
+            .langValue("Gravity Configuration Maintenance Hatch")
             .allRotation()
             .abilities(PartAbility.MAINTENANCE)
             .addTooltipsFromClass(ACMHatchPartMachine.class)
@@ -641,7 +646,8 @@ public final class GTOMachines {
             .renderer(() -> new MaintenanceHatchPartRenderer(10, GTCEu.id("block/machine/part/maintenance.full_auto")))
             .register();
 
-    public static final MachineDefinition VACUUM_HATCH = machine("vacuum_hatch", "真空仓", VacuumHatchPartMachine::new)
+    public static final MachineDefinition VACUUM_HATCH = machine("vacuum_hatch", "真空维护仓", VacuumHatchPartMachine::new)
+            .langValue("Vacuum Maintenance Hatch")
             .allRotation()
             .abilities(PartAbility.MAINTENANCE)
             .tooltips(Component.translatable("gtocore.recipe.vacuum.tier", 4))
@@ -650,6 +656,7 @@ public final class GTOMachines {
             .register();
 
     public static final MachineDefinition VACUUM_CONFIGURATION_HATCH = machine("vacuum_configuration_hatch", "可配置真空维护仓", CVCHatchPartMachine::new)
+            .langValue("Vacuum Configuration Maintenance Hatch")
             .allRotation()
             .abilities(PartAbility.MAINTENANCE)
             .addTooltipsFromClass(ACMHatchPartMachine.class)

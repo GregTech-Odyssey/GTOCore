@@ -25,11 +25,11 @@ import net.minecraftforge.registries.RegistryObject;
 import net.minecraftforge.versions.forge.ForgeVersion;
 
 import com.fast.fastcollection.O2OOpenCacheHashMap;
-import com.tterrag.registrate.Registrate;
-import com.tterrag.registrate.builders.FluidBuilder;
-import com.tterrag.registrate.providers.DataGenContext;
-import com.tterrag.registrate.providers.RegistrateItemModelProvider;
-import com.tterrag.registrate.util.entry.FluidEntry;
+import com.gto.registrate.Registrate;
+import com.gto.registrate.builders.FluidBuilder;
+import com.gto.registrate.providers.DataGenContext;
+import com.gto.registrate.providers.RegistrateItemModelProvider;
+import com.gto.registrate.util.entry.FluidEntry;
 
 import java.util.Map;
 

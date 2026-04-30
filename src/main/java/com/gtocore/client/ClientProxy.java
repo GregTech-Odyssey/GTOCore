@@ -16,6 +16,8 @@ import com.gtocore.eio_travel.client.travel.TravelAnchorHud;
 import com.gtocore.integration.ae.PatternContentAccessTerminalMenu;
 import com.gtocore.integration.ae.PatternContentAccessTerminalPart;
 import com.gtocore.integration.ae.PatternContentAccessTerminalScreen;
+import com.gtocore.integration.ae.wtlib.WFTMenu;
+import com.gtocore.integration.ae.wtlib.WRTMenu;
 
 import com.gtolib.GTOCore;
 import com.gtolib.api.ae2.gui.GTOButtonAppearance;
@@ -57,6 +59,7 @@ import appeng.client.gui.widgets.SettingToggleButton;
 import appeng.client.render.StaticItemColor;
 import appeng.init.client.InitScreens;
 
+import com.almostreliable.merequester.MERequester;
 import com.lowdragmc.shimmer.client.light.ColorPointLight;
 import com.lowdragmc.shimmer.client.light.LightManager;
 import com.lowdragmc.shimmer.event.ShimmerReloadEvent.ReloadType;
@@ -159,6 +162,15 @@ public final class ClientProxy extends CommonProxy {
                     PatternContentAccessTerminalMenu.TYPE,
                     PatternContentAccessTerminalScreen::new,
                     "/screens/terminals/pattern_content_access_terminal.json");
+
+            InitScreens.register(
+                    WRTMenu.TYPE,
+                    WRTMenu.WRTScreen::new,
+                    "/screens/" + MERequester.TERMINAL_ID + ".json");
+            InitScreens.register(
+                    WFTMenu.TYPE,
+                    WFTMenu.WFTScreen::new,
+                    "/screens/terminals/facility_management_terminal.json");
         });
     }
 

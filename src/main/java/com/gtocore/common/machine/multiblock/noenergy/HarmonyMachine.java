@@ -1,5 +1,7 @@
 package com.gtocore.common.machine.multiblock.noenergy;
 
+import com.gtocore.common.data.GTORecipeDataKeys;
+
 import com.gtolib.api.capability.IExtendWirelessEnergyContainerHolder;
 import com.gtolib.api.machine.multiblock.NoEnergyMultiblockMachine;
 import com.gtolib.api.recipe.IdleReason;
@@ -86,16 +88,16 @@ public final class HarmonyMachine extends NoEnergyMultiblockMachine implements I
     @Nullable
     @Override
     protected Recipe getRealRecipe(Recipe recipe) {
-        if (getUUID() != null && tier <= recipe.data.getInt("tier") && hydrogen >= 1024000000 && helium >= 1024000000 && oc > 0) {
+        if (getUUID() != null && tier <= recipe.data.getInt(GTORecipeDataKeys.TIER) && hydrogen >= 1024000000 && helium >= 1024000000 && oc > 0) {
             hydrogen -= 1024000000;
             helium -= 1024000000;
             var container = getWirelessEnergyContainer();
             if (container == null) return null;
             BigInteger storage = container.getStorage();
-            BigInteger energy = getStartupEnergy().multiply(BigInteger.valueOf(Math.max(1, (recipe.data.getInt("tier") - 1) << 2)));
+            BigInteger energy = getStartupEnergy().multiply(BigInteger.valueOf(Math.max(1, (recipe.data.getInt(GTORecipeDataKeys.TIER) - 1) << 2)));
             if (storage.compareTo(energy) > 0) {
                 container.setStorage(storage.subtract(energy));
-                if (tier == recipe.data.getInt("tier")) {
+                if (tier == recipe.data.getInt(GTORecipeDataKeys.TIER)) {
                     count++;
                     if (count > 16 + (tier << 2)) {
                         count = 0;

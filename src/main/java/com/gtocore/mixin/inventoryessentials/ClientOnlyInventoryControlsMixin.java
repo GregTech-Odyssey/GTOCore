@@ -22,7 +22,18 @@ public class ClientOnlyInventoryControlsMixin {
             cancellable = true,
             remap = false)
     private void onSlotClick(AbstractContainerMenu menu, int slotIndex, int mouseButton, ClickType clickType, CallbackInfo ci) {
-        if (menu instanceof Me2in1Menu) ci.cancel();
-        if (menu.getSlot(slotIndex) instanceof RestrictedInputSlot slot && slot.getIcon() == Icon.BACKGROUND_VIEW_CELL) ci.cancel();
+        if (menu instanceof Me2in1Menu) {
+            ci.cancel();
+            return;
+        }
+
+        // 扔东西出去会让 slotIndex 变成 -999，同时防一下其他可能的 slotIndex 越界
+        if (slotIndex < 0 || slotIndex >= menu.slots.size()) {
+            return;
+        }
+
+        if (menu.getSlot(slotIndex) instanceof RestrictedInputSlot slot && slot.getIcon() == Icon.BACKGROUND_VIEW_CELL) {
+            ci.cancel();
+        }
     }
 }

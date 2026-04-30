@@ -6,7 +6,7 @@ import com.gtolib.api.recipe.modifier.RecipeModifierFunctionList;
 import com.gregtechceu.gtceu.api.recipe.modifier.RecipeModifier;
 import com.gregtechceu.gtceu.api.registry.registrate.MachineBuilder;
 
-import com.tterrag.registrate.Registrate;
+import com.gto.registrate.Registrate;
 import org.apache.commons.lang3.function.TriFunction;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;

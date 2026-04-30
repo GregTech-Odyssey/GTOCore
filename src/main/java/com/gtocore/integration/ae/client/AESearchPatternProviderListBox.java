@@ -95,14 +95,15 @@ public class AESearchPatternProviderListBox extends AEListBox {
         searchField.setValue("");
     }
 
-    public void addPatternContainerGroup(PatternContainerGroup group, int index) {
+    public void addPatternContainerGroup(PatternContainerGroup group, int index, boolean full) {
         String nameStr = group.name().getString().toLowerCase();
         searchMap.put(index, nameStr);
-        int nameWidth = Minecraft.getInstance().font.width(group.name());
+        var font = Minecraft.getInstance().font;
+        int nameWidth = font.width(group.name()) + (full ? font.width(Component.translatable("gtocore.ae.appeng.craft.encode_send.full")) + 6 : 0);
         if (nameWidth > maxWidth.value) {
             maxWidth.value = nameWidth;
         }
-        SimpleItem item = new SimpleItem(group, index);
+        SimpleItem item = new SimpleItem(group, index, full);
         allItems.add(item);
         this.addItem(item);
     }
@@ -128,11 +129,13 @@ public class AESearchPatternProviderListBox extends AEListBox {
         int index;
         AEKey icon;
         Component name;
+        boolean full;
 
-        SimpleItem(PatternContainerGroup group, int index) {
+        SimpleItem(PatternContainerGroup group, int index, boolean full) {
             this.index = index;
             this.icon = group.icon();
             this.name = group.name();
+            this.full = full;
         }
 
         @Override
@@ -154,12 +157,18 @@ public class AESearchPatternProviderListBox extends AEListBox {
         public void drawForegroundLayer(GuiGraphics guiGraphics, Rect2i bounds, Point mouse) {
             if (visible) {
                 var font = Minecraft.getInstance().font;
-                var color = getBounds().contains(mouse.getX(), mouse.getY()) ? 0xd7ddddff : 0xcc7777aa;
+                var hovered = getBounds().contains(mouse.getX(), mouse.getY());
+                var color = full ? hovered ? 0xd7995555 : 0xcc663333 : hovered ? 0xd7ddddff : 0xcc7777aa;
                 guiGraphics.fill(bounds.getX(), bounds.getY(), bounds.getX() + bounds.getWidth(), bounds.getY() + bounds.getHeight(), color);
                 if (icon != null) {
                     AEKeyRendering.drawInGui(Minecraft.getInstance(), guiGraphics, bounds.getX() + 1, bounds.getY() + 1, icon);
                 }
-                guiGraphics.drawString(font, name, bounds.getX() + 18, bounds.getY() + (9 - font.lineHeight / 2), 0xFFFFFF);
+                var y = bounds.getY() + (9 - font.lineHeight / 2);
+                guiGraphics.drawString(font, name, bounds.getX() + 18, y, full ? 0xAAAAAA : 0xFFFFFF);
+                if (full) {
+                    var fullText = Component.translatable("gtocore.ae.appeng.craft.encode_send.full");
+                    guiGraphics.drawString(font, fullText, bounds.getX() + bounds.getWidth() - font.width(fullText) - 2, y, 0xFF5555);
+                }
             }
         }
 
@@ -167,6 +176,9 @@ public class AESearchPatternProviderListBox extends AEListBox {
         public boolean onMouseUp(Point mousePos, int button) {
             if (!visible || !getBounds().contains(mousePos.getX(), mousePos.getY())) {
                 return false; // Ignore clicks outside the item bounds
+            }
+            if (full) {
+                return true;
             }
             switch (button) {
                 case 0, 1 -> term.gto$getMenu().gtolib$sendPattern(index);
@@ -182,7 +194,12 @@ public class AESearchPatternProviderListBox extends AEListBox {
 
         @Override
         public Tooltip getTooltip(int mouseX, int mouseY) {
-            return new Tooltip(Component.translatable("gtocore.ae.appeng.craft.encode_send.desc"));
+            if (!visible || !getBounds().contains(mouseX, mouseY)) {
+                return null;
+            }
+            return new Tooltip(full ?
+                    Component.translatable("gtocore.ae.appeng.craft.encode_send.full.desc") :
+                    Component.translatable("gtocore.ae.appeng.craft.encode_send.desc"));
         }
     }
 }

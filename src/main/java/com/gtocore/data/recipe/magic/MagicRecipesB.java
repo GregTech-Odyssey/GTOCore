@@ -1,9 +1,6 @@
 package com.gtocore.data.recipe.magic;
 
-import com.gtocore.common.data.GTOBlocks;
-import com.gtocore.common.data.GTOItems;
-import com.gtocore.common.data.GTOMachines;
-import com.gtocore.common.data.GTOMaterials;
+import com.gtocore.common.data.*;
 import com.gtocore.common.data.machines.ManaMachine;
 import com.gtocore.common.data.machines.ManaMultiBlock;
 import com.gtocore.data.tag.Tags;
@@ -58,9 +55,9 @@ public final class MagicRecipesB {
                     .chancedOutput(FractalPetalSolvent.getFluid(250), 1, 0)
                     .duration(240)
                     .temperature(1200)
-                    .addData("param1", 20)
-                    .addData("param2", 20)
-                    .addData("param3", 20)
+                    .addData(GTORecipeDataKeys.PARAM1, 20)
+                    .addData(GTORecipeDataKeys.PARAM2, 20)
+                    .addData(GTORecipeDataKeys.PARAM3, 20)
                     .save();
         }
 
@@ -111,7 +108,7 @@ public final class MagicRecipesB {
             CELESTIAL_CONDENSER_RECIPES.recipeBuilder("star_stone_0")
                     .inputItems(BotaniaBlocks.shimmerrock.asItem())
                     .outputItems(GTOBlocks.STAR_STONE[0].asItem())
-                    .addData("any", 2000)
+                    .addData(ANY, 2000)
                     .duration(10)
                     .save();
 
@@ -119,7 +116,7 @@ public final class MagicRecipesB {
                 CELESTIAL_CONDENSER_RECIPES.recipeBuilder("star_stone_" + (i + 1))
                         .inputItems(GTOBlocks.STAR_STONE[i].asItem())
                         .outputItems(GTOBlocks.STAR_STONE[i + 1].asItem())
-                        .addData(i < 6 ? "any" : STELLARM, 2000 * (i + 2))
+                        .addData(i < 6 ? ANY : STELLARM, 2000 * (i + 2))
                         .duration(10)
                         .save();
             }
@@ -314,7 +311,7 @@ public final class MagicRecipesB {
             ELEMENTAL_RESONANCE.recipeBuilder("fluctuation")
                     .inputItems(ManaMultiBlock.RESONANCE_FLOWER)
                     .outputItems(ManaMultiBlock.RESONANCE_FLOWER)
-                    .addData("resonance", toResonanceTag(ChemicalHelper.get(dust, Livingrock), 5))
+                    .addData(GTORecipeDataKeys.RESONANCE, toResonanceTag(ChemicalHelper.get(dust, Livingrock), 5))
                     .MANAt(4)
                     .duration(10)
                     .circuitMeta(32)
@@ -327,7 +324,7 @@ public final class MagicRecipesB {
                     .inputFluids(FinalPurifier, 250)
                     .outputItems(BotaniaItems.lifeEssence, 8)
                     .dimension(GTODimensions.ALFHEIM)
-                    .addData("resonance", toResonanceTag(TheWaterFromTheWellOfWisdom.getFluid(100), 10))
+                    .addData(GTORecipeDataKeys.RESONANCE, toResonanceTag(TheWaterFromTheWellOfWisdom.getFluid(100), 10))
                     .MANAt(128)
                     .duration(3600)
                     .circuitMeta(8)
@@ -340,7 +337,7 @@ public final class MagicRecipesB {
                     .inputFluids(EnergySolidifier, 250)
                     .outputItems(Items.NETHER_STAR, 16)
                     .dimension(GTODimensions.ALFHEIM)
-                    .addData("resonance", toResonanceTag(TheWaterFromTheWellOfWisdom.getFluid(100), 10))
+                    .addData(GTORecipeDataKeys.RESONANCE, toResonanceTag(TheWaterFromTheWellOfWisdom.getFluid(100), 10))
                     .MANAt(128)
                     .duration(3600)
                     .circuitMeta(8)
@@ -358,7 +355,7 @@ public final class MagicRecipesB {
                     .inputFluids(GTOMaterials.CycleofBlossomsSolvent, 100000)
                     .inputFluids(GTOMaterials.WildenEssence, 100000)
                     .outputItems(ManaMultiBlock.COSMIC_CELESTIAL_SPIRE_OF_CONVERGENCE)
-                    .addData("resonance", toResonanceTag(new ItemStack(Items.NETHER_STAR), 5))
+                    .addData(GTORecipeDataKeys.RESONANCE, toResonanceTag(new ItemStack(Items.NETHER_STAR), 5))
                     .duration(12000)
                     .MANAt(16384)
                     .save();

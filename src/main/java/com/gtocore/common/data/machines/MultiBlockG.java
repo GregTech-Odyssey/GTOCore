@@ -7,6 +7,7 @@ import com.gtocore.client.renderer.machine.CustomPartRenderer;
 import com.gtocore.common.data.GTOBlocks;
 import com.gtocore.common.data.GTOMachines;
 import com.gtocore.common.data.GTOMaterials;
+import com.gtocore.common.data.GTORecipeDataKeys;
 import com.gtocore.common.data.GTORecipeTypes;
 import com.gtocore.common.data.translation.GTOMachineStories;
 import com.gtocore.common.data.translation.GTOMachineTooltips;
@@ -565,7 +566,7 @@ public final class MultiBlockG {
                             .or(abilities(MAINTENANCE).setExactLimit(1)))
                     .where('B', GTOPredicates.frame(GTMaterials.StainlessSteel))
                     .where('C', blocks(GTBlocks.CASING_LAMINATED_GLASS.get()))
-                    .where('c', GTOPredicates.countBlock("laminated_glass", GTBlocks.CASING_LAMINATED_GLASS.get()))
+                    .where('c', GTOPredicates.countBlock(GTOPredicates.DataKeys.LAMINATED_GLASS, GTBlocks.CASING_LAMINATED_GLASS.get()))
                     .where('D', blocks(GTOBlocks.TUNGSTEN_BOROSILICATE_GLASS.get()))
                     .where('E', GTOPredicates.frame(GTMaterials.TungstenSteel))
                     .where('F', blocks(GTBlocks.CASING_TUNGSTENSTEEL_GEARBOX.get()))
@@ -702,7 +703,7 @@ public final class MultiBlockG {
             .workableCasingRenderer(GTCEu.id("block/casings/hpca/computer_casing/back"), GTCEu.id("block/multiblock/fusion_reactor"))
             .register();
 
-    public static final MultiblockMachineDefinition ME_ENERGY_SUBSTATION = multiblock("me_energy_substation", "ME能源塔", TierCasingMultiblockMachine.createMachine(GLASS_TIER))
+    public static final MultiblockMachineDefinition ME_ENERGY_SUBSTATION = multiblock("me_energy_substation", "ME能源塔", TierCasingMultiblockMachine.createMachine(GTORecipeDataKeys.GLASS_TIER))
             .langValue("ME Energy Substation")
             .allRotation()
             .tooltips(GTOMachineTooltipsA.INSTANCE.getMeEnergySubstationTooltips().getSupplier())

@@ -1,13 +1,14 @@
 package com.gtocore.common.machine.multiblock.electric;
 
+import com.gtocore.api.pattern.GTOPredicates;
 import com.gtocore.common.data.GTOMaterials;
+import com.gtocore.common.data.GTORecipeDataKeys;
 import com.gtocore.common.machine.multiblock.part.SensorPartMachine;
 
 import com.gtolib.api.machine.feature.multiblock.IParallelMachine;
 import com.gtolib.api.machine.multiblock.ElectricMultiblockMachine;
 import com.gtolib.api.recipe.Recipe;
 import com.gtolib.api.recipe.modifier.ParallelLogic;
-import com.gtolib.utils.FunctionContainer;
 import com.gtolib.utils.MachineUtils;
 import com.gtolib.utils.MathUtil;
 import com.gtolib.utils.explosion.SphereExplosion;
@@ -75,12 +76,12 @@ public final class FissionReactorMachine extends ElectricMultiblockMachine imple
         cooler = 0;
         heatAdjacent = 1;
         coolerAdjacent = 0;
-        FunctionContainer<int[], ?> container = getMultiblockState().getMatchContext().get("fissionComponent");
+        var container = getMultiblockState().getMatchContext().get(GTOPredicates.DataKeys.FISSION_COMPONENT);
         if (container != null) {
-            fuel = container.getValue()[0];
-            cooler = container.getValue()[1];
-            heatAdjacent = container.getValue()[2] / 2 + 1;
-            coolerAdjacent = container.getValue()[3] / 2;
+            fuel = container[0];
+            cooler = container[1];
+            heatAdjacent = container[2] / 2 + 1;
+            coolerAdjacent = container[3] / 2;
         }
         HeatSubs.initialize(getLevel());
     }
@@ -168,7 +169,7 @@ public final class FissionReactorMachine extends ElectricMultiblockMachine imple
             }
         }
         parallel = MathUtil.saturatedCast(recipe.parallels);
-        recipeHeat = recipe.data.getInt("FRheat");
+        recipeHeat = recipe.data.getInt(GTORecipeDataKeys.FR_HEAT);
         return recipe;
     }
 

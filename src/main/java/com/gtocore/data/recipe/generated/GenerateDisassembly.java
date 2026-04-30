@@ -55,9 +55,11 @@ public final class GenerateDisassembly {
             GTOCore.LOGGER.error("配方{}没有输出", recipeBuilder.id);
             return;
         }
-        var output = ItemRecipeCapability.CAP.of(c.getFirst()).getItem();
+        var outIng = ItemRecipeCapability.CAP.of(c.getFirst());
+        var output = outIng.getItem();
         if (output.isEmpty()) return;
         var item = output.getItem();
+        var amount = outIng.getAmount();
         if (recipeBuilder.recipeType == LASER_WELDER_RECIPES && !(item instanceof MetaMachineItem)) {
             return;
         }
@@ -72,7 +74,7 @@ public final class GenerateDisassembly {
             return;
         }
         RecipeBuilder builder = DISASSEMBLY_RECIPES.recipeBuilder(id)
-                .inputItems(output)
+                .inputItems(item, amount)
                 .duration(recipeBuilder.duration)
                 .EUt(eut);
         boolean hasOutput = false;

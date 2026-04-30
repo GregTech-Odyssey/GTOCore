@@ -1,5 +1,7 @@
 package com.gtocore.common.machine.multiblock.part.ae;
 
+import com.gtocore.common.data.GTORecipeDataKeys;
+
 import com.gtolib.api.machine.multiblock.TierCasingMultiblockMachine;
 import com.gtolib.utils.MathUtil;
 
@@ -58,7 +60,7 @@ public class MEEnergyAccessPartMachine extends MEPartMachine implements IAEPower
             return;
         }
         this.ratio = ConfigHolder.INSTANCE.compat.energy.euToFeRatio;
-        this.ratio *= 1 + 0.3 * controller.getCasingTier(GLASS_TIER);
+        this.ratio *= 1 + 0.3 * controller.getCasingTier(GTORecipeDataKeys.GLASS_TIER);
         this.ratio *= controller.getSubFormedAmount() + 1;
         if (this.getMainNode().getGrid() != null) {
             this.getMainNode().getGrid().postEvent(new GridPowerStorageStateChanged(this, GridPowerStorageStateChanged.PowerEventType.PROVIDE_POWER));
@@ -86,7 +88,7 @@ public class MEEnergyAccessPartMachine extends MEPartMachine implements IAEPower
 
     @Override
     public double injectAEPower(double amt, Actionable mode) {
-        return 0;
+        return amt;
     }
 
     @Override

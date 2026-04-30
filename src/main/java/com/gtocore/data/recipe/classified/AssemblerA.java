@@ -6,8 +6,11 @@ import com.gtocore.common.data.machines.GTAEMachines;
 import com.gtocore.common.data.machines.GeneratorMultiblock;
 import com.gtocore.common.data.machines.MultiBlockG;
 
+import com.gtolib.utils.RegistriesUtils;
+
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
+import com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys;
 import com.gregtechceu.gtceu.common.data.*;
 import com.gregtechceu.gtceu.common.data.machines.GTResearchMachines;
 import com.gregtechceu.gtceu.data.recipe.CustomTags;
@@ -860,6 +863,77 @@ final class AssemblerA {
                 .inputFluids(GTOMaterials.WoodsGlass, 1296)
                 .EUt(1228000)
                 .duration(244)
+                .save();
+
+        ASSEMBLER_RECIPES.builder("solar_panel0")
+                .inputItems(GTItems.SILICON_WAFER, 2)
+                .inputItems(Items.TINTED_GLASS)
+                .inputItems(GTItems.CARBON_FIBER_PLATE)
+                .inputItems(CustomTags.LV_CIRCUITS, 2)
+                .outputItems(GTItems.COVER_SOLAR_PANEL_ULV)
+                .EUt(7)
+                .duration(200)
+                .save();
+        ASSEMBLER_RECIPES.builder("solar_panel1")
+                .inputItems(GTItems.PHOSPHORUS_WAFER, 2)
+                .inputItems(AEBlocks.QUARTZ_GLASS.asItem())
+                .inputItems(TagPrefix.wireGtQuadruple, GTMaterials.Graphene)
+                .inputItems(CustomTags.HV_CIRCUITS, 2)
+                .outputItems(GTItems.COVER_SOLAR_PANEL_LV)
+                .EUt(30)
+                .duration(200)
+                .save();
+        ASSEMBLER_RECIPES.builder("mv_solar_panel")
+                .inputItems(GTItems.NAQUADAH_WAFER, 2)
+                .inputItems(GTItems.COVER_SOLAR_PANEL, 16)
+                .inputItems(GTOTagPrefix.FIBER_MESH, GTOMaterials.T700CarbonFiber, 5)
+                .inputItems(CustomTags.IV_CIRCUITS, 2)
+                .inputItems(TagPrefix.rodLong, GTOMaterials.Photonium)
+                .outputItems(GTItems.COVER_SOLAR_PANEL_MV)
+                .inputFluids(GTMaterials.Helium, 120)
+                .EUt(480)
+                .duration(200)
+                .save();
+        ASSEMBLER_RECIPES.builder("hv_solar_panel")
+                .inputItems(GTItems.NEUTRONIUM_WAFER, 2)
+                .inputItems(GTItems.COVER_SOLAR_PANEL_ULV, 16)
+                .inputItems(GTOItems.MACHINING_CONTROL_MODULE_MK1, 16)
+                .inputItems(GTOItems.ENERGY_CONTROL_MODULE_MK1, 64)
+                .inputItems(CustomTags.ZPM_CIRCUITS, 16)
+                .inputItems(TagPrefix.foil, GTOMaterials.CarbonNanotubeReinforcedAluminumMatrixComposite, 16)
+                .outputItems(GTItems.COVER_SOLAR_PANEL_HV)
+                .inputFluids(GTMaterials.Helium, FluidStorageKeys.LIQUID, 1000)
+                .EUt(1920)
+                .duration(200)
+                .save();
+        ASSEMBLER_RECIPES.builder("ev_solar_panel")
+                .inputItems(GTItems.COVER_SOLAR_PANEL, 16)
+                .inputItems(GTItems.COVER_SOLAR_PANEL_LV, 16)
+                .inputItems(GTOItems.PHOTON_CARRYING_WAFER, 16)
+                .inputItems(GTOItems.ENERGY_CONTROL_MODULE_MK2, 64)
+                .inputItems(CustomTags.UHV_CIRCUITS, 16)
+                .inputItems(GTOItems.BOSE_EINSTEIN_COOLING_CONTAINER, 8)
+                .inputItems(GTOItems.MACHINING_CONTROL_MODULE_MK2, 32)
+                .inputItems(TagPrefix.plateDouble, GTOMaterials.PhotonicKristallite, 8)
+                .outputItems(GTItems.COVER_SOLAR_PANEL_EV)
+                .inputFluids(GTOMaterials.Shadowium, 1296)
+                .EUt(7680)
+                .duration(200)
+                .save();
+        ASSEMBLER_RECIPES.builder("iv_solar_panel")
+                .inputItems(GTItems.COVER_SOLAR_PANEL_ULV, 16)
+                .inputItems(GTItems.COVER_SOLAR_PANEL_MV, 16)
+                .inputItems(GTOItems.NM_WAFER, 16)
+                .inputItems(GTOItems.ENERGY_CONTROL_MODULE_MK3, 64)
+                .inputItems(CustomTags.UIV_CIRCUITS, 16)
+                .inputItems(GTOItems.BOSE_EINSTEIN_COOLING_CONTAINER, 8)
+                .inputItems(GTOItems.MACHINING_CONTROL_MODULE_MK3, 32)
+                .inputItems(TagPrefix.plateDouble, GTOMaterials.Sanguinite, 8)
+                .inputItems(GTOItems.SOURCE_ENERGY_CATALYST_CRYSTAL, 4)
+                .outputItems(GTItems.COVER_SOLAR_PANEL_IV)
+                .inputFluids(RegistriesUtils.getFluid("gtocore:gelid_cryotheum"), 3000)
+                .EUt(30720)
+                .duration(200)
                 .save();
     }
 }

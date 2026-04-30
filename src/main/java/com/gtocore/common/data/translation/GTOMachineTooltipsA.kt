@@ -258,4 +258,20 @@ object GTOMachineTooltipsA : AutoInitialize<GTOMachineTooltipsA>() {
         section(AfterModuleInstallation)
         increase("如果使用激光仓，则提升发电量 x 4^等级" translatedTo "If a laser hatch is used, power generation is increased by x 4^tier")
     }
+
+    val dysonSphereReceivingStationTooltips: ComponentListSupplier = ComponentListSupplier {
+        setTranslationPrefix("dyson_sphere_receiving_station")
+
+        section(MainFunction)
+        command("发射戴森球模块后开始工作" translatedTo "Starts working after launching Dyson Sphere modules")
+        command("需要输入极寒之凛冰作为冷却剂" translatedTo "Requires Gelid Cryotheum as a coolant")
+        info("产能功率，和需求算力由发射的模块数量决定" translatedTo "Power capacity and demand computing power are determined by the number of launched modules")
+        increase("每次发射可使功率增加1A MAX" translatedTo "Each launch can increase power by 1A MAX")
+
+        section("损坏机制" translatedTo "Damage Mechanics")
+        command("每次运行都有(模块数量/128 + 1)%的概率损坏一次模块" translatedTo "Each run has a (Module Count / 128 + 1)% chance to damage a module")
+        important("当损坏高于60%时，输出效率随损坏值由100%逐渐降低到20%，并输出随损坏值增强的红石信号" translatedTo "When damage exceeds 60%, output efficiency gradually decreases from 100% to 20% with damage value, and outputs a redstone signal enhanced by the damage value")
+        info("当损坏达到100%时减少一次模块发射数量，并重置损坏值" translatedTo "When damage reaches 100%, it reduces the number of module launches by one and resets the damage value")
+        info("在损坏值高于60%时发射不会增加发射次数，但会重置损坏值" translatedTo "When damage value is above 60%, launching will not increase the launch count but will reset the damage value")
+    }
 }

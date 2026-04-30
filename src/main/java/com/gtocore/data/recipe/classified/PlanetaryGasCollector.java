@@ -18,7 +18,7 @@ final class PlanetaryGasCollector {
                 .dimension(Dimension.OVERWORLD.getOrbit())
                 .circuitMeta(1)
                 .outputFluids(GTMaterials.Air, 256000)
-                .EUt(120)
+                .EUt(120 * 16)
                 .duration(40)
                 .save();
 
@@ -26,7 +26,7 @@ final class PlanetaryGasCollector {
                 .dimension(Dimension.OVERWORLD.getOrbit())
                 .circuitMeta(2)
                 .outputFluids(GTMaterials.EnderAir, 256000)
-                .EUt(1920)
+                .EUt(1920 * 16)
                 .duration(40)
                 .save();
 
@@ -34,7 +34,7 @@ final class PlanetaryGasCollector {
                 .dimension(Dimension.OVERWORLD.getOrbit())
                 .circuitMeta(3)
                 .outputFluids(GTMaterials.NetherAir, 256000)
-                .EUt(480)
+                .EUt(480 * 16)
                 .duration(40)
                 .save();
 
@@ -43,7 +43,7 @@ final class PlanetaryGasCollector {
                 .notConsumable(GTMultiMachines.VACUUM_FREEZER.asItem())
                 .circuitMeta(4)
                 .outputFluids(GTMaterials.LiquidNetherAir, 256000)
-                .EUt(7680)
+                .EUt(7680 * 16)
                 .duration(160)
                 .save();
 
@@ -52,7 +52,7 @@ final class PlanetaryGasCollector {
                 .notConsumable(GTMultiMachines.VACUUM_FREEZER.asItem())
                 .circuitMeta(5)
                 .outputFluids(GTMaterials.LiquidAir, 256000)
-                .EUt(1920)
+                .EUt(1920 * 16)
                 .duration(160)
                 .save();
 
@@ -61,7 +61,7 @@ final class PlanetaryGasCollector {
                 .notConsumable(GTMultiMachines.VACUUM_FREEZER.asItem())
                 .circuitMeta(6)
                 .outputFluids(GTMaterials.LiquidEnderAir, 256000)
-                .EUt(30720)
+                .EUt(30720 * 16)
                 .duration(160)
                 .save();
 
@@ -69,7 +69,7 @@ final class PlanetaryGasCollector {
                 .dimension(Dimension.BARNARDA_C.getOrbit())
                 .circuitMeta(7)
                 .outputFluids(GTOMaterials.BarnardaAir, 256000)
-                .EUt(122880)
+                .EUt(122880 * 16)
                 .duration(40)
                 .save();
 
@@ -78,7 +78,7 @@ final class PlanetaryGasCollector {
                 .notConsumable(GTMultiMachines.VACUUM_FREEZER.asItem())
                 .circuitMeta(8)
                 .outputFluids(GTOMaterials.JupiterAir.getFluid(LIQUID), 256000)
-                .EUt(30720)
+                .EUt(30720 * 16)
                 .duration(160)
                 .save();
 
@@ -86,7 +86,7 @@ final class PlanetaryGasCollector {
                 .dimension(Dimension.IO.getOrbit())
                 .circuitMeta(9)
                 .outputFluids(GTOMaterials.JupiterAir.getFluid(GAS), 256000)
-                .EUt(7680)
+                .EUt(7680 * 16)
                 .duration(40)
                 .save();
         SPACE_GAS_COLLECTOR_RECIPES.recipeBuilder("10")
@@ -94,7 +94,7 @@ final class PlanetaryGasCollector {
                 .notConsumable(GTMultiMachines.VACUUM_FREEZER.asItem())
                 .circuitMeta(10)
                 .outputFluids(GTOMaterials.JupiterAir.getFluid(LIQUID), 256000)
-                .EUt(30720)
+                .EUt(30720 * 16)
                 .duration(160)
                 .save();
 
@@ -102,7 +102,7 @@ final class PlanetaryGasCollector {
                 .dimension(Dimension.GANYMEDE.getOrbit())
                 .circuitMeta(11)
                 .outputFluids(GTOMaterials.JupiterAir.getFluid(GAS), 256000)
-                .EUt(7680)
+                .EUt(7680 * 16)
                 .duration(40)
                 .save();
         SPACE_GAS_COLLECTOR_RECIPES.recipeBuilder("12")
@@ -110,7 +110,7 @@ final class PlanetaryGasCollector {
                 .notConsumable(GTMultiMachines.VACUUM_FREEZER.asItem())
                 .circuitMeta(12)
                 .outputFluids(GTOMaterials.GlacioAir.getFluid(LIQUID), 256000)
-                .EUt(30720)
+                .EUt(30720 * 16)
                 .duration(160)
                 .save();
 
@@ -118,7 +118,7 @@ final class PlanetaryGasCollector {
                 .dimension(Dimension.GLACIO.getOrbit())
                 .circuitMeta(13)
                 .outputFluids(GTOMaterials.GlacioAir.getFluid(GAS), 256000)
-                .EUt(7680)
+                .EUt(7680 * 16)
                 .duration(40)
                 .save();
     }

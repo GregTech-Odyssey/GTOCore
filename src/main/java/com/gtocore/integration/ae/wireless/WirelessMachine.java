@@ -13,11 +13,11 @@ import com.gtolib.utils.holder.ObjectHolder;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.gui.fancy.IFancyUIProvider;
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
-import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.TickableSubscription;
 import com.gregtechceu.gtceu.integration.ae2.machine.feature.IGridConnectedMachine;
 import com.gregtechceu.gtceu.utils.TaskHandler;
 
+import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -331,42 +331,44 @@ public interface WirelessMachine extends IGridConnectedMachine, ISync, IBindable
     default int getWorkloadChannels() {
         if (getGridNode() == null) return 0;
         var defaultWorkload = getGridNode().hasFlag(GridFlags.REQUIRE_CHANNEL) ? 1 : 0;
-        if (this instanceof MetaMachine mm) {
-            var adjacent = mm.getPos().relative(mm.getFrontFacing());
-            if (getLevel().isLoaded(adjacent)) {
-                IGrid grid = null;
-                IGridNode node;
-                switch (getLevel().getBlockEntity(adjacent)) {
-                    case IGridConnectedBlockEntity nodeHost -> {
-                        grid = nodeHost.getMainNode().getGrid();
-                        node = nodeHost.getMainNode().getNode();
+        var mm = self();
+        var adjacent = mm.getPos().relative(mm.getFrontFacing());
+        if (getLevel().isLoaded(adjacent)) {
+            IGrid grid = null;
+            IGridNode node;
+            switch (getLevel().getBlockEntity(adjacent)) {
+                case IGridConnectedBlockEntity nodeHost -> {
+                    grid = nodeHost.getMainNode().getGrid();
+                    node = nodeHost.getMainNode().getNode();
+                }
+                case AEMultiBlockEntity multiBlock -> {
+                    node = multiBlock.getGridNode(mm.getFrontFacing().getOpposite());
+                    if (node != null) {
+                        grid = node.getGrid();
                     }
-                    case AEMultiBlockEntity multiBlock -> {
-                        node = multiBlock.getGridNode(mm.getFrontFacing().getOpposite());
+                }
+                case MetaMachineBlockEntity metaMachine -> {
+                    if (metaMachine.getMetaMachine() instanceof IGridConnectedMachine gridMachine) {
+                        node = gridMachine.getGridNode();
                         if (node != null) {
                             grid = node.getGrid();
                         }
-                    }
-                    case MetaMachineBlockEntity metaMachine -> {
-                        if (metaMachine.getMetaMachine() instanceof IGridConnectedMachine gridMachine) {
-                            node = gridMachine.getGridNode();
-                            if (node != null) {
-                                grid = node.getGrid();
-                            }
-                        } else {
-                            return defaultWorkload;
-                        }
-                    }
-                    case null, default -> {
+                    } else {
                         return defaultWorkload;
                     }
                 }
-                if (node == null || grid == null || getGridNode().getGrid() != grid) {
+                case null, default -> {
                     return defaultWorkload;
                 }
-                if (node.getMaxChannels() > 0) {
-                    return Math.min(node.getMaxChannels() + 1, getMaxWorkloadChannels());
-                }
+            }
+            if (node == null || grid == null || !node.getConnectedSides().contains(mm.getFrontFacing().getOpposite())) {
+                return defaultWorkload;
+            }
+            if (getNodeType() == NodeType.SOURCE) {
+                return Math.min(node.getUsedChannels(), getMaxWorkloadChannels());
+            }
+            if (node.getMaxChannels() > 0) {
+                return Math.min(node.getMaxChannels() + 1, getMaxWorkloadChannels());
             }
         }
         return defaultWorkload;
@@ -381,6 +383,18 @@ public interface WirelessMachine extends IGridConnectedMachine, ISync, IBindable
             return gridNode.getMaxChannels();
         }
         return 0;
+    }
+
+    @SuppressWarnings("ConstantValue")
+    default void onNeighborChanged(BlockPos neighborPos) {
+        if (self().isRemote()) return;
+        if (getConnectedNetworkId().isEmpty()) return;
+        if (getPos().relative(self().getFrontFacing()).equals(neighborPos)) {
+            var netwoork = WirelessNetworkSavedData.get().getNetworkPool().get(getConnectedNetworkId());
+            if (netwoork != null) {
+                netwoork.setNeedsRefresh(true);
+            }
+        }
     }
 
     // ==================== GUI ====================

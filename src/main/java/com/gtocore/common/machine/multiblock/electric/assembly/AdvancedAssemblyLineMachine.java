@@ -77,6 +77,7 @@ public final class AdvancedAssemblyLineMachine extends ElectricMultiblockMachine
      */
     private boolean checkItemInputs(GTRecipe recipe) {
         var inputs = recipe.inputs.get(ItemRecipeCapability.CAP);
+        if (inputs == null) return true;
         if (itemStackTransfers.size() < inputs.size()) return false;
 
         for (int i = 0; i < inputs.size(); i++) {
@@ -94,6 +95,7 @@ public final class AdvancedAssemblyLineMachine extends ElectricMultiblockMachine
      */
     private boolean checkFluidInputs(GTRecipe recipe) {
         var inputs = recipe.inputs.get(FluidRecipeCapability.CAP);
+        if (inputs == null) return true;
         if (fluidTankTransfers.size() < inputs.size()) return false;
 
         for (int i = 0; i < inputs.size(); i++) {

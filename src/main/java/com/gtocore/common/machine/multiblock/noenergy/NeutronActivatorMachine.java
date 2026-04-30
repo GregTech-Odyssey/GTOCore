@@ -1,5 +1,7 @@
 package com.gtocore.common.machine.multiblock.noenergy;
 
+import com.gtocore.api.pattern.GTOPredicates;
+import com.gtocore.common.data.GTORecipeDataKeys;
 import com.gtocore.common.machine.multiblock.part.NeutronAcceleratorPartMachine;
 import com.gtocore.common.machine.multiblock.part.SensorPartMachine;
 
@@ -8,7 +10,6 @@ import com.gtolib.api.machine.multiblock.NoEnergyMultiblockMachine;
 import com.gtolib.api.recipe.IdleReason;
 import com.gtolib.api.recipe.Recipe;
 import com.gtolib.api.recipe.modifier.RecipeModifierFunction;
-import com.gtolib.utils.FunctionContainer;
 import com.gtolib.utils.MachineUtils;
 import com.gtolib.utils.NumberUtils;
 
@@ -82,9 +83,9 @@ public class NeutronActivatorMachine extends NoEnergyMultiblockMachine implement
         acceleratorMachines.clear();
         busMachines.clear();
         super.onStructureFormed();
-        FunctionContainer<Integer, ?> container = getMultiblockState().getMatchContext().get("SpeedPipe");
+        var container = getMultiblockState().getMatchContext().get(GTOPredicates.DataKeys.STEEL_FRAME);
         if (container != null) {
-            height = container.getValue();
+            height = container;
         }
         neutronEnergySubs.initialize(getLevel());
     }
@@ -105,7 +106,7 @@ public class NeutronActivatorMachine extends NoEnergyMultiblockMachine implement
     @Nullable
     @Override
     protected Recipe getRealRecipe(Recipe recipe) {
-        if ((eV > recipe.data.getInt("ev_min") * 1000000 && eV < recipe.data.getInt("ev_max") * 1000000)) {
+        if ((eV > recipe.data.getInt(GTORecipeDataKeys.EV_MIN) * 1000000 && eV < recipe.data.getInt(GTORecipeDataKeys.EV_MAX) * 1000000)) {
             recipe = RecipeModifierFunction.hatchParallel(this, recipe);
             if (recipe == null) return null;
             recipe.duration = (int) Math.round(Math.max(recipe.duration * getEfficiencyFactor(), 1));
@@ -122,7 +123,7 @@ public class NeutronActivatorMachine extends NoEnergyMultiblockMachine implement
 
     boolean working() {
         if (getRecipeLogic().getLastRecipe() != null) {
-            int evt = (int) (getRecipeLogic().getLastRecipe().data.getInt("evt") * 1000 * getEVtMultiplier());
+            int evt = (int) (getRecipeLogic().getLastRecipe().data.getInt(GTORecipeDataKeys.EVT) * 1000 * getEVtMultiplier());
             if (eV < evt) {
                 setIdleReason(IdleReason.NEUTRON_KINETIC_ENERGY_NOT_SATISFIES);
                 return false;

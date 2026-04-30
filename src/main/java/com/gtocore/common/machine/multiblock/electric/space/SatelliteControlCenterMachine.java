@@ -3,6 +3,7 @@ package com.gtocore.common.machine.multiblock.electric.space;
 import com.gtocore.client.hud.Configurator;
 import com.gtocore.common.data.GTOItems;
 import com.gtocore.common.data.GTOMaterials;
+import com.gtocore.data.IdleReason;
 
 import com.gtolib.api.annotation.DataGeneratorScanned;
 import com.gtolib.api.annotation.language.RegisterLanguage;
@@ -38,6 +39,8 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
+import static com.gregtechceu.gtceu.api.GTValues.*;
 
 @DataGeneratorScanned
 public final class SatelliteControlCenterMachine extends ElectricMultiblockMachine {
@@ -118,10 +121,12 @@ public final class SatelliteControlCenterMachine extends ElectricMultiblockMachi
                     .inputItems(GTOItems.PLANET_DATA_CHIP.asStack())
                     .outputItems(item)
                     .outputItems(GTOItems.PLANET_DATA_CHIP.get().getPlanetDataChip(getOwnerUUID(), Wrapper.LIST[index].getLocation()))
-                    .EUt(getOverclockVoltage())
+                    .EUt(V[HV])
                     .duration(6000)
                     .buildRawRecipe();
             if (RecipeRunner.matchRecipe(this, recipe) && RecipeRunner.matchTickRecipe(this, recipe)) return recipe;
+        } else if (getTier() <= GTValues.MV) {
+            setIdleReason(IdleReason.VOLTAGE_TIER_NOT_SATISFIES);
         }
         return null;
     }

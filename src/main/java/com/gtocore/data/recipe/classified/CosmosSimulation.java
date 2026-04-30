@@ -179,7 +179,7 @@ final class CosmosSimulation {
                 .outputFluids(GTOMaterials.UnknowWater, 2147483647)
                 .outputFluids(GTMaterials.UUMatter, 2147483647)
                 .duration(12000)
-                .addData("tier", 10)
+                .addData(GTORecipeDataKeys.TIER, 10)
                 .save();
 
         Int2ObjectOpenHashMap<Reference2IntOpenHashMap<Material>> dustContent = new Int2ObjectOpenHashMap<>();
@@ -194,7 +194,7 @@ final class CosmosSimulation {
             Reference2IntOpenHashMap<Material> materialMap = new Reference2IntOpenHashMap<>();
             Reference2IntOpenHashMap<Fluid> fluid = new Reference2IntOpenHashMap<>();
             RecipeBuilder builder = COSMOS_SIMULATION_RECIPES.recipeBuilder(dimension.location().getPath())
-                    .addData("tier", tier)
+                    .addData(GTORecipeDataKeys.TIER, tier)
                     .inputFluids(GTOMaterials.CosmicElement, 1024000)
                     .notConsumable(GTOItems.DIMENSION_DATA.get().getDimensionData(dimension));
 
@@ -224,9 +224,9 @@ final class CosmosSimulation {
                     dust.mergeInt(item, material.getIntValue(), Integer::sum);
                 }
             }
-            dust.reference2IntEntrySet().stream().sorted(Map.Entry.comparingByValue()).toList().forEach(e -> builder.outputItems(e.getKey(), e.getIntValue()));
+            dust.reference2IntEntrySet().stream().filter(e -> e.getIntValue() > 0).sorted(Map.Entry.comparingByValue()).toList().forEach(e -> builder.outputItems(e.getKey(), e.getIntValue()));
             fluid.putAll(fluidContent.getOrDefault(tier, new Reference2IntOpenHashMap<>()));
-            for (var content : fluid.reference2IntEntrySet().stream().sorted(Map.Entry.comparingByValue()).toList()) {
+            for (var content : fluid.reference2IntEntrySet().stream().filter(e -> e.getIntValue() > 0).sorted(Map.Entry.comparingByValue()).toList()) {
                 builder.outputFluids(new FluidStack(content.getKey(), content.getIntValue()));
             }
             builder.duration((int) Math.sqrt(tier * dust.size() << 16)).save();

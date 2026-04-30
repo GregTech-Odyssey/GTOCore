@@ -1,5 +1,7 @@
 package com.gtocore.common.machine.multiblock.part;
 
+import com.gtocore.common.data.GTOMachines;
+
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.gui.widget.FloatInputWidget;
@@ -47,6 +49,8 @@ public final class SensorPartMachine extends MultiblockPartMachine {
     @Override
     public Widget createUIWidget() {
         WidgetGroup group = new WidgetGroup(Position.ORIGIN, new Size(176, 112));
+        boolean isNeutronSensor = getHolder().getBlockState().is(GTOMachines.NEUTRON_SENSOR.get());
+        if (isNeutronSensor) group.addWidget(new TextBoxWidget(105, 10, 45, List.of("MeV")));
         group.addWidget(new TextBoxWidget(35, 28, 65, List.of(LocalizationUtils.format("cover.advanced_energy_detector.min") + ":")));
         group.addWidget(new TextBoxWidget(35, 74, 65, List.of(LocalizationUtils.format("cover.advanced_energy_detector.max") + ":")));
         group.addWidget(new FloatInputWidget(80, 26, 85, 18, this::getMin, this::setMin));

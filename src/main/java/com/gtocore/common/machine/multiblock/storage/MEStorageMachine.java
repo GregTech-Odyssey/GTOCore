@@ -1,5 +1,6 @@
 package com.gtocore.common.machine.multiblock.storage;
 
+import com.gtocore.api.pattern.GTOPredicates;
 import com.gtocore.common.data.GTOItems;
 import com.gtocore.common.machine.multiblock.part.ae.StorageAccessPartMachine;
 
@@ -8,7 +9,6 @@ import com.gtolib.api.annotation.DataGeneratorScanned;
 import com.gtolib.api.annotation.language.RegisterLanguage;
 import com.gtolib.api.machine.feature.multiblock.IStorageMultiblock;
 import com.gtolib.api.machine.multiblock.NoRecipeLogicMultiblockMachine;
-import com.gtolib.utils.FunctionContainer;
 import com.gtolib.utils.NumberUtils;
 import com.gtolib.utils.StringUtils;
 
@@ -75,7 +75,7 @@ public final class MEStorageMachine extends NoRecipeLogicMultiblockMachine imple
             }
         }
         if (accessPartMachine == null) return;
-        FunctionContainer<Double, ?> functionContainer = getMultiblockState().getMatchContext().get("MEStorageCore");
+        var functionContainer = getMultiblockState().getMatchContext().get(GTOPredicates.DataKeys.ME_STORAGE_CORE);
         if (functionContainer == null) return;
         if (player) {
             accessPartMachine.setUUID(getOwnerUUID());
@@ -83,7 +83,7 @@ public final class MEStorageMachine extends NoRecipeLogicMultiblockMachine imple
             if (uuid == null) uuid = UUID.randomUUID();
             accessPartMachine.setUUID(uuid);
         }
-        accessPartMachine.setCapacity(functionContainer.getValue());
+        accessPartMachine.setCapacity(functionContainer);
         accessPartMachine.setInfinite(accessPartMachine.getCapacity() > infinite && getStorageStack().getCount() == 64);
         accessPartMachine.setCheck(true);
     }

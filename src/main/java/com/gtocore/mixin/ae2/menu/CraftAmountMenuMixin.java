@@ -77,9 +77,7 @@ public abstract class CraftAmountMenuMixin extends AEBaseMenu implements ICraftA
             var grid = gridNode.getGrid();
             var service = ((ITemporaryCraftableService) grid.getCraftingService());
             var processPattern = PatternDetailsHelper.encodeProcessingPattern(
-                    gto$whatToCraft.entrySet().stream()
-                            .map(key -> new GenericStack(key.what(), key.amount()))
-                            .toArray(GenericStack[]::new),
+                    gto$whatToCraft.entrySet().toArray(GenericStack[]::new),
                     new GenericStack[] { new GenericStack(whatToCraft, 1) });
             service.gto$setTempPatternDetails(PatternDetailsHelper.decodePattern(processPattern, getLevel()));
         }

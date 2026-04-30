@@ -12,6 +12,7 @@ import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.feature.ICleanroomProvider;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
 import com.gregtechceu.gtceu.api.machine.multiblock.CleanroomType;
+import com.gregtechceu.gtceu.api.pattern.Predicates;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
@@ -40,7 +41,7 @@ public class CleanroomProvider extends Extension implements IDroneControlCenterM
     public void onStructureFormed() {
         droneHatchPartMachine.clear();
         super.onStructureFormed();
-        IFilterType filterType = getMultiblockState().getMatchContext().get("FilterType");
+        IFilterType filterType = getMultiblockState().getMatchContext().get(Predicates.DataKey.FILTER_TYPE);
         if (filterType != null) {
             this.cleanroomType = switch (filterType.getCleanroomType().getName()) {
                 case "sterile_cleanroom" -> CMHatchPartMachine.STERILE_DUMMY_CLEANROOM;

@@ -1,5 +1,6 @@
 package com.gtocore.common.machine.multiblock.electric.bioengineering;
 
+import com.gtocore.common.data.GTORecipeDataKeys;
 import com.gtocore.common.machine.trait.RadioactivityTrait;
 
 import com.gtolib.api.machine.multiblock.TierCasingMultiblockMachine;
@@ -8,6 +9,7 @@ import com.gtolib.api.recipe.Recipe;
 
 import com.gregtechceu.gtceu.api.block.IFilterType;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
+import com.gregtechceu.gtceu.api.pattern.Predicates;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.network.chat.Component;
@@ -30,15 +32,15 @@ public final class IncubatorMachine extends TierCasingMultiblockMachine {
     private int cleanroomTier = 1;
 
     public IncubatorMachine(MetaMachineBlockEntity holder) {
-        super(holder, GLASS_TIER);
+        super(holder, GTORecipeDataKeys.GLASS_TIER);
         radioactivityTrait = new RadioactivityTrait(this);
     }
 
     @Override
     public void onStructureFormed() {
         super.onStructureFormed();
-        tier = Math.min(getCasingTier(GLASS_TIER), tier);
-        IFilterType filterType = getMultiblockState().getMatchContext().get("FilterType");
+        tier = Math.min(getCasingTier(GTORecipeDataKeys.GLASS_TIER), tier);
+        IFilterType filterType = getMultiblockState().getMatchContext().get(Predicates.DataKey.FILTER_TYPE);
         if (filterType != null) {
             switch (filterType.getCleanroomType().getName()) {
                 case "cleanroom":
@@ -67,7 +69,7 @@ public final class IncubatorMachine extends TierCasingMultiblockMachine {
 
     @Override
     protected boolean beforeWorking(Recipe recipe) {
-        if (recipe.data.contains("filter_casing") && recipe.data.getInt("filter_casing") > cleanroomTier) {
+        if (recipe.data.contains(GTORecipeDataKeys.FILTER_CASING) && recipe.data.getInt(GTORecipeDataKeys.FILTER_CASING) > cleanroomTier) {
             setIdleReason(IdleReason.BLOCK_TIER_NOT_SATISFIES);
             return false;
         }

@@ -1,8 +1,7 @@
 {
-  "parent": "gtocore:block/globe",
+  "parent": "ad_astra:block/globe",
   "textures": {
     "0": "ad_astra:block/globe/ganymede_globe",
     "particle": "ad_astra:block/globe/ganymede_globe"
   }
 }
-

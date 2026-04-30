@@ -1,5 +1,7 @@
 package com.gtocore.common.machine.multiblock.part;
 
+import com.gtocore.common.data.GTORecipeDataKeys;
+
 import com.gtolib.api.recipe.RecipeDefinition;
 import com.gtolib.api.recipe.RecipeRunner;
 import com.gtolib.api.recipe.RecipeType;
@@ -98,7 +100,7 @@ public final class RadiationHatchPartMachine extends MultiblockPartMachine imple
                     var recipe = (RecipeDefinition) r;
                     if (recipe != null && RecipeRunner.handleRecipeIO(this, recipe.toRuntime(), IO.IN, Collections.emptyMap())) {
                         count = inventory.storage.getStackInSlot(0).getCount();
-                        initialRadioactivity = (int) ((recipe.data.getInt("radioactivity") - inhibitionDose) * (1 + ((double) count / 64)));
+                        initialRadioactivity = (int) ((recipe.data.getInt(GTORecipeDataKeys.RADIOACTIVITY) - inhibitionDose) * (1 + ((double) count / 64)));
                         initialTime = recipe.duration * (inhibitionDose + 200) / 200;
                         time = initialTime;
                         radioactivity = initialRadioactivity;

@@ -12,8 +12,11 @@ import net.minecraft.resources.ResourceKey
 import net.minecraft.world.level.Level
 
 import appeng.api.networking.GridHelper
+import appeng.api.networking.IGrid
 import appeng.api.networking.IGridConnection
 import appeng.api.networking.pathing.ChannelMode
+import appeng.api.networking.pathing.ControllerState
+import appeng.api.networking.pathing.IPathingService
 import appeng.core.AEConfig
 import com.gregtechceu.gtceu.GTCEu
 import com.hepdd.gtmthings.api.capability.IBindable
@@ -179,7 +182,10 @@ class WirelessNetwork(val id: String, val owner: UUID, var nickname: String = id
 
         if (outputNodes.isEmpty()) return
 
-        if (outputNodes.firstOrNull { isNodeValid(it) }?.mainNode?.grid?.pathingService?.channelMode !== ChannelMode.INFINITE) {
+        val pathingService: IPathingService? = outputNodes.firstOrNull { isNodeValid(it) }?.mainNode?.grid?.pathingService
+        val greedyFlag = pathingService?.channelMode !== ChannelMode.INFINITE
+        val controllerFlag = pathingService?.controllerState === ControllerState.CONTROLLER_ONLINE
+        if (greedyFlag || controllerFlag) {
             if (inputNodes.isEmpty()) return
             assignNodesGreedy()
         } else {

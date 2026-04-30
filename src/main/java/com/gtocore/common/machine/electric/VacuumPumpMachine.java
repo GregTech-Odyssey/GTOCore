@@ -1,5 +1,7 @@
 package com.gtocore.common.machine.electric;
 
+import com.gtocore.common.data.GTORecipeDataKeys;
+
 import com.gtolib.api.machine.feature.IVacuumMachine;
 
 import com.gregtechceu.gtceu.api.GTValues;
@@ -72,7 +74,7 @@ public final class VacuumPumpMachine extends SimpleTieredMachine implements IVac
     @Nullable
     @Override
     public GTRecipe doModifyRecipe(@NotNull GTRecipe recipe) {
-        if (getTier() == recipe.data.getInt("tier")) {
+        if (getTier() == recipe.data.getInt(GTORecipeDataKeys.TIER)) {
             return recipe;
         }
         return null;

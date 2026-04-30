@@ -5,7 +5,7 @@ import com.gtocore.common.entity.TaskEntity;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.MobCategory;
 
-import com.tterrag.registrate.util.entry.EntityEntry;
+import com.gto.registrate.util.entry.EntityEntry;
 
 import static com.gtolib.api.registries.GTORegistration.GTO;
 

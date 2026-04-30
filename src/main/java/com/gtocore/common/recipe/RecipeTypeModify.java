@@ -2,6 +2,7 @@ package com.gtocore.common.recipe;
 
 import com.gtocore.common.data.GTOMaterials;
 import com.gtocore.common.data.GTORecipeCategories;
+import com.gtocore.common.data.GTORecipeDataKeys;
 import com.gtocore.common.recipe.custom.FormingPressLogic;
 import com.gtocore.data.recipe.classified.ManaSimulator;
 import com.gtocore.data.recipe.generated.GenerateDisassembly;
@@ -85,14 +86,14 @@ public final class RecipeTypeModify {
                     .outputFluids(output)
                     .outputFluids(GTOMaterials.HighPressureSteam.getFluid(water * 40))
                     .outputFluids(GTOMaterials.SupercriticalSteam.getFluid(water * 10))
-                    .addData("eu", eu)
+                    .addData(GTORecipeDataKeys.EU, eu)
                     .duration(200)
                     .save();
         });
 
         LASER_ENGRAVER_RECIPES.setMaxIOSize(2, 1, 2, 1)
                 .onRecipeBuild((recipeBuilder) -> {
-                    if (recipeBuilder.data.contains("special")) return;
+                    if (recipeBuilder.data.contains(GTORecipeDataKeys.SPECIAL)) return;
                     GTRecipeBuilder recipe = DIMENSIONAL_FOCUS_ENGRAVING_ARRAY_RECIPES.copyFrom(recipeBuilder)
                             .duration((int) (recipeBuilder.duration * 0.2))
                             .EUt(recipeBuilder.EUt() << 2);
@@ -171,7 +172,7 @@ public final class RecipeTypeModify {
         });
 
         LARGE_BOILER_RECIPES.addDataInfo(data -> {
-            int temperature = data.getInt("temperature");
+            int temperature = data.getInt(GTORecipeDataKeys.TEMPERATURE);
             if (temperature > 0) {
                 return I18n.get("gtceu.multiblock.hpca.temperature", temperature);
             }

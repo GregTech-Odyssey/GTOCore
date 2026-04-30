@@ -77,21 +77,24 @@ public final class Message {
 
     public static final NetworkPack SEND_PATTERN_DESTINATION_S2C = NetworkPack.registerS2C("sendPatternDestinationS2C", (p, b) -> {
         var size = b.readVarInt();
-        var destinations = new PatternContainerGroup[size];
+        var destinations = new PatternDestination[size];
         for (int i = 0; i < size; i++) {
-            destinations[i] = PatternContainerGroup.readFromPacket(b);
+            destinations[i] = new PatternDestination(PatternContainerGroup.readFromPacket(b), b.readBoolean());
         }
         Client.patternDestinationReceived(destinations);
     });
 
-    public static void sendPatternDestination(ServerPlayer player, PatternContainerGroup[] destinations) {
+    public static void sendPatternDestination(ServerPlayer player, PatternDestination[] destinations) {
         SEND_PATTERN_DESTINATION_S2C.send(buf -> {
             buf.writeVarInt(destinations.length);
             for (var dest : destinations) {
-                dest.writeToPacket(buf);
+                dest.group().writeToPacket(buf);
+                buf.writeBoolean(dest.full());
             }
         }, player);
     }
+
+    public record PatternDestination(PatternContainerGroup group, boolean full) {}
 
     public static final NetworkPack serverLangSync = NetworkPack.registerC2S("serverLangSyncC2S", (p, b) -> {
         if (!ServerUtils.isServerLangInitialized()) {
@@ -112,7 +115,7 @@ public final class Message {
             });
         }
 
-        public static void patternDestinationReceived(PatternContainerGroup[] destinations) {
+        public static void patternDestinationReceived(PatternDestination[] destinations) {
             if (Minecraft.getInstance().screen instanceof PatternEncodingTermScreen<?> screen) {
                 var term = (IExtendedPatternEncodingTerm) screen;
                 var listBox = term.gto$getPatternDestDisplay();
@@ -122,7 +125,7 @@ public final class Message {
                 listBox.setY(screen.getYSize() - 100);
                 for (int i = 0; i < destinations.length; i++) {
                     var dest = destinations[i];
-                    listBox.addPatternContainerGroup(dest, i);
+                    listBox.addPatternContainerGroup(dest.group(), i, dest.full());
                 }
             }
         }

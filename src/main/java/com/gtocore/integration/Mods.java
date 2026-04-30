@@ -20,7 +20,9 @@ public enum Mods {
     FTBQUESTS("ftbquests"),
     CONSTRUCTION_WAND("constructionwand"),
     JECHARACTERS("jecharacters"),
-    LANG("moremorelang");
+    LANG("moremorelang"),
+    FACTORY_BLOCKS("factory_blocks"),
+    MYTHICBOTANY("mythicbotany");
 
     @Getter
     private final boolean loaded;

@@ -18,6 +18,7 @@ import com.gregtechceu.gtceu.api.blockentity.ITickSubscription;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.IEnergyContainer;
 import com.gregtechceu.gtceu.api.capability.recipe.*;
+import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
@@ -54,12 +55,13 @@ import net.minecraft.world.level.material.Fluids;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.templates.VoidFluidHandler;
 
+import com.fast.fastcollection.OpenCacheHashSet;
+import com.gto.datasynclib.datasream.DataComponentKey;
 import com.lowdragmc.lowdraglib.gui.widget.*;
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.annotation.RequireRerender;
 import com.lowdragmc.lowdraglib.utils.BlockInfo;
-import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -74,6 +76,8 @@ import static com.gregtechceu.gtceu.api.pattern.Predicates.abilities;
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 public final class PrimitiveDistillationTowerMachine extends NoEnergyMultiblockMachine implements IExplosionMachine, DummyEnergyMachine {
+
+    private static final DataComponentKey<Set<BlockPos>> WATER = DataComponentKey.create("water", null);
 
     @Nullable
     private Set<BlockPos> waterSources = null;
@@ -411,7 +415,7 @@ public final class PrimitiveDistillationTowerMachine extends NoEnergyMultiblockM
         if (getSubFormedAmount() > 0) {
             var subForm0 = getSubMultiblockState()[0];
             if (subForm0 != null) {
-                this.waterSources = subForm0.getMatchContext().getOrDefault("water", Collections.emptySet());
+                this.waterSources = subForm0.getMatchContext().getOrDefault(WATER, Collections.emptySet());
             }
         }
         super.onStructureFormed();
@@ -602,7 +606,7 @@ public final class PrimitiveDistillationTowerMachine extends NoEnergyMultiblockM
     public static final MemoizedSupplier<TraceabilityPredicate> WaterSupplyingPredicate = GTMemoizer.memoize(() -> new TraceabilityPredicate(blockWorldState -> {
         if (abilities(IMPORT_FLUIDS).test(blockWorldState)) {
             if (blockWorldState.getTileEntity() instanceof MetaMachineBlockEntity mbe && mbe.getMetaMachine() instanceof MultiblockPartMachine part) {
-                blockWorldState.getMatchContext().getOrCreate("water", ObjectOpenHashSet::new).add(part.getPos());
+                blockWorldState.getMatchContext().getOrCreate(WATER, OpenCacheHashSet::new).add(part.getPos());
             }
             return true;
         }

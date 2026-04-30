@@ -14,12 +14,12 @@ import appeng.api.parts.PartModels
 import appeng.core.definitions.ItemDefinition
 import appeng.items.parts.PartItem
 import appeng.items.parts.PartModelsHelper
+import com.gto.registrate.util.entry.ItemEntry
+import com.gto.registrate.util.nullness.NonNullBiConsumer
 import com.gtolib.GTOCore
 import com.gtolib.api.ae2.me2in1.Me2in1TerminalPart
 import com.gtolib.api.annotation.component_builder.ComponentBuilder
 import com.gtolib.utils.register.ItemRegisterUtils.item
-import com.tterrag.registrate.util.entry.ItemEntry
-import com.tterrag.registrate.util.nullness.NonNullBiConsumer
 
 import java.util.function.Function
 import java.util.function.Supplier

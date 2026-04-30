@@ -2,6 +2,7 @@ package com.gtocore.data.recipe.classified;
 
 import com.gtocore.common.data.GTOItems;
 import com.gtocore.common.data.GTOMaterials;
+import com.gtocore.common.data.GTORecipeDataKeys;
 import com.gtocore.common.recipe.condition.GravityCondition;
 
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
@@ -308,7 +309,7 @@ final class BiochemicaReaction {
                 .EUt(1920)
                 .duration(1200)
                 .addCondition(new GravityCondition(true))
-                .addData("radioactivity", 120)
+                .addData(GTORecipeDataKeys.RADIOACTIVITY, 120)
                 .save();
 
         BIOCHEMICAL_REACTION_RECIPES.recipeBuilder("stem_cells")
@@ -321,7 +322,7 @@ final class BiochemicaReaction {
                 .inputFluids(GTMaterials.SterileGrowthMedium, 1000)
                 .EUt(30720)
                 .duration(1000)
-                .addData("radioactivity", 10)
+                .addData(GTORecipeDataKeys.RADIOACTIVITY, 10)
                 .save();
 
         BIOCHEMICAL_REACTION_RECIPES.recipeBuilder("biological_cells")
@@ -334,7 +335,7 @@ final class BiochemicaReaction {
                 .outputItems(GTOItems.CONTAMINATED_PETRI_DISH)
                 .EUt(122880)
                 .duration(400)
-                .addData("radioactivity", 60)
+                .addData(GTORecipeDataKeys.RADIOACTIVITY, 60)
                 .save();
 
         BIOCHEMICAL_REACTION_RECIPES.recipeBuilder("dragon_cells")
@@ -345,7 +346,7 @@ final class BiochemicaReaction {
                 .outputItems(GTOItems.DRAGON_CELLS, 1)
                 .EUt(491520)
                 .duration(800)
-                .addData("radioactivity", 560)
+                .addData(GTORecipeDataKeys.RADIOACTIVITY, 560)
                 .save();
 
         BIOCHEMICAL_REACTION_RECIPES.recipeBuilder("rapidly_replicating_animal_cells")
@@ -354,7 +355,7 @@ final class BiochemicaReaction {
                 .outputFluids(GTOMaterials.RapidlyReplicatingAnimalCells, 1000)
                 .EUt(7680)
                 .duration(500)
-                .addData("radioactivity", 240)
+                .addData(GTORecipeDataKeys.RADIOACTIVITY, 240)
                 .save();
 
         BIOCHEMICAL_REACTION_RECIPES.builder("zombie_electrode")

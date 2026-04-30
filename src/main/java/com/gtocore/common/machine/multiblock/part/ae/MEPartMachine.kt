@@ -18,6 +18,7 @@ import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.context.UseOnContext
+import net.minecraft.world.level.block.Block
 import net.minecraft.world.level.block.state.BlockState
 import net.minecraftforge.items.IItemHandlerModifiable
 
@@ -107,7 +108,11 @@ abstract class MEPartMachine(holder: MetaMachineBlockEntity, io: IO) :
     }
 
     // ==================== WirelessMachine - Node Type ====================
-    override fun getNodeType(): WirelessMachine.NodeType = WirelessMachine.NodeType.CHILD
+    var nodeTyp: WirelessMachine.NodeType? = WirelessMachine.NodeType.CHILD
+    override fun getNodeType(): WirelessMachine.NodeType? = nodeTyp
+    override fun setNodeType(type: WirelessMachine.NodeType) {
+        nodeTyp = type
+    }
 
     // ==================== WirelessMachine - Persisted State ====================
     @Persisted
@@ -117,6 +122,15 @@ abstract class MEPartMachine(holder: MetaMachineBlockEntity, io: IO) :
     override fun getConnectedNetworkId(): String = _connectedNetworkId
     override fun setConnectedNetworkId(id: String) {
         _connectedNetworkId = id
+    }
+
+    var lastNeighbor: Block? = null
+    override fun onNeighborChanged(block: Block, fromPos: BlockPos, isMoving: Boolean) {
+        super<WorkableTieredIOPartMachine>.onNeighborChanged(block, fromPos, isMoving)
+
+        if (lastNeighbor === block) return
+        super<WirelessMachine>.onNeighborChanged(fromPos)
+        lastNeighbor = block
     }
 
     // ==================== WirelessMachine - Sync Fields ====================

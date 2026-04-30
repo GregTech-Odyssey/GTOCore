@@ -72,10 +72,7 @@ public abstract class NetworkStorageMixin {
 
     @Inject(method = "unmount", at = @At(value = "INVOKE", target = "Ljava/util/NavigableMap;entrySet()Ljava/util/Set;"), remap = false, cancellable = true)
     private void gtolib$unmount(MEStorage inventory, CallbackInfo ci) {
-        var ii = gtolib$inventory.iterator();
-        while (ii.hasNext()) {
-            if (ii.next().obj == inventory) ii.remove();
-        }
+        gtolib$inventory.removeIf(meStorageIntObjectHolder -> meStorageIntObjectHolder.obj == inventory);
         ci.cancel();
     }
 
@@ -135,6 +132,7 @@ public abstract class NetworkStorageMixin {
         if (gtocore$inUse) return;
         gtocore$inUse = true;
         try {
+            if (gtolib$inventory.isEmpty()) return;
             gtolib$inventory.forEach(entry -> entry.obj.getAvailableStacks(out));
         } finally {
             gtocore$inUse = false;

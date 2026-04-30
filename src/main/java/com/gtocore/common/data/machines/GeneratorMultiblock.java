@@ -40,7 +40,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.phys.shapes.Shapes;
 
-import com.tterrag.registrate.util.entry.BlockEntry;
+import com.gto.registrate.util.entry.BlockEntry;
 
 import java.util.function.Supplier;
 
@@ -296,7 +296,7 @@ public final class GeneratorMultiblock {
                     .where('F', GTOPredicates.frame(GTMaterials.StainlessSteel))
                     .where('G', GTOPredicates.frame(GTMaterials.BlackSteel))
                     .where('H', blocks(GTBlocks.FILTER_CASING.get()))
-                    .where('I', blocks(GTOBlocks.HSSS_BOROSILICATE_GLASS.get()))
+                    .where('I', blocks(GTBlocks.CASING_LAMINATED_GLASS.get()))
                     .where('J', blocks(GTBlocks.CASING_STAINLESS_STEEL_GEARBOX.get()))
                     .where('K', controller(definition))
                     .where(' ', any())
@@ -533,13 +533,7 @@ public final class GeneratorMultiblock {
             .workableInSpace()
             .generator()
             .recipeTypes(GTRecipeTypes.DUMMY_RECIPES)
-            .tooltipsText("发射戴森球模块后开始工作", "Starts working after launching Dyson Sphere modules")
-            .tooltipsText("每次运行都有(模块数量/128 + 1)%的概率损坏一次模块", "Each run has a (Module Count / 128 + 1)% chance to damage a module")
-            .tooltipsText("当损坏高于60%时，输出效率随损坏值由100%逐渐降低到20%，并输出随损坏值增强的红石信号", "When damage exceeds 60%, output efficiency gradually decreases from 100% to 20% with damage value, and outputs a redstone signal enhanced by the damage value")
-            .tooltipsText("当损坏达到100%时减少一次模块发射数量，并重制损坏值", "When damage reaches 100%, it reduces the number of module launches by one and resets the damage value")
-            .tooltipsText("在损坏值高于60%时发射不会增加发射次数，但会重制损坏值", "When damage value is above 60%, launching will not increase the launch count but will reset the damage value")
-            .tooltipsText("产能功率，和需求算力由发射的模块数量决定", "Power capacity and demand computing power are determined by the number of launched modules")
-            .tooltipsText("每次发射可使功率增加1A MAX", "Each launch can increase power by 1A MAX")
+            .tooltips(GTOMachineTooltipsA.INSTANCE.getDysonSphereReceivingStationTooltips().getSupplier())
             .block(GTBlocks.HIGH_POWER_CASING)
             .pattern(definition -> MultiBlockFileReader.start(definition)
                     .where('~', controller(definition))

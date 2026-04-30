@@ -1,6 +1,7 @@
 package com.gtocore.common.machine.multiblock.generator;
 
 import com.gtocore.api.gui.GTOGuiTextures;
+import com.gtocore.common.data.GTORecipeDataKeys;
 
 import com.gtolib.GTOCore;
 import com.gtolib.api.annotation.Scanned;
@@ -13,6 +14,7 @@ import com.gtolib.api.machine.part.ItemPartMachine;
 import com.gtolib.api.machine.trait.CoilTrait;
 import com.gtolib.api.machine.trait.TierCasingTrait;
 import com.gtolib.api.recipe.Recipe;
+import com.gtolib.api.recipe.TierDataKey;
 import com.gtolib.api.recipe.modifier.ParallelLogic;
 
 import com.gregtechceu.gtceu.api.GTValues;
@@ -48,7 +50,7 @@ import com.lowdragmc.lowdraglib.gui.widget.ComponentPanelWidget;
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import it.unimi.dsi.fastutil.objects.Object2IntMap;
+import it.unimi.dsi.fastutil.objects.Reference2IntMap;
 import org.jetbrains.annotations.Nullable;
 
 import java.math.BigDecimal;
@@ -144,7 +146,7 @@ public class TurbineMachine extends ElectricMultiblockMachine {
         if (mega) {
             rotorSubs.initialize(getLevel());
             if (GTOCore.isExpert() && this instanceof MegaTurbine) {
-                damageBase = Math.max(2.2 - 0.08 * ((MegaTurbine) this).getCasingTier(GLASS_TIER), 1.2);
+                damageBase = Math.max(2.2 - 0.08 * ((MegaTurbine) this).getCasingTier(GTORecipeDataKeys.GLASS_TIER), 1.2);
             }
         }
         if (formedAmount > 0) {
@@ -409,7 +411,7 @@ public class TurbineMachine extends ElectricMultiblockMachine {
         public MegaTurbine(MetaMachineBlockEntity holder, int tier, boolean special) {
             super(holder, tier, special, true);
             coilTrait = new CoilTrait(this, false, false);
-            this.tierCasingTrait = new TierCasingTrait(this, GLASS_TIER);
+            this.tierCasingTrait = new TierCasingTrait(this, GTORecipeDataKeys.GLASS_TIER);
         }
 
         @Override
@@ -435,11 +437,11 @@ public class TurbineMachine extends ElectricMultiblockMachine {
             super.customText(textList);
             textList.add(Component.translatable(COIL_BONUS, getCoilTier(), getCoilTier() * 20));
             if (GTOCore.isExpert())
-                textList.add(Component.translatable(GLASS_BONUS, getCasingTier(GLASS_TIER), FormattingUtil.formatNumber2Places(damageBase)));
+                textList.add(Component.translatable(GLASS_BONUS, getCasingTier(GTORecipeDataKeys.GLASS_TIER), FormattingUtil.formatNumber2Places(damageBase)));
         }
 
         @Override
-        public Object2IntMap<String> getCasingTiers() {
+        public Reference2IntMap<TierDataKey> getCasingTiers() {
             return tierCasingTrait.getCasingTiers();
         }
     }

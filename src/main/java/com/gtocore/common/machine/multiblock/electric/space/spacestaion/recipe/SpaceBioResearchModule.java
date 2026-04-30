@@ -1,5 +1,6 @@
 package com.gtocore.common.machine.multiblock.electric.space.spacestaion.recipe;
 
+import com.gtocore.common.data.GTORecipeDataKeys;
 import com.gtocore.common.machine.multiblock.electric.space.spacestaion.RecipeExtension;
 import com.gtocore.common.machine.trait.RadioactivityTrait;
 
@@ -46,7 +47,7 @@ public class SpaceBioResearchModule extends RecipeExtension {
             setIdleReason(IdleReason.CANNOT_WORK_IN_SPACE);
             return null;
         }
-        if (recipe.data.contains("filter_casing") && recipe.data.getInt("filter_casing") > core.getTypes().size()) {
+        if (recipe.data.contains(GTORecipeDataKeys.FILTER_CASING) && recipe.data.getInt(GTORecipeDataKeys.FILTER_CASING) > core.getTypes().size()) {
             ((IEnhancedRecipeLogic) getRecipeLogic())
                     .gtolib$setIdleReason(Component.translatable(LANGUAGE_INSUFFICIENT_CLEANROOM));
             return null;

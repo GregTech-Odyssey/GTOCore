@@ -743,7 +743,7 @@ public final class MaterialB {
                 .iconSet(DULL)
                 .buildAndRegister();
 
-        RhodiumTriphenylphosphineChloride = material("rhodium_triphenylphosphine_chloride", "三（三苯基膦）铑(I)氯化物")
+        RhodiumTriphenylphosphineChloride = material("rhodium_triphenylphosphine_chloride", "三(三苯基膦)氯化铑(I)")
                 .dust()
                 .color(0x776715)
                 .components(Rhodium, 1, Chlorine, 1, Carbon, 18, Hydrogen, 15, Phosphorus, 1)

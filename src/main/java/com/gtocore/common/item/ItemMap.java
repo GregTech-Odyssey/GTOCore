@@ -15,7 +15,7 @@ import net.minecraft.world.item.Items;
 import appeng.core.definitions.AEItems;
 
 import com.google.common.collect.ImmutableSet;
-import com.tterrag.registrate.util.entry.RegistryEntry;
+import com.gto.registrate.util.entry.RegistryEntry;
 import it.unimi.dsi.fastutil.objects.Reference2IntOpenHashMap;
 
 import java.util.Arrays;

@@ -16,8 +16,10 @@ import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiController;
 import com.gregtechceu.gtceu.api.machine.multiblock.part.MultiblockPartMachine;
 import com.gregtechceu.gtceu.api.pattern.BlockPattern;
+import com.gregtechceu.gtceu.api.pattern.Predicates;
 import com.gregtechceu.gtceu.api.pattern.TraceabilityPredicate;
 import com.gregtechceu.gtceu.api.pattern.predicates.SimplePredicate;
+import com.gregtechceu.gtceu.common.block.LampBlock;
 import com.gregtechceu.gtceu.config.ConfigHolder;
 import com.gregtechceu.gtceu.integration.xei.handlers.item.CycleItemStackHandler;
 
@@ -27,6 +29,7 @@ import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
@@ -228,7 +231,7 @@ public final class PatternPreview extends WidgetGroup {
     private void setupScene(MBPattern pattern) {
         LongStream longStream = pattern.predicateMap.keySet().longStream();
         if (pattern.controllerBase.isFormed()) {
-            LongSet set = pattern.controllerBase.getMultiblockState().getMatchContext().getOrDefault("renderMask", LongSets.EMPTY_SET);
+            LongSet set = pattern.controllerBase.getMultiblockState().getMatchContext().getOrDefault(Predicates.DataKey.RENDER_MASK, LongSets.EMPTY_SET);
             if (!set.isEmpty()) {
                 sceneWidget.setRenderedCore(longStream.filter(pos -> !set.contains(pos)).mapToObj(BlockPos::of).filter(pos -> layer == -1 || layer + pattern.minY == pos.getY()).collect(Collectors.toList()), null);
             } else {
@@ -303,6 +306,9 @@ public final class PatternPreview extends WidgetGroup {
             List<List<Component>> predicateTips = new ArrayList<>();
             for (SimplePredicate simplePredicate : predicates) {
                 List<ItemStack> itemStacks = simplePredicate.getCandidates();
+                if (isLampStacks(itemStacks)) { // 如果是gtceu的灯，展开为8个变体灯
+                    itemStacks = expandLampStacks(itemStacks);
+                }
                 if (!itemStacks.isEmpty()) {
                     candidateStacks.add(itemStacks);
                     predicateTips.add(simplePredicate.getToolTips(predicate));
@@ -317,6 +323,23 @@ public final class PatternPreview extends WidgetGroup {
                 addWidget(candidates[i]);
             }
         }
+    }
+
+    private static List<ItemStack> expandLampStacks(List<ItemStack> stacks) {
+        LinkedHashMap<String, ItemStack> variants = new LinkedHashMap<>();
+        for (ItemStack stack : stacks) {
+            LampBlock lamp = (LampBlock) ((BlockItem) stack.getItem()).getBlock();
+            for (int meta = 0; meta < 8; meta++) {
+                ItemStack variant = lamp.getStackFromIndex(meta);
+                variants.put(variant.getItem().toString() + "|" + String.valueOf(variant.getTag()), variant);
+            }
+        }
+        return new ArrayList<>(variants.values());
+    }
+
+    private static boolean isLampStacks(List<ItemStack> stacks) {
+        return !stacks.isEmpty() &&
+                stacks.stream().allMatch(stack -> stack.getItem() instanceof BlockItem blockItem && blockItem.getBlock() instanceof LampBlock);
     }
 
     private void loadControllerFormed(LongSet poses, IMultiController controllerBase, int index) {
@@ -337,7 +360,7 @@ public final class PatternPreview extends WidgetGroup {
         }
         state.clearCache();
         if (controllerBase.isFormed()) {
-            LongSet set = state.getMatchContext().getOrDefault("renderMask", LongSets.EMPTY_SET);
+            LongSet set = state.getMatchContext().getOrDefault(Predicates.DataKey.RENDER_MASK, LongSets.EMPTY_SET);
             if (!set.isEmpty()) {
                 sceneWidget.setRenderedCore(poses.longStream().filter(pos -> !set.contains(pos)).mapToObj(BlockPos::of).toList(), null);
             } else {

@@ -7,6 +7,7 @@ import com.gtocore.common.block.FusionCasings;
 import com.gtocore.common.data.GTOBlocks;
 import com.gtocore.common.data.GTOMachines;
 import com.gtocore.common.data.GTOMaterials;
+import com.gtocore.common.data.GTORecipeDataKeys;
 import com.gtocore.common.data.GTORecipeTypes;
 import com.gtocore.common.data.translation.GTOMachineStories;
 import com.gtocore.common.data.translation.GTOMachineTooltips;
@@ -32,6 +33,7 @@ import com.gtocore.common.machine.multiblock.noenergy.NeutronActivatorMachine;
 
 import com.gtolib.GTOCore;
 import com.gtolib.api.annotation.NewDataAttributes;
+import com.gtolib.api.annotation.component_builder.StyleBuilder;
 import com.gtolib.api.lang.CNEN;
 import com.gtolib.api.machine.MultiblockDefinition;
 import com.gtolib.api.machine.multiblock.CoilCrossRecipeMultiblockMachine;
@@ -281,7 +283,7 @@ public final class MultiBlockD {
                     .where('a', controller(definition))
                     .where('b', blocks(GTOBlocks.ALUMINIUM_BRONZE_CASING.get())
                             .or(abilities(INPUT_ENERGY).setMaxGlobalLimited(2))
-                            .or(blocks(GTOMachines.BLOCK_BUS.get()).setMaxGlobalLimited(1)))
+                            .or(blocks(GTOMachines.BLOCK_BUS.get()).setMaxGlobalLimited(4)))
                     .where('c', blocks(GTOBlocks.SHINING_OBSIDIAN.get()))
                     .where('d', blocks(GTBlocks.CASING_TEMPERED_GLASS.get())
                             .or(blocks(Blocks.IRON_DOOR).setMaxGlobalLimited(4).setPreviewCount(1)))
@@ -478,8 +480,12 @@ public final class MultiBlockD {
             .tooltips(GTOMachineTooltips.INSTANCE.getProcessingPlantTooltips().getSupplier())
             .specialParallelizableTooltips()
             .tooltips(NewDataAttributes.ALLOW_PARALLEL_NUMBER.create(
-                    h -> h.addLines("自ULV起，配方等级每高出1级，获得的并行数+2", "From ULV, each voltage tier increases the obtained parallelism by 2"),
-                    c -> c.addCommentLines("公式 : 2 * (tier - 0), 算去吧", "Formula: 2 * (tier - 0), go calculate it yourself")))
+                    h -> h.addLines(
+                            Component.translatable("gtocore.machine.processing_plant.parallel_per_tier_tooltip", ProcessingPlantMachine.getParallelPerTier(false)),
+                            s -> s),
+                    c -> c.addLines(
+                            Component.translatable("gtocore.machine.processing_plant.parallel_per_tier_formula", ProcessingPlantMachine.getParallelPerTier(false)),
+                            StyleBuilder::setGray)))
             .tooltips(NewDataAttributes.RECIPES_TYPE.create(ProcessingPlantMachine.getComponent()))
             .moduleTooltips(EXTRA_ENERGY_HATCH, CATALYST_HATCH, MANA_AMPLIFIER_HATCH)
             .block(GTOBlocks.MULTI_FUNCTIONAL_CASING)
@@ -597,7 +603,7 @@ public final class MultiBlockD {
                             .or(abilities(IMPORT_ITEMS).setMaxGlobalLimited(2).setPreviewCount(1)))
                     .where('D', blocks(GTOBlocks.PROCESS_MACHINE_CASING.get()))
                     .where('E', blocks(GTBlocks.CASING_LAMINATED_GLASS.get()))
-                    .where('F', GTOPredicates.countBlock("SpeedPipe",
+                    .where('F', GTOPredicates.countBlock(GTOPredicates.DataKeys.SPEED_PIPE,
                             GTOBlocks.SPEEDING_PIPE.get()))
                     .where(' ', any())
                     .build())
@@ -720,7 +726,7 @@ public final class MultiBlockD {
                     .where('E', frames(GTMaterials.Neutronium))
                     .where('F', blocks(GTOBlocks.SPACE_ELEVATOR_MODULE_BASE.get()))
                     .where('G', blocks(GTOBlocks.HIGH_STRENGTH_CONCRETE.get()).or(blocks(GTOBlocks.MODULE_CONNECTOR.get()).setPreviewCount(1)))
-                    .where('H', GTOPredicates.tierBlock(SEPMMAP, POWER_MODULE_TIER))
+                    .where('H', GTOPredicates.tierBlock(SEPMMAP, GTORecipeDataKeys.POWER_MODULE_TIER))
                     .where('I', air())
                     .where('J', blocks(GTOBlocks.SPACE_ELEVATOR_POWER_CORE.get()))
                     .where('X', blocks(GTOBlocks.SPACE_ELEVATOR_MECHANICAL_CASING.get())

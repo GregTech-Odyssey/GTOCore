@@ -13,6 +13,8 @@ import com.gtocore.common.item.devtool.CreativeAllFluidCellItem;
 import com.gtocore.common.item.misc.GrassHarvesterBehaviour;
 import com.gtocore.config.GTOConfig;
 import com.gtocore.data.lootTables.RewardBagLoot;
+import com.gtocore.integration.ae.wtlib.WFTMenu;
+import com.gtocore.integration.ae.wtlib.WRTMenu;
 
 import com.gtolib.GTOCore;
 import com.gtolib.api.ae2.me2in1.Wireless;
@@ -52,9 +54,9 @@ import net.minecraftforge.common.Tags;
 
 import appeng.items.materials.StorageComponentItem;
 
+import com.gto.registrate.util.entry.ItemEntry;
+import com.gto.registrate.util.nullness.NonNullBiConsumer;
 import com.lowdragmc.lowdraglib.utils.LocalizationUtils;
-import com.tterrag.registrate.util.entry.ItemEntry;
-import com.tterrag.registrate.util.nullness.NonNullBiConsumer;
 import earth.terrarium.adastra.common.registry.ModFluids;
 import org.jetbrains.annotations.NotNull;
 
@@ -334,7 +336,7 @@ public final class GTOItems {
     public static final ItemEntry<ComponentItem> WIRELESS_CHARGER_COVER = item("wireless_charger_cover", "无线充能覆盖板", ComponentItem::create)
             .toolTips(ComponentBuilder.create()
                     .addLines("贴在存储方块上可使内部的物品自动充能", "Attach to a storage block to automatically charge its contents")
-                    .addLines("需要链接无线充能器使用", "Requires a wireless charger to use")
+                    .addLines("需要链接HV及以上等级的无线充能器使用", "Requires linking with a HV or higher wireless charger to use")
                     .build().getArray())
             .onRegister(attach(new CoverPlaceBehavior(GTOCovers.WIRELESS_CHARGER_COVER)))
             .register();
@@ -1004,6 +1006,8 @@ public final class GTOItems {
     }
 
     public static final ItemEntry<Wireless.Item> WIRELESS_ME2IN1 = item("wireless_me2in1_terminal", "无线ME2合1终端", Wireless.Item::new).register();
+    public static final ItemEntry<WRTMenu.WRTItem> WIRELESS_WRT = item("wireless_requester_terminal", "无线请求终端", WRTMenu.WRTItem::new).register();
+    public static final ItemEntry<WFTMenu.WFTItem> WIRELESS_WFT = item("wireless_facility_management_terminal", "无线设施管理终端", WFTMenu.WFTItem::new).register();
 
     public static final ItemEntry<SpaceArmorComponentItem> SPACE_NANOMUSCLE_CHESTPLATE = item("space_nanomuscle_chestplate", "纳米肌体™套装太空胸甲",
             (p) -> new SpaceArmorComponentItem(GTArmorMaterials.ARMOR,

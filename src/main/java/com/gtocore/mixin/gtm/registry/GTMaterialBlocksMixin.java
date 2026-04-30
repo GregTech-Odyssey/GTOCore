@@ -19,7 +19,7 @@ import net.minecraft.world.level.block.Block;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableTable;
-import com.tterrag.registrate.util.entry.BlockEntry;
+import com.gto.registrate.util.entry.BlockEntry;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
@@ -51,7 +51,7 @@ public abstract class GTMaterialBlocksMixin {
      */
     @Overwrite(remap = false)
     public static void generateMaterialBlocks() {
-        GTORegistration.GTO.creativeModeTab(() -> GTOCreativeModeTabs.GTO_MATERIAL_BLOCK);
+        GTORegistration.GTO.defaultCreativeTab(GTOCreativeModeTabs.GTO_MATERIAL_BLOCK);
         for (TagPrefix tagPrefix : TagPrefix.values()) {
             if (tagPrefix.doGenerateBlock() && !TagPrefix.ORES.containsKey(tagPrefix)) {
                 for (MaterialRegistry registry : GTCEuAPI.materialManager.getRegistries()) {

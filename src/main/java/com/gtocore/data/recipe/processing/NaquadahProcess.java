@@ -1,5 +1,7 @@
 package com.gtocore.data.recipe.processing;
 
+import com.gtocore.common.data.GTORecipeDataKeys;
+
 import static com.gregtechceu.gtceu.api.GTValues.*;
 import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.*;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
@@ -51,9 +53,9 @@ public final class NaquadahProcess {
                 .inputItems(dust, Naquadah, 2)
                 .outputFluids(ImpureEnrichedNaquadahSolution.getFluid(4000))
                 .duration(200)
-                .addData("ev_min", 220)
-                .addData("ev_max", 230)
-                .addData("evt", 56)
+                .addData(GTORecipeDataKeys.EV_MIN, 220)
+                .addData(GTORecipeDataKeys.EV_MAX, 230)
+                .addData(GTORecipeDataKeys.EVT, 56)
                 .save();
 
         // ENRICHED NAQUADAH PROCESS
@@ -156,9 +158,9 @@ public final class NaquadahProcess {
                 .inputItems(dust, NaquadahEnriched, 6)
                 .outputFluids(ImpureNaquadriaSolution.getFluid(4000))
                 .outputItems(dust, IndiumPhosphide, 1)
-                .addData("ev_min", 460)
-                .addData("ev_max", 480)
-                .addData("evt", 124)
+                .addData(GTORecipeDataKeys.EV_MIN, 460)
+                .addData(GTORecipeDataKeys.EV_MAX, 480)
+                .addData(GTORecipeDataKeys.EVT, 124)
                 .duration(200)
                 .save();
 

@@ -4,6 +4,7 @@ import com.gtolib.api.recipe.Recipe;
 
 import com.gregtechceu.gtceu.api.recipe.content.ContentModifier;
 import com.gregtechceu.gtceu.api.recipe.modifier.ModifierFunction;
+import com.gregtechceu.gtceu.common.data.GTRecipeDataKeys;
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
@@ -38,7 +39,7 @@ public abstract class FunctionBuilderMixin {
             Recipe copied = Recipe.of(recipe);
             copied.modifier(inputModifier, false);
             copied.ocLevel = copied.ocLevel + addOCs;
-            if (copied.data.getBoolean("duration_is_total_cwu")) {
+            if (copied.data.getBoolean(GTRecipeDataKeys.DURATION_IS_TOTAL_CWU)) {
                 copied.duration = (int) Math.max(1, (copied.duration * (1.0F - 0.025F * addOCs)));
             } else {
                 copied.duration = Math.max(1, durationModifier.apply(copied.duration));

@@ -3,6 +3,7 @@ package com.gtocore.data.recipe.classified;
 import com.gtocore.common.data.GTOBlocks;
 import com.gtocore.common.data.GTOItems;
 import com.gtocore.common.data.GTOMaterials;
+import com.gtocore.common.data.GTORecipeDataKeys;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
@@ -26,9 +27,9 @@ final class NeutronActivator {
                 .outputFluids(GTMaterials.Oganesson, 1000)
                 .duration(200)
                 .cleanroom(CleanroomType.CLEANROOM)
-                .addData("ev_min", 720)
-                .addData("ev_max", 800)
-                .addData("evt", 1200)
+                .addData(GTORecipeDataKeys.EV_MIN, 720)
+                .addData(GTORecipeDataKeys.EV_MAX, 800)
+                .addData(GTORecipeDataKeys.EVT, 1200)
                 .save();
 
         NEUTRON_ACTIVATOR_RECIPES.recipeBuilder("quantanium")
@@ -41,9 +42,9 @@ final class NeutronActivator {
                 .inputFluids(GTOMaterials.Lemurite, 10000)
                 .outputFluids(GTOMaterials.Quantanium, 10000)
                 .duration(1200)
-                .addData("ev_min", 1020)
-                .addData("ev_max", 1200)
-                .addData("evt", 3840)
+                .addData(GTORecipeDataKeys.EV_MIN, 1020)
+                .addData(GTORecipeDataKeys.EV_MAX, 1200)
+                .addData(GTORecipeDataKeys.EVT, 3840)
                 .save();
 
         NEUTRON_ACTIVATOR_RECIPES.recipeBuilder("draconium_dust")
@@ -54,9 +55,9 @@ final class NeutronActivator {
                 .outputItems(TagPrefix.dust, GTMaterials.EnderPearl, 4)
                 .chancedOutput(GTOItems.DRACONIUM_DIRT.asItem(), 4000, 0)
                 .duration(800)
-                .addData("ev_min", 800)
-                .addData("ev_max", 900)
-                .addData("evt", 5760)
+                .addData(GTORecipeDataKeys.EV_MIN, 800)
+                .addData(GTORecipeDataKeys.EV_MAX, 900)
+                .addData(GTORecipeDataKeys.EVT, 5760)
                 .save();
 
         NEUTRON_ACTIVATOR_RECIPES.recipeBuilder("hassium")
@@ -64,9 +65,9 @@ final class NeutronActivator {
                 .outputFluids(GTMaterials.Hassium, 1000)
                 .duration(200)
                 .cleanroom(CleanroomType.CLEANROOM)
-                .addData("ev_min", 340)
-                .addData("ev_max", 380)
-                .addData("evt", 480)
+                .addData(GTORecipeDataKeys.EV_MIN, 340)
+                .addData(GTORecipeDataKeys.EV_MAX, 380)
+                .addData(GTORecipeDataKeys.EVT, 480)
                 .save();
 
         NEUTRON_ACTIVATOR_RECIPES.recipeBuilder("netherite")
@@ -74,18 +75,18 @@ final class NeutronActivator {
                 .outputItems(TagPrefix.dust, GTMaterials.Netherite)
                 .inputFluids(GTMaterials.Gold, 576)
                 .duration(600)
-                .addData("ev_min", 100)
-                .addData("ev_max", 1200)
-                .addData("evt", 300)
+                .addData(GTORecipeDataKeys.EV_MIN, 100)
+                .addData(GTORecipeDataKeys.EV_MAX, 1200)
+                .addData(GTORecipeDataKeys.EVT, 300)
                 .save();
 
         NEUTRON_ACTIVATOR_RECIPES.recipeBuilder("netherite_a")
                 .inputItems(Items.ANCIENT_DEBRIS.asItem())
                 .outputItems(TagPrefix.dust, GTMaterials.Netherite)
                 .duration(400)
-                .addData("ev_min", 1100)
-                .addData("ev_max", 1200)
-                .addData("evt", GTValues.VH[GTValues.OpV])
+                .addData(GTORecipeDataKeys.EV_MIN, 1100)
+                .addData(GTORecipeDataKeys.EV_MAX, 1200)
+                .addData(GTORecipeDataKeys.EVT, GTValues.VH[GTValues.OpV])
                 .save();
 
         NEUTRON_ACTIVATOR_RECIPES.builder("haderoth_dust")
@@ -94,9 +95,9 @@ final class NeutronActivator {
                 .outputItems(TagPrefix.dust, GTOMaterials.Haderoth, 2)
                 .inputFluids(GTOMaterials.TranscendingMatter, 100)
                 .duration(400)
-                .addData("ev_min", 900)
-                .addData("ev_max", 1100)
-                .addData("evt", 1200)
+                .addData(GTORecipeDataKeys.EV_MIN, 900)
+                .addData(GTORecipeDataKeys.EV_MAX, 1100)
+                .addData(GTORecipeDataKeys.EVT, 1200)
                 .save();
 
         NEUTRON_ACTIVATOR_RECIPES.builder("alduorite_dust")
@@ -105,9 +106,9 @@ final class NeutronActivator {
                 .outputItems(TagPrefix.dust, GTOMaterials.Alduorite)
                 .inputFluids(GTOMaterials.TranscendingMatter, 80)
                 .duration(200)
-                .addData("ev_min", 1000)
-                .addData("ev_max", 1100)
-                .addData("evt", 1600)
+                .addData(GTORecipeDataKeys.EV_MIN, 1000)
+                .addData(GTORecipeDataKeys.EV_MAX, 1100)
+                .addData(GTORecipeDataKeys.EVT, 1600)
                 .save();
         NEUTRON_ACTIVATOR_RECIPES.builder("small_photonic_kristallite_dust")
                 .inputItems(AEItems.MATTER_BALL.asItem(), 64)
@@ -118,9 +119,9 @@ final class NeutronActivator {
                 .inputFluids(GTOMaterials.Quantanium, 1000)
                 .outputFluids(GTOMaterials.PhotonicKristallite, 4000)
                 .duration(1200)
-                .addData("ev_min", 960)
-                .addData("ev_max", 1080)
-                .addData("evt", 1920)
+                .addData(GTORecipeDataKeys.EV_MIN, 960)
+                .addData(GTORecipeDataKeys.EV_MAX, 1080)
+                .addData(GTORecipeDataKeys.EVT, 1920)
                 .save();
         NEUTRON_ACTIVATOR_RECIPES.builder("rearranged_cosmic_dust_dust")
                 .inputItems(TagPrefix.dust, GTOMaterials.ExcitedScorchingCosmicDust, 40)
@@ -130,9 +131,9 @@ final class NeutronActivator {
                 .inputFluids(GTOMaterials.CosmicDustDispersant, 1000)
                 .chancedOutput(GTOMaterials.Sanguinite.getFluid(500), 5000, 0)
                 .duration(100)
-                .addData("ev_min", 420)
-                .addData("ev_max", 1280)
-                .addData("evt", 7800)
+                .addData(GTORecipeDataKeys.EV_MIN, 420)
+                .addData(GTORecipeDataKeys.EV_MAX, 1280)
+                .addData(GTORecipeDataKeys.EVT, 7800)
                 .save();
     }
 }

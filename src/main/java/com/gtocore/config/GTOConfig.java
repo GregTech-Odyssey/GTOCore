@@ -243,6 +243,13 @@ public final class GTOConfig {
         public int batchProcessingMaxDuration = 1200;
 
         @Configurable
+        @Configurable.Comment({ "多方块机器默认最小超频时间（tick）", "仅影响新创建的多方块机器", "The default minimum overclock duration for multiblock machines (ticks)", "Only affects newly created multiblock machines" })
+        @Configurable.Range(min = 1, max = 200)
+        @Configurable.Gui.Slider
+        @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Default Minimum Overclock Duration", cn = "默认最小超频时间")
+        public int defaultMinOverclockDuration = 20;
+
+        @Configurable
         @Configurable.Comment({ "连锁挖掘（不连续模式）时，检查相邻方块的范围", "The range to check adjacent blocks during chain mining (non-continuous mode)" })
         @Configurable.Range(min = 1, max = 20)
         @Configurable.Gui.Slider
@@ -314,6 +321,12 @@ public final class GTOConfig {
         @Configurable.Comment({ "禁用后将渲染视角外，且渲染器被标记为Global的机器，一些高级特效机器需要开启此选项才能正常渲染", "When turned disable, machines that are outside the field of view and whose renderer is marked as Global will be rendered. Some advanced effect machines need to turn on this option to render properly" })
         @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Disable Embeddium Global BE Culling", cn = "禁用Embbedium Global方块实体剔除")
         public boolean disableEmbeddiumBECulling = true;
+
+        @Configurable
+        @Configurable.Comment({ "启用后，机器功率显示方式将类似于 GTM 最新版的样式，显示为(电流 @ 电压等级 - 运行电压)",
+                "When enabled, the machine power display will be similar to the style of the latest version of GTM, displayed as (Current @ Voltage - Power Value)" })
+        @RegisterLanguage(namePrefix = "config.gtocore.option", en = "GTM Style Voltage Display", cn = "GTM 样式电压显示")
+        public boolean gtmStyleVoltageDisplay = false;
 
         @Configurable
         @RegisterLanguage(namePrefix = "config.gtocore.option", en = "HUD Settings", cn = "HUD 设置")

@@ -1,5 +1,6 @@
 package com.gtocore.data.recipe.processing;
 
+import com.gtocore.common.data.GTORecipeDataKeys;
 import com.gtocore.common.recipe.condition.VacuumCondition;
 
 import com.gtolib.api.item.MultiStepItemHelper;
@@ -471,7 +472,7 @@ public final class NewResearchSystem {
                         .circuitMeta(n)
                         .inputItems(MultiStepItemHelper.locateStep(stack1, 4))
                         .outputItems(SIMPLE_FIBER_OPTIC_ROUGH, m << 6)
-                        .addData("spool", n)
+                        .addData(GTORecipeDataKeys.SPOOL, n)
                         .duration((60000 * m) + 12000)
                         .EUt(VA[3 + n])
                         .blastFurnaceTemp(3300 + 1000 * n)
@@ -483,7 +484,7 @@ public final class NewResearchSystem {
                         .circuitMeta(10 + n)
                         .inputItems(MultiStepItemHelper.locateStep(stack1, 4))
                         .outputItems(SIMPLE_FIBER_OPTIC_ROUGH, m << 6)
-                        .addData("spool", n)
+                        .addData(GTORecipeDataKeys.SPOOL, n)
                         .duration((60000 * m) + 12000)
                         .EUt(VA[3 + n])
                         .blastFurnaceTemp(3300 + 1200 * n)

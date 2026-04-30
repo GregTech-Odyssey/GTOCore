@@ -3,6 +3,7 @@ package com.gtocore.common.machine.multiblock.electric.adventure;
 import com.gtocore.api.entity.ILivingEntity;
 import com.gtocore.common.data.GTOFluids;
 import com.gtocore.common.data.GTOItems;
+import com.gtocore.common.data.GTORecipeDataKeys;
 import com.gtocore.data.IdleReason;
 
 import com.gtolib.api.item.ItemStackSet;
@@ -10,9 +11,7 @@ import com.gtolib.api.machine.feature.multiblock.ITierCasingMachine;
 import com.gtolib.api.machine.multiblock.StorageMultiblockMachine;
 import com.gtolib.api.machine.trait.CustomRecipeLogic;
 import com.gtolib.api.machine.trait.TierCasingTrait;
-import com.gtolib.api.recipe.Recipe;
-import com.gtolib.api.recipe.RecipeBuilder;
-import com.gtolib.api.recipe.RecipeRunner;
+import com.gtolib.api.recipe.*;
 import com.gtolib.utils.MachineUtils;
 
 import com.gregtechceu.gtceu.api.GTValues;
@@ -56,7 +55,7 @@ import dev.shadowsoffire.apotheosis.adventure.compat.GameStagesCompat;
 import dev.shadowsoffire.apotheosis.adventure.socket.gem.GemRegistry;
 import dev.shadowsoffire.placebo.reload.WeightedDynamicRegistry;
 import earth.terrarium.adastra.common.entities.mob.GlacianRam;
-import it.unimi.dsi.fastutil.objects.Object2IntMap;
+import it.unimi.dsi.fastutil.objects.Reference2IntMap;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import snownee.jade.util.CommonProxy;
@@ -125,7 +124,7 @@ public final class SlaughterhouseMachine extends StorageMultiblockMachine implem
     public SlaughterhouseMachine(MetaMachineBlockEntity holder) {
         super(holder, 1, i -> i.getItem() instanceof SpawnEggItem ||
                 i.getItem() instanceof BossSummonerItem || i.getItem() instanceof MobJarItem);
-        tierCasingTrait = new TierCasingTrait(this, GLASS_TIER);
+        tierCasingTrait = new TierCasingTrait(this, GTORecipeDataKeys.GLASS_TIER);
     }
 
     @Override
@@ -188,7 +187,7 @@ public final class SlaughterhouseMachine extends StorageMultiblockMachine implem
     @Override
     public void onStructureFormed() {
         super.onStructureFormed();
-        tier = Math.min(getCasingTier(GLASS_TIER), tier);
+        tier = Math.min(getCasingTier(GTORecipeDataKeys.GLASS_TIER), tier);
         onMachineChanged();
     }
 
@@ -330,7 +329,7 @@ public final class SlaughterhouseMachine extends StorageMultiblockMachine implem
     }
 
     @Override
-    public Object2IntMap<String> getCasingTiers() {
+    public Reference2IntMap<TierDataKey> getCasingTiers() {
         return tierCasingTrait.getCasingTiers();
     }
 }

@@ -3710,7 +3710,7 @@ final class Assembler {
                 .inputItems(CustomTags.UV_CIRCUITS, 2)
                 .outputItems(GTOBlocks.INTEGRAL_FRAMEWORK_UV.asItem())
                 .inputFluids(GTMaterials.Naquadria, 288)
-                .EUt(524288)
+                .EUt(491520)
                 .duration(100)
                 .save();
 
@@ -3722,7 +3722,7 @@ final class Assembler {
                 .inputItems(CustomTags.UHV_CIRCUITS, 2)
                 .outputItems(GTOBlocks.INTEGRAL_FRAMEWORK_UHV.asItem())
                 .inputFluids(GTOMaterials.Quicksilver, 288)
-                .EUt(2097152)
+                .EUt(1966080)
                 .duration(100)
                 .save();
 

@@ -237,9 +237,9 @@ public abstract class MufflerPartMachineMixin extends WorkableTieredPartMachine 
     private void gtolib$createUI(Player entityPlayer, CallbackInfoReturnable<ModularUI> cir) {
         ConfiguratorPanel configuratorPanel;
         var originUI = cir.getReturnValue();
-        if (GTCEu.isDev()) {
-            int rowSize = (int) Math.sqrt(inventory.getSlots());
-            int xOffset = rowSize == 10 ? 9 : 0;
+        int rowSize = (int) Math.sqrt(inventory.getSlots());
+        int xOffset = Math.max(0, rowSize - 9) * 9;
+        if (GTCEu.isDev() || rowSize > 9) {
             var modular = new ModularUI(176 + xOffset * 2, 18 + 18 * rowSize + 94, this, entityPlayer).background(GuiTextures.BACKGROUND).widget(new LabelWidget(10, 5, getBlockState().getBlock().getDescriptionId())).widget(UITemplate.bindPlayerInventory(entityPlayer.getInventory(), GuiTextures.SLOT, 7 + xOffset, 18 + 18 * rowSize + 12, true));
             for (int y = 0; y < rowSize; y++) {
                 for (int x = 0; x < rowSize; x++) {

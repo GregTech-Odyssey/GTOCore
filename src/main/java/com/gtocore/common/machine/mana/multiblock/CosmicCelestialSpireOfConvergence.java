@@ -73,7 +73,7 @@ public class CosmicCelestialSpireOfConvergence extends ManaMultiblockMachine {
         int lunaraCost = recipe.data.getInt(LUNARA);
         int voidfluxCost = recipe.data.getInt(VOIDFLUX);
         int stellarmCost = recipe.data.getInt(STELLARM);
-        int anyCost = recipe.data.getInt("any");
+        int anyCost = recipe.data.getInt(ANY);
 
         long parallel = 0;
         if (solarisCost > 0) parallel = this.solaris / solarisCost;
@@ -98,7 +98,7 @@ public class CosmicCelestialSpireOfConvergence extends ManaMultiblockMachine {
         } else if (stellarmCost > 0) {
             deductResult = celestialHandler.deductResource(STELLARM, stellarmCost, parallel, this.solaris, this.lunara, this.voidflux, this.stellarm);
         } else if (anyCost > 0) {
-            deductResult = celestialHandler.deductResource("ANY", anyCost, parallel, this.solaris, this.lunara, this.voidflux, this.stellarm);
+            deductResult = celestialHandler.deductResource(ANY, anyCost, parallel, this.solaris, this.lunara, this.voidflux, this.stellarm);
         }
 
         if (deductResult != null && deductResult.success()) {

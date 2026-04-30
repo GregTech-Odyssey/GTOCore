@@ -1,7 +1,9 @@
 package com.gtocore.data.recipe.gtm.misc;
 
+import com.gtocore.common.data.GTOItems;
 import com.gtocore.common.data.GTOMaterials;
 
+import com.gtolib.GTOCore;
 import com.gtolib.utils.RegistriesUtils;
 
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
@@ -22,7 +24,6 @@ import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraftforge.common.Tags;
 
 import vazkii.botania.common.block.BotaniaBlocks;
 import vazkii.botania.common.block.BotaniaFlowerBlocks;
@@ -129,16 +130,13 @@ public final class CraftingRecipeLoader {
                 "XEX", 'P', new MaterialEntry(plate, Platinum), 'I', new MaterialEntry(plate, Ruridit), 'C',
                 CARBON_FIBER_PLATE.asItem(), 'X', CustomTags.EV_CIRCUITS, 'E', ENERGIUM_CRYSTAL.asItem());
 
-        VanillaRecipeHelper.addShapedRecipe("solar_panel_basic", COVER_SOLAR_PANEL.asItem(), "WGW", "CPC",
-                'W', SILICON_WAFER.asItem(), 'G', new ItemStack(Blocks.GLASS_PANE), 'C', CustomTags.LV_CIRCUITS, 'P',
-                CARBON_FIBER_PLATE.asItem());
-        VanillaRecipeHelper.addShapedRecipe("solar_panel_ulv", COVER_SOLAR_PANEL_ULV.asItem(), "WGW", "CAC",
-                "P P", 'W', PHOSPHORUS_WAFER.asItem(), 'G', Tags.Items.GLASS_PANES, 'C', CustomTags.HV_CIRCUITS, 'P',
-                ChemicalHelper.get(plate, GalliumArsenide), 'A', ChemicalHelper.get(wireGtQuadruple, Graphene));
-        VanillaRecipeHelper.addShapedRecipe("solar_panel_lv", COVER_SOLAR_PANEL_LV.asItem(), "WGW", "CAC",
-                "P P", 'W', NAQUADAH_WAFER.asItem(), 'G', GTBlocks.CASING_TEMPERED_GLASS.asItem(), 'C',
-                CustomTags.LuV_CIRCUITS, 'P', ChemicalHelper.get(plate, IndiumGalliumPhosphide), 'A',
-                ChemicalHelper.get(wireGtHex, Graphene));
+        VanillaRecipeHelper.addShapedRecipe(GTOCore.id("solar_panel"), GTItems.COVER_SOLAR_PANEL.asItem(),
+                " A ",
+                "BCB",
+                "EDE",
+                'A', Items.GLASS_PANE, 'B', new MaterialEntry(TagPrefix.plate, GTMaterials.WroughtIron),
+                'C', new MaterialEntry(TagPrefix.dust, GTMaterials.Silicon), 'D', GTOItems.SUPER_CAPACITOR.asItem(),
+                'E', CustomTags.LV_CIRCUITS);
 
         VanillaRecipeHelper.addShapedRecipe("universal_fluid_cell", FLUID_CELL_UNIVERSAL.asItem(), "C ",
                 "  ", 'C', FLUID_CELL);
