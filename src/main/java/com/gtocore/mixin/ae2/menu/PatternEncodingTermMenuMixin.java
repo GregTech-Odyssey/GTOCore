@@ -23,7 +23,6 @@ import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.ItemStack;
 
 import appeng.api.config.Actionable;
-import appeng.api.implementations.blockentities.PatternContainerGroup;
 import appeng.api.stacks.AEItemKey;
 import appeng.api.storage.ITerminalHost;
 import appeng.core.definitions.AEItems;
@@ -31,7 +30,6 @@ import appeng.crafting.pattern.AEPatternDecoder;
 import appeng.crafting.pattern.ProcessingPatternItem;
 import appeng.helpers.IMenuCraftingPacket;
 import appeng.helpers.IPatternTerminalMenuHost;
-import appeng.helpers.patternprovider.PatternContainer;
 import appeng.menu.guisync.GuiSync;
 import appeng.menu.me.common.MEStorageMenu;
 import appeng.menu.me.items.PatternEncodingTermMenu;
@@ -246,17 +244,17 @@ public abstract class PatternEncodingTermMenuMixin extends MEStorageMenu impleme
 
         machines.removeIf(container -> {
             var patternInv = container.getTerminalPatternInventory();
-            var simulate = patternInv.simulateAdd(stack);
 
-            if (!container.isVisibleInTerminal() ||
-                    ItemStack.isSameItemSameTags(simulate, stack) && simulate.getCount() == stack.getCount())
+            if (!container.isVisibleInTerminal())
                 return true;
+            var hasSpace = gto$canAddPattern(container, stack);
             if (patternInv instanceof AppEngInternalInventory aeInv &&
                     aeInv.getHost() instanceof TileAssemblerMatrixPattern matrixPattern) {
                 var matrix = matrixPattern.getCluster();
                 if (matrix == null) return false;
                 if (sameCluster.contains(matrix)) return true;
                 sameCluster.add(matrix);
+                if (!hasSpace) return false;
                 return matrix.getPatterns()
                         .stream()
                         .flatMap(m -> m.getAvailablePatterns().stream())
@@ -267,12 +265,14 @@ public abstract class PatternEncodingTermMenuMixin extends MEStorageMenu impleme
                     mecppm.getController() instanceof SuperMolecularAssemblerMachine smaMachine) {
                 if (sameCluster.contains(smaMachine)) return true;
                 sameCluster.add(smaMachine);
+                if (!hasSpace) return false;
                 return Arrays.stream(smaMachine.getParts())
                         .filter(m -> m instanceof MECraftPatternPartMachine)
                         .map(m -> (MECraftPatternPartMachine) m)
                         .flatMap(m -> m.getAvailablePatterns().stream())
                         .anyMatch(p -> p.getPrimaryOutput().what() == primaryOutput);
             }
+            if (!hasSpace) return false;
             for (var paattern : patternInv) {
                 var details = AEPatternDecoder.INSTANCE.decodePattern(paattern, getPlayer().level(), false);
                 if (details == null) continue;
@@ -283,22 +283,24 @@ public abstract class PatternEncodingTermMenuMixin extends MEStorageMenu impleme
             return false;
 
         });
-        var containerComparator = (gto$isCraft ? gto$CRAFT_FIRST : gto$recipeFirst(gto$lastRecipeType, recipeLocName)).reversed();
+        var containerComparator = (gto$isCraft ? gto$craftFirst(stack) : gto$recipeFirst(gto$lastRecipeType, recipeLocName, stack)).reversed();
 
         machines.sort(containerComparator);
         return machines;
     }
 
     @Unique
-    private static final Comparator<IExtendedPatternContainer> gto$CRAFT_FIRST = Comparator.comparing(IExtendedPatternContainer::hasEmptyPatternSlot)
-            .thenComparing(IExtendedPatternContainer::gto$isCraftingContainer);
+    private static Comparator<IExtendedPatternContainer> gto$craftFirst(ItemStack patternStack) {
+        return Comparator.comparing((IExtendedPatternContainer p) -> gto$canAddPattern(p, patternStack))
+                .thenComparing(IExtendedPatternContainer::gto$isCraftingContainer);
+    }
 
     @Unique
-    private static Comparator<IExtendedPatternContainer> gto$recipeFirst(GTRecipeType recipeType, String recipeLocName) {
+    private static Comparator<IExtendedPatternContainer> gto$recipeFirst(GTRecipeType recipeType, String recipeLocName, ItemStack patternStack) {
         if (recipeType == null) {
-            return Comparator.comparing(IExtendedPatternContainer::hasEmptyPatternSlot);
+            return Comparator.comparing((IExtendedPatternContainer p) -> gto$canAddPattern(p, patternStack));
         }
-        var c = Comparator.comparing(IExtendedPatternContainer::hasEmptyPatternSlot)
+        var c = Comparator.comparing((IExtendedPatternContainer p) -> gto$canAddPattern(p, patternStack))
                 .thenComparing((IExtendedPatternContainer p) -> p.getSupportedRecipeTypes().contains(recipeType));
         if (recipeLocName != null && !recipeLocName.isEmpty()) {
             c = c.thenComparing((IExtendedPatternContainer p) -> gto$matchesRecipeName(p, recipeLocName));
@@ -319,6 +321,11 @@ public abstract class PatternEncodingTermMenuMixin extends MEStorageMenu impleme
         return false;
     }
 
+    @Unique
+    private static boolean gto$canAddPattern(IExtendedPatternContainer container, ItemStack patternStack) {
+        return container.getTerminalPatternInventory().simulateAdd(patternStack).isEmpty();
+    }
+
     @Override
     public void gtolib$sendPattern(int index) {
         if (isClientSide()) {
@@ -333,12 +340,10 @@ public abstract class PatternEncodingTermMenuMixin extends MEStorageMenu impleme
         if (grid == null) {
             return;
         }
-        var me = grid.getStorageService().getInventory();
-        var blank = AEItemKey.of(AEItems.BLANK_PATTERN);
-        if (me.extract(blank, 1, Actionable.SIMULATE, getActionSource()) == 0) {
+        var containers = gto$currentContainers;
+        if (containers == null) {
             return;
         }
-        var containers = gto$currentContainers;
         if (index < 0 || index >= containers.size()) {
             return;
         }
@@ -347,8 +352,18 @@ public abstract class PatternEncodingTermMenuMixin extends MEStorageMenu impleme
 
         var patternStack = gto$patternStack;
         if (patternStack == null) return;
-        if (container.getTerminalPatternInventory().addItems(patternStack).isEmpty()) {
-            me.extract(blank, 1, Actionable.MODULATE, getActionSource());
+        if (!gto$canAddPattern(container, patternStack)) return;
+
+        var me = grid.getStorageService().getInventory();
+        var blank = AEItemKey.of(AEItems.BLANK_PATTERN);
+        var extractedBlankPatterns = me.extract(blank, 1, Actionable.MODULATE, getActionSource());
+        if (extractedBlankPatterns == 0) {
+            return;
+        }
+        // 如果没有成功插入样板则回滚
+        var remainder = container.getTerminalPatternInventory().addItems(patternStack);
+        if (!remainder.isEmpty()) {
+            me.insert(blank, extractedBlankPatterns, Actionable.MODULATE, getActionSource());
         }
     }
 
@@ -364,8 +379,10 @@ public abstract class PatternEncodingTermMenuMixin extends MEStorageMenu impleme
         gto$currentContainers = gto$getPatternContainers(recipeLocName);
         if (gto$currentContainers.isEmpty()) return;
         Message.sendPatternDestination((ServerPlayer) getPlayer(), gto$currentContainers.stream()
-                .map(PatternContainer::getTerminalGroup)
-                .toArray(PatternContainerGroup[]::new));
+                .map(container -> new Message.PatternDestination(
+                        container.getTerminalGroup(),
+                        !gto$canAddPattern(container, patternStack)))
+                .toArray(Message.PatternDestination[]::new));
     }
 
     @Override
