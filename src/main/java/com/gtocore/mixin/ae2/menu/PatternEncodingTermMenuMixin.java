@@ -101,8 +101,8 @@ public abstract class PatternEncodingTermMenuMixin extends MEStorageMenu impleme
             sendClientAction("addRecipe", id);
         } else {
             gtolib$logic().gtocore$setRecipe(id);
-            gto$lastRecipeType = GTRegistries.RECIPE_TYPES.get(RLUtils.parse(id.split("/")[0]));
         }
+        gto$lastRecipeType = GTRegistries.RECIPE_TYPES.get(RLUtils.parse(id.split("/")[0]));
     }
 
     @Override
@@ -178,7 +178,7 @@ public abstract class PatternEncodingTermMenuMixin extends MEStorageMenu impleme
         registerClientAction("clickRecipeInfo", this::gtolib$clickRecipeInfo);
         registerClientAction("addUUID", UUID.class, this::gtolib$addUUID);
         registerClientAction("sendPattern", Integer.class, this::gtolib$sendPattern);
-        registerClientAction("sendPatternRequest", this::gtolib$sendEncodeRequest);
+        registerClientAction("sendPatternRequest", String.class, this::gtolib$sendEncodeRequest);
     }
 
     @Override
@@ -232,7 +232,7 @@ public abstract class PatternEncodingTermMenuMixin extends MEStorageMenu impleme
     protected abstract ItemStack encodePattern();
 
     @Unique
-    private List<IExtendedPatternContainer> gto$getPatternContainers() {
+    private List<IExtendedPatternContainer> gto$getPatternContainers(String recipeLocName) {
         var gridNode = getActionHost().getActionableNode();
         if (gridNode == null) {
             return List.of();
@@ -293,7 +293,7 @@ public abstract class PatternEncodingTermMenuMixin extends MEStorageMenu impleme
             return false;
 
         });
-        var containerComparator = (gto$isCraft ? gto$CRAFT_FIRST : gto$recipeFirst(gto$lastRecipeType)).reversed();
+        var containerComparator = (gto$isCraft ? gto$CRAFT_FIRST : gto$recipeFirst(gto$lastRecipeType, recipeLocName)).reversed();
 
         machines.sort(containerComparator);
         return machines;
@@ -304,23 +304,23 @@ public abstract class PatternEncodingTermMenuMixin extends MEStorageMenu impleme
             .thenComparing(IExtendedPatternContainer::gto$isCraftingContainer);
 
     @Unique
-    private static Comparator<IExtendedPatternContainer> gto$recipeFirst(GTRecipeType recipeType) {
+    private static Comparator<IExtendedPatternContainer> gto$recipeFirst(GTRecipeType recipeType, String recipeLocName) {
         if (recipeType == null) {
             return Comparator.comparing(IExtendedPatternContainer::hasEmptyPatternSlot);
         }
-        return Comparator.comparing(IExtendedPatternContainer::hasEmptyPatternSlot)
-                .thenComparing((IExtendedPatternContainer p) -> p.getSupportedRecipeTypes().contains(recipeType))
-                .thenComparing((IExtendedPatternContainer p) -> gto$matchesRecipeName(p, recipeType));
+        var c = Comparator.comparing(IExtendedPatternContainer::hasEmptyPatternSlot)
+                .thenComparing((IExtendedPatternContainer p) -> p.getSupportedRecipeTypes().contains(recipeType));
+        if (recipeLocName != null && !recipeLocName.isEmpty()) {
+            c = c.thenComparing((IExtendedPatternContainer p) -> gto$matchesRecipeName(p, recipeLocName));
+        }
+        return c;
     }
 
     @Unique
-    private static boolean gto$matchesRecipeName(IExtendedPatternContainer container, GTRecipeType recipeType) {
+    private static boolean gto$matchesRecipeName(IExtendedPatternContainer container, String recipeType) {
         var name = container.getTerminalGroup().name().getString().toLowerCase(Locale.ROOT);
-        var path = recipeType.registryName.getPath().toLowerCase(Locale.ROOT);
-        var languageKey = recipeType.registryName.toLanguageKey();
         var recipeNames = new LinkedHashSet<String>();
-        recipeNames.add(path.replace('_', ' '));
-        recipeNames.add(Component.translatable(languageKey).getString().toLowerCase(Locale.ROOT));
+        recipeNames.add(recipeType.toLowerCase(Locale.ROOT));
         for (var recipeName : recipeNames) {
             if (!recipeName.isEmpty() && name.contains(recipeName)) {
                 return true;
@@ -358,19 +358,31 @@ public abstract class PatternEncodingTermMenuMixin extends MEStorageMenu impleme
         container.getTerminalPatternInventory().addItems(patternStack);
     }
 
-    @Override
-    public void gtolib$sendEncodeRequest() {
+    @Unique
+    private void gtolib$sendEncodeRequest(String recipeLocName) {
         if (isClientSide()) {
-            sendClientAction("sendPatternRequest");
+            sendClientAction("sendPatternRequest", recipeLocName);
             return;
         }
         var patternStack = encodePattern();
         if (patternStack == null) return;
         gto$patternStack = patternStack;
-        gto$currentContainers = gto$getPatternContainers();
+        gto$currentContainers = gto$getPatternContainers(recipeLocName);
         if (gto$currentContainers.isEmpty()) return;
         Message.sendPatternDestination((ServerPlayer) getPlayer(), gto$currentContainers.stream()
                 .map(PatternContainer::getTerminalGroup)
                 .toArray(PatternContainerGroup[]::new));
+    }
+
+    @Override
+    public void gtolib$sendEncodeRequest() {
+        if (isClientSide()) {
+            if (gto$lastRecipeType == null) {
+                sendClientAction("sendPatternRequest", "");
+            } else {
+                sendClientAction("sendPatternRequest",
+                        Component.translatable("gtceu." + gto$lastRecipeType.registryName.getPath()).getString());
+            }
+        }
     }
 }
