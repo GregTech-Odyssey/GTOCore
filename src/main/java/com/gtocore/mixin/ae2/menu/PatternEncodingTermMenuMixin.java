@@ -333,7 +333,9 @@ public abstract class PatternEncodingTermMenuMixin extends MEStorageMenu impleme
         if (grid == null) {
             return;
         }
-        if (grid.getStorageService().getInventory().extract(AEItemKey.of(AEItems.BLANK_PATTERN), 1, Actionable.MODULATE, getActionSource()) == 0) {
+        var me = grid.getStorageService().getInventory();
+        var blank = AEItemKey.of(AEItems.BLANK_PATTERN);
+        if (me.extract(blank, 1, Actionable.SIMULATE, getActionSource()) == 0) {
             return;
         }
         var containers = gto$currentContainers;
@@ -345,7 +347,9 @@ public abstract class PatternEncodingTermMenuMixin extends MEStorageMenu impleme
 
         var patternStack = gto$patternStack;
         if (patternStack == null) return;
-        container.getTerminalPatternInventory().addItems(patternStack);
+        if (container.getTerminalPatternInventory().addItems(patternStack).isEmpty()) {
+            me.extract(blank, 1, Actionable.MODULATE, getActionSource());
+        }
     }
 
     @Unique
