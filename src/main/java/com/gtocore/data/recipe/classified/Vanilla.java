@@ -32,7 +32,7 @@ import appeng.core.definitions.AEItems;
 
 import com.glodblock.github.extendedae.common.EPPItemAndBlock;
 import vectorwing.farmersdelight.common.registry.ModItems;
-import vectorwing.farmersdelight.common.tag.ForgeTags;
+import vectorwing.farmersdelight.common.tag.CommonTags;
 import vectorwing.farmersdelight.data.builder.CuttingBoardRecipeBuilder;
 
 import static com.gregtechceu.gtceu.common.data.GTMaterials.Water;
@@ -50,7 +50,7 @@ final class Vanilla {
         }
 
         if (Mods.FARMERSDELIGHT.isLoaded()) {
-            CuttingBoardRecipeBuilder.cuttingRecipe(Ingredient.of(ModItems.ONION.get()), Ingredient.of(ForgeTags.TOOLS_KNIVES), ModItems.ONION.get(), 1, 0).build(GTDynamicDataPack.CONSUMER, GTOCore.id("cutting/onion"));
+            CuttingBoardRecipeBuilder.cuttingRecipe(Ingredient.of(ModItems.ONION.get()), Ingredient.of(CommonTags.Items.TOOLS_KNIVES), ModItems.ONION.get(), 1, 0).save(GTDynamicDataPack.CONSUMER, GTOCore.id("cutting/onion"));
         }
 
         VanillaRecipeHelper.addSmeltingRecipe(GTOCore.id("raw_aluminum"), GTOItems.RAW_ALUMINUM.asStack(), ChemicalHelper.get(TagPrefix.ingot, GTMaterials.Aluminium), 0);

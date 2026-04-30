@@ -68,7 +68,7 @@ public abstract class AEBaseScreenMixin<T extends AEBaseMenu> extends AbstractCo
         }
     }
 
-    @Inject(method = "renderLabels", at = @At(value = "INVOKE", target = "Lappeng/client/gui/AEBaseScreen;drawFG(Lnet/minecraft/client/gui/GuiGraphics;IIII)V"), remap = false)
+    @Inject(method = "renderLabels", at = @At(value = "INVOKE", target = "Lappeng/client/gui/AEBaseScreen;drawFG(Lnet/minecraft/client/gui/GuiGraphics;IIII)V", remap = false))
     private void gtolib$debugRenderExclusionZones(GuiGraphics guiGraphics, int x, int y, CallbackInfo ci) {
         if (!GTCEu.isDev()) return;
         for (Rect2i rect : getExclusionZones()) {

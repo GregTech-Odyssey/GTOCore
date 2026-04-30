@@ -70,7 +70,7 @@ dependencies {
 
     modImplementation("top.theillusivec4.curios:curios-forge:${project.curiosVersion}+${project.minecraft_version}")
 
-    modImplementation("vazkii.botania:Botania:${project.minecraft_version}-451-FORGE")
+    modImplementation("vazkii.botania:Botania:${project.minecraft_version}-452-FORGE")
 
     modImplementation("vazkii.patchouli:Patchouli:${project.minecraft_version}-84.1-FORGE")
 
@@ -87,7 +87,7 @@ dependencies {
     modImplementation("curse.maven:ars-meteorites-1278083:7125271")
 
     modImplementation("curse.maven:glodium-957920:5006780")
-    modImplementation("curse.maven:ex-pattern-provider-892005:7871763")
+    modImplementation("curse.maven:ex-pattern-provider-892005:7986603")
 
     modImplementation("curse.maven:merequester-688367:5689932")
 
@@ -103,7 +103,7 @@ dependencies {
 
     modImplementation("curse.maven:render-blender-1346485:7035162")
 
-    modImplementation("curse.maven:farmers-delight-398521:6917255")
+    modImplementation("curse.maven:farmers-delight-398521:8007609")
     modImplementation("curse.maven:farmers-respite-551453:5543547")
 
     modImplementation("curse.maven:endremastered-404183:5598990")
@@ -143,7 +143,7 @@ dependencies {
 
     modCompileOnly("curse.maven:emi-trades-villager-trading-emi-plugin-735523:4901194")
 
-    modCompileOnly("curse.maven:open-parties-and-claims-636608:7914500")
+    modCompileOnly("curse.maven:open-parties-and-claims-636608:7987205")
 
     modCompileOnly("curse.maven:sophisticated-backpacks-422301:6539219")
     modCompileOnly("curse.maven:sophisticated-core-618298:6545102")
