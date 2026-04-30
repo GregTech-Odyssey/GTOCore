@@ -224,9 +224,9 @@ final class CosmosSimulation {
                     dust.mergeInt(item, material.getIntValue(), Integer::sum);
                 }
             }
-            dust.reference2IntEntrySet().stream().sorted(Map.Entry.comparingByValue()).toList().forEach(e -> builder.outputItems(e.getKey(), e.getIntValue()));
+            dust.reference2IntEntrySet().stream().filter(e -> e.getIntValue() > 0).sorted(Map.Entry.comparingByValue()).toList().forEach(e -> builder.outputItems(e.getKey(), e.getIntValue()));
             fluid.putAll(fluidContent.getOrDefault(tier, new Reference2IntOpenHashMap<>()));
-            for (var content : fluid.reference2IntEntrySet().stream().sorted(Map.Entry.comparingByValue()).toList()) {
+            for (var content : fluid.reference2IntEntrySet().stream().filter(e -> e.getIntValue() > 0).sorted(Map.Entry.comparingByValue()).toList()) {
                 builder.outputFluids(new FluidStack(content.getKey(), content.getIntValue()));
             }
             builder.duration((int) Math.sqrt(tier * dust.size() << 16)).save();
