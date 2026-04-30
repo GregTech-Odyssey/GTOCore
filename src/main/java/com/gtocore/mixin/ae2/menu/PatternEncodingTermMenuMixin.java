@@ -35,7 +35,6 @@ import appeng.helpers.patternprovider.PatternContainer;
 import appeng.menu.guisync.GuiSync;
 import appeng.menu.me.common.MEStorageMenu;
 import appeng.menu.me.items.PatternEncodingTermMenu;
-import appeng.menu.slot.RestrictedInputSlot;
 import appeng.parts.encoding.PatternEncodingLogic;
 import appeng.util.ConfigInventory;
 import appeng.util.inv.AppEngInternalInventory;
@@ -57,20 +56,29 @@ import java.util.*;
 public abstract class PatternEncodingTermMenuMixin extends MEStorageMenu implements IMenuCraftingPacket, IPatterEncodingTermMenu, IExtendedPatternEncodingTerm.Menu {
 
     @Unique
-    @GuiSync(122)
-    public boolean gtolib$extraInfoEnabled = true;
+    private static final String TITLE_ENABLED = "gtocore.pattern.recipeInfoButton.title.enabled";
+    @Unique
+    private static final String TITLE_DISABLED = "gtocore.pattern.recipeInfoButton.title.disabled";
+    @Unique
+    private static final String CLICK_TO_ENABLE = "gtocore.pattern.recipeInfoButton.clickToEnable";
+    @Unique
+    private static final String CLICK_TO_DISABLE = "gtocore.pattern.recipeInfoButton.clickToDisable";
+    @Unique
+    private static final String CLICK_TO_CLEAR = "gtocore.pattern.recipeInfoButton.clickToClear";
+
     @Shadow(remap = false)
     @Final
     private ConfigInventory encodedInputsInv;
     @Shadow(remap = false)
     @Final
     private ConfigInventory encodedOutputsInv;
-    @Final
-    @Shadow(remap = false)
-    private RestrictedInputSlot encodedPatternSlot;
     @Shadow(remap = false)
     @Final
     private PatternEncodingLogic encodingLogic;
+
+    @Unique
+    @GuiSync(122)
+    public boolean gtolib$extraInfoEnabled = true;
     @Unique
     @GuiSync(120)
     public String gtocore$recipe = "";
@@ -82,7 +90,6 @@ public abstract class PatternEncodingTermMenuMixin extends MEStorageMenu impleme
     private List<IExtendedPatternContainer> gto$currentContainers = null;
     @Unique
     private ItemStack gto$patternStack;
-
     @Unique
     private UUID gtocore$UUID;
 
@@ -125,17 +132,6 @@ public abstract class PatternEncodingTermMenuMixin extends MEStorageMenu impleme
         gtolib$logic().gtocore$clearExtraRecipeInfo();
         this.gtolib$extraInfoEnabled = !this.gtolib$extraInfoEnabled;
     }
-
-    @Unique
-    private static final String TITLE_ENABLED = "gtocore.pattern.recipeInfoButton.title.enabled";
-    @Unique
-    private static final String TITLE_DISABLED = "gtocore.pattern.recipeInfoButton.title.disabled";
-    @Unique
-    private static final String CLICK_TO_ENABLE = "gtocore.pattern.recipeInfoButton.clickToEnable";
-    @Unique
-    private static final String CLICK_TO_DISABLE = "gtocore.pattern.recipeInfoButton.clickToDisable";
-    @Unique
-    private static final String CLICK_TO_CLEAR = "gtocore.pattern.recipeInfoButton.clickToClear";
 
     @Override
     public Component gtolib$getRecipeInfoTooltip() {
@@ -220,12 +216,6 @@ public abstract class PatternEncodingTermMenuMixin extends MEStorageMenu impleme
             this.gtocore$recipe = gtolib$logic().gtocore$getRecipe();
         }
     }
-
-    @Shadow(remap = false)
-    protected abstract boolean isPattern(ItemStack output);
-
-    @Shadow(remap = false)
-    public abstract void encode();
 
     @Shadow(remap = false)
     @Nullable
