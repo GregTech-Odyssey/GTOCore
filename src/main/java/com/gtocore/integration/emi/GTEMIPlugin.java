@@ -2,6 +2,7 @@ package com.gtocore.integration.emi;
 
 import com.gtocore.common.CommonProxy;
 import com.gtocore.common.data.GTOItems;
+import com.gtocore.common.data.GTORecipeTypes;
 import com.gtocore.common.machine.multiblock.part.ae.MEPatternBufferPartMachine;
 import com.gtocore.common.machine.multiblock.part.ae.MEPatternBufferPartMachineKt;
 import com.gtocore.config.GTOConfig;
@@ -207,7 +208,13 @@ public final class GTEMIPlugin implements EmiPlugin {
         registry.addCategory(OreProcessingEmiCategory.CATEGORY);
         registry.addCategory(GTOreVeinEmiCategory.CATEGORY);
         registry.addCategory(GTBedrockFluidEmiCategory.CATEGORY);
+        registry.addCategory(NanitesIntegratedProcessingEmiCategory.ORE_EXTRACTION_MODULE);
+        registry.addCategory(NanitesIntegratedProcessingEmiCategory.BIOENGINEERING_MODULE);
+        registry.addCategory(NanitesIntegratedProcessingEmiCategory.POLYMER_TWISTING_MODULE);
         for (GTRecipeCategory category : GTRegistries.RECIPE_CATEGORIES) {
+            if (category.getRecipeType() == GTORecipeTypes.NANITES_INTEGRATED_PROCESSING_CENTER_RECIPES) {
+                continue;
+            }
             if (GTCEu.isDev() || category.isXEIVisible()) {
                 registry.addCategory(GTRecipeEMICategory.CATEGORIES.apply(category));
             }
@@ -234,6 +241,7 @@ public final class GTEMIPlugin implements EmiPlugin {
         GTRecipeEMICategory.registerWorkStations(registry);
         GTOreVeinEmiCategory.registerWorkStations(registry);
         GTBedrockFluidEmiCategory.registerWorkStations(registry);
+        NanitesIntegratedProcessingEmiCategory.registerWorkstations(registry);
         registry.setDefaultComparison(GTItems.PROGRAMMED_CIRCUIT.asItem(), Comparison.compareNbt());
         registry.setDefaultComparison(GTOItems.DIMENSION_DATA.asItem(), Comparison.compareNbt());
         registerDimensionDataVariants(registry);

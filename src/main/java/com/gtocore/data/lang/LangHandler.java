@@ -360,9 +360,9 @@ public final class LangHandler {
         addCNEN("gtocore.ae.appeng.me2in1.material_slot.2", "编码时将自动应用材料类型到可替换的物品上", "The material type will be automatically applied to replaceable items when encoding");
         addCNEN("gtocore.ae.appeng.me2in1.auto_encode_rename_pattern", "自动编码重命名样板", "Auto Encode Renaming Pattern");
         addCNEN("gtocore.ae.appeng.me2in1.auto_encode_rename_pattern.1", "启用后，所有重命名后的物品将额外编码一份样板，数量与原样板中设置的一致。", "When enabled, all renamed items will encode an additional pattern, with the same quantity as set in the original pattern.");
-        addCNEN("gtocore.ae.appeng.me2in1.emi.catalyst", "编码默认不填充催化剂", "Shift + Left Click: Fill catalysts into the pattern");
-        addCNEN("gtocore.ae.appeng.me2in1.emi.catalyst.fill", "Shift + 左击：将催化剂填充至样板", "Shift + Left Click: Fill catalysts into the pattern");
-        addCNEN("gtocore.ae.appeng.me2in1.emi.catalyst.virtual", "Ctrl + 左击：将催化剂（虚拟物品）填充至样板", "Hold Ctrl to encode catalysts as virtual item catalysts");
+        addCNEN("gtocore.ae.appeng.me2in1.emi.catalyst", "编码默认不填充催化剂", "Catalysts are skipped by default");
+        addCNEN("gtocore.ae.appeng.me2in1.emi.catalyst.fill", "Shift + 左击：将催化剂填充至样板", "Shift + Click: Fill catalysts into the pattern");
+        addCNEN("gtocore.ae.appeng.me2in1.emi.catalyst.virtual", "Ctrl + 左击：将催化剂（虚拟物品）填充至样板", "Ctrl + Click: Encode catalysts as virtual items");
         addCNEN("gtocore.ae.appeng.me2in1.emi.multiblock.sub", "Shift + 左击：编码基础结构和当前模块", "Shift + Click: Encode base structure and this module");
         addCNEN("gtocore.ae.appeng.me2in1.emi.multiblock.sub.all", "Ctrl + 左击：编码到当前模块为止的全部结构", "Ctrl + Click: Encode all modules up to this one");
         addCNEN("gtocore.ae.appeng.me2in1.emi.gt_batch_encode", "Alt + 左击：批量编码，试图替换的材料用黄色标记", "Batch encoding is available while holding Alt, materials to be replaced are marked in yellow");
@@ -406,7 +406,7 @@ public final class LangHandler {
         addCNEN("gtocore.ae.appeng.craft.resume_job", "继续", "Resume");
         addCNEN("gtocore.ae.appeng.craft.pause_job.desc", "暂停正在进行中的发配；已推送的样板不会被撤回", "Pause the ongoing crafting; pushed patterns will not be withdrawn");
         addCNEN("gtocore.ae.appeng.craft.resume_job.desc", "继续已暂停的发配", "Resume the paused crafting");
-        addCNEN("gtocore.ae.appeng.craft.temp_order", "中键点击以创建临时合成订单，下单一份该配方的原材料", "Middle-click to create a temporary crafting order, ordering one set of raw materials for this recipe");
+        addCNEN("gtocore.ae.appeng.craft.temp_order", "中键点击以创建临时合成订单，下单一份该配方的原材料", "Middle-click: order one set of materials for this recipe");
         addCNEN("gtocore.ae.appeng.craft.encode_send", "§o[右键点击] 编码并发送样板§r", "§o[Right Click] Encode and send pattern§r");
         addCNEN("gtocore.ae.appeng.craft.encode_send.desc", "点击选择目的地样板供应器，并将样板发送至该供应器", "Click to select the destination Pattern Provider and encode the current recipe to it");
         addCNEN("gtocore.ae.appeng.wft.wireless", "无线设施管理终端", "Wireless Facility Management Terminal");

@@ -58,6 +58,7 @@ import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.server.TickTask;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -224,10 +225,10 @@ public abstract class MEPatternBufferPartMachine extends MEPatternPartMachineKt<
     }
 
     private Set<MEPatternBufferProxyPartMachine> getProxies() {
-        if (proxyMachines.size() != proxies.size() && getLevel() != null) {
+        if (proxyMachines.size() != proxies.size() && getLevel() instanceof ServerLevel l) {
             proxyMachines.clear();
-            for (var pos : proxies) {
-                if (MetaMachine.getMachine(getLevel(), pos) instanceof MEPatternBufferProxyPartMachine proxy) {
+            for (var pos : Set.copyOf(proxies)) {
+                if (MetaMachine.getMachine(l, pos) instanceof MEPatternBufferProxyPartMachine proxy) {
                     proxy.setBuffer(getPos());
                 }
             }

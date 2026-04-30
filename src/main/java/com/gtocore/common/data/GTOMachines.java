@@ -110,10 +110,11 @@ public final class GTOMachines {
     // *** Simple Machine ***//
     /// ///////////////////////////////////
     public static final Pair<MachineDefinition, MachineDefinition> STEAM_VACUUM_PUMP = registerSteamMachines("steam_vacuum_pump", "真空泵", SteamVacuumPumpMachine::new, (pressure, builder) -> builder
-            .allRotation()
+            .noneRotation()
             .recipeType(GTORecipeTypes.VACUUM_PUMP_RECIPES)
             .recipeModifier(SimpleSteamMachine::recipeModifier)
             .tooltips(Component.translatable("gtocore.recipe.vacuum.tier", pressure ? 2 : 1))
+            .tooltips(Component.translatable("gtocore.machine.vacuum_pump.tooltip.0"))
             .renderer(() -> new WorkableSteamMachineRenderer(pressure, GTOCore.id("block/machines/vacuum_pump")))
             .register());
 
@@ -168,6 +169,7 @@ public final class GTOMachines {
                     .recipeType(GTORecipeTypes.VACUUM_PUMP_RECIPES)
                     .workableTieredHullRenderer(GTOCore.id("block/machines/vacuum_pump"))
                     .tooltips(Component.translatable("gtocore.recipe.vacuum.tier", tier + 1))
+                    .tooltips(Component.translatable("gtocore.machine.vacuum_pump.tooltip.0"))
                     .tooltips(GTMachineUtils.workableTiered(tier, V[tier], V[tier] << 6, GTORecipeTypes.VACUUM_PUMP_RECIPES, GTMachineUtils.defaultTankSizeFunction.apply(tier), true))
                     .register(),
             LV, MV, HV);

@@ -59,9 +59,9 @@ final class Vanilla {
         switch (GTOCore.difficulty) {
             case 1 -> {
                 VanillaRecipeHelper.addShapedRecipe(GTOCore.id("ender_eye"), ChemicalHelper.get(TagPrefix.gem, GTMaterials.EnderEye),
-                        " A ",
-                        "ABA",
-                        " A ",
+                        "A A",
+                        " B ",
+                        "A A",
                         'A', new MaterialEntry(TagPrefix.dust, GTMaterials.Blaze), 'B', new MaterialEntry(TagPrefix.gem, GTMaterials.EnderPearl));
                 VanillaRecipeHelper.addShapedRecipe(true, GTOCore.id("steam_assembly_block"), GTOBlocks.STEAM_ASSEMBLY_BLOCK.asItem(),
                         "ABA",

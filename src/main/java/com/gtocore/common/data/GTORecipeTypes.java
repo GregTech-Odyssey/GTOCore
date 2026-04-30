@@ -628,13 +628,6 @@ public final class GTORecipeTypes {
             .addDataInfo(TEMPERATURE)
             .addDataInfo(COIL)
             .setUiBuilder(COIL_UI)
-            .addDataInfo(data -> switch (data.getInt(GTORecipeDataKeys.MODULE)) {
-                case 0 -> I18n.get("gtocore.machine.need", I18n.get("block.gtocore.nanites_integrated_processing_center"));
-                case 1 -> I18n.get("gtocore.machine.need", I18n.get("block.gtocore.ore_extraction_module"));
-                case 2 -> I18n.get("gtocore.machine.need", I18n.get("block.gtocore.bioengineering_module"));
-                case 3 -> I18n.get("gtocore.machine.need", I18n.get("block.gtocore.polymer_twisting_module"));
-                default -> "";
-            })
             .setSound(GTSoundEntries.ARC);
 
     public static final RecipeType NANO_FORGE_RECIPES = register("nano_forge", "纳米蜂群工厂", MULTIBLOCK)
