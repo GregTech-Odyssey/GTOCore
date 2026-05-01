@@ -12,6 +12,7 @@ import com.gtocore.integration.chisel.ChiselRecipe;
 import com.gtocore.integration.emi.multipage.MultiblockInfoEmiRecipe;
 import com.gtocore.integration.emi.oreprocessing.OreProcessingEmiCategory;
 import com.gtocore.integration.emi.space.SatelliteEmiCategory;
+import com.gtocore.integration.misc.CalculatorOverlay;
 
 import com.gtolib.api.GTOApi;
 import com.gtolib.api.ae2.me2in1.Me2in1Menu;
@@ -166,6 +167,9 @@ public final class GTEMIPlugin implements EmiPlugin {
         list.accept(new JEICompat());
         if (GTCEu.isModLoaded("ftbxmodcompat")) {
             NotDevCompat.addPlugin(list);
+        }
+        if (GTCEu.isModLoaded("calculatoroverlay")) {
+            CalculatorOverlay.initJEI(list);
         }
     }
 
