@@ -242,47 +242,7 @@ public abstract class PatternEncodingTermMenuMixin extends MEStorageMenu impleme
         var primaryOutput = thisPatternDetails.getPrimaryOutput().what();
         Set<Object> sameCluster = new HashSet<>();
 
-        machines.removeIf(container -> {
-            var patternInv = container.getTerminalPatternInventory();
-
-            if (!container.isVisibleInTerminal())
-                return true;
-            var hasSpace = gto$canAddPattern(container, stack);
-            if (patternInv instanceof AppEngInternalInventory aeInv &&
-                    aeInv.getHost() instanceof TileAssemblerMatrixPattern matrixPattern) {
-                var matrix = matrixPattern.getCluster();
-                if (matrix == null) return false;
-                if (sameCluster.contains(matrix)) return true;
-                sameCluster.add(matrix);
-                if (!hasSpace) return false;
-                return matrix.getPatterns()
-                        .stream()
-                        .flatMap(m -> m.getAvailablePatterns().stream())
-                        .anyMatch(p -> p.getPrimaryOutput().what() == primaryOutput);
-            }
-            if (patternInv instanceof MEPartInv inv &&
-                    inv.getMachine() instanceof MECraftPatternPartMachine mecppm &&
-                    mecppm.getController() instanceof SuperMolecularAssemblerMachine smaMachine) {
-                if (sameCluster.contains(smaMachine)) return true;
-                sameCluster.add(smaMachine);
-                if (!hasSpace) return false;
-                return Arrays.stream(smaMachine.getParts())
-                        .filter(m -> m instanceof MECraftPatternPartMachine)
-                        .map(m -> (MECraftPatternPartMachine) m)
-                        .flatMap(m -> m.getAvailablePatterns().stream())
-                        .anyMatch(p -> p.getPrimaryOutput().what() == primaryOutput);
-            }
-            if (!hasSpace) return false;
-            for (var paattern : patternInv) {
-                var details = AEPatternDecoder.INSTANCE.decodePattern(paattern, getPlayer().level(), false);
-                if (details == null) continue;
-                if (details.getPrimaryOutput().what() == primaryOutput) {
-                    return true;
-                }
-            }
-            return false;
-
-        });
+        machines.removeIf(container -> gto$shouldRemoveContainer(container, stack, primaryOutput, sameCluster));
         var containerComparator = (gto$isCraft ? gto$craftFirst(stack) : gto$recipeFirst(gto$lastRecipeType, recipeLocName, stack)).reversed();
 
         machines.sort(containerComparator);
@@ -324,6 +284,128 @@ public abstract class PatternEncodingTermMenuMixin extends MEStorageMenu impleme
     @Unique
     private static boolean gto$canAddPattern(IExtendedPatternContainer container, ItemStack patternStack) {
         return container.getTerminalPatternInventory().simulateAdd(patternStack).isEmpty();
+    }
+
+    @Unique
+    private boolean gto$shouldRemoveContainer(IExtendedPatternContainer container, ItemStack patternStack, Object primaryOutput,
+                                              Set<Object> sameCluster) {
+        if (!container.isVisibleInTerminal()) {
+            return true;
+        }
+
+        var patternInv = container.getTerminalPatternInventory();
+        var hasSpace = gto$canAddPattern(container, patternStack);
+        if (patternInv instanceof AppEngInternalInventory aeInv &&
+                aeInv.getHost() instanceof TileAssemblerMatrixPattern matrixPattern) {
+            return gto$shouldRemoveMatrixContainer(matrixPattern, container, patternStack, primaryOutput, sameCluster, hasSpace);
+        }
+        if (patternInv instanceof MEPartInv inv &&
+                inv.getMachine() instanceof MECraftPatternPartMachine mecppm &&
+                mecppm.getController() instanceof SuperMolecularAssemblerMachine smaMachine) {
+            return gto$shouldRemoveSmaContainer(smaMachine, container, patternStack, primaryOutput, sameCluster, hasSpace);
+        }
+
+        return hasSpace && gto$containsPrimaryOutput(container, primaryOutput, getPlayer().level());
+    }
+
+    @Unique
+    private boolean gto$shouldRemoveMatrixContainer(TileAssemblerMatrixPattern matrixPattern, IExtendedPatternContainer container,
+                                                    ItemStack patternStack, Object primaryOutput, Set<Object> sameCluster,
+                                                    boolean hasSpace) {
+        var matrix = matrixPattern.getCluster();
+        if (matrix == null) {
+            return false;
+        }
+
+        if (sameCluster.contains(matrix)) {
+            return true;
+        }
+
+        var clusterContainers = matrix.getPatterns().stream()
+                .filter(IExtendedPatternContainer.class::isInstance)
+                .map(IExtendedPatternContainer.class::cast)
+                .toList();
+        var clusterHasSpace = clusterContainers.stream().anyMatch(p -> gto$canAddPattern(p, patternStack));
+        if (!hasSpace && clusterHasSpace) {
+            return true;
+        }
+        sameCluster.add(matrix);
+        if (!clusterHasSpace) {
+            return false;
+        }
+
+        for (var c : clusterContainers) {
+            if (gto$containsPrimaryOutput(c, primaryOutput, getPlayer().level())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Unique
+    private boolean gto$shouldRemoveSmaContainer(SuperMolecularAssemblerMachine smaMachine, IExtendedPatternContainer container,
+                                                 ItemStack patternStack, Object primaryOutput, Set<Object> sameCluster,
+                                                 boolean hasSpace) {
+        if (sameCluster.contains(smaMachine)) {
+            return true;
+        }
+
+        var clusterContainers = Arrays.stream(smaMachine.getParts())
+                .filter(IExtendedPatternContainer.class::isInstance)
+                .map(IExtendedPatternContainer.class::cast)
+                .toList();
+        var clusterHasSpace = clusterContainers.stream().anyMatch(p -> gto$canAddPattern(p, patternStack));
+        if (!hasSpace && clusterHasSpace) {
+            return true;
+        }
+        sameCluster.add(smaMachine);
+        if (!clusterHasSpace) {
+            return false;
+        }
+
+        for (var c : clusterContainers) {
+            if (gto$containsPrimaryOutput(c, primaryOutput, getPlayer().level())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Unique
+    private static boolean gto$containsPrimaryOutput(IExtendedPatternContainer container, Object primaryOutput,
+                                                     net.minecraft.world.level.Level level) {
+        for (var pattern : container.getTerminalPatternInventory()) {
+            var details = AEPatternDecoder.INSTANCE.decodePattern(pattern, level, false);
+            if (details != null && details.getPrimaryOutput().what() == primaryOutput) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Unique
+    private static boolean gto$isFull(IExtendedPatternContainer container, ItemStack patternStack) {
+        var patternInv = container.getTerminalPatternInventory();
+        if (patternInv instanceof AppEngInternalInventory aeInv &&
+                aeInv.getHost() instanceof TileAssemblerMatrixPattern matrixPattern) {
+            var matrix = matrixPattern.getCluster();
+            if (matrix == null) {
+                return !gto$canAddPattern(container, patternStack);
+            }
+            return matrix.getPatterns().stream()
+                    .filter(IExtendedPatternContainer.class::isInstance)
+                    .map(IExtendedPatternContainer.class::cast)
+                    .noneMatch(p -> gto$canAddPattern(p, patternStack));
+        }
+        if (patternInv instanceof MEPartInv inv &&
+                inv.getMachine() instanceof MECraftPatternPartMachine mecppm &&
+                mecppm.getController() instanceof SuperMolecularAssemblerMachine smaMachine) {
+            return Arrays.stream(smaMachine.getParts())
+                    .filter(IExtendedPatternContainer.class::isInstance)
+                    .map(IExtendedPatternContainer.class::cast)
+                    .noneMatch(p -> gto$canAddPattern(p, patternStack));
+        }
+        return !gto$canAddPattern(container, patternStack);
     }
 
     @Override
@@ -381,7 +463,7 @@ public abstract class PatternEncodingTermMenuMixin extends MEStorageMenu impleme
         Message.sendPatternDestination((ServerPlayer) getPlayer(), gto$currentContainers.stream()
                 .map(container -> new Message.PatternDestination(
                         container.getTerminalGroup(),
-                        !gto$canAddPattern(container, patternStack)))
+                        gto$isFull(container, patternStack)))
                 .toArray(Message.PatternDestination[]::new));
     }
 
