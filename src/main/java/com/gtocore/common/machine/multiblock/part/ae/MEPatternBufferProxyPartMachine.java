@@ -60,6 +60,12 @@ public final class MEPatternBufferProxyPartMachine extends WorkableTieredIOPartM
     }
 
     @Override
+    public int tintColor(int index) {
+        if (index == 9) return getRealColor();
+        return -1;
+    }
+
+    @Override
     public void onLoad() {
         super.onLoad();
         if (getLevel() instanceof ServerLevel level) {

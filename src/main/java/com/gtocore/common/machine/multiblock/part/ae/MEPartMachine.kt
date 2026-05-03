@@ -78,6 +78,8 @@ abstract class MEPartMachine(holder: MetaMachineBlockEntity, io: IO) :
     override fun getItemHandlerCap(side: Direction?, useCoverCapability: Boolean): IItemHandlerModifiable? = null
     override fun getFluidHandlerCap(side: Direction?, useCoverCapability: Boolean): IFluidHandlerModifiable? = null
 
+    override fun tintColor(index: Int): Int = if (index == 9) realColor else -1
+
     override fun onToolClick(toolType: MutableSet<GTToolType>, itemStack: ItemStack, context: UseOnContext): Pair<GTToolType?, InteractionResult?> {
         val result = super.onToolClick(toolType, itemStack, context)
         if (result.second == InteractionResult.PASS && toolType.contains(GTToolType.WIRE_CUTTER)) {
