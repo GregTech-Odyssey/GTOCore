@@ -34,6 +34,7 @@ import com.gregtechceu.gtceu.api.machine.feature.multiblock.IDistinctPart
 import com.gregtechceu.gtceu.api.machine.multiblock.part.WorkableTieredIOPartMachine
 import com.gregtechceu.gtceu.api.transfer.fluid.IFluidHandlerModifiable
 import com.gregtechceu.gtceu.integration.ae2.machine.trait.GridNodeHolder
+import com.gto.datasynclib.annotations.SyncToClient
 import com.gto.datasynclib.listener.IntNotifiableHolder
 import com.gto.datasynclib.listener.ObjNotifiableHolder
 import com.gtolib.api.capability.ISync
@@ -137,9 +138,16 @@ abstract class MEPartMachine(holder: MetaMachineBlockEntity, io: IO) :
     }
 
     // ==================== WirelessMachine - Sync Fields ====================
+    @SyncToClient
     private val _networkListCache: ObjNotifiableHolder<List<NetworkSummary>> = createNetworkSummarySyncField(this)
+
+    @SyncToClient
     private val _unassignedOutputCount: IntNotifiableHolder = IntNotifiableHolder.create()
+
+    @SyncToClient
     private val _topologyCache: ObjNotifiableHolder<List<TopologySummary>> = createTopologySyncField(this)
+
+    @SyncToClient
     private val _nodeTypeSync: IntNotifiableHolder = IntNotifiableHolder.create()
 
     override fun getNetworkListCache(): ObjNotifiableHolder<List<NetworkSummary>> = _networkListCache

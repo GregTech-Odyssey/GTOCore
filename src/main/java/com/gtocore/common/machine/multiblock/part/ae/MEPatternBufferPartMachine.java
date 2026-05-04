@@ -1,5 +1,6 @@
 package com.gtocore.common.machine.multiblock.part.ae;
 
+import com.gto.datasynclib.annotations.SyncToClient;
 import com.gtocore.api.gui.configurators.MultiMachineModeFancyConfigurator;
 import com.gtocore.common.data.GTORecipeTypes;
 import com.gtocore.common.data.machines.GTAEMachines;
@@ -73,6 +74,7 @@ import appeng.crafting.pattern.ProcessingPatternItem;
 
 import com.fast.fastcollection.OpenCacheHashSet;
 import com.fast.recipesearch.IntLongMap;
+import com.gto.datasynclib.annotations.SyncToServer;
 import com.gto.datasynclib.listener.IntNotifiableHolder;
 import com.hepdd.gtmthings.common.item.VirtualItemProviderBehavior;
 import com.hepdd.gtmthings.data.CustomItems;
@@ -128,7 +130,7 @@ public abstract class MEPatternBufferPartMachine extends MEPatternPartMachineKt<
     @Getter
     public GTRecipeType recipeType = GTORecipeTypes.HATCH_COMBINED;
 
-    @DescSynced
+    @SyncToClient
     private final boolean[] caches;
     @Persisted
     public final NotifiableNotConsumableItemHandler shareInventory;
@@ -144,6 +146,7 @@ public abstract class MEPatternBufferPartMachine extends MEPatternPartMachineKt<
 
     /// C2S sync field for configurator slot index
     @Getter
+    @SyncToServer
     protected IntNotifiableHolder configuratorField = IntNotifiableHolder.create(-1)
             .setSenderListener((side, o, n) -> {
                 // if (side.isServer()) Objects.requireNonNull(Objects.requireNonNull(getLevel()).getServer()).tell(new

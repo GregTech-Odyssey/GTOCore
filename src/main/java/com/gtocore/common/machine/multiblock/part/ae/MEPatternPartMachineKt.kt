@@ -52,6 +52,7 @@ import com.gregtechceu.gtceu.api.recipe.GTRecipeType
 import com.gregtechceu.gtceu.api.transfer.item.CustomItemStackHandler
 import com.gregtechceu.gtceu.utils.TaskHandler
 import com.gregtechceu.gtceu.utils.asm.EmptyMethodChecker
+import com.gto.datasynclib.annotations.SyncToClient
 import com.gto.datasynclib.listener.IntNotifiableHolder
 import com.gtolib.api.ae2.MyPatternDetailsHelper
 import com.gtolib.api.ae2.pattern.IParallelPatternDetails
@@ -199,6 +200,7 @@ abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.AbstractInterna
     open fun onDetailsPostInit() {}
 
     // ==================== 生命周期方法 ====================
+    @SyncToClient
     val newPageField = IntNotifiableHolder.create()
 
     override fun onLoad() {

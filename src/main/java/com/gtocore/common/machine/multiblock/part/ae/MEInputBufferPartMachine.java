@@ -49,6 +49,7 @@ import appeng.helpers.MultiCraftingTracker;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Multimaps;
+import com.gto.datasynclib.annotations.SyncToServer;
 import com.gto.datasynclib.listener.IntNotifiableHolder;
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
@@ -69,6 +70,7 @@ public class MEInputBufferPartMachine extends MEPatternPartMachineKt<MEInputBuff
     private final List<RecipeHandlerList> recipeHandlers;
 
     @Getter
+    @SyncToServer
     public IntNotifiableHolder configuratorField = IntNotifiableHolder.create(-1)
             .setReceiverListener((side, o, n) -> {
                 if (side.isServer()) Objects.requireNonNull(Objects.requireNonNull(getLevel()).getServer()).tell(new TickTask(10, () -> freshWidgetGroup.serverFresh()));
