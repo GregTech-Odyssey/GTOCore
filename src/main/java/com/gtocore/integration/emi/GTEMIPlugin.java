@@ -92,6 +92,7 @@ import snownee.jade.compat.JEICompat;
 import umpaz.farmersrespite.integration.jei.JEIFRPlugin;
 import vazkii.botania.api.BotaniaAPI;
 import vazkii.botania.client.integration.emi.BotaniaEmiPlugin;
+import vectorwing.farmersdelight.FarmersDelight;
 import vectorwing.farmersdelight.common.registry.ModItems;
 
 import java.util.Arrays;
@@ -187,6 +188,7 @@ public final class GTEMIPlugin implements EmiPlugin {
         list.accept(new EmiPluginContainer(new GTEMIPlugin(), GTCEu.MOD_ID));
         list.accept(new EmiPluginContainer(new MeteoritesEmiPlugin(), ArsMeteorites.MOD_ID));
         list.accept(new EmiPluginContainer(new AppEngEmiPlugin(), AppEng.MOD_ID));
+        list.accept(new EmiPluginContainer(new vectorwing.farmersdelight.integration.emi.EMIPlugin(), FarmersDelight.MODID));
         try {
             list.accept(new EmiPluginContainer(new fzzyhmstrs.emi_loot.emi.EmiClientPlugin(), fzzyhmstrs.emi_loot.EMILoot.MOD_ID));
         } catch (Throwable ignored) {

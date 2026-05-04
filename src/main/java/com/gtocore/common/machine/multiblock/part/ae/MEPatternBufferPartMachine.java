@@ -147,14 +147,9 @@ public abstract class MEPatternBufferPartMachine extends MEPatternPartMachineKt<
     /// C2S sync field for configurator slot index
     @Getter
     @SyncToServer
-    protected IntNotifiableHolder configuratorField = IntNotifiableHolder.create(-1)
-            .setSenderListener((side, o, n) -> {
-                // if (side.isServer()) Objects.requireNonNull(Objects.requireNonNull(getLevel()).getServer()).tell(new
-                // TickTask(10, () -> freshWidgetGroup.serverFresh()));
-                // freshWidgetGroup.fresh();
-            }).setReceiverListener((side, o, n) -> {
+    protected IntNotifiableHolder configuratorField = IntNotifiableHolder.create()
+            .setSenderListener((side, o, n) -> {}).setReceiverListener((side, o, n) -> {
                 if (side.isServer()) Objects.requireNonNull(Objects.requireNonNull(getLevel()).getServer()).tell(new TickTask(10, () -> freshWidgetGroup.serverFresh()));
-                // freshWidgetGroup.fresh();
             });
 
     protected ConfiguratorPanel configuratorPanel;
