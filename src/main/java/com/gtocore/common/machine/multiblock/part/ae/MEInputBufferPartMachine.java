@@ -387,6 +387,16 @@ public class MEInputBufferPartMachine extends MEPatternPartMachineKt<MEInputBuff
             }
             var newPattern = machine.getInternalPatternInventory().getStackInSlot(index);
             var details = machine.decodePattern(newPattern, index);
+            if (details == null) {
+                reportingKey = null;
+                for (var slot : exportOnlyItemList.getInventory()) {
+                    slot.setConfig(null);
+                }
+                for (var slot : exportOnlyFluidList.getInventory()) {
+                    slot.setConfig(null);
+                }
+                return;
+            }
             if (details instanceof AEProcessingPattern aeProcessingPattern) {
                 reportingKey = aeProcessingPattern.getPrimaryOutput().what();
                 machine.watcher2SlotMap.put(reportingKey, this);
