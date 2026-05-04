@@ -1617,7 +1617,7 @@ public final class MultiBlockA {
             .register();
 
     public static final MultiblockMachineDefinition ATOMIC_ENERGY_EXCITATION_PLANT = multiblock("atomic_energy_excitation_plant", "原子能激发工厂", CoilMultiblockMachine.createCoilMachine(false, true))
-            .allRotation()
+            .nonYAxisRotation()
             .recipeTypes(GTORecipeTypes.ATOMIC_ENERGY_EXCITATION_RECIPES)
             .parallelizableTooltips()
             .laserTooltips()
@@ -1650,7 +1650,7 @@ public final class MultiBlockA {
                     .where('Q', controller(definition))
                     .where(' ', any())
                     .build())
-            .workableCasingRenderer(GTOCore.id("block/casings/dimensionally_transcendent_casing"), GTCEu.id("block/multiblock/cleanroom"))
+            .workableCasingRenderer(GTOCore.id("block/casings/dimensionally_transcendent_casing"), GTOCore.id("block/multiblock/atomic_energy_excitation_plant"))
             .register();
 
     public static final MultiblockMachineDefinition INDUSTRIAL_FLOTATION_CELL = multiblock("industrial_flotation_cell", "工业浮选机", ElectricMultiblockMachine::new)
