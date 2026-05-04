@@ -51,7 +51,6 @@ public abstract class AbstractInfoProviderMonitor extends BasicMonitor implement
         tickableSubscription = this.subscribeAsyncTick(tickableSubscription, () -> {
             try {
                 this.syncInfoFromServer();
-                this.getSyncStorage().markAllDirty();
                 this.requestSync();
             } catch (Throwable throwable) {
                 GTOCore.LOGGER.error("Error syncing monitor info provider data", throwable);

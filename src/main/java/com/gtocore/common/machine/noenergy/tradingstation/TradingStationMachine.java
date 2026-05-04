@@ -1,6 +1,5 @@
 package com.gtocore.common.machine.noenergy.tradingstation;
 
-import com.gto.datasynclib.annotations.SyncToClient;
 import com.gtocore.api.gui.GTOGuiTextures;
 import com.gtocore.api.gui.InteractiveImageWidget;
 import com.gtocore.common.data.GTOItems;
@@ -47,6 +46,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 
+import com.gto.datasynclib.annotations.SyncToClient;
 import com.hepdd.gtmthings.utils.TeamUtil;
 import com.lowdragmc.lowdraglib.gui.editor.ColorPattern;
 import com.lowdragmc.lowdraglib.gui.modular.ModularUI;

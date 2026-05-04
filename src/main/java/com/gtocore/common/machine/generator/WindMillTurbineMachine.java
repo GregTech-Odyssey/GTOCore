@@ -97,6 +97,7 @@ public final class WindMillTurbineMachine extends TieredEnergyMachine implements
     private NotifiableItemStackHandler createMachineStorage() {
         var storage = new NotifiableItemStackHandler(this, 1, IO.NONE, IO.BOTH);
         storage.setFilter(i -> i.getItem() instanceof KineticRotorItem);
+        storage.addChangedListener(this::requestSync);
         return storage;
     }
 
