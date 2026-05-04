@@ -132,7 +132,7 @@ abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.AbstractInterna
     @Persisted
     private var internalInventory: Array<AbstractInternalSlot> = createInternalSlotArray()
 
-    @DescSynced
+    @SyncToClient
     @Persisted
     var customName: String = ""
 

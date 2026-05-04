@@ -66,7 +66,7 @@ abstract class MEPartMachine(holder: MetaMachineBlockEntity, io: IO) :
     @Persisted
     private val nodeHolder: GridNodeHolder = GridNodeHolder(this)
 
-    @DescSynced
+    @SyncToClient
     var onlineField: Boolean = false
 
     val actionSourceField: IActionSource = IActionSource.ofMachine { nodeHolder.getMainNode().node }

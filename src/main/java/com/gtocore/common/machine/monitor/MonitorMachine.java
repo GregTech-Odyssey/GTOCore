@@ -45,11 +45,11 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraftforge.fluids.FluidStack;
 
 import com.google.common.collect.ImmutableBiMap;
+import com.gto.datasynclib.annotations.SyncToClient;
 import com.lowdragmc.lowdraglib.gui.texture.IGuiTexture;
 import com.lowdragmc.lowdraglib.gui.texture.ResourceTexture;
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
-import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import kotlin.Pair;
 import org.jetbrains.annotations.NotNull;
@@ -66,9 +66,9 @@ import java.util.stream.Stream;
 
 public class MonitorMachine extends AbstractInfoProviderMonitor implements IMachineModifyDrops {
 
-    @DescSynced
+    @SyncToClient
     private Component[] bufferCache = new Component[0];
-    @DescSynced
+    @SyncToClient
     private float progress = 0.0F;
     private List<FormattedCharSequence> textListCache;
     private BlockPos pos;

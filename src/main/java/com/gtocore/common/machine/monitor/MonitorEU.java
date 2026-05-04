@@ -11,11 +11,12 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.FormattedCharSequence;
 
 import com.google.common.collect.ImmutableBiMap;
+import com.gto.datasynclib.annotations.Access;
+import com.gto.datasynclib.annotations.SyncToClient;
 import com.hepdd.gtmthings.api.misc.EnergyStat;
 import com.hepdd.gtmthings.api.misc.WirelessEnergyContainer;
 import com.hepdd.gtmthings.common.item.IWirelessMonitor;
 import com.hepdd.gtmthings.utils.FormatUtil;
-import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -52,28 +53,34 @@ public class MonitorEU extends AbstractInfoProviderMonitor implements IWirelessM
             .put(17, DisplayRegistry.ENERGY_STAT_REMAINING_TIME)
             .put(18, DisplayRegistry.ENERGY_STAT_BOUND_INFO)
             .build();
-    @DescSynced
+    @SyncToClient
     private Component[] bufferCache = new Component[0];
 
-    @DescSynced
+    @SyncToClient
     private float energyFullness = 0.0f;
 
-    @DescSynced
+    @SyncToClient
+    @Access
     private ArrayList<String> EnergyInputHistoryDay = new ArrayList<>();
 
-    @DescSynced
+    @SyncToClient
+    @Access
     private ArrayList<String> EnergyOutputHistoryDay = new ArrayList<>();
 
-    @DescSynced
+    @SyncToClient
+    @Access
     private ArrayList<String> EnergyInputHistoryHour = new ArrayList<>();
 
-    @DescSynced
+    @SyncToClient
+    @Access
     private ArrayList<String> EnergyOutputHistoryHour = new ArrayList<>();
 
-    @DescSynced
+    @SyncToClient
+    @Access
     private ArrayList<String> EnergyInputHistoryMinute = new ArrayList<>();
 
-    @DescSynced
+    @SyncToClient
+    @Access
     private ArrayList<String> EnergyOutputHistoryMinute = new ArrayList<>();
 
     public MonitorEU(Object o) {

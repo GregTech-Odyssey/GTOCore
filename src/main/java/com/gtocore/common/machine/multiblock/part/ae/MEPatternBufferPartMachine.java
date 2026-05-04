@@ -1,6 +1,5 @@
 package com.gtocore.common.machine.multiblock.part.ae;
 
-import com.gto.datasynclib.annotations.SyncToClient;
 import com.gtocore.api.gui.configurators.MultiMachineModeFancyConfigurator;
 import com.gtocore.common.data.GTORecipeTypes;
 import com.gtocore.common.data.machines.GTAEMachines;
@@ -74,6 +73,7 @@ import appeng.crafting.pattern.ProcessingPatternItem;
 
 import com.fast.fastcollection.OpenCacheHashSet;
 import com.fast.recipesearch.IntLongMap;
+import com.gto.datasynclib.annotations.SyncToClient;
 import com.gto.datasynclib.annotations.SyncToServer;
 import com.gto.datasynclib.listener.IntNotifiableHolder;
 import com.hepdd.gtmthings.common.item.VirtualItemProviderBehavior;

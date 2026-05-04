@@ -11,7 +11,7 @@ import net.minecraft.resources.ResourceLocation;
 
 import appeng.api.networking.IManagedGridNode;
 
-import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
+import com.gto.datasynclib.annotations.SyncToClient;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import org.jetbrains.annotations.NotNull;
 
@@ -20,7 +20,7 @@ import java.util.List;
 
 public abstract class AbstractAEInfoMonitor extends AbstractInfoProviderMonitor implements IGridConnectedMachine {
 
-    @DescSynced
+    @SyncToClient
     @NotNull
     protected State state = State.NO_GRID;
 
@@ -29,7 +29,7 @@ public abstract class AbstractAEInfoMonitor extends AbstractInfoProviderMonitor 
     @Persisted
     final GridNodeHolder nodeHolder;
 
-    @DescSynced
+    @SyncToClient
     protected boolean isOnline;
 
     AbstractAEInfoMonitor(MetaMachineBlockEntity holder) {

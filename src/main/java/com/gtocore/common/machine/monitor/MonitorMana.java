@@ -9,8 +9,8 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 
+import com.gto.datasynclib.annotations.SyncToClient;
 import com.hepdd.gtmthings.utils.FormatUtil;
-import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import vazkii.botania.common.block.block_entity.mana.ManaPoolBlockEntity;
 
 import java.math.BigInteger;
@@ -18,10 +18,10 @@ import java.util.List;
 
 public class MonitorMana extends AbstractInfoProviderMonitor implements ITeamInformationProvider {
 
-    @DescSynced
+    @SyncToClient
     private long manaBufferCache = 0L;
     private long manaBufferCache0_5s = 0L;
-    @DescSynced
+    @SyncToClient
     private long manaBufferCache1s = 0L;
 
     public MonitorMana(MetaMachineBlockEntity holder) {
