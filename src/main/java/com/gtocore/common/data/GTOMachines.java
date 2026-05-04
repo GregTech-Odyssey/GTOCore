@@ -24,7 +24,6 @@ import com.gtocore.common.machine.tesseract.AdvancedTesseractMachine;
 import com.gtocore.common.machine.tesseract.DirectedTesseractMachine;
 import com.gtocore.common.machine.tesseract.TesseractMachine;
 import com.gtocore.integration.ae.MeWirelessConnectMachine;
-import com.gtocore.integration.ae.SyncTesterMachine;
 
 import com.gtolib.GTOCore;
 import com.gtolib.api.GTOValues;
@@ -93,12 +92,6 @@ public final class GTOMachines {
         OptionalMachine.init(); // 限制模式不注册会出现多方块预览错误
 
         if (GTCEu.isDev() || GTCEu.isDataGen()) {
-            final MachineDefinition SYNC_TESTER_MACHINE = machine("sync_tester_machine", "同步测试机", SyncTesterMachine::new)
-                    .allRotation()
-                    .tooltipsText("A tool for testing machine synchronization.", "用于测试机器同步的工具。")
-                    .tooltipsText("Do not use in production environment.", "请勿在生产环境中使用。")
-                    .register();
-
             final MachineDefinition TEST_REPORT_OUTPUT = machine("test_report_output", "测试报告输出器", TestReportOutput::new)
                     .allRotation()
                     .tooltipsText("Print some test information", "打印一些测试用信息")

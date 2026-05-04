@@ -2,7 +2,6 @@ package com.gtocore.common.machine.noenergy.PlatformDeployment;
 
 import com.gtolib.GTOCore;
 import com.gtolib.utils.RegistriesUtils;
-import com.gtolib.utils.holder.IntObjectHolder;
 
 import com.gregtechceu.gtceu.GTCEu;
 
@@ -11,6 +10,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
 import com.google.common.collect.ImmutableList;
+import com.gto.datasynclib.util.holder.IntObjectHolder;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.BufferedReader;

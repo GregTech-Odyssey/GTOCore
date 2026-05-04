@@ -79,6 +79,8 @@ public final class Data {
 
     private static void commonInit() {
         long time = System.currentTimeMillis();
+        GTRegistries.ORE_VEINS.unfreeze();
+        GTRegistries.BEDROCK_ORE_DEFINITIONS.unfreeze();
         GTOOres.init();
         MeteoriteRecipe.init();
 

@@ -5,10 +5,8 @@ import com.gtocore.common.machine.multiblock.part.ae.slots.ExportOnlyAEFluidSlot
 import com.gtocore.common.machine.multiblock.part.ae.slots.ExportOnlyAEItemList;
 import com.gtocore.common.machine.multiblock.part.ae.widget.MEInputBufferPartMachineUIKt;
 
-import com.gtolib.api.capability.ISync;
 import com.gtolib.api.gui.ktflexible.VBoxBuilder;
 import com.gtolib.api.machine.trait.*;
-import com.gtolib.api.network.SyncManagedFieldHolder;
 import com.gtolib.api.recipe.modifier.ParallelCache;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
@@ -51,6 +49,7 @@ import appeng.helpers.MultiCraftingTracker;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Multimaps;
+import com.gto.datasynclib.listener.IntNotifiableHolder;
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import it.unimi.dsi.fastutil.objects.*;
@@ -69,10 +68,8 @@ public class MEInputBufferPartMachine extends MEPatternPartMachineKt<MEInputBuff
 
     private final List<RecipeHandlerList> recipeHandlers;
 
-    private static final SyncManagedFieldHolder SYNC_MANAGED_FIELD_HOLDER = new SyncManagedFieldHolder(MEInputBufferPartMachine.class, MEPatternPartMachineKt.getSYNC_MANAGED_FIELD_HOLDER());
     @Getter
-    public IntSyncedField configuratorField = ISync.createIntField(this)
-            .set(-1)
+    public IntNotifiableHolder configuratorField = IntNotifiableHolder.create(-1)
             .setReceiverListener((side, o, n) -> {
                 if (side.isServer()) Objects.requireNonNull(Objects.requireNonNull(getLevel()).getServer()).tell(new TickTask(10, () -> freshWidgetGroup.serverFresh()));
             });
@@ -81,15 +78,14 @@ public class MEInputBufferPartMachine extends MEPatternPartMachineKt<MEInputBuff
     public void onMouseClicked(int index) {
         if (!isRemote()) return;
         if (configuratorField.get() == index) {
-            configuratorField.setAndSyncToServer(-1);
+            configuratorField.set(-1);
+            configuratorField.markAsDirty();
+            syncToServer();
         } else {
-            configuratorField.setAndSyncToServer(index);
+            configuratorField.set(index);
+            configuratorField.markAsDirty();
+            syncToServer();
         }
-    }
-
-    @Override
-    public @NotNull SyncManagedFieldHolder getSyncHolder() {
-        return SYNC_MANAGED_FIELD_HOLDER;
     }
 
     private final Multimap<AEKey, InternalSlot> watcher2SlotMap = Multimaps.newSetMultimap(new Reference2ObjectOpenHashMap<>(), ReferenceOpenHashSet::new);

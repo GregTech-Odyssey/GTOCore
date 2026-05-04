@@ -3,7 +3,6 @@ package com.gtocore.api.ae2.crafting;
 import com.gtocore.common.data.GTOItems;
 
 import com.gtolib.api.ae2.pattern.IParallelPatternDetails;
-import com.gtolib.utils.holder.LongHolder;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -25,6 +24,7 @@ import appeng.crafting.inv.ListCraftingInventory;
 import appeng.me.service.CraftingService;
 
 import com.fast.fastcollection.O2OOpenCacheHashMap;
+import com.gto.datasynclib.util.holder.LongHolder;
 import it.unimi.dsi.fastutil.objects.*;
 import org.jetbrains.annotations.Nullable;
 

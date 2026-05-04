@@ -2,7 +2,6 @@ package com.gtocore.common.recipe.custom;
 
 import com.gtolib.api.machine.trait.IEnhancedRecipeLogic;
 import com.gtolib.api.recipe.RecipeBuilder;
-import com.gtolib.utils.holder.ObjectHolder;
 
 import com.gregtechceu.gtceu.api.capability.recipe.IRecipeCapabilityHolder;
 import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
@@ -18,6 +17,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 
+import com.gto.datasynclib.util.holder.ObjHolder;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -68,7 +68,7 @@ public final class FormingPressLogic implements GTRecipeType.ICustomRecipeLogic 
     }
 
     private static GTRecipeDefinition collect(RecipeData data, List<RecipeHandlerList> rhls, IRecipeCapabilityHolder h) {
-        ObjectHolder<GTRecipeDefinition> recipeObjectHolder = new ObjectHolder<>(null);
+        ObjHolder<GTRecipeDefinition> recipeObjectHolder = new ObjHolder<>();
         l:
         for (var rhl : rhls) {
             data.mold = ItemStack.EMPTY;

@@ -7,9 +7,8 @@ import com.gtocore.common.saved.WirelessNetworkSavedData;
 
 import com.gtolib.api.annotation.DataGeneratorScanned;
 import com.gtolib.api.annotation.language.RegisterLanguage;
-import com.gtolib.api.capability.ISync;
-import com.gtolib.utils.holder.ObjectHolder;
 
+import com.gregtechceu.gtceu.api.blockentity.ISync;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.gui.fancy.IFancyUIProvider;
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
@@ -30,12 +29,16 @@ import appeng.helpers.AEMultiBlockEntity;
 import appeng.me.GridNode;
 import appeng.me.helpers.IGridConnectedBlockEntity;
 
+import com.gto.datasynclib.listener.IntNotifiableHolder;
+import com.gto.datasynclib.listener.ObjNotifiableHolder;
+import com.gto.datasynclib.util.holder.ObjHolder;
 import com.hepdd.gtmthings.api.capability.IBindable;
 import it.unimi.dsi.fastutil.objects.ReferenceOpenHashSet;
 import it.unimi.dsi.fastutil.objects.ReferenceSet;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -172,13 +175,13 @@ public interface WirelessMachine extends IGridConnectedMachine, ISync, IBindable
 
     // ==================== Sync Fields ====================
 
-    ObjectSyncedField<List<NetworkSummary>> getNetworkListCache();
+    ObjNotifiableHolder<List<NetworkSummary>> getNetworkListCache();
 
-    IntSyncedField getUnassignedOutputCount();
+    IntNotifiableHolder getUnassignedOutputCount();
 
-    ObjectSyncedField<List<TopologySummary>> getTopologyCache();
+    ObjNotifiableHolder<List<TopologySummary>> getTopologyCache();
 
-    IntSyncedField getNodeTypeSync();
+    IntNotifiableHolder getNodeTypeSync();
 
     // ==================== UUID ====================
 
@@ -207,8 +210,8 @@ public interface WirelessMachine extends IGridConnectedMachine, ISync, IBindable
 
     default void onWirelessLoad() {
         if (self().isRemote()) return;
-        ObjectHolder<TickableSubscription> subscription = new ObjectHolder<>(null);
-        subscription.value = TaskHandler.enqueueTick(getLevel(), self().holder.isRemove, () -> {
+        ObjHolder<TickableSubscription> subscription = new ObjHolder<>();
+        subscription.value = TaskHandler.enqueueTick(Objects.requireNonNull(getHolder().getLevel()), self().holder.isRemove, () -> {
             if (self().getLevel() != null && getMainNode().getNode() != null) {
                 String id = getConnectedNetworkId();
                 if (!id.isEmpty()) {
@@ -313,18 +316,18 @@ public interface WirelessMachine extends IGridConnectedMachine, ISync, IBindable
             connId = "";
         }
         String syncConnId = connId;
-        getNetworkListCache().setAndSyncToClient(
+        getNetworkListCache().set(
                 WirelessNetworkSavedData.Companion.getNetworkSummaries(getRequesterUUID(), syncConnId));
-        getUnassignedOutputCount().setAndSyncToClient(net != null ? net.getUnassignedOutputCount() : 0);
+        getUnassignedOutputCount().set(net != null ? net.getUnassignedOutputCount() : 0);
         // Only sync topology for connected network
         if (syncConnId.isEmpty()) {
-            getTopologyCache().setAndSyncToClient(List.of());
+            getTopologyCache().set(List.of());
         } else {
-            getTopologyCache().setAndSyncToClient(
+            getTopologyCache().set(
                     WirelessNetworkSavedData.Companion.getTopologySummaries(getRequesterUUID())
                             .stream().filter(t -> t.getNetworkId().equals(syncConnId)).toList());
         }
-        getNodeTypeSync().setAndSyncToClient(getNodeType().ordinal());
+        getNodeTypeSync().set(getNodeType().ordinal());
         WirelessNetworkSavedData.write(self().getLevel());
     }
 
@@ -333,10 +336,10 @@ public interface WirelessMachine extends IGridConnectedMachine, ISync, IBindable
         var defaultWorkload = getGridNode().hasFlag(GridFlags.REQUIRE_CHANNEL) ? 1 : 0;
         var mm = self();
         var adjacent = mm.getPos().relative(mm.getFrontFacing());
-        if (getLevel().isLoaded(adjacent)) {
+        if (getHolder().getLevel().isLoaded(adjacent)) {
             IGrid grid = null;
             IGridNode node;
-            switch (getLevel().getBlockEntity(adjacent)) {
+            switch (getHolder().getLevel().getBlockEntity(adjacent)) {
                 case IGridConnectedBlockEntity nodeHost -> {
                     grid = nodeHost.getMainNode().getGrid();
                     node = nodeHost.getMainNode().getNode();
@@ -389,7 +392,7 @@ public interface WirelessMachine extends IGridConnectedMachine, ISync, IBindable
     default void onNeighborChanged(BlockPos neighborPos) {
         if (self().isRemote()) return;
         if (getConnectedNetworkId().isEmpty()) return;
-        if (getPos().relative(self().getFrontFacing()).equals(neighborPos)) {
+        if (getHolder().getBlockPos().relative(self().getFrontFacing()).equals(neighborPos)) {
             var netwoork = WirelessNetworkSavedData.get().getNetworkPool().get(getConnectedNetworkId());
             if (netwoork != null) {
                 netwoork.setNeedsRefresh(true);

@@ -11,8 +11,6 @@ import com.gtolib.api.recipe.RecipeRunner;
 import com.gtolib.api.recipe.modifier.ParallelLogic;
 import com.gtolib.utils.MachineUtils;
 import com.gtolib.utils.MathUtil;
-import com.gtolib.utils.holder.IntHolder;
-import com.gtolib.utils.holder.ObjectHolder;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
@@ -30,6 +28,8 @@ import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 
+import com.gto.datasynclib.util.holder.IntHolder;
+import com.gto.datasynclib.util.holder.ObjHolder;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -47,7 +47,7 @@ public class ElfExchangeMachine extends ManaMultiblockMachine {
 
     @Nullable
     private Recipe getRecipe() {
-        ObjectHolder<Recipe> recipe = new ObjectHolder<>(null);
+        ObjHolder<Recipe> recipe = new ObjHolder<>();
         int mode = checkingCircuit(false);
         if (getLevel() instanceof ServerLevel level && level.dimension() == NETHER && mode > 0) {
             RecipeBuilder builder = getRecipeBuilder().duration(120).MANAt(10);
@@ -61,7 +61,7 @@ public class ElfExchangeMachine extends ManaMultiblockMachine {
 
             recipe.value = ParallelLogic.accurateParallel(this, builder.copy(GTOCore.id("test")).inputItems(GOLD_INGOT).outputItems(Items.STICK).buildRawRecipe(), MachineUtils.getHatchParallel(this));
             if (recipe.value == null) return null;
-            IntHolder nbt = new IntHolder(0);
+            IntHolder nbt = new IntHolder();
             builder.MANAt(recipe.value.getInputMANAt());
             builder.inputItems(ItemIngredient.of(GOLD_INGOT, recipe.value.parallels));
             var parallel = Math.min(1024, recipe.value.parallels);

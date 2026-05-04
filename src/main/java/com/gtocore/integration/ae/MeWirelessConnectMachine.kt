@@ -28,8 +28,9 @@ import com.gregtechceu.gtceu.api.machine.feature.IFancyUIMachine
 import com.gregtechceu.gtceu.api.machine.feature.IMachineLife
 import com.gregtechceu.gtceu.api.machine.multiblock.part.WorkableTieredIOPartMachine
 import com.gregtechceu.gtceu.integration.ae2.machine.trait.GridNodeHolder
+import com.gto.datasynclib.listener.IntNotifiableHolder
+import com.gto.datasynclib.listener.ObjNotifiableHolder
 import com.gtolib.api.capability.ISync
-import com.gtolib.api.network.SyncManagedFieldHolder
 import com.lowdragmc.lowdraglib.gui.modular.ModularUI
 import com.lowdragmc.lowdraglib.gui.texture.IGuiTexture
 import com.lowdragmc.lowdraglib.gui.widget.Widget
@@ -49,11 +50,6 @@ class MeWirelessConnectMachine(holder: MetaMachineBlockEntity) :
     IMachineLife,
     ISync,
     IFancyUIMachine {
-
-    companion object {
-        @JvmStatic
-        val syncManager = SyncManagedFieldHolder(MeWirelessConnectMachine::class.java)
-    }
 
     // ==================== AE2 Grid ====================
     val gridHolder = GridNodeHolder(this)
@@ -96,18 +92,16 @@ class MeWirelessConnectMachine(holder: MetaMachineBlockEntity) :
     }
 
     // ==================== WirelessMachine - Sync Fields ====================
-    private val _networkListCache: ISync.ObjectSyncedField<List<NetworkSummary>> = createNetworkSummarySyncField(this)
-    private val _unassignedOutputCount: ISync.IntSyncedField = ISync.createIntField(this)
-    private val _topologyCache: ISync.ObjectSyncedField<List<TopologySummary>> = createTopologySyncField(this)
-    private val _nodeTypeSync: ISync.IntSyncedField = ISync.createIntField(this)
+    private val _networkListCache: ObjNotifiableHolder<List<NetworkSummary>> = createNetworkSummarySyncField(this)
+    private val _unassignedOutputCount: IntNotifiableHolder = IntNotifiableHolder.create()
+    private val _topologyCache: ObjNotifiableHolder<List<TopologySummary>> = createTopologySyncField(this)
+    private val _nodeTypeSync: IntNotifiableHolder = IntNotifiableHolder.create()
 
-    override fun getNetworkListCache(): ISync.ObjectSyncedField<List<NetworkSummary>> = _networkListCache
-    override fun getUnassignedOutputCount(): ISync.IntSyncedField = _unassignedOutputCount
-    override fun getTopologyCache(): ISync.ObjectSyncedField<List<TopologySummary>> = _topologyCache
-    override fun getNodeTypeSync(): ISync.IntSyncedField = _nodeTypeSync
+    override fun getNetworkListCache(): ObjNotifiableHolder<List<NetworkSummary>> = _networkListCache
+    override fun getUnassignedOutputCount(): IntNotifiableHolder = _unassignedOutputCount
+    override fun getTopologyCache(): ObjNotifiableHolder<List<TopologySummary>> = _topologyCache
+    override fun getNodeTypeSync(): IntNotifiableHolder = _nodeTypeSync
 
-    // ==================== ISync ====================
-    override fun getSyncHolder(): SyncManagedFieldHolder = syncManager
     override fun isRemote() = super<MetaMachine>.isRemote
 
     // ==================== Data Migration ====================
@@ -130,7 +124,6 @@ class MeWirelessConnectMachine(holder: MetaMachineBlockEntity) :
     // ==================== Lifecycle ====================
     override fun onLoad() {
         super.onLoad()
-        registerSync()
         onWirelessLoad()
     }
 
@@ -141,7 +134,6 @@ class MeWirelessConnectMachine(holder: MetaMachineBlockEntity) :
 
     override fun onUnload() {
         onWirelessUnload()
-        unregisterSync()
         super.onUnload()
     }
 
