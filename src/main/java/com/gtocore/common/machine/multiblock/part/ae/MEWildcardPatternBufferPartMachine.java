@@ -16,7 +16,6 @@ import com.gtolib.api.item.IItem;
 import com.gtolib.api.recipe.RecipeDefinition;
 import com.gtolib.api.recipe.RecipeType;
 import com.gtolib.utils.GTOUtils;
-import com.gtolib.utils.holder.ObjectHolder;
 
 import com.gregtechceu.gtceu.api.GTCEuAPI;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
@@ -59,6 +58,7 @@ import appeng.crafting.pattern.AEProcessingPattern;
 import appeng.crafting.pattern.ProcessingPatternItem;
 
 import com.fast.recipesearch.IntLongMap;
+import com.gto.datasynclib.util.holder.ObjHolder;
 import com.hepdd.gtmthings.common.item.VirtualItemProviderBehavior;
 import com.hepdd.gtmthings.data.CustomItems;
 import com.lowdragmc.lowdraglib.gui.texture.TextTexture;
@@ -420,7 +420,7 @@ public class MEWildcardPatternBufferPartMachine extends MEPatternBufferPartMachi
     // ========== Pattern Validation ==========
 
     private AEProcessingPattern validatePattern(GenericStack[] sparseInput, GenericStack[] sparseOutput) {
-        ObjectHolder<RecipeDefinition> valid = new ObjectHolder<>(null);
+        ObjHolder<RecipeDefinition> valid = new ObjHolder<>();
         var inputHolder = virtual(sparseInput);
         if (recipeType == GTORecipeTypes.HATCH_COMBINED) {
             if (!getRecipeTypes().isEmpty()) {

@@ -3,8 +3,6 @@ package com.gtocore.data.recipe.classified;
 import com.gtocore.common.data.GTOItems;
 import com.gtocore.common.data.GTOMaterials;
 
-import com.gtolib.utils.holder.IntObjectHolder;
-
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
@@ -17,6 +15,7 @@ import net.minecraftforge.fluids.FluidStack;
 
 import appeng.core.definitions.AEBlocks;
 
+import com.gto.datasynclib.util.holder.IntObjectHolder;
 import earth.terrarium.adastra.common.registry.ModFluids;
 
 import static com.gregtechceu.gtceu.api.GTValues.VA;

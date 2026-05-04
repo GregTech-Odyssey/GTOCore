@@ -7,7 +7,6 @@ import com.gtocore.common.data.translation.GTOMachineTooltips;
 import com.gtolib.GTOCore;
 import com.gtolib.api.network.NetworkPack;
 import com.gtolib.utils.ServerUtils;
-import com.gtolib.utils.holder.IntObjectHolder;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
@@ -31,6 +30,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
+import com.gto.datasynclib.util.holder.IntObjectHolder;
 import com.lowdragmc.lowdraglib.gui.texture.IGuiTexture;
 import com.lowdragmc.lowdraglib.gui.texture.ResourceTexture;
 import com.lowdragmc.lowdraglib.gui.util.ClickData;

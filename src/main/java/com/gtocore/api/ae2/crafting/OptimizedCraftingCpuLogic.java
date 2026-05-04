@@ -9,9 +9,6 @@ import com.gtolib.api.ae2.IPatternProviderLogic;
 import com.gtolib.api.ae2.pattern.IDetails;
 import com.gtolib.api.ae2.pattern.IParallelPatternDetails;
 import com.gtolib.api.ae2.stacks.IKeyCounter;
-import com.gtolib.utils.holder.IntHolder;
-import com.gtolib.utils.holder.LongHolder;
-import com.gtolib.utils.holder.ObjectHolder;
 
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 
@@ -49,6 +46,9 @@ import appeng.me.service.CraftingService;
 import com.fast.fastcollection.OpenCacheHashSet;
 import com.google.common.collect.Multimaps;
 import com.google.common.collect.SetMultimap;
+import com.gto.datasynclib.util.holder.IntHolder;
+import com.gto.datasynclib.util.holder.LongHolder;
+import com.gto.datasynclib.util.holder.ObjHolder;
 import it.unimi.dsi.fastutil.objects.*;
 import lombok.Getter;
 
@@ -221,7 +221,7 @@ public class OptimizedCraftingCpuLogic extends CraftingCpuLogic {
             var tmp_details = task.getKey();
             boolean isParallel = tmp_details instanceof IParallelPatternDetails;
             job.expectedOutputs.clear();
-            ObjectHolder<KeyCounter[]> craftingContainer = new ObjectHolder<>(null);
+            ObjHolder<KeyCounter[]> craftingContainer = new ObjHolder<>(null);
             long parallelValue = 1;
             if (isParallel && progress.value > 1) {
                 var parallel = getMaxParallel(progress.value, tmp_details, inventory.list.getMap());

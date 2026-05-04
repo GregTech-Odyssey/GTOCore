@@ -20,6 +20,11 @@ import net.minecraftforge.fml.common.Mod
 
 import com.fast.fastcollection.O2OOpenCacheHashMap
 import com.gregtechceu.gtceu.GTCEu
+import com.gto.datasynclib.CombinationCodec
+import com.gto.datasynclib.datasream.codec.ByteStreamCodec
+import com.gto.datasynclib.datasream.codec.ByteStreamDecoder
+import com.gto.datasynclib.datasream.codec.ByteStreamEncoder
+import com.gto.datasynclib.listener.ObjNotifiableHolder
 import com.gtolib.api.capability.ISync
 import com.gtolib.api.network.NetworkPack
 import com.hepdd.gtmthings.utils.TeamUtil
@@ -511,81 +516,77 @@ enum class STATUS {
 /**
  * 创建用于同步网络摘要列表的 ISync.ObjectSyncedField。
  */
-fun createNetworkSummarySyncField(sync: ISync): ISync.ObjectSyncedField<List<NetworkSummary>> = ISync.createObjectField(
-    sync,
-    { buf ->
-        val size = buf.readInt()
-        List(size) {
-            NetworkSummary(
-                id = buf.readUtf(),
-                nickname = buf.readUtf(),
-                isDefault = buf.readBoolean(),
-                inputCount = buf.readInt(),
-                outputCount = buf.readInt(),
-                capacity = buf.readInt(),
-                unassignedCount = buf.readInt(),
-                isConnected = buf.readBoolean(),
-            )
-        }
-    },
-    { buf, list ->
-        buf.writeInt(list.size)
-        for (s in list) {
-            buf.writeUtf(s.id)
-            buf.writeUtf(s.nickname)
-            buf.writeBoolean(s.isDefault)
-            buf.writeInt(s.inputCount)
-            buf.writeInt(s.outputCount)
-            buf.writeInt(s.capacity)
-            buf.writeInt(s.unassignedCount)
-            buf.writeBoolean(s.isConnected)
-        }
-    },
+fun createNetworkSummarySyncField(sync: ISync): ObjNotifiableHolder<List<NetworkSummary>> = ObjNotifiableHolder.create(
+    CombinationCodec.of(
+        ByteStreamCodec.of(
+            ByteStreamEncoder.collection
+                { buf, s ->
+                    buf.writeUtf(s.id)
+                    buf.writeUtf(s.nickname)
+                    buf.writeBoolean(s.isDefault)
+                    buf.writeInt(s.inputCount)
+                    buf.writeInt(s.outputCount)
+                    buf.writeInt(s.capacity)
+                    buf.writeInt(s.unassignedCount)
+                    buf.writeBoolean(s.isConnected)
+                },
+            ByteStreamDecoder.list { buf ->
+                NetworkSummary(
+                    id = buf.readUtf(),
+                    nickname = buf.readUtf(),
+                    isDefault = buf.readBoolean(),
+                    inputCount = buf.readInt(),
+                    outputCount = buf.readInt(),
+                    capacity = buf.readInt(),
+                    unassignedCount = buf.readInt(),
+                    isConnected = buf.readBoolean(),
+                )
+            },
+        ),
+    ),
 )
 
 /**
  * 创建用于同步拓扑信息列表的 ISync.ObjectSyncedField。
  */
-fun createTopologySyncField(sync: ISync): ISync.ObjectSyncedField<List<TopologySummary>> = ISync.createObjectField(
-    sync,
-    { buf ->
-        val netCount = buf.readInt()
-        List(netCount) {
-            val networkId = buf.readUtf()
-            val nickname = buf.readUtf()
-            val maxOutputs = buf.readInt()
-            val sourceCount = buf.readInt()
-            val sources = List(sourceCount) {
-                val src = readNodeEntry(buf)
-                val childCount = buf.readInt()
-                val children = List(childCount) { readNodeEntry(buf) }
-                TopologySourceEntry(src, children)
-            }
-            val unassignedCount = buf.readInt()
-            val unassigned = List(unassignedCount) { readNodeEntry(buf) }
-            TopologySummary(networkId, nickname, sources, unassigned, maxOutputs)
-        }
-    },
-    { buf, list ->
-        buf.writeInt(list.size)
-        for (topo in list) {
-            buf.writeUtf(topo.networkId)
-            buf.writeUtf(topo.networkNickname)
-            buf.writeInt(topo.maxOutputsPerInput)
-            buf.writeInt(topo.sources.size)
-            for (src in topo.sources) {
-                writeNodeEntry(buf, src.source)
-                buf.writeInt(src.children.size)
-                for (child in src.children) {
-                    writeNodeEntry(buf, child)
+fun createTopologySyncField(sync: ISync): ObjNotifiableHolder<List<TopologySummary>> = ObjNotifiableHolder.create(
+    CombinationCodec.of(
+        ByteStreamCodec.of(
+            ByteStreamEncoder.collection { buf, topo ->
+
+                buf.writeUtf(topo.networkId)
+                buf.writeUtf(topo.networkNickname)
+                buf.writeInt(topo.maxOutputsPerInput)
+                buf.writeInt(topo.sources.size)
+                for (src in topo.sources) {
+                    writeNodeEntry(buf, src.source)
+                    buf.writeInt(src.children.size)
+                    for (child in src.children) {
+                        writeNodeEntry(buf, child)
+                    }
                 }
-            }
-            buf.writeInt(topo.unassigned.size)
-            for (u in topo.unassigned) {
-                writeNodeEntry(buf, u)
-            }
-        }
-    },
+                buf.writeInt(topo.unassigned.size)
+                for (u in topo.unassigned) {
+                    writeNodeEntry(buf, u)
+                }
+            },
+            ByteStreamDecoder.list { buf ->
+                val networkId = buf.readUtf()
+                val nickname = buf.readUtf()
+                val maxOutputs = buf.readInt()
+                val sourceCount = buf.readInt()
+                val sources = List(sourceCount) {
+                    val src = readNodeEntry(buf)
+                    val childCount = buf.readInt()
+                    val children = List(childCount) { readNodeEntry(buf) }
+                    TopologySourceEntry(src, children)
+                }
+                val unassignedCount = buf.readInt()
+                val unassigned = List(unassignedCount) { readNodeEntry(buf) }
+                TopologySummary(networkId, nickname, sources, unassigned, maxOutputs)
+            },
+        ),
+    ),
 )
 
 private fun readNodeEntry(buf: FriendlyByteBuf): TopologyNodeEntry = TopologyNodeEntry(buf.readInt(), buf.readInt(), buf.readInt(), buf.readUtf(), buf.readUtf())

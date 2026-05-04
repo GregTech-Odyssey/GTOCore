@@ -3,8 +3,6 @@ package com.gtocore.integration.ae.client;
 import com.gtocore.integration.ae.hooks.IExtendedPatternEncodingTerm;
 import com.gtocore.integration.jech.PinYinUtils;
 
-import com.gtolib.utils.holder.IntHolder;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractWidget;
@@ -22,6 +20,7 @@ import appeng.core.localization.GuiText;
 
 import gto_ae.client.gui.widgets.AEListBox;
 
+import com.gto.datasynclib.util.holder.IntHolder;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 
@@ -32,7 +31,7 @@ import java.util.function.Consumer;
 public class AESearchPatternProviderListBox extends AEListBox {
 
     Int2ObjectMap<String> searchMap = new Int2ObjectOpenHashMap<>();
-    final IntHolder maxWidth = new IntHolder(0);
+    final IntHolder maxWidth = new IntHolder();
     IExtendedPatternEncodingTerm term;
     AETextField searchField;
     List<SimpleItem> allItems = new ArrayList<>();
