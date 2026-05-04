@@ -19,7 +19,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.material.Fluid;
 
-import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
+import com.gto.datasynclib.annotations.SyncToClient;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 
 import java.util.ArrayList;
@@ -43,10 +43,10 @@ public final class AbsoluteBaryonicPerfectionPurificationUnitMachine extends Wat
     private static final Fluid STABLE_BARYONIC_MATTER = GTOMaterials.StableBaryonicMatter.getFluid();
 
     @Persisted
-    @DescSynced
+    @SyncToClient
     private Item catalyst1;
     @Persisted
-    @DescSynced
+    @SyncToClient
     private Item catalyst2;
 
     @Persisted

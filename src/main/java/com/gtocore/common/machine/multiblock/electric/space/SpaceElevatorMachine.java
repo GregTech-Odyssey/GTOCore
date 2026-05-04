@@ -36,7 +36,7 @@ import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
-import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
+import com.gto.datasynclib.annotations.SyncToClient;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import earth.terrarium.adastra.api.planets.Planet;
 import earth.terrarium.adastra.api.planets.PlanetApi;
@@ -80,14 +80,14 @@ public class SpaceElevatorMachine extends TierCasingMultiblockMachine implements
     }
 
     @Getter
-    @DescSynced
+    @SyncToClient
     protected double high;
     @Getter
     @Persisted
-    @DescSynced
+    @SyncToClient
     protected int spoolCount;
     protected int moduleCount;
-    @DescSynced
+    @SyncToClient
     final List<BlockPos> poss = new ArrayList<>();
 
     @Getter

@@ -19,7 +19,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 import com.fast.fastcollection.O2IOpenCacheHashMap;
-import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
+import com.gto.datasynclib.annotations.SyncToClient;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 
@@ -34,12 +34,12 @@ import static com.gregtechceu.gtceu.api.GTValues.VA;
 public class SpaceElevatorConnectorModule extends Extension implements ISpaceServiceMachine, IIWirelessInteractor.IWirelessProvider {
 
     private final Map<SpaceElevatorMachine, Integer> elevatorTiers = new O2IOpenCacheHashMap<>();
-    @DescSynced
+    @SyncToClient
     @Getter
     private int maxTier = 0;
 
     @Getter
-    @DescSynced
+    @SyncToClient
     protected double high = 15;
     private TickableSubscription highSubscription;
 

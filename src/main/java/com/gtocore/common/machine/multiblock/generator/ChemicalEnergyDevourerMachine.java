@@ -30,7 +30,7 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.items.IItemHandlerModifiable;
 
-import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
+import com.gto.datasynclib.annotations.SyncToClient;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import org.jetbrains.annotations.Nullable;
 
@@ -51,9 +51,9 @@ public final class ChemicalEnergyDevourerMachine extends ElectricMultiblockMachi
     @Persisted
     private final NotifiableFluidTank tank;
     private final ConditionalSubscriptionHandler tankSubs;
-    @DescSynced
+    @SyncToClient
     private BlockPos highlightStartPos = BlockPos.ZERO;
-    @DescSynced
+    @SyncToClient
     private BlockPos highlightEndPos = BlockPos.ZERO;
 
     public ChemicalEnergyDevourerMachine(MetaMachineBlockEntity holder) {

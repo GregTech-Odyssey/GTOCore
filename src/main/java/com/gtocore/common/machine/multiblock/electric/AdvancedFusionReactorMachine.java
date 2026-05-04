@@ -21,7 +21,7 @@ import com.gregtechceu.gtceu.utils.GTUtil;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.network.chat.Component;
 
-import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
+import com.gto.datasynclib.annotations.SyncToClient;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import lombok.Getter;
 import org.jetbrains.annotations.Nullable;
@@ -39,7 +39,7 @@ import static com.gregtechceu.gtceu.common.machine.multiblock.electric.FusionRea
 public final class AdvancedFusionReactorMachine extends CrossRecipeMultiblockMachine {
 
     @Getter
-    @DescSynced
+    @SyncToClient
     private int color = -1;
     private static final int tier = LuV;
     @Persisted

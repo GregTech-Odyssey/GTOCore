@@ -11,18 +11,16 @@ import net.minecraft.core.Direction;
 import net.minecraft.world.level.material.Fluid;
 
 import com.fast.fastcollection.OpenCacheHashSet;
-import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
-import com.lowdragmc.lowdraglib.syncdata.annotation.RequireRerender;
+import com.gto.datasynclib.annotations.SyncToClient;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Set;
 
 public final class LargeChemicalBathMachine extends GCYMMultiblockMachine implements IFluidRendererMachine {
 
-    @DescSynced
-    @RequireRerender
+    @SyncToClient(notifyUpdate = true)
     private final Set<BlockPos> fluidBlockOffsets = new OpenCacheHashSet<>();
-    @DescSynced
+    @SyncToClient
     private Fluid cachedFluid;
 
     public LargeChemicalBathMachine(MetaMachineBlockEntity holder) {

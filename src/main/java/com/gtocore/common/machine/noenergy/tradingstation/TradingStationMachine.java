@@ -1,5 +1,6 @@
 package com.gtocore.common.machine.noenergy.tradingstation;
 
+import com.gto.datasynclib.annotations.SyncToClient;
 import com.gtocore.api.gui.GTOGuiTextures;
 import com.gtocore.api.gui.InteractiveImageWidget;
 import com.gtocore.common.data.GTOItems;
@@ -115,7 +116,7 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
 
     /** 交易信息 */
     @Persisted
-    @DescSynced
+    @SyncToClient
     private int groupSelected = 0;
     private int shopSelected = -1;
 
@@ -460,7 +461,6 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
     private @NotNull IFancyUIProvider TransactionUnlock() {
         return new IFancyUIProvider() {
 
-            @DescSynced
             private String upgradeSelect = null;
 
             private int internalPageSelected = 0;
@@ -804,16 +804,16 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
     /////////////////////////////////////
 
     @Persisted
-    @DescSynced
+    @SyncToClient(notifyUpdate = true)
     private Direction outputFacingItems = Direction.DOWN;
     @Persisted
-    @DescSynced
+    @SyncToClient(notifyUpdate = true)
     private Direction outputFacingFluids = Direction.DOWN;
     @Persisted
-    @DescSynced
+    @SyncToClient(notifyUpdate = true)
     private boolean autoOutputItems = false;
     @Persisted
-    @DescSynced
+    @SyncToClient(notifyUpdate = true)
     private boolean autoOutputFluids = false;
     @Nullable
     private TickableSubscription autoOutputSubs;

@@ -82,7 +82,6 @@ import com.lowdragmc.lowdraglib.gui.texture.GuiTextureGroup;
 import com.lowdragmc.lowdraglib.gui.util.ClickData;
 import com.lowdragmc.lowdraglib.gui.widget.LabelWidget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
-import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import it.unimi.dsi.fastutil.objects.ReferenceOpenHashSet;
 import lombok.Getter;
@@ -122,11 +121,11 @@ public abstract class MEPatternBufferPartMachine extends MEPatternPartMachineKt<
     }
 
     @Persisted
-    @DescSynced
+    @SyncToClient
     @Getter
     private final ArrayList<GTRecipeType> recipeTypes = new ArrayList<>();
     @Persisted
-    @DescSynced
+    @SyncToClient
     @Getter
     public GTRecipeType recipeType = GTORecipeTypes.HATCH_COMBINED;
 
@@ -555,7 +554,6 @@ public abstract class MEPatternBufferPartMachine extends MEPatternPartMachineKt<
         public final NotifiableItemStackHandler circuitInventory;
         final LockableItemStackHandler lockableInventory;
         @Getter
-        @DescSynced
         private boolean lock;
         @Setter
         private boolean shouldLockRecipe = true;

@@ -48,11 +48,11 @@ import appeng.helpers.patternprovider.PatternProviderTarget;
 import com.google.common.collect.HashMultiset;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Multiset;
+import com.gto.datasynclib.annotations.SyncToClient;
 import com.gto.datasynclib.util.holder.BooleanHolder;
 import com.gto.datasynclib.util.holder.ObjHolder;
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
-import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import lombok.Getter;
 import lombok.Setter;
@@ -70,7 +70,7 @@ public class AdvancedTesseractMachine extends MetaMachine implements IFancyUIMac
     private final WeakReference<BlockEntity>[] blockEntityReference = new WeakReference[20];
 
     @Persisted
-    @DescSynced
+    @SyncToClient
     public final List<BlockPos> poss = new ArrayList<>(20);
 
     @Persisted

@@ -55,7 +55,7 @@ class MeWirelessConnectMachine(holder: MetaMachineBlockEntity) :
     // ==================== AE2 Grid ====================
     val gridHolder = GridNodeHolder(this)
 
-    @DescSynced
+    @SyncToClient
     var isGridOnline: Boolean = false
 
     override fun isOnline(): Boolean = isGridOnline
@@ -71,7 +71,7 @@ class MeWirelessConnectMachine(holder: MetaMachineBlockEntity) :
 
     // ==================== WirelessMachine - Node Type (switchable) ====================
     @Persisted
-    @DescSynced
+    @SyncToClient
     private var _nodeType: Int = WirelessMachine.NodeType.CHILD.ordinal
 
     override fun getNodeType(): WirelessMachine.NodeType = WirelessMachine.NodeType.entries.getOrElse(_nodeType) { WirelessMachine.NodeType.SOURCE }
@@ -84,7 +84,7 @@ class MeWirelessConnectMachine(holder: MetaMachineBlockEntity) :
 
     // ==================== WirelessMachine - Persisted State ====================
     @Persisted
-    @DescSynced
+    @SyncToClient
     private var _connectedNetworkId: String = ""
 
     override fun getConnectedNetworkId(): String = _connectedNetworkId

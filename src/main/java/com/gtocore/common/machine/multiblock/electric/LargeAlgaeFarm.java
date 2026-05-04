@@ -32,12 +32,12 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import appeng.api.config.Actionable;
 import appeng.api.networking.security.IActionSource;
 
+import com.gto.datasynclib.annotations.SyncToClient;
 import com.lowdragmc.lowdraglib.gui.util.ClickData;
 import com.lowdragmc.lowdraglib.gui.widget.ComponentPanelWidget;
 import com.lowdragmc.lowdraglib.gui.widget.DraggableScrollableWidgetGroup;
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
-import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import it.unimi.dsi.fastutil.longs.LongArrayList;
 import it.unimi.dsi.fastutil.longs.LongList;
 import it.unimi.dsi.fastutil.objects.Reference2IntMap;
@@ -65,7 +65,7 @@ public class LargeAlgaeFarm extends ElectricMultiblockMachine implements ITierCa
     private float greenWeight = 1.0f;
     private float blueWeight = 1.0f;
 
-    @DescSynced
+    @SyncToClient
     private Algae selectedAlgae = Algae.BlueAlge;
 
     public LargeAlgaeFarm(MetaMachineBlockEntity metaMachineBlockEntity) {

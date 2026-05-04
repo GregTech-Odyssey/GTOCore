@@ -164,7 +164,6 @@ public final class GTEMIPlugin implements EmiPlugin {
         list.accept(new MythicJei());
         list.accept(new JEIFRPlugin());
         list.accept(new JEIArsNouveauPlugin());
-        list.accept(new vectorwing.farmersdelight.integration.jei.JEIPlugin());
         list.accept(new JEICompat());
         if (GTCEu.isModLoaded("ftbxmodcompat")) {
             NotDevCompat.addPlugin(list);

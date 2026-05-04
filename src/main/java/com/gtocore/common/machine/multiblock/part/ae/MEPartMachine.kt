@@ -120,7 +120,7 @@ abstract class MEPartMachine(holder: MetaMachineBlockEntity, io: IO) :
 
     // ==================== WirelessMachine - Persisted State ====================
     @Persisted
-    @DescSynced
+    @SyncToClient
     private var _connectedNetworkId: String = ""
 
     override fun getConnectedNetworkId(): String = _connectedNetworkId
