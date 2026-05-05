@@ -51,7 +51,6 @@ import java.util.Map;
 
 import static com.gregtechceu.gtceu.api.GTValues.V;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.Biomass;
-import static com.gtolib.api.GTOValues.GLASS_TIER;
 
 public class LargeAlgaeFarm extends ElectricMultiblockMachine implements ITierCasingMachine {
 
@@ -66,7 +65,7 @@ public class LargeAlgaeFarm extends ElectricMultiblockMachine implements ITierCa
     private float blueWeight = 1.0f;
 
     @SyncToClient
-    private Algae selectedAlgae = Algae.BlueAlge;
+    private Algae selectedAlgae = Algae.BlueAlgae;
 
     public LargeAlgaeFarm(MetaMachineBlockEntity metaMachineBlockEntity) {
         super(metaMachineBlockEntity);
