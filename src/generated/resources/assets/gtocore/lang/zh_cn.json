@@ -2348,6 +2348,7 @@
   "gtocore.ae.appeng.me2in1.collapse_or_expand_toolbar.desc": "折叠或展开显示元件与网络工具槽",
   "gtocore.ae.appeng.me2in1.config_mapping": "配置配方搜索映射",
   "gtocore.ae.appeng.me2in1.draggable_mark.tooltip": "按住并拖动以调整该面板位置",
+  "gtocore.ae.appeng.me2in1.draggable_mark.tooltip.1": "拖动到屏幕顶部以自动隐藏",
   "gtocore.ae.appeng.me2in1.emi.catalyst": "编码默认不填充催化剂",
   "gtocore.ae.appeng.me2in1.emi.catalyst.fill": "Shift + 左击：将催化剂填充至样板",
   "gtocore.ae.appeng.me2in1.emi.catalyst.virtual": "Ctrl + 左击：将催化剂（虚拟物品）填充至样板",

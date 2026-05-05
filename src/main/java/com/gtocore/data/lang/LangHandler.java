@@ -355,6 +355,7 @@ public final class LangHandler {
         addCNEN("gtocore.ae.appeng.me2in1.encode_to.accessor.title", "编码到样板管理终端", "Encode to Pattern Terminal");
         addCNEN("gtocore.ae.appeng.me2in1.encode_to.accessor", "直接编码到当前页面中的空白部分", "Encode directly to the blank slots on the current page of terminal");
         addCNEN("gtocore.ae.appeng.me2in1.draggable_mark.tooltip", "按住并拖动以调整该面板位置", "Hold and drag to adjust the position of this panel");
+        addCNEN("gtocore.ae.appeng.me2in1.draggable_mark.tooltip.1", "拖动到屏幕顶部以自动隐藏", "Drag to the top of the screen to auto-hide");
         addCNEN("gtocore.ae.appeng.me2in1.material_slot", "材料槽", "Material Slot");
         addCNEN("gtocore.ae.appeng.me2in1.material_slot.1", "将带有材料类型的物品（如xx板，xx杆等）放入此槽位", "Place items with materials (such as xx plate, xx rod, etc.) in this slot");
         addCNEN("gtocore.ae.appeng.me2in1.material_slot.2", "编码时将自动应用材料类型到可替换的物品上", "The material type will be automatically applied to replaceable items when encoding");

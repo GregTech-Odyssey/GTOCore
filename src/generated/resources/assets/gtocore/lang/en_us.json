@@ -2223,6 +2223,7 @@
   "gtocore.ae.appeng.me2in1.collapse_or_expand_toolbar.desc": "Collapse or expand the display components and network tool slots",
   "gtocore.ae.appeng.me2in1.config_mapping": "Configure Recipe Search Mapping",
   "gtocore.ae.appeng.me2in1.draggable_mark.tooltip": "Hold and drag to adjust the position of this panel",
+  "gtocore.ae.appeng.me2in1.draggable_mark.tooltip.1": "Drag to the top of the screen to auto-hide",
   "gtocore.ae.appeng.me2in1.emi.catalyst": "Catalysts are skipped by default",
   "gtocore.ae.appeng.me2in1.emi.catalyst.fill": "Shift + Click: Fill catalysts into the pattern",
   "gtocore.ae.appeng.me2in1.emi.catalyst.virtual": "Ctrl + Click: Encode catalysts as virtual items",
