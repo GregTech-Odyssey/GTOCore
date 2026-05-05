@@ -5,6 +5,7 @@ import com.gtocore.common.data.GTOBlocks;
 import com.gtolib.GTOCore;
 import com.gtolib.api.pattern.DebugBlockPattern;
 import com.gtolib.utils.*;
+import com.gtolib.utils.iostream.IOStreamCodec;
 
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.item.ComponentItem;
@@ -147,8 +148,8 @@ public final class StructureWriteBehavior implements IItemUIFactory {
             });
             if (blockPattern.hasAir) builder.append(".where(' ', any())\n");
             builder.append(".build())\n");
-            FileUtils.saveToFile(blockPattern.pattern, new File(GTOCore.getFile(), "structure_pattern.mbs"), FileUtils.Serialize.array(FileUtils.Serialize.array(FileUtils.Serializer.STRING)));
-            FileUtils.saveToFile(builder.toString(), new File(GTOCore.getFile(), "structure_pattern.txt"), FileUtils.Serializer.TXT_STRING);
+            MultiBlockFileReader.save(new File(GTOCore.getFile(), "structure_pattern.mbs"), blockPattern.pattern);
+            FileUtils.saveToFile(builder.toString(), new File(GTOCore.getFile(), "structure_pattern.txt"), IOStreamCodec.STRING_CODEC);
             for (int i = 0; i < blockPattern.pattern.length; i++) {
                 String[] strings = blockPattern.pattern[i];
                 builder.append(".aisle(\"%s\")\n".formatted(Joiner.on("\", \"").join(strings)));

@@ -8,8 +8,8 @@ import com.gtolib.GTOCore;
 import com.gtolib.api.machine.MultiblockDefinition;
 import com.gtolib.utils.FileUtils;
 import com.gtolib.utils.ItemUtils;
-import com.gtolib.utils.RLUtils;
-import com.gtolib.utils.RegistriesUtils;
+import com.gtolib.utils.iostream.IOStreamDecoder;
+import com.gtolib.utils.iostream.IOStreamEncoder;
 
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
@@ -36,6 +36,8 @@ import dev.emi.emi.api.stack.EmiStack;
 import dev.emi.emi.api.widget.SlotWidget;
 import dev.emi.emi.api.widget.WidgetHolder;
 import it.unimi.dsi.fastutil.objects.ReferenceOpenHashSet;
+import net.minecraftforge.fml.loading.FMLEnvironment;
+import net.minecraftforge.fml.loading.FMLLoader;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
@@ -64,8 +66,8 @@ public final class MultiblockInfoEmiRecipe extends ModularEmiRecipe<Widget> {
         widget = () -> PatternPreview.getPatternWidget(this, definition);
         Consumer<Collection<Item>> action = p -> inputs.add(EmiIngredient.of(p.stream().filter(Objects::nonNull).map(EmiStack::of).toList(), 1));
         var file = new File(GTOCore.getFile(), "cache/multiblock/" + definition.getName() + "_parts");
-        if (file.exists() && file.canRead()) {
-            FileUtils.loadFromFile(file, FileUtils.Deserialize.list(FileUtils.Deserialize.list(dis -> RegistriesUtils.getItem(RLUtils.SERIALIZER.deserialize(dis))))).forEach(action);
+        if (FMLLoader.isProduction() && file.exists() && file.canRead()) {
+            FileUtils.loadFromFile(file, IOStreamDecoder.list(IOStreamDecoder.list(ItemUtils.IO_CODEC))).forEach(action);
         } else {
             var pattern = definition.getPatternFactory().get();
             if (pattern != null && pattern.predicates != null) {
@@ -84,7 +86,7 @@ public final class MultiblockInfoEmiRecipe extends ModularEmiRecipe<Widget> {
                         if (items.size() > 1) parts.add(items);
                     }
                 }
-                FileUtils.saveToFile(parts, file, FileUtils.Serialize.collection(FileUtils.Serialize.collection((dos, obj) -> RLUtils.SERIALIZER.serialize(dos, ItemUtils.getIdLocation(obj)))));
+               if (FMLLoader.isProduction())FileUtils.saveToFile(parts, file, IOStreamEncoder.collection(IOStreamEncoder.collection(ItemUtils.IO_CODEC)));
                 parts.forEach(action);
             }
         }
