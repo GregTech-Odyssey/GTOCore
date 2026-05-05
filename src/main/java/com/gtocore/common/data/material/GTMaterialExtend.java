@@ -46,7 +46,6 @@ public final class GTMaterialExtend {
                 .liquid((new FluidBuilder()).temperature(1000))
                 .color(16777215)
                 .iconSet(GTOMaterialIconSet.AMPROSIUM)
-                .secondaryColor(0)
                 .appendFlags(GTMaterials.EXT_METAL, MaterialFlags.GENERATE_BOLT_SCREW, MaterialFlags.GENERATE_FRAME, MaterialFlags.GENERATE_GEAR, MaterialFlags.GENERATE_LONG_ROD, GTOMaterialFlags.GENERATE_COIN)
                 .element(GTElements.Nq2)
                 .toolStats(ToolProperty.Builder.of(160.0F, 80.0F, 65535, 6).attackSpeed(0.5F).enchantability(33).magnetic().build()).rotorStats(400, 250, 12.0F, 655360)

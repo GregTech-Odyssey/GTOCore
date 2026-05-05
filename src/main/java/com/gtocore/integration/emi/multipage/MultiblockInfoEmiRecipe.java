@@ -25,6 +25,7 @@ import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraftforge.fml.loading.FMLLoader;
 
 import com.lowdragmc.lowdraglib.emi.ModularEmiRecipe;
 import com.lowdragmc.lowdraglib.emi.ModularForegroundRenderWidget;
@@ -36,8 +37,6 @@ import dev.emi.emi.api.stack.EmiStack;
 import dev.emi.emi.api.widget.SlotWidget;
 import dev.emi.emi.api.widget.WidgetHolder;
 import it.unimi.dsi.fastutil.objects.ReferenceOpenHashSet;
-import net.minecraftforge.fml.loading.FMLEnvironment;
-import net.minecraftforge.fml.loading.FMLLoader;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
@@ -86,7 +85,7 @@ public final class MultiblockInfoEmiRecipe extends ModularEmiRecipe<Widget> {
                         if (items.size() > 1) parts.add(items);
                     }
                 }
-               if (FMLLoader.isProduction())FileUtils.saveToFile(parts, file, IOStreamEncoder.collection(IOStreamEncoder.collection(ItemUtils.IO_CODEC)));
+                if (FMLLoader.isProduction()) FileUtils.saveToFile(parts, file, IOStreamEncoder.collection(IOStreamEncoder.collection(ItemUtils.IO_CODEC)));
                 parts.forEach(action);
             }
         }
