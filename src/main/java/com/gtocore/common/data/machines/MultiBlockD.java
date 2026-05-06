@@ -78,7 +78,6 @@ import static com.gtocore.common.block.BlockMap.SEPMMAP;
 import static com.gtocore.common.data.GTORecipeTypes.*;
 import static com.gtocore.utils.register.MachineRegisterUtils.multiblock;
 import static com.gtocore.utils.register.MachineRegisterUtils.registerTieredMultis;
-import static com.gtolib.api.GTOValues.POWER_MODULE_TIER;
 
 public final class MultiBlockD {
 
@@ -320,7 +319,7 @@ public final class MultiBlockD {
             .tooltips(NewDataAttributes.ALLOW_PARALLEL_NUMBER.create(64))
             .block(GTOBlocks.BLAZE_CASING)
             .upgradable()
-            .pattern(definition -> MultiBlockFileReader.start(definition, RelativeDirection.RIGHT, RelativeDirection.UP, RelativeDirection.BACK)
+            .pattern(definition -> MultiBlockFileReader.start(definition)
                     .where('A', blocks(GCYMBlocks.CASING_HIGH_TEMPERATURE_SMELTING.get()))
                     .where('B', blocks(GCYMBlocks.HEAT_VENT.get()))
                     .where('C', blocks(GTBlocks.CASING_TUNGSTENSTEEL_PIPE.get()))
@@ -430,7 +429,7 @@ public final class MultiBlockD {
             .laserTooltips()
             .multipleRecipesTooltips()
             .block(GTOBlocks.MOLECULAR_CASING)
-            .pattern(definition -> MultiBlockFileReader.start(definition, RelativeDirection.LEFT, RelativeDirection.UP, RelativeDirection.FRONT)
+            .pattern(definition -> MultiBlockFileReader.start(definition)
                     .where('A', blocks(GTOBlocks.MOLECULAR_CASING.get())
                             .or(GTOPredicates.autoThreadLaserAbilities(definition.getRecipeTypes()))
                             .or(abilities(OPTICAL_DATA_RECEPTION).setExactLimit(1)))
@@ -555,7 +554,7 @@ public final class MultiBlockD {
             .perfectOverclock()
             .fromSourceTooltips("GTNH")
             .block(GTOBlocks.INCONEL_625_CASING)
-            .pattern(definition -> MultiBlockFileReader.start(definition, RelativeDirection.BACK, RelativeDirection.UP, RelativeDirection.RIGHT)
+            .pattern(definition -> MultiBlockFileReader.start(definition)
                     .where('~', controller(definition))
                     .where('B', blocks(GTOBlocks.INCONEL_625_CASING.get())
                             .or(Predicates.blocks(GTMachines.CONTROL_HATCH.get()).setMaxGlobalLimited(1).setPreviewCount(0))
@@ -717,7 +716,7 @@ public final class MultiBlockD {
             .tooltips(GTOMachineTooltips.INSTANCE.getSpaceElevatorTooltips().getSupplier())
             .fromSourceTooltips("GTNH")
             .block(GTOBlocks.SPACE_ELEVATOR_MECHANICAL_CASING)
-            .pattern(definition -> MultiBlockFileReader.start(definition, RelativeDirection.RIGHT, RelativeDirection.UP, RelativeDirection.BACK)
+            .pattern(definition -> MultiBlockFileReader.start(definition)
                     .where('~', controller(definition))
                     .where('A', blocks(GTOBlocks.HIGH_STRENGTH_CONCRETE.get()))
                     .where('B', blocks(GTOBlocks.SPACE_ELEVATOR_INTERNAL_SUPPORT.get()))
@@ -865,7 +864,7 @@ public final class MultiBlockD {
             .pattern(definition -> {
                 TraceabilityPredicate casing = blocks(FusionCasings.getCasingState(LuV));
                 return MultiBlockFileReader.builder()
-                        .LUF(RelativeDirection.FRONT, RelativeDirection.UP, RelativeDirection.RIGHT)
+
                         .name("kuangbiao1")
                         .startBuild(definition)
                         .where('A', blocks(GCYMBlocks.CASING_NONCONDUCTING.get()))
