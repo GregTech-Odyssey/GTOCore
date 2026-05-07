@@ -10,9 +10,9 @@ import net.minecraft.world.phys.Vec3;
  * 粒子路径段可以通过粒子路径管理器进行创建和管理
  * 粒子路径管理器负责将粒子路径段连接成完整的粒子路径，并计算粒子在路径上的运动轨迹和参数变化
  */
-public class ParticlePathSegment {
+public record ParticlePathSegment(Vec3 start, Vec3 end, PathSegmentComponent... components) {
 
-    public sealed interface PathSegmentComponent permits LineSegment, ArcSegment {
+    public sealed interface PathSegmentComponent permits LineSegment, ArcSegment, CircleSegment {
 
         double length();
     }
@@ -40,6 +40,14 @@ public class ParticlePathSegment {
 
         private static double dot(Vec3 a, Vec3 b) {
             return a.x() * b.x() + a.y() * b.y() + a.z() * b.z();
+        }
+    }
+
+    public record CircleSegment(Vec3 center, Vec3 startEnd, double radius) implements PathSegmentComponent {
+
+        @Override
+        public double length() {
+            return 2 * Math.PI * radius;
         }
     }
 }
