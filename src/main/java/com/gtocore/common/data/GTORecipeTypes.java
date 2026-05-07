@@ -1,5 +1,6 @@
 package com.gtocore.common.data;
 
+import com.gtocore.api.accelerator.recipe.ParticleBeamRecipeCapability;
 import com.gtocore.api.gui.GTOGuiTextures;
 import com.gtocore.common.item.DimensionDataItem;
 import com.gtocore.common.item.DiscItem;
@@ -556,6 +557,8 @@ public final class GTORecipeTypes {
     public static final RecipeType SUPER_PARTICLE_COLLIDER_RECIPES = register("super_particle_collider", "粒子对撞", MULTIBLOCK)
             .setEUIO(IO.IN)
             .setMaxIOSize(0, 0, 2, 1)
+            .setMaxSize(IO.IN, ParticleBeamRecipeCapability.CAP, 2)
+            .setMaxSize(IO.OUT, ParticleBeamRecipeCapability.CAP, 1)
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT)
             .setSound(GTOSoundEntries.FUSIONLOOP);
 

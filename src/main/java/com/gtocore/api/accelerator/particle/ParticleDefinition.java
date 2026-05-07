@@ -1,5 +1,9 @@
 package com.gtocore.api.accelerator.particle;
 
+import com.gtolib.api.recipe.lookup.MapIngredient;
+
+import net.minecraft.network.chat.Component;
+
 import java.util.Objects;
 
 /**
@@ -10,9 +14,11 @@ import java.util.Objects;
 public final class ParticleDefinition {
 
     private final String name;
+    private final String id;
     private final double mass;
     private final double charge;
     private final double width;
+    private final int ingredientId = MapIngredient.getCount(this);
 
     /**
      * @param mass   质量，单位eV/c^2
@@ -24,6 +30,7 @@ public final class ParticleDefinition {
         this.mass = mass;
         this.charge = charge;
         this.width = width;
+        this.id = generateId(name);
     }
 
     public String name() {
@@ -40,6 +47,22 @@ public final class ParticleDefinition {
 
     public double width() {
         return width;
+    }
+
+    public int ingredientId() {
+        return ingredientId;
+    }
+
+    public String id() {
+        return id;
+    }
+
+    public String translationKey() {
+        return "particle." + id;
+    }
+
+    public Component getDisplayName() {
+        return Component.translatable(translationKey());
     }
 
     @Override
@@ -65,5 +88,9 @@ public final class ParticleDefinition {
                 "mass=" + mass + ", " +
                 "charge=" + charge + ", " +
                 "width=" + width + ']';
+    }
+
+    private static String generateId(String name) {
+        return name.toLowerCase().replaceAll("[\\s/-]+", "_");
     }
 }

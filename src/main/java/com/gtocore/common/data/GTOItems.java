@@ -1187,6 +1187,9 @@ public final class GTOItems {
     // FPGA芯片
     public static final ItemEntry<Item> FPGA_CHIP = register("fpga_chip", "FPGA芯片");
 
+    // 粒子流遏制容器
+    public static final ItemEntry<Item> PARTICLE_FLOW_CONTAINMENT_VESSEL = register("particle_flow_containment_vessel", "粒子流遏制容器");
+
     public static final ItemEntry<Item> MAGENTA_DYE_MASTERBATCH = register("magenta_dye_masterbatch", "品红色染料色母");
     public static final ItemEntry<Item> YELLOW_DYE_MASTERBATCH = register("yellow_dye_masterbatch", "黄色染料色母");
     public static final ItemEntry<Item> CYAN_DYE_MASTERBATCH = register("cyan_dye_masterbatch", "青色染料色母");

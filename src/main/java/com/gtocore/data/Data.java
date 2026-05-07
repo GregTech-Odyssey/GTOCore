@@ -1,5 +1,6 @@
 package com.gtocore.data;
 
+import com.gtocore.api.accelerator.Particles;
 import com.gtocore.common.data.GTOLoots;
 import com.gtocore.common.data.GTOOres;
 import com.gtocore.common.data.GTORecipeDataKeys;
@@ -83,6 +84,8 @@ public final class Data {
         GTRegistries.BEDROCK_ORE_DEFINITIONS.unfreeze();
         GTOOres.init();
         MeteoriteRecipe.init();
+
+        Particles.init();
 
         ItemMaterialData.reinitializeMaterialData();
         CraftingComponents.init();
