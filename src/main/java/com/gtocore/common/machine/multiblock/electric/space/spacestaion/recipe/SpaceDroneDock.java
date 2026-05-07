@@ -9,7 +9,6 @@ import com.gtolib.api.data.GTODimensions;
 import com.gtolib.api.machine.trait.IEnhancedRecipeLogic;
 import com.gtolib.api.recipe.Recipe;
 import com.gtolib.api.recipe.modifier.ParallelLogic;
-import com.gtolib.utils.holder.ObjectHolder;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.GTCapabilityHelper;
@@ -21,6 +20,7 @@ import com.gregtechceu.gtceu.api.recipe.ingredient.ItemIngredient;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 
+import com.gto.datasynclib.util.holder.ObjHolder;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -41,9 +41,9 @@ public class SpaceDroneDock extends RecipeExtension {
     public Recipe fullModifyRecipe(@NotNull Recipe recipe) {
         long maxParallel;
         AtomicBoolean hasInput = new AtomicBoolean(false);
-        ObjectHolder<BigInteger> costEU = new ObjectHolder<>(null);
-        ObjectHolder<ItemStack> outputHolder = new ObjectHolder<>(null);
-        ObjectHolder<ItemStack> inputHolder = new ObjectHolder<>(null);
+        ObjHolder<BigInteger> costEU = new ObjHolder<>();
+        ObjHolder<ItemStack> outputHolder = new ObjHolder<>();
+        ObjHolder<ItemStack> inputHolder = new ObjHolder<>();
         ItemIngredient chargeable = (ItemIngredient) recipe.inputs.get(ItemRecipeCapability.CAP).getFirst().inner;
         fastForEachInputItems((stack, amount) -> {
             if (hasInput.get()) return;

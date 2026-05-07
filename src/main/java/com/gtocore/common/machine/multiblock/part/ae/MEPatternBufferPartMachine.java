@@ -8,10 +8,8 @@ import com.gtocore.common.machine.trait.InternalSlotRecipeHandler;
 import com.gtolib.api.ae2.MyPatternDetailsHelper;
 import com.gtolib.api.annotation.DataGeneratorScanned;
 import com.gtolib.api.annotation.language.RegisterLanguage;
-import com.gtolib.api.capability.ISync;
 import com.gtolib.api.machine.trait.NotifiableNotConsumableFluidHandler;
 import com.gtolib.api.machine.trait.NotifiableNotConsumableItemHandler;
-import com.gtolib.api.network.SyncManagedFieldHolder;
 import com.gtolib.api.recipe.RecipeBuilder;
 import com.gtolib.api.recipe.RecipeDefinition;
 import com.gtolib.api.recipe.RecipeType;
@@ -75,13 +73,15 @@ import appeng.crafting.pattern.ProcessingPatternItem;
 
 import com.fast.fastcollection.OpenCacheHashSet;
 import com.fast.recipesearch.IntLongMap;
+import com.gto.datasynclib.annotations.SyncToClient;
+import com.gto.datasynclib.annotations.SyncToServer;
+import com.gto.datasynclib.listener.IntNotifiableHolder;
 import com.hepdd.gtmthings.common.item.VirtualItemProviderBehavior;
 import com.hepdd.gtmthings.data.CustomItems;
 import com.lowdragmc.lowdraglib.gui.texture.GuiTextureGroup;
 import com.lowdragmc.lowdraglib.gui.util.ClickData;
 import com.lowdragmc.lowdraglib.gui.widget.LabelWidget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
-import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import it.unimi.dsi.fastutil.objects.ReferenceOpenHashSet;
 import lombok.Getter;
@@ -103,8 +103,6 @@ import javax.annotation.ParametersAreNonnullByDefault;
 @MethodsReturnNonnullByDefault
 public abstract class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPatternBufferPartMachine.InternalSlot> implements IDataStickInteractable, IWailaDisplayProvider {
 
-    private static final SyncManagedFieldHolder SYNC_MANAGED_FIELD_HOLDER = new SyncManagedFieldHolder(MEPatternBufferPartMachine.class,
-            MEPatternPartMachineKt.getSYNC_MANAGED_FIELD_HOLDER());
     @RegisterLanguage(cn = "配方已缓存", en = "Recipe cached")
     private static final String CACHE = "gtocore.pattern_buffer.cache";
     @RegisterLanguage(cn = "样板独立配置", en = "Pattern independent configuration")
@@ -123,15 +121,15 @@ public abstract class MEPatternBufferPartMachine extends MEPatternPartMachineKt<
     }
 
     @Persisted
-    @DescSynced
+    @SyncToClient
     @Getter
     private final ArrayList<GTRecipeType> recipeTypes = new ArrayList<>();
     @Persisted
-    @DescSynced
+    @SyncToClient
     @Getter
     public GTRecipeType recipeType = GTORecipeTypes.HATCH_COMBINED;
 
-    @DescSynced
+    @SyncToClient
     private final boolean[] caches;
     @Persisted
     public final NotifiableNotConsumableItemHandler shareInventory;
@@ -147,21 +145,11 @@ public abstract class MEPatternBufferPartMachine extends MEPatternPartMachineKt<
 
     /// C2S sync field for configurator slot index
     @Getter
-    protected IntSyncedField configuratorField = ISync.createIntField(this)
-            .set(-1)
-            .setSenderListener((side, o, n) -> {
-                // if (side.isServer()) Objects.requireNonNull(Objects.requireNonNull(getLevel()).getServer()).tell(new
-                // TickTask(10, () -> freshWidgetGroup.serverFresh()));
-                // freshWidgetGroup.fresh();
-            }).setReceiverListener((side, o, n) -> {
+    @SyncToServer
+    protected IntNotifiableHolder configuratorField = IntNotifiableHolder.create()
+            .setSenderListener((side, o, n) -> {}).setReceiverListener((side, o, n) -> {
                 if (side.isServer()) Objects.requireNonNull(Objects.requireNonNull(getLevel()).getServer()).tell(new TickTask(10, () -> freshWidgetGroup.serverFresh()));
-                // freshWidgetGroup.fresh();
             });
-
-    @Override
-    public SyncManagedFieldHolder getSyncHolder() {
-        return SYNC_MANAGED_FIELD_HOLDER;
-    }
 
     protected ConfiguratorPanel configuratorPanel;
 
@@ -352,9 +340,13 @@ public abstract class MEPatternBufferPartMachine extends MEPatternPartMachineKt<
     public void onMouseClicked(int index) {
         if (!isRemote()) return;
         if (configuratorField.get() == index) {
-            configuratorField.setAndSyncToServer(-1);
+            configuratorField.set(-1);
+            configuratorField.markAsDirty();
+            syncToServer();
         } else {
-            configuratorField.setAndSyncToServer(index);
+            configuratorField.set(index);
+            configuratorField.markAsDirty();
+            syncToServer();
         }
     }
 
@@ -562,7 +554,6 @@ public abstract class MEPatternBufferPartMachine extends MEPatternPartMachineKt<
         public final NotifiableItemStackHandler circuitInventory;
         final LockableItemStackHandler lockableInventory;
         @Getter
-        @DescSynced
         private boolean lock;
         @Setter
         private boolean shouldLockRecipe = true;

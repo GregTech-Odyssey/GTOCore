@@ -2,7 +2,6 @@ package com.gtocore.common.data;
 
 import com.gtocore.common.block.BlockMap;
 import com.gtocore.common.machine.mana.CelestialHandler;
-import com.gtocore.utils.DataCodecs;
 
 import com.gtolib.api.GTOValues;
 import com.gtolib.api.recipe.TierDataKey;
@@ -11,48 +10,48 @@ import com.gregtechceu.gtceu.common.data.GTRecipeDataKeys;
 
 import net.minecraft.nbt.CompoundTag;
 
+import com.gto.datasynclib.CombinationCodec;
 import com.gto.datasynclib.datasream.DataComponentKey;
-import com.gto.datasynclib.datasream.codec.DataCodec;
 
 public final class GTORecipeDataKeys {
 
-    public static final DataComponentKey<Boolean> IS_CUSTOM = register("isCustom", DataCodec.BOOLEAN_CODEC);
-    public static final DataComponentKey<Boolean> SPECIAL = register("special", DataCodec.BOOLEAN_CODEC);
-    public static final DataComponentKey<Integer> TIER = register("tier", DataCodec.INT_CODEC);
-    public static final DataComponentKey<Long> EU = register("eu", DataCodec.LONG_CODEC);
-    public static final DataComponentKey<Integer> TEMPERATURE = register("temperature", DataCodec.INT_CODEC);
+    public static final DataComponentKey<Boolean> IS_CUSTOM = register("isCustom", CombinationCodec.BOOLEAN_CODEC);
+    public static final DataComponentKey<Boolean> SPECIAL = register("special", CombinationCodec.BOOLEAN_CODEC);
+    public static final DataComponentKey<Integer> TIER = register("tier", CombinationCodec.INT_CODEC);
+    public static final DataComponentKey<Long> EU = register("eu", CombinationCodec.LONG_CODEC);
+    public static final DataComponentKey<Integer> TEMPERATURE = register("temperature", CombinationCodec.INT_CODEC);
 
-    public static final DataComponentKey<Long> CONVERTED_ENERGY = register("convertedEnergy", DataCodec.LONG_CODEC);
-    public static final DataComponentKey<Float> EFFICIENCY = register("efficiency", DataCodec.FLOAT_CODEC);
+    public static final DataComponentKey<Long> CONVERTED_ENERGY = register("convertedEnergy", CombinationCodec.LONG_CODEC);
+    public static final DataComponentKey<Float> EFFICIENCY = register("efficiency", CombinationCodec.FLOAT_CODEC);
 
-    public static final DataComponentKey<Integer> RADIOACTIVITY = register("radioactivity", DataCodec.INT_CODEC);
+    public static final DataComponentKey<Integer> RADIOACTIVITY = register("radioactivity", CombinationCodec.INT_CODEC);
 
-    public static final DataComponentKey<Integer> FILTER_CASING = register("filter_casing", DataCodec.INT_CODEC);
+    public static final DataComponentKey<Integer> FILTER_CASING = register("filter_casing", CombinationCodec.INT_CODEC);
 
-    public static final DataComponentKey<Integer> EV_MIN = register("ev_min", DataCodec.INT_CODEC);
-    public static final DataComponentKey<Integer> EV_MAX = register("ev_max", DataCodec.INT_CODEC);
-    public static final DataComponentKey<Integer> EVT = register("evt", DataCodec.INT_CODEC);
+    public static final DataComponentKey<Integer> EV_MIN = register("ev_min", CombinationCodec.INT_CODEC);
+    public static final DataComponentKey<Integer> EV_MAX = register("ev_max", CombinationCodec.INT_CODEC);
+    public static final DataComponentKey<Integer> EVT = register("evt", CombinationCodec.INT_CODEC);
 
-    public static final DataComponentKey<Integer> FR_HEAT = register("FRheat", DataCodec.INT_CODEC);
+    public static final DataComponentKey<Integer> FR_HEAT = register("FRheat", CombinationCodec.INT_CODEC);
 
-    public static final DataComponentKey<Integer> MODULE = register("module", DataCodec.INT_CODEC);
+    public static final DataComponentKey<Integer> MODULE = register("module", CombinationCodec.INT_CODEC);
 
-    public static final DataComponentKey<Integer> NANO_FORGE_TIER = register("nano_forge_tier", DataCodec.INT_CODEC);
+    public static final DataComponentKey<Integer> NANO_FORGE_TIER = register("nano_forge_tier", CombinationCodec.INT_CODEC);
 
-    public static final DataComponentKey<Integer> GRINDBALL = register("grindball", DataCodec.INT_CODEC);
+    public static final DataComponentKey<Integer> GRINDBALL = register("grindball", CombinationCodec.INT_CODEC);
 
-    public static final DataComponentKey<Integer> SPOOL = register("spool", DataCodec.INT_CODEC);
+    public static final DataComponentKey<Integer> SPOOL = register("spool", CombinationCodec.INT_CODEC);
 
-    public static final DataComponentKey<Float> NEUTRON_FLUX = register("neutron_flux", DataCodec.FLOAT_CODEC);
-    public static final DataComponentKey<Float> NEUTRON_FLUX_CHANGE = register("neutron_flux_change", DataCodec.FLOAT_CODEC);
-    public static final DataComponentKey<Float> HEAT = register("heat", DataCodec.FLOAT_CODEC);
+    public static final DataComponentKey<Float> NEUTRON_FLUX = register("neutron_flux", CombinationCodec.FLOAT_CODEC);
+    public static final DataComponentKey<Float> NEUTRON_FLUX_CHANGE = register("neutron_flux_change", CombinationCodec.FLOAT_CODEC);
+    public static final DataComponentKey<Float> HEAT = register("heat", CombinationCodec.FLOAT_CODEC);
 
-    public static final DataComponentKey<Integer> PARAM1 = register("param1", DataCodec.INT_CODEC);
-    public static final DataComponentKey<Integer> PARAM2 = register("param2", DataCodec.INT_CODEC);
-    public static final DataComponentKey<Integer> PARAM3 = register("param3", DataCodec.INT_CODEC);
+    public static final DataComponentKey<Integer> PARAM1 = register("param1", CombinationCodec.INT_CODEC);
+    public static final DataComponentKey<Integer> PARAM2 = register("param2", CombinationCodec.INT_CODEC);
+    public static final DataComponentKey<Integer> PARAM3 = register("param3", CombinationCodec.INT_CODEC);
     public static final DataComponentKey<Integer>[] PARAM = new DataComponentKey[] { PARAM1, PARAM2, PARAM3 };
 
-    public static final DataComponentKey<CompoundTag> RESONANCE = register("resonance", DataCodecs.COMPOUND_TAG);
+    public static final DataComponentKey<CompoundTag> RESONANCE = register("resonance", CombinationCodec.COMPOUND_TAG_CODEC);
 
     public static final TierDataKey HERMETIC_CASING_TIER = registerTier(BlockMap.hermetic_casing);
 
@@ -70,7 +69,7 @@ public final class GTORecipeDataKeys {
         return (TierDataKey) GTRecipeDataKeys.REGISTRY.register(new TierDataKey(name));
     }
 
-    public static <T> DataComponentKey<T> register(String name, DataCodec<T> codec) {
+    public static <T> DataComponentKey<T> register(String name, CombinationCodec<T> codec) {
         return GTRecipeDataKeys.REGISTRY.register(name, codec);
     }
 

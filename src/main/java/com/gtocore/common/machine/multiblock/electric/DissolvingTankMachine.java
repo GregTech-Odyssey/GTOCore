@@ -14,8 +14,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.material.Fluid;
 
 import com.fast.fastcollection.OpenCacheHashSet;
-import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
-import com.lowdragmc.lowdraglib.syncdata.annotation.RequireRerender;
+import com.gto.datasynclib.annotations.SyncToClient;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -24,10 +23,9 @@ import java.util.Set;
 
 public final class DissolvingTankMachine extends ElectricMultiblockMachine implements IFluidRendererMachine {
 
-    @DescSynced
-    @RequireRerender
+    @SyncToClient(notifyUpdate = true)
     private final Set<BlockPos> fluidBlockOffsets = new OpenCacheHashSet<>();
-    @DescSynced
+    @SyncToClient
     private Fluid cachedFluid;
 
     public DissolvingTankMachine(MetaMachineBlockEntity holder) {

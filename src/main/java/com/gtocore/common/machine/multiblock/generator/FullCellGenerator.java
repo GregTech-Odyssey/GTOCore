@@ -33,7 +33,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.material.Fluid;
 
 import com.google.common.collect.ImmutableMap;
-import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
+import com.gto.datasynclib.annotations.SyncToClient;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import it.unimi.dsi.fastutil.objects.ObjectImmutableList;
 import it.unimi.dsi.fastutil.objects.ObjectList;
@@ -52,7 +52,7 @@ public class FullCellGenerator extends ElectricMultiblockMachine {
     @RegisterLanguage(cn = "燃料效率乘数：%s", en = "Fuel Efficiency Multiplier: %s")
     private static final String FUEL_EFFICIENCY = "gtocore.machine.fuelcell_efficiency";
 
-    @DescSynced
+    @SyncToClient
     private boolean isGenerator = false;
     @Persisted
     private double bonusEfficiency = 1.0f;

@@ -150,7 +150,13 @@ open class MEPatternBufferPartMachineKt(holder: MetaMachineBlockEntity, maxPatte
     }
 
     override fun getApplyIndex() = IntSupplier { configuratorField.get() }
-    override fun runOnUpdate() = run { if (isRemote) configuratorField.setAndSyncToServer(-1) }
+    override fun runOnUpdate() = run {
+        if (isRemote) {
+            configuratorField.set(-1)
+            configuratorField.markAsDirty()
+            syncToServer()
+        }
+    }
 
     override fun VBoxBuilder.buildToolBoxContent() {
         when {

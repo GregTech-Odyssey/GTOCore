@@ -250,11 +250,13 @@ public final class RecipeLogicProvider implements IBlockComponentProvider, IServ
                 if (isSteam) {
                     text = Component.literal(FormattingUtil.formatNumbers(EUt)).withStyle(ChatFormatting.GREEN)
                             .append(Component.literal(" mB/t").withStyle(ChatFormatting.RESET));
+                    tooltip.add(Component.translatable(isInput ? "gtceu.top.energy_consumption" : "gtceu.top.energy_production")
+                            .append(" ")
+                            .append(text));
                 } else {
                     text = formatEnergyLine(!isInput, EUt, voltage, FormattingUtil.formatNumbers(EUt) + " EU/t");
+                    tooltip.add(text);
                 }
-
-                tooltip.add(text);
             } else {
                 getEUtTooltipLegacy(tooltip, EUt, isSteam);
             }

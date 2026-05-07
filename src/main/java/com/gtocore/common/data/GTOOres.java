@@ -13,6 +13,7 @@ import com.gregtechceu.gtceu.api.data.worldgen.generator.VeinGenerator;
 import com.gregtechceu.gtceu.api.data.worldgen.generator.indicators.SurfaceIndicatorGenerator;
 import com.gregtechceu.gtceu.api.data.worldgen.generator.veins.DikeVeinGenerator;
 import com.gregtechceu.gtceu.api.data.worldgen.generator.veins.VeinedVeinGenerator;
+import com.gregtechceu.gtceu.api.registry.GTRegistries;
 import com.gregtechceu.gtceu.common.data.GTBedrockFluids;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.common.data.GTOres;
@@ -44,7 +45,11 @@ public final class GTOOres {
 
     @SuppressWarnings("ConstantConditions")
     public static void init() {
+        GTRegistries.BEDROCK_FLUID_DEFINITIONS.unfreeze();
         GTBedrockFluids.init();
+        GTRegistries.BEDROCK_FLUID_DEFINITIONS.freeze();
+        GTRegistries.BEDROCK_ORE_DEFINITIONS.freeze();
+        GTRegistries.ORE_VEINS.freeze();
         if (false) {
             Map<ResourceKey<Level>, Set<String>> ORE_MAP = new O2OOpenCacheHashMap<>();
             ORE_MAP.put(THE_NETHER, Set.of("TagPrefix.oreNetherrack"));
@@ -910,6 +915,7 @@ public final class GTOOres {
             ALL_ORES.put(dimension, materialIntegerMap);
         }
         BedrockOreDefinition.builder(id).size(9).dimensions(definition.dimensionFilter()).weight(definition.weight()).materials(materials).yield(2, 8).depletedYield(1).depletionAmount(1).depletionChance(100).register();
+        definition.register(GTOCore.id("ores/" + name));
         return definition;
     }
 

@@ -32,7 +32,7 @@ import net.minecraft.world.level.material.Fluids;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
-import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
+import com.gto.datasynclib.annotations.SyncToClient;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import it.unimi.dsi.fastutil.objects.Reference2IntMap;
 
@@ -45,13 +45,13 @@ import static com.gtolib.api.GTOValues.GRAVITON_FLOW_TIER;
 @MethodsReturnNonnullByDefault
 public final class GodForgeMachine extends NoEnergyMultiblockMachine implements ITierCasingMachine {
 
-    @DescSynced
+    @SyncToClient
     @Persisted
     public float color;
     private boolean isRemoved = false;
     public long rotation;
     public int timer;
-    @DescSynced
+    @SyncToClient
     @Persisted
     public int tier;
 

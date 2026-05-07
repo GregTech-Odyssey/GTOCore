@@ -209,11 +209,11 @@ object GTOMachineTooltipsA : AutoInitialize<GTOMachineTooltipsA>() {
         info("使用专用的藻类访问仓来收集或投放藻类" translatedTo "Use a dedicated algae access hatch to collect or release algae")
         Algae.entries.forEach { algae ->
             val colorName = when (algae) {
-                Algae.RedAlge -> "红藻" translatedTo "Red"
-                Algae.BrownAlge -> "褐藻" translatedTo "Brown"
-                Algae.GoldAlge -> "金藻" translatedTo "Golden"
-                Algae.GreenAlge -> "绿藻" translatedTo "Green"
-                Algae.BlueAlge -> "蓝藻" translatedTo "Blue"
+                Algae.RedAlgae -> "红藻" translatedTo "Red"
+                Algae.BrownAlgae -> "褐藻" translatedTo "Brown"
+                Algae.GoldAlgae -> "金藻" translatedTo "Golden"
+                Algae.GreenAlgae -> "绿藻" translatedTo "Green"
+                Algae.BlueAlgae -> "蓝藻" translatedTo "Blue"
             }.color(algae.color)
             info(
                 colorName +

@@ -21,9 +21,9 @@ import appeng.me.cluster.implementations.CraftingCPUCluster;
 import appeng.menu.me.crafting.CraftingStatusMenu;
 
 import com.google.common.collect.ImmutableSet;
+import com.gto.datasynclib.annotations.SyncToClient;
 import com.hepdd.gtmthings.utils.FormatUtil;
 import com.lowdragmc.lowdraglib.gui.widget.*;
-import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import org.apache.commons.lang3.time.DurationFormatUtils;
@@ -47,7 +47,7 @@ public class MonitorAECPU extends AbstractAEInfoMonitor {
     private ICraftingCPU selectedCpu = null;
 
     private CraftingStatusMenu.CraftingCpuList cpuList = EMPTY_CPU_LIST;
-    @DescSynced
+    @SyncToClient
     @Persisted
     private int selectedCpuSerial = -1;
 
@@ -59,9 +59,9 @@ public class MonitorAECPU extends AbstractAEInfoMonitor {
         this((MetaMachineBlockEntity) o);
     }
 
-    @DescSynced
+    @SyncToClient
     private CompoundTag cpuInfo = new CompoundTag();
-    @DescSynced
+    @SyncToClient
     private Component cpuName = Component.empty();
 
     private ImmutableSet<ICraftingCPU> lastCpuSet = ImmutableSet.of();

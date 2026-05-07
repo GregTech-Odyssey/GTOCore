@@ -28,8 +28,10 @@ import com.gregtechceu.gtceu.api.machine.feature.IFancyUIMachine
 import com.gregtechceu.gtceu.api.machine.feature.IMachineLife
 import com.gregtechceu.gtceu.api.machine.multiblock.part.WorkableTieredIOPartMachine
 import com.gregtechceu.gtceu.integration.ae2.machine.trait.GridNodeHolder
+import com.gto.datasynclib.annotations.SyncToClient
+import com.gto.datasynclib.listener.IntNotifiableHolder
+import com.gto.datasynclib.listener.ObjNotifiableHolder
 import com.gtolib.api.capability.ISync
-import com.gtolib.api.network.SyncManagedFieldHolder
 import com.lowdragmc.lowdraglib.gui.modular.ModularUI
 import com.lowdragmc.lowdraglib.gui.texture.IGuiTexture
 import com.lowdragmc.lowdraglib.gui.widget.Widget
@@ -50,15 +52,10 @@ class MeWirelessConnectMachine(holder: MetaMachineBlockEntity) :
     ISync,
     IFancyUIMachine {
 
-    companion object {
-        @JvmStatic
-        val syncManager = SyncManagedFieldHolder(MeWirelessConnectMachine::class.java)
-    }
-
     // ==================== AE2 Grid ====================
     val gridHolder = GridNodeHolder(this)
 
-    @DescSynced
+    @SyncToClient
     var isGridOnline: Boolean = false
 
     override fun isOnline(): Boolean = isGridOnline
@@ -74,7 +71,7 @@ class MeWirelessConnectMachine(holder: MetaMachineBlockEntity) :
 
     // ==================== WirelessMachine - Node Type (switchable) ====================
     @Persisted
-    @DescSynced
+    @SyncToClient
     private var _nodeType: Int = WirelessMachine.NodeType.CHILD.ordinal
 
     override fun getNodeType(): WirelessMachine.NodeType = WirelessMachine.NodeType.entries.getOrElse(_nodeType) { WirelessMachine.NodeType.SOURCE }
@@ -87,7 +84,7 @@ class MeWirelessConnectMachine(holder: MetaMachineBlockEntity) :
 
     // ==================== WirelessMachine - Persisted State ====================
     @Persisted
-    @DescSynced
+    @SyncToClient
     private var _connectedNetworkId: String = ""
 
     override fun getConnectedNetworkId(): String = _connectedNetworkId
@@ -96,18 +93,23 @@ class MeWirelessConnectMachine(holder: MetaMachineBlockEntity) :
     }
 
     // ==================== WirelessMachine - Sync Fields ====================
-    private val _networkListCache: ISync.ObjectSyncedField<List<NetworkSummary>> = createNetworkSummarySyncField(this)
-    private val _unassignedOutputCount: ISync.IntSyncedField = ISync.createIntField(this)
-    private val _topologyCache: ISync.ObjectSyncedField<List<TopologySummary>> = createTopologySyncField(this)
-    private val _nodeTypeSync: ISync.IntSyncedField = ISync.createIntField(this)
+    @SyncToClient
+    private val _networkListCache: ObjNotifiableHolder<List<NetworkSummary>> = createNetworkSummarySyncField(this)
 
-    override fun getNetworkListCache(): ISync.ObjectSyncedField<List<NetworkSummary>> = _networkListCache
-    override fun getUnassignedOutputCount(): ISync.IntSyncedField = _unassignedOutputCount
-    override fun getTopologyCache(): ISync.ObjectSyncedField<List<TopologySummary>> = _topologyCache
-    override fun getNodeTypeSync(): ISync.IntSyncedField = _nodeTypeSync
+    @SyncToClient
+    private val _unassignedOutputCount: IntNotifiableHolder = IntNotifiableHolder.create()
 
-    // ==================== ISync ====================
-    override fun getSyncHolder(): SyncManagedFieldHolder = syncManager
+    @SyncToClient
+    private val _topologyCache: ObjNotifiableHolder<List<TopologySummary>> = createTopologySyncField(this)
+
+    @SyncToClient
+    private val _nodeTypeSync: IntNotifiableHolder = IntNotifiableHolder.create()
+
+    override fun getNetworkListCache(): ObjNotifiableHolder<List<NetworkSummary>> = _networkListCache
+    override fun getUnassignedOutputCount(): IntNotifiableHolder = _unassignedOutputCount
+    override fun getTopologyCache(): ObjNotifiableHolder<List<TopologySummary>> = _topologyCache
+    override fun getNodeTypeSync(): IntNotifiableHolder = _nodeTypeSync
+
     override fun isRemote() = super<MetaMachine>.isRemote
 
     // ==================== Data Migration ====================
@@ -130,7 +132,6 @@ class MeWirelessConnectMachine(holder: MetaMachineBlockEntity) :
     // ==================== Lifecycle ====================
     override fun onLoad() {
         super.onLoad()
-        registerSync()
         onWirelessLoad()
     }
 
@@ -141,7 +142,6 @@ class MeWirelessConnectMachine(holder: MetaMachineBlockEntity) :
 
     override fun onUnload() {
         onWirelessUnload()
-        unregisterSync()
         super.onUnload()
     }
 

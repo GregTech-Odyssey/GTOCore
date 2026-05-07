@@ -22,11 +22,11 @@ import appeng.api.stacks.AEKey;
 import appeng.api.stacks.AmountFormat;
 
 import com.google.common.collect.ImmutableList;
+import com.gto.datasynclib.annotations.SyncToClient;
 import com.hepdd.gtmthings.api.misc.EnergyStat;
 import com.lowdragmc.lowdraglib.gui.widget.ComponentPanelWidget;
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
-import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -45,7 +45,7 @@ public class MonitorAEThroughput extends AbstractAEInfoMonitor {
     private static final BigDecimal DISPLAY_SCALE = BigDecimal.valueOf(100);
     private static final DecimalFormat THROUGHPUT_FORMAT = new DecimalFormat("0.##");
 
-    @DescSynced
+    @SyncToClient
     private CompoundTag displayingEntry = new CompoundTag();
     private final EnergyStat[] stats = new EnergyStat[2];
     private final long[] lastAmount = new long[] { 0, 0 };
@@ -53,15 +53,15 @@ public class MonitorAEThroughput extends AbstractAEInfoMonitor {
     private final AEItem aeItem = new AEItem();
     @Persisted
     private final AEFluid aeFluid = new AEFluid();
-    @DescSynced
+    @SyncToClient
     private final long[] currentAmount = new long[] { 0, 0 };
-    @DescSynced
+    @SyncToClient
     private final long[] lastMinuteStat = new long[] { 0, 0 };
-    @DescSynced
+    @SyncToClient
     private final long[] lastHourStat = new long[] { 0, 0 };
-    @DescSynced
+    @SyncToClient
     private final long[] lastDayStat = new long[] { 0, 0 };
-    @DescSynced
+    @SyncToClient
     private final long[] nowStat = new long[] { 0, 0 };
     private final CurrentGettable[] aeItemFluidGettables = new CurrentGettable[] { aeItem, aeFluid };
 

@@ -35,12 +35,12 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
 
+import com.gto.datasynclib.annotations.SyncToClient;
 import com.hepdd.gtmthings.api.gui.widget.SimpleNumberInputWidget;
 import com.lowdragmc.lowdraglib.gui.texture.TextTexture;
 import com.lowdragmc.lowdraglib.gui.util.ClickData;
 import com.lowdragmc.lowdraglib.gui.widget.*;
 import com.lowdragmc.lowdraglib.syncdata.ISubscription;
-import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.mojang.blaze3d.MethodsReturnNonnullByDefault;
 import lombok.Getter;
@@ -77,17 +77,17 @@ public class SingleDigitalMiner extends SimpleTieredMachine implements IDigitalM
     @Getter
     @Setter
     @Persisted
-    @DescSynced
+    @SyncToClient
     private int minerRadius;
     @Getter
     @Setter
     @Persisted
-    @DescSynced
+    @SyncToClient
     private int minHeight;
     @Getter
     @Setter
     @Persisted
-    @DescSynced
+    @SyncToClient
     private int maxHeight;
     private int silkLevel;
 

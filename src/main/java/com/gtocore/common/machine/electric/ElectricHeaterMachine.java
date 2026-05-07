@@ -23,9 +23,8 @@ import com.gregtechceu.gtceu.api.transfer.fluid.IFluidHandlerModifiable;
 import net.minecraft.core.Direction;
 import net.minecraftforge.items.IItemHandlerModifiable;
 
-import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
+import com.gto.datasynclib.annotations.SyncToClient;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import com.lowdragmc.lowdraglib.syncdata.annotation.RequireRerender;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -33,8 +32,7 @@ public final class ElectricHeaterMachine extends WorkableTieredMachine implement
 
     public static final int MaxTemperature = 1200;
     @Persisted
-    @DescSynced
-    @RequireRerender
+    @SyncToClient(notifyUpdate = true)
     private int temperature = 273;
     private TickableSubscription tickSubs;
 

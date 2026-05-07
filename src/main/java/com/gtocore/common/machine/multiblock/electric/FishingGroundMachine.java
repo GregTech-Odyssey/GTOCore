@@ -12,8 +12,6 @@ import com.gtolib.api.recipe.RecipeRunner;
 import com.gtolib.api.recipe.modifier.ParallelLogic;
 import com.gtolib.utils.MachineUtils;
 import com.gtolib.utils.MathUtil;
-import com.gtolib.utils.holder.IntHolder;
-import com.gtolib.utils.holder.ObjectHolder;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
@@ -32,6 +30,8 @@ import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.phys.Vec3;
 
+import com.gto.datasynclib.util.holder.IntHolder;
+import com.gto.datasynclib.util.holder.ObjHolder;
 import org.jetbrains.annotations.NotNull;
 
 import static net.minecraft.sounds.SoundEvents.*;
@@ -47,7 +47,7 @@ public class FishingGroundMachine extends ElectricMultiblockMachine {
     }
 
     private Recipe getRecipe() {
-        ObjectHolder<Recipe> recipe = new ObjectHolder<>(null);
+        ObjHolder<Recipe> recipe = new ObjHolder<>();
         int mode = checkingCircuit(false);
         if (mode > 0) {
             RecipeBuilder builder = getRecipeBuilder().duration(20).EUt(480);
@@ -67,7 +67,7 @@ public class FishingGroundMachine extends ElectricMultiblockMachine {
                 ItemStackSet itemStacks = new ItemStackSet();
                 recipe.value = ParallelLogic.accurateParallel(this, builder.copy(GTOCore.id("test")).outputItems(Items.STICK).buildRawRecipe(), MachineUtils.getHatchParallel(this));
                 if (recipe.value == null) return null;
-                IntHolder nbt = new IntHolder(0);
+                IntHolder nbt = new IntHolder();
                 builder.EUt(recipe.value.getInputEUt());
                 var parallel = Math.min(1024, recipe.value.parallels);
                 var multiplier = recipe.value.parallels / parallel;

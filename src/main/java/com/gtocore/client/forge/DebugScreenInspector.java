@@ -25,6 +25,7 @@ import appeng.menu.SlotSemantic;
 
 import com.mojang.blaze3d.platform.InputConstants;
 import com.mojang.blaze3d.vertex.PoseStack;
+import lombok.Getter;
 
 /// A useful debug tool to inspect the slot indices in container screens.
 /// This file is under the MPL-2.0 license.
@@ -34,6 +35,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 @Mod.EventBusSubscriber(modid = GTOCore.MOD_ID, value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class DebugScreenInspector {
 
+    @Getter
     private static boolean visible = false;
 
     @SubscribeEvent

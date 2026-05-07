@@ -28,8 +28,8 @@ import net.minecraftforge.eventbus.api.SubscribeEvent
 
 import com.gregtechceu.gtceu.api.machine.TickableSubscription
 import com.gregtechceu.gtceu.utils.TaskHandler
+import com.gto.datasynclib.util.holder.ObjHolder
 import com.gtolib.api.annotation.DataGeneratorScanned
-import com.gtolib.utils.holder.ObjectHolder
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet
 import kotlinx.coroutines.*
@@ -126,7 +126,7 @@ object AnimalsRevengeEvent {
             if (!isFoodFromEntity(type, eaten.item, serverLevel)) continue
 
             val tick = intArrayOf(0)
-            val holder = ObjectHolder<TickableSubscription>(null)
+            val holder = ObjHolder<TickableSubscription>()
             holder.value = TaskHandler.enqueueTick(serverLevel, {
                 tick[0]++
                 if (tick[0] >= preTicks) {
@@ -173,7 +173,7 @@ object AnimalsRevengeEvent {
         val types = BuiltInRegistries.ENTITY_TYPE.toList().iterator()
 
         return suspendCancellableCoroutine { cont ->
-            val subHolder = ObjectHolder<TickableSubscription>(null)
+            val subHolder = ObjHolder<TickableSubscription>()
             subHolder.value = TaskHandler.enqueueTick(level, {
                 var processed = 0
                 try {

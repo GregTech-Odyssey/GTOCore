@@ -26,7 +26,6 @@ import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
 import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility;
 import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
 import com.gregtechceu.gtceu.api.pattern.MultiblockShapeInfo;
-import com.gregtechceu.gtceu.api.pattern.util.RelativeDirection;
 import com.gregtechceu.gtceu.common.data.GCYMBlocks;
 import com.gregtechceu.gtceu.common.data.GTBlocks;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
@@ -235,7 +234,7 @@ public final class ManaMultiBlock {
             .parallelizableManaOverclock()
             .recipeTypes(GTORecipeTypes.INDUSTRIAL_ALTAR_RECIPES)
             .block(GTOBlocks.MANASTEEL_CASING)
-            .pattern(definition -> MultiBlockFileReader.start(definition, RelativeDirection.FRONT, RelativeDirection.UP, RelativeDirection.RIGHT)
+            .pattern(definition -> MultiBlockFileReader.start(definition)
                     .where('A', blocks(GTOBlocks.MANASTEEL_CASING.get())
                             .or(abilities(GTOPartAbility.INPUT_MANA).setMaxGlobalLimited(16, 1))
                             .or(abilities(PARALLEL_HATCH).setMaxGlobalLimited(1))
@@ -264,7 +263,7 @@ public final class ManaMultiBlock {
             .perfectOCTooltips()
             .recipeTypes(GTORecipeTypes.GREENHOUSE_RECIPES)
             .block(GTOBlocks.MANASTEEL_CASING)
-            .pattern(definition -> MultiBlockFileReader.start(definition, RelativeDirection.RIGHT, RelativeDirection.UP, RelativeDirection.BACK)
+            .pattern(definition -> MultiBlockFileReader.start(definition)
                     .where('A', blocks(RegistriesUtils.getBlock("botania:livingrock_slab")))
                     .where('C', blocks(GTOBlocks.MANASTEEL_CASING.get()))
                     .where('D', blocks(RegistriesUtils.getBlock("botania:glimmering_livingwood")))
@@ -292,7 +291,7 @@ public final class ManaMultiBlock {
             .recipeTypes(GTORecipeTypes.MANA_GARDEN_RECIPES, GTORecipeTypes.MANA_GARDEN_FUEL)
             .recipeModifier(RecipeModifierFunction.HATCH_PARALLEL)
             .block(RegistriesUtils.getSupplierBlock("botania:livingrock"))
-            .pattern(definition -> MultiBlockFileReader.start(definition, RelativeDirection.FRONT, RelativeDirection.UP, RelativeDirection.RIGHT)
+            .pattern(definition -> MultiBlockFileReader.start(definition)
                     .where('A', blocks(RegistriesUtils.getBlock("botania:livingrock")))
                     .where('B', blocks(RegistriesUtils.getBlock("botania:mana_pylon")))
                     .where('C', blocks(RegistriesUtils.getBlock("botania:livingwood")))
@@ -499,7 +498,7 @@ public final class ManaMultiBlock {
             .parallelizableManaOverclock()
             .recipeTypes(GTORecipeTypes.ELEMENTAL_RESONANCE)
             .block(GTOBlocks.THE_ORIGIN_CASING)
-            .pattern(definition -> MultiBlockFileReader.start(definition, RelativeDirection.FRONT, RelativeDirection.UP, RelativeDirection.RIGHT)
+            .pattern(definition -> MultiBlockFileReader.start(definition)
                     .where('A', blocks(GTOBlocks.THE_END_CASING.get()))
                     .where('B', blocks(GTOBlocks.SPELL_PRISM_CASING.get()))
                     .where('C', blocks(RegistriesUtils.getBlock("ars_nouveau:spell_prism")))
@@ -528,7 +527,7 @@ public final class ManaMultiBlock {
             .tooltips(GTOMachineTooltips.INSTANCE.getCosmicCelestialSpireOfConvergenceTooltips().getSupplier())
             .recipeTypes(GTORecipeTypes.CELESTIAL_CONDENSER_RECIPES)
             .block(GTOBlocks.SPELL_PRISM_CASING)
-            .pattern(definition -> MultiBlockFileReader.start(definition, RelativeDirection.BACK, RelativeDirection.UP, RelativeDirection.RIGHT)
+            .pattern(definition -> MultiBlockFileReader.start(definition)
                     .where('A', blocks(RegistriesUtils.getBlock("botania:polished_livingrock_wall")))
                     .where('B', blocks(RegistriesUtils.getBlock("botania:shimmerrock")))
                     .where('C', blocks(RegistriesUtils.getBlock("botania:elf_glass")))

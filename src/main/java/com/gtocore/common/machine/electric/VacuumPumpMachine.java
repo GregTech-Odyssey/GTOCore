@@ -16,7 +16,7 @@ import com.gregtechceu.gtceu.common.data.machines.GTMachineUtils;
 
 import net.minecraft.network.chat.Component;
 
-import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
+import com.gto.datasynclib.annotations.SyncToClient;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
@@ -27,7 +27,7 @@ import java.util.List;
 public final class VacuumPumpMachine extends SimpleTieredMachine implements IVacuumMachine {
 
     @Persisted
-    @DescSynced
+    @SyncToClient
     private int vacuumTier;
     @Getter
     @Persisted

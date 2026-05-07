@@ -1,11 +1,10 @@
 package com.gtocore.mixin.ae2.screen;
 
+import com.gtocore.client.forge.DebugScreenInspector;
 import com.gtocore.client.renderer.RenderUtil;
 
 import com.gtolib.api.ae2.gui.hooks.IWUTScreen;
 import com.gtolib.api.ae2.wtlib.CycleTerminalButton;
-
-import com.gregtechceu.gtceu.GTCEu;
 
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
@@ -70,7 +69,7 @@ public abstract class AEBaseScreenMixin<T extends AEBaseMenu> extends AbstractCo
 
     @Inject(method = "renderLabels", at = @At(value = "INVOKE", target = "Lappeng/client/gui/AEBaseScreen;drawFG(Lnet/minecraft/client/gui/GuiGraphics;IIII)V", remap = false))
     private void gtolib$debugRenderExclusionZones(GuiGraphics guiGraphics, int x, int y, CallbackInfo ci) {
-        if (!GTCEu.isDev()) return;
+        if (!DebugScreenInspector.isVisible()) return;
         for (Rect2i rect : getExclusionZones()) {
             RenderUtil.drawRainbowBorder(guiGraphics, rect.getX() - leftPos, rect.getY() - topPos, rect.getWidth(), rect.getHeight(), 300, 1.0f);
         }

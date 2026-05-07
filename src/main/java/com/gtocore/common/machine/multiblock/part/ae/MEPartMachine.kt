@@ -34,9 +34,11 @@ import com.gregtechceu.gtceu.api.machine.feature.multiblock.IDistinctPart
 import com.gregtechceu.gtceu.api.machine.multiblock.part.WorkableTieredIOPartMachine
 import com.gregtechceu.gtceu.api.transfer.fluid.IFluidHandlerModifiable
 import com.gregtechceu.gtceu.integration.ae2.machine.trait.GridNodeHolder
+import com.gto.datasynclib.annotations.SyncToClient
+import com.gto.datasynclib.listener.IntNotifiableHolder
+import com.gto.datasynclib.listener.ObjNotifiableHolder
 import com.gtolib.api.capability.ISync
 import com.gtolib.api.machine.feature.IMEPartMachine
-import com.gtolib.api.network.SyncManagedFieldHolder
 import com.lowdragmc.lowdraglib.gui.modular.ModularUI
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted
@@ -64,7 +66,7 @@ abstract class MEPartMachine(holder: MetaMachineBlockEntity, io: IO) :
     @Persisted
     private val nodeHolder: GridNodeHolder = GridNodeHolder(this)
 
-    @DescSynced
+    @SyncToClient
     var onlineField: Boolean = false
 
     val actionSourceField: IActionSource = IActionSource.ofMachine { nodeHolder.getMainNode().node }
@@ -77,6 +79,8 @@ abstract class MEPartMachine(holder: MetaMachineBlockEntity, io: IO) :
 
     override fun getItemHandlerCap(side: Direction?, useCoverCapability: Boolean): IItemHandlerModifiable? = null
     override fun getFluidHandlerCap(side: Direction?, useCoverCapability: Boolean): IFluidHandlerModifiable? = null
+
+    override fun tintColor(index: Int): Int = if (index == 9) realColor else -1
 
     override fun onToolClick(toolType: MutableSet<GTToolType>, itemStack: ItemStack, context: UseOnContext): Pair<GTToolType?, InteractionResult?> {
         val result = super.onToolClick(toolType, itemStack, context)
@@ -116,7 +120,7 @@ abstract class MEPartMachine(holder: MetaMachineBlockEntity, io: IO) :
 
     // ==================== WirelessMachine - Persisted State ====================
     @Persisted
-    @DescSynced
+    @SyncToClient
     private var _connectedNetworkId: String = ""
 
     override fun getConnectedNetworkId(): String = _connectedNetworkId
@@ -134,23 +138,26 @@ abstract class MEPartMachine(holder: MetaMachineBlockEntity, io: IO) :
     }
 
     // ==================== WirelessMachine - Sync Fields ====================
-    private val _networkListCache: ISync.ObjectSyncedField<List<NetworkSummary>> = createNetworkSummarySyncField(this)
-    private val _unassignedOutputCount: ISync.IntSyncedField = ISync.createIntField(this)
-    private val _topologyCache: ISync.ObjectSyncedField<List<TopologySummary>> = createTopologySyncField(this)
-    private val _nodeTypeSync: ISync.IntSyncedField = ISync.createIntField(this)
+    @SyncToClient
+    private val _networkListCache: ObjNotifiableHolder<List<NetworkSummary>> = createNetworkSummarySyncField(this)
 
-    override fun getNetworkListCache(): ISync.ObjectSyncedField<List<NetworkSummary>> = _networkListCache
-    override fun getUnassignedOutputCount(): ISync.IntSyncedField = _unassignedOutputCount
-    override fun getTopologyCache(): ISync.ObjectSyncedField<List<TopologySummary>> = _topologyCache
-    override fun getNodeTypeSync(): ISync.IntSyncedField = _nodeTypeSync
+    @SyncToClient
+    private val _unassignedOutputCount: IntNotifiableHolder = IntNotifiableHolder.create()
 
-    // ==================== ISync ====================
+    @SyncToClient
+    private val _topologyCache: ObjNotifiableHolder<List<TopologySummary>> = createTopologySyncField(this)
+
+    @SyncToClient
+    private val _nodeTypeSync: IntNotifiableHolder = IntNotifiableHolder.create()
+
+    override fun getNetworkListCache(): ObjNotifiableHolder<List<NetworkSummary>> = _networkListCache
+    override fun getUnassignedOutputCount(): IntNotifiableHolder = _unassignedOutputCount
+    override fun getTopologyCache(): ObjNotifiableHolder<List<TopologySummary>> = _topologyCache
+    override fun getNodeTypeSync(): IntNotifiableHolder = _nodeTypeSync
+
     companion object {
-        val syncFieldHolder = SyncManagedFieldHolder(MEPartMachine::class.java)
         const val CONFIG_SIZE: Int = 16
     }
-
-    override fun getSyncHolder(): SyncManagedFieldHolder = syncFieldHolder
 
     // ==================== Data Migration ====================
     // TODO: 数据迁移 — 后续版本删除此方法。
@@ -172,7 +179,6 @@ abstract class MEPartMachine(holder: MetaMachineBlockEntity, io: IO) :
     // ==================== Lifecycle ====================
     override fun onLoad() {
         super.onLoad()
-        registerSync()
         if (isAllFacing) {
             mainNode.setExposedOnSides(EnumSet.allOf(Direction::class.java))
         }
@@ -207,7 +213,6 @@ abstract class MEPartMachine(holder: MetaMachineBlockEntity, io: IO) :
 
     override fun onUnload() {
         onWirelessUnload()
-        unregisterSync()
         super.onUnload()
     }
 

@@ -45,7 +45,6 @@ import static com.gtocore.api.machine.part.GTOPartAbility.*;
 import static com.gtocore.common.block.BlockMap.SEPMMAP;
 import static com.gtocore.common.data.GTORecipeTypes.*;
 import static com.gtocore.utils.register.MachineRegisterUtils.multiblock;
-import static com.gtolib.api.GTOValues.POWER_MODULE_TIER;
 
 public final class MultiBlockB {
 
@@ -114,7 +113,7 @@ public final class MultiBlockB {
                     .where(' ', any())
                     .build())
             .workableCasingRenderer(GTCEu.id("block/casings/hpca/high_power_casing"), GTCEu.id("block/multiblock/blast_furnace"))
-            .addSubPattern(definition -> MultiBlockFileReader.builder().name("wood_dist_crossrecipe").startBuild(definition)
+            .addSubPattern(definition -> MultiBlockFileReader.start(definition, "wood_dist_crossrecipe")
                     .where('A', blocks(GCYMBlocks.CASING_STRESS_PROOF.get()))
                     .where('B', blocks(GTOBlocks.THREE_PROOF_COMPUTER_CASING.get()))
                     .where('C', blocks(GTOBlocks.MACHINING_CONTROL_CASING_MK3.get()))
@@ -371,7 +370,7 @@ public final class MultiBlockB {
                     .where(' ', any())
                     .build())
             .workableCasingRenderer(GTCEu.id("block/casings/hpca/high_power_casing"), GTCEu.id("block/multiblock/gcym/large_brewer"))
-            .addSubPattern(definition -> MultiBlockFileReader.builder().name("fuel_refining_crossrecipe").startBuild(definition)
+            .addSubPattern(definition -> MultiBlockFileReader.start(definition, "fuel_refining_crossrecipe")
                     .where('A', blocks(GTOBlocks.THREE_PROOF_COMPUTER_CASING.get()))
                     .where('B', blocks(GTOBlocks.MACHINING_CONTROL_CASING_MK3.get()))
                     .where('C', controller(definition))
@@ -481,7 +480,7 @@ public final class MultiBlockB {
             .laserTooltips()
             .multipleRecipesTooltips()
             .block(GCYMBlocks.CASING_NONCONDUCTING)
-            .pattern(definition -> MultiBlockFileReader.start(definition, RelativeDirection.BACK, RelativeDirection.UP, RelativeDirection.LEFT)
+            .pattern(definition -> MultiBlockFileReader.start(definition)
                     .where('~', controller(definition))
                     .where('A', blocks(GTBlocks.CASING_TUNGSTENSTEEL_TURBINE.get()))
                     .where('B', heatingCoils())
@@ -796,7 +795,7 @@ public final class MultiBlockB {
             .laserTooltips()
             .multipleRecipesTooltips()
             .block(GTBlocks.HIGH_POWER_CASING)
-            .pattern(definition -> MultiBlockFileReader.start(definition, RelativeDirection.RIGHT, RelativeDirection.UP, RelativeDirection.BACK)
+            .pattern(definition -> MultiBlockFileReader.start(definition)
                     .where('~', controller(definition))
                     .where('A', blocks(GTOBlocks.HIGH_PRESSURE_PIPE_CASING.get()))
                     .where('B', blocks(GTBlocks.CASING_STAINLESS_CLEAN.get()))
@@ -831,7 +830,7 @@ public final class MultiBlockB {
             .laserTooltips()
             .multipleRecipesTooltips()
             .block(GTBlocks.HIGH_POWER_CASING)
-            .pattern(definition -> MultiBlockFileReader.start(definition, RelativeDirection.RIGHT, RelativeDirection.UP, RelativeDirection.BACK)
+            .pattern(definition -> MultiBlockFileReader.start(definition)
                     .where('~', controller(definition))
                     .where('A', blocks(GTOBlocks.MOLECULAR_CASING.get()))
                     .where('B', blocks(GTOBlocks.CONTAINMENT_FIELD_GENERATOR.get()))

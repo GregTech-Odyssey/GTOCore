@@ -27,8 +27,8 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.BlockHitResult;
 
+import com.gto.datasynclib.annotations.SyncToClient;
 import com.lowdragmc.lowdraglib.gui.modular.ModularUI;
-import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import org.jetbrains.annotations.Nullable;
 import snownee.jade.api.BlockAccessor;
@@ -48,7 +48,7 @@ public final class MEPatternBufferProxyPartMachine extends WorkableTieredIOPartM
 
     private ProxySlotRecipeHandler proxySlotRecipeHandler = ProxySlotRecipeHandler.DEFAULT;
     @Persisted
-    @DescSynced
+    @SyncToClient
     @Nullable
     private BlockPos bufferPos;
     @Nullable
@@ -57,6 +57,12 @@ public final class MEPatternBufferProxyPartMachine extends WorkableTieredIOPartM
 
     public MEPatternBufferProxyPartMachine(MetaMachineBlockEntity holder) {
         super(holder, GTValues.LuV, IO.IN);
+    }
+
+    @Override
+    public int tintColor(int index) {
+        if (index == 9) return getRealColor();
+        return -1;
     }
 
     @Override

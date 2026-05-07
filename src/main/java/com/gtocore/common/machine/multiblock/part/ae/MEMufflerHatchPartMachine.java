@@ -34,11 +34,11 @@ import net.minecraft.world.item.ItemStack;
 import appeng.api.config.Actionable;
 import appeng.api.networking.IGridNodeListener;
 
+import com.gto.datasynclib.annotations.SyncToClient;
 import com.lowdragmc.lowdraglib.gui.widget.ComponentPanelWidget;
 import com.lowdragmc.lowdraglib.gui.widget.LabelWidget;
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
-import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import org.jetbrains.annotations.NotNull;
 
@@ -57,7 +57,7 @@ public class MEMufflerHatchPartMachine extends StatusTrackedMEPartMachine implem
     private final NotifiableItemStackHandler amplifierInv;
     private final InaccessibleInfiniteHandler handler;
 
-    @DescSynced
+    @SyncToClient
     private int recoveryChance = 0;
 
     private int muffler_tier = 0;

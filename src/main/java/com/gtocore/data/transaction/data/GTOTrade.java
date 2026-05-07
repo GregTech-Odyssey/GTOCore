@@ -11,7 +11,6 @@ import com.gtocore.data.transaction.manager.TradeEntry;
 
 import com.gtolib.GTOCore;
 import com.gtolib.utils.WalletUtils;
-import com.gtolib.utils.holder.IntObjectHolder;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.data.chemical.material.stack.MaterialEntry;
@@ -29,6 +28,7 @@ import net.minecraft.world.level.material.Fluids;
 import net.minecraftforge.fluids.FluidStack;
 
 import com.google.common.collect.ImmutableList;
+import com.gto.datasynclib.util.holder.IntObjectHolder;
 import com.lowdragmc.lowdraglib.gui.texture.ItemStackTexture;
 
 import java.util.ArrayList;
