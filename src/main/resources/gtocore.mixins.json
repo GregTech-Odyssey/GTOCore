@@ -67,6 +67,8 @@
     "ae2.eae.PartExPatternProviderMixin",
     "ae2.eae.PartTagStorageBusMixin",
     "ae2.eae.PartThresholdLevelEmitterMixin",
+    "ae2.eae.PreciseStorageMixin",
+    "ae2.eae.PreciseStorageMixin$PreciseInvMixin",
     "ae2.eae.TagPriorityListMixin",
     "ae2.eae.TileAssemblerMatrixBaseMixin",
     "ae2.eae.TileAssemblerMatrixPatternMixin",
