@@ -312,6 +312,7 @@ public final class GTOMachines {
                             Component.translatable("gtocore.machine.programmablec_hatch.extra_tooltip.1"),
                             Component.translatable("gtceu.universal.tooltip.item_storage_capacity", tier * tier),
                             Component.translatable("gtceu.universal.tooltip.fluid_storage_capacity_mult", tier, DualHatchPartMachine.getTankCapacity(DualHatchPartMachine.INITIAL_TANK_CAPACITY, tier)),
+                            Component.translatable("gtocore.machine.programmablec_hatch.extra_tooltip.2"),
                             Component.translatable("gtceu.part_sharing.enabled"))
                     .allowCoverOnFront(true)
                     .register(),

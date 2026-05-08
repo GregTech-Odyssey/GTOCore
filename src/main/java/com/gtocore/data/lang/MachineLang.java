@@ -16,6 +16,7 @@ final class MachineLang {
         addCNEN("gui.tooltips.redstone_mode.disabled", "禁用红石模式，机器无视红石信号", "Disable redstone mode, the machine will ignore redstone signals");
         addCNEN("gtocore.machine.programmablec_hatch.extra_tooltip.0", "通过虚拟物品提供器来设置电路槽物品", "Set the circuit slot items through a virtual item provider");
         addCNEN("gtocore.machine.programmablec_hatch.extra_tooltip.1", "可独立指定仓室的配方类型，覆盖机器的默认设定", "Can independently select recipe types, overriding the machine’s default setting");
+        addCNEN("gtocore.machine.programmablec_hatch.extra_tooltip.2", "虚拟物品槽：§b1§r", "Virtual item slots: §b1§r");
         addCNEN("gtocore.machine.energy_loss", "能量损失: %s", "Energy loss: %s");
         addCNEN("gtocore.machine.highlight_module", "高亮显示模块位置", "Highlight module position");
         addCNEN("gtocore.machine.highlight_obstruction", "高亮显示会被阻挡的区域", "Highlight areas that will be obstructed");

@@ -602,6 +602,7 @@ object GTOMachineTooltips {
             important("对着样板按鼠标中键可单独设置电路或者提供特别输入" translatedTo "Press the middle mouse button on the pattern to set the circuit or provide special input")
             command("可独立指定仓室的配方类型，覆盖机器的默认设定" translatedTo "Can independently select recipe types, overriding the machine’s default setting")
             info(ComponentSlang.Capacity(capacity.toString()))
+            info("单样板虚拟物品槽：§b9§r" translatedTo "Virtual item slots per pattern: §b9§r")
         }
     }
 
