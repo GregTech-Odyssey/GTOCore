@@ -114,9 +114,8 @@ class WirelessNetwork(val id: String, val owner: UUID, var nickname: String = id
                 outputNodes.add(node)
                 getAvailableInput()?.let {
                     createConnection(it, node)
-                } ?: run {
-                    needsRefresh = true
                 }
+                needsRefresh = true
             }
         }
     }
@@ -124,15 +123,24 @@ class WirelessNetwork(val id: String, val owner: UUID, var nickname: String = id
     fun removeNode(node: WirelessMachine) {
         if (inputNodes.remove(node)) {
             outputNodes.remove(node)
+            val affectedOutputs = assignments.entries
+                .filter { it.value.first === node }
+                .map { it.key }
+            for (output in affectedOutputs) {
+                assignments.remove(output)?.let { destroyAssignment(it) }
+            }
+            connections.removeInt(node)
             needsRefresh = true
         } else if (outputNodes.remove(node)) {
             assignments.remove(node)?.let {
-                if (connections.addTo(it.first, -1) < 1) {
-                    needsRefresh = true
-                } else {
-                    it.second.destroy()
-                    totalLoadedConns--
+                val oldCount = connections.addTo(it.first, -1)
+                if (oldCount <= 1) {
+                    connections.removeInt(it.first)
                 }
+                if (oldCount <= 0) {
+                    needsRefresh = true
+                }
+                destroyAssignment(it)
             }
         }
         nodeInfoTable.remove(node)
@@ -146,6 +154,13 @@ class WirelessNetwork(val id: String, val owner: UUID, var nickname: String = id
     }
 
     fun createConnection(input: WirelessMachine, output: WirelessMachine): Boolean {
+        assignments.remove(output)?.let { old ->
+            val oldCount = connections.addTo(old.first, -1)
+            if (oldCount <= 1) {
+                connections.removeInt(old.first)
+            }
+            destroyAssignment(old)
+        }
         try {
             val conn = GridHelper.createConnection(output.mainNode.node, input.mainNode.node)
             totalLoadedConns++
@@ -163,6 +178,18 @@ class WirelessNetwork(val id: String, val owner: UUID, var nickname: String = id
         return false
     }
 
+    private fun destroyAssignment(assignment: Pair<WirelessMachine, IGridConnection>) {
+        try {
+            assignment.second.destroy()
+        } catch (e: Exception) {
+            if (GTOConfig.INSTANCE.devMode.aeLog) {
+                println("WirelessNetwork '$nickname': failed to destroy connection: ${e.message}")
+            }
+        } finally {
+            totalLoadedConns--
+        }
+    }
+
     /**
      * 重建所有连接。将每个子节点分配给负载最低的源节点。
      */
@@ -172,10 +199,7 @@ class WirelessNetwork(val id: String, val owner: UUID, var nickname: String = id
         val startTime = System.currentTimeMillis()
         // Destroy existing
         assignments.values.forEach {
-            try {
-                it.second.destroy()
-            } catch (_: Exception) {
-            }
+            destroyAssignment(it)
         }
         assignments.clear()
         connections.clear()
@@ -221,10 +245,13 @@ class WirelessNetwork(val id: String, val owner: UUID, var nickname: String = id
         inputNodes.forEach {
             if (isNodeValid(it)) inputs.add(it)
         }
-        val input = inputs.iterator().next() ?: return
+        val input = inputs.firstOrNull() ?: return
+        var conns = 0
         for (output in outputNodes) {
             if (!isNodeValid(output)) continue
+            if (conns >= maxOutputsPerInput) break
             createConnection(input, output)
+            conns++
         }
     }
 
@@ -236,6 +263,8 @@ class WirelessNetwork(val id: String, val owner: UUID, var nickname: String = id
 
         data class InputCapacity(val input: WirelessMachine, var remainingCapacity: Int, var conns: Int = 0) : Comparable<InputCapacity> {
             override fun compareTo(other: InputCapacity) = other.remainingCapacity.compareTo(this.remainingCapacity) // 降序
+
+            fun remainingLinks(): Int = maxOutputsPerInput - conns
         }
 
         val inputCapacities = validInputs.map { input ->
@@ -244,11 +273,15 @@ class WirelessNetwork(val id: String, val owner: UUID, var nickname: String = id
 
         for (output in validOutputs) {
             val outputWorkload = output.workloadChannels
-            val bestInput = inputCapacities.maxByOrNull { it.remainingCapacity }
+            val bestInput = inputCapacities
+                .asSequence()
+                .filter { it.remainingLinks() > 0 }
+                .filter { it.remainingCapacity >= outputWorkload }
+                .maxWithOrNull(
+                    compareBy<InputCapacity> { it.remainingLinks() }
+                        .thenBy { it.remainingCapacity },
+                )
                 ?: continue
-
-            if (bestInput.conns >= maxOutputsPerInput) continue
-            if (bestInput.remainingCapacity < outputWorkload) continue
 
             if (createConnection(bestInput.input, output)) {
                 bestInput.remainingCapacity -= outputWorkload

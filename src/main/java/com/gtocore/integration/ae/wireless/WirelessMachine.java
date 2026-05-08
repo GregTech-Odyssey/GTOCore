@@ -36,6 +36,7 @@ import it.unimi.dsi.fastutil.objects.ReferenceSet;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -325,7 +326,9 @@ public interface WirelessMachine extends IGridConnectedMachine, ISync, IBindable
                             .stream().filter(t -> t.getNetworkId().equals(syncConnId)).toList());
         }
         getNodeTypeSync().setAndSyncToClient(getNodeType().ordinal());
-        WirelessNetworkSavedData.write(self().getLevel());
+        if (self().getLevel() != null) {
+            WirelessNetworkSavedData.write(Objects.requireNonNull(self().getLevel()));
+        }
     }
 
     default int getWorkloadChannels() {
@@ -378,7 +381,7 @@ public interface WirelessMachine extends IGridConnectedMachine, ISync, IBindable
         var node = this.getGridNode();
         if (node instanceof GridNode gridNode) {
             if (gridNode.getGrid().getPathingService().getChannelMode() == ChannelMode.INFINITE) {
-                return -1;
+                return Integer.MAX_VALUE;
             }
             return gridNode.getMaxChannels();
         }
