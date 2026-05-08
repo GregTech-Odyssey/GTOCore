@@ -6,6 +6,7 @@ dependencies {
     implementation("dev:gtonativelib:1.0")//jarJar无法加载
 
     implementation("dev:RecipeSearch-1.3")
+    modCompileOnly("dev:calculatoroverlay-1.0.2")
     implementation("com.github.houbb:opencc4j:1.14.0")//用来datagen繁中的
 
 
