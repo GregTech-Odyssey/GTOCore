@@ -2,6 +2,7 @@ package com.gtocore.common.data;
 
 import com.gtocore.common.forge.ServerLangHook;
 import com.gtocore.common.saved.DysonSphereSavaedData;
+import com.gtocore.common.saved.VoidWorldTimeSavedData;
 
 import com.gtolib.GTOCore;
 import com.gtolib.api.data.Dimension;
@@ -80,6 +81,12 @@ public final class GTOCommands {
                             DysonSphereSavaedData.INSTANCE.setDirty();
                             return 1;
                         }))))
+                .then(Commands.literal("void")
+                        .executes(GTOCommands::toggleVoidWorldTime)
+                        .then(Commands.literal("time")
+                                .requires(source -> source.getEntity() instanceof ServerPlayer)
+                                .executes(GTOCommands::toggleVoidWorldTime)
+                                .then(Commands.literal("toggle").executes(GTOCommands::toggleVoidWorldTime))))
                 .then(Commands.literal("hand").executes(ctx -> {
                     ServerPlayer player = ctx.getSource().getPlayer();
                     if (player != null) {
@@ -102,6 +109,22 @@ public final class GTOCommands {
                             ServerLangHook.set(ctx.getSource().getServer(), lang);
                             return 1;
                         }))));
+    }
+
+    private static int toggleVoidWorldTime(com.mojang.brigadier.context.CommandContext<CommandSourceStack> ctx) {
+        // 只允许身处虚空世界的玩家切换当前虚空世界的时间锁定状态。
+        if (!(ctx.getSource().getEntity() instanceof ServerPlayer player) || !GTODimensions.isVoid(player.serverLevel().dimension())) {
+            ctx.getSource().sendFailure(Component.translatable("gtocore.lang.void_world_time_only_in_void"));
+            return 0;
+        }
+        boolean fixed = VoidWorldTimeSavedData.INSTANCE.toggleFixedTime();
+        if (fixed) {
+            player.serverLevel().setDayTime(1000L);
+            ctx.getSource().sendSuccess(() -> Component.translatable("gtocore.lang.void_world_time_locked"), false);
+        } else {
+            ctx.getSource().sendSuccess(() -> Component.translatable("gtocore.lang.void_world_time_unlocked"), false);
+        }
+        return 1;
     }
 
     private static void giveCell(ServerPlayer player) {
@@ -134,7 +157,8 @@ public final class GTOCommands {
             player.sendSystemMessage(copy(Component.literal(s).withStyle(ChatFormatting.DARK_BLUE)));
         }
         player.sendSystemMessage(copy(Component.literal(ItemUtils.getId(stack)).withStyle(ChatFormatting.GREEN)));
-        if (stack.hasTag()) player.sendSystemMessage(copy(Component.literal(stack.getTag().toString()).withStyle(ChatFormatting.AQUA)));
+        if (stack.hasTag())
+            player.sendSystemMessage(copy(Component.literal(stack.getTag().toString()).withStyle(ChatFormatting.AQUA)));
         for (TagKey<Item> tag : stack.getItemHolder().tags().toList()) {
             player.sendSystemMessage(copy(Component.literal(tag.location().toString()).withStyle((ChatFormatting.YELLOW))));
         }
