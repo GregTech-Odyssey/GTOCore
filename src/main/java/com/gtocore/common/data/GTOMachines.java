@@ -685,6 +685,14 @@ public final class GTOMachines {
             .overlayTieredHullRenderer("neutron_sensor")
             .register();
 
+    public static final MachineDefinition ION_ACTIVITY_SENSOR = machine("ion_activity_sensor", "离子活度传感器", SensorPartMachine::new)
+            .tier(LuV)
+            .allRotation()
+            .tooltips(GTOMachineTooltips.INSTANCE.getSensorTooltips().getSupplier())
+            .notAllowSharedTooltips()
+            .overlayTieredHullRenderer("neutron_sensor")
+            .register();
+
     public static final MachineDefinition GRIND_BALL_HATCH = machine("grind_ball_hatch", "研磨球仓", BallHatchPartMachine::new)
             .tier(IV)
             .allRotation()

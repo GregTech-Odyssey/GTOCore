@@ -2085,12 +2085,23 @@ object GTOMachineTooltips {
         info("将燃料在专用电解液中‘燃烧’以转移获取400%燃料效率级别的能量" translatedTo "‘Burn’ fuel in a special electrolyte to transfer and obtain energy at 400% fuel efficiency level")
         info("或者将储存在电解液中的能量释放出来" translatedTo "Or release the energy stored in the electrolyte")
 
+        val cs1 = ("连续运行效率衰减(普通及以上模式专属)" translatedTo "Continuous operation efficiency decay (exclusive to Normal and above modes)")
+        val cs2 = "每运行一轮配方，根据当前使用的电极膜，燃料效率会乘以其衰减乘数" translatedTo "Each time a recipe is run, the fuel efficiency will be multiplied by its decay multiplier based on the currently used Electrode Membrane"
+        val cs3 = "在机器空闲时，输入600mB/tick蒸馏水可使效率恢复(总损失的15%)/tick" translatedTo "When the machine is idle, inputting 600mB/tick of distilled water can restore efficiency by (15% of total loss)/tick"
+        val cs4 = "使用离子活度传感器可以监测当前燃料效率（100%效率对应传感值1.0）" translatedTo "Using an Ion Activity Sensor can monitor the current fuel efficiency (100% efficiency corresponds to a sensor value of 1.0)"
+
         section("工作模式" translatedTo "Operating Modes")
         function("模式一：输入燃料，消耗少量电能将释能电解液转化为同数量的储能电解液" translatedTo "Mode 1: Input fuel, consume a small amount of EU to convert Discharged Electrolyte into the same amount of Charged Electrolyte")
         command("需要等量的阴极液与阳极液来吸收燃料中的能量" translatedTo "Requires equal amounts of Catholyte and Anolyte to absorb the energy from the fuel")
-        ok("使用的电极膜每高一级，燃料效率额外×1.25" translatedTo "Each higher tier of Electrode Membrane used multiplies fuel efficiency by an additional ×1.25")
+        ok("燃料效率与使用的电极膜有关，效率越高的电极膜能转化更多的燃料能量" translatedTo "Fuel efficiency is related to the Electrode Membrane used, higher efficiency membranes can convert more fuel energy")
         info("并行数 = min(输入的电解液数量, 当前燃料可转化的电解液数量)" translatedTo "Parallel = min(input electrolyte amount, amount of electrolyte convertible by current fuel)")
         info("耗能 = 1EU × 并行数" translatedTo "EU cost = 1EU × parallel")
+        if (!GTOCore.isEasy()) {
+            section(cs1)
+            command(cs2)
+            command(cs3)
+            info(cs4)
+        }
         function("模式二：能量交换，将A类储能电解液的能量转移给B类释能电解液" translatedTo "Mode 2: Energy Exchange, transfers the energy from Type A Charged Electrolyte to Type B Discharged Electrolyte")
         command("对于输入的两种电解液，均需要等量的阴极液与阳极液" translatedTo "Both input electrolytes require equal amounts of Catholyte and Anolyte")
         info("产物为两种电解液交换能量状态后的结果" translatedTo "The output is the result of the two electrolytes swapping their energy states")

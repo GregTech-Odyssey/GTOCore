@@ -795,6 +795,7 @@ public final class GeneratorMultiblock {
                             .or(abilities(IMPORT_FLUIDS))
                             .or(abilities(EXPORT_ITEMS))
                             .or(abilities(EXPORT_FLUIDS))
+                            .or(blocks(GTOMachines.ION_ACTIVITY_SENSOR.get()).setMaxGlobalLimited(1))
                             .or(blocks(GTMachines.CONTROL_HATCH.get())))
                     .where('B', blocks(GCYMBlocks.ELECTROLYTIC_CELL.get()))
                     .where('C', controller(definition))

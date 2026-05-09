@@ -27,7 +27,8 @@ public class FuelCell {
         for (var materialSet : FullCellGenerator.Wrapper.ELECTROLYTES_PER_MATERIAL_PER_MILLIBUCKET.entrySet()) {
             var material = materialSet.getKey();
             var euPerMb = materialSet.getValue();
-            var membrane = ChemicalHelper.get(GTOTagPrefix.MEMBRANE_ELECTRODE, MEMBRANE_MATS.get(i++));
+            var membraneInfo = MEMBRANE_MATS[i++];
+            var membrane = ChemicalHelper.get(GTOTagPrefix.MEMBRANE_ELECTRODE, membraneInfo.membrane());
             FUEL_CELL_ENERGY_RELEASE_RECIPES.recipeBuilder(material.getName() + "_release")
                     .notConsumable(membrane.copy())
                     .inputFluids(material.getFluid(GTOFluidStorageKey.ENERGY_STORAGE_ANODE), 20)
