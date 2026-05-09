@@ -51,8 +51,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static com.gtolib.api.GTOValues.POWER_MODULE_TIER;
-
 @DataGeneratorScanned
 public class SpaceElevatorMachine extends TierCasingMultiblockMachine implements IHighlightMachine, IIWirelessInteractor<SpaceElevatorConnectorModule> {
 
@@ -242,7 +240,15 @@ public class SpaceElevatorMachine extends TierCasingMultiblockMachine implements
 
     @Override
     public boolean testMachine(SpaceElevatorConnectorModule machine) {
-        return isFormed() && machine.isFormed() && machine.isWorkspaceReady();
+        return isFormed() && machine.isFormed() && machine.isWorkspaceReady() && ownerTest(machine);
+    }
+
+    private boolean ownerTest(SpaceElevatorConnectorModule module) {
+        var moduleOwner = module.getOwner();
+        if (moduleOwner == null) return true;
+        var machineOwner = getOwner();
+        if (machineOwner == null) return true;
+        return moduleOwner.isPlayerInTeam(machineOwner.getPlayerUUID());
     }
 
     @Override
