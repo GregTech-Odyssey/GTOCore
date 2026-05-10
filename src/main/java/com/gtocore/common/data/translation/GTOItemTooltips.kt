@@ -24,6 +24,7 @@ import com.gregtechceu.gtceu.common.data.GTItems
 import com.gregtechceu.gtceu.common.data.GTMachines
 import com.gregtechceu.gtceu.utils.FormattingUtil
 import com.hepdd.gtmthings.data.CustomItems
+import com.hepdd.gtmthings.data.CustomMachines
 import dev.shadowsoffire.apotheosis.adventure.Adventure
 import earth.terrarium.adastra.common.registry.ModBlocks
 import vazkii.botania.common.block.BotaniaBlocks.fabulousPool
@@ -355,6 +356,18 @@ object GTOItemTooltips : AutoInitialize<GTOItemTooltips>() {
                 add("虚拟物品槽：§b1§r" translatedTo "Virtual item slots: §b1§r")
             }.editionByGTONormal(),
         )
+
+        CustomMachines.ME_EXPORT_BUFFER.setTooltipBuilder { _, components ->
+            components.addAll(
+                ComponentListSupplier {
+                    setTranslationPrefix("gtmt_me_export_buffer")
+                    addTranslatable("gtceu.machine.dual_hatch.export.tooltip")
+                    addTranslatable("gtceu.machine.me.export.tooltip")
+                    addTranslatable("gtceu.part_sharing.enabled")
+                    add(GTOMachineTooltips.AutoConnectMETooltips)
+                }.editionByGTONormal().get(),
+            )
+        }
     }
 
     // 泛银河系格雷科技掌上银行
