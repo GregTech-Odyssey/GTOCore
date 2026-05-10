@@ -1,9 +1,9 @@
 {
   "values": [
-    "gtocore:Blue_algae",
-    "gtocore:Brown_algae",
-    "gtocore:Gold_algae",
-    "gtocore:Green_algae",
-    "gtocore:Red_algae"
+    "gtocore:blue_algae",
+    "gtocore:brown_algae",
+    "gtocore:gold_algae",
+    "gtocore:green_algae",
+    "gtocore:red_algae"
   ]
 }
