@@ -15,8 +15,7 @@ public class VoidWorldTimeSavedData extends SavedData {
 
     private boolean fixedTime = true;
 
-    public VoidWorldTimeSavedData() {
-    }
+    public VoidWorldTimeSavedData() {}
 
     public VoidWorldTimeSavedData(CompoundTag compoundTag) {
         load(compoundTag);
