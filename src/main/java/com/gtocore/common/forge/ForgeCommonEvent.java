@@ -5,6 +5,7 @@ import com.gtocore.common.item.ItemMap;
 import com.gtocore.common.machine.multiblock.electric.voidseries.VoidTransporterMachine;
 import com.gtocore.common.saved.DysonSphereSavaedData;
 import com.gtocore.common.saved.RecipeRunLimitSavaedData;
+import com.gtocore.common.saved.VoidWorldTimeSavedData;
 import com.gtocore.common.saved.WirelessNetworkSavedData;
 import com.gtocore.config.GTOConfig;
 import com.gtocore.integration.Mods;
@@ -69,6 +70,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.CommandEvent;
 import net.minecraftforge.event.RegisterCommandsEvent;
+import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.EntityTravelToDimensionEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
@@ -95,6 +97,10 @@ import java.util.function.Supplier;
 
 @DataGeneratorScanned
 public final class ForgeCommonEvent {
+
+    // 缓存虚空世界实例，避免每个 tick 反复按维度去查找。
+    private static ServerLevel voidWorldLevel;
+    private static final int VOID_TIME_FIX_INTERVAL = 100;
 
     public static void init() {
         MinecraftForge.EVENT_BUS.register(ForgeCommonEvent.class);
@@ -310,6 +316,7 @@ public final class ForgeCommonEvent {
                 player.displayClientMessage(Component.translatable("gtocore.dev", Component.literal("GitHub").withStyle(Style.EMPTY.withColor(ChatFormatting.GREEN).withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://github.com/GregTech-Odyssey/GregTech-Odyssey/issues")))), false);
                 Configurator.setRootLevel(org.apache.logging.log4j.Level.INFO);
             }
+            showVoidTimeHint(player);
             WirelessNetworkSavedData.write(player);
         }
     }
@@ -317,6 +324,7 @@ public final class ForgeCommonEvent {
     @SubscribeEvent
     public static void onPlayerChangedDimensionEvent(PlayerEvent.PlayerChangedDimensionEvent event) {
         if (event.getEntity() instanceof ServerPlayer player) {
+            showVoidTimeHint(player);
             WirelessNetworkSavedData.write(player);
             // Removed server-side language-gated announcement; it will now be handled client-side in ClientHooks
         }
@@ -325,14 +333,29 @@ public final class ForgeCommonEvent {
     @SubscribeEvent
     public static void onLevelLoad(LevelEvent.Load event) {
         if (event.getLevel() instanceof ServerLevel level) {
+            // 虚空世界加载时顺手记录引用，后续只在需要纠正时间时使用。
+            if (GTODimensions.isVoid(level.dimension())) {
+                voidWorldLevel = level;
+            }
             ServerLevel serverLevel = level.getServer().getLevel(Level.OVERWORLD);
             if (serverLevel == null) return;
             DysonSphereSavaedData.INSTANCE = serverLevel.getDataStorage().computeIfAbsent(DysonSphereSavaedData::new, DysonSphereSavaedData::new, "dyson_sphere_data");
             RecipeRunLimitSavaedData.INSTANCE = serverLevel.getDataStorage().computeIfAbsent(RecipeRunLimitSavaedData::new, RecipeRunLimitSavaedData::new, "recipe_run_limit_data");
+            VoidWorldTimeSavedData.INSTANCE = serverLevel.getDataStorage().computeIfAbsent(VoidWorldTimeSavedData::initialize, VoidWorldTimeSavedData::new, VoidWorldTimeSavedData.DATA_NAME);
             WirelessNetworkSavedData.Companion.setINSTANCE(serverLevel.getDataStorage().computeIfAbsent(WirelessNetworkSavedData::initialize, WirelessNetworkSavedData::new, "wireless_saved_data_" + GTOConfig.INSTANCE.devMode.aeGridKey));
             if (Mods.FTBQUESTS.isLoaded()) {
                 AdditionalTeamData.instance = serverLevel.getDataStorage().computeIfAbsent(AdditionalTeamData::new, AdditionalTeamData::new, "ftb_quests_additional_team_data");
             }
+            if (GTODimensions.isVoid(level.dimension()) && VoidWorldTimeSavedData.INSTANCE.isFixedTime()) {
+                level.setDayTime(1000L);
+            }
+        }
+    }
+
+    @SubscribeEvent
+    public static void onLevelUnload(LevelEvent.Unload event) {
+        if (event.getLevel() instanceof ServerLevel level && voidWorldLevel == level) {
+            voidWorldLevel = null;
         }
     }
 
@@ -340,14 +363,57 @@ public final class ForgeCommonEvent {
     public static void onServerStoppedEvent(ServerStoppedEvent event) {
         DysonSphereSavaedData.INSTANCE = new DysonSphereSavaedData();
         RecipeRunLimitSavaedData.INSTANCE = new RecipeRunLimitSavaedData();
+        VoidWorldTimeSavedData.INSTANCE = new VoidWorldTimeSavedData();
+        voidWorldLevel = null;
         WirelessNetworkSavedData.Companion.setINSTANCE(new WirelessNetworkSavedData());
         if (Mods.FTBQUESTS.isLoaded()) {
             AdditionalTeamData.instance = new AdditionalTeamData();
         }
     }
 
+    @SubscribeEvent
+    public static void onServerTick(TickEvent.ServerTickEvent event) {
+        if (event.phase != TickEvent.Phase.END || !VoidWorldTimeSavedData.INSTANCE.isFixedTime() || event.getServer().getTickCount() % VOID_TIME_FIX_INTERVAL != 0) {
+            return;
+        }
+        // 固定时间只需每 100 tick 纠正一次，减少持续运行时的检查频率。
+        ServerLevel level = voidWorldLevel;
+        if (level == null) {
+            level = event.getServer().getLevel(GTODimensions.VOID);
+            voidWorldLevel = level;
+        }
+        if (level != null && level.getDayTime() != 1000L) {
+            level.setDayTime(1000L);
+        }
+    }
+
     @RegisterLanguage(valuePrefix = "gtocore.lang", en = "Channel mode command banned in expert", cn = "在专家模式下，频道模式命令被禁止")
     private static final String CHANNEL_MODE_COMMAND_BANNED = "banned";
+
+    @RegisterLanguage(valuePrefix = "gtocore.lang", en = "Use /gtocore void time to toggle whether the void world stays fixed at 1000.", cn = "使用 /gtocore void time 切换虚空世界是否固定在 1000。")
+    public static final String VOID_WORLD_TIME_HINT = "void_world_time_hint";
+
+    @RegisterLanguage(valuePrefix = "gtocore.lang", en = "Void world time is now fixed at 1000.", cn = "虚空世界时间已固定在 1000。")
+    public static final String VOID_WORLD_TIME_LOCKED = "void_world_time_locked";
+
+    @RegisterLanguage(valuePrefix = "gtocore.lang", en = "Void world time is no longer fixed at 1000.", cn = "虚空世界时间已不再固定在 1000。")
+    public static final String VOID_WORLD_TIME_UNLOCKED = "void_world_time_unlocked";
+
+    @RegisterLanguage(valuePrefix = "gtocore.lang", en = "This command can only be used in the void world.", cn = "此命令只能在虚空世界中使用。")
+    public static final String VOID_WORLD_TIME_ONLY_IN_VOID = "void_world_time_only_in_void";
+
+    private static void showVoidTimeHint(ServerPlayer player) {
+        if (!GTODimensions.isVoid(player.serverLevel().dimension())) {
+            return;
+        }
+        CompoundTag data = player.getPersistentData();
+        // 用玩家持久数据记录提示是否展示过，保证每人只显示一次。
+        if (data.getBoolean("gtocore_void_time_hint_shown")) {
+            return;
+        }
+        data.putBoolean("gtocore_void_time_hint_shown", true);
+        player.displayClientMessage(Component.translatable("gtocore.lang." + VOID_WORLD_TIME_HINT).withStyle(ChatFormatting.AQUA), false);
+    }
 
     @SuppressWarnings("all")
     @SubscribeEvent
