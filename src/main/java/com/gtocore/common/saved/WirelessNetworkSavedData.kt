@@ -267,7 +267,7 @@ class WirelessNetworkSavedData : SavedData() {
             val clamped = maxOutputs.coerceIn(1, 990000)
             if (net.maxOutputsPerInput != clamped) {
                 net.maxOutputsPerInput = clamped
-                if (net.connections.values.max() > clamped) net.refreshConnections()
+                net.refreshConnections()
                 INSTANCE.setDirty()
             }
             return STATUS.SUCCESS
@@ -388,32 +388,6 @@ class WirelessNetworkSavedData : SavedData() {
         networkPool.clear()
         defaultMap.clear()
 
-        // ==================== Migration: old "WirelessSavedData" format ====================
-        // TODO: 数据迁移 — 后续版本删除此迁移代码块（从此行到 "END Migration" 注释之间的所有内容）。
-        // Old format: flat WirelessGrid with connectionPoolTable (all nodes equal, no SOURCE/CHILD distinction).
-        // Migration: create new WirelessNetwork per old grid, all old nodes become CHILD nodes.
-        // Duplicate nicknames get "(1)", "(2)" suffix via deduplicateNickname().
-        //
-        // Old WirelessGrid Codec fields:
-        //   name: STRING (UUID-style unique ID)
-        //   owner: UUIDUtil.CODEC (IntArray-encoded UUID)
-        //   isDefault: BOOL
-        //   connectionPoolTable: List<MachineInfo>  (field name differs from new "nodes"!)
-        //   nickname: Optional<STRING>
-        // Old MachineInfo Codec fields:
-        //   pos: BlockPos (optional, default ZERO)
-        //   owner: STRING (optional, default "")
-        //   descriptionId: STRING (optional, default "")
-        //   level: ResourceKey<Level> (optional, default UNKNOWN)
-        //   (NO nodeType field!)
-        //
-        // New WirelessNetwork Codec fields:
-        //   id: STRING, owner: UUIDUtil.CODEC, nickname: Optional<STRING>,
-        //   nodes: List<NodeInfo>, maxOutputsPerInput: Optional<INT>
-        // New NodeInfo has nodeType field.
-        //
-        // CANNOT use WirelessNetwork.decodeFromNbt() on old data — field names differ!
-        // Must manually parse old NBT and construct new objects.
         if (tag.contains("WirelessSavedData") && !tag.contains("networks")) {
             val oldList = tag.getList("WirelessSavedData", 10)
             if (GTOConfig.INSTANCE.devMode.aeLog) {

@@ -85,6 +85,48 @@ public interface WirelessMachine extends IGridConnectedMachine, ISync, IBindable
     @RegisterLanguage(cn = "网络节点选择", en = "Network Node Selector")
     String KEY_NODE_SELECTOR = "gtocore.wireless.node_selector";
 
+    @RegisterLanguage(cn = "系统源节点", en = "SYSTEM SOURCE")
+    String KEY_SYSTEM_SOURCE = "gtocore.wireless.system_source";
+
+    @RegisterLanguage(cn = "终端节点", en = "TERMINAL NODE")
+    String KEY_TERMINAL_NODE = "gtocore.wireless.terminal_node";
+
+    @RegisterLanguage(cn = "无线网络配置器", en = "W-NETWORK CONFIGURATOR")
+    String KEY_CONFIGURATOR = "gtocore.wireless.configurator";
+
+    @RegisterLanguage(cn = "网络状态", en = "NETWORK STATUS")
+    String KEY_STATUS = "gtocore.wireless.status";
+
+    @RegisterLanguage(cn = "独立运行", en = "STANDALONE")
+    String KEY_STANDALONE = "gtocore.wireless.standalone";
+
+    @RegisterLanguage(cn = "可用频道 (%d)", en = "AVAILABLE CHANNELS (%d)")
+    String KEY_CHANNELS = "gtocore.wireless.channels";
+
+    @RegisterLanguage(cn = "目标频率", en = "TARGET FREQUENCY")
+    String KEY_TARGET_FREQ = "gtocore.wireless.target_freq";
+
+    @RegisterLanguage(cn = "无目标", en = "NO TARGET")
+    String KEY_NO_TARGET = "gtocore.wireless.no_target";
+
+    @RegisterLanguage(cn = "可访问网络 (%d)", en = "ACCESSIBLE NETWORKS (%d)")
+    String KEY_ACCESSIBLE_NETS = "gtocore.wireless.accessible_nets";
+
+    @RegisterLanguage(cn = "输入: %d", en = "INPUTS: %d")
+    String KEY_INPUTS_COUNT = "gtocore.wireless.inputs_count";
+
+    @RegisterLanguage(cn = "输出: %d", en = "OUTPUTS: %d")
+    String KEY_OUTPUTS_COUNT = "gtocore.wireless.outputs_count";
+
+    @RegisterLanguage(cn = "无活跃网络", en = "NO NETWORK ACTIVE")
+    String KEY_NO_NETWORK_ACTIVE = "gtocore.wireless.no_network_active";
+
+    @RegisterLanguage(cn = "源节点", en = "SOURCE")
+    String KEY_SOURCE_TITLE = "gtocore.wireless.source_title";
+
+    @RegisterLanguage(cn = "客户端", en = "CLIENT")
+    String KEY_CLIENT_TITLE = "gtocore.wireless.client_title";
+
     @RegisterLanguage(cn = "绑定玩家: %s", en = "Player: %s")
     String KEY_PLAYER = "gtocore.wireless.player";
 
@@ -328,7 +370,9 @@ public interface WirelessMachine extends IGridConnectedMachine, ISync, IBindable
                             .stream().filter(t -> t.getNetworkId().equals(syncConnId)).toList());
         }
         getNodeTypeSync().set(getNodeType().ordinal());
-        WirelessNetworkSavedData.write(self().getLevel());
+        if (self().getLevel() != null) {
+            WirelessNetworkSavedData.write(Objects.requireNonNull(self().getLevel()));
+        }
     }
 
     default int getWorkloadChannels() {
@@ -381,7 +425,7 @@ public interface WirelessMachine extends IGridConnectedMachine, ISync, IBindable
         var node = this.getGridNode();
         if (node instanceof GridNode gridNode) {
             if (gridNode.getGrid().getPathingService().getChannelMode() == ChannelMode.INFINITE) {
-                return -1;
+                return Integer.MAX_VALUE;
             }
             return gridNode.getMaxChannels();
         }
