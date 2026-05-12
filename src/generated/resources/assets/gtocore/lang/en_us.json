@@ -5982,6 +5982,7 @@
   "gtocore.wireless.inputs_count": "INPUTS: %d",
   "gtocore.wireless.leave": "Disconnect",
   "gtocore.wireless.max_connections": "Max Load Per Source: %d",
+  "gtocore.wireless.no_clients_connected": "(No clients connected)",
   "gtocore.wireless.no_network_active": "NO NETWORK ACTIVE",
   "gtocore.wireless.no_target": "NO TARGET",
   "gtocore.wireless.node_selector": "Network Node Selector",

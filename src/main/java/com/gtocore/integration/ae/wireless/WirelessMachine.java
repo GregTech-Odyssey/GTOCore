@@ -187,6 +187,9 @@ public interface WirelessMachine extends IGridConnectedMachine, ISync, IBindable
     @RegisterLanguage(cn = "未分配", en = "Unassigned")
     String KEY_UNASSIGNED = "gtocore.wireless.unassigned";
 
+    @RegisterLanguage(cn = "(无客户端连接)", en = "(No clients connected)")
+    String NO_CLIENT = "gtocore.wireless.no_clients_connected";
+
     @RegisterLanguage(cn = "重命名", en = "Rename")
     String KEY_RENAME = "gtocore.wireless.rename";
 

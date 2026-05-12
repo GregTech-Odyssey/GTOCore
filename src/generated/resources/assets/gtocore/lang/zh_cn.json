@@ -6107,6 +6107,7 @@
   "gtocore.wireless.inputs_count": "输入: %d",
   "gtocore.wireless.leave": "断开连接",
   "gtocore.wireless.max_connections": "每个源节点最大载荷: %d",
+  "gtocore.wireless.no_clients_connected": "(无客户端连接)",
   "gtocore.wireless.no_network_active": "无活跃网络",
   "gtocore.wireless.no_target": "无目标",
   "gtocore.wireless.node_selector": "网络节点选择",

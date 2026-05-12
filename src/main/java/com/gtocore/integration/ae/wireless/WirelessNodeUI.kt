@@ -1,18 +1,21 @@
 package com.gtocore.integration.ae.wireless
 
 import com.gtocore.common.item.MEWirelessMachineConfigurator
-import com.gtocore.common.saved.NetworkSummary
-import com.gtocore.common.saved.TopologyNodeEntry
-import com.gtocore.common.saved.TopologySourceEntry
-import com.gtocore.common.saved.TopologySummary
-import com.gtocore.common.saved.WirelessNetworkSavedData
+import com.gtocore.common.saved.*
 import com.gtocore.common.saved.WirelessNetworkSavedData.Companion.write
 
+import net.minecraft.network.chat.ClickEvent
 import net.minecraft.network.chat.Component
+import net.minecraft.network.chat.Style
+import net.minecraft.sounds.SoundEvents
+import net.minecraft.sounds.SoundSource
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.Items
+import net.minecraftforge.api.distmarker.Dist
+import net.minecraftforge.api.distmarker.OnlyIn
 
 import appeng.core.definitions.AEItems
+import appeng.core.localization.PlayerMessages
 import com.gregtechceu.gtceu.api.gui.GuiTextures
 import com.gregtechceu.gtceu.api.gui.fancy.FancyMachineUIWidget
 import com.gregtechceu.gtceu.api.gui.fancy.IFancyUIProvider
@@ -20,8 +23,9 @@ import com.lowdragmc.lowdraglib.gui.texture.*
 import com.lowdragmc.lowdraglib.gui.widget.*
 import com.lowdragmc.lowdraglib.utils.Position
 import com.lowdragmc.lowdraglib.utils.Size
+import io.github.lounode.extrabotany.common.proxy.Proxy
 
-import java.util.UUID
+import java.util.*
 
 private const val W = 176
 private const val H = 166
@@ -430,15 +434,15 @@ private fun topologyNetworkWidget(parent: WidgetGroup, y: Int, topo: TopologySum
 
 private fun topologySourceWidget(parent: WidgetGroup, y: Int, source: TopologySourceEntry): Int {
     var ly = y
-    parent.addWidget(LabelWidget(6, ly, "  ▼ ${Component.translatable(WirelessMachine.KEY_SOURCE_TITLE).string} [${formatNodeShort(source.source)}]").setTextColor(WirelessUIDesign.COLOR_ACCENT_SOURCE))
+    parent.addWidget(TeleportSupportLabelWidget(6, ly, "  ▼ ${Component.translatable(WirelessMachine.KEY_SOURCE_TITLE).string}", source.source).setTextColor(WirelessUIDesign.COLOR_ACCENT_SOURCE))
     ly += 12
     if (source.children.isEmpty()) {
-        parent.addWidget(LabelWidget(18, ly, "   (NO CLIENTS CONNECTED)").setTextColor(0x66FFFFFF.toInt()))
+        parent.addWidget(LabelWidget(18, ly, WirelessMachine.NO_CLIENT).setTextColor(0x66FFFFFF.toInt()))
         ly += 10
     } else {
         for ((i, child) in source.children.withIndex()) {
             val branch = if (i == source.children.size - 1) "└" else "├"
-            parent.addWidget(LabelWidget(18, ly, "$branch ${Component.translatable(WirelessMachine.KEY_CLIENT_TITLE).string} [${formatNodeShort(child)}]").setTextColor(0xFFE0E0E0.toInt()))
+            parent.addWidget(TeleportSupportLabelWidget(18, ly, "$branch ${Component.translatable(WirelessMachine.KEY_CLIENT_TITLE).string}", child).setTextColor(0xFFE0E0E0.toInt()))
             ly += 11
         }
     }
@@ -451,7 +455,7 @@ private fun topologyUnassignedWidget(parent: WidgetGroup, y: Int, nodes: List<To
     ly += 12
     for ((i, node) in nodes.withIndex()) {
         val branch = if (i == nodes.size - 1) "└" else "├"
-        parent.addWidget(LabelWidget(18, ly, "$branch NODE [${formatNodeShort(node)}]").setTextColor(WirelessUIDesign.COLOR_ACCENT_CHILD))
+        parent.addWidget(TeleportSupportLabelWidget(18, ly, "$branch NODE", node).setTextColor(WirelessUIDesign.COLOR_ACCENT_CHILD))
         ly += 11
     }
     return ly
@@ -506,4 +510,22 @@ private fun configuratorNetworkHash(player: Player): Int {
 private fun formatNodeShort(node: TopologyNodeEntry): String {
     val dimShort = node.dim.substringAfterLast(':').uppercase().take(6)
     return "${node.x},${node.y},${node.z} §7$dimShort"
+}
+
+class TeleportSupportLabelWidget(x: Int, y: Int, text: String, val node: TopologyNodeEntry) : LabelWidget(x, y, text + " [${formatNodeShort(node)}]") {
+
+    @OnlyIn(Dist.CLIENT)
+    override fun mouseClicked(mouseX: Double, mouseY: Double, button: Int): Boolean {
+        val tpCommand = "/execute in ${node.dim} run tp @s ${node.x} ${node.y} ${node.z}"
+        Proxy.INSTANCE.clientPlayer?.displayClientMessage(
+            PlayerMessages.ClickToTeleport.text().setStyle(
+                Style.EMPTY.withColor(0xFF00E5FF.toInt()).withUnderlined(true).withClickEvent(
+                    ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, tpCommand),
+                ),
+            ),
+            false,
+        )
+        Proxy.INSTANCE.clientPlayer?.playNotifySound(SoundEvents.CHICKEN_EGG, SoundSource.PLAYERS, 0.5f, 1f)
+        return true
+    }
 }
