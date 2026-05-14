@@ -50,10 +50,7 @@ import net.minecraftforge.fluids.FluidStack;
 
 import appeng.api.crafting.IPatternDetails;
 import appeng.api.networking.crafting.ICraftingProvider;
-import appeng.api.stacks.AEFluidKey;
-import appeng.api.stacks.AEItemKey;
-import appeng.api.stacks.GenericStack;
-import appeng.api.stacks.KeyCounter;
+import appeng.api.stacks.*;
 import appeng.crafting.pattern.AEProcessingPattern;
 import appeng.crafting.pattern.ProcessingPatternItem;
 
@@ -68,6 +65,9 @@ import com.lowdragmc.lowdraglib.misc.ItemStackTransfer;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.utils.Position;
 import it.unimi.dsi.fastutil.ints.Int2ReferenceOpenHashMap;
+import it.unimi.dsi.fastutil.ints.IntOpenHashSet;
+import it.unimi.dsi.fastutil.ints.IntSet;
+import it.unimi.dsi.fastutil.objects.Reference2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ReferenceOpenHashSet;
 import lombok.Getter;
 import lombok.Setter;
@@ -110,7 +110,11 @@ public class MEWildcardPatternBufferPartMachine extends MEPatternBufferPartMachi
     @Persisted
     private final ItemStackTransfer blacklistedAltProcessableMachinesStorageTransfer;
     private final Int2ReferenceOpenHashMap<Material> blacklistedMaterials = new Int2ReferenceOpenHashMap<>();
-    private final ReferenceOpenHashSet<RecipeType> blacklistedAltProcessable = new ReferenceOpenHashSet<>();
+    private final ReferenceOpenHashSet<Material> blacklistedMaterialSet = new ReferenceOpenHashSet<>();
+    private final IntSet blacklistedAltProcessableItemIds = new IntOpenHashSet();
+    private final IntSet blacklistedAltProcessableFluidIds = new IntOpenHashSet();
+    private final SearchRecipeCapabilityHolder searchHolder = new SearchRecipeCapabilityHolder();
+    private final RecipeHandlerList sharedSearchHandlers;
 
     public MEWildcardPatternBufferPartMachine(@NotNull MetaMachineBlockEntity holder) {
         super(holder, 1);
@@ -134,6 +138,10 @@ public class MEWildcardPatternBufferPartMachine extends MEPatternBufferPartMachi
         getInternalInventory()[0].circuitInventory.addChangedListener(requestPatternUpdateIfUnlocked);
         getInternalInventory()[0].shareInventory.addChangedListener(requestPatternUpdateIfUnlocked);
         getInternalInventory()[0].setShouldLockRecipe(false);
+        var slot = getInternalInventory()[0];
+        sharedSearchHandlers = RecipeHandlerList.of(IO.IN,
+                slot.circuitInventory, slot.shareInventory, slot.shareTank,
+                circuitInventorySimulated, shareInventory, shareTank);
     }
 
     @Override
@@ -220,7 +228,9 @@ public class MEWildcardPatternBufferPartMachine extends MEPatternBufferPartMachi
 
     private void loadBlacklistData() {
         blacklistedMaterials.clear();
-        blacklistedAltProcessable.clear();
+        blacklistedMaterialSet.clear();
+        blacklistedAltProcessableItemIds.clear();
+        blacklistedAltProcessableFluidIds.clear();
         int i = 0;
         for (; i < blacklistedItems.getSlots(); i++) {
             var stack = blacklistedItems.getStackInSlot(i);
@@ -228,6 +238,7 @@ public class MEWildcardPatternBufferPartMachine extends MEPatternBufferPartMachi
             var mat = ChemicalHelper.getMaterialStack(stack).material();
             if (mat != GTMaterials.NULL) {
                 blacklistedMaterials.put(i, mat);
+                blacklistedMaterialSet.add(mat);
             }
         }
         for (; i < blacklistedItems.getSlots() + blacklistedFluids.length; i++) {
@@ -236,6 +247,7 @@ public class MEWildcardPatternBufferPartMachine extends MEPatternBufferPartMachi
             var mat = ChemicalHelper.getMaterial(tank.getFluid().getFluid());
             if (mat != GTMaterials.NULL) {
                 blacklistedMaterials.put(i, mat);
+                blacklistedMaterialSet.add(mat);
             }
         }
         for (var entry : blacklistedAltProcessableMachines.stacks) {
@@ -244,7 +256,9 @@ public class MEWildcardPatternBufferPartMachine extends MEPatternBufferPartMachi
             var recipeTypes = definition.getRecipeTypes();
             if (recipeTypes == null) continue;
             for (var rt : recipeTypes) {
-                blacklistedAltProcessable.add((RecipeType) rt);
+                var recipeType = (RecipeType) rt;
+                blacklistedAltProcessableItemIds.addAll(recipeType.itemsCanBeProduced);
+                blacklistedAltProcessableFluidIds.addAll(recipeType.fluidsCanBeProduced);
             }
         }
         requestPatternUpdate();
@@ -263,86 +277,37 @@ public class MEWildcardPatternBufferPartMachine extends MEPatternBufferPartMachi
 
             // var patterns = super.getAvailablePatterns();
             var newPatterns = new FastObjectArrayList<IPatternDetails>();
-
-            var sharedInputs = new ArrayList[patterns.size()];
-            var tagPrefixInputs = new ArrayList[patterns.size()];
-            var sharedOutputs = new ArrayList[patterns.size()];
-            var tagPrefixOutputs = new ArrayList[patterns.size()];
+            var templates = new WildcardPatternTemplate[patterns.size()];
+            var searchContext = new SearchContext();
 
             long startSubstituting = System.nanoTime();
             for (int i = 0; i < patterns.size(); i++) {
                 var p = patterns.get(i);
                 if (p instanceof AEProcessingPattern processingPattern) {
-
-                    var sparseInput = processingPattern.getSparseInputs();
-                    var sharedInputList = new ArrayList<GenericStack>(sparseInput.length);
-                    var tagPrefixInputList = new ArrayList<GenericStack>(sparseInput.length);
-                    for (var stack : sparseInput) {
-                        if (stack.what() instanceof TagPrefixKey) {
-                            tagPrefixInputList.add(stack);
-                        } else {
-                            sharedInputList.add(stack);
-                        }
-                    }
-                    sharedInputs[i] = sharedInputList;
-                    tagPrefixInputs[i] = tagPrefixInputList;
-
-                    var sparseOutput = processingPattern.getSparseOutputs();
-                    var sharedOutputList = new ArrayList<GenericStack>(sparseOutput.length);
-                    var tagPrefixOutputList = new ArrayList<GenericStack>(sparseOutput.length);
-                    for (var stack : sparseOutput) {
-                        if (stack.what() instanceof TagPrefixKey) {
-                            tagPrefixOutputList.add(stack);
-                        } else {
-                            sharedOutputList.add(stack);
-                        }
-                    }
-                    sharedOutputs[i] = sharedOutputList;
-                    tagPrefixOutputs[i] = tagPrefixOutputList;
+                    templates[i] = new WildcardPatternTemplate(processingPattern);
                 }
             }
             substitutingIngredients.addAndGet(System.nanoTime() - startSubstituting);
 
-            var blacklistSet = blacklistedMaterials.values();
             GTCEuAPI.materialManager.getRegisteredMaterials().forEach(material -> {
-                if (blacklistSet.contains(material)) return;
+                if (blacklistedMaterialSet.contains(material)) return;
                 for (int i = 0; i < patterns.size(); i++) {
-                    var cp = patterns.get(i);
-                    if (cp instanceof AEProcessingPattern) {
+                    var template = templates[i];
+                    if (template == null) continue;
 
-                        List<GenericStack> input = new ArrayList<>(sharedInputs[i]);
-                        var tagPrefixInput = tagPrefixInputs[i];
-                        List<GenericStack> output = new ArrayList<>(sharedOutputs[i]);
-                        var tagPrefixOutput = tagPrefixOutputs[i];
+                    long startSubstituting1 = System.nanoTime();
+                    var inputMap = template.tryBuildSearchMap(material, searchContext);
+                    var output = template.tryResolveOutputs(material);
+                    substitutingIngredients.addAndGet(System.nanoTime() - startSubstituting1);
+                    if (inputMap == null || output == null) continue;
 
-                        long startSubstituting1 = System.nanoTime();
-                        try {
-                            for (Object stack : tagPrefixInput) {
-                                GenericStack gs = (GenericStack) stack;
-                                var tagPrefixKey = (TagPrefixKey) gs.what();
-                                var what = tagPrefixKey.getFromMaterial(material);
-                                if (what == null) return;
-                                input.add(new GenericStack(what, gs.amount()));
-                            }
-                            for (Object stack : tagPrefixOutput) {
-                                GenericStack gs = (GenericStack) stack;
-                                var tagPrefixKey = (TagPrefixKey) gs.what();
-                                var what = tagPrefixKey.getFromMaterial(material);
-                                if (what == null) return;
-                                output.add(new GenericStack(what, gs.amount()));
-                            }
-                        } finally {
-                            substitutingIngredients.addAndGet(System.nanoTime() - startSubstituting1);
-                        }
-
-                        long startValidating1 = System.nanoTime();
-                        var detail = validatePattern(input.toArray(new GenericStack[0]), output.toArray(new GenericStack[0]));
-                        if (detail != null) {
-                            var converted = IParallelPatternDetails.of(convertPattern(detail, 0), getLevel(), 1);
-                            newPatterns.add(converted);
-                        }
-                        validatingPatterns.addAndGet(System.nanoTime() - startValidating1);
+                    long startValidating1 = System.nanoTime();
+                    var detail = validatePattern(inputMap, output);
+                    if (detail != null) {
+                        var converted = IParallelPatternDetails.of(convertPattern(detail, 0), getLevel(), 1);
+                        newPatterns.add(converted);
                     }
+                    validatingPatterns.addAndGet(System.nanoTime() - startValidating1);
                 }
             });
             cachedPatterns = newPatterns;
@@ -418,13 +383,12 @@ public class MEWildcardPatternBufferPartMachine extends MEPatternBufferPartMachi
 
     // ========== Pattern Validation ==========
 
-    private AEProcessingPattern validatePattern(GenericStack[] sparseInput, GenericStack[] sparseOutput) {
+    private AEProcessingPattern validatePattern(IntLongMap inputMap, GenericStack[] sparseOutput) {
         ObjHolder<RecipeDefinition> valid = new ObjHolder<>();
-        var inputHolder = virtual(sparseInput);
         if (recipeType == GTORecipeTypes.HATCH_COMBINED) {
             if (!getRecipeTypes().isEmpty()) {
                 for (var rt : getRecipeTypes()) {
-                    if (rt.findRecipe(inputHolder, r -> {
+                    if (searchRecipe(rt, inputMap, r -> {
                         if (checkProb(r)) {
                             valid.value = (RecipeDefinition) r;
                             recipeType = r.recipeType;
@@ -435,7 +399,7 @@ public class MEWildcardPatternBufferPartMachine extends MEPatternBufferPartMachi
                 }
             }
         } else {
-            recipeType.findRecipe(inputHolder, r -> {
+            searchRecipe(recipeType, inputMap, r -> {
                 if (checkProb(r)) {
                     valid.value = (RecipeDefinition) r;
                     return true;
@@ -456,13 +420,13 @@ public class MEWildcardPatternBufferPartMachine extends MEPatternBufferPartMachi
                     switch (outStack.what()) {
                         case AEItemKey itemKey -> {
                             int id = ((IItem) itemKey.getItem()).getUid();
-                            if (blacklistedAltProcessable.stream().anyMatch(rt -> rt.itemsCanBeProduced.contains(id))) {
+                            if (blacklistedAltProcessableItemIds.contains(id)) {
                                 return null;
                             }
                         }
                         case AEFluidKey fluidKey -> {
                             int id = ((IFluid) fluidKey.getFluid()).getUid();
-                            if (blacklistedAltProcessable.stream().anyMatch(rt -> rt.fluidsCanBeProduced.contains(id))) {
+                            if (blacklistedAltProcessableFluidIds.contains(id)) {
                                 return null;
                             }
                         }
@@ -488,46 +452,188 @@ public class MEWildcardPatternBufferPartMachine extends MEPatternBufferPartMachi
         return true;
     }
 
-    private IRecipeCapabilityHolder virtual(GenericStack[] sparseInput) {
-        return new IRecipeCapabilityHolder() {
-
-            @Override
-            public @NotNull Map<IO, List<RecipeHandlerList>> getCapabilitiesProxy() {
-                return Map.of(IO.IN, List.of(new VirtualList(MEWildcardPatternBufferPartMachine.this, sparseInput)));
-            }
-
-            @Override
-            public @NotNull Map<IO, Map<RecipeCapability<?>, List<IRecipeHandler<?>>>> getCapabilitiesFlat() {
-                return Map.of();
-            }
-        };
+    private boolean searchRecipe(GTRecipeType type, IntLongMap inputMap, java.util.function.Predicate<GTRecipeDefinition> canHandle) {
+        searchHolder.use(inputMap);
+        try {
+            return type.findRecipe(searchHolder, canHandle);
+        } finally {
+            searchHolder.clear();
+        }
     }
 
-    private static class VirtualList extends RecipeHandlerList {
+    private static void addSearchKey(IntLongMap map, AEKey key) {
+        var normalized = normalizeSearchKey(key);
+        if (normalized != null) {
+            ((IIngredientConvertible) normalized).gtolib$convert(Integer.MAX_VALUE, map);
+        }
+    }
 
-        private final GenericStack[] sparseInput;
+    private static @Nullable Object normalizeSearchKey(AEKey key) {
+        if (key instanceof AEItemKey what &&
+                what.getItem() == CustomItems.VIRTUAL_ITEM_PROVIDER.get() &&
+                what.getTag() != null &&
+                what.getTag().tags.containsKey("n")) {
+            ItemStack virtualItem = VirtualItemProviderBehavior.getVirtualItem(what.getReadOnlyStack());
+            if (virtualItem.isEmpty()) {
+                return null;
+            }
+            return AEItemKey.of(virtualItem);
+        }
+        return key;
+    }
 
-        private VirtualList(MEWildcardPatternBufferPartMachine buffer, GenericStack[] sparseInput) {
+    private static final class SearchRecipeCapabilityHolder implements IRecipeCapabilityHolder {
+
+        private final SearchRecipeHandlerList handlerList = new SearchRecipeHandlerList();
+
+        private void use(IntLongMap inputMap) {
+            handlerList.use(inputMap);
+        }
+
+        private void clear() {
+            handlerList.clear();
+        }
+
+        @Override
+        public @NotNull Map<IO, List<RecipeHandlerList>> getCapabilitiesProxy() {
+            return Map.of(IO.IN, List.of(handlerList));
+        }
+
+        @Override
+        public @NotNull Map<IO, Map<RecipeCapability<?>, List<IRecipeHandler<?>>>> getCapabilitiesFlat() {
+            return Map.of();
+        }
+    }
+
+    private static final class SearchRecipeHandlerList extends RecipeHandlerList {
+
+        private IntLongMap inputMap = IntLongMap.EMPTY;
+
+        private SearchRecipeHandlerList() {
             super(IO.IN, null);
-            this.sparseInput = sparseInput;
-            var slot = buffer.getInternalInventory()[0];
-            addHandlers(slot.circuitInventory, slot.shareInventory, slot.shareTank, buffer.circuitInventorySimulated, buffer.shareInventory, buffer.shareTank);
+        }
+
+        private void use(IntLongMap inputMap) {
+            this.inputMap = inputMap;
+        }
+
+        private void clear() {
+            this.inputMap = IntLongMap.EMPTY;
         }
 
         @Override
         public IntLongMap getIngredientMap(@NotNull GTRecipeType type) {
-            var ings = super.getIngredientMap(type);
-            for (var stack : sparseInput) {
-                var key = stack.what();
-                if (key instanceof AEItemKey what && what.getItem() == CustomItems.VIRTUAL_ITEM_PROVIDER.get() && what.getTag() != null && what.getTag().tags.containsKey("n")) {
-                    ItemStack virtualItem = VirtualItemProviderBehavior.getVirtualItem(what.getReadOnlyStack());
-                    if (virtualItem.isEmpty()) continue;
-                    key = AEItemKey.of(virtualItem);
-                }
-                ((IIngredientConvertible) key).gtolib$convert(Integer.MAX_VALUE, ings);
-            }
-            return ings;
+            return inputMap;
         }
+    }
+
+    private final class SearchContext {
+
+        private final Reference2ObjectOpenHashMap<GTRecipeType, IntLongMap> sharedInputCache = new Reference2ObjectOpenHashMap<>();
+        private final IntLongMap workingInput = new IntLongMap();
+
+        private IntLongMap prepareWorkingInput(GTRecipeType type, IntLongMap wildcardInput) {
+            workingInput.clear();
+            var cachedInput = sharedInputCache.get(type);
+            if (cachedInput == null) {
+                var cached = new IntLongMap();
+                sharedSearchHandlers.getIngredientMap(type).copyTo(cached);
+                sharedInputCache.put(type, cached);
+                cachedInput = cached;
+            }
+            cachedInput.copyTo(workingInput);
+            wildcardInput.copyTo(workingInput);
+            return workingInput;
+        }
+    }
+
+    private record TagPrefixRequirement(TagPrefixKey key, long amount) {
+
+    }
+
+    private final class WildcardPatternTemplate {
+
+        private final GenericStack[] fixedInputKeys;
+        private final TagPrefixRequirement[] tagInputs;
+        private final GenericStack[] resolvedOutputs;
+        private final TagPrefixRequirement[] tagOutputs;
+        private final int fixedOutputCount;
+        private final Reference2ObjectOpenHashMap<GTRecipeType, IntLongMap> fixedInputCache = new Reference2ObjectOpenHashMap<>();
+
+        private WildcardPatternTemplate(AEProcessingPattern pattern) {
+            var fixedInputs = new ArrayList<GenericStack>();
+            var inputTags = new ArrayList<TagPrefixRequirement>();
+            for (var stack : pattern.getSparseInputs()) {
+                if (stack.what() instanceof TagPrefixKey tagPrefixKey) {
+                    inputTags.add(new TagPrefixRequirement(tagPrefixKey, stack.amount()));
+                } else {
+                    fixedInputs.add(stack);
+                }
+            }
+            fixedInputKeys = fixedInputs.toArray(GenericStack[]::new);
+            tagInputs = inputTags.toArray(TagPrefixRequirement[]::new);
+
+            var fixedOutputs = new ArrayList<GenericStack>();
+            var outputTags = new ArrayList<TagPrefixRequirement>();
+            for (var stack : pattern.getSparseOutputs()) {
+                if (stack.what() instanceof TagPrefixKey tagPrefixKey) {
+                    outputTags.add(new TagPrefixRequirement(tagPrefixKey, stack.amount()));
+                } else {
+                    fixedOutputs.add(stack);
+                }
+            }
+            tagOutputs = outputTags.toArray(TagPrefixRequirement[]::new);
+            fixedOutputCount = fixedOutputs.size();
+            resolvedOutputs = new GenericStack[fixedOutputCount + tagOutputs.length];
+            for (int i = 0; i < fixedOutputCount; i++) {
+                resolvedOutputs[i] = fixedOutputs.get(i);
+            }
+        }
+
+        private @Nullable IntLongMap tryBuildSearchMap(Material material, SearchContext context) {
+            var activeType = getCurrentSearchType();
+            if (activeType == null) {
+                return null;
+            }
+            var wildcardInput = fixedInputCache.computeIfAbsent(activeType, this::buildFixedInputMap);
+            var working = context.prepareWorkingInput(activeType, wildcardInput);
+            for (var requirement : tagInputs) {
+                var what = requirement.key.getFromMaterial(material);
+                if (what == null) {
+                    return null;
+                }
+                addSearchKey(working, what);
+            }
+            return working;
+        }
+
+        private @Nullable GenericStack[] tryResolveOutputs(Material material) {
+            for (int i = 0; i < tagOutputs.length; i++) {
+                var requirement = tagOutputs[i];
+                var what = requirement.key.getFromMaterial(material);
+                if (what == null) {
+                    return null;
+                }
+                resolvedOutputs[fixedOutputCount + i] = new GenericStack(what, requirement.amount);
+            }
+            return resolvedOutputs;
+        }
+
+        private IntLongMap buildFixedInputMap(GTRecipeType type) {
+            var map = new IntLongMap();
+            for (var stack : fixedInputKeys) {
+                addSearchKey(map, stack.what());
+            }
+            return map;
+        }
+    }
+
+    private @Nullable GTRecipeType getCurrentSearchType() {
+        if (recipeType != GTORecipeTypes.HATCH_COMBINED) {
+            return recipeType;
+        }
+        var recipeTypes = getRecipeTypes();
+        return recipeTypes.isEmpty() ? null : recipeTypes.getFirst();
     }
 
     // ========== UI Widget ==========

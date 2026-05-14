@@ -817,7 +817,6 @@ public abstract class MEPatternBufferPartMachine extends MEPatternPartMachineKt<
             if (c > 0) circuitInventory.storage.setStackInSlot(0, IntCircuitBehaviour.stack(c));
             setLock(tag.getBoolean("l"));
         }
-
     }
 
     private record InputSink(InternalSlot slot) implements IPatternDetails.PatternInputSink {
