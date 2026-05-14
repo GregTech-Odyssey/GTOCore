@@ -535,15 +535,12 @@ public abstract class MEPatternBufferPartMachine extends MEPatternPartMachineKt<
         }
     }
 
-    public static final class InternalSlot extends AbstractInternalSlot {
+    public static final class InternalSlot extends AbstractRecipeInternalSlot {
 
         public GTRecipeDefinition recipe;
         public final MEPatternBufferPartMachine machine;
         public final int index;
         private final InputSink inputSink;
-        private Runnable onContentsChanged = () -> {};
-        public boolean itemChanged = true;
-        public boolean fluidChanged = true;
         public final IntLongMap itemIngredientMap = new IntLongMap();
         public final IntLongMap fluidIngredientMap = new IntLongMap();
         public final ExpandedR2LMap<AEItemKey> itemInventory = new ExpandedR2LMap<>();
@@ -632,9 +629,7 @@ public abstract class MEPatternBufferPartMachine extends MEPatternPartMachineKt<
                         else entry.setValue(amount);
                     }
                 }
-                itemChanged = true;
-                fluidChanged = true;
-                onContentsChanged.run();
+                markContentsChanged();
             }
         }
 
@@ -647,10 +642,32 @@ public abstract class MEPatternBufferPartMachine extends MEPatternPartMachineKt<
         @Override
         public boolean pushPattern(IPatternDetails patternDetails, KeyCounter[] inputHolder) {
             patternDetails.pushInputsToExternalInventory(inputHolder, inputSink);
-            itemChanged = true;
-            fluidChanged = true;
-            onContentsChanged.run();
+            markContentsChanged();
             return true;
+        }
+
+        @Override
+        public long getItemAmount(ItemIngredient ingredient, long limit) {
+            long available = 0;
+            for (var it = itemInventory.reference2LongEntrySet().fastIterator(); it.hasNext();) {
+                var e = it.next();
+                if (ingredient.testItem(e.getKey().getItem())) {
+                    available += e.getLongValue();
+                    if (available >= limit) break;
+                }
+            }
+            return available;
+        }
+
+        @Override
+        public long getFluidAmount(FluidIngredient ingredient, long limit) {
+            for (var it = fluidInventory.reference2LongEntrySet().fastIterator(); it.hasNext();) {
+                var e = it.next();
+                if (ingredient.testFluid(e.getKey().getFluid())) {
+                    return e.getLongValue();
+                }
+            }
+            return 0;
         }
 
         @Nullable
@@ -682,9 +699,7 @@ public abstract class MEPatternBufferPartMachine extends MEPatternPartMachineKt<
                 }
             }
             if (changed) {
-                itemChanged = true;
-                fluidChanged = true;
-                onContentsChanged.run();
+                markContentsChanged();
             }
             return left.isEmpty() ? null : left;
         }
@@ -718,9 +733,7 @@ public abstract class MEPatternBufferPartMachine extends MEPatternPartMachineKt<
                 }
             }
             if (changed) {
-                itemChanged = true;
-                fluidChanged = true;
-                onContentsChanged.run();
+                markContentsChanged();
             }
             return left.isEmpty() ? null : left;
         }
@@ -805,15 +818,6 @@ public abstract class MEPatternBufferPartMachine extends MEPatternPartMachineKt<
             setLock(tag.getBoolean("l"));
         }
 
-        @Override
-        public void setOnContentsChanged(final Runnable onContentsChanged) {
-            this.onContentsChanged = onContentsChanged;
-        }
-
-        @Override
-        public Runnable getOnContentsChanged() {
-            return this.onContentsChanged;
-        }
     }
 
     private record InputSink(InternalSlot slot) implements IPatternDetails.PatternInputSink {

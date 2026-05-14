@@ -248,7 +248,6 @@ public class MEWildcardPatternBufferPartMachine extends MEPatternBufferPartMachi
             }
         }
         requestPatternUpdate();
-        ICraftingProvider.requestUpdate(getMainNode());
     }
 
     /**
