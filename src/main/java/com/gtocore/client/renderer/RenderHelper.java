@@ -168,10 +168,20 @@ public final class RenderHelper {
     }
 
     public static void highlightBlock(Camera camera, PoseStack poseStack, float r, float g, float b, float lineWidth, BlockPos start, BlockPos end) {
-        Vec3 pos = camera.getPosition();
         float lightR = (1.0f + r * 4f) / 5.0f;
         float lightG = (1.0f + g * 4f) / 5.0f;
         float lightB = (1.0f + b * 4f) / 5.0f;
+        highlightBox(camera, poseStack, lightR, lightG, lightB, 0.25f, r, g, b, 0.5f, lineWidth, true,
+                start.getX(), start.getY(), start.getZ(), end.getX() + 1, end.getY() + 1, end.getZ() + 1);
+    }
+
+    public static void highlightBox(Camera camera, PoseStack poseStack,
+                                    float fillR, float fillG, float fillB, float fillAlpha,
+                                    float frameR, float frameG, float frameB, float frameAlpha,
+                                    float lineWidth, boolean fillInside,
+                                    double minX, double minY, double minZ,
+                                    double maxX, double maxY, double maxZ) {
+        Vec3 pos = camera.getPosition();
         poseStack.pushPose();
         poseStack.translate(-pos.x, -pos.y, -pos.z);
         RenderSystem.disableDepthTest();
@@ -182,12 +192,12 @@ public final class RenderHelper {
         BufferBuilder buffer = tesselator.getBuilder();
         buffer.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR);
         RenderSystem.setShader(GameRenderer::getPositionColorShader);
-        RenderBufferUtils.renderCubeFace(poseStack, buffer, start.getX(), start.getY(), start.getZ(), end.getX() + 1, end.getY() + 1, end.getZ() + 1, lightR, lightG, lightB, 0.25f, true);
+        RenderBufferUtils.renderCubeFace(poseStack, buffer, (float) minX, (float) minY, (float) minZ, (float) maxX, (float) maxY, (float) maxZ, fillR, fillG, fillB, fillAlpha, fillInside);
         tesselator.end();
         buffer.begin(VertexFormat.Mode.LINES, DefaultVertexFormat.POSITION_COLOR_NORMAL);
         RenderSystem.setShader(GameRenderer::getRendertypeLinesShader);
         RenderSystem.lineWidth(lineWidth);
-        RenderBufferUtils.drawCubeFrame(poseStack, buffer, start.getX(), start.getY(), start.getZ(), end.getX() + 1, end.getY() + 1, end.getZ() + 1, r, g, b, 0.5f);
+        RenderBufferUtils.drawCubeFrame(poseStack, buffer, (float) minX, (float) minY, (float) minZ, (float) maxX, (float) maxY, (float) maxZ, frameR, frameG, frameB, frameAlpha);
         tesselator.end();
         RenderSystem.enableCull();
         RenderSystem.disableBlend();
@@ -216,6 +226,12 @@ public final class RenderHelper {
     }
 
     public static void renderSeeThroughText(Camera camera, PoseStack poseStack, BlockPos pos, int color, String text, MultiBufferSource bufferSource) {
+        renderSeeThroughText(camera, poseStack, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, color, text, bufferSource);
+    }
+
+    public static void renderSeeThroughText(Camera camera, PoseStack poseStack,
+                                            double x, double y, double z,
+                                            int color, String text, MultiBufferSource bufferSource) {
         RenderSystem.disableDepthTest();
         RenderSystem.enableBlend();
         RenderSystem.disableCull();
@@ -223,7 +239,7 @@ public final class RenderHelper {
         poseStack.pushPose();
         {
             poseStack.translate(-camera.getPosition().x, -camera.getPosition().y, -camera.getPosition().z);
-            poseStack.translate((pos.getX() + 0.5), (pos.getY() + 0.5), (pos.getZ() + 0.5));
+            poseStack.translate(x, y, z);
             poseStack.scale(-0.03f, -0.03f, -0.03f);
             poseStack.mulPose(camera.rotation());
             Matrix4f matrix4f = poseStack.last().pose();
@@ -237,17 +253,6 @@ public final class RenderHelper {
                     matrix4f,
                     bufferSource,
                     Font.DisplayMode.SEE_THROUGH,
-                    0,
-                    15728880);
-            font.drawInBatch(
-                    text,
-                    -font.width(text) / 2f,
-                    -font.lineHeight / 2f,
-                    color,
-                    false,
-                    matrix4f,
-                    bufferSource,
-                    Font.DisplayMode.NORMAL,
                     0,
                     15728880);
         }
