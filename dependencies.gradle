@@ -104,7 +104,7 @@ dependencies {
 
     modImplementation("curse.maven:render-blender-1346485:7035162")
 
-    modImplementation("curse.maven:farmers-delight-398521:8007609")
+    modImplementation("curse.maven:farmers-delight-398521:8083474")
     modImplementation("curse.maven:farmers-respite-551453:5543547")
 
     modImplementation("curse.maven:endremastered-404183:5598990")
@@ -144,7 +144,7 @@ dependencies {
 
     modCompileOnly("curse.maven:emi-trades-villager-trading-emi-plugin-735523:4901194")
 
-    modCompileOnly("curse.maven:open-parties-and-claims-636608:7987205")
+    modCompileOnly("curse.maven:open-parties-and-claims-636608:8091479")
 
     modCompileOnly("curse.maven:sophisticated-backpacks-422301:6539219")
     modCompileOnly("curse.maven:sophisticated-core-618298:6545102")
