@@ -68,7 +68,7 @@ public class VirtualCoinSavedData extends SavedData {
     }
 
     public static long getTimesHasRun(UUID team) {
-        return Math.max(INSTANCE.teamTimesHasRun.getLong(team) - 1, 0);
+        return Math.max(INSTANCE.teamTimesHasRun.getLong(team), 0);
     }
 
     @Override

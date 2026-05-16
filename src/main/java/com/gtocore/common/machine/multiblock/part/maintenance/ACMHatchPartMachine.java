@@ -2,9 +2,11 @@ package com.gtocore.common.machine.multiblock.part.maintenance;
 
 import com.gtolib.api.annotation.Scanned;
 import com.gtolib.api.annotation.dynamic.DynamicInitialValue;
+import com.gtolib.api.annotation.language.RegisterLanguage;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
+import com.gregtechceu.gtceu.api.machine.feature.IMachineLife;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMaintenanceMachine;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IWorkableMultiController;
 import com.gregtechceu.gtceu.api.machine.multiblock.part.WorkableTieredPartMachine;
@@ -14,7 +16,10 @@ import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.HoverEvent;
 import net.minecraft.network.chat.Style;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.ItemStack;
 
+import com.gto.datasynclib.annotations.SyncToClient;
 import com.lowdragmc.lowdraglib.gui.widget.ComponentPanelWidget;
 import com.lowdragmc.lowdraglib.gui.widget.DraggableScrollableWidgetGroup;
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
@@ -33,7 +38,7 @@ import static com.gtolib.api.annotation.dynamic.DynamicInitialValueTypes.KEY_MUL
 @Scanned
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public class ACMHatchPartMachine extends WorkableTieredPartMachine implements IMaintenanceMachine {
+public class ACMHatchPartMachine extends WorkableTieredPartMachine implements IMaintenanceMachine, IMachineLife {
 
     @DynamicInitialValue(key = "maintenance.configurable_duration.max", typeKey = KEY_MULTIPLY, easyValue = "1.3F", normalValue = "1.2F", expertValue = "1.1F", cn = "配方处理速度调节上限 : %s 倍", cnComment = "不计超频，配方处理速度为正常速度的最高倍率", en = "Configurable Recipe Speed Multiplier Maximum : %s Multiplier", enComment = "Ignore overclocking, the recipe processing speed is the highest multiplier for normal speed")
     private static float MAX_DURATION_MULTIPLIER = 1.0F;
@@ -50,6 +55,7 @@ public class ACMHatchPartMachine extends WorkableTieredPartMachine implements IM
     }
 
     @Persisted
+    @SyncToClient
     private float durationMultiplier = 1.0F;
 
     public ACMHatchPartMachine(MetaMachineBlockEntity metaTileEntityId) {
@@ -98,6 +104,13 @@ public class ACMHatchPartMachine extends WorkableTieredPartMachine implements IM
     }
 
     @Override
+    public void onMachinePlaced(@org.jetbrains.annotations.Nullable LivingEntity player, ItemStack stack) {
+        if (player != null && player.isShiftKeyDown()) {
+            durationMultiplier = MIN_DURATION_MULTIPLIER;
+        }
+    }
+
+    @Override
     public float getTimeMultiplier() {
         var result = 1.0F;
         if (durationMultiplier < 1.0) result = -20 * durationMultiplier + 21;
@@ -127,24 +140,25 @@ public class ACMHatchPartMachine extends WorkableTieredPartMachine implements IM
     public Widget createUIWidget() {
         WidgetGroup group;
         group = new WidgetGroup(0, 0, 150, 70);
-        group.addWidget(new DraggableScrollableWidgetGroup(4, 4, 150 - 8, 70 - 8).setBackground(GuiTextures.DISPLAY).addWidget(new ComponentPanelWidget(4, 5, list -> {
-            list.add(getTextWidgetText(this::getDurationMultiplier));
-            var buttonText = Component.translatable("gtceu.maintenance.configurable_duration.modify");
-            buttonText.append(" ");
-            buttonText.append(ComponentPanelWidget.withButton(Component.literal("[-]"), "sub"));
-            buttonText.append(" ");
-            buttonText.append(ComponentPanelWidget.withButton(Component.literal("[+]"), "add"));
-            list.add(buttonText);
-        }).setMaxWidthLimit(150 - 8 - 8 - 4).clickHandler((componentData, clickData) -> {
-            if (!clickData.isRemote) {
-                int multiplier = clickData.isCtrlClick ? 100 : clickData.isShiftClick ? 10 : 1;
-                if ("sub".equals(componentData)) {
-                    decInternalMultiplier(multiplier);
-                } else if ("add".equals(componentData)) {
-                    incInternalMultiplier(multiplier);
-                }
-            }
-        })));
+        group.addWidget(new DraggableScrollableWidgetGroup(4, 4, 150 - 8, 70 - 8).setBackground(GuiTextures.DISPLAY)
+                .addWidget(new ComponentPanelWidget(4, 5, list -> {
+                    list.add(getTextWidgetText(this::getDurationMultiplier));
+                    var buttonText = Component.translatable("gtceu.maintenance.configurable_duration.modify");
+                    buttonText.append(" ");
+                    buttonText.append(ComponentPanelWidget.withButton(Component.literal("[-]"), "sub"));
+                    buttonText.append(" ");
+                    buttonText.append(ComponentPanelWidget.withButton(Component.literal("[+]"), "add"));
+                    list.add(buttonText);
+                }).setMaxWidthLimit(150 - 8 - 8 - 4).clickHandler((componentData, clickData) -> {
+                    if (!clickData.isRemote) {
+                        int multiplier = clickData.isCtrlClick ? 100 : clickData.isShiftClick ? 10 : 1;
+                        if ("sub".equals(componentData)) {
+                            decInternalMultiplier(multiplier);
+                        } else if ("add".equals(componentData)) {
+                            incInternalMultiplier(multiplier);
+                        }
+                    }
+                })));
         group.setBackground(GuiTextures.BACKGROUND_INVERSE);
         return group;
     }
@@ -172,4 +186,7 @@ public class ACMHatchPartMachine extends WorkableTieredPartMachine implements IM
     public float getDurationMultiplier() {
         return this.durationMultiplier;
     }
+
+    @RegisterLanguage(cn = "§7按下§f Shift 键§7放置以自动设置配方时间乘数为最低§r", en = "§7Hold§f Shift §7while placing to automatically set recipe time multiplier to minimum§r")
+    public static final String LANG_PLACEMENT_TOOLTIP = "gtocore.machine.maintenance_hatch_placement_tooltip";
 }

@@ -5258,6 +5258,7 @@
   "gtocore.machine.maintenance_damage_chance.tooltip": "Damage Chance: %s",
   "gtocore.machine.maintenance_damage_multiplier.tooltip": "Damage Multiplier: %s",
   "gtocore.machine.maintenance_hatch_damage_chance.tooltip": "Maintenance Damage Chance: %s",
+  "gtocore.machine.maintenance_hatch_placement_tooltip": "§7Hold§f Shift §7while placing to automatically set recipe time multiplier to minimum§r",
   "gtocore.machine.mana_alloy_blast_smelter.tooltip.0": "Machines need to provide mana to maintain working",
   "gtocore.machine.mana_alloy_blast_smelter.tooltip.1": "The base consumption per tick is 2^(machine tier)",
   "gtocore.machine.mana_alloy_blast_smelter.tooltip.2": "Machines need to provide a specified rune in 10 seconds to suppress mana consumption every 60 seconds, otherwise the mana consumption will be multiplied by 4",

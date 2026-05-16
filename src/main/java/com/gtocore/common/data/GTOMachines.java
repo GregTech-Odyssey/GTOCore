@@ -70,6 +70,7 @@ import it.unimi.dsi.fastutil.Pair;
 import static com.gregtechceu.gtceu.api.GTValues.*;
 import static com.gregtechceu.gtceu.api.capability.recipe.IO.IN;
 import static com.gregtechceu.gtceu.api.machine.multiblock.PartAbility.PARALLEL_HATCH;
+import static com.gtocore.common.machine.multiblock.part.maintenance.ACMHatchPartMachine.LANG_PLACEMENT_TOOLTIP;
 import static com.gtocore.utils.register.MachineRegisterUtils.*;
 
 public final class GTOMachines {
@@ -542,6 +543,7 @@ public final class GTOMachines {
             .allRotation()
             .abilities(PartAbility.MAINTENANCE)
             .addTooltipsFromClass(ACMHatchPartMachine.class)
+            .tooltipsKey(LANG_PLACEMENT_TOOLTIP)
             .notAllowSharedTooltips()
             .renderer(() -> new MaintenanceHatchPartRenderer(5, GTCEu.id("block/machine/part/maintenance.full_auto")))
             .register();
@@ -551,6 +553,7 @@ public final class GTOMachines {
             .abilities(PartAbility.MAINTENANCE)
             .addTooltipsFromClass(ACMHatchPartMachine.class)
             .tooltips(GTOMachineTooltips.INSTANCE.getModularConfigurationMaintenanceHatchTooltips().getSupplier())
+            .tooltipsKey(LANG_PLACEMENT_TOOLTIP)
             .notAllowSharedTooltips()
             .renderer(() -> new MaintenanceHatchPartRenderer(6, GTCEu.id("block/machine/part/maintenance.full_auto")))
             .register();
@@ -585,6 +588,7 @@ public final class GTOMachines {
                             Component.translatable(type.getTranslationKey()).getString())));
                 }
             })
+            .tooltipsKey(LANG_PLACEMENT_TOOLTIP)
             .renderer(() -> new MaintenanceHatchPartRenderer(5, GTCEu.id("block/machine/part/maintenance.cleaning")))
             .register();
 
@@ -603,6 +607,7 @@ public final class GTOMachines {
                             Component.translatable(type.getTranslationKey()).getString())));
                 }
             })
+            .tooltipsKey(LANG_PLACEMENT_TOOLTIP)
             .renderer(() -> new MaintenanceHatchPartRenderer(9, GTOCore.id("block/machine/part/maintenance.sterile_cleaning")))
             .register();
 
@@ -620,6 +625,7 @@ public final class GTOMachines {
                             Component.translatable(type.getTranslationKey()).getString())));
                 }
             })
+            .tooltipsKey(LANG_PLACEMENT_TOOLTIP)
             .renderer(() -> new MaintenanceHatchPartRenderer(12, GTOCore.id("block/machine/part/maintenance.law_cleaning")))
             .register();
 
@@ -636,6 +642,7 @@ public final class GTOMachines {
             .allRotation()
             .abilities(PartAbility.MAINTENANCE)
             .addTooltipsFromClass(ACMHatchPartMachine.class)
+            .tooltipsKey(LANG_PLACEMENT_TOOLTIP)
             .notAllowSharedTooltips()
             .renderer(() -> new MaintenanceHatchPartRenderer(10, GTCEu.id("block/machine/part/maintenance.full_auto")))
             .register();
@@ -655,6 +662,7 @@ public final class GTOMachines {
             .abilities(PartAbility.MAINTENANCE)
             .addTooltipsFromClass(ACMHatchPartMachine.class)
             .tooltips(Component.translatable("gtocore.recipe.vacuum.tier", 4))
+            .tooltipsKey(LANG_PLACEMENT_TOOLTIP)
             .notAllowSharedTooltips()
             .renderer(() -> new MaintenanceHatchPartRenderer(6,
                     GTCEu.id("block/machine/part/maintenance.full_auto")))

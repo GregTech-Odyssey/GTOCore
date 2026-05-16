@@ -5383,6 +5383,7 @@
   "gtocore.machine.maintenance_damage_chance.tooltip": "損壞概率: %s",
   "gtocore.machine.maintenance_damage_multiplier.tooltip": "損壞倍率: %s",
   "gtocore.machine.maintenance_hatch_damage_chance.tooltip": "維護倉損壞概率：%s",
+  "gtocore.machine.maintenance_hatch_placement_tooltip": "§7按下§f Shift 鍵§7放置以自動設置配方時間乘數為最低§r",
   "gtocore.machine.mana_alloy_blast_smelter.tooltip.0": "機器需要提供魔力來維持運行",
   "gtocore.machine.mana_alloy_blast_smelter.tooltip.1": "每tick消耗的基礎量為2^機器等級",
   "gtocore.machine.mana_alloy_blast_smelter.tooltip.2": "機器每運行60秒，需要在10秒內輸入一個指定的符文來抑制魔力，否則魔力消耗翻4倍",
