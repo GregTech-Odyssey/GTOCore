@@ -6,8 +6,10 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.saveddata.SavedData;
 
+import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 
+@Getter
 public class VoidWorldTimeSavedData extends SavedData {
 
     public static final String DATA_NAME = "void_world_time_data";
@@ -23,10 +25,6 @@ public class VoidWorldTimeSavedData extends SavedData {
 
     public static VoidWorldTimeSavedData initialize(CompoundTag compoundTag) {
         return new VoidWorldTimeSavedData(compoundTag);
-    }
-
-    public boolean isFixedTime() {
-        return fixedTime;
     }
 
     public boolean toggleFixedTime() {

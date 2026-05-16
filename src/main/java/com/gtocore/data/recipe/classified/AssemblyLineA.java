@@ -9,6 +9,7 @@ import com.gtolib.GTOCore;
 import com.gtolib.utils.RegistriesUtils;
 
 import com.gregtechceu.gtceu.api.GTValues;
+import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys;
 import com.gregtechceu.gtceu.common.data.*;
@@ -653,6 +654,29 @@ final class AssemblyLineA {
                 .scanner(Registration.REQUESTER.asItem())
                 .EUt(480)
                 .duration(1440)
+                .save();
+
+        ASSEMBLY_LINE_RECIPES.builder("virtual_coin_miner")
+                .inputItems("gtceu:high_performance_computation_array")
+                .inputItems(CustomTags.UHV_CIRCUITS, 2)
+                .inputItems(GTItems.TOOL_DATA_ORB, 8)
+                .inputItems(GTItems.TOOL_DATA_MODULE, 8)
+                .inputItems(GTOItems.GREG_MEMBERSHIP_CARD)
+                .inputItems(GTOItems.PALM_SIZED_BANK)
+                .inputItems(TagPrefix.pipeTinyFluid, GTMaterials.StainlessSteel, 16)
+                .inputItems(GTItems.CRYSTAL_SYSTEM_ON_CHIP, 32)
+                .inputItems(GTItems.COVER_SCREEN, 32)
+                .inputItems(TagPrefix.wireGtOctal, GTMaterials.UraniumRhodiumDinaquadide, 8)
+                .outputItems("gtocore:virtual_coin_miner")
+                .inputFluids(GTMaterials.PCBCoolant, 1000)
+                .inputFluids(GTMaterials.Helium, FluidStorageKeys.LIQUID, 3000)
+                .inputFluids(GTMaterials.Lubricant, 4000)
+                .EUt(122880)
+                .duration(800)
+                .researchStation(b -> b.researchStack(ChemicalHelper.get(GTOTagPrefix.COIN, GTMaterials.Copper))
+                        .duration(1800)
+                        .EUt(GTValues.VA[GTValues.IV])
+                        .CWUt(16))
                 .save();
 
         if (GTOCore.isExpert() || GTOCore.isNormal()) {

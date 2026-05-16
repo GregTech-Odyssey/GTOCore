@@ -1403,4 +1403,10 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
         story("我就是电力烟熏炉" translatedTo "I am the Electric Smoker")
         story("§e@§e§n电力高炉§r" translatedTo "§e@§e§nElectric Blast Furnace§r")
     }
+
+    val virtualCoinMinerTooltips: ComponentListSupplier = ComponentListSupplier {
+        setTranslationPrefix("virtual_coin_miner")
+
+        story("这台机器弥补了GTO集团里面临的一个重要问题：员工们的零花钱不足了" translatedTo "This machine addresses an important issue faced by GTO Group: employees running low on pocket money")
+    }
 }

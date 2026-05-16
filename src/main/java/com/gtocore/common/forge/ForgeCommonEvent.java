@@ -3,10 +3,7 @@ package com.gtocore.common.forge;
 import com.gtocore.common.data.*;
 import com.gtocore.common.item.ItemMap;
 import com.gtocore.common.machine.multiblock.electric.voidseries.VoidTransporterMachine;
-import com.gtocore.common.saved.DysonSphereSavaedData;
-import com.gtocore.common.saved.RecipeRunLimitSavaedData;
-import com.gtocore.common.saved.VoidWorldTimeSavedData;
-import com.gtocore.common.saved.WirelessNetworkSavedData;
+import com.gtocore.common.saved.*;
 import com.gtocore.config.GTOConfig;
 import com.gtocore.integration.Mods;
 import com.gtocore.integration.botania.IEntropinnyum;
@@ -342,6 +339,7 @@ public final class ForgeCommonEvent {
             DysonSphereSavaedData.INSTANCE = serverLevel.getDataStorage().computeIfAbsent(DysonSphereSavaedData::new, DysonSphereSavaedData::new, "dyson_sphere_data");
             RecipeRunLimitSavaedData.INSTANCE = serverLevel.getDataStorage().computeIfAbsent(RecipeRunLimitSavaedData::new, RecipeRunLimitSavaedData::new, "recipe_run_limit_data");
             VoidWorldTimeSavedData.INSTANCE = serverLevel.getDataStorage().computeIfAbsent(VoidWorldTimeSavedData::initialize, VoidWorldTimeSavedData::new, VoidWorldTimeSavedData.DATA_NAME);
+            VirtualCoinSavedData.INSTANCE = serverLevel.getDataStorage().computeIfAbsent(VirtualCoinSavedData::new, VirtualCoinSavedData::new, "virtual_coin_data");
             WirelessNetworkSavedData.Companion.setINSTANCE(serverLevel.getDataStorage().computeIfAbsent(WirelessNetworkSavedData::initialize, WirelessNetworkSavedData::new, "wireless_saved_data_" + GTOConfig.INSTANCE.devMode.aeGridKey));
             if (Mods.FTBQUESTS.isLoaded()) {
                 AdditionalTeamData.instance = serverLevel.getDataStorage().computeIfAbsent(AdditionalTeamData::new, AdditionalTeamData::new, "ftb_quests_additional_team_data");
@@ -364,6 +362,7 @@ public final class ForgeCommonEvent {
         DysonSphereSavaedData.INSTANCE = new DysonSphereSavaedData();
         RecipeRunLimitSavaedData.INSTANCE = new RecipeRunLimitSavaedData();
         VoidWorldTimeSavedData.INSTANCE = new VoidWorldTimeSavedData();
+        VirtualCoinSavedData.INSTANCE = new VirtualCoinSavedData();
         voidWorldLevel = null;
         WirelessNetworkSavedData.Companion.setINSTANCE(new WirelessNetworkSavedData());
         if (Mods.FTBQUESTS.isLoaded()) {
