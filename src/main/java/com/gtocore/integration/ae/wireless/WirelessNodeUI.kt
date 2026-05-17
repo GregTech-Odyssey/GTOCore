@@ -466,8 +466,8 @@ private fun rootWidget(): WidgetGroup = WidgetGroup(0, 0, W, H).apply { setBackg
 private fun contentWidget(root: WidgetGroup): WidgetGroup = WidgetGroup(4, 4, INNER_W, H - 8).also(root::addWidget)
 
 private fun scrollWidget(x: Int, y: Int, width: Int, height: Int): DraggableScrollableWidgetGroup = DraggableScrollableWidgetGroup(x, y, width, height)
-    .setBackground(ColorRectTexture(0x64000000.toInt()))
-    .setYBarStyle(null, ColorRectTexture(0x44FFFFFF.toInt()))
+    .setBackground(ColorRectTexture(0x64000000))
+    .setYBarStyle(null, ColorRectTexture(0x44FFFFFF))
     .setYScrollBarWidth(2)
 
 private fun buttonTexture(color: Int, text: String): IGuiTexture = GuiTextureGroup(ResourceBorderTexture.BUTTON_COMMON.copy().setColor(color), TextTexture(text))

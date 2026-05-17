@@ -25,6 +25,7 @@ import com.lowdragmc.lowdraglib.gui.widget.DraggableScrollableWidgetGroup;
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
+import lombok.Getter;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -40,8 +41,11 @@ import static com.gtolib.api.annotation.dynamic.DynamicInitialValueTypes.KEY_MUL
 @MethodsReturnNonnullByDefault
 public class ACMHatchPartMachine extends WorkableTieredPartMachine implements IMaintenanceMachine, IMachineLife {
 
+    @Getter
     @DynamicInitialValue(key = "maintenance.configurable_duration.max", typeKey = KEY_MULTIPLY, easyValue = "1.3F", normalValue = "1.2F", expertValue = "1.1F", cn = "配方处理速度调节上限 : %s 倍", cnComment = "不计超频，配方处理速度为正常速度的最高倍率", en = "Configurable Recipe Speed Multiplier Maximum : %s Multiplier", enComment = "Ignore overclocking, the recipe processing speed is the highest multiplier for normal speed")
     private static float MAX_DURATION_MULTIPLIER = 1.0F;
+
+    @Getter
     @DynamicInitialValue(key = "maintenance.configurable_duration.min", typeKey = KEY_MULTIPLY, easyValue = "0.7F", normalValue = "0.8F", expertValue = "0.9F", cn = "配方处理速度调节下限 : %s 倍", cnComment = "不计超频，配方处理速度为正常速度的最低倍率", en = "Configurable Recipe Speed Multiplier Minimum : %s Multiplier", enComment = "Ignore overclocking, the recipe processing speed is the lowest multiplier for normal speed")
     private static float MIN_DURATION_MULTIPLIER = 1.0F;
     private static final float DURATION_ACTION_AMOUNT = 0.01F;
@@ -172,14 +176,6 @@ public class ACMHatchPartMachine extends WorkableTieredPartMachine implements IM
             tooltip = Component.translatable("gtceu.maintenance.configurable_" + "duration" + ".changed_description", format);
         }
         return Component.translatable("gtceu.maintenance.configurable_" + "duration", format).setStyle(Style.EMPTY.withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, tooltip)));
-    }
-
-    public static float getMAX_DURATION_MULTIPLIER() {
-        return ACMHatchPartMachine.MAX_DURATION_MULTIPLIER;
-    }
-
-    public static float getMIN_DURATION_MULTIPLIER() {
-        return ACMHatchPartMachine.MIN_DURATION_MULTIPLIER;
     }
 
     @Override
