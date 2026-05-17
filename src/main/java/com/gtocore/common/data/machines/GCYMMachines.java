@@ -430,6 +430,7 @@ public final class GCYMMachines {
             .allRotation()
             .recipeTypes(ALLOY_BLAST_RECIPES)
             .recipeTypes(ALLOY_SMELTER_RECIPES)
+            .disabledCombined()
             .recipeModifier((m, r) -> {
                 if (m instanceof CoilCustomParallelMultiblockMachine machine) {
                     if (machine.getSubFormedAmount() > 0) {
