@@ -142,5 +142,19 @@ final class Extractor {
                 .EUt(30)
                 .duration(15000)
                 .save();
+
+        EXTRACTOR_RECIPES.builder("xp_jueice")
+                .inputItems("ars_nouveau:experience_gem")
+                .outputFluids(RegistriesUtils.getFluid("gtocore:xp_juice"), 60)
+                .EUt(12)
+                .duration(30)
+                .save();
+
+        EXTRACTOR_RECIPES.builder("xp_juice1e")
+                .inputItems("ars_nouveau:greater_experience_gem")
+                .outputFluids(RegistriesUtils.getFluid("gtocore:xp_juice"), 240)
+                .EUt(12)
+                .duration(120)
+                .save();
     }
 }
