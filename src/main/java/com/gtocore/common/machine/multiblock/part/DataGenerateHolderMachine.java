@@ -17,10 +17,10 @@ import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.ItemStack;
 
+import com.gto.datasynclib.annotations.SyncToClient;
 import com.lowdragmc.lowdraglib.gui.widget.ImageWidget;
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
-import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.utils.Position;
 import lombok.Getter;
@@ -39,7 +39,7 @@ public class DataGenerateHolderMachine extends MultiblockPartMachine implements 
     @Setter
     @Getter
     @Persisted
-    @DescSynced
+    @SyncToClient
     private boolean isLocked;
 
     public DataGenerateHolderMachine(MetaMachineBlockEntity holder) {

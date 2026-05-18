@@ -11,10 +11,10 @@ import com.gregtechceu.gtceu.api.machine.multiblock.part.MultiblockPartMachine;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.Direction;
 
+import com.gto.datasynclib.annotations.SyncToClient;
 import com.lowdragmc.lowdraglib.gui.widget.TextBoxWidget;
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
-import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.utils.LocalizationUtils;
 import com.lowdragmc.lowdraglib.utils.Position;
@@ -31,10 +31,10 @@ import javax.annotation.ParametersAreNonnullByDefault;
 public final class SensorPartMachine extends MultiblockPartMachine {
 
     @Persisted
-    @DescSynced
+    @SyncToClient
     private float min;
     @Persisted
-    @DescSynced
+    @SyncToClient
     private float max;
     @Persisted
     private boolean isInverted;

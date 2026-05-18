@@ -39,6 +39,10 @@ class ComponentListSupplier(var list: MutableList<ComponentSupplier> = mutableLi
         }
     }
 
+    fun addTranslatable(key: String, vararg args: Any?, style: ComponentSupplier.() -> ComponentSupplier = { this }) {
+        add(translatable(key, *args), style)
+    }
+
     fun apply(tooltips: MutableList<Component>) {
         tooltips.addAll(get())
     }
@@ -243,6 +247,7 @@ class ComponentSupplier(var component: Component, private val delayed: MutableLi
 }
 fun Component.toComponentSupplier() = ComponentSupplier(this.copy())
 fun <T> T.toLiteralSupplier() = (Component.literal(this.toString())).toComponentSupplier()
+fun translatable(key: String, vararg args: Any?) = Component.translatable(key, *args).toComponentSupplier()
 infix fun String.translatedTo(other: String): ComponentSupplier {
     val translationKey = TranslationKeyProvider.getTranslationKey(this, other)
     return Component.translatable(translationKey).toComponentSupplier()

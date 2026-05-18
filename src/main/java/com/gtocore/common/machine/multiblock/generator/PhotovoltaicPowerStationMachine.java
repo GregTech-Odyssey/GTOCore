@@ -39,8 +39,8 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 
+import com.gto.datasynclib.annotations.SyncToClient;
 import com.gto.registrate.util.entry.BlockEntry;
-import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import earth.terrarium.adastra.api.planets.PlanetApi;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -71,13 +71,13 @@ public final class PhotovoltaicPowerStationMachine extends StorageMultiblockMach
     private boolean canSeeSky;
     private IdleReason idleReason = null;
 
-    @DescSynced
+    @SyncToClient
     private BlockPos highlightStartPos_1 = BlockPos.ZERO;
-    @DescSynced
+    @SyncToClient
     private BlockPos highlightEndPos_1 = BlockPos.ZERO;
-    @DescSynced
+    @SyncToClient
     private BlockPos highlightStartPos_2 = BlockPos.ZERO;
-    @DescSynced
+    @SyncToClient
     private BlockPos highlightEndPos_2 = BlockPos.ZERO;
 
     public PhotovoltaicPowerStationMachine(MetaMachineBlockEntity holder, int basicRate, Supplier<? extends Block> casing, BlockEntry<?> photovoltaicBlock) {

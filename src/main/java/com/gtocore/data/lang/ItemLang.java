@@ -84,6 +84,7 @@ final class ItemLang {
         addCNEN("item.gtocore.astrium_dust", "晶质宇尘", "Astrium Dust");
         addCNEN("fluid.gtocore.liquid_glacio_air", "液态霜原星空气", "Liquid Glacio Air");
         addCNEN("fluid.gtocore.liquid_jupiter_air", "液态木星空气", "Liquid Jupiter Air");
+        addCNEN("fluid.gtocore.liquid_aether", "液态以太", "Liquid Aether");
 
         addCNEN("metaitem.tool.tooltip.rotor.coating_durability", "镀层耐久：%s / %s", "Coating Durability: %s / %s");
         addCNEN("metaitem.tool.tooltip.rotor.coating_efficiency", "镀层效率：%s%%", "Coating Efficiency: %s%%");

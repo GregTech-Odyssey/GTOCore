@@ -1,5 +1,6 @@
 package com.gtocore.common.data;
 
+import com.gtocore.api.data.Algae;
 import com.gtocore.api.lang.OffsetGradientColor;
 import com.gtocore.api.misc.AutoInitializeImpl;
 import com.gtocore.client.renderer.item.HaloItemRenderer;
@@ -834,14 +835,14 @@ public final class GTOItems {
     public static final ItemEntry<Item> SEPARATION_ELECTROMAGNET = register("separation_electromagnet", "分离用电磁铁");
     public static final ItemEntry<Item> HIGHLY_INSULATING_FOIL = registerCustomModel("highly_insulating_foil", "高绝缘性箔");
 
-    public static final ItemEntry<Item> BLUE_ALGAE = registerAlgae("blue", "蓝");
-    public static final ItemEntry<Item> BROWN_ALGAE = registerAlgae("brown", "褐");
-    public static final ItemEntry<Item> GOLD_ALGAE = registerAlgae("gold", "金");
-    public static final ItemEntry<Item> GREEN_ALGAE = registerAlgae("green", "绿");
-    public static final ItemEntry<Item> RED_ALGAE = registerAlgae("red", "红");
-    public static final ItemEntry<Item> GOLD_ALGAE_FIBER = registerAlgaeFiber("gold", "金");
-    public static final ItemEntry<Item> GREEN_ALGAE_FIBER = registerAlgaeFiber("green", "绿");
-    public static final ItemEntry<Item> RED_ALGAE_FIBER = registerAlgaeFiber("red", "红");
+    public static final ItemEntry<Item> BLUE_ALGAE = registerAlgae(Algae.BlueAlgae);
+    public static final ItemEntry<Item> BROWN_ALGAE = registerAlgae(Algae.BrownAlgae);
+    public static final ItemEntry<Item> GOLD_ALGAE = registerAlgae(Algae.GoldAlgae);
+    public static final ItemEntry<Item> GREEN_ALGAE = registerAlgae(Algae.GreenAlgae);
+    public static final ItemEntry<Item> RED_ALGAE = registerAlgae(Algae.RedAlgae);
+    public static final ItemEntry<Item> GOLD_ALGAE_FIBER = registerAlgaeFiber(Algae.GoldAlgae);
+    public static final ItemEntry<Item> GREEN_ALGAE_FIBER = registerAlgaeFiber(Algae.GreenAlgae);
+    public static final ItemEntry<Item> RED_ALGAE_FIBER = registerAlgaeFiber(Algae.RedAlgae);
 
     public static final ItemEntry<Item> CEREBRUM = register("cerebrum", "大脑");
     public static final ItemEntry<Item> SUPER_CEREBRUM = register("super_cerebrum", "超级大脑");

@@ -6,8 +6,6 @@ import com.gtocore.eio_travel.implementations.AnchorTravelTarget;
 import com.gtocore.eio_travel.logic.TravelSavedData;
 import com.gtocore.eio_travel.logic.TravelUtils;
 
-import com.gtolib.utils.holder.ObjectHolder;
-
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.gui.widget.ToggleButtonWidget;
@@ -20,6 +18,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 
+import com.gto.datasynclib.util.holder.ObjHolder;
 import com.lowdragmc.lowdraglib.LDLib;
 import com.lowdragmc.lowdraglib.gui.texture.GuiTextureGroup;
 import com.lowdragmc.lowdraglib.gui.widget.*;
@@ -120,7 +119,7 @@ public class TravelAnchorMachine extends MetaMachine implements IFancyUIMachine,
     }
 
     private ToggleButtonWidget createToggleButton() {
-        ObjectHolder<ToggleButtonWidget> toggleHolder = new ObjectHolder<>(null);
+        ObjHolder<ToggleButtonWidget> toggleHolder = new ObjHolder<>();
         ToggleButtonWidget toggleButton = new ToggleButtonWidget(
                 0, 40, 16, 16,
                 this::getVisibility,

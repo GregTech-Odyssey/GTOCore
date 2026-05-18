@@ -36,6 +36,7 @@ import appeng.api.storage.IStorageMounts;
 import appeng.api.storage.IStorageProvider;
 import appeng.api.storage.MEStorage;
 
+import com.gto.datasynclib.annotations.SyncToClient;
 import com.hepdd.gtmthings.common.item.VirtualItemProviderBehavior;
 import com.hepdd.gtmthings.data.CustomItems;
 import com.lowdragmc.lowdraglib.gui.modular.ModularUI;
@@ -44,7 +45,6 @@ import com.lowdragmc.lowdraglib.gui.widget.ButtonWidget;
 import com.lowdragmc.lowdraglib.gui.widget.DraggableScrollableWidgetGroup;
 import com.lowdragmc.lowdraglib.gui.widget.LabelWidget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
-import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 
 import java.util.stream.Stream;
@@ -66,7 +66,7 @@ public final class VirtualItemProviderMachine extends MetaMachine implements IUI
     private final NotifiableItemStackHandler inventory;
     @Persisted
     private final GridNodeHolder nodeHolder;
-    @DescSynced
+    @SyncToClient
     private boolean isOnline;
     private boolean change = true;
 

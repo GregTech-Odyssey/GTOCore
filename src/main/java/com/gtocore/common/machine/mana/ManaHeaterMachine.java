@@ -17,9 +17,8 @@ import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.material.Fluid;
 
-import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
+import com.gto.datasynclib.annotations.SyncToClient;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import com.lowdragmc.lowdraglib.syncdata.annotation.RequireRerender;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -28,15 +27,13 @@ public class ManaHeaterMachine extends SimpleManaMachine implements IHeaterMachi
     private static final Fluid SALAMANDER = GTOMaterials.Salamander.getFluid(FluidStorageKeys.GAS);
 
     @Persisted
-    @DescSynced
-    @RequireRerender
+    @SyncToClient(notifyUpdate = true)
     private int temperature = 293;
 
     /// an indicator used to determine if the salamander input is present
     /// **used by client renderer**
     @Persisted
-    @DescSynced
-    @RequireRerender
+    @SyncToClient(notifyUpdate = true)
     private boolean salamanderInput = false;
     private TickableSubscription tickSubs;
 

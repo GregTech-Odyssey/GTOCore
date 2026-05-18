@@ -24,10 +24,10 @@ import com.gregtechceu.gtceu.common.data.GTMachines;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 
+import com.gto.datasynclib.annotations.SyncToClient;
 import com.lowdragmc.lowdraglib.gui.texture.IGuiTexture;
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
-import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import org.jetbrains.annotations.NotNull;
 
@@ -43,7 +43,7 @@ import static com.gtocore.api.machine.part.ILargeSpaceStationMachine.ConnectType
 public class WorkspaceExtension extends Extension implements IMultiStructureMachine {
 
     @Persisted
-    @DescSynced
+    @SyncToClient
     private int length = 2;
 
     public WorkspaceExtension(MetaMachineBlockEntity metaMachineBlockEntity) {

@@ -28,11 +28,11 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
+import com.gto.datasynclib.annotations.SyncToClient;
 import com.lowdragmc.lowdraglib.gui.widget.ComponentPanelWidget;
 import com.lowdragmc.lowdraglib.gui.widget.DraggableScrollableWidgetGroup;
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
-import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
@@ -61,21 +61,21 @@ public class ModularHatchPartMachine extends ACMHatchPartMachine implements IMod
     @Persisted
     private int activeTemperature = 293;
     @Persisted
-    @DescSynced
+    @SyncToClient
     private int currentGravity = 0;
     @Getter
     @Persisted
-    @DescSynced
+    @SyncToClient
     private boolean vacuumMode = false;
     @Getter
     @Persisted
-    @DescSynced
+    @SyncToClient
     private boolean gravityMode = false;
     /// indicates whether player could set temperature
     /// notice that even if temperatureMode is false, the temperature could be set passively by other machines
     @Getter
     @Persisted
-    @DescSynced
+    @SyncToClient
     private boolean temperatureMode = false;
 
     private IntInputWidget gravityWidget;

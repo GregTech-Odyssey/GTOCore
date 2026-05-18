@@ -48,9 +48,7 @@ public enum PatternBufferUpgraderBehavior implements IMachineUpgraderBehavior {
                     upgradedMbe.getMetaMachine() instanceof MEPatternBufferPartMachineKt upgradedMachine &&
                     machine.getMaxPatternCount() < upgradedMachine.getMaxPatternCount()) {
 
-                machine.unregisterSync();
                 replaceBlockEntityWithNBTHook(world, pos, tile, upgradedTile, state, (contents) -> operateContentsNBT(contents, machine.getMaxPatternCount(), upgradedMachine.getMaxPatternCount()));
-                upgradedMachine.registerSync();
                 state.getBlock().setPlacedBy(context.getLevel(), pos, state, context.getPlayer(), context.getItemInHand());
 
                 ItemStack replaced = machine.getDefinition().asStack();

@@ -2,8 +2,6 @@ package com.gtocore.mixin.ae2.storage;
 
 import com.gtocore.common.machine.multiblock.part.ae.StorageAccessPartMachine;
 
-import com.gtolib.utils.holder.IntObjectHolder;
-
 import appeng.api.config.Actionable;
 import appeng.api.networking.security.IActionSource;
 import appeng.api.stacks.AEKey;
@@ -11,6 +9,7 @@ import appeng.api.stacks.KeyCounter;
 import appeng.api.storage.MEStorage;
 import appeng.me.storage.NetworkStorage;
 
+import com.gto.datasynclib.util.holder.IntObjectHolder;
 import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;

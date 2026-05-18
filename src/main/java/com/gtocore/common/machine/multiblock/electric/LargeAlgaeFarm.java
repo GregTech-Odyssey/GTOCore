@@ -32,12 +32,12 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import appeng.api.config.Actionable;
 import appeng.api.networking.security.IActionSource;
 
+import com.gto.datasynclib.annotations.SyncToClient;
 import com.lowdragmc.lowdraglib.gui.util.ClickData;
 import com.lowdragmc.lowdraglib.gui.widget.ComponentPanelWidget;
 import com.lowdragmc.lowdraglib.gui.widget.DraggableScrollableWidgetGroup;
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
-import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import it.unimi.dsi.fastutil.longs.LongArrayList;
 import it.unimi.dsi.fastutil.longs.LongList;
 import it.unimi.dsi.fastutil.objects.Reference2IntMap;
@@ -51,7 +51,6 @@ import java.util.Map;
 
 import static com.gregtechceu.gtceu.api.GTValues.V;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.Biomass;
-import static com.gtolib.api.GTOValues.GLASS_TIER;
 
 public class LargeAlgaeFarm extends ElectricMultiblockMachine implements ITierCasingMachine {
 
@@ -65,8 +64,8 @@ public class LargeAlgaeFarm extends ElectricMultiblockMachine implements ITierCa
     private float greenWeight = 1.0f;
     private float blueWeight = 1.0f;
 
-    @DescSynced
-    private Algae selectedAlgae = Algae.BlueAlge;
+    @SyncToClient
+    private Algae selectedAlgae = Algae.BlueAlgae;
 
     public LargeAlgaeFarm(MetaMachineBlockEntity metaMachineBlockEntity) {
         super(metaMachineBlockEntity);

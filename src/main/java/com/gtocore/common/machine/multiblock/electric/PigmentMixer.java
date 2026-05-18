@@ -15,7 +15,7 @@ import net.minecraft.world.level.material.Fluid;
 import com.fast.fastcollection.OpenCacheHashSet;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Multimaps;
-import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
+import com.gto.datasynclib.annotations.SyncToClient;
 import it.unimi.dsi.fastutil.objects.Reference2ObjectOpenHashMap;
 import org.jetbrains.annotations.NotNull;
 
@@ -23,15 +23,15 @@ import java.util.Set;
 
 public class PigmentMixer extends ElectricMultiblockMachine implements IMultiFluidRendererMachine {
 
-    @DescSynced
+    @SyncToClient
     final Set<BlockPos> cachedYellowOffsets = new OpenCacheHashSet<>();
-    @DescSynced
+    @SyncToClient
     final Set<BlockPos> cachedCyanOffsets = new OpenCacheHashSet<>();
-    @DescSynced
+    @SyncToClient
     final Set<BlockPos> cachedMagentaOffsets = new OpenCacheHashSet<>();
-    @DescSynced
+    @SyncToClient
     final Set<BlockPos> cachedBlackOffsets = new OpenCacheHashSet<>();
-    @DescSynced
+    @SyncToClient
     final Set<BlockPos> cachedWhiteOffsets = new OpenCacheHashSet<>();
 
     public PigmentMixer(MetaMachineBlockEntity metaMachineBlockEntity) {

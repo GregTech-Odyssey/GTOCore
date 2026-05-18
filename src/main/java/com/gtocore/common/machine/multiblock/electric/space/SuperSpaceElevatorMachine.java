@@ -10,7 +10,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.Level;
 
-import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
+import com.gto.datasynclib.annotations.SyncToClient;
 import com.lowdragmc.lowdraglib.utils.DummyWorld;
 import org.jetbrains.annotations.NotNull;
 
@@ -19,9 +19,9 @@ import java.util.List;
 
 public final class SuperSpaceElevatorMachine extends SpaceElevatorMachine {
 
-    @DescSynced
+    @SyncToClient
     final List<BlockPos> megaPoss = new ArrayList<>();
-    @DescSynced
+    @SyncToClient
     BlockPos center;
     private int megaModuleCount;
 

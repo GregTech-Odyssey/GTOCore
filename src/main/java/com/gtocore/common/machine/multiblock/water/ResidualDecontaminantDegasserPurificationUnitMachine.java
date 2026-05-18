@@ -3,7 +3,6 @@ package com.gtocore.common.machine.multiblock.water;
 import com.gtocore.common.machine.multiblock.part.IndicatorHatchPartMachine;
 
 import com.gtolib.api.recipe.RecipeRunner;
-import com.gtolib.utils.holder.IntHolder;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys;
@@ -14,6 +13,7 @@ import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.network.chat.Component;
 import net.minecraftforge.fluids.FluidStack;
 
+import com.gto.datasynclib.util.holder.IntHolder;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 
 import java.util.List;
@@ -83,7 +83,7 @@ public final class ResidualDecontaminantDegasserPurificationUnitMachine extends 
     public boolean onWorking() {
         if (!super.onWorking()) return false;
         if (!failed && getOffsetTimer() % 20 == 0) {
-            IntHolder nonEmpty = new IntHolder(0);
+            IntHolder nonEmpty = new IntHolder();
             fastForEachInputFluids((stack, amount) -> {
                 if (stack.getFluid() == WaterPurificationPlantMachine.GradePurifiedWater6) return;
                 nonEmpty.value++;

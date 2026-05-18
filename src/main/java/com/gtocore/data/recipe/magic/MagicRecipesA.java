@@ -243,7 +243,7 @@ public final class MagicRecipesA {
                     .inputItems(Items.PHANTOM_MEMBRANE, 4)
                     .chancedInput(Animium.getFluid(1000), 500, 0)
                     .inputFluids(CycleofBlossomsSolvent, 500)
-                    .chancedOutput(PhantomicElectrolyteBuffer.getFluid(300), 5000, 0)
+                    .chancedOutput(PhantomicElectrolyteBuffer.getFluid(300), 5000, 625)
                     .chancedOutput(Ethylenediamine.getFluid(50), 500, 0)
                     .duration(600)
                     .temperature(1200)

@@ -22,9 +22,8 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 
 import com.google.common.collect.ImmutableMap;
-import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
+import com.gto.datasynclib.annotations.SyncToClient;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import com.lowdragmc.lowdraglib.syncdata.annotation.RequireRerender;
 import lombok.Getter;
 
 import java.util.Map;
@@ -46,8 +45,7 @@ public final class BallHatchPartMachine extends WorkableItemPartMachine implemen
     }
 
     @Persisted
-    @DescSynced
-    @RequireRerender
+    @SyncToClient(notifyUpdate = true)
     private boolean isWorking;
 
     public BallHatchPartMachine(MetaMachineBlockEntity holder) {

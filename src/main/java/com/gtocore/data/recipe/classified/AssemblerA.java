@@ -935,5 +935,16 @@ final class AssemblerA {
                 .EUt(30720)
                 .duration(200)
                 .save();
+        ASSEMBLER_RECIPES.builder("ion_activity_sensor")
+                .inputItems(GTOMachines.PH_SENSOR.asItem())
+                .inputItems(TagPrefix.cableGtSingle, GTMaterials.Platinum, 2)
+                .inputItems(GTOTagPrefix.MEMBRANE_ELECTRODE, GTMaterials.Polytetrafluoroethylene, 2)
+                .inputItems(GTOTagPrefix.FLAKES, GTOMaterials.CalciumOxideCeramic, 4)
+                .inputItems(GTItems.SENSOR_EV, 2)
+                .outputItems(GTOMachines.ION_ACTIVITY_SENSOR.asItem())
+                .inputFluids(GTMaterials.DistilledWater, 1000)
+                .EUt(480)
+                .duration(200)
+                .save();
     }
 }

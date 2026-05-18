@@ -62,7 +62,11 @@ public final class GTEMIRecipe extends ModularEmiRecipe<Widget> {
         this.category = category;
         displayPriority = () -> recipe.priority;
         inputs = null;
-        widget = () -> new GTRecipeWidget(recipe);
+        widget = () -> {
+            var w = new GTRecipeWidget(recipe);
+            w.setSizeHeight(getHeight(recipe));
+            return w;
+        };
     }
 
     public int getTier() {
@@ -83,7 +87,6 @@ public final class GTEMIRecipe extends ModularEmiRecipe<Widget> {
 
     private static int getHeight(RecipeDefinition recipe) {
         return recipe.recipeType.getRecipeUI().getJEISize().height +
-                recipe.recipeType.getDataInfos().size() * 10 +
                 (int) recipe.conditions.stream().filter(condition -> condition.getTooltips() != null).count() * 10 +
                 (recipe.manat < 0 ? 20 : 0);
     }

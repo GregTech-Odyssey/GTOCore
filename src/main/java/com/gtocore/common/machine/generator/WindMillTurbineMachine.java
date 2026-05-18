@@ -37,8 +37,8 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
+import com.gto.datasynclib.annotations.SyncToClient;
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
-import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.mojang.blaze3d.MethodsReturnNonnullByDefault;
 import earth.terrarium.adastra.api.planets.Planet;
@@ -62,21 +62,21 @@ public final class WindMillTurbineMachine extends TieredEnergyMachine implements
     private final NotifiableItemStackHandler inventory;
     @Getter
     @Persisted
-    @DescSynced
+    @SyncToClient
     private float spinSpeed;
     @Getter
     private float bladeAngle;
     @Getter
-    @DescSynced
+    @SyncToClient
     private int material;
     @Getter
-    @DescSynced
+    @SyncToClient
     private boolean hasRotor;
-    @DescSynced
+    @SyncToClient
     private boolean obstructed;
-    @DescSynced
+    @SyncToClient
     private float wind;
-    @DescSynced
+    @SyncToClient
     private int actualPower;
     private TickableSubscription energySubs;
     private TickableSubscription tickSubscription;
@@ -97,6 +97,7 @@ public final class WindMillTurbineMachine extends TieredEnergyMachine implements
     private NotifiableItemStackHandler createMachineStorage() {
         var storage = new NotifiableItemStackHandler(this, 1, IO.NONE, IO.BOTH);
         storage.setFilter(i -> i.getItem() instanceof KineticRotorItem);
+        storage.addChangedListener(this::requestSync);
         return storage;
     }
 

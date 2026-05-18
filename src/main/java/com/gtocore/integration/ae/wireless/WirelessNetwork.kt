@@ -114,8 +114,9 @@ class WirelessNetwork(val id: String, val owner: UUID, var nickname: String = id
                 outputNodes.add(node)
                 getAvailableInput()?.let {
                     createConnection(it, node)
+                } ?: run {
+                    needsRefresh = true
                 }
-                needsRefresh = true
             }
         }
     }

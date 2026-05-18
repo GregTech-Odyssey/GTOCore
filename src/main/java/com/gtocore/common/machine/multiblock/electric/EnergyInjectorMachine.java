@@ -9,7 +9,6 @@ import com.gtolib.api.recipe.RecipeBuilder;
 import com.gtolib.api.recipe.RecipeRunner;
 import com.gtolib.api.wireless.ExtendWirelessEnergyContainer;
 import com.gtolib.utils.MathUtil;
-import com.gtolib.utils.holder.ObjectHolder;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.GTCapabilityHelper;
@@ -20,6 +19,7 @@ import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.energy.IEnergyStorage;
 
+import com.gto.datasynclib.util.holder.ObjHolder;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -67,7 +67,7 @@ public final class EnergyInjectorMachine extends ElectricMultiblockMachine {
             storage = container.getStorage();
             if (storage.signum() < 1) return null;
         }
-        ObjectHolder<BigInteger> eu = new ObjectHolder<>(BigInteger.ZERO);
+        ObjHolder<BigInteger> eu = new ObjHolder<>(BigInteger.ZERO);
         RecipeBuilder builder = getRecipeBuilder();
         fastForEachInputItems((stack, amount) -> {
             int count = MathUtil.saturatedCast(amount);

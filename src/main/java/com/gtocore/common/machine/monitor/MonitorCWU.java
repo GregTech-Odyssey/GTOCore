@@ -14,7 +14,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 
-import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
+import com.gto.datasynclib.annotations.SyncToClient;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -23,14 +23,14 @@ import java.util.List;
 
 public class MonitorCWU extends AbstractInfoProviderMonitor implements IOpticalComputationHatch {
 
-    @DescSynced
+    @SyncToClient
     private long cwtTotal = 0;
-    @DescSynced
+    @SyncToClient
     private long cwtRequestable = 0;
-    @DescSynced
+    @SyncToClient
     boolean hasContainer = false;
     private long requestedCWUPerSec;
-    @DescSynced
+    @SyncToClient
     private long lastRequestedCWUt;
 
     protected final NotifiableComputationContainer computationContainer;

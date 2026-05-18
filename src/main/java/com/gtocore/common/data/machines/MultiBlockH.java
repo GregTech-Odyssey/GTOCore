@@ -28,7 +28,6 @@ import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
 import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
 import com.gregtechceu.gtceu.api.pattern.MultiblockShapeInfo;
-import com.gregtechceu.gtceu.api.pattern.util.RelativeDirection;
 import com.gregtechceu.gtceu.api.recipe.modifier.RecipeModifier;
 import com.gregtechceu.gtceu.common.data.*;
 
@@ -43,7 +42,6 @@ import static com.gtocore.api.pattern.GTOPredicates.*;
 import static com.gtocore.common.data.GTORecipeTypes.BIOCHEMICAL_EXTRACTION_RECIPES;
 import static com.gtocore.common.data.GTORecipeTypes.BIOCHEMICAL_REACTION_RECIPES;
 import static com.gtocore.utils.register.MachineRegisterUtils.multiblock;
-import static com.gtolib.api.GTOValues.POWER_MODULE_TIER;
 
 public final class MultiBlockH {
 
@@ -54,7 +52,7 @@ public final class MultiBlockH {
             .langValue("Large Hadron Collider")
             .recipeTypes(GTORecipeTypes.DUMMY_RECIPES)
             .block(GTOBlocks.IRIDIUM_CASING)
-            .pattern(definition -> MultiBlockFileReader.start(definition, RelativeDirection.BACK, RelativeDirection.UP, RelativeDirection.LEFT)
+            .pattern(definition -> MultiBlockFileReader.start(definition)
                     .where('A', blocks(GTOBlocks.IRIDIUM_CASING.get()))
                     .where('B', blocks(GTOBlocks.OXIDATION_RESISTANT_HASTELLOY_N_MECHANICAL_CASING.get()))
                     .where('C', GTOPredicates.frame(GTMaterials.NaquadahAlloy))
@@ -112,7 +110,7 @@ public final class MultiBlockH {
             .nonYAxisRotation()
             .recipeTypes(GTRecipeTypes.DUMMY_RECIPES)
             .block(GCYMBlocks.CASING_ATOMIC)
-            .pattern(definition -> MultiBlockFileReader.start(definition, RelativeDirection.FRONT, RelativeDirection.UP, RelativeDirection.RIGHT)
+            .pattern(definition -> MultiBlockFileReader.start(definition)
                     .where('A', blocks(GTOBlocks.MOLECULAR_CASING.get()))
                     .where('B', blocks(GTOBlocks.DIMENSIONALLY_TRANSCENDENT_CASING.get()))
                     .where('C', blocks(GTOBlocks.GRAVITY_STABILIZATION_CASING.get()))
@@ -187,7 +185,7 @@ public final class MultiBlockH {
             .multipleRecipesTooltips()
             .recipeTypes(GTORecipeTypes.DECAY_HASTENER_RECIPES)
             .block(GTOBlocks.GRAVITON_FIELD_CONSTRAINT_CASING)
-            .pattern(definition -> MultiBlockFileReader.start(definition, RelativeDirection.FRONT, RelativeDirection.UP, RelativeDirection.RIGHT)
+            .pattern(definition -> MultiBlockFileReader.start(definition)
                     .where('A', blocks(GTOBlocks.FUSION_CASING_MK5.get()))
                     .where('B', blocks(GTOBlocks.FISSION_REACTOR_CASING.get()))
                     .where('C', blocks(GTOBlocks.PBI_RADIATION_RESISTANT_MECHANICAL_ENCLOSURE.get()))
@@ -218,7 +216,7 @@ public final class MultiBlockH {
             .recipeTypes(GTORecipeTypes.GREENHOUSE_RECIPES)
             .recipeTypes(GTORecipeTypes.TREE_GROWTH_SIMULATOR_RECIPES)
             .block(GTOBlocks.BIOACTIVE_MECHANICAL_CASING)
-            .pattern(definition -> MultiBlockFileReader.start(definition, RelativeDirection.LEFT, RelativeDirection.UP, RelativeDirection.BACK)
+            .pattern(definition -> MultiBlockFileReader.start(definition)
                     .where('A', blocks(GTOBlocks.STRENGTHEN_THE_BASE_BLOCK.get()))
                     .where('B', blocks(GTBlocks.CASING_STAINLESS_CLEAN.get()))
                     .where('C', blocks(GTOBlocks.CHEMICAL_GRADE_GLASS.get()))
@@ -335,7 +333,7 @@ public final class MultiBlockH {
             .recipeTypes(GTORecipeTypes.FAST_NEUTRON_BREEDER_REACTOR_RECIPES)
             .block(GTOBlocks.BORON_CARBIDE_CERAMIC_RADIATION_RESISTANT_MECHANICAL_CUBE)
             .recipeModifiers(RecipeModifier.NO_MODIFIER)
-            .pattern(definition -> MultiBlockFileReader.start(definition, RelativeDirection.FRONT, RelativeDirection.UP, RelativeDirection.LEFT)
+            .pattern(definition -> MultiBlockFileReader.start(definition)
                     .where('A', blocks(GTOBlocks.ABS_GREY_CASING.get()))
                     .where('B', blocks(GTOBlocks.HIGH_STRENGTH_SUPPORT_SPINDLE.get()))
                     .where('C', blocks(GTBlocks.FUSION_GLASS.get()))
@@ -373,7 +371,7 @@ public final class MultiBlockH {
             .parallelizableTooltips()
             .recipeTypes(GTORecipeTypes.DUMMY_RECIPES)
             .block(GTOBlocks.BORON_CARBIDE_CERAMIC_RADIATION_RESISTANT_MECHANICAL_CUBE)
-            .pattern(definition -> MultiBlockFileReader.start(definition, RelativeDirection.FRONT, RelativeDirection.UP, RelativeDirection.LEFT)
+            .pattern(definition -> MultiBlockFileReader.start(definition)
                     .where('A', blocks(GTOBlocks.HIGH_PRESSURE_PIPE_CASING.get()))
                     .where('B', blocks(GTOBlocks.FISSION_REACTOR_CASING.get()))
                     .where('C', blocks(GTOBlocks.BORON_CARBIDE_CERAMIC_RADIATION_RESISTANT_MECHANICAL_CUBE.get())
@@ -403,7 +401,7 @@ public final class MultiBlockH {
             .multipleRecipesTooltips()
             .recipeTypes(BIOCHEMICAL_EXTRACTION_RECIPES, BIOCHEMICAL_REACTION_RECIPES)
             .block(GTOBlocks.SPS_CASING)
-            .pattern(definition -> MultiBlockFileReader.start(definition, RelativeDirection.FRONT, RelativeDirection.UP, RelativeDirection.LEFT) // definition
+            .pattern(definition -> MultiBlockFileReader.start(definition) // definition
                     .where('A', blocks(GTOBlocks.SPS_CASING.get())
                             .or(GTOPredicates.autoThreadLaserAbilities(definition.getRecipeTypes()))
                             .or(abilities(MAINTENANCE).setExactLimit(1)))
@@ -552,7 +550,7 @@ public final class MultiBlockH {
                         "a".repeat(maxR);
                 StringBuilder middleRowBuilder = new StringBuilder(width);
                 middleRowBuilder.append('a');
-                middleRowBuilder.append("b".repeat(width - 2));
+                middleRowBuilder.repeat("b", width - 2);
                 middleRowBuilder.append('a');
                 String boundaryRow = String.valueOf('a').repeat(width);
                 var maxBuilder = MultiblockShapeInfo.builder()

@@ -32,7 +32,6 @@ import com.lowdragmc.lowdraglib.gui.modular.ModularUI;
 import com.lowdragmc.lowdraglib.gui.texture.IGuiTexture;
 import com.lowdragmc.lowdraglib.gui.texture.ItemStackTexture;
 import com.lowdragmc.lowdraglib.gui.widget.*;
-import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import it.unimi.dsi.fastutil.longs.Long2LongMap;
 import it.unimi.dsi.fastutil.objects.Object2LongMap;
 import it.unimi.dsi.fastutil.objects.Object2ObjectMap;
@@ -215,13 +214,9 @@ public class PalmSizedBankBehavior implements IItemUIFactory, IFancyUIProvider {
                 return GTOItems.PALM_SIZED_BANK.asStack().getDisplayName();
             }
 
-            @DescSynced
             private UUID uuid = null;
-            @DescSynced
             private String string = null;
-            @DescSynced
             private boolean confirm1 = false;
-            @DescSynced
             private int tradeAmount = 0;
 
             static final int width = 256;
@@ -321,7 +316,6 @@ public class PalmSizedBankBehavior implements IItemUIFactory, IFancyUIProvider {
                 return GTOItems.PALM_SIZED_BANK.asStack().getDisplayName();
             }
 
-            @DescSynced
             private String choose = null;
 
             static final int width = 256;
@@ -425,7 +419,6 @@ public class PalmSizedBankBehavior implements IItemUIFactory, IFancyUIProvider {
                 return GTOItems.PALM_SIZED_BANK.asStack().getDisplayName();
             }
 
-            @DescSynced
             private String choose = null;
 
             static final int width = 256;

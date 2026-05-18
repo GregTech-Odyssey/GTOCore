@@ -24,7 +24,6 @@ import com.gtocore.common.machine.tesseract.AdvancedTesseractMachine;
 import com.gtocore.common.machine.tesseract.DirectedTesseractMachine;
 import com.gtocore.common.machine.tesseract.TesseractMachine;
 import com.gtocore.integration.ae.MeWirelessConnectMachine;
-import com.gtocore.integration.ae.SyncTesterMachine;
 
 import com.gtolib.GTOCore;
 import com.gtolib.api.GTOValues;
@@ -71,6 +70,7 @@ import it.unimi.dsi.fastutil.Pair;
 import static com.gregtechceu.gtceu.api.GTValues.*;
 import static com.gregtechceu.gtceu.api.capability.recipe.IO.IN;
 import static com.gregtechceu.gtceu.api.machine.multiblock.PartAbility.PARALLEL_HATCH;
+import static com.gtocore.common.machine.multiblock.part.maintenance.ACMHatchPartMachine.LANG_PLACEMENT_TOOLTIP;
 import static com.gtocore.utils.register.MachineRegisterUtils.*;
 
 public final class GTOMachines {
@@ -93,12 +93,6 @@ public final class GTOMachines {
         OptionalMachine.init(); // 限制模式不注册会出现多方块预览错误
 
         if (GTCEu.isDev() || GTCEu.isDataGen()) {
-            final MachineDefinition SYNC_TESTER_MACHINE = machine("sync_tester_machine", "同步测试机", SyncTesterMachine::new)
-                    .allRotation()
-                    .tooltipsText("A tool for testing machine synchronization.", "用于测试机器同步的工具。")
-                    .tooltipsText("Do not use in production environment.", "请勿在生产环境中使用。")
-                    .register();
-
             final MachineDefinition TEST_REPORT_OUTPUT = machine("test_report_output", "测试报告输出器", TestReportOutput::new)
                     .allRotation()
                     .tooltipsText("Print some test information", "打印一些测试用信息")
@@ -319,6 +313,7 @@ public final class GTOMachines {
                             Component.translatable("gtocore.machine.programmablec_hatch.extra_tooltip.1"),
                             Component.translatable("gtceu.universal.tooltip.item_storage_capacity", tier * tier),
                             Component.translatable("gtceu.universal.tooltip.fluid_storage_capacity_mult", tier, DualHatchPartMachine.getTankCapacity(DualHatchPartMachine.INITIAL_TANK_CAPACITY, tier)),
+                            Component.translatable("gtocore.machine.programmablec_hatch.extra_tooltip.2"),
                             Component.translatable("gtceu.part_sharing.enabled"))
                     .allowCoverOnFront(true)
                     .register(),
@@ -548,6 +543,7 @@ public final class GTOMachines {
             .allRotation()
             .abilities(PartAbility.MAINTENANCE)
             .addTooltipsFromClass(ACMHatchPartMachine.class)
+            .tooltipsKey(LANG_PLACEMENT_TOOLTIP)
             .notAllowSharedTooltips()
             .renderer(() -> new MaintenanceHatchPartRenderer(5, GTCEu.id("block/machine/part/maintenance.full_auto")))
             .register();
@@ -557,6 +553,7 @@ public final class GTOMachines {
             .abilities(PartAbility.MAINTENANCE)
             .addTooltipsFromClass(ACMHatchPartMachine.class)
             .tooltips(GTOMachineTooltips.INSTANCE.getModularConfigurationMaintenanceHatchTooltips().getSupplier())
+            .tooltipsKey(LANG_PLACEMENT_TOOLTIP)
             .notAllowSharedTooltips()
             .renderer(() -> new MaintenanceHatchPartRenderer(6, GTCEu.id("block/machine/part/maintenance.full_auto")))
             .register();
@@ -591,6 +588,7 @@ public final class GTOMachines {
                             Component.translatable(type.getTranslationKey()).getString())));
                 }
             })
+            .tooltipsKey(LANG_PLACEMENT_TOOLTIP)
             .renderer(() -> new MaintenanceHatchPartRenderer(5, GTCEu.id("block/machine/part/maintenance.cleaning")))
             .register();
 
@@ -609,6 +607,7 @@ public final class GTOMachines {
                             Component.translatable(type.getTranslationKey()).getString())));
                 }
             })
+            .tooltipsKey(LANG_PLACEMENT_TOOLTIP)
             .renderer(() -> new MaintenanceHatchPartRenderer(9, GTOCore.id("block/machine/part/maintenance.sterile_cleaning")))
             .register();
 
@@ -626,6 +625,7 @@ public final class GTOMachines {
                             Component.translatable(type.getTranslationKey()).getString())));
                 }
             })
+            .tooltipsKey(LANG_PLACEMENT_TOOLTIP)
             .renderer(() -> new MaintenanceHatchPartRenderer(12, GTOCore.id("block/machine/part/maintenance.law_cleaning")))
             .register();
 
@@ -642,6 +642,7 @@ public final class GTOMachines {
             .allRotation()
             .abilities(PartAbility.MAINTENANCE)
             .addTooltipsFromClass(ACMHatchPartMachine.class)
+            .tooltipsKey(LANG_PLACEMENT_TOOLTIP)
             .notAllowSharedTooltips()
             .renderer(() -> new MaintenanceHatchPartRenderer(10, GTCEu.id("block/machine/part/maintenance.full_auto")))
             .register();
@@ -661,6 +662,7 @@ public final class GTOMachines {
             .abilities(PartAbility.MAINTENANCE)
             .addTooltipsFromClass(ACMHatchPartMachine.class)
             .tooltips(Component.translatable("gtocore.recipe.vacuum.tier", 4))
+            .tooltipsKey(LANG_PLACEMENT_TOOLTIP)
             .notAllowSharedTooltips()
             .renderer(() -> new MaintenanceHatchPartRenderer(6,
                     GTCEu.id("block/machine/part/maintenance.full_auto")))
@@ -685,6 +687,14 @@ public final class GTOMachines {
 
     public static final MachineDefinition HEAT_SENSOR = machine("heat_sensor", "热传感器", SensorPartMachine::new)
             .tier(LV)
+            .allRotation()
+            .tooltips(GTOMachineTooltips.INSTANCE.getSensorTooltips().getSupplier())
+            .notAllowSharedTooltips()
+            .overlayTieredHullRenderer("neutron_sensor")
+            .register();
+
+    public static final MachineDefinition ION_ACTIVITY_SENSOR = machine("ion_activity_sensor", "离子活度传感器", SensorPartMachine::new)
+            .tier(LuV)
             .allRotation()
             .tooltips(GTOMachineTooltips.INSTANCE.getSensorTooltips().getSupplier())
             .notAllowSharedTooltips()

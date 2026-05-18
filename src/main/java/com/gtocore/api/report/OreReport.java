@@ -7,7 +7,6 @@ import com.gtolib.api.data.Dimension;
 
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
 import com.gregtechceu.gtceu.api.data.worldgen.GTOreDefinition;
-import com.gregtechceu.gtceu.api.data.worldgen.bedrockore.BedrockOreDefinition;
 import com.gregtechceu.gtceu.api.data.worldgen.bedrockore.WeightedMaterial;
 import com.gregtechceu.gtceu.api.registry.GTRegistries;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
@@ -93,11 +92,7 @@ public class OreReport {
     // 计算每个矿脉的均衡权重
     private static Map<ResourceLocation, Map<Material, Double>> calculateNormalizedWeights() {
         Map<ResourceLocation, Map<Material, Double>> normalizedOreWeights = new HashMap<>();
-
-        for (Map.Entry<ResourceLocation, BedrockOreDefinition> entry : GTRegistries.BEDROCK_ORE_DEFINITIONS.entries()) {
-            ResourceLocation veinId = entry.getKey();
-            BedrockOreDefinition bedrockOre = entry.getValue();
-
+        GTRegistries.BEDROCK_ORE_DEFINITIONS.forEachKeyValue((veinId, bedrockOre) -> {
             int totalOreWeightInVein = bedrockOre.materials().stream()
                     .mapToInt(WeightedMaterial::weight)
                     .sum();
@@ -108,7 +103,7 @@ public class OreReport {
                 weights.put(wm.material(), normalizedWeight);
             }
             normalizedOreWeights.put(veinId, weights);
-        }
+        });
 
         return normalizedOreWeights;
     }
@@ -117,10 +112,7 @@ public class OreReport {
     private static Map<ResourceLocation, DimensionOreInfo> processOreDefinitions(
                                                                                  Dimension[] ALL_DIM, Map<ResourceLocation, Map<Material, Double>> normalizedOreWeights) {
         Map<ResourceLocation, DimensionOreInfo> dimensionOreInfoMap = new HashMap<>();
-
-        for (Map.Entry<ResourceLocation, BedrockOreDefinition> entry : GTRegistries.BEDROCK_ORE_DEFINITIONS.entries()) {
-            ResourceLocation veinId = entry.getKey();
-            BedrockOreDefinition bedrockOre = entry.getValue();
+        GTRegistries.BEDROCK_ORE_DEFINITIONS.forEachKeyValue((veinId, bedrockOre) -> {
             int veinWeight = bedrockOre.weight();
 
             Map<Material, Double> normalizedWeights = normalizedOreWeights.get(veinId);
@@ -164,8 +156,7 @@ public class OreReport {
                     });
                 }
             }
-        }
-
+        });
         return dimensionOreInfoMap;
     }
 

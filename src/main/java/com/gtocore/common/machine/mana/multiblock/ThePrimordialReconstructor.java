@@ -9,9 +9,6 @@ import com.gtolib.api.recipe.Recipe;
 import com.gtolib.api.recipe.RecipeBuilder;
 import com.gtolib.api.recipe.RecipeRunner;
 import com.gtolib.utils.ItemUtils;
-import com.gtolib.utils.holder.IntHolder;
-import com.gtolib.utils.holder.LongHolder;
-import com.gtolib.utils.holder.ObjectHolder;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
@@ -28,6 +25,9 @@ import net.minecraft.world.item.Items;
 import com.fast.fastcollection.O2IOpenCacheHashMap;
 import com.fast.fastcollection.O2OOpenCacheHashMap;
 import com.fast.fastcollection.OpenCacheHashSet;
+import com.gto.datasynclib.util.holder.IntHolder;
+import com.gto.datasynclib.util.holder.LongHolder;
+import com.gto.datasynclib.util.holder.ObjHolder;
 import com.gto.registrate.util.entry.ItemEntry;
 import dev.shadowsoffire.apotheosis.adventure.Adventure;
 import it.unimi.dsi.fastutil.ints.Int2IntMap;
@@ -408,8 +408,8 @@ public class ThePrimordialReconstructor extends ManaMultiblockMachine {
      */
     private Recipe getEnchantmentsLoadRecipe() {
         RecipeBuilder enchantmentsLoadRecipeBuilder = getRecipeBuilder();
-        ObjectHolder<Item> essence = new ObjectHolder<>(null);
-        LongHolder count = new LongHolder(0);
+        ObjHolder<Item> essence = new ObjHolder<>();
+        LongHolder count = new LongHolder();
 
         forEachInputItems((stack, amount) -> {
             Item stackItem = stack.getItem();
@@ -729,8 +729,8 @@ public class ThePrimordialReconstructor extends ManaMultiblockMachine {
     private Recipe getForcedEnchantmentRecipe() {
         RecipeBuilder forcedEnchantmentRecipeBuilder = getRecipeBuilder();
 
-        ObjectHolder<ItemStack> EnchantedBook = new ObjectHolder<>(null);
-        ObjectHolder<ItemStack> NonEnchantedItem = new ObjectHolder<>(null);
+        ObjHolder<ItemStack> EnchantedBook = new ObjHolder<>();
+        ObjHolder<ItemStack> NonEnchantedItem = new ObjHolder<>();
         forEachInputItems((stack, amount) -> {
             Item stackItem = stack.getItem();
             if (stackItem == GTItems.PROGRAMMED_CIRCUIT.asItem()) return false;
@@ -784,8 +784,8 @@ public class ThePrimordialReconstructor extends ManaMultiblockMachine {
     private Recipe getForcedAffixRecipe() {
         RecipeBuilder forcedAffixRecipeBuilder = getRecipeBuilder();
 
-        ObjectHolder<ItemStack> affixCanvas = new ObjectHolder<>(null);
-        ObjectHolder<ItemStack> NonAffixItem = new ObjectHolder<>(null);
+        ObjHolder<ItemStack> affixCanvas = new ObjHolder<>();
+        ObjHolder<ItemStack> NonAffixItem = new ObjHolder<>();
         forEachInputItems((stack, amount) -> {
             Item stackItem = stack.getItem();
             if (stackItem == GTItems.PROGRAMMED_CIRCUIT.asItem()) return false;
@@ -847,8 +847,8 @@ public class ThePrimordialReconstructor extends ManaMultiblockMachine {
     private Recipe getForcedRarityUpRecipe() {
         RecipeBuilder ForcedRarityUpRecipeBuilder = getRecipeBuilder();
 
-        ObjectHolder<ItemStack> rarityUpItem = new ObjectHolder<>(null);
-        ObjectHolder<ItemStack> materialItem = new ObjectHolder<>(null);
+        ObjHolder<ItemStack> rarityUpItem = new ObjHolder<>();
+        ObjHolder<ItemStack> materialItem = new ObjHolder<>();
         forEachInputItems((stack, amount) -> {
             Item stackItem = stack.getItem();
             if (stackItem == GTItems.PROGRAMMED_CIRCUIT.asItem() || stackItem == Adventure.Items.SIGIL_OF_REBIRTH.get()) return false;
@@ -893,8 +893,8 @@ public class ThePrimordialReconstructor extends ManaMultiblockMachine {
     private Recipe getForcedAddSocketRecipe() {
         RecipeBuilder ForcedAddSocketRecipeBuilder = getRecipeBuilder();
 
-        ObjectHolder<ItemStack> addSocketItem = new ObjectHolder<>(null);
-        IntHolder sigilCount = new IntHolder(0);
+        ObjHolder<ItemStack> addSocketItem = new ObjHolder<>();
+        IntHolder sigilCount = new IntHolder();
         forEachInputItems((stack, amount) -> {
             Item stackItem = stack.getItem();
             if (stackItem == GTItems.PROGRAMMED_CIRCUIT.asItem()) return false;
@@ -938,7 +938,7 @@ public class ThePrimordialReconstructor extends ManaMultiblockMachine {
     private Recipe getForcedMosaicGemRecipe() {
         RecipeBuilder ForcedMosaicGemRecipeBuilder = getRecipeBuilder();
 
-        ObjectHolder<ItemStack> addGemItem = new ObjectHolder<>(null);
+        ObjHolder<ItemStack> addGemItem = new ObjHolder<>();
         List<ItemStack> gemItems = new ArrayList<>();
         forEachInputItems((stack, amount) -> {
             Item stackItem = stack.getItem();

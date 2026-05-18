@@ -4,26 +4,20 @@ import com.gtocore.common.machine.multiblock.part.ae.slots.ExportOnlyAEFluidList
 import com.gtocore.common.machine.multiblock.part.ae.slots.ExportOnlyAEFluidSlot;
 import com.gtocore.common.machine.multiblock.part.ae.slots.ExportOnlyAEItemList;
 import com.gtocore.common.machine.multiblock.part.ae.widget.MEInputBufferPartMachineUIKt;
+import com.gtocore.common.machine.trait.InternalSlotRecipeHandler;
 
-import com.gtolib.api.capability.ISync;
 import com.gtolib.api.gui.ktflexible.VBoxBuilder;
-import com.gtolib.api.machine.trait.*;
-import com.gtolib.api.network.SyncManagedFieldHolder;
-import com.gtolib.api.recipe.modifier.ParallelCache;
+import com.gtolib.api.machine.trait.ExtendedRecipeHandlerList;
+import com.gtolib.api.machine.trait.NotifiableNotConsumableFluidHandler;
+import com.gtolib.api.machine.trait.NotifiableNotConsumableItemHandler;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
-import com.gregtechceu.gtceu.api.capability.recipe.*;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.machine.TickableSubscription;
-import com.gregtechceu.gtceu.api.machine.feature.IRecipeLogicMachine;
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableMultiblockMachine;
 import com.gregtechceu.gtceu.api.machine.trait.CircuitHandler;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeHandlerList;
-import com.gregtechceu.gtceu.api.recipe.GTRecipe;
-import com.gregtechceu.gtceu.api.recipe.GTRecipeDefinition;
-import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
-import com.gregtechceu.gtceu.api.recipe.content.Content;
 import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
 import com.gregtechceu.gtceu.api.recipe.ingredient.ItemIngredient;
 import com.gregtechceu.gtceu.api.transfer.item.LockableItemStackHandler;
@@ -31,7 +25,6 @@ import com.gregtechceu.gtceu.common.item.IntCircuitBehaviour;
 
 import net.minecraft.nbt.*;
 import net.minecraft.server.TickTask;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
 import appeng.api.config.Actionable;
@@ -51,6 +44,8 @@ import appeng.helpers.MultiCraftingTracker;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Multimaps;
+import com.gto.datasynclib.annotations.SyncToServer;
+import com.gto.datasynclib.listener.IntNotifiableHolder;
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import it.unimi.dsi.fastutil.objects.*;
@@ -60,7 +55,6 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
-import java.util.function.Predicate;
 
 public class MEInputBufferPartMachine extends MEPatternPartMachineKt<MEInputBufferPartMachine.InternalSlot> {
 
@@ -69,10 +63,9 @@ public class MEInputBufferPartMachine extends MEPatternPartMachineKt<MEInputBuff
 
     private final List<RecipeHandlerList> recipeHandlers;
 
-    private static final SyncManagedFieldHolder SYNC_MANAGED_FIELD_HOLDER = new SyncManagedFieldHolder(MEInputBufferPartMachine.class, MEPatternPartMachineKt.getSYNC_MANAGED_FIELD_HOLDER());
     @Getter
-    public IntSyncedField configuratorField = ISync.createIntField(this)
-            .set(-1)
+    @SyncToServer
+    public IntNotifiableHolder configuratorField = IntNotifiableHolder.create(-1)
             .setReceiverListener((side, o, n) -> {
                 if (side.isServer()) Objects.requireNonNull(Objects.requireNonNull(getLevel()).getServer()).tell(new TickTask(10, () -> freshWidgetGroup.serverFresh()));
             });
@@ -81,15 +74,14 @@ public class MEInputBufferPartMachine extends MEPatternPartMachineKt<MEInputBuff
     public void onMouseClicked(int index) {
         if (!isRemote()) return;
         if (configuratorField.get() == index) {
-            configuratorField.setAndSyncToServer(-1);
+            configuratorField.set(-1);
+            configuratorField.markAsDirty();
+            syncToServer();
         } else {
-            configuratorField.setAndSyncToServer(index);
+            configuratorField.set(index);
+            configuratorField.markAsDirty();
+            syncToServer();
         }
-    }
-
-    @Override
-    public @NotNull SyncManagedFieldHolder getSyncHolder() {
-        return SYNC_MANAGED_FIELD_HOLDER;
     }
 
     private final Multimap<AEKey, InternalSlot> watcher2SlotMap = Multimaps.newSetMultimap(new Reference2ObjectOpenHashMap<>(), ReferenceOpenHashSet::new);
@@ -154,7 +146,6 @@ public class MEInputBufferPartMachine extends MEPatternPartMachineKt<MEInputBuff
 
     @Override
     public void onDetailsPostInit() {
-        super.onDetailsPostInit();
         for (InternalSlot slot : getInternalInventory()) {
             slot.reloadConfig();
         }
@@ -261,13 +252,10 @@ public class MEInputBufferPartMachine extends MEPatternPartMachineKt<MEInputBuff
                 MEPatternPartMachineKtKt.checkDuplicatedPattern(this, stack);
     }
 
-    public static final class InternalSlot extends AbstractInternalSlot implements ICraftingRequester {
+    public static final class InternalSlot extends AbstractRecipeInternalSlot implements ICraftingRequester {
 
         public final MEInputBufferPartMachine machine;
         public final int index;
-        private Runnable onContentsChanged = () -> {};
-        public boolean itemChanged = true;
-        public boolean fluidChanged = true;
 
         @Persisted
         public final NotifiableNotConsumableItemHandler notConsumableItem;
@@ -336,7 +324,7 @@ public class MEInputBufferPartMachine extends MEPatternPartMachineKt<MEInputBuff
         }
 
         public boolean isEmpty() {
-            return exportOnlyItemList.isEmpty() && exportOnlyItemList.isEmpty();
+            return exportOnlyItemList.isEmpty() && exportOnlyFluidList.isEmpty();
         }
 
         private void refund() {
@@ -357,9 +345,7 @@ public class MEInputBufferPartMachine extends MEPatternPartMachineKt<MEInputBuff
                                 machine.getActionSourceField());
                     }
                 }
-                itemChanged = true;
-                fluidChanged = true;
-                onContentsChanged.run();
+                markContentsChanged();
             }
         }
 
@@ -387,6 +373,16 @@ public class MEInputBufferPartMachine extends MEPatternPartMachineKt<MEInputBuff
             }
             var newPattern = machine.getInternalPatternInventory().getStackInSlot(index);
             var details = machine.decodePattern(newPattern, index);
+            if (details == null) {
+                reportingKey = null;
+                for (var slot : exportOnlyItemList.getInventory()) {
+                    slot.setConfig(null);
+                }
+                for (var slot : exportOnlyFluidList.getInventory()) {
+                    slot.setConfig(null);
+                }
+                return;
+            }
             if (details instanceof AEProcessingPattern aeProcessingPattern) {
                 reportingKey = aeProcessingPattern.getPrimaryOutput().what();
                 machine.watcher2SlotMap.put(reportingKey, this);
@@ -498,6 +494,34 @@ public class MEInputBufferPartMachine extends MEPatternPartMachineKt<MEInputBuff
         }
 
         @Override
+        public long getItemAmount(ItemIngredient ingredient, long limit) {
+            long available = 0;
+            for (var it : exportOnlyItemList.getInventory()) {
+                if (ingredient.testItem(it.getReadOnlyStack().getItem())) {
+                    if (it.getStock() != null) {
+                        available += it.getStock().amount();
+                    }
+                    if (available >= limit) break;
+                }
+            }
+            return available;
+        }
+
+        @Override
+        public long getFluidAmount(FluidIngredient ingredient, long limit) {
+            long available = 0;
+            for (var it : exportOnlyFluidList.getInventory()) {
+                if (ingredient.testFluid(it.getReadOnlyStack().getFluid())) {
+                    if (it.getStock() != null) {
+                        available += it.getStock().amount();
+                    }
+                    if (available >= limit) break;
+                }
+            }
+            return available;
+        }
+
+        @Override
         public @NotNull CompoundTag serializeNBT() {
             CompoundTag tag = super.serializeNBT();
             if (!notConsumableItem.isEmpty()) tag.put("inv", notConsumableItem.storage.serializeNBT());
@@ -569,16 +593,6 @@ public class MEInputBufferPartMachine extends MEPatternPartMachineKt<MEInputBuff
         }
 
         @Override
-        public void setOnContentsChanged(final Runnable onContentsChanged) {
-            this.onContentsChanged = onContentsChanged;
-        }
-
-        @Override
-        public Runnable getOnContentsChanged() {
-            return this.onContentsChanged;
-        }
-
-        @Override
         public boolean pushPattern(@NotNull IPatternDetails patternDetails, @NotNull KeyCounter @NotNull [] inputHolder) {
             return false;
         }
@@ -605,137 +619,16 @@ public class MEInputBufferPartMachine extends MEPatternPartMachineKt<MEInputBuff
         }
     }
 
-    private static final class SlotRHL extends ExtendedRecipeHandlerList {
-
-        final InternalSlot slot;
+    private static final class SlotRHL extends InternalSlotRecipeHandler.AbstractRHL<InternalSlot> {
 
         SlotRHL(InternalSlot slot, MEInputBufferPartMachine part) {
-            super(IO.IN, part);
+            super(slot, part);
             addHandlers(slot.notConsumableItem, slot.notConsumableFluid, slot.circuitInventory, slot.exportOnlyItemList, slot.exportOnlyFluidList);
-            this.slot = slot;
-        }
-
-        @Override
-        public boolean findRecipe(IRecipeCapabilityHolder holder, GTRecipeType recipeType, Predicate<GTRecipeDefinition> canHandle) {
-            if (slot.isEmpty() || !(holder instanceof IRecipeLogicMachine)) return false;
-            var map = this.getIngredientMap(recipeType);
-            if (map.isEmpty()) return false;
-            holder.setCurrentHandlerList(this);
-            return recipeType.search(map, canHandle);
         }
 
         @Override
         public ExtendedRecipeHandlerList wrapper() {
             return new SlotRHL(slot, (MEInputBufferPartMachine) part);
-        }
-
-        @Override
-        public boolean isDistinct() {
-            return true;
-        }
-
-        private Reference2LongOpenHashMap<Item> getItemMap(ParallelCache parallelCache) {
-            var ingredientStacks = parallelCache.getItemIngredientMap();
-            for (var container : getCapability(ItemRecipeCapability.CAP)) {
-                if (container.isNotConsumable() || (container instanceof NonStandardHandler handler && handler.isNonStandardHandler())) continue;
-                container.fastForEachItems((a, b) -> ingredientStacks.addTo(a.getItem(), b));
-            }
-            return ingredientStacks;
-        }
-
-        @Override
-        public long getInputItemParallel(IRecipeLogicMachine holder, List<Content> contents, long parallelAmount) {
-            ParallelCache parallelCache = IEnhancedRecipeLogic.of(holder.getRecipeLogic()).gtolib$getParallelCache();
-            Reference2LongOpenHashMap<Item> ingredientStacks = null;
-            for (var content : contents) {
-                if (content.chance > 0 && content.inner instanceof ItemIngredient ingredient) {
-                    long needed = ingredient.getAmount();
-                    if (needed < 1) continue;
-                    long available = 0;
-                    for (var it : slot.exportOnlyItemList.getInventory()) {
-                        if (ingredient.testItem(it.getReadOnlyStack().getItem())) {
-                            if (it.getStock() != null) {
-                                available += it.getStock().amount();
-                            }
-                            if (available >= needed) break;
-                        }
-                    }
-                    if (available < needed) {
-                        if (ingredientStacks == null) ingredientStacks = getItemMap(parallelCache);
-                        for (var iter = ingredientStacks.reference2LongEntrySet().fastIterator(); iter.hasNext();) {
-                            var inventoryEntry = iter.next();
-                            if (ingredient.testItem(inventoryEntry.getKey())) {
-                                available += inventoryEntry.getLongValue();
-                                if (available >= needed) break;
-                            }
-                        }
-                    }
-                    if (available >= needed) {
-                        parallelAmount = Math.min(parallelAmount, available / needed);
-                    } else {
-                        parallelAmount = 0;
-                        break;
-                    }
-                }
-            }
-            parallelCache.cleanItemMap();
-            return parallelAmount;
-        }
-
-        @Override
-        public long getInputFluidParallel(IRecipeLogicMachine holder, List<Content> contents, long parallelAmount) {
-            for (var content : contents) {
-                if (content.chance > 0 && content.inner instanceof FluidIngredient ingredient) {
-                    long needed = ingredient.amount;
-                    if (needed < 1) continue;
-                    long available = 0;
-                    for (var it : slot.exportOnlyFluidList.getInventory()) {
-                        if (ingredient.testFluid(it.getReadOnlyStack().getFluid())) {
-                            if (it.getStock() != null) {
-                                available += it.getStock().amount();
-                            }
-                            if (available >= needed) break;
-                        }
-                    }
-                    if (available >= needed) {
-                        parallelAmount = Math.min(parallelAmount, available / needed);
-                    } else {
-                        parallelAmount = 0;
-                        break;
-                    }
-                }
-            }
-            return parallelAmount;
-        }
-
-        @Override
-        public boolean handleRecipeContent(IO io, GTRecipe recipe, RecipeCapabilityMap<List<Object>> contents, boolean simulate, boolean distinct) {
-            if (slot.isEmpty()) return false;
-            boolean item = contents.item == null;
-            if (!item) {
-                List left = contents.item;
-                for (var handler : getCapability(ItemRecipeCapability.CAP)) {
-                    left = handler.handleRecipe(IO.IN, recipe, left, simulate);
-                    if (left == null) {
-                        item = true;
-                        break;
-                    }
-                }
-            }
-            if (item) {
-                if (contents.fluid == null) {
-                    return true;
-                } else {
-                    List left = contents.fluid;
-                    for (var handler : getCapability(FluidRecipeCapability.CAP)) {
-                        left = handler.handleRecipe(IO.IN, recipe, left, simulate);
-                        if (left == null) {
-                            return true;
-                        }
-                    }
-                }
-            }
-            return false;
         }
     }
 }

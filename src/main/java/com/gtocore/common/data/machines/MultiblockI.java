@@ -10,6 +10,7 @@ import com.gtocore.common.data.translation.GTOMachineStories;
 import com.gtocore.common.data.translation.GTOMachineTooltipsA;
 import com.gtocore.common.machine.multiblock.electric.LargeAlgaeFarm;
 import com.gtocore.common.machine.multiblock.electric.PigmentMixer;
+import com.gtocore.common.machine.multiblock.electric.VirtualCoinMiner;
 
 import com.gtolib.GTOCore;
 import com.gtolib.api.recipe.modifier.RecipeModifierFunction;
@@ -25,6 +26,7 @@ import net.minecraft.world.level.material.Fluids;
 
 import static com.gregtechceu.gtceu.api.machine.multiblock.PartAbility.*;
 import static com.gregtechceu.gtceu.api.pattern.Predicates.*;
+import static com.gregtechceu.gtceu.common.data.GTBlocks.ADVANCED_COMPUTER_CASING;
 import static com.gtocore.api.pattern.GTOPredicates.glass;
 import static com.gtocore.api.pattern.GTOPredicates.recordPosition;
 import static com.gtocore.utils.register.MachineRegisterUtils.multiblock;
@@ -112,5 +114,39 @@ public class MultiblockI {
                     .build())
             .renderer(MultiFluidRenderer.create(GTOCore.id("block/casings/stainless_steel_corrosion_resistant_casing"),
                     GTCEu.id("block/multiblock/gcym/large_chemical_bath")))
+            .register();
+
+    // 虚拟挖币机
+    public static final MultiblockMachineDefinition VIRTUAL_COIN_MINER = multiblock("virtual_coin_miner", "虚拟挖币机", VirtualCoinMiner::new)
+            .nonYAxisRotation()
+            .recipeTypes(GTORecipeTypes.DUMMY_RECIPES)
+            .tooltipsSupplier(GTOMachineStories.INSTANCE.getVirtualCoinMinerTooltips().getSupplier())
+            .tooltipsSupplier(GTOMachineTooltipsA.INSTANCE.getVirtualCoinMinerTooltips().getSupplier())
+            .block(GTBlocks.ADVANCED_COMPUTER_CASING)
+            .pattern(definition -> MultiBlockFileReader.start(definition)
+                    .where('A', blocks(GTBlocks.COMPUTER_CASING.get()))
+                    .where('B', blocks(GTOBlocks.INSULATION_TILE_MECHANICAL_BLOCK.get()))
+                    .where('C', blocks(GTBlocks.ADVANCED_COMPUTER_CASING.get()))
+                    .where('D', blocks(GTOBlocks.COOLANT_PIPE_CASING.get()))
+                    .where('E', blocks(GTBlocks.ADVANCED_COMPUTER_CASING.get())
+                            .or(autoAbilities(definition.getRecipeTypes()))
+                            .or(abilities(COMPUTATION_DATA_RECEPTION).setExactLimit(1))
+                            .or(abilities(INPUT_ENERGY).setExactLimit(1))
+                            .or(abilities(MAINTENANCE).setExactLimit(1)))
+                    .where('F', GTOPredicates.light())
+                    .where('G', blocks(GTBlocks.FILTER_CASING.get()))
+                    .where('H', blocks(GTBlocks.COMPUTER_HEAT_VENT.get()))
+                    .where('I', blocks(GTOBlocks.IRIDIUM_CASING.get()))
+                    .where('J', blocks(GTOBlocks.OPTICAL_DYNAMIC_COATING_INSTRUMENT_PROTECTIVE_SHIELD_GLASS.get()))
+                    .where('K', blocks(GTOBlocks.COMPONENT_ASSEMBLY_LINE_CASING_LUV.get()))
+                    .where('L', blocks(GTOBlocks.T3_ME_STORAGE_CORE.get()))
+                    .where('M', blocks(GTOBlocks.COMPONENT_ASSEMBLY_LINE_CASING_ZPM.get()))
+                    .where('N', blocks(GTBlocks.CLEANROOM_GLASS.get()))
+                    .where('O', blocks(GTBlocks.HIGH_POWER_CASING.get()))
+                    .where('P', controller(definition))
+                    .where(' ', any())
+                    .build())
+            .sidedWorkableCasingRenderer("block/casings/hpca/advanced_computer_casing",
+                    GTCEu.id("block/multiblock/research_station"))
             .register();
 }

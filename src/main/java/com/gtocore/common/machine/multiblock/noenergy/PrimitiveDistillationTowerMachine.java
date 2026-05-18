@@ -56,11 +56,10 @@ import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.templates.VoidFluidHandler;
 
 import com.fast.fastcollection.OpenCacheHashSet;
+import com.gto.datasynclib.annotations.SyncToClient;
 import com.gto.datasynclib.datasream.DataComponentKey;
 import com.lowdragmc.lowdraglib.gui.widget.*;
-import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import com.lowdragmc.lowdraglib.syncdata.annotation.RequireRerender;
 import com.lowdragmc.lowdraglib.utils.BlockInfo;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
@@ -91,16 +90,13 @@ public final class PrimitiveDistillationTowerMachine extends NoEnergyMultiblockM
     private static final Item COAL_DUST = ChemicalHelper.getItem(TagPrefix.dust, GTMaterials.Coal);
     @Getter
     @Persisted
-    @DescSynced
-    @RequireRerender
+    @SyncToClient(notifyUpdate = true)
     private int heat = 298;
     @Getter
-    @DescSynced
-    @RequireRerender
+    @SyncToClient(notifyUpdate = true)
     private WaterState waterState = WaterState.NO_WATER;
     @Getter
-    @DescSynced
-    @RequireRerender
+    @SyncToClient(notifyUpdate = true)
     private int waterLevel = 0; // Used for rendering water level in the machine
     @Persisted
     private int tier;
@@ -490,7 +486,6 @@ public final class PrimitiveDistillationTowerMachine extends NoEnergyMultiblockM
 
         @Nullable
         @Persisted
-        @DescSynced
         private GTRecipe workingRecipe = null;
 
         private DistillationTowerLogic(IRecipeLogicMachine machine) {

@@ -33,6 +33,7 @@ import net.minecraft.world.item.Items;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.items.ItemStackHandler;
 
+import com.gto.datasynclib.annotations.SyncToClient;
 import com.lowdragmc.lowdraglib.gui.texture.IGuiTexture;
 import com.lowdragmc.lowdraglib.gui.texture.ItemStackTexture;
 import com.lowdragmc.lowdraglib.gui.widget.ComponentPanelWidget;
@@ -43,7 +44,6 @@ import com.lowdragmc.lowdraglib.gui.widget.layout.Layout;
 import com.lowdragmc.lowdraglib.syncdata.ISubscription;
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import com.lowdragmc.lowdraglib.syncdata.annotation.RequireRerender;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -79,13 +79,13 @@ public class VillageTradingStationMachine extends MetaMachine implements IAutoOu
     @DescSynced
     private final VillageHolder villagers;
     @Persisted
-    @DescSynced
+    @SyncToClient
     private final boolean[] isLocked = new boolean[10];
     @Persisted
-    @DescSynced
+    @SyncToClient
     private final int[] selected = new int[10];
     @Persisted
-    @DescSynced
+    @SyncToClient
     private final boolean[] startUp = new boolean[10];
 
     private final VillagerRecipe[][] villagersDataset = new VillagerRecipe[10][];
@@ -757,12 +757,10 @@ public class VillageTradingStationMachine extends MetaMachine implements IAutoOu
     /////////////////////////////////////
 
     @Persisted
-    @DescSynced
-    @RequireRerender
+    @SyncToClient(notifyUpdate = true)
     private Direction outputFacingItems;
     @Persisted
-    @DescSynced
-    @RequireRerender
+    @SyncToClient(notifyUpdate = true)
     private boolean autoOutputItems;
     @Persisted
     private boolean allowInputFromOutputSideItems;

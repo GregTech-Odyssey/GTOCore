@@ -17,7 +17,19 @@ import com.gregtechceu.gtceu.config.ConfigHolder
 
 object GTOMachineTooltipsA : AutoInitialize<GTOMachineTooltipsA>() {
 
-    var meInputBufferPartMachineTooltips: ComponentListSupplier = ComponentListSupplier {
+    val virtualCoinMinerTooltips: ComponentListSupplier = ComponentListSupplier {
+        setTranslationPrefix("virtual_coin_miner")
+
+        section(MainFunction)
+        highlight("通过消耗算力来挖掘虚拟货币" translatedTo "Mines virtual coins by consuming computational workload")
+        info("每提交一定的算力后，矿机将获得一个金币奖励" translatedTo "After submitting a certain amount of computational workload, the miner will receive a gold coin reward")
+        command("每获得一次金币奖励，下一次奖励将需要提交更多的算力" translatedTo "Each time a gold coin reward is obtained, the next reward will require more computational workload to be submitted")
+
+        section(RunningRequirements)
+        command("运行需要每秒消耗20mB多氯联苯冷却剂" translatedTo "Consumes 20mB of PCB coolant per second while running")
+        command("每提交的1CWU算力需要1920EU的能量支持" translatedTo "Each 1 CWU of computational workload submitted requires 1920 EU of energy support")
+    }
+    val meInputBufferPartMachineTooltips: ComponentListSupplier = ComponentListSupplier {
         setTranslationPrefix("me_input_buffer_part_machine")
 
         section(MainFunction)
@@ -209,11 +221,11 @@ object GTOMachineTooltipsA : AutoInitialize<GTOMachineTooltipsA>() {
         info("使用专用的藻类访问仓来收集或投放藻类" translatedTo "Use a dedicated algae access hatch to collect or release algae")
         Algae.entries.forEach { algae ->
             val colorName = when (algae) {
-                Algae.RedAlge -> "红藻" translatedTo "Red"
-                Algae.BrownAlge -> "褐藻" translatedTo "Brown"
-                Algae.GoldAlge -> "金藻" translatedTo "Golden"
-                Algae.GreenAlge -> "绿藻" translatedTo "Green"
-                Algae.BlueAlge -> "蓝藻" translatedTo "Blue"
+                Algae.RedAlgae -> "红藻" translatedTo "Red"
+                Algae.BrownAlgae -> "褐藻" translatedTo "Brown"
+                Algae.GoldAlgae -> "金藻" translatedTo "Golden"
+                Algae.GreenAlgae -> "绿藻" translatedTo "Green"
+                Algae.BlueAlgae -> "蓝藻" translatedTo "Blue"
             }.color(algae.color)
             info(
                 colorName +

@@ -10,6 +10,7 @@ import net.minecraft.network.chat.Component
 import net.minecraftforge.api.distmarker.Dist
 import net.minecraftforge.api.distmarker.OnlyIn
 
+import com.gto.datasynclib.listener.IntNotifiableHolder
 import com.gtolib.api.capability.ISync
 import com.gtolib.api.gui.ktflexible.LayoutBuilder
 import com.gtolib.api.gui.ktflexible.Style
@@ -120,9 +121,9 @@ interface MultiPageVScroll {
     fun refresh()
     fun getMaxPageSize(): Int
 }
-fun LayoutBuilder<*>.multiPageAdvanced(width: Int, height: Int, style: (Style.() -> Unit)? = null, pageSelector: ISync.IntSyncedField, runOnUpdate: Runnable = Runnable {}, builder: MultiPageDSLBuilder.() -> Unit): MultiPageVScroll {
+fun LayoutBuilder<*>.multiPageAdvanced(width: Int, height: Int, style: (Style.() -> Unit)? = null, pageSelector: IntNotifiableHolder, runOnUpdate: Runnable = Runnable {}, builder: MultiPageDSLBuilder.() -> Unit): MultiPageVScroll {
     val widget = object : WidgetGroup(0, 0, width, height), MultiPageVScroll {
-        var currentPage: ISync.IntSyncedField = pageSelector
+        var currentPage: IntNotifiableHolder = pageSelector
         val pageSuppliers: MutableList<Supplier<VBoxBuilder.() -> Unit>> = mutableListOf()
         init {
             currentPage.setReceiverListener { side, old, newV ->

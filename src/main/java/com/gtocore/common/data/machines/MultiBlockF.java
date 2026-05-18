@@ -20,7 +20,6 @@ import com.gtolib.utils.MultiBlockFileReader;
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
 import com.gregtechceu.gtceu.api.pattern.MultiblockShapeInfo;
-import com.gregtechceu.gtceu.api.pattern.util.RelativeDirection;
 import com.gregtechceu.gtceu.common.data.*;
 
 import net.minecraft.network.chat.Component;
@@ -132,7 +131,7 @@ public final class MultiBlockF {
             .recipeTypes(GTRecipeTypes.DISTILLATION_RECIPES)
             .recipeTypes(GTORecipeTypes.EVAPORATION_RECIPES)
             .block(GTOBlocks.STRENGTHEN_THE_BASE_BLOCK)
-            .pattern(definition -> MultiBlockFileReader.start(definition, RelativeDirection.RIGHT, RelativeDirection.UP, RelativeDirection.BACK)
+            .pattern(definition -> MultiBlockFileReader.start(definition)
                     .where('A', blocks(GTOBlocks.STRENGTHEN_THE_BASE_BLOCK.get())
                             .or(GTOPredicates.autoThreadLaserAbilities(definition.getRecipeTypes()))
                             .or(abilities(PARALLEL_HATCH).setMaxGlobalLimited(1))
@@ -190,7 +189,7 @@ public final class MultiBlockF {
             .recipeTypes(GTRecipeTypes.AUTOCLAVE_RECIPES)
             .recipeTypes(GTORecipeTypes.CRYSTALLIZATION_RECIPES)
             .block(GTOBlocks.MOLECULAR_CASING)
-            .pattern(definition -> MultiBlockFileReader.start(definition, RelativeDirection.RIGHT, RelativeDirection.UP, RelativeDirection.BACK)
+            .pattern(definition -> MultiBlockFileReader.start(definition)
                     .where('A', blocks(GTOBlocks.HIGH_STRENGTH_CONCRETE.get()))
                     .where('B', blocks(GTOBlocks.MOLECULAR_CASING.get()))
                     .where('C', blocks(GTBlocks.HIGH_POWER_CASING.get()))
@@ -224,7 +223,7 @@ public final class MultiBlockF {
             .multipleRecipesTooltips()
             .recipeTypes(GTRecipeTypes.CENTRIFUGE_RECIPES)
             .block(GTOBlocks.MOLECULAR_CASING)
-            .pattern(definition -> MultiBlockFileReader.start(definition, RelativeDirection.FRONT, RelativeDirection.UP, RelativeDirection.RIGHT)
+            .pattern(definition -> MultiBlockFileReader.start(definition)
                     .where('A', blocks(GTOBlocks.HIGH_STRENGTH_CONCRETE.get()))
                     .where('B', blocks(GTOBlocks.STRENGTHEN_THE_BASE_BLOCK.get()))
                     .where('C', blocks(GTOBlocks.MOLECULAR_CASING.get())
@@ -258,7 +257,7 @@ public final class MultiBlockF {
             .multipleRecipesTooltips()
             .recipeTypes(GTRecipeTypes.EXTRUDER_RECIPES)
             .block(GTBlocks.HIGH_POWER_CASING)
-            .pattern(definition -> MultiBlockFileReader.start(definition, RelativeDirection.BACK, RelativeDirection.UP, RelativeDirection.LEFT)
+            .pattern(definition -> MultiBlockFileReader.start(definition)
                     .where('A', blocks(GTOBlocks.HIGH_PRESSURE_RESISTANT_CASING.get()))
                     .where('B', blocks(GTBlocks.HIGH_POWER_CASING.get())
                             .or(GTOPredicates.autoThreadLaserAbilities(definition.getRecipeTypes()))
@@ -289,7 +288,7 @@ public final class MultiBlockF {
             .recipeTypes(GTORecipeTypes.NANO_FORGE_RECIPES)
             .recipeModifiers(RecipeModifierFunction.overclocking(0.5, 1, 0.05))
             .block(GTOBlocks.NAQUADAH_ALLOY_CASING)
-            .pattern(definition -> MultiBlockFileReader.start(definition, RelativeDirection.BACK, RelativeDirection.UP, RelativeDirection.RIGHT)
+            .pattern(definition -> MultiBlockFileReader.start(definition)
                     .where('A', GTOPredicates.frame(GTOMaterials.Amprosium))
                     .where('B', blocks(GTOBlocks.NAQUADAH_ALLOY_CASING.get()))
                     .where('C', blocks(GTOBlocks.CONTAINMENT_FIELD_GENERATOR.get()))

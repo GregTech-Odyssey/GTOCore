@@ -52,6 +52,8 @@ import com.gregtechceu.gtceu.api.recipe.GTRecipeType
 import com.gregtechceu.gtceu.api.transfer.item.CustomItemStackHandler
 import com.gregtechceu.gtceu.utils.TaskHandler
 import com.gregtechceu.gtceu.utils.asm.EmptyMethodChecker
+import com.gto.datasynclib.annotations.SyncToClient
+import com.gto.datasynclib.listener.IntNotifiableHolder
 import com.gtolib.api.ae2.MyPatternDetailsHelper
 import com.gtolib.api.ae2.pattern.IParallelPatternDetails
 import com.gtolib.api.annotation.DataGeneratorScanned
@@ -59,7 +61,6 @@ import com.gtolib.api.annotation.language.RegisterLanguage
 import com.gtolib.api.capability.ISync
 import com.gtolib.api.gui.ktflexible.*
 import com.gtolib.api.machine.feature.IEnhancedRecipeLogicMachine
-import com.gtolib.api.network.SyncManagedFieldHolder
 import com.lowdragmc.lowdraglib.gui.texture.GuiTextureGroup
 import com.lowdragmc.lowdraglib.gui.util.ClickData
 import com.lowdragmc.lowdraglib.gui.widget.Widget
@@ -87,7 +88,9 @@ abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.AbstractInterna
     IDropSaveMachine {
     override fun onUse(state: BlockState?, world: Level?, pos: BlockPos?, player: Player?, hand: InteractionHand?, hit: BlockHitResult?): InteractionResult? {
         if (!isRemote) {
-            newPageField.setAndSyncToClient(newPageField.get())
+            newPageField.set(newPageField.get())
+            newPageField.markAsDirty()
+            syncToClient()
         }
         return super.onUse(state, world, pos, player, hand, hit)
     }
@@ -95,9 +98,6 @@ abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.AbstractInterna
     // ==================== 常量和静态成员 ====================
     @DataGeneratorScanned
     companion object {
-
-        @JvmStatic
-        val SYNC_MANAGED_FIELD_HOLDER = SyncManagedFieldHolder(MEPatternPartMachineKt::class.java, syncFieldHolder)
 
         @RegisterLanguage(cn = "AE显示名称:", en = "AE Name:")
         const val AE_NAME: String = "gtceu.ae.pattern_part_machine.ae_name"
@@ -132,7 +132,7 @@ abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.AbstractInterna
     @Persisted
     private var internalInventory: Array<AbstractInternalSlot> = createInternalSlotArray()
 
-    @DescSynced
+    @SyncToClient
     @Persisted
     var customName: String = ""
 
@@ -200,18 +200,17 @@ abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.AbstractInterna
     open fun onDetailsPostInit() {}
 
     // ==================== 生命周期方法 ====================
-    val newPageField = ISync.createIntField(this).set(0)
+    @SyncToClient
+    val newPageField = IntNotifiableHolder.create()
 
     override fun onLoad() {
         super.onLoad()
-        registerSync()
         detailsInit = false
         level?.let { TravelUtils.removeAndReadd(it, this) }
     }
 
     override fun onUnload() {
         super.onUnload()
-        unregisterSync()
         detailsInit = false
         level?.let { TravelSavedData.getTravelData(it).removeTravelTargetAt(it, holder.blockPos) }
     }
@@ -245,8 +244,6 @@ abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.AbstractInterna
             detailsInit = false
         }
     }
-
-    override fun getSyncHolder(): SyncManagedFieldHolder = SYNC_MANAGED_FIELD_HOLDER
 
     // ==================== ICraftingProvider 接口实现 ====================
     override fun getAvailablePatterns(): List<IPatternDetails> = patterns
@@ -410,7 +407,11 @@ abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.AbstractInterna
                             height = 13,
                             onClick = { _ ->
                                 onPagePrev()
-                                if (!isRemote) newPageField.setAndSyncToClient((newPageField.get() - 1).coerceAtLeast(0))
+                                if (!isRemote) {
+                                    newPageField.set((newPageField.get() - 1).coerceAtLeast(0))
+                                    newPageField.markAsDirty()
+                                    syncToClient()
+                                }
                             },
                             text = { "<<" },
                         )
@@ -420,7 +421,11 @@ abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.AbstractInterna
                             width = 30,
                             onClick = { _ ->
                                 onPageNext()
-                                if (!isRemote) newPageField.setAndSyncToClient((newPageField.get() + 1).coerceAtMost(pageWidget.getMaxPageSize() - 1))
+                                if (!isRemote) {
+                                    newPageField.set((newPageField.get() + 1).coerceAtMost(pageWidget.getMaxPageSize() - 1))
+                                    newPageField.markAsDirty()
+                                    syncToClient()
+                                }
                             },
                             text = { ">>" },
                         )

@@ -83,7 +83,7 @@ public class NeutronActivatorMachine extends NoEnergyMultiblockMachine implement
         acceleratorMachines.clear();
         busMachines.clear();
         super.onStructureFormed();
-        var container = getMultiblockState().getMatchContext().get(GTOPredicates.DataKeys.STEEL_FRAME);
+        var container = getMultiblockState().getMatchContext().get(GTOPredicates.DataKeys.SPEED_PIPE);
         if (container != null) {
             height = container;
         }

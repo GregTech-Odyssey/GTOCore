@@ -33,13 +33,13 @@ import net.minecraft.network.chat.Style;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.phys.AABB;
 
+import com.gto.datasynclib.annotations.SyncToClient;
 import com.hepdd.gtmthings.api.gui.widget.SimpleNumberInputWidget;
 import com.lowdragmc.lowdraglib.gui.texture.TextTexture;
 import com.lowdragmc.lowdraglib.gui.util.ClickData;
 import com.lowdragmc.lowdraglib.gui.widget.*;
 import com.lowdragmc.lowdraglib.gui.widget.layout.Align;
 import com.lowdragmc.lowdraglib.syncdata.ISubscription;
-import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.mojang.blaze3d.MethodsReturnNonnullByDefault;
 import lombok.Getter;
@@ -74,47 +74,47 @@ public class DigitalMiner extends TierCasingMultiblockMachine implements IDigita
     protected ButtonWidget fluidModeButton;
     protected DraggableScrollableWidgetGroup mapArea;
     @Persisted
-    @DescSynced
+    @SyncToClient
     private int xRadialLength;
     @Persisted
-    @DescSynced
+    @SyncToClient
     private int zRadialLength;
     @Getter
     @Persisted
-    @DescSynced
+    @SyncToClient
     private int xOffset;
     @Getter
     @Persisted
-    @DescSynced
+    @SyncToClient
     private int zOffset;
     @Setter
     @Getter
     @Persisted
-    @DescSynced
+    @SyncToClient
     private int minHeight;
     @Setter
     @Getter
     @Persisted
-    @DescSynced
+    @SyncToClient
     private int maxHeight;
 
     // ===================== 逻辑相关方法 =====================
     @Getter
     @Persisted
     private int silkLevel;
-    @DescSynced
+    @SyncToClient
     private long energyPerTickBase = 0L;
     @Getter
-    @DescSynced
+    @SyncToClient
     private int parallelMining = 0;
-    @DescSynced
+    @SyncToClient
     private int prospectorRadius;
-    @DescSynced
+    @SyncToClient
     @Persisted
     private int maxRadius = 1;
     // ===================== Getter/Setter =====================
     @Getter
-    @DescSynced
+    @SyncToClient
     @Persisted
     private boolean showRange = false;
     @Getter

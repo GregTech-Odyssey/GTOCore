@@ -31,9 +31,8 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.items.IItemHandlerModifiable;
 
-import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
+import com.gto.datasynclib.annotations.SyncToClient;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import com.lowdragmc.lowdraglib.syncdata.annotation.RequireRerender;
 import it.unimi.dsi.fastutil.objects.Reference2ReferenceOpenHashMap;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -49,8 +48,7 @@ public final class InfiniteIntakeHatchPartMachine extends WorkableTieredIOPartMa
     @Persisted
     private final NotifiableFluidTank tank;
 
-    @RequireRerender
-    @DescSynced
+    @SyncToClient(notifyUpdate = true)
     private boolean isWorking;
 
     private TickableSubscription particleSubscription;

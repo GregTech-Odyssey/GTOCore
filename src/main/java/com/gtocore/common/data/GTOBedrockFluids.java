@@ -409,6 +409,7 @@ public final class GTOBedrockFluids {
                 GTOCore.LOGGER.error("Repetitive Value: {}", lang);
             }
             LANG.put(name, lang);
+            return null;
         }
         BedrockFluidDefinition definition = GTBedrockFluids.create(id, consumer);
         addVoid(definition);

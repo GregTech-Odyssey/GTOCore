@@ -5,6 +5,7 @@ import com.gtocore.common.data.GTOBlocks;
 import com.gtolib.GTOCore;
 import com.gtolib.api.pattern.DebugBlockPattern;
 import com.gtolib.utils.*;
+import com.gtolib.utils.iostream.IOStreamCodec;
 
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.item.ComponentItem;
@@ -48,7 +49,18 @@ public final class StructureWriteBehavior implements IItemUIFactory {
 
     public static final StructureWriteBehavior INSTANCE = new StructureWriteBehavior();
 
-    private static Map<Block, BiConsumer<StringBuilder, Character>> BLOCK_MAP;
+    private static final String EXPORT_MBS_FILE = "structure_pattern.mbs";
+    private static final String EXPORT_TEXT_FILE = "structure_pattern.txt";
+
+    private static Map<Block, BiConsumer<StringBuilder, Character>> SPECIAL_BLOCK_WRITERS;
+
+    private record ExportContext(
+                                 ServerPlayer player,
+                                 ItemStack stack,
+                                 String partId,
+                                 Block partBlock,
+                                 DebugBlockPattern pattern,
+                                 RelativeDirection[] directions) {}
 
     @Override
     public ModularUI createUI(HeldItemUIFactory.HeldItemHolder playerInventoryHolder, Player entityPlayer) {
@@ -87,74 +99,114 @@ public final class StructureWriteBehavior implements IItemUIFactory {
     }
 
     private static void exportLog(HeldItemUIFactory.HeldItemHolder playerInventoryHolder) {
-        if (getPos(playerInventoryHolder.getHeld()) != null && playerInventoryHolder.getPlayer() instanceof ServerPlayer player) {
-            if (BLOCK_MAP == null) {
-                BLOCK_MAP = ImmutableMap.<Block, BiConsumer<StringBuilder, Character>>builder()
-                        .put(net.minecraft.world.level.block.Blocks.OAK_LOG, (b, c) -> b.append("controller(definition))"))
-                        .put(net.minecraft.world.level.block.Blocks.DIRT, (b, c) -> b.append("heatingCoils())"))
-                        .put(net.minecraft.world.level.block.Blocks.WHITE_WOOL, (b, c) -> b.append("air())"))
-                        .put(net.minecraft.world.level.block.Blocks.GLASS, (b, c) -> b.append("GTOPredicates.glass())"))
-                        .put(net.minecraft.world.level.block.Blocks.GLOWSTONE, (b, c) -> b.append("GTOPredicates.light())"))
-                        .put(GTOBlocks.ABS_WHITE_CASING.get(), (b, c) -> b.append("GTOPredicates.absBlocks())"))
-                        .put(net.minecraft.world.level.block.Blocks.FURNACE, (b, c) -> b.append("abilities(MUFFLER))"))
-                        .build();
-            }
-            ItemStack itemStack = playerInventoryHolder.getHeld();
-            String part = itemStack.getOrCreateTag().getString("part");
-            if (part.isEmpty()) {
-                player.displayClientMessage(Component.literal("未绑定仓室方块"), false);
-                return;
-            }
-            BlockPos[] blockPos = getPos(playerInventoryHolder.getHeld());
-            Direction direction = getDir(playerInventoryHolder.getHeld());
-            StringBuilder builder = new StringBuilder();
-            DebugBlockPattern blockPattern = new DebugBlockPattern(
-                    playerInventoryHolder.getPlayer().level(),
-                    blockPos[0].getX(),
-                    blockPos[0].getY(),
-                    blockPos[0].getZ(),
-                    blockPos[1].getX(),
-                    blockPos[1].getY(),
-                    blockPos[1].getZ());
-            RelativeDirection[] dirs = DebugBlockPattern.getDir(direction);
-            blockPattern.changeDir(dirs[0], dirs[1], dirs[2]);
-            builder.append("\n.block(").append(convertBlockToString(RegistriesUtils.getBlock(part), part, StringUtils.decompose(part), true)).append(")\n");
-            builder.append(".pattern(definition -> MultiBlockFileReader.start(definition)\n");
-            blockPattern.legend.forEach((b, c) -> {
-                if (c.equals(' ')) return;
-                if (BLOCK_MAP.containsKey(b)) {
-                    builder.append(".where('").append(c).append("', ");
-                    BLOCK_MAP.get(b).accept(builder, c);
-                    builder.append("\n");
-                    return;
-                }
-                if (b == net.minecraft.world.level.block.Blocks.COBBLESTONE) {
-                    builder.append(".where('").append(c).append("', blocks(").append(convertBlockToString(RegistriesUtils.getBlock(part), part, StringUtils.decompose(part), false))
-                            .append(")\n").append(itemStack.getOrCreateTag().getBoolean("laser") ? ".or(GTOPredicates.autoLaserAbilities(definition.getRecipeTypes()))\n.or(abilities(MAINTENANCE).setExactLimit(1)))\n" : ".or(autoAbilities(definition.getRecipeTypes()))\n.or(abilities(MAINTENANCE).setExactLimit(1)))\n");
-                    return;
-                }
-                String id = ItemUtils.getId(b);
-                String[] parts = StringUtils.decompose(id);
-                boolean isGT = Objects.equals(parts[0], "gtceu");
-                boolean isGTO = Objects.equals(parts[0], GTOCore.MOD_ID);
-                if ((isGT || isGTO) && parts[1].contains("_frame")) {
-                    builder.append(".where('").append(c).append("', GTOPredicates.frame(").append(isGT ? "GTMaterials." : "GTOMaterials.")
-                            .append(FormattingUtil.lowerUnderscoreToUpperCamel(StringUtils.lastDecompose('_', parts[1])[0])).append("))\n");
-                    return;
-                }
-                builder.append(".where('").append(c).append("', blocks(")
-                        .append(convertBlockToString(b, id, parts, false)).append("))\n");
-            });
-            if (blockPattern.hasAir) builder.append(".where(' ', any())\n");
-            builder.append(".build())\n");
-            FileUtils.saveToFile(blockPattern.pattern, new File(GTOCore.getFile(), "structure_pattern.mbs"), FileUtils.Serialize.array(FileUtils.Serialize.array(FileUtils.Serializer.STRING)));
-            FileUtils.saveToFile(builder.toString(), new File(GTOCore.getFile(), "structure_pattern.txt"), FileUtils.Serializer.TXT_STRING);
-            for (int i = 0; i < blockPattern.pattern.length; i++) {
-                String[] strings = blockPattern.pattern[i];
-                builder.append(".aisle(\"%s\")\n".formatted(Joiner.on("\", \"").join(strings)));
-            }
-            GTOCore.LOGGER.info(builder.toString());
+        if (!(playerInventoryHolder.getPlayer() instanceof ServerPlayer player)) return;
+        var context = createExportContext(playerInventoryHolder, player);
+        if (context == null) return;
+
+        var generatedCode = buildGeneratedPatternCode(context);
+        writeExportFiles(context, generatedCode);
+        logGeneratedPattern(context, generatedCode);
+    }
+
+    private static ExportContext createExportContext(HeldItemUIFactory.HeldItemHolder holder, ServerPlayer player) {
+        BlockPos[] bounds = getPos(holder.getHeld());
+        if (bounds == null) return null;
+
+        ItemStack stack = holder.getHeld();
+        String partId = stack.getOrCreateTag().getString("part");
+        if (partId.isEmpty()) {
+            player.displayClientMessage(Component.literal("未绑定仓室方块"), false);
+            return null;
         }
+
+        Direction direction = getDir(stack);
+        RelativeDirection[] directions = DebugBlockPattern.getDir(direction);
+        DebugBlockPattern pattern = new DebugBlockPattern(
+                holder.getPlayer().level(),
+                bounds[0].getX(),
+                bounds[0].getY(),
+                bounds[0].getZ(),
+                bounds[1].getX(),
+                bounds[1].getY(),
+                bounds[1].getZ());
+        pattern.changeDir(directions[0], directions[1], directions[2]);
+        return new ExportContext(player, stack, partId, RegistriesUtils.getBlock(partId), pattern, directions);
+    }
+
+    private static String buildGeneratedPatternCode(ExportContext context) {
+        StringBuilder builder = new StringBuilder();
+        builder.append("\n.block(").append(convertBlockToString(context.partBlock(), context.partId(), StringUtils.decompose(context.partId()), true)).append(")\n");
+        builder.append(".pattern(definition -> MultiBlockFileReader.start(definition)\n");
+        context.pattern().legend.forEach((block, character) -> appendWhereClause(builder, context, block, character));
+        if (context.pattern().hasAir) builder.append(".where(' ', any())\n");
+        builder.append(".build())\n");
+        return builder.toString();
+    }
+
+    private static void appendWhereClause(StringBuilder builder, ExportContext context, Block block, Character character) {
+        if (character.equals(' ')) return;
+        var specialWriters = specialBlockWriters();
+        if (specialWriters.containsKey(block)) {
+            builder.append(".where('").append(character).append("', ");
+            specialWriters.get(block).accept(builder, character);
+            builder.append("\n");
+            return;
+        }
+        if (block == net.minecraft.world.level.block.Blocks.COBBLESTONE) {
+            appendMachinePartPredicate(builder, context, character);
+            return;
+        }
+        appendBlockPredicate(builder, block, character);
+    }
+
+    private static void appendMachinePartPredicate(StringBuilder builder, ExportContext context, Character character) {
+        builder.append(".where('").append(character).append("', blocks(")
+                .append(convertBlockToString(context.partBlock(), context.partId(), StringUtils.decompose(context.partId()), false))
+                .append(")\n")
+                .append(context.stack().getOrCreateTag().getBoolean("laser") ? ".or(GTOPredicates.autoLaserAbilities(definition.getRecipeTypes()))\n.or(abilities(MAINTENANCE).setExactLimit(1)))\n" : ".or(autoAbilities(definition.getRecipeTypes()))\n.or(abilities(MAINTENANCE).setExactLimit(1)))\n");
+    }
+
+    private static void appendBlockPredicate(StringBuilder builder, Block block, Character character) {
+        String id = ItemUtils.getId(block);
+        String[] parts = StringUtils.decompose(id);
+        boolean isGT = Objects.equals(parts[0], "gtceu");
+        boolean isGTO = Objects.equals(parts[0], GTOCore.MOD_ID);
+        if ((isGT || isGTO) && parts[1].contains("_frame")) {
+            builder.append(".where('").append(character).append("', GTOPredicates.frame(").append(isGT ? "GTMaterials." : "GTOMaterials.")
+                    .append(FormattingUtil.lowerUnderscoreToUpperCamel(StringUtils.lastDecompose('_', parts[1])[0])).append("))\n");
+            return;
+        }
+        builder.append(".where('").append(character).append("', blocks(")
+                .append(convertBlockToString(block, id, parts, false)).append("))\n");
+    }
+
+    private static void writeExportFiles(ExportContext context, String generatedCode) {
+        var directions = context.directions();
+        MultiBlockFileReader.save(new File(GTOCore.getFile(), EXPORT_MBS_FILE), context.pattern().pattern, directions[0], directions[1], directions[2]);
+        FileUtils.saveToFile(generatedCode, new File(GTOCore.getFile(), EXPORT_TEXT_FILE), IOStreamCodec.STRING_CODEC);
+    }
+
+    private static void logGeneratedPattern(ExportContext context, String generatedCode) {
+        StringBuilder log = new StringBuilder(generatedCode);
+        for (String[] strings : context.pattern().pattern) {
+            log.append(".aisle(\"%s\")\n".formatted(Joiner.on("\", \"").join(strings)));
+        }
+        GTOCore.LOGGER.info(log.toString());
+    }
+
+    private static Map<Block, BiConsumer<StringBuilder, Character>> specialBlockWriters() {
+        if (SPECIAL_BLOCK_WRITERS == null) {
+            SPECIAL_BLOCK_WRITERS = ImmutableMap.<Block, BiConsumer<StringBuilder, Character>>builder()
+                    .put(net.minecraft.world.level.block.Blocks.OAK_LOG, (b, c) -> b.append("controller(definition))"))
+                    .put(net.minecraft.world.level.block.Blocks.DIRT, (b, c) -> b.append("heatingCoils())"))
+                    .put(net.minecraft.world.level.block.Blocks.WHITE_WOOL, (b, c) -> b.append("air())"))
+                    .put(net.minecraft.world.level.block.Blocks.GLASS, (b, c) -> b.append("GTOPredicates.glass())"))
+                    .put(net.minecraft.world.level.block.Blocks.GLOWSTONE, (b, c) -> b.append("GTOPredicates.light())"))
+                    .put(GTOBlocks.ABS_WHITE_CASING.get(), (b, c) -> b.append("GTOPredicates.absBlocks())"))
+                    .put(net.minecraft.world.level.block.Blocks.FURNACE, (b, c) -> b.append("abilities(MUFFLER))"))
+                    .build();
+        }
+        return SPECIAL_BLOCK_WRITERS;
     }
 
     private static String convertBlockToString(Block b, String id, String[] parts, boolean supplier) {

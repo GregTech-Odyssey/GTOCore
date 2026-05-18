@@ -128,7 +128,7 @@ final class Blast {
                 .inputFluids(GTMaterials.BismuthBronze, 144)
                 .outputItems(TagPrefix.ingot, GTOMaterials.Desh)
                 .EUt(480)
-                .duration(1600)
+                .duration(1200)
                 .blastFurnaceTemp(4300)
                 .save();
 
