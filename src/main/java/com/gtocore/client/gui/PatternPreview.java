@@ -40,6 +40,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 import com.google.common.collect.ObjectArrays;
+import com.gto.registrate.ICustomfCategoryFill;
 import com.lowdragmc.lowdraglib.client.scene.WorldSceneRenderer;
 import com.lowdragmc.lowdraglib.client.utils.RenderBufferUtils;
 import com.lowdragmc.lowdraglib.client.utils.RenderUtils;
@@ -303,7 +304,14 @@ public final class PatternPreview extends WidgetGroup {
             List<List<ItemStack>> candidateStacks = new ArrayList<>();
             List<List<Component>> predicateTips = new ArrayList<>();
             for (SimplePredicate simplePredicate : predicates) {
-                List<ItemStack> itemStacks = simplePredicate.getCandidates();
+                List<ItemStack> itemStacks = new ArrayList<>();
+                for (ItemStack stack : simplePredicate.getCandidates()) {
+                    if (stack.getItem() instanceof ICustomfCategoryFill customfCategoryFill) {
+                        customfCategoryFill.fillItemCategory(itemStacks::add);
+                    } else {
+                        itemStacks.add(stack);
+                    }
+                }
                 if (!itemStacks.isEmpty()) {
                     candidateStacks.add(itemStacks);
                     predicateTips.add(simplePredicate.getToolTips(predicate));
