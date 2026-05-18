@@ -14,16 +14,11 @@ import com.gtolib.utils.iostream.IOStreamEncoder;
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
 import com.gregtechceu.gtceu.api.pattern.predicates.SimplePredicate;
-import com.gregtechceu.gtceu.common.block.LampBlock;
-import com.gregtechceu.gtceu.common.data.GTBlocks;
 import com.gregtechceu.gtceu.common.data.machines.GTMultiMachines;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraftforge.fml.loading.FMLLoader;
 
@@ -94,19 +89,12 @@ public final class MultiblockInfoEmiRecipe extends ModularEmiRecipe<Widget> {
 
     public List<EmiIngredient> getInputs(int i) {
         if (patterns != null && i >= 0 && patterns.length > i) {
-            return patterns[i].parts.stream().map(this::toEmiIngredient).toList();
+            return patterns[i].parts.stream()
+                    .map(stack -> (EmiIngredient) EmiStack.of(stack))
+                    .toList();
         } else {
             return super.getInputs();
         }
-    }
-
-    private EmiIngredient toEmiIngredient(ItemStack stack) {
-        if (stack.getItem() instanceof BlockItem blockItem && blockItem.getBlock() instanceof LampBlock) {
-            ItemStack lamp = GTBlocks.LAMPS.get(DyeColor.WHITE).get().getStackFromIndex(0);
-            lamp.setCount(stack.getCount());
-            return EmiStack.of(lamp);
-        }
-        return EmiStack.of(stack);
     }
 
     @Override
