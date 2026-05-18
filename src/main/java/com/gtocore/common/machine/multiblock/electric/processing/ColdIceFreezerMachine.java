@@ -12,6 +12,8 @@ import com.gregtechceu.gtceu.common.data.GTMaterials;
 import net.minecraft.network.chat.Component;
 import net.minecraftforge.fluids.FluidStack;
 
+import org.jetbrains.annotations.NotNull;
+
 public final class ColdIceFreezerMachine extends CustomParallelMultiblockMachine implements IUnlockRecipeTypeMachine {
 
     private static final FluidStack ICE = GTMaterials.Ice.getFluid(1);
@@ -32,6 +34,12 @@ public final class ColdIceFreezerMachine extends CustomParallelMultiblockMachine
     public boolean onWorking() {
         if (getOffsetTimer() % 20 == 0 && !inputFluid()) getRecipeLogic().setProgress(0);
         return super.onWorking();
+    }
+
+    @Override
+    protected boolean beforeWorking(@NotNull Recipe recipe) {
+        if (!super.beforeWorking(recipe)) return false;
+        return inputFluid();
     }
 
     @Override
