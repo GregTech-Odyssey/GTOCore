@@ -1174,6 +1174,7 @@ object GTOMachineTooltips {
 
         section(ComponentSlang.RunningRequirements)
         command("需提供§6 2^( 电压等级 - 2 ) * 10mb/s§r的§b液态冰§r" translatedTo "Requires to provide §b 2^(Voltage tier - 2 ) * 10mb/s§r of §6Liquid Ice§r")
+        info("配方开始工作时立刻消耗一次液态冰" translatedTo "Consumes Liquid Ice once immediately when the recipe starts")
     }
 
     // 烈焰高炉
@@ -1182,6 +1183,7 @@ object GTOMachineTooltips {
 
         section(ComponentSlang.RunningRequirements)
         command("需提供§b 2^( 电压等级 - 2 ) * 10mb/s§r的§6液态烈焰§r" translatedTo "Requires to provide §b 2^(Voltage tier - 2 ) * 10mb/s§r of §6Liquid  Blaze§r")
+        info("配方开始工作时立刻消耗一次液态烈焰" translatedTo "Consumes Liquid Blaze once immediately when the recipe starts")
     }
 
     // PCB工厂
