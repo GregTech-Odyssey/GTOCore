@@ -78,7 +78,7 @@ public final class MagicMaterial {
 
         Aether = magicMaterial("aether", "以太")
                 .gas()
-                .fluid()
+                .liquid(new FluidBuilder().translation("fluid.gtocore.liquid_aether"))
                 .color(0xfbedff)
                 .iconSet(BRIGHT)
                 .flags(NO_UNIFICATION)
