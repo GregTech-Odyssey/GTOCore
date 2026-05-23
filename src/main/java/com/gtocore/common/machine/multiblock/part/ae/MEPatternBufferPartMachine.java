@@ -1,5 +1,6 @@
 package com.gtocore.common.machine.multiblock.part.ae;
 
+import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
 import com.gtocore.api.gui.configurators.MultiMachineModeFancyConfigurator;
 import com.gtocore.common.data.GTORecipeTypes;
 import com.gtocore.common.data.machines.GTAEMachines;
@@ -19,7 +20,6 @@ import com.gtolib.utils.RLUtils;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.IWailaDisplayProvider;
-import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.gui.fancy.ConfiguratorPanel;
 import com.gregtechceu.gtceu.api.gui.fancy.TabsWidget;
@@ -36,6 +36,8 @@ import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeHandlerList;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeDefinition;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
+import com.gregtechceu.gtceu.api.recipe.content.Content;
+import com.gregtechceu.gtceu.api.recipe.handler.IO;
 import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
 import com.gregtechceu.gtceu.api.recipe.ingredient.ItemIngredient;
 import com.gregtechceu.gtceu.api.transfer.item.LockableItemStackHandler;
@@ -196,7 +198,7 @@ public abstract class MEPatternBufferPartMachine extends MEPatternPartMachineKt<
     }
 
     @Override
-    public List<RecipeHandlerList> getRecipeHandlers() {
+    public List<RecipeHandlerUnit> getRecipeHandlers() {
         return internalRecipeHandler.getSlotHandlers();
     }
 
@@ -541,8 +543,7 @@ public abstract class MEPatternBufferPartMachine extends MEPatternPartMachineKt<
         public final MEPatternBufferPartMachine machine;
         public final int index;
         private final InputSink inputSink;
-        public final IntLongMap itemIngredientMap = new IntLongMap();
-        public final IntLongMap fluidIngredientMap = new IntLongMap();
+        public final IntLongMap ingredientMap = new IntLongMap();
         public final ExpandedR2LMap<AEItemKey> itemInventory = new ExpandedR2LMap<>();
         public final ExpandedR2LMap<AEFluidKey> fluidInventory = new ExpandedR2LMap<>();
 
@@ -589,6 +590,14 @@ public abstract class MEPatternBufferPartMachine extends MEPatternPartMachineKt<
 
         public boolean isEmpty() {
             return itemInventory.isEmpty() && fluidInventory.isEmpty();
+        }
+
+        public boolean isItemEmpty() {
+            return itemInventory.isEmpty();
+        }
+
+        public boolean isFluidEmpty() {
+            return fluidInventory.isEmpty();
         }
 
         private void refund() {
@@ -671,7 +680,7 @@ public abstract class MEPatternBufferPartMachine extends MEPatternPartMachineKt<
         }
 
         @Nullable
-        public List<ItemIngredient> handleItemInternal(List<ItemIngredient> left, boolean simulate) {
+        public List<ItemIngredient> handleItemInternal(List<Content<ItemIngredient>> left, boolean simulate) {
             boolean changed = false;
             for (var it = left.iterator(); it.hasNext();) {
                 var ingredient = it.next();
@@ -679,20 +688,19 @@ public abstract class MEPatternBufferPartMachine extends MEPatternPartMachineKt<
                     it.remove();
                     continue;
                 }
-                long amount = ingredient.amount;
                 for (var it2 = itemInventory.reference2LongEntrySet().fastIterator(); it2.hasNext();) {
                     var entry = it2.next();
-                    if (!ingredient.testAeKay(entry.getKey())) continue;
+                    if (!ingredient.inner.testAeKay(entry.getKey())) continue;
                     var count = entry.getLongValue();
-                    long extracted = Math.min(count, amount);
+                    long extracted = Math.min(count, ingredient.amount);
                     if (!simulate && extracted > 0) {
                         changed = true;
                         count -= extracted;
                         if (count < 1) it2.remove();
                         else entry.setValue(count);
                     }
-                    amount -= extracted;
-                    if (amount < 1) {
+                    ingredient.shrink(extracted);
+                    if (ingredient.amount < 1) {
                         it.remove();
                         break;
                     }
@@ -701,11 +709,10 @@ public abstract class MEPatternBufferPartMachine extends MEPatternPartMachineKt<
             if (changed) {
                 markContentsChanged();
             }
-            return left.isEmpty() ? null : left;
         }
 
         @Nullable
-        public List<FluidIngredient> handleFluidInternal(List<FluidIngredient> left, boolean simulate) {
+        public List<FluidIngredient> handleFluidInternal(List<Content<FluidIngredient>> left, boolean simulate) {
             boolean changed = false;
             for (var it = left.iterator(); it.hasNext();) {
                 var ingredient = it.next();
@@ -713,20 +720,19 @@ public abstract class MEPatternBufferPartMachine extends MEPatternPartMachineKt<
                     it.remove();
                     continue;
                 }
-                long amount = ingredient.amount;
                 for (var it2 = fluidInventory.reference2LongEntrySet().fastIterator(); it2.hasNext();) {
                     var entry = it2.next();
-                    if (!ingredient.testAeKay(entry.getKey())) continue;
+                    if (!ingredient.inner.testAeKay(entry.getKey())) continue;
                     var count = entry.getLongValue();
-                    long extracted = Math.min(count, amount);
+                    long extracted = Math.min(count, ingredient.amount);
                     if (!simulate && extracted > 0) {
                         changed = true;
                         count -= extracted;
                         if (count < 1) it2.remove();
                         else entry.setValue(count);
                     }
-                    amount -= extracted;
-                    if (amount < 1) {
+                    ingredient.shrink(extracted);
+                    if (ingredient.amount < 1) {
                         it.remove();
                         break;
                     }
@@ -735,7 +741,6 @@ public abstract class MEPatternBufferPartMachine extends MEPatternPartMachineKt<
             if (changed) {
                 markContentsChanged();
             }
-            return left.isEmpty() ? null : left;
         }
 
         @Override

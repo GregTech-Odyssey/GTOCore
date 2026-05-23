@@ -20,7 +20,6 @@ import com.gtolib.utils.GTOUtils;
 import com.gregtechceu.gtceu.api.GTCEuAPI;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.recipe.*;
-import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
@@ -32,6 +31,7 @@ import com.gregtechceu.gtceu.api.machine.multiblock.MultiblockControllerMachine;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeHandlerList;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeDefinition;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
+import com.gregtechceu.gtceu.api.recipe.handler.IO;
 import com.gregtechceu.gtceu.api.transfer.fluid.CustomFluidTank;
 import com.gregtechceu.gtceu.api.transfer.item.CustomItemStackHandler;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
@@ -482,7 +482,7 @@ public class MEWildcardPatternBufferPartMachine extends MEPatternBufferPartMachi
         return key;
     }
 
-    private static final class SearchRecipeCapabilityHolder implements IRecipeCapabilityHolder {
+    private static final class SearchRecipeCapabilityHolder implements IRecipeHandlerHolder {
 
         private final SearchRecipeHandlerList handlerList = new SearchRecipeHandlerList();
 

@@ -1,15 +1,15 @@
 package com.gtocore.mixin.gtm.machine;
 
 import com.gtolib.api.capability.IWirelessChargerInteraction;
-import com.gtolib.api.machine.feature.IElectricMachine;
 import com.gtolib.api.machine.impl.WirelessChargerMachine;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.IEnergyContainer;
-import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.machine.TickableSubscription;
+import com.gregtechceu.gtceu.api.machine.feature.IElectricMachine;
 import com.gregtechceu.gtceu.api.machine.multiblock.part.WorkableTieredIOPartMachine;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableEnergyContainer;
+import com.gregtechceu.gtceu.api.recipe.handler.IO;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.EnergyHatchPartMachine;
 
 import org.jetbrains.annotations.NotNull;
@@ -56,12 +56,6 @@ public class EnergyHatchPartMachineMixin extends WorkableTieredIOPartMachine imp
     }
 
     @Override
-    @NotNull
-    public IEnergyContainer gtolib$getEnergyContainer() {
-        return energyContainer;
-    }
-
-    @Override
     @Nullable
     public UUID getUUID() {
         return getOwnerUUID();
@@ -75,5 +69,10 @@ public class EnergyHatchPartMachineMixin extends WorkableTieredIOPartMachine imp
     @SuppressWarnings("all")
     public WirelessChargerMachine getNetMachineCache() {
         return this.netMachineCache;
+    }
+
+    @Override
+    public @NotNull IEnergyContainer getEnergyContainer() {
+        return energyContainer;
     }
 }

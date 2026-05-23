@@ -6,7 +6,6 @@ import com.gtolib.GTOCore;
 import com.gtolib.api.GTOValues;
 import com.gtolib.api.machine.feature.IDroneInteractionMachine;
 import com.gtolib.api.machine.feature.multiblock.IDroneControlCenterMachine;
-import com.gtolib.api.machine.trait.IEnhancedRecipeLogic;
 import com.gtolib.api.misc.Drone;
 import com.gtolib.api.recipe.IdleReason;
 import com.gtolib.utils.MathUtil;
@@ -17,6 +16,7 @@ import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMaintenanceMachine;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IWorkableMultiController;
 import com.gregtechceu.gtceu.api.machine.multiblock.part.WorkableTieredPartMachine;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
+import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.MaintenanceHatchPartMachine;
 
 import net.minecraft.world.entity.player.Player;
@@ -92,9 +92,9 @@ public abstract class MaintenanceHatchPartMachineMixin extends WorkableTieredPar
      * @reason .
      */
     @Overwrite(remap = false)
-    public @Nullable GTRecipe modifyRecipe(IWorkableMultiController controller, @NotNull GTRecipe recipe) {
+    public @Nullable GTRecipe modifyRecipe(IWorkableMultiController controller, RecipeHandlerUnit unit, @NotNull GTRecipe recipe) {
         if (hasMaintenanceProblems()) {
-            ((IEnhancedRecipeLogic) controller.getRecipeLogic()).gtolib$setIdleReason(IdleReason.MAINTENANCE_BROKEN.reason());
+            IdleReason.MAINTENANCE_BROKEN.reason(controller);
             return null;
         }
         var durationMultiplier = getDurationMultiplier();

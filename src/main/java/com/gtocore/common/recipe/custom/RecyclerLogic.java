@@ -10,7 +10,7 @@ import com.gtolib.api.recipe.RecipeBuilder;
 import com.gtolib.utils.MachineUtils;
 import com.gtolib.utils.MathUtil;
 
-import com.gregtechceu.gtceu.api.capability.recipe.IRecipeCapabilityHolder;
+import com.gregtechceu.gtceu.api.capability.recipe.IRecipeHandlerHolder;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeDefinition;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 
@@ -24,7 +24,7 @@ import org.jetbrains.annotations.Nullable;
 public final class RecyclerLogic implements GTRecipeType.ICustomRecipeLogic {
 
     @Override
-    public @Nullable GTRecipeDefinition createCustomRecipe(IRecipeCapabilityHolder holder) {
+    public @Nullable GTRecipeDefinition createCustomRecipe(IRecipeHandlerHolder holder) {
         if (holder instanceof CustomParallelMultiblockMachine parallelMultiblockMachine && MachineUtils.notConsumableItem(parallelMultiblockMachine, GTOItems.SCRAP_BOX.asStack())) {
             RecipeBuilder builder = parallelMultiblockMachine.getRecipeBuilder().EUt(480);
             int parallel = MathUtil.saturatedCast(MachineUtils.getItemAmount(parallelMultiblockMachine, GTOItems.SCRAP_BOX.get())[0]);

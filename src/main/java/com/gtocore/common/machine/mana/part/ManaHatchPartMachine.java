@@ -8,10 +8,10 @@ import com.gtolib.utils.MathUtil;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
-import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.machine.TickableSubscription;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiController;
 import com.gregtechceu.gtceu.api.machine.multiblock.part.WorkableTieredIOPartMachine;
+import com.gregtechceu.gtceu.api.recipe.handler.IO;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionHand;

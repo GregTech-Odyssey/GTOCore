@@ -11,6 +11,10 @@ public abstract class AbstractRecipeInternalSlot extends MEPatternPartMachineKt.
 
     public abstract boolean isEmpty();
 
+    public abstract boolean isItemEmpty();
+
+    public abstract boolean isFluidEmpty();
+
     public abstract long getItemAmount(ItemIngredient ingredient, long limit);
 
     public abstract long getFluidAmount(FluidIngredient ingredient, long limit);

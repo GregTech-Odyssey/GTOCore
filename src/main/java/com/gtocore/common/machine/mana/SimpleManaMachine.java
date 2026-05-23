@@ -7,7 +7,7 @@ import com.gtolib.api.machine.mana.feature.IManaMachine;
 import com.gtolib.api.machine.mana.trait.NotifiableManaContainer;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
-import com.gregtechceu.gtceu.api.capability.recipe.IO;
+import com.gregtechceu.gtceu.api.recipe.handler.IO;
 
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import it.unimi.dsi.fastutil.ints.Int2IntFunction;

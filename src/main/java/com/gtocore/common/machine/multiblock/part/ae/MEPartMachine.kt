@@ -26,12 +26,12 @@ import appeng.api.networking.IManagedGridNode
 import appeng.api.networking.security.IActionSource
 import com.gregtechceu.gtceu.api.GTValues
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity
-import com.gregtechceu.gtceu.api.capability.recipe.IO
 import com.gregtechceu.gtceu.api.gui.fancy.TabsWidget
 import com.gregtechceu.gtceu.api.item.tool.GTToolType
 import com.gregtechceu.gtceu.api.machine.feature.IMachineLife
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IDistinctPart
 import com.gregtechceu.gtceu.api.machine.multiblock.part.WorkableTieredIOPartMachine
+import com.gregtechceu.gtceu.api.recipe.handler.IO
 import com.gregtechceu.gtceu.api.transfer.fluid.IFluidHandlerModifiable
 import com.gregtechceu.gtceu.integration.ae2.machine.trait.GridNodeHolder
 import com.gto.datasynclib.annotations.SyncToClient

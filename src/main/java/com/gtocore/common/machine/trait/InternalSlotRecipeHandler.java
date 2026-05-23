@@ -6,23 +6,16 @@ import com.gtocore.common.machine.multiblock.part.ae.MEPatternBufferPartMachine;
 
 import com.gtolib.api.ae2.stacks.IAEFluidKey;
 import com.gtolib.api.ae2.stacks.IAEItemKey;
-import com.gtolib.api.machine.trait.ExtendedRecipeHandlerList;
-import com.gtolib.api.machine.trait.IEnhancedRecipeLogic;
 import com.gtolib.api.machine.trait.NonStandardHandler;
-import com.gtolib.api.recipe.RecipeType;
-import com.gtolib.api.recipe.modifier.ParallelCache;
 
 import com.gregtechceu.gtceu.api.capability.recipe.*;
-import com.gregtechceu.gtceu.api.capability.recipe.IO;
-import com.gregtechceu.gtceu.api.machine.feature.IRecipeLogicMachine;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
-import com.gregtechceu.gtceu.api.machine.trait.IRecipeHandlerTrait;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableRecipeHandlerTrait;
-import com.gregtechceu.gtceu.api.machine.trait.RecipeHandlerList;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeDefinition;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.api.recipe.content.Content;
+import com.gregtechceu.gtceu.api.recipe.handler.*;
 import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
 import com.gregtechceu.gtceu.api.recipe.ingredient.ItemIngredient;
 import com.gregtechceu.gtceu.utils.function.ObjLongPredicate;
@@ -40,31 +33,32 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.function.BiPredicate;
 import java.util.function.ObjLongConsumer;
-import java.util.function.Predicate;
 
 @Getter
 public final class InternalSlotRecipeHandler {
 
-    private final List<RecipeHandlerList> slotHandlers;
+    private final List<RecipeHandlerUnit> slotHandlers;
 
     public InternalSlotRecipeHandler(MEPatternBufferPartMachine buffer, MEPatternBufferPartMachine.InternalSlot[] slots) {
         this.slotHandlers = new ArrayList<>(slots.length);
         for (MEPatternBufferPartMachine.InternalSlot slot : slots) {
-            slotHandlers.add(new SlotRHL(buffer, slot));
+            slotHandlers.add(SlotRHL.of(buffer, slot));
         }
     }
 
     private static class WrapperRHL extends PatternBufferRHL {
 
-        private WrapperRHL(PatternBufferRHL rhl) {
-            super(rhl.slot, rhl.part);
+        private WrapperRHL(PatternBufferRHL rhl, Collection<IRecipeHandler> handlers) {
+            super(rhl.slot, rhl.part, handlers.toArray(new IRecipeHandler[0]));
         }
 
-        private Reference2LongOpenHashMap<Fluid> getFluidMap(ParallelCache parallelCache) {
-            var ingredientStacks = parallelCache.getFluidIngredientMap();
-            for (var container : getCapability(FluidRecipeCapability.CAP)) {
+        private Reference2LongOpenHashMap<Fluid> getFluidMap() {
+            var ingredientStacks = fluidMap;
+            for (var container : fluidHandlers) {
                 if (container.isNotConsumable() || (container instanceof NonStandardHandler nonStandardHandler && nonStandardHandler.isNonStandardHandler())) continue;
                 container.fastForEachFluids((a, b) -> ingredientStacks.addTo(a.getFluid(), b));
             }
@@ -72,99 +66,84 @@ public final class InternalSlotRecipeHandler {
         }
 
         @Override
-        public long getInputFluidParallel(IRecipeLogicMachine holder, List<Content> contents, long parallelAmount) {
-            ParallelCache parallelCache = IEnhancedRecipeLogic.of(holder.getRecipeLogic()).gtolib$getParallelCache();
+        public long getInputFluidParallelAmount(List<Content<FluidIngredient>> contents, long multiplier) {
             Reference2LongOpenHashMap<Fluid> ingredientStacks = null;
             for (var content : contents) {
-                if (content.chance > 0 && content.inner instanceof FluidIngredient ingredient) {
-                    long needed = ingredient.amount;
+                if (content.chance > 0) {
+                    long needed = content.amount;
                     if (needed < 1) continue;
-                    long available = slot.getFluidAmount(ingredient, needed);
+                    long available = slot.getFluidAmount(content.inner, needed);
                     if (available == 0) {
-                        if (ingredientStacks == null) ingredientStacks = getFluidMap(parallelCache);
+                        if (ingredientStacks == null) ingredientStacks = getFluidMap();
                         for (var it = ingredientStacks.reference2LongEntrySet().fastIterator(); it.hasNext();) {
                             var inventoryEntry = it.next();
-                            if (ingredient.testFluid(inventoryEntry.getKey())) {
+                            if (content.inner.testFluid(inventoryEntry.getKey())) {
                                 available = inventoryEntry.getLongValue();
                                 break;
                             }
                         }
                     }
                     if (available >= needed) {
-                        parallelAmount = Math.min(parallelAmount, available / needed);
+                        multiplier = Math.min(multiplier, available / needed);
                     } else {
-                        parallelAmount = 0;
+                        multiplier = 0;
                         break;
                     }
                 }
             }
-            parallelCache.cleanFluidMap();
-            return parallelAmount;
+            fluidMap.clear();
+            return multiplier;
         }
     }
 
-    public abstract static class AbstractRHL<S extends AbstractRecipeInternalSlot> extends ExtendedRecipeHandlerList {
+    public abstract static class AbstractRHL<S extends AbstractRecipeInternalSlot> extends RecipeHandlerUnit {
 
         protected final S slot;
 
-        protected AbstractRHL(S slot, IMultiPart part) {
-            this(slot, part, 0);
+        protected AbstractRHL(S slot, IMultiPart part, IRecipeHandler... handlers) {
+            this(slot, part, IFilteredHandler.HIGH, handlers);
         }
 
-        protected AbstractRHL(S slot, IMultiPart part, int priority) {
-            super(IO.IN, part);
+        protected AbstractRHL(S slot, IMultiPart part, int priority, IRecipeHandler... handlers) {
+            super(IO.IN, part, handlers);
+            this.isDistinct = true;
             this.slot = slot;
             this.priority = priority;
         }
 
         @Override
-        public boolean findRecipe(IRecipeCapabilityHolder holder, GTRecipeType recipeType, Predicate<GTRecipeDefinition> canHandle) {
-            if (slot.isEmpty() || !(holder instanceof IRecipeLogicMachine machine)) return false;
+        public boolean findRecipe(GTRecipeType recipeType, BiPredicate<RecipeHandlerUnit, GTRecipeDefinition> canHandle) {
+            if (slot.isEmpty()) return false;
             var cachedRecipe = getCachedRecipe();
             if (cachedRecipe != null) {
-                if (isCachedRecipeAvailable(cachedRecipe, machine)) {
-                    holder.setCurrentHandlerList(this);
-                    return canHandle.test(cachedRecipe);
+                if (canHandle.test(this, cachedRecipe)) {
+                    return true;
                 } else {
                     clearCachedRecipe();
                 }
             }
-            recipeType = getEffectiveRecipeType(machine, recipeType);
+            recipeType = getEffectiveRecipeType(recipeType);
             if (recipeType == null) return false;
-            var map = this.getIngredientMap(recipeType);
+            var map = this.getSearchMap(recipeType);
             if (map.isEmpty()) return false;
-            holder.setCurrentHandlerList(this);
-            return recipeType.search(map, canHandle);
+            return recipeType.search(this, map, canHandle);
         }
 
         protected @Nullable GTRecipeDefinition getCachedRecipe() {
             return null;
         }
 
-        protected boolean isCachedRecipeAvailable(GTRecipeDefinition recipe, IRecipeLogicMachine machine) {
-            return true;
-        }
-
         protected void clearCachedRecipe() {}
 
-        protected @Nullable GTRecipeType getEffectiveRecipeType(IRecipeLogicMachine machine, GTRecipeType recipeType) {
+        protected @Nullable GTRecipeType getEffectiveRecipeType(GTRecipeType recipeType) {
             return recipeType;
-        }
-
-        protected boolean canHandleRecipe(GTRecipe recipe) {
-            return true;
         }
 
         protected void onRecipeHandled(GTRecipe recipe) {}
 
-        @Override
-        public boolean isDistinct() {
-            return true;
-        }
-
-        private Reference2LongOpenHashMap<Item> getItemMap(ParallelCache parallelCache) {
-            var ingredientStacks = parallelCache.getItemIngredientMap();
-            for (var container : getCapability(ItemRecipeCapability.CAP)) {
+        private Reference2LongOpenHashMap<Item> getItemMap() {
+            var ingredientStacks = itemMap;
+            for (var container : itemHandlers) {
                 if (container.isNotConsumable() || (container instanceof NonStandardHandler handler && handler.isNonStandardHandler())) continue;
                 container.fastForEachItems((a, b) -> ingredientStacks.addTo(a.getItem(), b));
             }
@@ -172,81 +151,78 @@ public final class InternalSlotRecipeHandler {
         }
 
         @Override
-        public long getInputItemParallel(IRecipeLogicMachine holder, List<Content> contents, long parallelAmount) {
-            ParallelCache parallelCache = IEnhancedRecipeLogic.of(holder.getRecipeLogic()).gtolib$getParallelCache();
+        public long getInputItemParallelAmount(List<Content<ItemIngredient>> contents, long multiplier) {
             Reference2LongOpenHashMap<Item> ingredientStacks = null;
             for (var content : contents) {
-                if (content.chance > 0 && content.inner instanceof ItemIngredient ingredient) {
-                    long needed = ingredient.getAmount();
+                if (content.chance > 0) {
+                    long needed = content.amount;
                     if (needed < 1) continue;
-                    long available = slot.getItemAmount(ingredient, needed);
+                    long available = slot.getItemAmount(content.inner, needed);
                     if (available < needed) {
-                        if (ingredientStacks == null) ingredientStacks = getItemMap(parallelCache);
+                        if (ingredientStacks == null) ingredientStacks = getItemMap();
                         for (var iter = ingredientStacks.reference2LongEntrySet().fastIterator(); iter.hasNext();) {
                             var inventoryEntry = iter.next();
-                            if (ingredient.testItem(inventoryEntry.getKey())) {
+                            if (content.inner.testItem(inventoryEntry.getKey())) {
                                 available += inventoryEntry.getLongValue();
                                 if (available >= needed) break;
                             }
                         }
                     }
                     if (available >= needed) {
-                        parallelAmount = Math.min(parallelAmount, available / needed);
+                        multiplier = Math.min(multiplier, available / needed);
                     } else {
-                        parallelAmount = 0;
+                        multiplier = 0;
                         break;
                     }
                 }
             }
-            parallelCache.cleanItemMap();
-            return parallelAmount;
+            itemMap.clear();
+            return multiplier;
         }
 
         @Override
-        public long getInputFluidParallel(IRecipeLogicMachine holder, List<Content> contents, long parallelAmount) {
+        public long getInputFluidParallelAmount(List<Content<FluidIngredient>> contents, long multiplier) {
             for (var content : contents) {
-                if (content.chance > 0 && content.inner instanceof FluidIngredient ingredient) {
-                    long needed = ingredient.amount;
+                if (content.chance > 0) {
+                    long needed = content.amount;
                     if (needed < 1) continue;
-                    long available = slot.getFluidAmount(ingredient, needed);
+                    long available = slot.getFluidAmount(content.inner, needed);
                     if (available >= needed) {
-                        parallelAmount = Math.min(parallelAmount, available / needed);
+                        multiplier = Math.min(multiplier, available / needed);
                     } else {
-                        parallelAmount = 0;
+                        multiplier = 0;
                         break;
                     }
                 }
             }
-            return parallelAmount;
+            return multiplier;
         }
 
         @Override
-        public boolean handleRecipeContent(IO io, GTRecipe recipe, RecipeCapabilityMap<List<Object>> contents, boolean simulate, boolean distinct) {
-            if (slot.isEmpty() || !canHandleRecipe(recipe)) return false;
-            boolean item = contents.item == null;
-            if (!item) {
-                List left = contents.item;
-                for (var handler : getCapability(ItemRecipeCapability.CAP)) {
-                    left = handler.handleRecipe(IO.IN, recipe, left, simulate);
-                    if (left == null) {
-                        item = true;
-                        break;
-                    }
+        public boolean handleRecipeItem(IO io, GTRecipe recipe, List<Content<ItemIngredient>> items, boolean simulate) {
+            if (items.isEmpty()) return true;
+            if (io != handlerIO) throw new IllegalStateException("IO is not the same");
+            if (slot.isEmpty()) return false;
+            for (var handler : itemHandlers) {
+                if (!simulate && handler.isNotConsumable()) continue;
+                handler.handleRecipeItem(io, recipe, items, simulate);
+                if (items.isEmpty()) {
+                    return true;
                 }
             }
-            if (item) {
-                if (contents.fluid == null) {
-                    onRecipeHandled(recipe);
+            return false;
+        }
+
+        @Override
+        public boolean handleRecipeFluid(IO io, GTRecipe recipe, List<Content<FluidIngredient>> fluids, boolean simulate) {
+            if (fluids.isEmpty()) return true;
+            if (io != handlerIO) throw new IllegalStateException("IO is not the same");
+            for (var handler : fluidHandlers) {
+                if (!simulate && handler.isNotConsumable()) continue;
+                handler.handleRecipeFluid(io, recipe, fluids, simulate);
+                if (fluids.isEmpty()) {
+                    if (recipe.definition.registered && !simulate) onRecipeHandled(recipe);
                     return true;
-                } else {
-                    List left = contents.fluid;
-                    for (var handler : getCapability(FluidRecipeCapability.CAP)) {
-                        left = handler.handleRecipe(IO.IN, recipe, left, simulate);
-                        if (left == null) {
-                            onRecipeHandled(recipe);
-                            return true;
-                        }
-                    }
                 }
             }
             return false;
@@ -255,13 +231,13 @@ public final class InternalSlotRecipeHandler {
 
     private abstract static class PatternBufferRHL extends AbstractRHL<MEPatternBufferPartMachine.InternalSlot> {
 
-        private PatternBufferRHL(MEPatternBufferPartMachine.InternalSlot slot, IMultiPart part) {
-            super(slot, part, 1000);
+        private PatternBufferRHL(MEPatternBufferPartMachine.InternalSlot slot, IMultiPart part, IRecipeHandler... handlers) {
+            super(slot, part, IFilteredHandler.HIGHEST, handlers);
         }
 
         @Override
-        public ExtendedRecipeHandlerList wrapper() {
-            return new WrapperRHL(this);
+        public RecipeHandlerUnit wrapper(Collection<IRecipeHandler> handlers) {
+            return new WrapperRHL(this, handlers);
         }
 
         @Override
@@ -270,30 +246,17 @@ public final class InternalSlotRecipeHandler {
         }
 
         @Override
-        protected boolean isCachedRecipeAvailable(GTRecipeDefinition recipe, IRecipeLogicMachine machine) {
-            return RecipeType.available(recipe.recipeType, machine.disabledCombined() ? new GTRecipeType[] { machine.getRecipeType() } : machine.getRecipeTypes());
-        }
-
-        @Override
         protected void clearCachedRecipe() {
             slot.setRecipe(null);
         }
 
         @Override
-        protected @Nullable GTRecipeType getEffectiveRecipeType(IRecipeLogicMachine machine, GTRecipeType recipeType) {
+        protected GTRecipeType getEffectiveRecipeType(GTRecipeType recipeType) {
             final var type = slot.machine.recipeType;
-            if (type != GTORecipeTypes.HATCH_COMBINED && type != recipeType && !machine.disabledCombined()) {
-                if (GTRecipeType.available(type, machine.getRecipeTypes())) {
-                    return type;
-                }
-                return null;
+            if (type != GTORecipeTypes.HATCH_COMBINED && type != recipeType) {
+                return type;
             }
             return recipeType;
-        }
-
-        @Override
-        protected boolean canHandleRecipe(GTRecipe recipe) {
-            return slot.recipe == null || !recipe.definition.registered || slot.recipe == recipe.definition;
         }
 
         @Override
@@ -304,38 +267,41 @@ public final class InternalSlotRecipeHandler {
 
     static final class SlotRHL extends PatternBufferRHL {
 
-        final IRecipeHandlerTrait<ItemIngredient> itemRecipeHandler;
-        final IRecipeHandlerTrait<FluidIngredient> fluidRecipeHandler;
+        final SlotRecipeHandler recipeHandler;
 
-        private SlotRHL(MEPatternBufferPartMachine buffer, MEPatternBufferPartMachine.InternalSlot slot) {
-            super(slot, buffer);
-            itemRecipeHandler = new SlotItemRecipeHandler(buffer, slot);
-            fluidRecipeHandler = new SlotFluidRecipeHandler(buffer, slot);
-            addHandlers(itemRecipeHandler, fluidRecipeHandler, slot.circuitInventory, slot.shareInventory, slot.shareTank, buffer.circuitInventorySimulated, buffer.shareInventory, buffer.shareTank);
+        private static SlotRHL of(MEPatternBufferPartMachine buffer, MEPatternBufferPartMachine.InternalSlot slot) {
+            return new SlotRHL(new SlotRecipeHandler(buffer, slot), buffer, slot);
+        }
+
+        private SlotRHL(SlotRecipeHandler handler, MEPatternBufferPartMachine buffer, MEPatternBufferPartMachine.InternalSlot slot) {
+            super(slot, buffer, handler, slot.circuitInventory, slot.shareInventory, slot.shareTank, buffer.circuitInventorySimulated, buffer.shareInventory, buffer.shareTank);
+            recipeHandler = handler;
         }
     }
 
-    private static final class SlotItemRecipeHandler extends NonstandardSlotRecipeHandler<ItemIngredient> {
+    final static class SlotRecipeHandler extends NotifiableRecipeHandlerTrait implements NonStandardHandler {
 
-        private SlotItemRecipeHandler(MEPatternBufferPartMachine buffer, MEPatternBufferPartMachine.InternalSlot slot) {
-            super(buffer, slot);
+        final MEPatternBufferPartMachine.InternalSlot slot;
+
+        private SlotRecipeHandler(MEPatternBufferPartMachine buffer, MEPatternBufferPartMachine.InternalSlot slot) {
+            super(buffer);
+            this.slot = slot;
             slot.setOnContentsChanged(this::notifyListeners);
         }
 
         @Override
-        public List<ItemIngredient> handleRecipe(IO io, GTRecipe recipe, List left, boolean simulate) {
-            if (slot.itemInventory.isEmpty()) return left;
-            return handleRecipeInner(io, recipe, new ArrayList(left), simulate);
+        public boolean hasCapability(@Nullable Direction side) {
+            return false;
         }
 
         @Override
-        public List<ItemIngredient> handleRecipeInner(IO io, GTRecipe recipe, List<ItemIngredient> left, boolean simulate) {
-            return slot.handleItemInternal(left, simulate);
+        public boolean isDistinct() {
+            return true;
         }
 
         @Override
-        public RecipeCapability<ItemIngredient> getCapability() {
-            return ItemRecipeCapability.CAP;
+        public IO getHandlerIO() {
+            return IO.IN;
         }
 
         @Override
@@ -362,43 +328,6 @@ public final class InternalSlotRecipeHandler {
         }
 
         @Override
-        public IntLongMap getIngredientMap(@NotNull GTRecipeType type) {
-            if (slot.consumeItemChanged()) {
-                slot.itemIngredientMap.clear();
-                slot.itemInventory.reference2LongEntrySet().fastForEach(e -> {
-                    var a = e.getLongValue();
-                    if (a < 1) return;
-                    ((IAEItemKey) (Object) e.getKey()).gtolib$convert(a, slot.itemIngredientMap);
-                });
-            }
-            return slot.itemIngredientMap;
-        }
-    }
-
-    private static final class SlotFluidRecipeHandler extends NonstandardSlotRecipeHandler<FluidIngredient> {
-
-        private SlotFluidRecipeHandler(MEPatternBufferPartMachine buffer, MEPatternBufferPartMachine.InternalSlot slot) {
-            super(buffer, slot);
-            slot.setOnContentsChanged(this::notifyListeners);
-        }
-
-        @Override
-        public List<FluidIngredient> handleRecipe(IO io, GTRecipe recipe, List left, boolean simulate) {
-            if (slot.fluidInventory.isEmpty()) return left;
-            return handleRecipeInner(io, recipe, new ArrayList(left), simulate);
-        }
-
-        @Override
-        public List<FluidIngredient> handleRecipeInner(IO io, GTRecipe recipe, List<FluidIngredient> left, boolean simulate) {
-            return slot.handleFluidInternal(left, simulate);
-        }
-
-        @Override
-        public RecipeCapability<FluidIngredient> getCapability() {
-            return FluidRecipeCapability.CAP;
-        }
-
-        @Override
         public boolean forEachFluids(ObjLongPredicate<FluidStack> function) {
             for (var it = slot.fluidInventory.reference2LongEntrySet().fastIterator(); it.hasNext();) {
                 var e = it.next();
@@ -422,51 +351,42 @@ public final class InternalSlotRecipeHandler {
         }
 
         @Override
-        public IntLongMap getIngredientMap(@NotNull GTRecipeType type) {
+        public IntLongMap getSearchMap(@NotNull GTRecipeType type) {
+            slot.ingredientMap.clear();
             if (slot.consumeFluidChanged()) {
-                slot.fluidIngredientMap.clear();
                 slot.fluidInventory.reference2LongEntrySet().fastForEach(e -> {
                     var a = e.getLongValue();
                     if (a < 1) return;
-                    ((IAEFluidKey) (Object) e.getKey()).gtolib$convert(a, slot.fluidIngredientMap);
+                    ((IAEFluidKey) (Object) e.getKey()).gtolib$convert(a, slot.ingredientMap);
                 });
             }
-            return slot.fluidIngredientMap;
-        }
-    }
-
-    private abstract static class NonstandardSlotRecipeHandler<ING> extends NotifiableRecipeHandlerTrait<ING> implements NonStandardHandler {
-
-        final MEPatternBufferPartMachine.InternalSlot slot;
-
-        private NonstandardSlotRecipeHandler(MEPatternBufferPartMachine buffer, MEPatternBufferPartMachine.InternalSlot slot) {
-            super(buffer);
-            this.slot = slot;
-            slot.setOnContentsChanged(this::notifyListeners);
+            if (slot.consumeItemChanged()) {
+                slot.itemInventory.reference2LongEntrySet().fastForEach(e -> {
+                    var a = e.getLongValue();
+                    if (a < 1) return;
+                    ((IAEItemKey) (Object) e.getKey()).gtolib$convert(a, slot.ingredientMap);
+                });
+            }
+            return slot.ingredientMap;
         }
 
         @Override
-        public boolean hasCapability(@Nullable Direction side) {
-            return false;
+        public void handleRecipeItem(IO io, GTRecipe recipe, List<Content<ItemIngredient>> left, boolean simulate) {
+            slot.handleItemInternal(left, simulate);
         }
 
         @Override
-        public int getSize() {
-            return 81;
+        public void handleRecipeFluid(IO io, GTRecipe recipe, List<Content<FluidIngredient>> left, boolean simulate) {
+            slot.handleFluidInternal(left, simulate);
         }
 
         @Override
-        public boolean isDistinct() {
+        public boolean canHandleItem() {
             return true;
         }
 
         @Override
-        public IO getHandlerIO() {
-            return IO.IN;
-        }
-
-        @Override
-        public boolean isRecipeOnly() {
+        public boolean canHandleFluid() {
             return true;
         }
     }

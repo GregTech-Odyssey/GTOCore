@@ -7,9 +7,8 @@ import com.gtolib.api.annotation.DataGeneratorScanned;
 import com.gtolib.api.machine.trait.ExtendedRecipeHandlerList;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
-import com.gregtechceu.gtceu.api.capability.recipe.IO;
-import com.gregtechceu.gtceu.api.capability.recipe.IRecipeCapabilityHolder;
 import com.gregtechceu.gtceu.api.capability.recipe.IRecipeHandler;
+import com.gregtechceu.gtceu.api.capability.recipe.IRecipeHandlerHolder;
 import com.gregtechceu.gtceu.api.gui.fancy.TabsWidget;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.feature.IRecipeLogicMachine;
@@ -20,6 +19,7 @@ import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeHandlerList;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeDefinition;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
+import com.gregtechceu.gtceu.api.recipe.handler.IO;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.DualHatchPartMachine;
 
 import net.minecraft.world.item.ItemStack;
@@ -166,7 +166,7 @@ public class ProgrammableHatchPartMachine extends DualHatchPartMachine implement
         }
 
         @Override
-        public boolean findRecipe(IRecipeCapabilityHolder holder, GTRecipeType recipeType, Predicate<GTRecipeDefinition> canHandle) {
+        public boolean findRecipe(IRecipeHandlerHolder holder, GTRecipeType recipeType, Predicate<GTRecipeDefinition> canHandle) {
             final var type = part.recipeType;
             if (type != GTORecipeTypes.HATCH_COMBINED && type != recipeType && holder instanceof IRecipeLogicMachine machine && !machine.disabledCombined()) {
                 if (GTRecipeType.available(type, machine.getRecipeTypes())) {

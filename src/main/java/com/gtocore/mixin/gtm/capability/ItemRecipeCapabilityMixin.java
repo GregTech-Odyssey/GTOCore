@@ -5,15 +5,16 @@ import com.gtocore.api.data.tag.GTOTagPrefix;
 import com.gtolib.api.item.ItemHandlerModifiable;
 import com.gtolib.api.recipe.ContentBuilder;
 
-import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
 import com.gregtechceu.gtceu.api.capability.recipe.RecipeCapability;
 import com.gregtechceu.gtceu.api.gui.widget.SlotWidget;
 import com.gregtechceu.gtceu.api.item.TagPrefixItem;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeDefinition;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
+import com.gregtechceu.gtceu.api.recipe.content.ChanceLogic;
 import com.gregtechceu.gtceu.api.recipe.content.Content;
-import com.gregtechceu.gtceu.api.recipe.content.IContentSerializer;
+import com.gregtechceu.gtceu.api.recipe.handler.IO;
+import com.gregtechceu.gtceu.api.recipe.ingredient.ItemIngredient;
 import com.gregtechceu.gtceu.api.recipe.ui.GTRecipeTypeUI;
 import com.gregtechceu.gtceu.common.recipe.condition.ResearchCondition;
 import com.gregtechceu.gtceu.integration.xei.widgets.GTRecipeWidget;
@@ -34,8 +35,8 @@ import org.spongepowered.asm.mixin.Overwrite;
 @Mixin(ItemRecipeCapability.class)
 public abstract class ItemRecipeCapabilityMixin extends RecipeCapability<Ingredient> {
 
-    protected ItemRecipeCapabilityMixin(String name, int color, boolean doRenderSlot, int sortIndex, IContentSerializer<Ingredient> serializer) {
-        super(name, color, doRenderSlot, sortIndex, serializer);
+    protected ItemRecipeCapabilityMixin(String name, int color, boolean doRenderSlot, int sortIndex) {
+        super(name, color, doRenderSlot, sortIndex);
     }
 
     /**
@@ -43,7 +44,7 @@ public abstract class ItemRecipeCapabilityMixin extends RecipeCapability<Ingredi
      * @reason .
      */
     @Overwrite(remap = false)
-    public void applyWidgetInfo(@NotNull Widget widget, int index, boolean isXEI, IO io, GTRecipeTypeUI.@UnknownNullability("null when storage == null") RecipeHolder recipeHolder, @NotNull GTRecipeType recipeType, @UnknownNullability("null when content == null") GTRecipeDefinition recipe, @Nullable Content content, @Nullable Object storage, int recipeTier, int chanceTier) {
+    public void applyWidgetInfo(@NotNull Widget widget, int index, boolean isXEI, IO io, GTRecipeTypeUI.@UnknownNullability("null when storage == null") RecipeHolder recipeHolder, @NotNull GTRecipeType recipeType, @UnknownNullability("null when content == null") GTRecipeDefinition recipe, @Nullable Content<ItemIngredient> content, @Nullable Object storage, int recipeTier, int chanceTier) {
         if (widget instanceof SlotWidget slot) {
             if (storage instanceof IItemHandlerModifiable items) {
                 if (index >= 0 && index < items.getSlots()) {
@@ -63,16 +64,16 @@ public abstract class ItemRecipeCapabilityMixin extends RecipeCapability<Ingredi
                 }
             }
             if (content != null) {
-                float chance = (float) recipeType.getChanceFunction().getBoostedChance(content, recipeTier, chanceTier) / ContentBuilder.maxChance;
-                if (io == IO.IN && ItemRecipeCapability.CAP.of(content).getInnerItemStack().getItem() instanceof TagPrefixItem item && item.tagPrefix == GTOTagPrefix.CATALYST) {
+                float chance = (float) recipe.chanceFunction.getBoostedChance(content, recipeTier, chanceTier) / ContentBuilder.maxChance;
+                if (io == IO.IN && content.inner.getInnerItemStack().getItem() instanceof TagPrefixItem item && item.tagPrefix == GTOTagPrefix.CATALYST) {
                     slot.setIngredientIO(IngredientIO.CATALYST);
                     slot.setXEIChance(0);
                 } else {
                     slot.setXEIChance(chance);
                 }
                 slot.setOnAddedTooltips((w, tooltips) -> {
-                    GTRecipeWidget.setConsumedChance(content, recipe.getChanceLogicForCapability(this, io), tooltips, recipeTier, chanceTier, recipeType.getChanceFunction());
-                    tooltips.add(Component.translatable("gui.tooltips.ae2.Amount", ItemRecipeCapability.CAP.of(content).amount).withStyle(ChatFormatting.GRAY));
+                    GTRecipeWidget.setConsumedChance(content, ChanceLogic.OR, tooltips, recipeTier, chanceTier, recipe.chanceFunction);
+                    tooltips.add(Component.translatable("gui.tooltips.ae2.Amount", content.amount).withStyle(ChatFormatting.GRAY));
                 });
                 if (io == IO.IN && content.chance == 0) {
                     slot.setIngredientIO(IngredientIO.CATALYST);

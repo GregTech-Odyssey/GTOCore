@@ -6,9 +6,9 @@ import com.gtolib.api.ae2.stacks.IAEItemKey;
 import com.gtolib.api.recipe.RecipeType;
 import com.gtolib.utils.MathUtil;
 
-import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
+import com.gregtechceu.gtceu.api.recipe.handler.IO;
 import com.gregtechceu.gtceu.api.recipe.ingredient.ItemIngredient;
 import com.gregtechceu.gtceu.utils.function.ObjLongPredicate;
 

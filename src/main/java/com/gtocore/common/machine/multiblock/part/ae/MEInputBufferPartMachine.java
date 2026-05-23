@@ -10,25 +10,22 @@ import com.gtocore.common.machine.trait.InternalSlotRecipeHandler;
 import com.gtolib.api.annotation.DataGeneratorScanned;
 import com.gtolib.api.annotation.language.RegisterLanguage;
 import com.gtolib.api.gui.ktflexible.VBoxBuilder;
-import com.gtolib.api.machine.trait.ExtendedRecipeHandlerList;
 import com.gtolib.api.machine.trait.NotifiableNotConsumableFluidHandler;
 import com.gtolib.api.machine.trait.NotifiableNotConsumableItemHandler;
 import com.gtolib.api.recipe.RecipeBuilder;
-import com.gtolib.api.recipe.RecipeDefinition;
-import com.gtolib.api.recipe.RecipeType;
 import com.gtolib.utils.RLUtils;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
-import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.machine.TickableSubscription;
-import com.gregtechceu.gtceu.api.machine.feature.IRecipeLogicMachine;
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableMultiblockMachine;
 import com.gregtechceu.gtceu.api.machine.trait.CircuitHandler;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
-import com.gregtechceu.gtceu.api.machine.trait.RecipeHandlerList;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeDefinition;
-import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
+import com.gregtechceu.gtceu.api.recipe.handler.IFilteredHandler;
+import com.gregtechceu.gtceu.api.recipe.handler.IO;
+import com.gregtechceu.gtceu.api.recipe.handler.IRecipeHandler;
+import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
 import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
 import com.gregtechceu.gtceu.api.recipe.ingredient.ItemIngredient;
 import com.gregtechceu.gtceu.api.transfer.item.LockableItemStackHandler;
@@ -61,6 +58,7 @@ import com.google.common.collect.Multimap;
 import com.google.common.collect.Multimaps;
 import com.gto.datasynclib.annotations.SyncToClient;
 import com.gto.datasynclib.annotations.SyncToServer;
+import com.gto.datasynclib.datasream.data.Data;
 import com.gto.datasynclib.listener.IntNotifiableHolder;
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
@@ -78,7 +76,7 @@ public class MEInputBufferPartMachine extends MEPatternPartMachineKt<MEInputBuff
 
     private IStackWatcher craftingWatcher;
 
-    private final List<RecipeHandlerList> recipeHandlers;
+    private final List<RecipeHandlerUnit> recipeHandlers;
 
     @SyncToClient
     final boolean[] disconnectStates = new boolean[getMaxPatternCount()];
@@ -130,7 +128,7 @@ public class MEInputBufferPartMachine extends MEPatternPartMachineKt<MEInputBuff
         super(holder, 9);
         getMainNode().addService(ICraftingWatcherNode.class, craftingWatcherNode);
         this.recipeHandlers = Arrays.stream(getInternalInventory())
-                .map(s -> (RecipeHandlerList) new SlotRHL(s, this)).toList();
+                .map(s -> (RecipeHandlerUnit) new SlotRHL(s, this)).toList();
     }
 
     void autoIO() {
@@ -181,7 +179,7 @@ public class MEInputBufferPartMachine extends MEPatternPartMachineKt<MEInputBuff
     }
 
     @Override
-    public @NotNull List<RecipeHandlerList> getRecipeHandlers() {
+    public @NotNull List<RecipeHandlerUnit> getRecipeHandlers() {
         return recipeHandlers;
     }
 
@@ -391,6 +389,14 @@ public class MEInputBufferPartMachine extends MEPatternPartMachineKt<MEInputBuff
             return exportOnlyItemList.isEmpty() && exportOnlyFluidList.isEmpty();
         }
 
+        public boolean isItemEmpty() {
+            return exportOnlyItemList.isEmpty();
+        }
+
+        public boolean isFluidEmpty() {
+            return exportOnlyFluidList.isEmpty();
+        }
+
         private void refund() {
             var network = machine.getMainNode().getGrid();
             if (network != null) {
@@ -598,7 +604,7 @@ public class MEInputBufferPartMachine extends MEPatternPartMachineKt<MEInputBuff
         public @NotNull CompoundTag serializeNBT() {
             CompoundTag tag = super.serializeNBT();
             if (recipe != null) {
-                tag.putString("recipe", recipe.id.toString());
+                tag.putByteArray("re", GTRecipeDefinition.DATA_CODEC.encode(recipe).writeToBytes());
             }
             if (!notConsumableItem.isEmpty()) tag.put("inv", notConsumableItem.storage.serializeNBT());
             if (!notConsumableFluid.isEmpty()) {
@@ -631,7 +637,7 @@ public class MEInputBufferPartMachine extends MEPatternPartMachineKt<MEInputBuff
 
         @Override
         public void deserializeNBT(CompoundTag tag) {
-            setRecipe(RecipeDefinition.of(tag.getString("recipe")));
+            if (tag.get("re") instanceof ByteArrayTag byteArrayTag) setRecipe(GTRecipeDefinition.DATA_CODEC.decode(Data.readData(byteArrayTag.getAsByteArray())));
             if (tag.tags.get("inv") instanceof CompoundTag inv) {
                 notConsumableItem.storage.deserializeNBT(inv);
             }
@@ -703,23 +709,17 @@ public class MEInputBufferPartMachine extends MEPatternPartMachineKt<MEInputBuff
     private static final class SlotRHL extends InternalSlotRecipeHandler.AbstractRHL<InternalSlot> {
 
         SlotRHL(InternalSlot slot, MEInputBufferPartMachine part) {
-            super(slot, part);
-            addHandlers(slot.notConsumableItem, slot.notConsumableFluid, slot.circuitInventory, slot.exportOnlyItemList, slot.exportOnlyFluidList);
+            super(slot, part, IFilteredHandler.HIGHEST, slot.notConsumableItem, slot.notConsumableFluid, slot.circuitInventory, slot.exportOnlyItemList, slot.exportOnlyFluidList);
         }
 
         @Override
-        public ExtendedRecipeHandlerList wrapper() {
+        public RecipeHandlerUnit wrapper(Collection<IRecipeHandler> handlers) {
             return new SlotRHL(slot, (MEInputBufferPartMachine) part);
         }
 
         @Override
         protected @Nullable GTRecipeDefinition getCachedRecipe() {
             return slot.recipe;
-        }
-
-        @Override
-        protected boolean isCachedRecipeAvailable(GTRecipeDefinition recipe, IRecipeLogicMachine machine) {
-            return RecipeType.available(recipe.recipeType, machine.disabledCombined() ? new GTRecipeType[] { machine.getRecipeType() } : machine.getRecipeTypes());
         }
 
         @Override

@@ -18,7 +18,6 @@ import com.gregtechceu.gtceu.api.blockentity.ITickSubscription;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.IEnergyContainer;
 import com.gregtechceu.gtceu.api.capability.recipe.*;
-import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
@@ -37,6 +36,7 @@ import com.gregtechceu.gtceu.api.pattern.TraceabilityPredicate;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.RecipeHelper;
 import com.gregtechceu.gtceu.api.recipe.content.Content;
+import com.gregtechceu.gtceu.api.recipe.handler.IO;
 import com.gregtechceu.gtceu.common.data.GTBlocks;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
@@ -105,7 +105,7 @@ public final class PrimitiveDistillationTowerMachine extends NoEnergyMultiblockM
     private final ConditionalSubscriptionHandler tickSubs;
     private SensorPartMachine sensorMachine;
     private TickableSubscription clientSubscription;
-    private final IRecipeCapabilityHolder waterInputHolder = new IRecipeCapabilityHolder() {
+    private final IRecipeHandlerHolder waterInputHolder = new IRecipeHandlerHolder() {
 
         @Override
         public Map<IO, List<RecipeHandlerList>> getCapabilitiesProxy() {

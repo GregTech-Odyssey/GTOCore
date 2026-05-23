@@ -5,8 +5,8 @@ import com.gtolib.api.machine.mana.trait.NotifiableManaContainer;
 import com.gtolib.api.machine.mana.trait.NotifiableWirelessManaContainer;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
-import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.machine.feature.IInteractedMachine;
+import com.gregtechceu.gtceu.api.recipe.handler.IO;
 import com.gregtechceu.gtceu.common.data.GTItems;
 
 import net.minecraft.core.BlockPos;

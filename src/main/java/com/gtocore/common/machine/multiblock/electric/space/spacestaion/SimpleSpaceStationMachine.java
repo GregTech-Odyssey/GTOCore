@@ -12,11 +12,11 @@ import com.gtolib.utils.MachineUtils;
 import com.gregtechceu.gtceu.api.block.IFilterType;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.recipe.*;
-import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.machine.multiblock.CleanroomType;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeHandlerList;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.api.pattern.Predicates;
+import com.gregtechceu.gtceu.api.recipe.handler.IO;
 import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
@@ -160,7 +160,7 @@ public class SimpleSpaceStationMachine extends AbstractSpaceStation {
             /// Distilled Water distribution
             if (waterAmountPerHatch > 0 && outputDistilledWaterHatchesList != null && !outputDistilledWaterHatchesList.isEmpty()) {
                 for (RecipeHandlerList handler : outputDistilledWaterHatchesList) {
-                    IRecipeCapabilityHolder waterHolder = new IRecipeCapabilityHolder() {
+                    IRecipeHandlerHolder waterHolder = new IRecipeHandlerHolder() {
 
                         @Override
                         public @NotNull Map<IO, List<RecipeHandlerList>> getCapabilitiesProxy() {

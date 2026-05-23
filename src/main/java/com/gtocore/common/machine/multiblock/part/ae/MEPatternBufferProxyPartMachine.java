@@ -1,16 +1,17 @@
 package com.gtocore.common.machine.multiblock.part.ae;
 
+import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
 import com.gtocore.common.machine.trait.ProxySlotRecipeHandler;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.IWailaDisplayProvider;
-import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.feature.IDataStickInteractable;
 import com.gregtechceu.gtceu.api.machine.feature.IMachineLife;
 import com.gregtechceu.gtceu.api.machine.multiblock.part.WorkableTieredIOPartMachine;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeHandlerList;
+import com.gregtechceu.gtceu.api.recipe.handler.IO;
 import com.gregtechceu.gtceu.client.util.TooltipHelper;
 
 import net.minecraft.ChatFormatting;
@@ -85,7 +86,7 @@ public final class MEPatternBufferProxyPartMachine extends WorkableTieredIOPartM
     }
 
     @Override
-    public List<RecipeHandlerList> getRecipeHandlers() {
+    public List<RecipeHandlerUnit> getRecipeHandlers() {
         return proxySlotRecipeHandler.getProxySlotHandlers();
     }
 

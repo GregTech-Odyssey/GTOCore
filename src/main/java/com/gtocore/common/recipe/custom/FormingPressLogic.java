@@ -3,7 +3,7 @@ package com.gtocore.common.recipe.custom;
 import com.gtolib.api.machine.trait.IEnhancedRecipeLogic;
 import com.gtolib.api.recipe.RecipeBuilder;
 
-import com.gregtechceu.gtceu.api.capability.recipe.IRecipeCapabilityHolder;
+import com.gregtechceu.gtceu.api.capability.recipe.IRecipeHandlerHolder;
 import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
 import com.gregtechceu.gtceu.api.machine.feature.IRecipeLogicMachine;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeHandlerList;
@@ -59,7 +59,7 @@ public final class FormingPressLogic implements GTRecipeType.ICustomRecipeLogic 
     }
 
     @Override
-    public @Nullable GTRecipeDefinition createCustomRecipe(IRecipeCapabilityHolder h) {
+    public @Nullable GTRecipeDefinition createCustomRecipe(IRecipeHandlerHolder h) {
         if (h instanceof IRecipeLogicMachine recipeLogicMachine) {
             RecipeData data = new RecipeData(IEnhancedRecipeLogic.of(recipeLogicMachine.getRecipeLogic()).gtolib$getRecipeBuilder());
             return collect(data, h.getInputList(), h);
@@ -67,7 +67,7 @@ public final class FormingPressLogic implements GTRecipeType.ICustomRecipeLogic 
         return null;
     }
 
-    private static GTRecipeDefinition collect(RecipeData data, List<RecipeHandlerList> rhls, IRecipeCapabilityHolder h) {
+    private static GTRecipeDefinition collect(RecipeData data, List<RecipeHandlerList> rhls, IRecipeHandlerHolder h) {
         ObjHolder<GTRecipeDefinition> recipeObjectHolder = new ObjHolder<>();
         l:
         for (var rhl : rhls) {
