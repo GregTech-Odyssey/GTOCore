@@ -24,10 +24,7 @@ import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeDefinition;
 import com.gregtechceu.gtceu.api.recipe.handler.IFilteredHandler;
 import com.gregtechceu.gtceu.api.recipe.handler.IO;
-import com.gregtechceu.gtceu.api.recipe.handler.IRecipeHandler;
 import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
-import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
-import com.gregtechceu.gtceu.api.recipe.ingredient.ItemIngredient;
 import com.gregtechceu.gtceu.api.transfer.item.LockableItemStackHandler;
 import com.gregtechceu.gtceu.common.item.IntCircuitBehaviour;
 
@@ -573,34 +570,6 @@ public class MEInputBufferPartMachine extends MEPatternPartMachineKt<MEInputBuff
         }
 
         @Override
-        public long getItemAmount(ItemIngredient ingredient, long limit) {
-            long available = 0;
-            for (var it : exportOnlyItemList.getInventory()) {
-                if (ingredient.testItem(it.getReadOnlyStack().getItem())) {
-                    if (it.getStock() != null) {
-                        available += it.getStock().amount();
-                    }
-                    if (available >= limit) break;
-                }
-            }
-            return available;
-        }
-
-        @Override
-        public long getFluidAmount(FluidIngredient ingredient, long limit) {
-            long available = 0;
-            for (var it : exportOnlyFluidList.getInventory()) {
-                if (ingredient.testFluid(it.getReadOnlyStack().getFluid())) {
-                    if (it.getStock() != null) {
-                        available += it.getStock().amount();
-                    }
-                    if (available >= limit) break;
-                }
-            }
-            return available;
-        }
-
-        @Override
         public @NotNull CompoundTag serializeNBT() {
             CompoundTag tag = super.serializeNBT();
             if (recipe != null) {
@@ -710,11 +679,6 @@ public class MEInputBufferPartMachine extends MEPatternPartMachineKt<MEInputBuff
 
         SlotRHL(InternalSlot slot, MEInputBufferPartMachine part) {
             super(slot, part, IFilteredHandler.HIGHEST, slot.notConsumableItem, slot.notConsumableFluid, slot.circuitInventory, slot.exportOnlyItemList, slot.exportOnlyFluidList);
-        }
-
-        @Override
-        public RecipeHandlerUnit wrapper(Collection<IRecipeHandler> handlers) {
-            return new SlotRHL(slot, (MEInputBufferPartMachine) part);
         }
 
         @Override

@@ -660,28 +660,6 @@ public abstract class MEPatternBufferPartMachine extends MEPatternPartMachineKt<
         }
 
         @Override
-        public long getItemAmount(ItemIngredient ingredient, long limit) {
-            long available = 0;
-            for (var it = itemInventory.reference2LongEntrySet().fastIterator(); it.hasNext();) {
-                var e = it.next();
-                if (ingredient.testItem(e.getKey().getItem())) {
-                    available += e.getLongValue();
-                    if (available >= limit) break;
-                }
-            }
-            return available;
-        }
-
-        @Override
-        public long getFluidAmount(FluidIngredient ingredient, long limit) {
-            for (var it = fluidInventory.reference2LongEntrySet().fastIterator(); it.hasNext();) {
-                var e = it.next();
-                if (ingredient.testFluid(e.getKey().getFluid())) {
-                    return e.getLongValue();
-                }
-            }
-            return 0;
-        }
 
         public void handleItemInternal(List<Content<ItemIngredient>> left, boolean simulate) {
             boolean changed = false;
