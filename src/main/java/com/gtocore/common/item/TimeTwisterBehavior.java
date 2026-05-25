@@ -7,7 +7,7 @@ import com.gtolib.GTOCore;
 import com.gtolib.api.annotation.DataGeneratorScanned;
 import com.gtolib.api.annotation.language.RegisterLanguage;
 import com.gtolib.api.machine.mana.feature.IManaContainerMachine;
-import com.gtolib.api.recipe.Recipe;
+import com.gtolib.api.recipe.RecipeHelper;
 import com.gtolib.api.wireless.ExtendWirelessEnergyContainer;
 import com.gtolib.api.wireless.WirelessManaContainer;
 
@@ -177,7 +177,7 @@ public final class TimeTwisterBehavior implements IInteractionItem {
 
     private static @Nullable BigInteger getUnitCost(GTRecipe recipe, boolean isMana) {
         int energyMultiplier = 2 << GTOCore.difficulty;
-        BigInteger unitCost = isMana ? BigInteger.valueOf(Recipe.of(recipe).getInputMANAt()) : BigInteger.valueOf(recipe.getInputEUt());
+        BigInteger unitCost = isMana ? BigInteger.valueOf(RecipeHelper.getInputMANAt(recipe)) : BigInteger.valueOf(recipe.getInputEUt());
         if (unitCost.compareTo(BigInteger.ZERO) <= 0) return null;
         return unitCost.multiply(BigInteger.valueOf(energyMultiplier));
     }
@@ -261,7 +261,7 @@ public final class TimeTwisterBehavior implements IInteractionItem {
             }
             return usedEU;
         } else if (machine instanceof IManaContainerMachine) {
-            var manat = BigInteger.valueOf(Recipe.of(recipe).getInputMANAt());
+            var manat = BigInteger.valueOf(RecipeHelper.getInputMANAt(recipe));
             if (manat.compareTo(BigInteger.ZERO) <= 0) return null;
             manat = manat.multiply(BigInteger.valueOf(energyMultiplier));
 

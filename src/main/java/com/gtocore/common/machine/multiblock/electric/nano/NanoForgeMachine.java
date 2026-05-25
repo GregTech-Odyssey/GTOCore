@@ -9,7 +9,6 @@ import com.gtocore.common.data.GTORecipeDataKeys;
 import com.gtolib.api.machine.feature.multiblock.IMultiStructureMachine;
 import com.gtolib.api.machine.feature.multiblock.IParallelMachine;
 import com.gtolib.api.machine.multiblock.StorageMultiblockMachine;
-import com.gtolib.api.recipe.Recipe;
 import com.gtolib.api.recipe.modifier.RecipeModifier;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
@@ -53,7 +52,7 @@ public final class NanoForgeMachine extends StorageMultiblockMachine implements 
 
     @Nullable
     @Override
-    protected Recipe getRealRecipe(Recipe recipe) {
+    protected GTRecipe getRealRecipe(RecipeHandlerUnit unit, GTRecipe recipe) {
         if (recipe.data.getInt(GTORecipeDataKeys.NANO_FORGE_TIER) > machineTier) {
             return null;
         }

@@ -4,7 +4,6 @@ import com.gtocore.api.pattern.GTOPredicates;
 import com.gtocore.common.data.GTODamageTypes;
 
 import com.gtolib.api.machine.multiblock.NoEnergyCustomParallelMultiblockMachine;
-import com.gtolib.api.recipe.Recipe;
 import com.gtolib.utils.MachineUtils;
 
 import com.gregtechceu.gtceu.api.GTValues;
@@ -118,7 +117,7 @@ public final class AdvancedPrimitiveBlastFurnaceMachine extends NoEnergyCustomPa
 
     @Override
     @Nullable
-    protected Recipe getRealRecipe(Recipe recipe) {
+    protected GTRecipe getRealRecipe(RecipeHandlerUnit unit, GTRecipe recipe) {
         double dm = Math.min(1, 400D / temperature);
         duration = dm;
         recipe = ParallelLogic.accurateParallel(this, recipe, getParallel());

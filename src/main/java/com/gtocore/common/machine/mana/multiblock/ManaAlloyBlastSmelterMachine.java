@@ -4,10 +4,11 @@ import com.gtolib.api.machine.mana.feature.IManaMultiblock;
 import com.gtolib.api.machine.mana.trait.ManaTrait;
 import com.gtolib.api.machine.multiblock.CoilCustomParallelMultiblockMachine;
 import com.gtolib.api.misc.ManaContainerList;
-import com.gtolib.api.recipe.Recipe;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
+import com.gregtechceu.gtceu.api.recipe.GTRecipe;
+import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
 
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
@@ -80,7 +81,7 @@ public final class ManaAlloyBlastSmelterMachine extends CoilCustomParallelMultib
                 if (signal > 0) {
                     Item item = RUNES.get(signal);
                     AtomicBoolean success = new AtomicBoolean(false);
-                    forEachInputItems((stack, amount) -> {
+                    forEachItems(true, (stack, amount) -> {
                         if (stack.is(item) && inputItem(item, 1)) {
                             success.set(true);
                             return true;
@@ -110,8 +111,8 @@ public final class ManaAlloyBlastSmelterMachine extends CoilCustomParallelMultib
     }
 
     @Override
-    protected boolean beforeWorking(@NotNull Recipe recipe) {
-        return super.beforeWorking(recipe) && removeMana(mana, 1, false) == mana;
+    public boolean handleRecipeInput(RecipeHandlerUnit unit, @NotNull GTRecipe recipe) {
+        return removeMana(mana, 1, false) == mana && super.handleRecipeInput(unit, recipe);
     }
 
     @Override

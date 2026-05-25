@@ -8,7 +8,6 @@ import com.gtocore.common.item.ItemMap;
 import com.gtolib.api.recipe.RecipeBuilder;
 import com.gtolib.utils.MathUtil;
 
-import com.gregtechceu.gtceu.api.capability.recipe.IRecipeHandlerHolder;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeDefinition;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.api.recipe.handler.IRecipeHandlerHolder;

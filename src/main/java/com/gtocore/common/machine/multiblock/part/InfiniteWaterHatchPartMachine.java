@@ -110,7 +110,7 @@ public final class InfiniteWaterHatchPartMachine extends WorkableTieredIOPartMac
         }
 
         @Override
-        public IntLongMap getIngredientMap(@NotNull GTRecipeType type) {
+        public IntLongMap getSearchMap(@NotNull GTRecipeType type) {
             return MAP;
         }
     }

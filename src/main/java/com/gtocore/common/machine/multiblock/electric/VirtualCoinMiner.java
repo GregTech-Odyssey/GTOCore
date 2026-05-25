@@ -65,7 +65,7 @@ public class VirtualCoinMiner extends ElectricMultiblockMachine implements ICust
     }
 
     @Override
-    public boolean handleTickRecipe(@Nullable Recipe recipe) {
+    public boolean handleTickRecipe(@Nullable GTRecipe recipe) {
         if (recipe != null) {
             var cwuAvailable = requestCWU(cwuLimitConfig, true);
             eut = cwuAvailable * VA[EV];

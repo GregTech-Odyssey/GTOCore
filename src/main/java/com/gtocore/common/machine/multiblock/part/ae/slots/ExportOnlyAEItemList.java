@@ -159,7 +159,7 @@ public class ExportOnlyAEItemList extends NotifiableItemStackHandler implements 
     }
 
     @Override
-    public IntLongMap getIngredientMap(@NotNull GTRecipeType type) {
+    public IntLongMap getSearchMap(@NotNull GTRecipeType type) {
         if (changed) {
             changed = false;
             intIngredientMap.clear();

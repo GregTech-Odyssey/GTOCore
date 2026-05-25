@@ -242,7 +242,7 @@ public class TurbineMachine extends ElectricMultiblockMachine {
     //////////////////////////////////////
     @Nullable
     @Override
-    protected Recipe getRealRecipe(Recipe recipe) {
+    protected GTRecipe getRealRecipe(RecipeHandlerUnit unit, GTRecipe recipe) {
         RotorHolderPartMachine rotorHolder = getRotorHolder();
         long EUt = recipe.getOutputEUt();
         if (rotorHolder == null || EUt <= 0) return null;

@@ -3,7 +3,6 @@ package com.gtocore.common.machine.multiblock.electric.space;
 import com.gtocore.common.data.GTORecipeDataKeys;
 
 import com.gtolib.api.machine.multiblock.CustomParallelMultiblockMachine;
-import com.gtolib.api.recipe.Recipe;
 import com.gtolib.api.recipe.modifier.RecipeModifier;
 
 import com.gregtechceu.gtceu.api.GTValues;
@@ -67,7 +66,7 @@ public class SpaceElevatorModuleMachine extends CustomParallelMultiblockMachine 
 
     @Nullable
     @Override
-    protected Recipe getRealRecipe(Recipe recipe) {
+    protected GTRecipe getRealRecipe(RecipeHandlerUnit unit, GTRecipe recipe) {
         if (getSpaceElevatorTier() < 8) return null;
         if (powerModuleTier && recipe.data.getInt(GTORecipeDataKeys.POWER_MODULE_TIER) > spaceElevatorMachine.getCasingTier(GTORecipeDataKeys.POWER_MODULE_TIER)) return null;
         return RecipeModifier.overclocking(this, ParallelLogic.accurateParallel(this, recipe, getParallel()), false, 1, getDurationMultiplier(), 0.5);

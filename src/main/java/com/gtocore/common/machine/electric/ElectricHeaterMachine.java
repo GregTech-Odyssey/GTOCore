@@ -84,6 +84,7 @@ public final class ElectricHeaterMachine extends WorkableTieredMachine implement
         if (!isRemote()) {
             tickSubs = subscribeServerTick(tickSubs, () -> {
                 tickUpdate();
+                if (temperature > MaxTemperature) getRecipeLogic().markLastRecipeDirty();
                 getRecipeLogic().updateTickSubscription();
             }, 20);
         }
@@ -133,10 +134,5 @@ public final class ElectricHeaterMachine extends WorkableTieredMachine implement
     public GTRecipeDefinition createCustomRecipe(RecipeHandlerUnit unit) {
         if (temperature >= MaxTemperature) return null;
         return RecipeBuilder.ofRaw().duration(20).EUt(30).build();
-    }
-
-    @Override
-    public boolean alwaysSearchRecipe() {
-        return true;
     }
 }

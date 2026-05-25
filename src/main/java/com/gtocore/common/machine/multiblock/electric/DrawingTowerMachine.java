@@ -5,7 +5,6 @@ import com.gtocore.common.data.GTORecipeDataKeys;
 import com.gtocore.common.machine.multiblock.part.SpoolHatchPartMachine;
 
 import com.gtolib.api.machine.multiblock.CoilMultiblockMachine;
-import com.gtolib.api.recipe.Recipe;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
@@ -64,7 +63,7 @@ public final class DrawingTowerMachine extends CoilMultiblockMachine {
     }
 
     @Override
-    protected @Nullable Recipe getRealRecipe(Recipe recipe) {
+    protected @Nullable GTRecipe getRealRecipe(RecipeHandlerUnit unit, GTRecipe recipe) {
         if (spoolHatchPartMachine == null) return null;
         CustomItemStackHandler storage = spoolHatchPartMachine.getInventory().storage;
         ItemStack item = storage.getStackInSlot(0);

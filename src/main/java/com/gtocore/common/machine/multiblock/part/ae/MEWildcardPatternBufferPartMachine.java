@@ -521,7 +521,7 @@ public class MEWildcardPatternBufferPartMachine extends MEPatternBufferPartMachi
         }
 
         @Override
-        public IntLongMap getIngredientMap(@NotNull GTRecipeType type) {
+        public IntLongMap getSearchMap(@NotNull GTRecipeType type) {
             return inputMap;
         }
     }

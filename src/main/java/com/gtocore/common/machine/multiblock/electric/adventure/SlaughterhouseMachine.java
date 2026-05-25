@@ -172,7 +172,7 @@ public final class SlaughterhouseMachine extends StorageMultiblockMachine implem
         if (handlerList.getHandlerIO() == IO.IN) {
             attackDamage = 1;
             activeWeapon = ItemStack.EMPTY;
-            forEachInputItems((stack, amount) -> {
+            unit.forEachItems(true, (stack, amount) -> {
                 if (stack.getItem() instanceof SwordItem swordItem) {
                     if (activeWeapon.isEmpty()) {
                         activeWeapon = stack;

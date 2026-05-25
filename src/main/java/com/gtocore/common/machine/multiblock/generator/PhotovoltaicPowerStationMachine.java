@@ -88,7 +88,7 @@ public final class PhotovoltaicPowerStationMachine extends StorageMultiblockMach
     }
 
     @Override
-    public boolean handleTickRecipe(@Nullable Recipe recipe) {
+    public boolean handleTickRecipe(@Nullable GTRecipe recipe) {
         if (recipe != null) {
             long eu = recipe.eut;
             if (eu != 0) {

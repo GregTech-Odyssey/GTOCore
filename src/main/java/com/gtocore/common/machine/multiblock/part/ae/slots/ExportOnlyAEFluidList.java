@@ -164,7 +164,7 @@ public class ExportOnlyAEFluidList extends NotifiableFluidTank implements IConfi
     }
 
     @Override
-    public IntLongMap getIngredientMap(@NotNull GTRecipeType type) {
+    public IntLongMap getSearchMap(@NotNull GTRecipeType type) {
         if (changed) {
             changed = false;
             intIngredientMap.clear();

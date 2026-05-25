@@ -126,7 +126,7 @@ public class FullCellGenerator extends ElectricMultiblockMachine {
     }
 
     @Override
-    protected @Nullable Recipe getRealRecipe(Recipe recipe) {
+    protected @Nullable GTRecipe getRealRecipe(RecipeHandlerUnit unit, GTRecipe recipe) {
         var activeType = getRecipeType();
         if (activeType == GTORecipeTypes.FUEL_CELL_ENERGY_RELEASE_RECIPES) {
             return getReleaseRecipe(recipe);

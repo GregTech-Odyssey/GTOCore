@@ -157,7 +157,7 @@ public final class GeneratorArrayMachine extends StorageMultiblockMachine implem
 
     @Nullable
     @Override
-    protected Recipe getRealRecipe(Recipe recipe) {
+    protected GTRecipe getRealRecipe(RecipeHandlerUnit unit, GTRecipe recipe) {
         int a = machineStorage.storage.getStackInSlot(0).getCount();
         if (a > 0) {
             long EUt = recipe.getOutputEUt();

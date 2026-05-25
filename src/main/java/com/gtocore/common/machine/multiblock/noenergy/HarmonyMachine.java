@@ -5,7 +5,6 @@ import com.gtocore.common.data.GTORecipeDataKeys;
 import com.gtolib.api.capability.IExtendWirelessEnergyContainerHolder;
 import com.gtolib.api.machine.multiblock.NoEnergyMultiblockMachine;
 import com.gtolib.api.recipe.IdleReason;
-import com.gtolib.api.recipe.Recipe;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.ConditionalSubscriptionHandler;
@@ -87,7 +86,7 @@ public final class HarmonyMachine extends NoEnergyMultiblockMachine implements I
 
     @Nullable
     @Override
-    protected Recipe getRealRecipe(Recipe recipe) {
+    protected GTRecipe getRealRecipe(RecipeHandlerUnit unit, GTRecipe recipe) {
         if (getUUID() != null && tier <= recipe.data.getInt(GTORecipeDataKeys.TIER) && hydrogen >= 1024000000 && helium >= 1024000000 && oc > 0) {
             hydrogen -= 1024000000;
             helium -= 1024000000;

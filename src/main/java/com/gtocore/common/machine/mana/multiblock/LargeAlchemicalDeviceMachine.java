@@ -2,12 +2,10 @@ package com.gtocore.common.machine.mana.multiblock;
 
 import com.gtocore.common.data.GTORecipeDataKeys;
 
-import com.gtolib.api.recipe.Recipe;
-
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
-import com.gregtechceu.gtceu.api.capability.recipe.FluidRecipeCapability;
-import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
+import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.content.Content;
+import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
 import com.gregtechceu.gtceu.api.recipe.modifier.ParallelLogic;
 
 import net.minecraft.network.chat.Component;
@@ -44,7 +42,7 @@ public final class LargeAlchemicalDeviceMachine extends ManaMultiblockMachine {
     }
 
     @Override
-    public GTRecipe getRealRecipe(RecipeHandlerUnit unit, GTRecipe recipe) {
+    public GTRecipe getRealRecipe(@NotNull RecipeHandlerUnit unit, GTRecipe recipe) {
         boolean param = false;
         long parallels = getHatchParallel(this);
         recipe.duration = Math.max(1, (int) (recipe.duration * timeReduction));
@@ -55,26 +53,26 @@ public final class LargeAlchemicalDeviceMachine extends ManaMultiblockMachine {
         }
         if (param) {
             adjustParameters(currentRecipeParams);
-            return ParallelLogic.accurateParallel(this, enhanceRecipe(recipe, currentRecipeParams), parallels);
+            return ParallelLogic.accurateParallel(this, unit, enhanceRecipe(recipe, currentRecipeParams), parallels);
         }
-        return ParallelLogic.accurateParallel(this, recipe, parallels);
+        return ParallelLogic.accurateParallel(this, unit, recipe, parallels);
     }
 
     /**
      * 增强配方：添加概率输出项
      */
-    private Recipe enhanceRecipe(Recipe recipe, int[] recipeParams) {
+    private GTRecipe enhanceRecipe(GTRecipe recipe, int[] recipeParams) {
         int matchRate = calculateMatchRate(recipeParams);
 
-        recipe.outputs.put(ItemRecipeCapability.CAP, recipe.getOutputContents(ItemRecipeCapability.CAP).stream().map(content -> {
-            if (content.chance < 11) return new Content(content.inner, matchRate, 0);
+        recipe.itemOutputs = recipe.itemOutputs.stream().map(content -> {
+            if (content.chance < 11) return new Content<>(content.inner, matchRate, 0);
             else return content;
-        }).toList());
+        }).toList();
 
-        recipe.outputs.put(FluidRecipeCapability.CAP, recipe.getOutputContents(FluidRecipeCapability.CAP).stream().map(content -> {
-            if (content.chance < 11) return new Content(content.inner, matchRate, 0);
+        recipe.fluidOutputs = recipe.fluidOutputs.stream().map(content -> {
+            if (content.chance < 11) return new Content<>(content.inner, matchRate, 0);
             else return content;
-        }).toList());
+        }).toList();
 
         return recipe;
     }

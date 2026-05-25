@@ -2,7 +2,6 @@ package com.gtocore.common.recipe.custom;
 
 import com.gtolib.api.recipe.RecipeBuilder;
 
-import com.gregtechceu.gtceu.api.capability.recipe.IRecipeHandlerHolder;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeDefinition;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.api.recipe.handler.IRecipeHandlerHolder;

@@ -9,7 +9,6 @@ import com.gtolib.api.machine.mana.feature.IManaMultiblock;
 import com.gtolib.api.machine.mana.trait.ManaTrait;
 import com.gtolib.api.machine.multiblock.TierCasingMultiblockMachine;
 import com.gtolib.api.misc.ManaContainerList;
-import com.gtolib.api.recipe.Recipe;
 import com.gtolib.api.recipe.modifier.RecipeModifier;
 import com.gtolib.utils.explosion.SphereExplosion;
 
@@ -89,7 +88,7 @@ public final class StellarForgeMachine extends TierCasingMultiblockMachine imple
     }
 
     @Override
-    public boolean handleTickRecipe(@Nullable Recipe recipe) {
+    public boolean handleTickRecipe(@Nullable GTRecipe recipe) {
         if (recipe != null) {
             long mana = recipe.manat;
             if (mana < 0) {

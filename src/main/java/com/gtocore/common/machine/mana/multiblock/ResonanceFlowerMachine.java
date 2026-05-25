@@ -9,6 +9,8 @@ import com.gtolib.utils.RegistriesUtils;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.feature.IDropSaveMachine;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
+import com.gregtechceu.gtceu.api.recipe.GTRecipe;
+import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
 import com.gregtechceu.gtceu.api.recipe.modifier.ParallelLogic;
 
 import net.minecraft.nbt.CompoundTag;
@@ -80,7 +82,7 @@ public class ResonanceFlowerMachine extends ManaMultiblockMachine implements ISt
     }
 
     @Override
-    public GTRecipe getRealRecipe(RecipeHandlerUnit unit, GTRecipe recipe) {
+    public GTRecipe getRealRecipe(@NotNull RecipeHandlerUnit unit, GTRecipe recipe) {
         resetResonance();
 
         String id = recipe.definition.id.getPath();
@@ -100,13 +102,13 @@ public class ResonanceFlowerMachine extends ManaMultiblockMachine implements ISt
 
         double durationMultiplier = recipe.duration * timeFluctuationCoefficient * (float) tierEffect[0];
         recipe.duration = (int) Math.max(1, durationMultiplier);
-        long maxContentParallel = Math.min(ParallelLogic.getMaxContentParallel(this, recipe), (long) tierEffect[1]);
+        long maxContentParallel = ParallelLogic.getMaxContentParallelAmount(this, unit, recipe, (long) tierEffect[1]);
 
         addEntry(id, maxContentParallel);
         upgradeEntry(id);
         updateStableTime();
 
-        return ParallelLogic.accurateParallel(this, recipe, maxContentParallel);
+        return ParallelLogic.accurateParallel(this, unit, recipe, maxContentParallel);
     }
 
     @Override

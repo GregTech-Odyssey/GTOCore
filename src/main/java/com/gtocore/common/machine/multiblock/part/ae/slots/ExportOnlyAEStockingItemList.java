@@ -85,7 +85,7 @@ public class ExportOnlyAEStockingItemList extends ExportOnlyAEItemList {
     }
 
     @Override
-    public IntLongMap getIngredientMap(@NotNull GTRecipeType type) {
+    public IntLongMap getSearchMap(@NotNull GTRecipeType type) {
         if (machine.isWorkingEnabled()) {
             if (changed) {
                 if (!machine.isOnline()) return IntLongMap.EMPTY;

@@ -5,7 +5,6 @@ import com.gtocore.common.machine.multiblock.part.InfiniteIntakeHatchPartMachine
 
 import com.gtolib.api.machine.feature.multiblock.ICustomHighlightMachine;
 import com.gtolib.api.machine.multiblock.ElectricMultiblockMachine;
-import com.gtolib.api.recipe.Recipe;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
@@ -130,7 +129,7 @@ public final class ChemicalEnergyDevourerMachine extends ElectricMultiblockMachi
 
     @Nullable
     @Override
-    protected Recipe getRealRecipe(Recipe recipe) {
+    protected GTRecipe getRealRecipe(RecipeHandlerUnit unit, GTRecipe recipe) {
         var EUt = recipe.getOutputEUt();
         if (EUt > 0 && notConsumableFluid(LUBRICANT_STACK) && !isIntakesObstructed()) {
             recipe = ParallelLogic.accurateContentParallel(this, recipe, getOverclockVoltage() / EUt);

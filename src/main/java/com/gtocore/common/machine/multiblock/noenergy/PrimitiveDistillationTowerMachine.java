@@ -334,7 +334,7 @@ public final class PrimitiveDistillationTowerMachine extends NoEnergyMultiblockM
 
     @Nullable
     @Override
-    protected Recipe getRealRecipe(Recipe recipe) {
+    protected GTRecipe getRealRecipe(RecipeHandlerUnit unit, GTRecipe recipe) {
         if (heat > 400) {
             recipe.duration = (int) (recipe.duration * getDurationMultiplier());
             return recipe;

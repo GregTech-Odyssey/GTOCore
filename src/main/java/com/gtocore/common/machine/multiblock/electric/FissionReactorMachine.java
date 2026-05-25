@@ -7,7 +7,6 @@ import com.gtocore.common.machine.multiblock.part.SensorPartMachine;
 
 import com.gtolib.api.machine.feature.multiblock.IParallelMachine;
 import com.gtolib.api.machine.multiblock.ElectricMultiblockMachine;
-import com.gtolib.api.recipe.Recipe;
 import com.gtolib.utils.MachineUtils;
 import com.gtolib.utils.MathUtil;
 import com.gtolib.utils.explosion.SphereExplosion;
@@ -160,7 +159,7 @@ public final class FissionReactorMachine extends ElectricMultiblockMachine imple
     }
 
     @Override
-    protected @Nullable Recipe getRealRecipe(Recipe recipe) {
+    protected @Nullable GTRecipe getRealRecipe(RecipeHandlerUnit unit, GTRecipe recipe) {
         if (fuel > 1) {
             long maxContentParallel = ParallelLogic.getMaxContentParallel(this, recipe);
             if (maxContentParallel == 0) return null;
