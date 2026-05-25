@@ -155,7 +155,6 @@
     "gtm.CommonProxyMixin",
     "gtm.FluidPipeTypeMixin",
     "gtm.GTCEuMixin",
-    "gtm.GTRecipeWidgetMixin",
     "gtm.GTUtilMixin",
     "gtm.api.machine.FluidDrillLogicMixin",
     "gtm.api.machine.MachineDefinitionMixin",

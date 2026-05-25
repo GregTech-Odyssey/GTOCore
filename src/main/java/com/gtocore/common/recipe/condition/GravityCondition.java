@@ -1,19 +1,19 @@
 package com.gtocore.common.recipe.condition;
 
 import com.gtolib.api.machine.feature.IGravityPartMachine;
-import com.gtolib.api.recipe.RecipeDefinition;
 
-import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
 import com.gregtechceu.gtceu.api.machine.multiblock.MultiblockControllerMachine;
-import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
+import com.gregtechceu.gtceu.api.recipe.GTRecipeDefinition;
+import com.gregtechceu.gtceu.api.recipe.RecipeCondition;
+import com.gregtechceu.gtceu.api.recipe.handler.IRecipeHandlerHolder;
+import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
 
 import net.minecraft.network.chat.Component;
 
 import earth.terrarium.adastra.api.planets.PlanetApi;
-import org.jetbrains.annotations.NotNull;
 
-public final class GravityCondition extends AbstractRecipeCondition {
+public final class GravityCondition extends RecipeCondition {
 
     private final boolean zero;
 
@@ -27,16 +27,15 @@ public final class GravityCondition extends AbstractRecipeCondition {
     }
 
     @Override
-    public boolean test(@NotNull RecipeDefinition recipe, @NotNull RecipeLogic recipeLogic) {
-        MetaMachine machine = recipeLogic.getMachine();
-        if (machine instanceof MultiblockControllerMachine controllerMachine) {
+    public boolean testCondition(IRecipeHandlerHolder holder, RecipeHandlerUnit unit, GTRecipeDefinition recipe) {
+        if (holder instanceof MultiblockControllerMachine controllerMachine) {
             for (IMultiPart part : controllerMachine.getParts()) {
                 if (part instanceof IGravityPartMachine gravityPart) {
                     return gravityPart.getCurrentGravity() == (zero ? 0 : 100);
                 }
             }
         }
-        var planet = PlanetApi.API.getPlanet(machine.getLevel());
+        var planet = PlanetApi.API.getPlanet(holder.self().getLevel());
         return planet != null && planet.isSpace() && zero;
     }
 }

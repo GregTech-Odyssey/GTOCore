@@ -384,6 +384,7 @@ public final class MultiBlockA {
             .tooltips(GTOMachineStories.INSTANCE.getVoidMinerTooltips().getSupplier())
             .tooltips(GTOMachineTooltips.INSTANCE.getVoidMinerTooltips().getSupplier())
             .recipeTypes(GTORecipeTypes.DUMMY_RECIPES)
+            .recipeModifier(RecipeModifier.accurateParallel(64))
             .block(GTBlocks.CASING_TUNGSTENSTEEL_ROBUST)
             .pattern(definition -> MultiBlockFileReader.start(definition)
                     .where('A', blocks(GTOBlocks.TITANIUM_NITRIDE_CERAMIC_IMPACT_RESISTANT_MECHANICAL_BLOCK.get()))
