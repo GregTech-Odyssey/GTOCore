@@ -4,11 +4,11 @@ import com.gtocore.common.data.GTORecipeDataKeys;
 
 import com.gtolib.api.machine.multiblock.CustomParallelMultiblockMachine;
 import com.gtolib.api.recipe.Recipe;
-import com.gtolib.api.recipe.modifier.ParallelLogic;
-import com.gtolib.api.recipe.modifier.RecipeModifierFunction;
+import com.gtolib.api.recipe.modifier.RecipeModifier;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
+import com.gregtechceu.gtceu.api.recipe.modifier.ParallelLogic;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
@@ -70,7 +70,7 @@ public class SpaceElevatorModuleMachine extends CustomParallelMultiblockMachine 
     protected Recipe getRealRecipe(Recipe recipe) {
         if (getSpaceElevatorTier() < 8) return null;
         if (powerModuleTier && recipe.data.getInt(GTORecipeDataKeys.POWER_MODULE_TIER) > spaceElevatorMachine.getCasingTier(GTORecipeDataKeys.POWER_MODULE_TIER)) return null;
-        return RecipeModifierFunction.overclocking(this, ParallelLogic.accurateParallel(this, recipe, getParallel()), false, 1, getDurationMultiplier(), 0.5);
+        return RecipeModifier.overclocking(this, ParallelLogic.accurateParallel(this, recipe, getParallel()), false, 1, getDurationMultiplier(), 0.5);
     }
 
     @Override

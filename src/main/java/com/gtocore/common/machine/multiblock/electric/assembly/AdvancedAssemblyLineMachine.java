@@ -4,8 +4,7 @@ import com.gtocore.common.machine.multiblock.part.HugeBusPartMachine;
 import com.gtocore.data.IdleReason;
 
 import com.gtolib.api.machine.multiblock.ElectricMultiblockMachine;
-import com.gtolib.api.recipe.Recipe;
-import com.gtolib.api.recipe.modifier.RecipeModifierFunction;
+import com.gtolib.api.recipe.modifier.RecipeModifier;
 import com.gtolib.utils.MathUtil;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
@@ -53,7 +52,7 @@ public final class AdvancedAssemblyLineMachine extends ElectricMultiblockMachine
 
     @Nullable
     @Override
-    protected Recipe getRealRecipe(@NotNull Recipe recipe) {
+    public GTRecipe getRealRecipe(@NotNull RecipeHandlerUnit unit, @NotNull GTRecipe recipe) {
         var config = ConfigHolder.INSTANCE.machines;
 
         if (config.orderedAssemblyLineItems) {
@@ -69,7 +68,7 @@ public final class AdvancedAssemblyLineMachine extends ElectricMultiblockMachine
                 return null;
             }
         }
-        return RecipeModifierFunction.laserLossOverclocking(this, RecipeModifierFunction.hatchParallel(this, recipe));
+        return RecipeModifier.laserLossOverclocking(this, RecipeModifier.hatchParallel(this, recipe));
     }
 
     /**

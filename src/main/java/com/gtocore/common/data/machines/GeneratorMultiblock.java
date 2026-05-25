@@ -18,9 +18,6 @@ import com.gtocore.common.machine.multiblock.generator.*;
 import com.gtolib.GTOCore;
 import com.gtolib.api.annotation.NewDataAttributes;
 import com.gtolib.api.machine.multiblock.ElectricMultiblockMachine;
-import com.gtolib.api.recipe.modifier.ParallelLogic;
-import com.gtolib.api.recipe.modifier.RecipeModifierFunction;
-import com.gtolib.utils.MachineUtils;
 import com.gtolib.utils.MultiBlockFileReader;
 import com.gtolib.utils.RegistriesUtils;
 
@@ -33,6 +30,8 @@ import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility;
 import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
 import com.gregtechceu.gtceu.api.pattern.Predicates;
 import com.gregtechceu.gtceu.api.pattern.util.RelativeDirection;
+import com.gregtechceu.gtceu.api.recipe.modifier.ParallelLogic;
+import com.gregtechceu.gtceu.api.recipe.modifier.RecipeModifier;
 import com.gregtechceu.gtceu.common.data.*;
 
 import net.minecraft.network.chat.Component;
@@ -565,7 +564,7 @@ public final class GeneratorMultiblock {
             .recipeTypes(GTORecipeTypes.LARGE_NAQUADAH_REACTOR_RECIPES)
             .generator()
             .block(GTOBlocks.HYPER_MECHANICAL_CASING)
-            .recipeModifier(RecipeModifierFunction.GENERATOR_OVERCLOCKING)
+            .recipeModifier(RecipeModifier.GENERATOR_OVERCLOCKING)
             .pattern(definition -> FactoryBlockPattern.start(definition, RelativeDirection.RIGHT, RelativeDirection.UP, RelativeDirection.BACK)
                     .aisle("                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "           a~a           ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ")
                     .aisle("                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "           AAA           ", "          aBBBa          ", "           AAA           ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ")
@@ -600,17 +599,16 @@ public final class GeneratorMultiblock {
             .tooltipsText("星辉：8，致密中子：16", "Starmetal: 8, Dense Neutrons: 16")
             .recipeTypes(GTORecipeTypes.ADVANCED_HYPER_REACTOR_RECIPES)
             .generator()
-            .recipeModifier((machine, recipe) -> {
-                if (machine instanceof ElectricMultiblockMachine workableElectricMultiblockMachine) {
-                    int p = 1;
-                    if (MachineUtils.inputFluid(workableElectricMultiblockMachine, GTOMaterials.DenseNeutron.getFluid(FluidStorageKeys.PLASMA), 1)) {
-                        p = 16;
-                    } else if (MachineUtils.inputFluid(workableElectricMultiblockMachine, GTOMaterials.Starmetal.getFluid(FluidStorageKeys.PLASMA), 1)) {
-                        p = 8;
-                    }
-                    return RecipeModifierFunction.generatorOverclocking(workableElectricMultiblockMachine, ParallelLogic.accurateParallel(machine, recipe, p));
+            .recipeModifier((m, u, r) -> {
+                int p = 1;
+                if (u.inputFluid(GTOMaterials.DenseNeutron.getFluid(FluidStorageKeys.PLASMA), 1)) {
+                    p = 16;
+                } else if (u.inputFluid(GTOMaterials.Starmetal.getFluid(FluidStorageKeys.PLASMA), 1)) {
+                    p = 8;
                 }
-                return recipe;
+                r = ParallelLogic.accurateParallel(m, u, r, p);
+                if (r == null) return null;
+                return RecipeModifier.generatorOverclocking(m, u, r);
             })
             .block(GTOBlocks.ENHANCE_HYPER_MECHANICAL_CASING)
             .pattern(definition -> MultiBlockFileReader.start(definition)
@@ -642,30 +640,29 @@ public final class GeneratorMultiblock {
             .tooltipsText("不同燃料所需的等离子体不同", "Different fuels required different plasmas")
             .tooltipsText("从1-4顺序为: 山铜, 末影素, 魔金, 亚稳态\ud872\udf76", "The order from 1-4 is: Orichalcum, Enderium, Infuscolium, Metastable Hassium")
             .generator()
-            .recipeModifier((machine, recipe) -> {
-                if (machine instanceof ElectricMultiblockMachine workableElectricMultiblockMachine) {
-                    int p = 1;
-                    long outputEUt = recipe.getOutputEUt();
-                    if (outputEUt == V[UEV]) {
-                        if (MachineUtils.inputFluid(workableElectricMultiblockMachine, GTOMaterials.Orichalcum.getFluid(FluidStorageKeys.PLASMA), 1)) {
-                            p = 16;
-                        }
-                    } else if (outputEUt == V[UXV]) {
-                        if (MachineUtils.inputFluid(workableElectricMultiblockMachine, GTOMaterials.Enderium.getFluid(FluidStorageKeys.PLASMA), 1)) {
-                            p = 16;
-                        }
-                    } else if (outputEUt == V[OpV]) {
-                        if (MachineUtils.inputFluid(workableElectricMultiblockMachine, GTOMaterials.Infuscolium.getFluid(FluidStorageKeys.PLASMA), 1)) {
-                            p = 16;
-                        }
-                    } else if (outputEUt == V[MAX]) {
-                        if (MachineUtils.inputFluid(workableElectricMultiblockMachine, GTOMaterials.MetastableHassium.getFluid(FluidStorageKeys.PLASMA), 1)) {
-                            p = 16;
-                        }
+            .recipeModifier((m, u, r) -> {
+                int p = 1;
+                long outputEUt = r.getOutputEUt();
+                if (outputEUt == V[UEV]) {
+                    if (u.inputFluid(GTOMaterials.Orichalcum.getFluid(FluidStorageKeys.PLASMA), 1)) {
+                        p = 16;
                     }
-                    return RecipeModifierFunction.generatorOverclocking(workableElectricMultiblockMachine, ParallelLogic.accurateParallel(machine, recipe, p));
+                } else if (outputEUt == V[UXV]) {
+                    if (u.inputFluid(GTOMaterials.Enderium.getFluid(FluidStorageKeys.PLASMA), 1)) {
+                        p = 16;
+                    }
+                } else if (outputEUt == V[OpV]) {
+                    if (u.inputFluid(GTOMaterials.Infuscolium.getFluid(FluidStorageKeys.PLASMA), 1)) {
+                        p = 16;
+                    }
+                } else if (outputEUt == V[MAX]) {
+                    if (u.inputFluid(GTOMaterials.MetastableHassium.getFluid(FluidStorageKeys.PLASMA), 1)) {
+                        p = 16;
+                    }
                 }
-                return recipe;
+                r = ParallelLogic.accurateParallel(m, u, r, p);
+                if (r == null) return null;
+                return RecipeModifier.generatorOverclocking(m, u, r);
             })
             .block(GTOBlocks.ENHANCE_HYPER_MECHANICAL_CASING)
             .pattern(definition -> FactoryBlockPattern.start(definition, RelativeDirection.RIGHT, RelativeDirection.UP, RelativeDirection.BACK)
@@ -776,7 +773,6 @@ public final class GeneratorMultiblock {
 
     public static final MultiblockMachineDefinition FUEL_CELL_GENERATOR = multiblock("fuel_cell_generator", "燃料电池发电机", FullCellGenerator::new)
             .nonYAxisRotation()
-            .disabledCombined()
             .recipeTypes(GTORecipeTypes.FUEL_CELL_ENERGY_ABSORPTION_RECIPES)
             .recipeTypes(GTORecipeTypes.FUEL_CELL_ENERGY_TRANSFER_RECIPES)
             .recipeTypes(GTORecipeTypes.FUEL_CELL_ENERGY_RELEASE_RECIPES)
@@ -784,10 +780,10 @@ public final class GeneratorMultiblock {
             .addTooltipsFromClass(FullCellGenerator.class)
             .tooltipsSupplier(GTOMachineTooltips.INSTANCE.getFuelCellGeneratorTooltips().getSupplier())
             .block(GTOBlocks.IRIDIUM_CASING)
-            .recipeModifier((machine, recipe) -> {
-                if (machine instanceof FullCellGenerator f && f.isGenerator())
-                    return RecipeModifierFunction.GENERATOR_OVERCLOCKING.apply(machine, recipe);
-                else return recipe;
+            .recipeModifier((m, u, r) -> {
+                if (m instanceof FullCellGenerator f && f.isGenerator())
+                    return RecipeModifier.GENERATOR_OVERCLOCKING.applyModifier(m, u, r);
+                else return r;
             })
             .pattern(definition -> MultiBlockFileReader.start(definition)
                     .where('A', blocks(GTOBlocks.IRIDIUM_CASING.get())

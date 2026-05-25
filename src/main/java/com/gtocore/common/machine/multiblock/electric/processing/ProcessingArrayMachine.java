@@ -7,9 +7,7 @@ import com.gtolib.api.machine.feature.multiblock.IArrayMachine;
 import com.gtolib.api.machine.feature.multiblock.IParallelMachine;
 import com.gtolib.api.machine.multiblock.TierCasingMultiblockMachine;
 import com.gtolib.api.recipe.Recipe;
-import com.gtolib.api.recipe.RecipeType;
-import com.gtolib.api.recipe.modifier.ParallelLogic;
-import com.gtolib.api.recipe.modifier.RecipeModifierFunction;
+import com.gtolib.api.recipe.modifier.RecipeModifier;
 import com.gtolib.utils.MachineUtils;
 
 import com.gregtechceu.gtceu.api.GTValues;
@@ -20,6 +18,7 @@ import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.api.recipe.handler.IO;
+import com.gregtechceu.gtceu.api.recipe.modifier.ParallelLogic;
 import com.gregtechceu.gtceu.common.data.GTBlocks;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 
@@ -82,11 +81,6 @@ public final class ProcessingArrayMachine extends TierCasingMultiblockMachine im
     }
 
     @Override
-    public RecipeType getRecipeType() {
-        return (RecipeType) recipeTypes()[getActiveRecipeType()];
-    }
-
-    @Override
     public int getTier() {
         MachineDefinition definition = getMachineDefinition();
         return Math.min(definition == null ? 0 : definition.getTier(), tier);
@@ -100,9 +94,9 @@ public final class ProcessingArrayMachine extends TierCasingMultiblockMachine im
 
     @Override
     @Nullable
-    public Recipe getRealRecipe(Recipe recipe) {
+    public GTRecipe getRealRecipe(RecipeHandlerUnit unit, GTRecipe recipe) {
         if (!inventory.getStackInSlot(0).isEmpty()) {
-            return RecipeModifierFunction.laserLossOverclocking(this, ParallelLogic.accurateParallel(this, recipe, getMaxParallel()));
+            return RecipeModifier.laserLossOverclocking(this, ParallelLogic.accurateParallel(this, recipe, getMaxParallel()));
         }
         return null;
     }

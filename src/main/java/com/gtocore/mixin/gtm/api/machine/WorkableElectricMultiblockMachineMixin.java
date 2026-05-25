@@ -17,8 +17,6 @@ import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine;
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableMultiblockMachine;
 import com.gregtechceu.gtceu.api.misc.EnergyContainerList;
-import com.gregtechceu.gtceu.api.recipe.GTRecipe;
-import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
 import com.gregtechceu.gtceu.data.lang.LangHandler;
 
 import net.minecraft.core.Direction;
@@ -76,11 +74,6 @@ public abstract class WorkableElectricMultiblockMachineMixin extends WorkableMul
 
     protected WorkableElectricMultiblockMachineMixin(MetaMachineBlockEntity holder, Object... args) {
         super(holder, args);
-    }
-
-    @Override
-    public GTRecipe fullModifyRecipe(RecipeHandlerUnit unit, GTRecipe recipe) {
-        return doModifyRecipe(unit, recipe);
     }
 
     @Override

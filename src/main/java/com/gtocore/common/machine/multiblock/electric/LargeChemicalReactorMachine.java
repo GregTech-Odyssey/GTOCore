@@ -1,8 +1,7 @@
 package com.gtocore.common.machine.multiblock.electric;
 
 import com.gtolib.api.machine.multiblock.CoilMultiblockMachine;
-import com.gtolib.api.recipe.Recipe;
-import com.gtolib.api.recipe.modifier.RecipeModifierFunction;
+import com.gtolib.api.recipe.modifier.RecipeModifier;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 
@@ -26,7 +25,7 @@ public final class LargeChemicalReactorMachine extends CoilMultiblockMachine {
 
     @Nullable
     @Override
-    protected Recipe getRealRecipe(@NotNull Recipe recipe) {
-        return RecipeModifierFunction.overclocking(this, recipe, false, 1, 1, (getCoilTier() + 2 > recipe.tier) ? 0.25 : 0.5);
+    public GTRecipe getRealRecipe(@NotNull RecipeHandlerUnit unit, @NotNull GTRecipe recipe) {
+        return RecipeModifier.overclocking(this, recipe, false, 1, 1, (getCoilTier() + 2 > recipe.tier) ? 0.25 : 0.5);
     }
 }

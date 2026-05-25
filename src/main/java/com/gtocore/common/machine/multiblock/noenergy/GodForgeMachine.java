@@ -10,7 +10,6 @@ import com.gtolib.api.machine.feature.multiblock.ITierCasingMachine;
 import com.gtolib.api.machine.multiblock.NoEnergyMultiblockMachine;
 import com.gtolib.api.machine.trait.CustomRecipeLogic;
 import com.gtolib.api.machine.trait.TierCasingTrait;
-import com.gtolib.api.recipe.Recipe;
 import com.gtolib.api.recipe.TierDataKey;
 import com.gtolib.utils.ClientUtil;
 import com.gtolib.utils.MultiBlockFileReader;
@@ -22,6 +21,8 @@ import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.api.pattern.BlockPattern;
 import com.gregtechceu.gtceu.api.pattern.Predicates;
+import com.gregtechceu.gtceu.api.recipe.GTRecipe;
+import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
@@ -191,7 +192,7 @@ public final class GodForgeMachine extends NoEnergyMultiblockMachine implements 
                 .build();
     }
 
-    private Recipe getRecipe() {
+    private GTRecipe getRecipe(RecipeHandlerUnit unit) {
         return getRecipeBuilder().inputFluids(Fluids.WATER, 100).duration(20).buildRawRecipe();
     }
 

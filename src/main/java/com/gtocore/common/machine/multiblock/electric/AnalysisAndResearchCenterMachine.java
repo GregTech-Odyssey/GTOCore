@@ -4,7 +4,6 @@ import com.gtocore.common.machine.multiblock.part.AnalyzeHolderMachine;
 import com.gtocore.common.machine.multiblock.part.ResearchHolderMachine;
 
 import com.gtolib.api.machine.multiblock.ElectricMultiblockMachine;
-import com.gtolib.api.recipe.Recipe;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
@@ -18,7 +17,6 @@ import com.gregtechceu.gtceu.api.recipe.handler.IO;
 import net.minecraft.network.chat.Component;
 
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.Collections;
 import java.util.List;
@@ -107,7 +105,7 @@ public class AnalysisAndResearchCenterMachine extends ElectricMultiblockMachine 
     }
 
     @Override
-    protected @Nullable Recipe getRealRecipe(@NotNull Recipe recipe) {
+    public GTRecipe getRealRecipe(RecipeHandlerUnit unit, GTRecipe recipe) {
         // 1. 获取所有物品输出
         List<Content> itemOutputs = recipe.outputs.get(ItemRecipeCapability.CAP);
 

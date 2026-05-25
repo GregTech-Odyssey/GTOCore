@@ -8,7 +8,7 @@ import com.gtolib.api.machine.trait.CrossRecipeTrait;
 import com.gtolib.api.machine.trait.IEnhancedRecipeLogic;
 import com.gtolib.api.recipe.IdleReason;
 import com.gtolib.api.recipe.Recipe;
-import com.gtolib.api.recipe.modifier.RecipeModifierFunction;
+import com.gtolib.api.recipe.modifier.RecipeModifier;
 import com.gtolib.utils.MachineUtils;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
@@ -93,7 +93,7 @@ public class RecipeExtension extends Extension implements ICrossRecipeMachine {
     }
 
     @Override
-    public Recipe getRealRecipe(@NotNull Recipe recipe) {
+    public GTRecipe getRealRecipe(@NotNull RecipeHandlerUnit unit, @NotNull GTRecipe recipe) {
         if (!isWorkspaceReady()) {
             setIdleReason(IdleReason.CANNOT_WORK_IN_SPACE);
             return null;
@@ -104,7 +104,7 @@ public class RecipeExtension extends Extension implements ICrossRecipeMachine {
             return null;
         }
 
-        return ICrossRecipeMachine.super.getRealRecipe(Objects.requireNonNull(RecipeModifierFunction.recipeReduction(1, core.getDurationMultiplierFromSpaceElevator()).apply(this, recipe)));
+        return ICrossRecipeMachine.super.getRealRecipe(Objects.requireNonNull(RecipeModifier.recipeReduction(1, core.getDurationMultiplierFromSpaceElevator()).apply(this, recipe)));
     }
 
     @Override

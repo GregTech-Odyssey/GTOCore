@@ -7,7 +7,6 @@ import com.gtolib.api.capability.IIWirelessInteractor;
 import com.gtolib.api.machine.feature.IWirelessDimensionProvider;
 import com.gtolib.api.machine.trait.CustomRecipeLogic;
 import com.gtolib.api.machine.trait.TierCasingTrait;
-import com.gtolib.api.recipe.Recipe;
 import com.gtolib.api.recipe.RecipeBuilder;
 import com.gtolib.api.recipe.TierDataKey;
 
@@ -17,6 +16,7 @@ import com.gregtechceu.gtceu.api.machine.multiblock.CleanroomType;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.api.pattern.util.RelativeDirection;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
+import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 
@@ -180,7 +180,7 @@ public class Core extends AbstractSpaceStation implements ILargeSpaceStationMach
     }
 
     @Override
-    public Recipe getRecipe() {
+    public GTRecipe getRecipe(RecipeHandlerUnit unit) {
         if (!PlanetApi.API.isSpace(getLevel()))
             return null;
         if (dirty) {

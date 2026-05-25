@@ -4,14 +4,14 @@ import com.gtocore.common.data.GTOItems;
 
 import com.gtolib.api.machine.multiblock.StorageMultiblockMachine;
 import com.gtolib.api.recipe.Recipe;
-import com.gtolib.api.recipe.modifier.ParallelLogic;
-import com.gtolib.api.recipe.modifier.RecipeModifierFunction;
+import com.gtolib.api.recipe.modifier.RecipeModifier;
 import com.gtolib.utils.ItemUtils;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
 import com.gregtechceu.gtceu.api.recipe.handler.IO;
+import com.gregtechceu.gtceu.api.recipe.modifier.ParallelLogic;
 import com.gregtechceu.gtceu.api.transfer.item.CustomItemStackHandler;
 
 import net.minecraft.world.item.ItemStack;
@@ -74,6 +74,6 @@ public final class CircuitAssemblyLineMachine extends StorageMultiblockMachine {
         if (inputEUt == recipe.getInputEUt()) {
             recipe = ParallelLogic.accurateParallel(this, recipe, parallel);
         }
-        return RecipeModifierFunction.overclocking(this, recipe);
+        return RecipeModifier.overclocking(this, recipe);
     }
 }

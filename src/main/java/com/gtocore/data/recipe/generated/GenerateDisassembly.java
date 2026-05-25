@@ -7,13 +7,10 @@ import com.gtolib.GTOCore;
 import com.gtolib.api.recipe.RecipeBuilder;
 import com.gtolib.utils.ItemUtils;
 
-import com.gregtechceu.gtceu.api.capability.recipe.FluidRecipeCapability;
-import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
 import com.gregtechceu.gtceu.api.item.MetaMachineItem;
-import com.gregtechceu.gtceu.api.recipe.chance.logic.ChanceLogic;
+import com.gregtechceu.gtceu.api.recipe.GTRecipeBuilder;
 import com.gregtechceu.gtceu.api.recipe.content.Content;
 import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
-import com.gregtechceu.gtceu.data.recipe.builder.GTRecipeBuilder;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
@@ -22,7 +19,6 @@ import net.minecraft.world.item.crafting.Ingredient;
 import com.fast.fastcollection.OpenCacheHashSet;
 
 import java.util.Collection;
-import java.util.List;
 import java.util.Set;
 
 import static com.gtocore.common.data.GTORecipeTypes.*;
@@ -50,22 +46,22 @@ public final class GenerateDisassembly {
     public static void generateDisassembly(GTRecipeBuilder recipeBuilder) {
         long eut = recipeBuilder.EUt();
         if (eut < 1) return;
-        List<Content> c = recipeBuilder.output.getOrDefault(ItemRecipeCapability.CAP, null);
-        if (c == null) {
-            GTOCore.LOGGER.error("配方{}没有输出", recipeBuilder.id);
+        var c = recipeBuilder.getItemOutputs();
+        if (c.isEmpty()) {
+            GTOCore.LOGGER.error("配方{}没有输出", recipeBuilder.getId());
             return;
         }
-        var outIng = ItemRecipeCapability.CAP.of(c.getFirst());
+        var outIng = c.getFirst().inner;
         var output = outIng.getItem();
         if (output.isEmpty()) return;
         var item = output.getItem();
         var amount = outIng.getAmount();
-        if (recipeBuilder.recipeType == LASER_WELDER_RECIPES && !(item instanceof MetaMachineItem)) {
+        if (recipeBuilder.getRecipeType() == LASER_WELDER_RECIPES && !(item instanceof MetaMachineItem)) {
             return;
         }
         ResourceLocation id = ItemUtils.getIdLocation(item);
         if (DISASSEMBLY_BLACKLIST.contains(id)) return;
-        boolean cal = recipeBuilder.recipeType == CIRCUIT_ASSEMBLY_LINE_RECIPES;
+        boolean cal = recipeBuilder.getRecipeType() == CIRCUIT_ASSEMBLY_LINE_RECIPES;
         ResourceLocation typeid = RecipeBuilder.getTypeID(id, DISASSEMBLY_RECIPES);
         if (cal && RecipeBuilder.get(typeid) != null) return;
         if ((!cal && DISASSEMBLY_RECORD.remove(id)) || isExcludeItems(id.toString())) {
@@ -75,47 +71,43 @@ public final class GenerateDisassembly {
         }
         RecipeBuilder builder = DISASSEMBLY_RECIPES.recipeBuilder(id)
                 .inputItems(item, amount)
-                .duration(recipeBuilder.duration)
+                .duration(recipeBuilder.getDuration())
                 .EUt(eut);
         boolean hasOutput = false;
-        List<Content> itemList = recipeBuilder.input.getOrDefault(ItemRecipeCapability.CAP, null);
-        List<Content> fluidList = recipeBuilder.input.getOrDefault(FluidRecipeCapability.CAP, null);
-        if (itemList != null) {
-            for (Content content : itemList) {
-                if (content.chance == ChanceLogic.getMaxChancedValue()) {
-                    var input = ItemRecipeCapability.CAP.of(content);
-                    Ingredient inner = input.inner;
-                    a:
-                    for (Ingredient.Value value : inner.values) {
-                        if (value instanceof Ingredient.ItemValue itemValue) {
-                            Collection<ItemStack> stacks = itemValue.getItems();
-                            if (stacks.size() == 1) {
-                                for (ItemStack stack : stacks) {
-                                    if (!stack.isEmpty() && !stack.hasTag()) {
-                                        builder.output(ItemRecipeCapability.CAP, input);
-                                        hasOutput = true;
-                                        break a;
-                                    }
+        var itemList = recipeBuilder.getItemInputs();
+        var fluidList = recipeBuilder.getFluidInputs();
+        for (var content : itemList) {
+            if (content.chance == Content.MAX_CHANCE) {
+                var input = content.inner;
+                Ingredient inner = input.inner;
+                a:
+                for (Ingredient.Value value : inner.values) {
+                    if (value instanceof Ingredient.ItemValue itemValue) {
+                        Collection<ItemStack> stacks = itemValue.getItems();
+                        if (stacks.size() == 1) {
+                            for (ItemStack stack : stacks) {
+                                if (!stack.isEmpty() && !stack.hasTag()) {
+                                    builder.outputItems(input);
+                                    hasOutput = true;
+                                    break a;
                                 }
                             }
-                        } else if (value instanceof Ingredient.TagValue tagValue) {
-                            Integer i = Tags.CIRCUITS_ARRAY.get(tagValue.tag);
-                            if (i != null) {
-                                builder.outputItems(GTOItems.UNIVERSAL_CIRCUIT[i].get(), input.getAmount());
-                                break;
-                            }
+                        }
+                    } else if (value instanceof Ingredient.TagValue tagValue) {
+                        Integer i = Tags.CIRCUITS_ARRAY.get(tagValue.tag);
+                        if (i != null) {
+                            builder.outputItems(GTOItems.UNIVERSAL_CIRCUIT[i].get(), input.getAmount());
+                            break;
                         }
                     }
                 }
             }
         }
-        if (fluidList != null) {
-            for (Content content : fluidList) {
-                FluidIngredient fluid = FluidRecipeCapability.CAP.of(content);
-                if (content.chance == ChanceLogic.getMaxChancedValue() && !fluid.isEmpty()) {
-                    builder.outputFluids(fluid.copy());
-                    hasOutput = true;
-                }
+        for (var content : fluidList) {
+            FluidIngredient fluid = content.inner;
+            if (content.chance == Content.MAX_CHANCE && !fluid.isEmpty()) {
+                builder.outputFluids(fluid);
+                hasOutput = true;
             }
         }
         if (hasOutput) builder.save();

@@ -1,8 +1,7 @@
 package com.gtocore.common.machine.mana.multiblock;
 
 import com.gtolib.api.machine.mana.feature.IManaEnergyMachine;
-import com.gtolib.api.recipe.Recipe;
-import com.gtolib.api.recipe.modifier.RecipeModifierFunction;
+import com.gtolib.api.recipe.modifier.RecipeModifier;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.IEnergyContainer;
@@ -32,15 +31,15 @@ public class ManaEnergyMultiblockMachine extends ManaMultiblockMachine implement
 
     @Override
     @Nullable
-    protected Recipe getRealRecipe(@NotNull Recipe recipe) {
+    public GTRecipe getRealRecipe(@NotNull RecipeHandlerUnit unit, @NotNull GTRecipe recipe) {
         recipe = super.getRealRecipe(recipe);
         if (recipe == null) return null;
         long eu = recipe.getInputEUt();
         if (eu > 0) {
-            recipe = RecipeModifierFunction.externalEnergyOverclocking(this, recipe, eu, getManaContainer().getMaxIORate(), true, 1, 1);
+            recipe = RecipeModifier.externalEnergyOverclocking(this, recipe, eu, getManaContainer().getMaxIORate(), true, 1, 1);
             return recipe;
         } else {
-            return RecipeModifierFunction.manaOverclocking(this, recipe, getManaContainer().getMaxIORate());
+            return RecipeModifier.manaOverclocking(this, recipe, getManaContainer().getMaxIORate());
         }
     }
 

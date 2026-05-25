@@ -13,7 +13,6 @@ import com.gtolib.api.annotation.language.RegisterLanguage;
 import com.gtolib.api.fluid.IFluid;
 import com.gtolib.api.gui.ktflexible.VBoxBuilder;
 import com.gtolib.api.item.IItem;
-import com.gtolib.api.recipe.RecipeDefinition;
 import com.gtolib.api.recipe.RecipeType;
 import com.gtolib.utils.GTOUtils;
 
@@ -384,13 +383,13 @@ public class MEWildcardPatternBufferPartMachine extends MEPatternBufferPartMachi
     // ========== Pattern Validation ==========
 
     private AEProcessingPattern validatePattern(IntLongMap inputMap, GenericStack[] sparseOutput) {
-        ObjHolder<RecipeDefinition> valid = new ObjHolder<>();
-        if (recipeType == GTORecipeTypes.HATCH_COMBINED) {
+        ObjHolder<GTRecipeDefinition> valid = new ObjHolder<>();
+        if (recipeType == null) {
             if (!getRecipeTypes().isEmpty()) {
                 for (var rt : getRecipeTypes()) {
                     if (searchRecipe(rt, inputMap, r -> {
                         if (checkProb(r)) {
-                            valid.value = (RecipeDefinition) r;
+                            valid.value = r;
                             recipeType = r.recipeType;
                             return true;
                         }
@@ -401,7 +400,7 @@ public class MEWildcardPatternBufferPartMachine extends MEPatternBufferPartMachi
         } else {
             searchRecipe(recipeType, inputMap, r -> {
                 if (checkProb(r)) {
-                    valid.value = (RecipeDefinition) r;
+                    valid.value = r;
                     return true;
                 }
                 return false;
@@ -443,10 +442,10 @@ public class MEWildcardPatternBufferPartMachine extends MEPatternBufferPartMachi
     }
 
     private boolean checkProb(GTRecipeDefinition recipe) {
-        for (var ingredient : recipe.getInputContents(ItemRecipeCapability.CAP)) {
+        for (var ingredient : recipe.itemInputs) {
             if (ingredient.chance != 10000 && ingredient.chance != 0) return false;
         }
-        for (var ingredient : recipe.getInputContents(FluidRecipeCapability.CAP)) {
+        for (var ingredient : recipe.fluidInputs) {
             if (ingredient.chance != 10000 && ingredient.chance != 0) return false;
         }
         return true;

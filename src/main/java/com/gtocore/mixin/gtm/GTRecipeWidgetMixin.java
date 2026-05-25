@@ -2,7 +2,7 @@ package com.gtocore.mixin.gtm;
 
 import com.gtocore.common.recipe.condition.GalaxyCondition;
 
-import com.gtolib.api.recipe.modifier.RecipeModifierFunction;
+import com.gtolib.api.recipe.modifier.RecipeModifier;
 
 import com.gregtechceu.gtceu.api.capability.recipe.RecipeCapability;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeDefinition;
@@ -85,7 +85,7 @@ public abstract class GTRecipeWidgetMixin extends WidgetGroup {
         } else if (button == GLFW.GLFW_MOUSE_BUTTON_MIDDLE) {
             setTierToMin();
         }
-        setRecipeTextWidget(new RecipeModifierFunction.Overclocking(isShiftClick));
+        setRecipeTextWidget(new RecipeModifier.Overclocking(isShiftClick));
         setRecipeWidget();
     }
 

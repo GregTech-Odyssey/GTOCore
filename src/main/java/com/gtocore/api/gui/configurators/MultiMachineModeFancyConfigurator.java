@@ -6,11 +6,10 @@ import com.gregtechceu.gtceu.api.machine.feature.IRecipeLogicMachine;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiController;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 
-import it.unimi.dsi.fastutil.objects.ReferenceLinkedOpenHashSet;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 import java.util.function.Consumer;
-import java.util.stream.Collectors;
 
 public class MultiMachineModeFancyConfigurator extends CustomModeFancyConfigurator {
 
@@ -24,35 +23,31 @@ public class MultiMachineModeFancyConfigurator extends CustomModeFancyConfigurat
         super(calculateModeSize(recipeTypes, selected));
         this.recipeTypes = createRecipeTypeList(recipeTypes, selected);
         this.onChange = Objects.requireNonNull(onChange, "onChange consumer cannot be null");
-        setRecipeType(selected);
+        setRecipeType(selected == null ? GTORecipeTypes.HATCH_COMBINED : selected);
     }
 
-    public static List<GTRecipeType> extractRecipeTypes(Set<IMultiController> machines) {
-        if (machines == null || machines.isEmpty()) {
+    public static List<GTRecipeType> extractRecipeTypes(@Nullable IMultiController controller) {
+        if (!(controller instanceof IRecipeLogicMachine machine)) {
             return Collections.emptyList();
         }
+        return Arrays.asList(machine.getAvailableRecipeTypes());
+    }
 
-        return machines.stream()
-                .filter(IRecipeLogicMachine.class::isInstance)
-                .map(IRecipeLogicMachine.class::cast)
-                .map(IRecipeLogicMachine::getRecipeTypes)
-                .flatMap(Arrays::stream)
-                .filter(Objects::nonNull)
-                .collect(Collectors.toCollection(ReferenceLinkedOpenHashSet::new)) // 保持顺序并去重
-                .stream()
-                .toList();
+    public static void verify(Collection<GTRecipeType> recipeTypes, GTRecipeType currentRecipeType, Runnable clearOperation) {
+        if (currentRecipeType == null || recipeTypes.contains(currentRecipeType)) return;
+        clearOperation.run();
     }
 
     private static int calculateModeSize(List<GTRecipeType> recipeTypes, GTRecipeType selected) {
         if (recipeTypes.isEmpty()) return 1;
-        return recipeTypes.size() + (selected == GTORecipeTypes.HATCH_COMBINED || recipeTypes.contains(selected) ? 1 : 2);
+        return recipeTypes.size() + (selected == null || recipeTypes.contains(selected) ? 1 : 2);
     }
 
     private static List<GTRecipeType> createRecipeTypeList(List<GTRecipeType> original, GTRecipeType selected) {
         if (original.isEmpty()) return EMPTY_LIST;
         List<GTRecipeType> result = new ArrayList<>(original);
         result.add(GTORecipeTypes.HATCH_COMBINED);
-        if (selected != GTORecipeTypes.HATCH_COMBINED && !result.contains(selected)) {
+        if (selected != null && !result.contains(selected)) {
             result.add(selected);
         }
         return result;

@@ -2,8 +2,7 @@ package com.gtocore.common.machine.multiblock.generator;
 
 import com.gtolib.api.machine.impl.part.WirelessEnergyInterfacePartMachine;
 import com.gtolib.api.machine.multiblock.ElectricMultiblockMachine;
-import com.gtolib.api.recipe.Recipe;
-import com.gtolib.api.recipe.modifier.RecipeModifierFunction;
+import com.gtolib.api.recipe.modifier.RecipeModifier;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
@@ -33,8 +32,8 @@ public final class WirelessEnergyGeneratorMachine extends ElectricMultiblockMach
     }
 
     @Override
-    public Recipe getRealRecipe(@NotNull Recipe recipe) {
-        return RecipeModifierFunction.generatorOverclocking(this, recipe);
+    public GTRecipe getRealRecipe(@NotNull RecipeHandlerUnit unit, @NotNull GTRecipe recipe) {
+        return RecipeModifier.generatorOverclocking(this, recipe);
     }
 
     @Override

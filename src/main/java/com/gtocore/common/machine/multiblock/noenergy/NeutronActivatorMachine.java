@@ -9,7 +9,7 @@ import com.gtolib.api.gui.MagicProgressBarProWidget;
 import com.gtolib.api.machine.multiblock.NoEnergyMultiblockMachine;
 import com.gtolib.api.recipe.IdleReason;
 import com.gtolib.api.recipe.Recipe;
-import com.gtolib.api.recipe.modifier.RecipeModifierFunction;
+import com.gtolib.api.recipe.modifier.RecipeModifier;
 import com.gtolib.utils.MachineUtils;
 import com.gtolib.utils.NumberUtils;
 
@@ -107,7 +107,7 @@ public class NeutronActivatorMachine extends NoEnergyMultiblockMachine implement
     @Override
     protected Recipe getRealRecipe(Recipe recipe) {
         if ((eV > recipe.data.getInt(GTORecipeDataKeys.EV_MIN) * 1000000 && eV < recipe.data.getInt(GTORecipeDataKeys.EV_MAX) * 1000000)) {
-            recipe = RecipeModifierFunction.hatchParallel(this, recipe);
+            recipe = RecipeModifier.hatchParallel(this, recipe);
             if (recipe == null) return null;
             recipe.duration = (int) Math.round(Math.max(recipe.duration * getEfficiencyFactor(), 1));
             return recipe;

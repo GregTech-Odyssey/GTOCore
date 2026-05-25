@@ -32,7 +32,7 @@ public final class DysonSphereLaunchSiloMachine extends ElectricMultiblockMachin
     }
 
     @Override
-    protected Recipe getRealRecipe(@NotNull Recipe recipe) {
+    public GTRecipe getRealRecipe(@NotNull RecipeHandlerUnit unit, @NotNull GTRecipe recipe) {
         int integer = GTODimensions.getPlanetDistances(getDimension());
         if (integer > 0) recipe.duration = recipe.duration * integer / 4;
         return recipe;

@@ -15,9 +15,8 @@ import com.gtolib.api.machine.multiblock.StorageMultiblockMachine;
 import com.gtolib.api.machine.trait.CustomParallelTrait;
 import com.gtolib.api.machine.trait.TierCasingTrait;
 import com.gtolib.api.recipe.Recipe;
-import com.gtolib.api.recipe.RecipeType;
 import com.gtolib.api.recipe.TierDataKey;
-import com.gtolib.api.recipe.modifier.RecipeModifierFunction;
+import com.gtolib.api.recipe.modifier.RecipeModifier;
 import com.gtolib.utils.MachineUtils;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
@@ -152,7 +151,7 @@ public final class ProcessingPlantMachine extends StorageMultiblockMachine imple
     @Override
     protected Recipe getRealRecipe(Recipe recipe) {
         if (!mismatched && !isEmpty()) {
-            return RecipeModifierFunction.overclocking(this, recipe, false, 0.9, 0.8, 0.5);
+            return RecipeModifier.overclocking(this, recipe, false, 0.9, 0.8, 0.5);
         }
         return null;
     }
@@ -160,11 +159,6 @@ public final class ProcessingPlantMachine extends StorageMultiblockMachine imple
     @Override
     public GTRecipeType[] getRecipeTypes() {
         return recipeTypeCache;
-    }
-
-    @Override
-    public RecipeType getRecipeType() {
-        return (RecipeType) getRecipeTypes()[getActiveRecipeType()];
     }
 
     @Override
@@ -211,7 +205,7 @@ public final class ProcessingPlantMachine extends StorageMultiblockMachine imple
                 .map(MEPatternBufferPartMachine.class::cast)
                 .forEach(m -> {
                     m.getRecipeTypes().clear();
-                    m.getRecipeTypes().addAll(MultiMachineModeFancyConfigurator.extractRecipeTypes(m.getControllers()));
+                    m.getRecipeTypes().addAll(MultiMachineModeFancyConfigurator.extractRecipeTypes(machine));
                 });
         MEWildcardPatternBufferPartMachine.onMultiblockRecipeTypeChange(machine);
     }

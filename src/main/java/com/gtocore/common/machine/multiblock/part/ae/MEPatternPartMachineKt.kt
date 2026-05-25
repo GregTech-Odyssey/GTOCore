@@ -32,7 +32,6 @@ import appeng.api.networking.IGridNodeListener
 import appeng.api.networking.crafting.ICraftingProvider
 import appeng.api.stacks.AEItemKey
 import appeng.api.stacks.KeyCounter
-import appeng.crafting.pattern.EncodedPatternItem
 import com.google.common.collect.BiMap
 import com.google.common.collect.HashBiMap
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity
@@ -213,6 +212,8 @@ abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.AbstractInterna
         level?.let { TravelSavedData.getTravelData(it).removeTravelTargetAt(it, holder.blockPos) }
     }
 
+    override fun canShared(): Boolean = false
+
     override fun addedToController(controller: IMultiController) {
         super.addedToController(controller)
         TravelUtils.requireResync(level!!)
@@ -270,7 +271,7 @@ abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.AbstractInterna
                                 (
                                     if (controller is IEnhancedRecipeLogicMachine) {
                                         Stream.of(
-                                            *controller.recipeTypes,
+                                            *controller.availableRecipeTypes,
                                         )
                                             .map { r: GTRecipeType? -> Component.translatable("gtceu." + r!!.registryName.path) }
                                             .collect(

@@ -3,7 +3,6 @@ package com.gtocore.common.machine.multiblock.electric.bioengineering;
 import com.gtocore.common.data.GTOFluids;
 
 import com.gtolib.api.machine.multiblock.CrossRecipeMultiblockMachine;
-import com.gtolib.api.recipe.Recipe;
 import com.gtolib.utils.MachineUtils;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
@@ -42,7 +41,7 @@ public final class BiologicalExtractionMachine extends CrossRecipeMultiblockMach
     }
 
     @Override
-    public Recipe getRealRecipe(@NotNull Recipe recipe) {
+    public GTRecipe getRealRecipe(@NotNull RecipeHandlerUnit unit, @NotNull GTRecipe recipe) {
         if (getRecipeLogic().getTotalContinuousRunningTime() < 400) {
             recipe.outputs.remove(ItemRecipeCapability.CAP);
             recipe.outputs.remove(FluidRecipeCapability.CAP);

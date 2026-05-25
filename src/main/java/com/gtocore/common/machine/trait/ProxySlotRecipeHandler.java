@@ -3,12 +3,10 @@ package com.gtocore.common.machine.trait;
 import com.gtocore.common.machine.multiblock.part.ae.MEPatternBufferPartMachine;
 import com.gtocore.common.machine.multiblock.part.ae.MEPatternBufferProxyPartMachine;
 
-import com.gtolib.api.machine.trait.ProxyFluidRecipeHandler;
-import com.gtolib.api.machine.trait.ProxyItemRecipeHandler;
+import com.gtolib.api.machine.trait.ProxyRecipeHandler;
 
 import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
 
-import com.gtolib.api.machine.trait.ProxyRecipeHandler;
 import lombok.Getter;
 
 import java.util.ArrayList;
@@ -24,7 +22,7 @@ public final class ProxySlotRecipeHandler {
         int slots = patternBuffer == null ? 0 : patternBuffer.getMaxPatternCount();
         proxySlotHandlers = new ArrayList<>(slots);
         for (int i = 0; i < slots; ++i) {
-            proxySlotHandlers.add(new ProxyRHL(machine, patternBuffer.getInternalInventory()[i]));
+            proxySlotHandlers.add(ProxyRHL.of(machine, patternBuffer.getInternalInventory()[i]));
         }
     }
 
@@ -36,7 +34,11 @@ public final class ProxySlotRecipeHandler {
         }
     }
 
-    private static final class ProxyRHL extends InternalSlotRecipeHandler.AbstractRHL {
+    private static final class ProxyRHL extends InternalSlotRecipeHandler.AbstractRHL<MEPatternBufferPartMachine.InternalSlot> {
+
+        private static ProxyRHL of(MEPatternBufferProxyPartMachine machine, MEPatternBufferPartMachine.InternalSlot slot) {
+            return new ProxyRHL(machine, slot, new ProxyRecipeHandler(machine), new ProxyRecipeHandler(machine), new ProxyRecipeHandler(machine), new ProxyRecipeHandler(machine), new ProxyRecipeHandler(machine), new ProxyRecipeHandler(machine), new ProxyRecipeHandler(machine));
+        }
 
         private final ProxyRecipeHandler slotHandler;
         private final ProxyRecipeHandler circuit;
@@ -46,23 +48,22 @@ public final class ProxySlotRecipeHandler {
         private final ProxyRecipeHandler sharedFluid;
         private final ProxyRecipeHandler slotSharedFluid;
 
-        private ProxyRHL(MEPatternBufferProxyPartMachine machine, MEPatternBufferPartMachine.InternalSlot slot) {
-            super(slot, machine);
-            circuit = new ProxyRecipeHandler(machine);
-            slotCircuit = new ProxyRecipeHandler(machine);
-            sharedItem = new ProxyRecipeHandler(machine);
-            slotHandler = new ProxyRecipeHandler(machine);
-            slotSharedItem = new ProxyRecipeHandler(machine);
-            sharedFluid = new ProxyRecipeHandler(machine);
-            slotSharedFluid = new ProxyRecipeHandler(machine);
-
+        private ProxyRHL(MEPatternBufferProxyPartMachine machine, MEPatternBufferPartMachine.InternalSlot slot, ProxyRecipeHandler slotHandler, ProxyRecipeHandler circuit, ProxyRecipeHandler slotCircuit, ProxyRecipeHandler sharedItem, ProxyRecipeHandler slotSharedItem, ProxyRecipeHandler sharedFluid, ProxyRecipeHandler slotSharedFluid) {
+            super(slot, machine, slotHandler, circuit, slotCircuit, sharedItem, slotSharedItem, sharedFluid, slotSharedFluid);
+            this.slotHandler = slotHandler;
+            this.circuit = circuit;
+            this.slotCircuit = slotCircuit;
+            this.sharedItem = sharedItem;
+            this.slotSharedItem = slotSharedItem;
+            this.sharedFluid = sharedFluid;
+            this.slotSharedFluid = slotSharedFluid;
         }
 
         private void setBuffer(MEPatternBufferPartMachine buffer, InternalSlotRecipeHandler.SlotRHL slotRHL) {
             circuit.setProxy(buffer.circuitInventorySimulated);
             sharedItem.setProxy(buffer.shareInventory);
             sharedFluid.setProxy(buffer.shareTank);
-            slotItem.setProxy(slotRHL.recipeHandler);
+            slotHandler.setProxy(slotRHL.recipeHandler);
             slotCircuit.setProxy(slotRHL.slot.circuitInventory);
             slotSharedItem.setProxy(slotRHL.slot.shareInventory);
             slotSharedFluid.setProxy(slotRHL.slot.shareTank);
@@ -72,8 +73,7 @@ public final class ProxySlotRecipeHandler {
             circuit.setProxy(null);
             sharedItem.setProxy(null);
             sharedFluid.setProxy(null);
-            slotItem.setProxy(null);
-            slotFluid.setProxy(null);
+            slotHandler.setProxy(null);
             slotCircuit.setProxy(null);
             slotSharedItem.setProxy(null);
             slotSharedFluid.setProxy(null);

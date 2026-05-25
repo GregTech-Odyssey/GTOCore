@@ -5,8 +5,7 @@ import com.gtocore.data.IdleReason;
 import com.gtolib.api.annotation.DataGeneratorScanned;
 import com.gtolib.api.annotation.language.RegisterLanguage;
 import com.gtolib.api.machine.multiblock.StorageMultiblockMachine;
-import com.gtolib.api.recipe.Recipe;
-import com.gtolib.api.recipe.modifier.RecipeModifierFunction;
+import com.gtolib.api.recipe.modifier.RecipeModifier;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
@@ -50,7 +49,7 @@ public final class TreeGrowthSimulator extends StorageMultiblockMachine {
 
     @Nullable
     @Override
-    protected Recipe getRealRecipe(@NotNull Recipe recipe) {
+    public GTRecipe getRealRecipe(@NotNull RecipeHandlerUnit unit, @NotNull GTRecipe recipe) {
         ItemStack stack = getStorageStack();
         if (stack.getItem() instanceof IGTTool item) {
             boolean isElectric = item.isElectric();
@@ -88,7 +87,7 @@ public final class TreeGrowthSimulator extends StorageMultiblockMachine {
                     recipe.outputs.put(ItemRecipeCapability.CAP, List.of(content));
                 }
             }
-            return RecipeModifierFunction.overclocking(this, recipe);
+            return RecipeModifier.overclocking(this, recipe);
         }
         setIdleReason(IdleReason.FELLING_TOOL);
         return null;

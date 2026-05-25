@@ -10,8 +10,7 @@ import com.gtocore.common.data.GTORecipeDataKeys;
 import com.gtolib.api.machine.feature.IElectricMachine;
 import com.gtolib.api.machine.feature.multiblock.IMultiStructureMachine;
 import com.gtolib.api.machine.trait.ElectricTrait;
-import com.gtolib.api.recipe.Recipe;
-import com.gtolib.api.recipe.modifier.RecipeModifierFunction;
+import com.gtolib.api.recipe.modifier.RecipeModifier;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.IEnergyContainer;
@@ -54,13 +53,13 @@ public final class NeutronVortexMachine extends NeutronActivatorMachine implemen
 
     @Nullable
     @Override
-    protected Recipe getRealRecipe(@NotNull Recipe recipe) {
+    public GTRecipe getRealRecipe(@NotNull RecipeHandlerUnit unit, @NotNull GTRecipe recipe) {
         if (energy) {
             int ev = (recipe.data.getInt(GTORecipeDataKeys.EV_MAX) + recipe.data.getInt(GTORecipeDataKeys.EV_MIN)) * 5;
             eV = ev * 100000;
             recipe.duration = recipe.duration / 5;
             recipe.eut = ev;
-            return RecipeModifierFunction.hatchParallel(this, recipe);
+            return RecipeModifier.hatchParallel(this, recipe);
         }
         return super.getRealRecipe(recipe);
     }

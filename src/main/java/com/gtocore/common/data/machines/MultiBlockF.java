@@ -14,15 +14,13 @@ import com.gtolib.api.machine.multiblock.CoilCrossRecipeMultiblockMachine;
 import com.gtolib.api.machine.multiblock.CrossRecipeMultiblockMachine;
 import com.gtolib.api.machine.multiblock.CustomParallelMultiblockMachine;
 import com.gtolib.api.machine.multiblock.ElectricMultiblockMachine;
-import com.gtolib.api.recipe.modifier.RecipeModifierFunction;
 import com.gtolib.utils.MultiBlockFileReader;
 
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
 import com.gregtechceu.gtceu.api.pattern.MultiblockShapeInfo;
+import com.gregtechceu.gtceu.api.recipe.modifier.RecipeModifier;
 import com.gregtechceu.gtceu.common.data.*;
-
-import net.minecraft.network.chat.Component;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -104,7 +102,6 @@ public final class MultiBlockF {
             .allRotation()
             .tooltips(GTOMachineStories.INSTANCE.getCompoundExtremeCoolingUnitTooltips().getSupplier())
             .tooltips(GTOMachineTooltips.INSTANCE.getCompoundExtremeCoolingUnitTooltips().getSupplier())
-            .combinedTooltips(Component.translatable("gtocore.compound_extreme_cooling_unit.tooltips.combined"))
             .parallelizableTooltips()
             .laserTooltips()
             .multipleRecipesTooltips()
@@ -286,7 +283,7 @@ public final class MultiBlockF {
             .perfectOCTooltips()
             .laserTooltips()
             .recipeTypes(GTORecipeTypes.NANO_FORGE_RECIPES)
-            .recipeModifiers(RecipeModifierFunction.overclocking(0.5, 1, 0.05))
+            .recipeModifiers(RecipeModifier.overclocking(0.5, 1, 0.05))
             .block(GTOBlocks.NAQUADAH_ALLOY_CASING)
             .pattern(definition -> MultiBlockFileReader.start(definition)
                     .where('A', GTOPredicates.frame(GTOMaterials.Amprosium))

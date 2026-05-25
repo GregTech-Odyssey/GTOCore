@@ -1,6 +1,5 @@
 package com.gtocore.common.machine.trait;
 
-import com.gtocore.common.data.GTORecipeTypes;
 import com.gtocore.common.machine.multiblock.part.ae.AbstractRecipeInternalSlot;
 import com.gtocore.common.machine.multiblock.part.ae.MEPatternBufferPartMachine;
 
@@ -215,13 +214,16 @@ public final class InternalSlotRecipeHandler {
 
         @Override
         public boolean handleRecipeFluid(IO io, GTRecipe recipe, List<Content<FluidIngredient>> fluids, boolean simulate) {
-            if (fluids.isEmpty()) return true;
+            if (fluids.isEmpty()) {
+                if (!simulate) onRecipeHandled(recipe);
+                return true;
+            }
             if (io != handlerIO) throw new IllegalStateException("IO is not the same");
             for (var handler : fluidHandlers) {
                 if (!simulate && handler.isNotConsumable()) continue;
                 handler.handleRecipeFluid(io, recipe, fluids, simulate);
                 if (fluids.isEmpty()) {
-                    if (recipe.definition.registered && !simulate) onRecipeHandled(recipe);
+                    if (!simulate) onRecipeHandled(recipe);
                     return true;
                 }
             }
@@ -253,7 +255,7 @@ public final class InternalSlotRecipeHandler {
         @Override
         protected GTRecipeType getEffectiveRecipeType(GTRecipeType recipeType) {
             final var type = slot.machine.recipeType;
-            if (type != GTORecipeTypes.HATCH_COMBINED && type != recipeType) {
+            if (type != null && type != recipeType) {
                 return type;
             }
             return recipeType;
@@ -292,11 +294,6 @@ public final class InternalSlotRecipeHandler {
         @Override
         public boolean hasCapability(@Nullable Direction side) {
             return false;
-        }
-
-        @Override
-        public boolean isDistinct() {
-            return true;
         }
 
         @Override

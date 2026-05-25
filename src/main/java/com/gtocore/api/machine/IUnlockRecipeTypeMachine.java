@@ -1,30 +1,22 @@
 package com.gtocore.api.machine;
 
 import com.gtolib.api.machine.feature.IEnhancedRecipeLogicMachine;
-import com.gtolib.api.recipe.Recipe;
 
-import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.MutableComponent;
+import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 
-import org.jetbrains.annotations.Nullable;
+import java.util.ArrayList;
 
 public interface IUnlockRecipeTypeMachine extends IEnhancedRecipeLogicMachine {
 
-    boolean canProcess(Recipe recipe);
+    boolean canProcess(GTRecipeType type);
 
-    @Nullable
-    default Recipe validateRecipe(@Nullable Recipe recipe) {
-        if (recipe == null) return null;
-        if (!canProcess(recipe)) {
-            getEnhancedRecipeLogic().gtolib$setIdleReason(getLockedReason()
-                    .append(": ")
-                    .append(Component.translatable("gtceu." + recipe.recipeType.registryName.getPath())));
-            return null;
+    @Override
+    default GTRecipeType[] getAvailableRecipeTypes() {
+        var types = IEnhancedRecipeLogicMachine.super.getAvailableRecipeTypes();
+        var list = new ArrayList<GTRecipeType>(types.length);
+        for (var type : types) {
+            if (canProcess(type)) list.add(type);
         }
-        return recipe;
-    }
-
-    default MutableComponent getLockedReason() {
-        return Component.translatable("gtocore.machine.module.null");
+        return list.toArray(new GTRecipeType[0]);
     }
 }

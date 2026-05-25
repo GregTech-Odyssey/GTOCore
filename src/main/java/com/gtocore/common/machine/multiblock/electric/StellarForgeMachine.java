@@ -10,7 +10,7 @@ import com.gtolib.api.machine.mana.trait.ManaTrait;
 import com.gtolib.api.machine.multiblock.TierCasingMultiblockMachine;
 import com.gtolib.api.misc.ManaContainerList;
 import com.gtolib.api.recipe.Recipe;
-import com.gtolib.api.recipe.modifier.RecipeModifierFunction;
+import com.gtolib.api.recipe.modifier.RecipeModifier;
 import com.gtolib.utils.explosion.SphereExplosion;
 
 import com.gregtechceu.gtceu.api.GTValues;
@@ -69,7 +69,7 @@ public final class StellarForgeMachine extends TierCasingMultiblockMachine imple
 
     @Nullable
     @Override
-    protected Recipe getRealRecipe(@NotNull Recipe recipe) {
+    public GTRecipe getRealRecipe(@NotNull RecipeHandlerUnit unit, @NotNull GTRecipe recipe) {
         consecutiveRecipes++;
         if (recipe.manat < 0) {
             if (getSubFormedAmount() == 0) {
@@ -81,7 +81,7 @@ public final class StellarForgeMachine extends TierCasingMultiblockMachine imple
             }
             return recipe;
         }
-        recipe = RecipeModifierFunction.laserLossOverclocking(this, recipe);
+        recipe = RecipeModifier.laserLossOverclocking(this, recipe);
         if (recipe != null && consecutiveRecipes > 1) {
             recipe.duration = Math.max(recipe.duration / 2, 1);
         }

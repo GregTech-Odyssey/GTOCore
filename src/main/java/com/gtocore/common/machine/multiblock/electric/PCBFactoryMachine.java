@@ -9,8 +9,7 @@ import com.gtolib.api.annotation.DataGeneratorScanned;
 import com.gtolib.api.annotation.language.RegisterLanguage;
 import com.gtolib.api.machine.feature.multiblock.IMultiStructureMachine;
 import com.gtolib.api.machine.multiblock.StorageMultiblockMachine;
-import com.gtolib.api.recipe.Recipe;
-import com.gtolib.api.recipe.modifier.RecipeModifierFunction;
+import com.gtolib.api.recipe.modifier.RecipeModifier;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
@@ -257,13 +256,13 @@ public final class PCBFactoryMachine extends StorageMultiblockMachine implements
 
     @Nullable
     @Override
-    protected Recipe getRealRecipe(@NotNull Recipe recipe) {
+    public GTRecipe getRealRecipe(@NotNull RecipeHandlerUnit unit, @NotNull GTRecipe recipe) {
         if (machineTier < 2) {
             if (recipe.getInputEUt() > 30719) return null;
         } else if (machineTier < 3) {
             if (recipe.getInputEUt() > 491519) return null;
         }
-        return RecipeModifierFunction.overclocking(this, RecipeModifierFunction.hatchParallel(this, recipe));
+        return RecipeModifier.overclocking(this, RecipeModifier.hatchParallel(this, recipe));
     }
 
     @Override

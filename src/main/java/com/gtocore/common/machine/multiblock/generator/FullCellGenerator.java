@@ -15,7 +15,6 @@ import com.gtolib.api.annotation.language.RegisterLanguage;
 import com.gtolib.api.machine.multiblock.ElectricMultiblockMachine;
 import com.gtolib.api.recipe.IdleReason;
 import com.gtolib.api.recipe.Recipe;
-import com.gtolib.api.recipe.modifier.ParallelLogic;
 import com.gtolib.utils.MachineUtils;
 
 import com.gregtechceu.gtceu.api.GTValues;
@@ -30,6 +29,7 @@ import com.gregtechceu.gtceu.api.recipe.content.Content;
 import com.gregtechceu.gtceu.api.recipe.handler.IO;
 import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
 import com.gregtechceu.gtceu.api.recipe.ingredient.ItemIngredient;
+import com.gregtechceu.gtceu.api.recipe.modifier.ParallelLogic;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 
@@ -109,7 +109,7 @@ public class FullCellGenerator extends ElectricMultiblockMachine {
     }
 
     private void updateGeneratorState() {
-        isGenerator = getRecipeTypes()[getActiveRecipeType()] == GTORecipeTypes.FUEL_CELL_ENERGY_RELEASE_RECIPES;
+        isGenerator = getRecipeType() == GTORecipeTypes.FUEL_CELL_ENERGY_RELEASE_RECIPES;
         requestSync();
     }
 
@@ -127,7 +127,7 @@ public class FullCellGenerator extends ElectricMultiblockMachine {
 
     @Override
     protected @Nullable Recipe getRealRecipe(Recipe recipe) {
-        var activeType = getRecipeTypes()[getActiveRecipeType()];
+        var activeType = getRecipeType();
         if (activeType == GTORecipeTypes.FUEL_CELL_ENERGY_RELEASE_RECIPES) {
             return getReleaseRecipe(recipe);
         } else if (activeType == GTORecipeTypes.FUEL_CELL_ENERGY_ABSORPTION_RECIPES) {

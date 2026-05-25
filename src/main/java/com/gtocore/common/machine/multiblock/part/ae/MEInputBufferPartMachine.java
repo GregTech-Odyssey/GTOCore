@@ -604,7 +604,7 @@ public class MEInputBufferPartMachine extends MEPatternPartMachineKt<MEInputBuff
         public @NotNull CompoundTag serializeNBT() {
             CompoundTag tag = super.serializeNBT();
             if (recipe != null) {
-                tag.putByteArray("re", GTRecipeDefinition.DATA_CODEC.encode(recipe).writeToBytes());
+                tag.putByteArray("recipe", GTRecipeDefinition.DATA_CODEC.encode(recipe).writeToBytes());
             }
             if (!notConsumableItem.isEmpty()) tag.put("inv", notConsumableItem.storage.serializeNBT());
             if (!notConsumableFluid.isEmpty()) {
@@ -637,7 +637,7 @@ public class MEInputBufferPartMachine extends MEPatternPartMachineKt<MEInputBuff
 
         @Override
         public void deserializeNBT(CompoundTag tag) {
-            if (tag.get("re") instanceof ByteArrayTag byteArrayTag) setRecipe(GTRecipeDefinition.DATA_CODEC.decode(Data.readData(byteArrayTag.getAsByteArray())));
+            if (tag.get("recipe") instanceof ByteArrayTag byteArrayTag) setRecipe(GTRecipeDefinition.DATA_CODEC.decode(Data.readData(byteArrayTag.getAsByteArray())));
             if (tag.tags.get("inv") instanceof CompoundTag inv) {
                 notConsumableItem.storage.deserializeNBT(inv);
             }

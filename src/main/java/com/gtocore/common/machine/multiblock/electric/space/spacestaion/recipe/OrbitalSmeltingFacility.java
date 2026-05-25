@@ -4,8 +4,7 @@ import com.gtocore.api.machine.part.ILargeSpaceStationMachine;
 import com.gtocore.common.machine.multiblock.electric.space.spacestaion.RecipeExtension;
 
 import com.gtolib.api.machine.trait.CoilTrait;
-import com.gtolib.api.recipe.Recipe;
-import com.gtolib.api.recipe.modifier.RecipeModifierFunction;
+import com.gtolib.api.recipe.modifier.RecipeModifier;
 
 import com.gregtechceu.gtceu.api.block.ICoilType;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
@@ -30,7 +29,7 @@ public class OrbitalSmeltingFacility extends RecipeExtension implements ICoilMac
     }
 
     @Override
-    public Recipe getRealRecipe(@NotNull Recipe recipe) {
-        return super.getRealRecipe(Objects.requireNonNull(RecipeModifierFunction.recipeReduction(0.8, 0.6).apply(this, recipe)));
+    public GTRecipe getRealRecipe(@NotNull RecipeHandlerUnit unit, @NotNull GTRecipe recipe) {
+        return super.getRealRecipe(Objects.requireNonNull(RecipeModifier.recipeReduction(0.8, 0.6).apply(this, recipe)));
     }
 }

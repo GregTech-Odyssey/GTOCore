@@ -4,7 +4,7 @@ import com.gtocore.common.saved.DysonSphereSavaedData;
 
 import com.gtolib.api.machine.multiblock.ElectricMultiblockMachine;
 import com.gtolib.api.recipe.Recipe;
-import com.gtolib.api.recipe.modifier.RecipeModifierFunction;
+import com.gtolib.api.recipe.modifier.RecipeModifier;
 import com.gtolib.utils.MachineUtils;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
@@ -65,9 +65,9 @@ public final class SpaceProbeSurfaceReceptionMachine extends ElectricMultiblockM
     }
 
     @Override
-    protected Recipe getRealRecipe(@NotNull Recipe recipe) {
+    public GTRecipe getRealRecipe(@NotNull RecipeHandlerUnit unit, @NotNull GTRecipe recipe) {
         if (!PlanetApi.API.isSpace(getLevel())) return null;
-        recipe = RecipeModifierFunction.perfectOverclocking(this, recipe);
+        recipe = RecipeModifier.perfectOverclocking(this, recipe);
         if (recipe == null) return null;
         if (!DysonSphereSavaedData.getDimensionUse(getDimension())) {
             double number = (double) DysonSphereSavaedData.getDimensionData(getDimension()).leftInt() / 100;

@@ -71,7 +71,7 @@ public class FastNeutronBreederReactor extends CustomParallelMultiblockMachine i
      */
     @Nullable
     @Override
-    protected Recipe getRealRecipe(@NotNull Recipe recipe) {
+    public GTRecipe getRealRecipe(@NotNull RecipeHandlerUnit unit, @NotNull GTRecipe recipe) {
         if (recipe.data.contains(GTORecipeDataKeys.NEUTRON_FLUX)) {
             var neededNeutronFlux = recipe.data.getFloat(GTORecipeDataKeys.NEUTRON_FLUX);
             if (neutronFluxkeV < neededNeutronFlux) {

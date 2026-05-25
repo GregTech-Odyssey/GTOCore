@@ -10,7 +10,6 @@ import com.gtocore.common.machine.multiblock.electric.space.spacestaion.ISpacePr
 import com.gtolib.api.capability.IIWirelessInteractor;
 import com.gtolib.api.machine.feature.IEnhancedRecipeLogicMachine;
 import com.gtolib.api.machine.feature.multiblock.ICustomHighlightMachine;
-import com.gtolib.api.recipe.Recipe;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.multiblock.CleanroomType;
@@ -18,6 +17,8 @@ import com.gregtechceu.gtceu.api.machine.multiblock.MultiblockControllerMachine;
 import com.gregtechceu.gtceu.api.pattern.MultiblockState;
 import com.gregtechceu.gtceu.api.pattern.TraceabilityPredicate;
 import com.gregtechceu.gtceu.api.pattern.util.RelativeDirection;
+import com.gregtechceu.gtceu.api.recipe.GTRecipe;
+import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 import com.gregtechceu.gtceu.utils.memoization.GTMemoizer;
 import com.gregtechceu.gtceu.utils.memoization.MemoizedSupplier;
@@ -122,7 +123,7 @@ public interface ILargeSpaceStationMachine extends ICustomHighlightMachine, ISpa
         return l;
     }
 
-    default Recipe getRecipe() {
+    default GTRecipe getRecipe(RecipeHandlerUnit unit) {
         if (!PlanetApi.API.isSpace(getLevel()))
             return null;
         if (getRoot() == null || !getRoot().isWorkspaceReady())

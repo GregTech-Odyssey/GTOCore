@@ -10,8 +10,6 @@ import com.gtolib.api.machine.feature.multiblock.IArrayMachine;
 import com.gtolib.api.machine.multiblock.StorageMultiblockMachine;
 import com.gtolib.api.recipe.Recipe;
 import com.gtolib.api.recipe.RecipeRunner;
-import com.gtolib.api.recipe.RecipeType;
-import com.gtolib.api.recipe.modifier.ParallelLogic;
 import com.gtolib.utils.GTOUtils;
 
 import com.gregtechceu.gtceu.api.GTValues;
@@ -22,6 +20,7 @@ import com.gregtechceu.gtceu.api.machine.MachineDefinition;
 import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
+import com.gregtechceu.gtceu.api.recipe.modifier.ParallelLogic;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 import com.gregtechceu.gtceu.utils.GTUtil;
@@ -109,11 +108,6 @@ public final class GeneratorArrayMachine extends StorageMultiblockMachine implem
     @Override
     public GTRecipeType[] getRecipeTypes() {
         return recipeTypes();
-    }
-
-    @Override
-    public RecipeType getRecipeType() {
-        return (RecipeType) recipeTypes()[getActiveRecipeType()];
     }
 
     @Override

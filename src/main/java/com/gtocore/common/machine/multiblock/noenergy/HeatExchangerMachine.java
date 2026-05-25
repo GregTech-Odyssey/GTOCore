@@ -4,12 +4,11 @@ import com.gtocore.common.data.GTOMaterials;
 import com.gtocore.common.data.GTORecipeDataKeys;
 
 import com.gtolib.api.machine.multiblock.NoEnergyMultiblockMachine;
-import com.gtolib.api.recipe.Recipe;
-import com.gtolib.api.recipe.modifier.ParallelLogic;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.recipe.FluidRecipeCapability;
 import com.gregtechceu.gtceu.api.machine.feature.IExplosionMachine;
+import com.gregtechceu.gtceu.api.recipe.modifier.ParallelLogic;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
 import net.minecraft.world.level.material.Fluid;
@@ -38,7 +37,7 @@ public final class HeatExchangerMachine extends NoEnergyMultiblockMachine implem
 
     @Nullable
     @Override
-    protected Recipe getRealRecipe(@NotNull Recipe recipe) {
+    public GTRecipe getRealRecipe(@NotNull RecipeHandlerUnit unit, @NotNull GTRecipe recipe) {
         water = FluidRecipeCapability.CAP.of(recipe.inputs.get(FluidRecipeCapability.CAP).get(1)).getFluid() == Fluids.WATER;
         var result = ParallelLogic.accurateParallel(this, getRecipeBuilder()
                 .inputFluids(FluidRecipeCapability.CAP.of(recipe.inputs

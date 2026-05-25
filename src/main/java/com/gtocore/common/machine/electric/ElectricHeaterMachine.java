@@ -3,11 +3,8 @@ package com.gtocore.common.machine.electric;
 import com.gtocore.common.data.GTORecipeTypes;
 
 import com.gtolib.api.machine.feature.IHeaterMachine;
-import com.gtolib.api.machine.trait.CustomRecipeLogic;
-import com.gtolib.api.machine.trait.IEnhancedRecipeLogic;
 import com.gtolib.api.machine.trait.NotifiableSafeEnergyContainer;
-import com.gtolib.api.recipe.Recipe;
-import com.gtolib.api.recipe.RecipeRunner;
+import com.gtolib.api.recipe.RecipeBuilder;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
@@ -15,9 +12,11 @@ import com.gregtechceu.gtceu.api.machine.TickableSubscription;
 import com.gregtechceu.gtceu.api.machine.WorkableTieredMachine;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableEnergyContainer;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableFluidTank;
-import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
+import com.gregtechceu.gtceu.api.recipe.GTRecipeDefinition;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
+import com.gregtechceu.gtceu.api.recipe.handler.ICustomRecipeLogicHolder;
 import com.gregtechceu.gtceu.api.recipe.handler.IO;
+import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
 import com.gregtechceu.gtceu.api.transfer.fluid.IFluidHandlerModifiable;
 
 import net.minecraft.core.Direction;
@@ -28,7 +27,7 @@ import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public final class ElectricHeaterMachine extends WorkableTieredMachine implements IHeaterMachine {
+public final class ElectricHeaterMachine extends WorkableTieredMachine implements IHeaterMachine, ICustomRecipeLogicHolder {
 
     public static final int MaxTemperature = 1200;
     @Persisted
@@ -61,22 +60,6 @@ public final class ElectricHeaterMachine extends WorkableTieredMachine implement
     @Nullable
     public IFluidHandlerModifiable getFluidHandlerCap(@Nullable Direction side, boolean useCoverCapability) {
         return null;
-    }
-
-    @Nullable
-    private Recipe getRecipe() {
-        if (temperature >= MaxTemperature) return null;
-        Recipe recipe = IEnhancedRecipeLogic.of(getRecipeLogic()).gtolib$getRecipeBuilder().duration(20).EUt(30).buildRawRecipe();
-        if (RecipeRunner.matchTickRecipe(this, recipe)) {
-            return recipe;
-        }
-        return null;
-    }
-
-    @Override
-    @NotNull
-    public RecipeLogic createRecipeLogic(Object @NotNull... args) {
-        return new CustomRecipeLogic(this, this::getRecipe);
     }
 
     @Override
@@ -144,5 +127,16 @@ public final class ElectricHeaterMachine extends WorkableTieredMachine implement
     @Override
     public int getTemperature() {
         return this.temperature;
+    }
+
+    @Override
+    public GTRecipeDefinition createCustomRecipe(RecipeHandlerUnit unit) {
+        if (temperature >= MaxTemperature) return null;
+        return RecipeBuilder.ofRaw().duration(20).EUt(30).build();
+    }
+
+    @Override
+    public boolean alwaysSearchRecipe() {
+        return true;
     }
 }

@@ -184,20 +184,20 @@ abstract class MEPartMachine(holder: MetaMachineBlockEntity, io: IO) :
         }
         if (isRemote) return
         onWirelessLoad()
-        getHandlerList().isDistinct = distinctField
-        getHandlerList().color = paintingColor
+        handlerUnit.isDistinct = distinctField
+        handlerUnit.color = paintingColor
     }
 
     override fun getMainNode(): IManagedGridNode = nodeHolder.getMainNode()
 
     override fun onPaintingColorChanged(color: Int) {
-        handlerList.setColor(color, true)
+        handlerUnit.setColor(color, true)
     }
 
     override fun isDistinct(): Boolean = distinctField
     override fun setDistinct(isDistinct: Boolean) {
         this.distinctField = isDistinct
-        handlerList.setDistinctAndNotify(isDistinct)
+        handlerUnit.setDistinctAndNotify(isDistinct)
     }
 
     override fun setOnline(isOnline: Boolean) {

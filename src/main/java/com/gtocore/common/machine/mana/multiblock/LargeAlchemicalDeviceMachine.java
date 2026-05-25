@@ -3,19 +3,18 @@ package com.gtocore.common.machine.mana.multiblock;
 import com.gtocore.common.data.GTORecipeDataKeys;
 
 import com.gtolib.api.recipe.Recipe;
-import com.gtolib.api.recipe.modifier.ParallelLogic;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.recipe.FluidRecipeCapability;
 import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
 import com.gregtechceu.gtceu.api.recipe.content.Content;
+import com.gregtechceu.gtceu.api.recipe.modifier.ParallelLogic;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
 
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
@@ -45,7 +44,7 @@ public final class LargeAlchemicalDeviceMachine extends ManaMultiblockMachine {
     }
 
     @Override
-    protected @Nullable Recipe getRealRecipe(@NotNull Recipe recipe) {
+    public GTRecipe getRealRecipe(RecipeHandlerUnit unit, GTRecipe recipe) {
         boolean param = false;
         long parallels = getHatchParallel(this);
         recipe.duration = Math.max(1, (int) (recipe.duration * timeReduction));
