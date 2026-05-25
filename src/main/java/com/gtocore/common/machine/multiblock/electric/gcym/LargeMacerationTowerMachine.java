@@ -2,9 +2,9 @@ package com.gtocore.common.machine.multiblock.electric.gcym;
 
 import com.gregtechceu.gtceu.api.blockentity.ITickSubscription;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
-import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
 import com.gregtechceu.gtceu.api.machine.TickableSubscription;
 import com.gregtechceu.gtceu.api.pattern.util.RelativeDirection;
+import com.gregtechceu.gtceu.api.recipe.handler.IO;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.item.ItemEntity;
@@ -30,15 +30,8 @@ public class LargeMacerationTowerMachine extends GCYMMultiblockMachine {
     public void onStructureFormed() {
         super.onStructureFormed();
         updateBounds();
-        var items = gtolib$getInputFlat().get(ItemRecipeCapability.CAP);
-        if (items != null) {
-            for (var holder : items) {
-                if (holder instanceof IItemHandler ih) {
-                    handlers.add(ih);
-                }
-            }
-            hurtSub = subscribeServerTick(hurtSub, this::spinWheels, 20);
-        }
+        handlers.addAll(getCapabilitiesFlat(IO.IN, IItemHandler.class));
+        hurtSub = subscribeServerTick(hurtSub, this::spinWheels, 20);
     }
 
     @Override

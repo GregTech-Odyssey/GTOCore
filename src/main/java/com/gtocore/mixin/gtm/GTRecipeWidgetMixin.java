@@ -2,8 +2,6 @@ package com.gtocore.mixin.gtm;
 
 import com.gtocore.common.recipe.condition.GalaxyCondition;
 
-import com.gtolib.api.recipe.modifier.RecipeModifier;
-
 import com.gregtechceu.gtceu.api.capability.recipe.RecipeCapability;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeDefinition;
 import com.gregtechceu.gtceu.api.recipe.OverclockingLogic;

@@ -8,7 +8,6 @@ import com.gtocore.common.machine.multiblock.part.SensorPartMachine;
 import com.gtolib.api.gui.MagicProgressBarProWidget;
 import com.gtolib.api.machine.multiblock.NoEnergyMultiblockMachine;
 import com.gtolib.api.recipe.IdleReason;
-import com.gtolib.api.recipe.modifier.RecipeModifier;
 import com.gtolib.utils.MachineUtils;
 import com.gtolib.utils.NumberUtils;
 

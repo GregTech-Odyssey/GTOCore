@@ -1,10 +1,10 @@
 package com.gtocore.common.machine.multiblock.electric.gcym;
 
 import com.gtolib.api.machine.feature.multiblock.IFluidRendererMachine;
-import com.gtolib.api.recipe.Recipe;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.pattern.util.RelativeDirection;
+import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -28,9 +28,9 @@ public final class LargeChemicalBathMachine extends GCYMMultiblockMachine implem
     }
 
     @Override
-    protected boolean beforeWorking(@NotNull Recipe recipe) {
+    public void beforeWorking(@NotNull GTRecipe recipe) {
         cachedFluid = IFluidRendererMachine.getFluid(recipe);
-        return super.beforeWorking(recipe);
+        super.beforeWorking(recipe);
     }
 
     @Override

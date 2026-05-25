@@ -9,7 +9,6 @@ import com.gtolib.api.machine.mana.feature.IManaMultiblock;
 import com.gtolib.api.machine.mana.trait.ManaTrait;
 import com.gtolib.api.machine.multiblock.TierCasingMultiblockMachine;
 import com.gtolib.api.misc.ManaContainerList;
-import com.gtolib.api.recipe.modifier.RecipeModifier;
 import com.gtolib.utils.explosion.SphereExplosion;
 
 import com.gregtechceu.gtceu.api.GTValues;

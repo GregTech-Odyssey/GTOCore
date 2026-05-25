@@ -123,11 +123,6 @@ public final class CompoundExtremeCoolingMachine extends CrossRecipeMultiblockMa
     }
 
     @Override
-    public boolean disabledCombined() {
-        return getRecipeType() != GTORecipeTypes.PLASMA_CONDENSER_RECIPES;
-    }
-
-    @Override
     public List<BlockPattern> getMultiPattern() {
         return List.of(getBlockPattern(0, getDefinition()), getBlockPattern(1, getDefinition()));
     }

@@ -3,11 +3,13 @@ package com.gtocore.common.machine.multiblock.electric.space;
 import com.gtocore.common.data.GTORecipeDataKeys;
 
 import com.gtolib.api.machine.multiblock.CustomParallelMultiblockMachine;
-import com.gtolib.api.recipe.modifier.RecipeModifier;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
+import com.gregtechceu.gtceu.api.recipe.GTRecipe;
+import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
 import com.gregtechceu.gtceu.api.recipe.modifier.ParallelLogic;
+import com.gregtechceu.gtceu.api.recipe.modifier.RecipeModifier;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
@@ -69,7 +71,9 @@ public class SpaceElevatorModuleMachine extends CustomParallelMultiblockMachine 
     protected GTRecipe getRealRecipe(RecipeHandlerUnit unit, GTRecipe recipe) {
         if (getSpaceElevatorTier() < 8) return null;
         if (powerModuleTier && recipe.data.getInt(GTORecipeDataKeys.POWER_MODULE_TIER) > spaceElevatorMachine.getCasingTier(GTORecipeDataKeys.POWER_MODULE_TIER)) return null;
-        return RecipeModifier.overclocking(this, ParallelLogic.accurateParallel(this, recipe, getParallel()), false, 1, getDurationMultiplier(), 0.5);
+        recipe = ParallelLogic.accurateParallel(this, unit, recipe, getParallel());
+        if (recipe == null) return null;
+        return RecipeModifier.overclocking(this, unit, recipe, false, 1, getDurationMultiplier(), 0.5);
     }
 
     @Override

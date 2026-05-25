@@ -7,8 +7,10 @@ import com.gtolib.api.recipe.IdleReason;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
+import com.gregtechceu.gtceu.api.recipe.GTRecipe;
+import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
 
-import static com.gtolib.api.GTOValues.COMPONENT_ASSEMBLY_CASING_TIER;
+import org.jetbrains.annotations.NotNull;
 
 public class ComponentAssemblerMachine extends TierCasingMultiblockMachine {
 
@@ -35,11 +37,11 @@ public class ComponentAssemblerMachine extends TierCasingMultiblockMachine {
     }
 
     @Override
-    public GTRecipe getRealRecipe(RecipeHandlerUnit unit, GTRecipe recipe) {
+    public GTRecipe getRealRecipe(@NotNull RecipeHandlerUnit unit, GTRecipe recipe) {
         if (recipe.data.getInt(GTORecipeDataKeys.COMPONENT_ASSEMBLY_CASING_TIER) > casingTier) {
             setIdleReason(IdleReason.VOLTAGE_TIER_NOT_SATISFIES);
             return null;
         }
-        return super.getRealRecipe(recipe);
+        return super.getRealRecipe(unit, recipe);
     }
 }

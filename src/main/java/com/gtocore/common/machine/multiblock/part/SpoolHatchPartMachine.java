@@ -43,9 +43,8 @@ public final class SpoolHatchPartMachine extends WorkableItemPartMachine impleme
     }
 
     @Override
-    public boolean beforeWorking(IWorkableMultiController controller, GTRecipe recipe) {
+    public void beforeWorking(IWorkableMultiController controller, GTRecipe recipe) {
         isWorking = true;
-        return true;
     }
 
     @Override

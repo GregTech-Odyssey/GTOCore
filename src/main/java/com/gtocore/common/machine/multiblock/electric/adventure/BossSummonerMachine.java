@@ -1,13 +1,12 @@
 package com.gtocore.common.machine.multiblock.electric.adventure;
 
 import com.gtolib.api.machine.multiblock.ElectricMultiblockMachine;
-import com.gtolib.api.machine.trait.CustomRecipeLogic;
-import com.gtolib.api.recipe.Recipe;
-import com.gtolib.api.recipe.RecipeRunner;
 import com.gtolib.utils.MachineUtils;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
-import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
+import com.gregtechceu.gtceu.api.recipe.GTRecipeDefinition;
+import com.gregtechceu.gtceu.api.recipe.handler.ICustomRecipeLogicHolder;
+import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
@@ -17,10 +16,8 @@ import net.minecraft.world.level.Level;
 import dev.shadowsoffire.apotheosis.adventure.boss.ApothBoss;
 import dev.shadowsoffire.apotheosis.adventure.boss.BossRegistry;
 import dev.shadowsoffire.placebo.reload.WeightedDynamicRegistry;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
-public final class BossSummonerMachine extends ElectricMultiblockMachine {
+public final class BossSummonerMachine extends ElectricMultiblockMachine implements ICustomRecipeLogicHolder {
 
     public BossSummonerMachine(MetaMachineBlockEntity holder) {
         super(holder);
@@ -52,15 +49,8 @@ public final class BossSummonerMachine extends ElectricMultiblockMachine {
         ((ServerLevel) world).addFreshEntityWithPassengers(boss);
     }
 
-    @Nullable
-    private Recipe getRecipe() {
-        Recipe recipe = getRecipeBuilder().duration(Math.max(5, 400 / (getTier() + 1))).EUt(getOverclockVoltage()).buildRawRecipe();
-        if (RecipeRunner.matchTickRecipe(this, recipe)) return recipe;
-        return null;
-    }
-
     @Override
-    public RecipeLogic createRecipeLogic(Object @NotNull... args) {
-        return new CustomRecipeLogic(this, this::getRecipe, true);
+    public GTRecipeDefinition createCustomRecipe(RecipeHandlerUnit unit) {
+        return getRecipeBuilder().duration(Math.max(5, 400 / (getTier() + 1))).EUt(getOverclockVoltage()).build();
     }
 }

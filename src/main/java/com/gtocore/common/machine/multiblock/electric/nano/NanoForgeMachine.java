@@ -9,7 +9,6 @@ import com.gtocore.common.data.GTORecipeDataKeys;
 import com.gtolib.api.machine.feature.multiblock.IMultiStructureMachine;
 import com.gtolib.api.machine.feature.multiblock.IParallelMachine;
 import com.gtolib.api.machine.multiblock.StorageMultiblockMachine;
-import com.gtolib.api.recipe.modifier.RecipeModifier;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
@@ -18,7 +17,10 @@ import com.gregtechceu.gtceu.api.data.chemical.material.stack.MaterialStack;
 import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
 import com.gregtechceu.gtceu.api.pattern.BlockPattern;
 import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
+import com.gregtechceu.gtceu.api.recipe.GTRecipe;
+import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
 import com.gregtechceu.gtceu.api.recipe.modifier.ParallelLogic;
+import com.gregtechceu.gtceu.api.recipe.modifier.RecipeModifier;
 import com.gregtechceu.gtceu.common.data.GTBlocks;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
@@ -56,9 +58,9 @@ public final class NanoForgeMachine extends StorageMultiblockMachine implements 
         if (recipe.data.getInt(GTORecipeDataKeys.NANO_FORGE_TIER) > machineTier) {
             return null;
         }
-        recipe = ParallelLogic.accurateParallel(this, recipe, getParallel() * (1L << (machineTier - recipe.data.getInt(GTORecipeDataKeys.NANO_FORGE_TIER))));
+        recipe = ParallelLogic.accurateParallel(this, unit, recipe, getParallel() * (1L << (machineTier - recipe.data.getInt(GTORecipeDataKeys.NANO_FORGE_TIER))));
         if (recipe == null) return null;
-        return RecipeModifier.overclocking(this, recipe, false, 1, 1, machineTier > recipe.data.getInt(GTORecipeDataKeys.NANO_FORGE_TIER) ? 0.25 : 0.5);
+        return RecipeModifier.overclocking(this, unit, recipe, false, 1, 1, machineTier > recipe.data.getInt(GTORecipeDataKeys.NANO_FORGE_TIER) ? 0.25 : 0.5);
     }
 
     @Override

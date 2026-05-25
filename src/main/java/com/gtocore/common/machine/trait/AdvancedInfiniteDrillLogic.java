@@ -5,7 +5,6 @@ import com.gtocore.common.machine.multiblock.electric.voidseries.AdvancedInfinit
 import com.gtolib.api.machine.impl.DrillingControlCenterMachine;
 import com.gtolib.api.machine.trait.IFluidDrillLogic;
 import com.gtolib.api.recipe.RecipeBuilder;
-import com.gtolib.api.recipe.modifier.RecipeModifier;
 
 import com.gregtechceu.gtceu.api.data.worldgen.bedrockfluid.BedrockFluidVeinSavedData;
 import com.gregtechceu.gtceu.api.data.worldgen.bedrockfluid.FluidVeinWorldEntry;

@@ -5,7 +5,8 @@ import com.gtolib.api.machine.SimpleNoEnergyMachine;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.IWailaDisplayProvider;
 import com.gregtechceu.gtceu.api.machine.TickableSubscription;
-import com.gregtechceu.gtceu.api.recipe.GTRecipe;
+import com.gregtechceu.gtceu.api.recipe.GTRecipeDefinition;
+import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -55,7 +56,7 @@ public class CelestialCondenser extends SimpleNoEnergyMachine implements IWailaD
     }
 
     @Override
-    public boolean beforeWorking(@NotNull GTRecipe recipe) {
+    public boolean checkConditions(RecipeHandlerUnit unit, @NotNull GTRecipeDefinition recipe) {
         int solarisCost = recipe.data.getInt(SOLARIS);
         int lunaraCost = recipe.data.getInt(LUNARA);
         int voidfluxCost = recipe.data.getInt(VOIDFLUX);
@@ -83,7 +84,7 @@ public class CelestialCondenser extends SimpleNoEnergyMachine implements IWailaD
         this.voidflux = deductResult.voidflux();
         this.stellarm = deductResult.stellarm();
 
-        return true;
+        return super.checkConditions(unit, recipe);
     }
 
     @Override

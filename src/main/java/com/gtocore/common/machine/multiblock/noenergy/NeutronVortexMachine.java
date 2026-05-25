@@ -10,7 +10,6 @@ import com.gtocore.common.data.GTORecipeDataKeys;
 import com.gtolib.api.machine.feature.IElectricMachine;
 import com.gtolib.api.machine.feature.multiblock.IMultiStructureMachine;
 import com.gtolib.api.machine.trait.ElectricTrait;
-import com.gtolib.api.recipe.modifier.RecipeModifier;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.IEnergyContainer;

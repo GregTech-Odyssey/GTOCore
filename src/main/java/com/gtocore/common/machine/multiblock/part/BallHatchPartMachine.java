@@ -62,9 +62,8 @@ public final class BallHatchPartMachine extends WorkableItemPartMachine implemen
     }
 
     @Override
-    public boolean beforeWorking(IWorkableMultiController controller, GTRecipe recipe) {
+    public void beforeWorking(IWorkableMultiController controller, GTRecipe recipe) {
         isWorking = true;
-        return true;
     }
 
     @Override

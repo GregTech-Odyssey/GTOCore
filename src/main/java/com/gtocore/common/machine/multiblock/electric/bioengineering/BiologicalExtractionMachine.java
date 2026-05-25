@@ -6,8 +6,8 @@ import com.gtolib.api.machine.multiblock.CrossRecipeMultiblockMachine;
 import com.gtolib.utils.MachineUtils;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
-import com.gregtechceu.gtceu.api.capability.recipe.FluidRecipeCapability;
-import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
+import com.gregtechceu.gtceu.api.recipe.GTRecipe;
+import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
 
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
@@ -17,6 +17,7 @@ import net.minecraftforge.fluids.FluidStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -43,11 +44,11 @@ public final class BiologicalExtractionMachine extends CrossRecipeMultiblockMach
     @Override
     public GTRecipe getRealRecipe(@NotNull RecipeHandlerUnit unit, @NotNull GTRecipe recipe) {
         if (getRecipeLogic().getTotalContinuousRunningTime() < 400) {
-            recipe.outputs.remove(ItemRecipeCapability.CAP);
-            recipe.outputs.remove(FluidRecipeCapability.CAP);
+            recipe.itemOutputs = Collections.emptyList();
+            recipe.fluidOutputs = Collections.emptyList();
             return recipe;
         } else {
-            return super.getRealRecipe(recipe);
+            return super.getRealRecipe(unit, recipe);
         }
     }
 
@@ -82,7 +83,7 @@ public final class BiologicalExtractionMachine extends CrossRecipeMultiblockMach
     private boolean input(FluidStack stack) {
         AtomicBoolean success = new AtomicBoolean(false);
         AtomicBoolean failed = new AtomicBoolean(false);
-        forEachInputFluids((fluidStack, amount) -> {
+        forEachFluids(true, (fluidStack, amount) -> {
             var fluid = fluidStack.getFluid();
             if (FLUIDS.contains(fluid)) {
                 if (fluid == stack.getFluid()) {

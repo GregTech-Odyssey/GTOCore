@@ -4,15 +4,14 @@ import com.gtocore.common.data.GTOMaterials;
 import com.gtocore.common.data.GTORecipeTypes;
 
 import com.gtolib.api.machine.feature.IHeaterMachine;
-import com.gtolib.api.machine.trait.CustomRecipeLogic;
-import com.gtolib.api.recipe.Recipe;
-import com.gtolib.api.recipe.RecipeRunner;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys;
 import com.gregtechceu.gtceu.api.machine.TickableSubscription;
-import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
+import com.gregtechceu.gtceu.api.recipe.GTRecipeDefinition;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
+import com.gregtechceu.gtceu.api.recipe.handler.ICustomRecipeLogicHolder;
+import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
 
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.material.Fluid;
@@ -22,7 +21,7 @@ import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class ManaHeaterMachine extends SimpleManaMachine implements IHeaterMachine {
+public class ManaHeaterMachine extends SimpleManaMachine implements IHeaterMachine, ICustomRecipeLogicHolder {
 
     private static final Fluid SALAMANDER = GTOMaterials.Salamander.getFluid(FluidStorageKeys.GAS);
 
@@ -39,22 +38,6 @@ public class ManaHeaterMachine extends SimpleManaMachine implements IHeaterMachi
 
     public ManaHeaterMachine(MetaMachineBlockEntity holder) {
         super(holder, 2, t -> 8000);
-    }
-
-    @Nullable
-    private Recipe getRecipe() {
-        if (temperature >= getMaxTemperature()) return null;
-        Recipe recipe = getRecipeBuilder().duration(20).MANAt(16).buildRawRecipe();
-        if (RecipeRunner.matchTickRecipe(this, recipe)) {
-            return recipe;
-        }
-        return null;
-    }
-
-    @Override
-    @NotNull
-    public RecipeLogic createRecipeLogic() {
-        return new CustomRecipeLogic(this, this::getRecipe);
     }
 
     @Override
@@ -79,6 +62,7 @@ public class ManaHeaterMachine extends SimpleManaMachine implements IHeaterMachi
         if (!isRemote()) {
             tickSubs = subscribeServerTick(tickSubs, () -> {
                 tickUpdate();
+                if (temperature > getMaxTemperature()) getRecipeLogic().markLastRecipeDirty();
                 getRecipeLogic().updateTickSubscription();
             }, 20);
         }
@@ -129,5 +113,11 @@ public class ManaHeaterMachine extends SimpleManaMachine implements IHeaterMachi
 
     public boolean hasSalamanderInput() {
         return salamanderInput;
+    }
+
+    @Override
+    public GTRecipeDefinition createCustomRecipe(RecipeHandlerUnit unit) {
+        if (temperature >= getMaxTemperature()) return null;
+        return getRecipeBuilder().duration(20).MANAt(16).build();
     }
 }

@@ -28,7 +28,7 @@ public final class ColdIceFreezerMachine extends CustomParallelMultiblockMachine
         if (inputFluid(ICE.getRawFluid(), (1L << Math.max(0, getTier() - 2)) * 10L)) {
             return true;
         }
-        setFailReason(() -> ActionResult.failInsufficientIn(ICE.getDisplayName()).reason());
+        setIdleReason(() -> ActionResult.failInsufficientIn(ICE.getDisplayName()).reason());
         return false;
     }
 
