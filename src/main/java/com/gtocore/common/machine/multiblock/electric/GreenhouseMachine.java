@@ -1,10 +1,11 @@
 package com.gtocore.common.machine.multiblock.electric;
 
 import com.gtolib.api.machine.multiblock.ElectricMultiblockMachine;
-import com.gtolib.api.recipe.Recipe;
 import com.gtolib.utils.MachineUtils;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
+import com.gregtechceu.gtceu.api.recipe.GTRecipeDefinition;
+import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
@@ -49,12 +50,12 @@ public final class GreenhouseMachine extends ElectricMultiblockMachine {
     }
 
     @Override
-    protected boolean beforeWorking(Recipe recipe) {
+    public boolean checkConditions(RecipeHandlerUnit unit, GTRecipeDefinition recipe) {
         getGreenhouseLight();
         if (SkyLight == 0) {
             return false;
         }
-        return super.beforeWorking(recipe);
+        return super.checkConditions(unit, recipe);
     }
 
     @Override

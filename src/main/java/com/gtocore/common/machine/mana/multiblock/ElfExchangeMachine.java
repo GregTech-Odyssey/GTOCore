@@ -100,6 +100,11 @@ public class ElfExchangeMachine extends ManaMultiblockMachine implements ICustom
     }
 
     @Override
+    public boolean alwaysSearchRecipe() {
+        return true;
+    }
+
+    @Override
     public boolean searchRecipe() {
         return true;
     }

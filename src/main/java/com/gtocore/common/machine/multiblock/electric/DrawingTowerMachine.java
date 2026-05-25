@@ -8,6 +8,8 @@ import com.gtolib.api.machine.multiblock.CoilMultiblockMachine;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
+import com.gregtechceu.gtceu.api.recipe.GTRecipe;
+import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
 import com.gregtechceu.gtceu.api.recipe.modifier.ParallelLogic;
 import com.gregtechceu.gtceu.api.transfer.item.CustomItemStackHandler;
 
@@ -79,7 +81,7 @@ public final class DrawingTowerMachine extends CoilMultiblockMachine {
                 storage.setStackInSlot(0, ItemStack.EMPTY); // Remove the item if only one left
             }
             recipe.duration = (int) (recipe.duration * reduction);
-            return ParallelLogic.accurateParallel(this, recipe, parallels);
+            return ParallelLogic.accurateParallel(this, unit, recipe, parallels);
         }
         return null;
     }

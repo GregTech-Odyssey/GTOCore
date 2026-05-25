@@ -91,4 +91,9 @@ public final class VoidFluidDrillingRigMachine extends StorageMultiblockMachine 
         }
         return null;
     }
+
+    @Override
+    public boolean alwaysSearchRecipe() {
+        return true;
+    }
 }

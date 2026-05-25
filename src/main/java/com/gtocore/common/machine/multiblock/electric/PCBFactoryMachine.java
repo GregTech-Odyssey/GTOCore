@@ -17,6 +17,9 @@ import com.gregtechceu.gtceu.api.data.chemical.material.stack.MaterialStack;
 import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
 import com.gregtechceu.gtceu.api.pattern.BlockPattern;
 import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
+import com.gregtechceu.gtceu.api.recipe.GTRecipe;
+import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
+import com.gregtechceu.gtceu.api.recipe.modifier.RecipeModifier;
 import com.gregtechceu.gtceu.common.data.GTBlocks;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
@@ -26,7 +29,6 @@ import net.minecraft.network.chat.Component;
 import com.gto.datasynclib.annotations.SyncToClient;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -255,13 +257,15 @@ public final class PCBFactoryMachine extends StorageMultiblockMachine implements
 
     @Nullable
     @Override
-    public GTRecipe getRealRecipe(@NotNull RecipeHandlerUnit unit, @NotNull GTRecipe recipe) {
+    public GTRecipe getRealRecipe(RecipeHandlerUnit unit, GTRecipe recipe) {
         if (machineTier < 2) {
             if (recipe.getInputEUt() > 30719) return null;
         } else if (machineTier < 3) {
             if (recipe.getInputEUt() > 491519) return null;
         }
-        return RecipeModifier.overclocking(this, RecipeModifier.hatchParallel(this, recipe));
+        recipe = RecipeModifier.hatchParallel(this, unit, recipe);
+        if (recipe == null) return null;
+        return RecipeModifier.overclocking(this, unit, recipe);
     }
 
     @Override

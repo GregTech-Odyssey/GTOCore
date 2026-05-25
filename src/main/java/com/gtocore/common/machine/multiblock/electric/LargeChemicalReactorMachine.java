@@ -3,6 +3,9 @@ package com.gtocore.common.machine.multiblock.electric;
 import com.gtolib.api.machine.multiblock.CoilMultiblockMachine;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
+import com.gregtechceu.gtceu.api.recipe.GTRecipe;
+import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
+import com.gregtechceu.gtceu.api.recipe.modifier.RecipeModifier;
 
 import net.minecraft.network.chat.Component;
 
@@ -25,6 +28,6 @@ public final class LargeChemicalReactorMachine extends CoilMultiblockMachine {
     @Nullable
     @Override
     public GTRecipe getRealRecipe(@NotNull RecipeHandlerUnit unit, @NotNull GTRecipe recipe) {
-        return RecipeModifier.overclocking(this, recipe, false, 1, 1, (getCoilTier() + 2 > recipe.tier) ? 0.25 : 0.5);
+        return RecipeModifier.overclocking(this, unit, recipe, false, 1, 1, (getCoilTier() + 2 > recipe.tier) ? 0.25 : 0.5);
     }
 }

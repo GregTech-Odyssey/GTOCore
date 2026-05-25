@@ -7,12 +7,12 @@ import com.gtolib.api.machine.multiblock.ElectricMultiblockMachine;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
-import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
 import com.gregtechceu.gtceu.api.machine.multiblock.MultiblockDisplayText;
-import com.gregtechceu.gtceu.api.machine.trait.RecipeHandlerList;
+import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.content.Content;
 import com.gregtechceu.gtceu.api.recipe.handler.IO;
+import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
 
 import net.minecraft.network.chat.Component;
 
@@ -44,7 +44,7 @@ public class AnalysisAndResearchCenterMachine extends ElectricMultiblockMachine 
                 }
                 this.AnalyzeHolder = analyzeHolder;
                 // 添加物品处理器（包含扫描槽、催化剂槽和数据槽）
-                addHandlerList(RecipeHandlerList.of(IO.IN, analyzeHolder.getAsHandler()));
+                addHandlerList(RecipeHandlerUnit.of(IO.IN, analyzeHolder.getAsHandler()));
                 mode = 1;
             }
             if (part instanceof ResearchHolderMachine researchHolder) {
@@ -53,7 +53,7 @@ public class AnalysisAndResearchCenterMachine extends ElectricMultiblockMachine 
                     return;
                 }
                 this.ResearchHolder = researchHolder;
-                addHandlerList(RecipeHandlerList.of(IO.IN, researchHolder.getAsHandler()));
+                addHandlerList(RecipeHandlerUnit.of(IO.IN, researchHolder.getAsHandler()));
                 mode = 2;
             }
         }
@@ -107,13 +107,13 @@ public class AnalysisAndResearchCenterMachine extends ElectricMultiblockMachine 
     @Override
     public GTRecipe getRealRecipe(RecipeHandlerUnit unit, GTRecipe recipe) {
         // 1. 获取所有物品输出
-        List<Content> itemOutputs = recipe.outputs.get(ItemRecipeCapability.CAP);
+        var itemOutputs = recipe.itemOutputs;
 
         // 3. 加权随机选择一个输出
         int random = GTValues.RNG.nextInt(10000);
         int cumulative = 0;
-        Content selectedContent = itemOutputs.getLast();
-        for (Content content : itemOutputs) {
+        var selectedContent = itemOutputs.getLast();
+        for (var content : itemOutputs) {
             if (content.chance <= 0) continue;
             cumulative += content.chance;
             if (random <= cumulative) {
@@ -124,13 +124,11 @@ public class AnalysisAndResearchCenterMachine extends ElectricMultiblockMachine 
 
         // 3. 创建新的唯一输出列表
         if (selectedContent != null) {
-            Object selectedStack = selectedContent.inner;
-            Content newContent = new Content(selectedStack, 10000, 0);
-            List<Content> newOutputs = Collections.singletonList(newContent);
-            recipe.outputs.clear();
-            recipe.outputs.put(ItemRecipeCapability.CAP, newOutputs);
+            var selectedStack = selectedContent.inner;
+            var newContent = new Content<>(selectedStack, 10000, 0);
+            recipe.itemOutputs = Collections.singletonList(newContent);
         }
 
-        return super.getRealRecipe(recipe);
+        return super.getRealRecipe(unit, recipe);
     }
 }

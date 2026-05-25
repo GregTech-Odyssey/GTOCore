@@ -326,4 +326,9 @@ public final class SlaughterhouseMachine extends StorageMultiblockMachine implem
         }
         return null;
     }
+
+    @Override
+    public boolean alwaysSearchRecipe() {
+        return true;
+    }
 }

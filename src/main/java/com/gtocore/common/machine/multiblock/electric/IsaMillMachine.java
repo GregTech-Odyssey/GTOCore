@@ -5,11 +5,12 @@ import com.gtocore.common.machine.multiblock.part.BallHatchPartMachine;
 import com.gtocore.data.IdleReason;
 
 import com.gtolib.api.machine.multiblock.ElectricMultiblockMachine;
-import com.gtolib.api.recipe.Recipe;
 import com.gtolib.utils.MathUtil;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
+import com.gregtechceu.gtceu.api.recipe.GTRecipe;
+import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
 import com.gregtechceu.gtceu.api.transfer.item.CustomItemStackHandler;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
@@ -17,6 +18,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.Enchantments;
 
+import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 @ParametersAreNonnullByDefault
@@ -44,8 +46,10 @@ public final class IsaMillMachine extends ElectricMultiblockMachine {
     }
 
     @Override
-    protected boolean beforeWorking(Recipe recipe) {
-        if (!super.beforeWorking(recipe)) return false;
+    @Nullable
+    protected GTRecipe getRealRecipe(RecipeHandlerUnit unit, GTRecipe recipe) {
+        recipe = super.getRealRecipe(unit, recipe);
+        if (recipe == null) return null;
         CustomItemStackHandler storage = ballHatchPartMachine.getInventory().storage;
         ItemStack item = storage.getStackInSlot(0);
         int tier = BallHatchPartMachine.GRINDBALL.getOrDefault(item.getItem(), 0);
@@ -57,9 +61,9 @@ public final class IsaMillMachine extends ElectricMultiblockMachine {
             } else {
                 storage.setStackInSlot(0, ItemStack.EMPTY);
             }
-            return true;
+            return recipe;
         }
         setIdleReason(IdleReason.GRIND_BALL);
-        return false;
+        return null;
     }
 }

@@ -11,7 +11,9 @@ import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.gui.fancy.TooltipsPanel;
 import com.gregtechceu.gtceu.api.machine.ConditionalSubscriptionHandler;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableFluidTank;
+import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.handler.IO;
+import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
 import com.gregtechceu.gtceu.api.recipe.modifier.ParallelLogic;
 import com.gregtechceu.gtceu.api.transfer.fluid.IFluidHandlerModifiable;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
@@ -121,11 +123,11 @@ public final class CombustionEngineMachine extends ElectricMultiblockMachine {
     @Override
     protected GTRecipe getRealRecipe(RecipeHandlerUnit unit, GTRecipe recipe) {
         long EUt = recipe.getOutputEUt();
-        if (EUt > 0 && notConsumableFluid(LUBRICANT_STACK) && !isIntakesObstructed()) {
-            recipe = ParallelLogic.accurateContentParallel(this, recipe, getOverclockVoltage() / EUt);
+        if (EUt > 0 && unit.matchFluid(LUBRICANT_STACK) && !isIntakesObstructed()) {
+            recipe = ParallelLogic.accurateContentParallel(this, unit, recipe, getOverclockVoltage() / EUt);
             if (recipe == null) return null;
             if (isOxygenBoosted) {
-                recipe.setOutputEUt((long) (recipe.getOutputEUt() * (isExtreme() ? 2 : 1.5)));
+                recipe.setEUt(-((long) (recipe.getOutputEUt() * (isExtreme() ? 2 : 1.5))));
             }
             return recipe;
         }

@@ -14,7 +14,9 @@ import com.gregtechceu.gtceu.api.gui.fancy.ConfiguratorPanel;
 import com.gregtechceu.gtceu.api.gui.fancy.TooltipsPanel;
 import com.gregtechceu.gtceu.api.machine.ConditionalSubscriptionHandler;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableFluidTank;
+import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.handler.IO;
+import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
 import com.gregtechceu.gtceu.api.recipe.modifier.ParallelLogic;
 import com.gregtechceu.gtceu.api.transfer.fluid.IFluidHandlerModifiable;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
@@ -131,13 +133,13 @@ public final class ChemicalEnergyDevourerMachine extends ElectricMultiblockMachi
     @Override
     protected GTRecipe getRealRecipe(RecipeHandlerUnit unit, GTRecipe recipe) {
         var EUt = recipe.getOutputEUt();
-        if (EUt > 0 && notConsumableFluid(LUBRICANT_STACK) && !isIntakesObstructed()) {
-            recipe = ParallelLogic.accurateContentParallel(this, recipe, getOverclockVoltage() / EUt);
+        if (EUt > 0 && unit.matchFluid(LUBRICANT_STACK) && !isIntakesObstructed()) {
+            recipe = ParallelLogic.accurateContentParallel(this, unit, recipe, getOverclockVoltage() / EUt);
             if (recipe == null) return null;
             if (isOxygenBoosted && isDinitrogenTetroxideBoosted) {
-                recipe.setOutputEUt(EUt * recipe.parallels * 4);
+                recipe.setEUt(-(EUt * recipe.parallels * 4));
             } else if (isOxygenBoosted) {
-                recipe.setOutputEUt(EUt * recipe.parallels * 2);
+                recipe.setEUt(-(EUt * recipe.parallels * 2));
             }
             return recipe;
         } else requestSync();

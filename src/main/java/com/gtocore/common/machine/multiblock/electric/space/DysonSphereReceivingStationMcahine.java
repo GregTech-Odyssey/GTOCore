@@ -89,4 +89,9 @@ public final class DysonSphereReceivingStationMcahine extends ElectricMultiblock
                 .inputFluids(new FluidStack(GTOFluids.GELID_CRYOTHEUM.get(), Math.max(1, (int) Math.sqrt(pair.leftInt()))))
                 .build();
     }
+
+    @Override
+    public boolean alwaysSearchRecipe() {
+        return true;
+    }
 }

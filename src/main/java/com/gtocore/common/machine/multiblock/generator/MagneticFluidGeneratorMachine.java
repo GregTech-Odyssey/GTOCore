@@ -8,7 +8,10 @@ import com.gtolib.api.machine.multiblock.TierCasingMultiblockMachine;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.feature.ITieredMachine;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
+import com.gregtechceu.gtceu.api.recipe.GTRecipe;
+import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
 import com.gregtechceu.gtceu.api.recipe.modifier.ParallelLogic;
+import com.gregtechceu.gtceu.api.recipe.modifier.RecipeModifier;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.EnergyHatchPartMachine;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.LaserHatchPartMachine;
 
@@ -57,6 +60,8 @@ public final class MagneticFluidGeneratorMachine extends TierCasingMultiblockMac
     @Override
     public GTRecipe getRealRecipe(@NotNull RecipeHandlerUnit unit, @NotNull GTRecipe recipe) {
         if (outputTier < 1) return null;
-        return RecipeModifier.generatorOverclocking(this, ParallelLogic.accurateParallel(this, recipe, laser ? (long) Math.pow(base, outputTier - 1) : 1));
+        recipe = ParallelLogic.accurateParallel(this, unit, recipe, laser ? (long) Math.pow(base, outputTier - 1) : 1);
+        if (recipe == null) return null;
+        return RecipeModifier.generatorOverclocking(this, unit, recipe);
     }
 }

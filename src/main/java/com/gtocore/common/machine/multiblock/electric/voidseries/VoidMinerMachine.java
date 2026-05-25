@@ -84,4 +84,9 @@ public final class VoidMinerMachine extends StorageMultiblockMachine implements 
         }
         return null;
     }
+
+    @Override
+    public boolean alwaysSearchRecipe() {
+        return true;
+    }
 }

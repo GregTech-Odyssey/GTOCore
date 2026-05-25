@@ -10,9 +10,7 @@ import com.gtocore.common.machine.multiblock.part.research.ExResearchCoolerPartM
 
 import com.gtolib.api.item.IItem;
 import com.gtolib.api.machine.multiblock.StorageMultiblockMachine;
-import com.gtolib.api.recipe.Recipe;
 import com.gtolib.api.recipe.RecipeBuilder;
-import com.gtolib.api.recipe.RecipeDefinition;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
@@ -21,6 +19,9 @@ import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.machine.ConditionalSubscriptionHandler;
 import com.gregtechceu.gtceu.api.machine.TickableSubscription;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
+import com.gregtechceu.gtceu.api.recipe.GTRecipe;
+import com.gregtechceu.gtceu.api.recipe.GTRecipeDefinition;
+import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
 import com.gregtechceu.gtceu.api.transfer.item.CustomItemStackHandler;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.hpca.HPCABridgePartMachine;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.hpca.HPCAComponentPartMachine;
@@ -94,7 +95,7 @@ public final class SupercomputingCenterMachine extends StorageMultiblockMachine 
     private long allocatedCWUt;
     private long cacheCWUt;
     private long maxEUt;
-    private RecipeDefinition runRecipe;
+    private GTRecipeDefinition runRecipe;
     @Nullable
     private TickableSubscription tickSubs;
 
@@ -318,7 +319,7 @@ public final class SupercomputingCenterMachine extends StorageMultiblockMachine 
     }
 
     @Override
-    public Recipe fullModifyRecipe(Recipe recipe) {
+    public GTRecipe fullModifyRecipe(RecipeHandlerUnit unit, GTRecipe recipe) {
         // prevent any modification to mock the original behavior of setupRecipe
         return recipe;
     }
@@ -339,8 +340,10 @@ public final class SupercomputingCenterMachine extends StorageMultiblockMachine 
             if (getRecipeLogic().isWorking()) {
                 return requestCWUt(false, cwu);
             } else if (!getRecipeLogic().isSuspend()) {
-                if (getRecipeLogic().checkMatchedRecipeAvailable(runRecipe) && getRecipeLogic().isWorking()) {
-                    return requestCWUt(false, cwu);
+                for (var u : getInputUnits()) {
+                    if (getRecipeLogic().checkMatchedRecipeAvailable(u, runRecipe) && getRecipeLogic().isWorking()) {
+                        return requestCWUt(false, cwu);
+                    }
                 }
             }
         }
