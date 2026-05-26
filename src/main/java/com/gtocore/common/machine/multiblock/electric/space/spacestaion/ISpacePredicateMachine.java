@@ -29,7 +29,6 @@ import earth.terrarium.adastra.api.systems.OxygenApi;
 import earth.terrarium.adastra.api.systems.TemperatureApi;
 import earth.terrarium.adastra.common.constants.PlanetConstants;
 import earth.terrarium.adastra.common.registry.ModSoundEvents;
-import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import it.unimi.dsi.fastutil.objects.ReferenceOpenHashSet;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -89,7 +88,7 @@ public interface ISpacePredicateMachine extends ISpaceWorkspaceMachine, ICleanro
         /// Oxygen and Temperature
         /// @see earth.terrarium.adastra.common.blockentities.machines.OxygenDistributorBlockEntity#tickOxygen
         if (getLevel() instanceof ServerLevel level) {
-            Set<BlockPos> positions = new ObjectOpenHashSet<>(getMultiblockState().getMatchContext().getOrDefault(GTOPredicates.DataKeys.SPACE, Collections.emptySet()));
+            Set<BlockPos> positions = new OpenCacheHashSet<>(getMultiblockState().getMatchContext().getOrDefault(GTOPredicates.DataKeys.SPACE, Collections.emptySet()));
 
             this.resetLastDistributedBlocks(positions);
             OxygenApi.API.setOxygen(level, positions, true);

@@ -77,8 +77,8 @@ public class SpaceElevatorModuleMachine extends CustomParallelMultiblockMachine 
     }
 
     @Override
-    public boolean onWorking() {
-        if (!super.onWorking()) return false;
+    public boolean handleTickRecipe(GTRecipe recipe) {
+        if (!super.handleTickRecipe(recipe)) return false;
         if (getOffsetTimer() % 10 == 0) {
             return getSpaceElevatorTier() >= 8;
         }

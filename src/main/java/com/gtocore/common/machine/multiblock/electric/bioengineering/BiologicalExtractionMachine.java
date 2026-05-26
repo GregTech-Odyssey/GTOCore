@@ -53,8 +53,8 @@ public final class BiologicalExtractionMachine extends CrossRecipeMultiblockMach
     }
 
     @Override
-    public boolean onWorking() {
-        if (super.onWorking()) {
+    public boolean handleTickRecipe(GTRecipe recipe) {
+        if (super.handleTickRecipe(recipe)) {
             if (redstoneSignalOutput > 9) {
                 redstoneSignalOutput--;
                 if (redstoneSignalOutput == 9) {

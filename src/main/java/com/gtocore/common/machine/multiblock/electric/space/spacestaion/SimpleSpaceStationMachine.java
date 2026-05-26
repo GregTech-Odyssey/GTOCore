@@ -138,7 +138,7 @@ public class SimpleSpaceStationMachine extends AbstractSpaceStation implements I
     }
 
     @Override
-    public boolean onWorking() {
+    public void onWorking() {
         var time = getOffsetTimer();
         if (time % 20 == 0) {
 
@@ -153,7 +153,7 @@ public class SimpleSpaceStationMachine extends AbstractSpaceStation implements I
                 }
             }
         }
-        return super.onWorking();
+        super.onWorking();
     }
 
     @Override

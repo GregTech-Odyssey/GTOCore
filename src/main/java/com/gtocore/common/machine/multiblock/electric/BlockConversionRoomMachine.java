@@ -94,8 +94,8 @@ public final class BlockConversionRoomMachine extends StorageMultiblockMachine i
     }
 
     @Override
-    public boolean onWorking() {
-        if (!super.onWorking()) return false;
+    public void onWorking() {
+        super.onWorking();
         if (getOffsetTimer() % 20 == 0) {
             int amount = getConversionAmount();
             if (!blockBusPartMachines.isEmpty() && getStorageStack().getItem() == GTOItems.CONVERSION_SIMULATE_CARD.get()) {
@@ -126,7 +126,6 @@ public final class BlockConversionRoomMachine extends StorageMultiblockMachine i
                 }
             }
         }
-        return true;
     }
 
     // 用来冒充巨构的代码，有了巨构记得改

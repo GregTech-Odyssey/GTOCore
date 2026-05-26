@@ -172,14 +172,13 @@ public class SpaceElevatorMachine extends TierCasingMultiblockMachine implements
     }
 
     @Override
-    public boolean onWorking() {
-        if (!super.onWorking()) return false;
+    public void onWorking() {
+        super.onWorking();
         update(false);
         if (getRecipeLogic().getProgress() > 190) {
             getRecipeLogic().setProgress(1);
             getNetMachine();
         }
-        return true;
     }
 
     @Override

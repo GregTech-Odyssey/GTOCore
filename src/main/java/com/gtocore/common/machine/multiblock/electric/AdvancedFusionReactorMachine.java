@@ -130,7 +130,7 @@ public final class AdvancedFusionReactorMachine extends CrossRecipeMultiblockMac
     }
 
     @Override
-    public boolean onWorking() {
+    public void onWorking() {
         if (color == -1) {
             GTRecipe recipe = recipeLogic.getLastRecipe();
             assert recipe != null;
@@ -144,7 +144,7 @@ public final class AdvancedFusionReactorMachine extends CrossRecipeMultiblockMac
                 }
             }
         }
-        return super.onWorking();
+        super.onWorking();
     }
 
     @Override

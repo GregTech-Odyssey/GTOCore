@@ -78,17 +78,13 @@ public class ManaHeaterMachine extends SimpleManaMachine implements IHeaterMachi
     }
 
     @Override
-    public boolean onWorking() {
-        if (super.onWorking()) {
-            if (getOffsetTimer() % 10 == 0 && getMaxTemperature() > temperature + 10) {
-                var hasSalamander = inputFluid(SALAMANDER, 10);
-                this.salamanderInput = hasSalamander;
-                raiseTemperature(hasSalamander ? 10 : 2);
-            }
-            return true;
+    public void onWorking() {
+        super.onWorking();
+        if (getOffsetTimer() % 10 == 0 && getMaxTemperature() > temperature + 10) {
+            var hasSalamander = inputFluid(SALAMANDER, 10);
+            this.salamanderInput = hasSalamander;
+            raiseTemperature(hasSalamander ? 10 : 2);
         }
-        this.salamanderInput = false;
-        return false;
     }
 
     @Override

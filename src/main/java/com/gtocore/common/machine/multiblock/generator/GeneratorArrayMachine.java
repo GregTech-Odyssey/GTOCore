@@ -126,8 +126,7 @@ public final class GeneratorArrayMachine extends StorageMultiblockMachine implem
     }
 
     @Override
-    public boolean onWorking() {
-        if (!super.onWorking()) return false;
+    public boolean handleTickRecipe(GTRecipe recipe) {
         if (isw) {
             if (eut > 0) {
                 var container = getWirelessEnergyContainer();
@@ -140,6 +139,8 @@ public final class GeneratorArrayMachine extends StorageMultiblockMachine implem
             } else {
                 return false;
             }
+        } else {
+            return super.handleTickRecipe(recipe);
         }
         return true;
     }

@@ -508,7 +508,6 @@ public final class MultiBlockA {
                 if (m.getProgress() == m.getMaxProgress() - 1 && m.getRecipeLogic().getLastRecipe() != null && m.getRecipeLogic().getLastRecipe().data.getBoolean(GTORecipeDataKeys.IS_CUSTOM)) {
                     m.getRecipeLogic().markLastRecipeDirty();
                 }
-                return true;
             })
             .register();
 

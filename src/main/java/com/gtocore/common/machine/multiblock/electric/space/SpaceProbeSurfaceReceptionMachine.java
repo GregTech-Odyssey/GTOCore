@@ -80,8 +80,8 @@ public final class SpaceProbeSurfaceReceptionMachine extends ElectricMultiblockM
     }
 
     @Override
-    public boolean onWorking() {
-        if (super.onWorking()) {
+    public boolean handleTickRecipe(GTRecipe recipe) {
+        if (super.handleTickRecipe(recipe)) {
             Level level = getLevel();
             if (level == null) return false;
             if (getOffsetTimer() % 20 == 0) {

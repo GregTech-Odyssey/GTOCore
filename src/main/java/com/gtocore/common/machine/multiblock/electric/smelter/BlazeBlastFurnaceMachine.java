@@ -39,9 +39,9 @@ public final class BlazeBlastFurnaceMachine extends CoilCustomParallelMultiblock
     }
 
     @Override
-    public boolean onWorking() {
+    public boolean handleTickRecipe(GTRecipe recipe) {
         if (getOffsetTimer() % 20 == 0 && !inputFluid()) getRecipeLogic().setProgress(0);
-        return super.onWorking();
+        return super.handleTickRecipe(recipe);
     }
 
     @Override

@@ -33,9 +33,9 @@ public final class ColdIceFreezerMachine extends CustomParallelMultiblockMachine
     }
 
     @Override
-    public boolean onWorking() {
-        if (getOffsetTimer() % 20 == 0 && !inputFluid()) return false;
-        return super.onWorking();
+    public boolean handleTickRecipe(GTRecipe recipe) {
+        if (getOffsetTimer() % 20 == 0 && !inputFluid()) getRecipeLogic().setProgress(0);
+        return super.handleTickRecipe(recipe);
     }
 
     @Override

@@ -79,8 +79,8 @@ public final class ResidualDecontaminantDegasserPurificationUnitMachine extends 
     }
 
     @Override
-    public boolean onWorking() {
-        if (!super.onWorking()) return false;
+    public void onWorking() {
+        super.onWorking();
         if (!failed && getOffsetTimer() % 20 == 0) {
             IntHolder nonEmpty = new IntHolder();
             fastForEachFluids(true, (stack, amount) -> {
@@ -95,7 +95,6 @@ public final class ResidualDecontaminantDegasserPurificationUnitMachine extends 
             });
             if (fluidStack.isEmpty() && nonEmpty.value == 0) successful = true;
         }
-        return true;
     }
 
     @Override

@@ -73,8 +73,8 @@ public final class ManaAlloyBlastSmelterMachine extends CoilCustomParallelMultib
     }
 
     @Override
-    public boolean onWorking() {
-        if (super.onWorking()) {
+    public boolean handleTickRecipe(GTRecipe recipe) {
+        if (super.handleTickRecipe(recipe)) {
             tick++;
             if (time > 1) {
                 time--;

@@ -118,8 +118,8 @@ public class NeutronActivatorMachine extends NoEnergyMultiblockMachine implement
     }
 
     @Override
-    public boolean onWorking() {
-        return super.onWorking() && working();
+    public boolean handleTickRecipe(GTRecipe recipe) {
+        return super.handleTickRecipe(recipe) && working();
     }
 
     boolean working() {

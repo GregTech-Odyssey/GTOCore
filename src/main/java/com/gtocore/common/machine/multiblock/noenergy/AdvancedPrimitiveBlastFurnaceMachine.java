@@ -94,7 +94,7 @@ public final class AdvancedPrimitiveBlastFurnaceMachine extends NoEnergyCustomPa
     }
 
     @Override
-    public boolean onWorking() {
+    public void onWorking() {
         if (getOffsetTimer() % 40 == 0 && getLevel() != null) {
             var recipe = getRecipeLogic().getLastRecipe();
             if (recipe != null) {
@@ -114,7 +114,7 @@ public final class AdvancedPrimitiveBlastFurnaceMachine extends NoEnergyCustomPa
                 }
             }
         }
-        return super.onWorking();
+        super.onWorking();
     }
 
     @Override

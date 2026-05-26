@@ -93,7 +93,8 @@ public final class StellarForgeMachine extends TierCasingMultiblockMachine imple
 
     @Override
     public void regressRecipe(RecipeLogic recipeLogic) {
-        recipeLogic.interruptRecipe();
+        setWorkingEnabled(false);
+        recipeLogic.resetRecipeLogic();
         doExplosion(1);
     }
 

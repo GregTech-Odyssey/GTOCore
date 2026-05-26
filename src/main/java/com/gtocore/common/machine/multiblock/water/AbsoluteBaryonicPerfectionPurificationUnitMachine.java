@@ -96,8 +96,8 @@ public final class AbsoluteBaryonicPerfectionPurificationUnitMachine extends Wat
     }
 
     @Override
-    public boolean onWorking() {
-        if (!super.onWorking()) return false;
+    public void onWorking() {
+        super.onWorking();
         if (getOffsetTimer() % 20 == 0) {
             boolean successful = false;
             for (ItemBusPartMachine bus : busMachines) {
@@ -124,7 +124,6 @@ public final class AbsoluteBaryonicPerfectionPurificationUnitMachine extends Wat
                 }
             }
         }
-        return true;
     }
 
     @Override

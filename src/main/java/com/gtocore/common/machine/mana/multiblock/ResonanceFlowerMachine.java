@@ -122,8 +122,8 @@ public class ResonanceFlowerMachine extends ManaMultiblockMachine implements ISt
     }
 
     @Override
-    public boolean onWorking() {
-        if (super.onWorking()) {
+    public boolean handleTickRecipe(GTRecipe recipe) {
+        if (super.handleTickRecipe(recipe)) {
             if (frequency > 0 && getRecipeLogic().getProgress() % frequency == 0 && getRecipeLogic().getProgress() != 0) {
                 if (!resonanceFluid.isEmpty()) {
                     return inputFluid(resonanceFluid);

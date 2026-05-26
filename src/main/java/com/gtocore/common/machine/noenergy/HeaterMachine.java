@@ -77,12 +77,9 @@ public final class HeaterMachine extends SimpleNoEnergyMachine implements IHeate
     }
 
     @Override
-    public boolean onWorking() {
-        if (super.onWorking()) {
-            if (getOffsetTimer() % 10 == 0) raiseTemperature(1);
-            return true;
-        }
-        return false;
+    public void onWorking() {
+        super.onWorking();
+        if (getOffsetTimer() % 10 == 0) raiseTemperature(1);
     }
 
     @Override

@@ -83,8 +83,8 @@ public final class ExtremeTemperatureFluctuationPurificationUnitMachine extends 
     }
 
     @Override
-    public boolean onWorking() {
-        if (!super.onWorking()) return false;
+    public void onWorking() {
+        super.onWorking();
         if (getOffsetTimer() % 20 == 0) {
             long[] a = getFluidAmount(true, HELIUM_LIQUID, HELIUM_PLASMA);
             int helium_liquid = (int) Math.min(100, a[0]);
@@ -100,7 +100,7 @@ public final class ExtremeTemperatureFluctuationPurificationUnitMachine extends 
             if (heat > 12500) {
                 heat = 298;
                 outputFluid(STEAM, inputCount * 9);
-                return false;
+                return;
             } else if (heat > 10000) {
                 cycle = true;
             }
@@ -110,7 +110,6 @@ public final class ExtremeTemperatureFluctuationPurificationUnitMachine extends 
             }
             sensorMachine.forEach(s -> s.update(heat));
         }
-        return true;
     }
 
     @Override

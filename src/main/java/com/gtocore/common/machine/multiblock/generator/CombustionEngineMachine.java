@@ -135,8 +135,8 @@ public final class CombustionEngineMachine extends ElectricMultiblockMachine {
     }
 
     @Override
-    public boolean onWorking() {
-        if (!super.onWorking()) return false;
+    public boolean handleTickRecipe(GTRecipe recipe) {
+        if (!super.handleTickRecipe(recipe)) return false;
         long totalContinuousRunningTime = recipeLogic.getTotalContinuousRunningTime();
         if ((totalContinuousRunningTime == 1 || totalContinuousRunningTime % 72 == 0)) {
             if (!inputFluid(LUBRICANT_STACK)) {

@@ -54,8 +54,8 @@ public class AlchemyCauldron extends SimpleManaMachine implements IReceiveHeatMa
     }
 
     @Override
-    public boolean onWorking() {
-        if (super.onWorking()) {
+    public boolean handleTickRecipe(GTRecipe recipe) {
+        if (super.handleTickRecipe(recipe)) {
             if (getOffsetTimer() % 20 == 0) return reduceTemperature(1) == 1;
             return true;
         }

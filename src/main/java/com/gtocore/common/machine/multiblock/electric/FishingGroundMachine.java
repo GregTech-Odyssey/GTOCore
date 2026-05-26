@@ -49,14 +49,14 @@ public class FishingGroundMachine extends ElectricMultiblockMachine implements I
     };
 
     @Override
-    public boolean onWorking() {
+    public void onWorking() {
         if (piglinSoundPlayCD > 0) piglinSoundPlayCD--;
         else if (fishingHook != null && getLevel() instanceof ServerLevel level) {
             SoundEvent soundEvent = soundEntries[level.random.nextInt(soundEntries.length)];
             level.playSound(null, getPos(), soundEvent, SoundSource.BLOCKS);
             piglinSoundPlayCD = 10 + level.random.nextInt(100);
         }
-        return super.onWorking();
+        super.onWorking();
     }
 
     @Override

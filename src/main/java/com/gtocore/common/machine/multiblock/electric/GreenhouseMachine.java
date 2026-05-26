@@ -59,8 +59,8 @@ public final class GreenhouseMachine extends ElectricMultiblockMachine {
     }
 
     @Override
-    public boolean onWorking() {
-        if (!super.onWorking()) return false;
+    public void onWorking() {
+        super.onWorking();
         if (getOffsetTimer() % 20 == 0) {
             getGreenhouseLight();
             if (SkyLight == 0) {
@@ -70,7 +70,6 @@ public final class GreenhouseMachine extends ElectricMultiblockMachine {
                 getRecipeLogic().setProgress(getRecipeLogic().getProgress() - 10);
             }
         }
-        return true;
     }
 
     @Override

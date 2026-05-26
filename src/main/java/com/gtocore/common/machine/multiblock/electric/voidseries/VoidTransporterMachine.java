@@ -117,12 +117,9 @@ public final class VoidTransporterMachine extends ElectricMultiblockMachine impl
     }
 
     @Override
-    public boolean onWorking() {
-        if (super.onWorking()) {
-            energyContainer.addEnergy(getOverclockVoltage());
-            return true;
-        }
-        return false;
+    public void onWorking() {
+        super.onWorking();
+        energyContainer.addEnergy(getOverclockVoltage());
     }
 
     @Override

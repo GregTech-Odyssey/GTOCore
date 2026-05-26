@@ -90,8 +90,8 @@ public final class HighEnergyLaserPurificationUnitMachine extends WaterPurificat
     }
 
     @Override
-    public boolean onWorking() {
-        if (!super.onWorking()) return false;
+    public void onWorking() {
+        super.onWorking();
         if (getRecipeLogic().getProgress() > time) {
             time = GTValues.RNG.nextInt(120) + 120 + getRecipeLogic().getProgress();
             if (index < 9) {
@@ -119,7 +119,6 @@ public final class HighEnergyLaserPurificationUnitMachine extends WaterPurificat
         } else {
             indicatorHatchPartMachine.setRedstoneSignalOutput(0);
         }
-        return true;
     }
 
     private boolean match() {

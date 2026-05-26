@@ -97,9 +97,8 @@ public class FastNeutronBreederReactor extends CustomParallelMultiblockMachine i
     }
 
     @Override
-    public boolean onWorking() {
+    public boolean handleTickRecipe(GTRecipe recipe) {
         if (getRecipeLogic().getLastRecipe() != null && getOffsetTimer() % 20 == 0) {
-            var recipe = getRecipeLogic().getLastRecipe();
             var change = recipe.data.getFloat(GTORecipeDataKeys.NEUTRON_FLUX_CHANGE);
             neutronFluxkeV = Math.max(0, neutronFluxkeV + change);
             var neededNeutronFlux = recipe.data.getFloat(GTORecipeDataKeys.NEUTRON_FLUX);
@@ -109,7 +108,7 @@ public class FastNeutronBreederReactor extends CustomParallelMultiblockMachine i
             }
             recipeHeat = getRecipeHeat(recipe);
         }
-        return super.onWorking();
+        return super.handleTickRecipe(recipe);
     }
 
     @Override

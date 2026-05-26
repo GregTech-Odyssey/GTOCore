@@ -83,12 +83,9 @@ public class LargeAlgaeFarm extends ElectricMultiblockMachine implements ITierCa
     }
 
     @Override
-    public boolean onWorking() {
-        if (super.onWorking()) {
-            if (getOffsetTimer() % 20 == 0) produceAlgae();
-            return true;
-        }
-        return false;
+    public void onWorking() {
+        super.onWorking();
+        if (getOffsetTimer() % 20 == 0) produceAlgae();
     }
 
     @Override

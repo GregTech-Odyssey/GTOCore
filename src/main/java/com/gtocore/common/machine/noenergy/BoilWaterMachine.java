@@ -65,8 +65,8 @@ public final class BoilWaterMachine extends SimpleNoEnergyMachine implements IRe
     }
 
     @Override
-    public boolean onWorking() {
-        if (super.onWorking()) {
+    public boolean handleTickRecipe(GTRecipe recipe) {
+        if (super.handleTickRecipe(recipe)) {
             if (getOffsetTimer() % 15 == 0) return reduceTemperature(1) == 1;
             return true;
         }

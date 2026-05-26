@@ -169,7 +169,6 @@ public final class GTMachineModify {
                             return false;
                         });
                     }
-                    return true;
                 });
             }
         }

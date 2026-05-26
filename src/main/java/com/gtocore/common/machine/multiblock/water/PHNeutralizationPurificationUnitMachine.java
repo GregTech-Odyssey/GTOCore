@@ -71,8 +71,8 @@ public final class PHNeutralizationPurificationUnitMachine extends WaterPurifica
     }
 
     @Override
-    public boolean onWorking() {
-        if (!super.onWorking()) return false;
+    public void onWorking() {
+        super.onWorking();
         if (getOffsetTimer() % 20 == 0) {
             int sh = MathUtil.saturatedCast(getItemAmount(true, SodiumHydroxide.getItem())[0]);
             if (inputItem(SodiumHydroxide.getItem(), sh)) {
@@ -84,7 +84,6 @@ public final class PHNeutralizationPurificationUnitMachine extends WaterPurifica
             }
             sensorPartMachines.forEach(s -> s.update(ph));
         }
-        return true;
     }
 
     @Override

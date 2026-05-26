@@ -175,7 +175,7 @@ public class TurbineMachine extends ElectricMultiblockMachine {
     }
 
     @Override
-    public boolean onWorking() {
+    public void onWorking() {
         if (highSpeedMode && getOffsetTimer() % 20 == 0) {
             accumulatedDamage += getHighSpeedModeDamageMultiplier();
             if (accumulatedDamage >= 1) {
@@ -186,7 +186,7 @@ public class TurbineMachine extends ElectricMultiblockMachine {
                 }
             }
         }
-        return super.onWorking();
+        super.onWorking();
     }
 
     @Override
@@ -416,7 +416,7 @@ public class TurbineMachine extends ElectricMultiblockMachine {
         }
 
         @Override
-        public boolean onWorking() {
+        public void onWorking() {
             if (getCoilTier() > 0) {
                 this.workAccumulation += getCoilTier() * 1.25f + 4;
                 int addition = (int) Math.floor(this.workAccumulation);
@@ -425,7 +425,7 @@ public class TurbineMachine extends ElectricMultiblockMachine {
                     part.setRotorSpeed(Math.min(part.getRotorSpeed() + addition, part.getMaxRotorHolderSpeed()));
                 }
             }
-            return super.onWorking();
+            super.onWorking();
         }
 
         @Override

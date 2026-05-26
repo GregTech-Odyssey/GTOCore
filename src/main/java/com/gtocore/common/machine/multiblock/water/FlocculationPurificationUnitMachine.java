@@ -44,8 +44,8 @@ public final class FlocculationPurificationUnitMachine extends WaterPurification
     }
 
     @Override
-    public boolean onWorking() {
-        if (!super.onWorking()) return false;
+    public void onWorking() {
+        super.onWorking();
         if (getOffsetTimer() % 20 == 0) {
             long amount = getFluidAmount(true, PolyAluminiumChloride)[0];
             if (inputFluid(PolyAluminiumChloride, amount)) {
@@ -57,7 +57,6 @@ public final class FlocculationPurificationUnitMachine extends WaterPurification
                 }
             }
         }
-        return true;
     }
 
     @Override

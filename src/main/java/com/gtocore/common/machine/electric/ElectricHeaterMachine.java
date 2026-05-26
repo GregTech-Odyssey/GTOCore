@@ -100,14 +100,11 @@ public final class ElectricHeaterMachine extends WorkableTieredMachine implement
     }
 
     @Override
-    public boolean onWorking() {
-        if (super.onWorking()) {
-            if (getOffsetTimer() % 10 == 0 && MaxTemperature > temperature + 4) {
-                raiseTemperature(4);
-            }
-            return true;
+    public void onWorking() {
+        super.onWorking();
+        if (getOffsetTimer() % 10 == 0 && MaxTemperature > temperature + 4) {
+            raiseTemperature(4);
         }
-        return false;
     }
 
     @Override
