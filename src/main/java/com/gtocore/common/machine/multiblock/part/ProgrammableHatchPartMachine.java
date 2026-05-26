@@ -8,6 +8,7 @@ import com.gtolib.api.annotation.DataGeneratorScanned;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.gui.fancy.TabsWidget;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
+import com.gregtechceu.gtceu.api.machine.feature.IRecipeLogicMachine;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiController;
 import com.gregtechceu.gtceu.api.machine.trait.CircuitHandler;
 import com.gregtechceu.gtceu.api.machine.trait.IRecipeHandlerTrait;
@@ -26,7 +27,6 @@ import com.hepdd.gtmthings.api.machine.IProgrammableMachine;
 import com.hepdd.gtmthings.common.item.VirtualItemProviderBehavior;
 import com.hepdd.gtmthings.data.CustomItems;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -42,7 +42,6 @@ public final class ProgrammableHatchPartMachine extends DualHatchPartMachine imp
     private final ArrayList<GTRecipeType> recipeTypes = new ArrayList<>();
     @Persisted
     @SyncToClient
-    @Setter
     private GTRecipeType recipeType = null;
 
     public ProgrammableHatchPartMachine(MetaMachineBlockEntity holder, int tier, IO io, Object... args) {
@@ -104,7 +103,6 @@ public final class ProgrammableHatchPartMachine extends DualHatchPartMachine imp
     @Override
     public void attachSideTabs(TabsWidget sideTabs) {
         super.attachSideTabs(sideTabs);
-        MultiMachineModeFancyConfigurator.verify(recipeTypes, recipeType, () -> recipeType = null);
         sideTabs.attachSubTab(new MultiMachineModeFancyConfigurator(recipeTypes, recipeType, this::setRecipeType));
     }
 
@@ -120,6 +118,18 @@ public final class ProgrammableHatchPartMachine extends DualHatchPartMachine imp
     public void removedFromController(@NotNull IMultiController controller) {
         super.removedFromController(controller);
         this.recipeTypes.clear();
+    }
+
+    public void setRecipeType(GTRecipeType type) {
+        if (type != recipeType) {
+            recipeType = type;
+            for (var c : getControllers()) {
+                if (c instanceof IRecipeLogicMachine machine) {
+                    machine.getRecipeLogic().markLastRecipeDirty();
+                    machine.getRecipeLogic().updateTickSubscription();
+                }
+            }
+        }
     }
 
     @Override

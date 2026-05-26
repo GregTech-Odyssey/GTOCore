@@ -125,7 +125,6 @@ public abstract class MEPatternBufferPartMachine extends MEPatternPartMachineKt<
     @Persisted
     @SyncToClient
     @Getter
-    @Setter
     public GTRecipeType recipeType = null;
 
     @SyncToClient
@@ -233,7 +232,6 @@ public abstract class MEPatternBufferPartMachine extends MEPatternPartMachineKt<
     @Override
     public void attachSideTabs(TabsWidget sideTabs) {
         super.attachSideTabs(sideTabs);
-        MultiMachineModeFancyConfigurator.verify(recipeTypes, recipeType, () -> recipeType = null);
         sideTabs.attachSubTab(new MultiMachineModeFancyConfigurator(recipeTypes, recipeType, this::setRecipeType));
     }
 
@@ -252,6 +250,18 @@ public abstract class MEPatternBufferPartMachine extends MEPatternPartMachineKt<
     public void removedFromController(IMultiController controller) {
         super.removedFromController(controller);
         this.recipeTypes.clear();
+    }
+
+    public void setRecipeType(GTRecipeType type) {
+        if (type != recipeType) {
+            recipeType = type;
+            for (var c : getControllers()) {
+                if (c instanceof IRecipeLogicMachine machine) {
+                    machine.getRecipeLogic().markLastRecipeDirty();
+                    machine.getRecipeLogic().updateTickSubscription();
+                }
+            }
+        }
     }
 
     @Override
