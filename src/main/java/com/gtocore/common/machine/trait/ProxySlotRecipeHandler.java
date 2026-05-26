@@ -22,23 +22,26 @@ public final class ProxySlotRecipeHandler {
         int slots = patternBuffer == null ? 0 : patternBuffer.getMaxPatternCount();
         proxySlotHandlers = new ArrayList<>(slots);
         for (int i = 0; i < slots; ++i) {
-            proxySlotHandlers.add(ProxyRHL.of(machine, patternBuffer.getInternalInventory()[i]));
+            proxySlotHandlers.add(PatternBufferProxyRHL.of(machine, patternBuffer.getInternalInventory()[i]));
         }
     }
 
     public void updateProxy(MEPatternBufferPartMachine patternBuffer) {
-        var slotHandlers = patternBuffer.internalRecipeHandler.getSlotHandlers();
-        for (int i = 0; i < proxySlotHandlers.size(); ++i) {
-            ProxyRHL proxyRHL = (ProxyRHL) proxySlotHandlers.get(i);
-            proxyRHL.setBuffer(patternBuffer, (InternalSlotRecipeHandler.SlotRHL) slotHandlers.get(i));
+        if (patternBuffer == null) {
+            for (RecipeHandlerUnit proxySlotHandler : proxySlotHandlers) {
+                PatternBufferProxyRHL proxyRHL = (PatternBufferProxyRHL) proxySlotHandler;
+                proxyRHL.clearBuffer();
+            }
+        } else {
+            var slotHandlers = patternBuffer.internalRecipeHandler.getSlotHandlers();
+            for (int i = 0; i < proxySlotHandlers.size(); ++i) {
+                PatternBufferProxyRHL proxyRHL = (PatternBufferProxyRHL) proxySlotHandlers.get(i);
+                proxyRHL.setBuffer(patternBuffer, (InternalSlotRecipeHandler.PatternBufferRHL) slotHandlers.get(i));
+            }
         }
     }
 
-    private static final class ProxyRHL extends InternalSlotRecipeHandler.AbstractRHL<MEPatternBufferPartMachine.InternalSlot> {
-
-        private static ProxyRHL of(MEPatternBufferProxyPartMachine machine, MEPatternBufferPartMachine.InternalSlot slot) {
-            return new ProxyRHL(machine, slot, new ProxyRecipeHandler(machine), new ProxyRecipeHandler(machine), new ProxyRecipeHandler(machine), new ProxyRecipeHandler(machine), new ProxyRecipeHandler(machine), new ProxyRecipeHandler(machine), new ProxyRecipeHandler(machine));
-        }
+    private static final class PatternBufferProxyRHL extends InternalSlotRecipeHandler.PatternSlotRHL {
 
         private final ProxyRecipeHandler slotHandler;
         private final ProxyRecipeHandler circuit;
@@ -48,24 +51,28 @@ public final class ProxySlotRecipeHandler {
         private final ProxyRecipeHandler sharedFluid;
         private final ProxyRecipeHandler slotSharedFluid;
 
-        private ProxyRHL(MEPatternBufferProxyPartMachine machine, MEPatternBufferPartMachine.InternalSlot slot, ProxyRecipeHandler slotHandler, ProxyRecipeHandler circuit, ProxyRecipeHandler slotCircuit, ProxyRecipeHandler sharedItem, ProxyRecipeHandler slotSharedItem, ProxyRecipeHandler sharedFluid, ProxyRecipeHandler slotSharedFluid) {
-            super(slot, machine, slotHandler, circuit, slotCircuit, sharedItem, slotSharedItem, sharedFluid, slotSharedFluid);
-            this.slotHandler = slotHandler;
-            this.circuit = circuit;
-            this.slotCircuit = slotCircuit;
-            this.sharedItem = sharedItem;
-            this.slotSharedItem = slotSharedItem;
-            this.sharedFluid = sharedFluid;
-            this.slotSharedFluid = slotSharedFluid;
+        private static PatternBufferProxyRHL of(MEPatternBufferProxyPartMachine machine, MEPatternBufferPartMachine.InternalSlot slot) {
+            return new PatternBufferProxyRHL(machine, slot, new ProxyRecipeHandler(machine), new ProxyRecipeHandler(machine), new ProxyRecipeHandler(machine), new ProxyRecipeHandler(machine), new ProxyRecipeHandler(machine), new ProxyRecipeHandler(machine), new ProxyRecipeHandler(machine));
         }
 
-        private void setBuffer(MEPatternBufferPartMachine buffer, InternalSlotRecipeHandler.SlotRHL slotRHL) {
-            circuit.setProxy(buffer.circuitInventorySimulated);
-            sharedItem.setProxy(buffer.shareInventory);
-            sharedFluid.setProxy(buffer.shareTank);
+        private PatternBufferProxyRHL(MEPatternBufferProxyPartMachine machine, MEPatternBufferPartMachine.InternalSlot slot, ProxyRecipeHandler slotHandler, ProxyRecipeHandler circuit, ProxyRecipeHandler slotCircuit, ProxyRecipeHandler sharedItem, ProxyRecipeHandler slotSharedItem, ProxyRecipeHandler sharedFluid, ProxyRecipeHandler slotSharedFluid) {
+            super(slot, machine, slotHandler, circuit, slotCircuit, sharedItem, slotSharedItem, sharedFluid, slotSharedFluid);
+            this.slotHandler = slotHandler.setCanHandleItem(true).setCanHandleFluid(true);
+            this.circuit = circuit.setCanHandleItem(true);
+            this.slotCircuit = slotCircuit.setCanHandleItem(true);
+            this.sharedItem = sharedItem.setCanHandleItem(true);
+            this.slotSharedItem = slotSharedItem.setCanHandleItem(true);
+            this.sharedFluid = sharedFluid.setCanHandleFluid(true);
+            this.slotSharedFluid = slotSharedFluid.setCanHandleFluid(true);
+        }
+
+        private void setBuffer(MEPatternBufferPartMachine buffer, InternalSlotRecipeHandler.PatternBufferRHL slotRHL) {
             slotHandler.setProxy(slotRHL.recipeHandler);
+            circuit.setProxy(buffer.circuitInventorySimulated);
             slotCircuit.setProxy(slotRHL.slot.circuitInventory);
+            sharedItem.setProxy(buffer.shareInventory);
             slotSharedItem.setProxy(slotRHL.slot.shareInventory);
+            sharedFluid.setProxy(buffer.shareTank);
             slotSharedFluid.setProxy(slotRHL.slot.shareTank);
         }
 

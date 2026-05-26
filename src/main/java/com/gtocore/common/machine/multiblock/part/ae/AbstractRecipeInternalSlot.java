@@ -3,6 +3,7 @@ package com.gtocore.common.machine.multiblock.part.ae;
 public abstract class AbstractRecipeInternalSlot extends MEPatternPartMachineKt.AbstractInternalSlot {
 
     private Runnable onContentsChanged = () -> {};
+    private boolean isContentsChanged = true;
 
     public abstract boolean isEmpty();
 
@@ -11,7 +12,16 @@ public abstract class AbstractRecipeInternalSlot extends MEPatternPartMachineKt.
     public abstract boolean isFluidEmpty();
 
     public final void markContentsChanged() {
+        isContentsChanged = true;
         onContentsChanged.run();
+    }
+
+    public boolean isContentsChanged() {
+        if (isContentsChanged) {
+            isContentsChanged = false;
+            return true;
+        }
+        return false;
     }
 
     @Override

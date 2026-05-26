@@ -30,7 +30,7 @@ public abstract class LargeBoilerMachineMixin extends WorkableMultiblockMachine 
      * @author .
      * @reason .
      */
-    @Overwrite
+    @Overwrite(remap = false)
     public static @Nullable GTRecipe recipeModifier(IRecipeHandlerHolder machine, RecipeHandlerUnit unit, GTRecipe recipe) {
         if (machine instanceof LargeBoilerMachine largeBoilerMachine) {
             if (recipe.data.getInt(GTORecipeDataKeys.TEMPERATURE) > largeBoilerMachine.getCurrentTemperature()) {

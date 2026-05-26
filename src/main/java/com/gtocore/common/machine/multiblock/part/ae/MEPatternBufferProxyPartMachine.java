@@ -108,6 +108,7 @@ public final class MEPatternBufferProxyPartMachine extends WorkableTieredIOPartM
         } else {
             buffer = null;
         }
+        if (buffer == null) proxySlotRecipeHandler.updateProxy(null);
     }
 
     @Nullable

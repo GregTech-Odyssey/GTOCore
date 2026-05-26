@@ -22,8 +22,10 @@ import com.gregtechceu.gtceu.api.machine.trait.CircuitHandler;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeDefinition;
+import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.api.recipe.handler.IFilteredHandler;
 import com.gregtechceu.gtceu.api.recipe.handler.IO;
+import com.gregtechceu.gtceu.api.recipe.handler.IRecipeHandler;
 import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
 import com.gregtechceu.gtceu.api.transfer.item.LockableItemStackHandler;
 import com.gregtechceu.gtceu.common.item.IntCircuitBehaviour;
@@ -681,6 +683,10 @@ public class MEInputBufferPartMachine extends MEPatternPartMachineKt<MEInputBuff
             super(slot, part, IFilteredHandler.HIGHEST, slot.notConsumableItem, slot.notConsumableFluid, slot.circuitInventory, slot.exportOnlyItemList, slot.exportOnlyFluidList);
         }
 
+        private SlotRHL(InternalSlot slot, IRecipeHandler... handlers) {
+            super(slot, null, handlers);
+        }
+
         @Override
         protected @Nullable GTRecipeDefinition getCachedRecipe() {
             return slot.recipe;
@@ -692,8 +698,18 @@ public class MEInputBufferPartMachine extends MEPatternPartMachineKt<MEInputBuff
         }
 
         @Override
+        protected @Nullable GTRecipeType getEffectiveRecipeType(GTRecipeType recipeType) {
+            return recipeType;
+        }
+
+        @Override
         protected void onRecipeHandled(GTRecipe recipe) {
             slot.setRecipe(recipe.definition);
+        }
+
+        @Override
+        public RecipeHandlerUnit wrapper(Collection<IRecipeHandler> handlers) {
+            return new SlotRHL(slot, handlers.toArray(new IRecipeHandler[0]));
         }
     }
 
