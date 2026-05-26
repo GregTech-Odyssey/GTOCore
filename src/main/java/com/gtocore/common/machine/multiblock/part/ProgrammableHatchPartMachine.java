@@ -185,7 +185,7 @@ public final class ProgrammableHatchPartMachine extends DualHatchPartMachine imp
 
         @Override
         public RecipeHandlerUnit wrapper(Collection<IRecipeHandler> handlers) {
-            return new ProgrammableRHL(IO.IN, null, handlers);
+            return new ProgrammableRHL(IO.IN, part, handlers);
         }
 
         @Override
