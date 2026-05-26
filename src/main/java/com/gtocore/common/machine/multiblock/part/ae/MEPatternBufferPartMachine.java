@@ -12,7 +12,6 @@ import com.gtolib.api.machine.trait.NotifiableNotConsumableFluidHandler;
 import com.gtolib.api.machine.trait.NotifiableNotConsumableItemHandler;
 import com.gtolib.api.recipe.RecipeBuilder;
 import com.gtolib.api.recipe.RecipeType;
-import com.gtolib.utils.ExpandedR2LMap;
 import com.gtolib.utils.GTOUtils;
 import com.gtolib.utils.RLUtils;
 
@@ -485,8 +484,8 @@ public abstract class MEPatternBufferPartMachine extends MEPatternPartMachineKt<
     }
 
     static void writeBufferTag(CompoundTag data, MEPatternBufferPartMachine buffer) {
-        var items = new ExpandedR2LMap<AEItemKey>();
-        var fluids = new ExpandedR2LMap<AEFluidKey>();
+        var items = new AEKeyMap<AEItemKey>();
+        var fluids = new AEKeyMap<AEFluidKey>();
         for (InternalSlot slot : buffer.getInternalInventory()) {
             slot.itemInventory.reference2LongEntrySet().fastForEach(e -> items.addTo(e.getKey(), e.getLongValue()));
             slot.fluidInventory.reference2LongEntrySet().fastForEach(e -> fluids.addTo(e.getKey(), e.getLongValue()));
@@ -552,8 +551,8 @@ public abstract class MEPatternBufferPartMachine extends MEPatternPartMachineKt<
         public final int index;
         private final InputSink inputSink;
         public final IntLongMap ingredientMap = new IntLongMap();
-        public final ExpandedR2LMap<AEItemKey> itemInventory = new ExpandedR2LMap<>();
-        public final ExpandedR2LMap<AEFluidKey> fluidInventory = new ExpandedR2LMap<>();
+        public final AEKeyMap<AEItemKey> itemInventory = new AEKeyMap<>();
+        public final AEKeyMap<AEFluidKey> fluidInventory = new AEKeyMap<>();
 
         public final NotifiableNotConsumableItemHandler shareInventory;
         public final NotifiableNotConsumableFluidHandler shareTank;
