@@ -680,7 +680,7 @@ public class MEInputBufferPartMachine extends MEPatternPartMachineKt<MEInputBuff
     private static final class SlotRHL extends InternalSlotRecipeHandler.AbstractRHL<InternalSlot> {
 
         SlotRHL(InternalSlot slot, MEInputBufferPartMachine part) {
-            super(slot, part, IFilteredHandler.HIGHEST, slot.notConsumableItem, slot.notConsumableFluid, slot.circuitInventory, slot.exportOnlyItemList, slot.exportOnlyFluidList);
+            super(slot, part, slot.notConsumableItem, slot.notConsumableFluid, slot.circuitInventory, slot.exportOnlyItemList, slot.exportOnlyFluidList);
         }
 
         private SlotRHL(InternalSlot slot, IRecipeHandler... handlers) {

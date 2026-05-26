@@ -41,7 +41,7 @@ public final class InternalSlotRecipeHandler {
     public InternalSlotRecipeHandler(MEPatternBufferPartMachine buffer, MEPatternBufferPartMachine.InternalSlot[] slots) {
         this.slotHandlers = new ArrayList<>(slots.length);
         for (MEPatternBufferPartMachine.InternalSlot slot : slots) {
-            slotHandlers.add(new PatternBufferRHL(slot, buffer));
+            slotHandlers.add(PatternBufferRHL.of(slot, buffer));
         }
     }
 
@@ -50,14 +50,10 @@ public final class InternalSlotRecipeHandler {
         protected final S slot;
 
         protected AbstractRHL(S slot, IMultiPart part, IRecipeHandler... handlers) {
-            this(slot, part, IFilteredHandler.HIGH, handlers);
-        }
-
-        protected AbstractRHL(S slot, IMultiPart part, int priority, IRecipeHandler... handlers) {
             super(IO.IN, part, handlers);
             this.isDistinct = true;
             this.slot = slot;
-            this.priority = priority;
+            this.priority = IFilteredHandler.HIGH;
         }
 
         protected abstract @Nullable GTRecipeDefinition getCachedRecipe();
@@ -129,8 +125,8 @@ public final class InternalSlotRecipeHandler {
             super(slot, part, handlers);
         }
 
-        private PatternSlotRHL(MEPatternBufferPartMachine.InternalSlot slot, MEPatternBufferPartMachine buffer) {
-            super(slot, buffer, IFilteredHandler.HIGHEST, slot.circuitInventory, slot.shareInventory, slot.shareTank, buffer.circuitInventorySimulated, buffer.shareInventory, buffer.shareTank);
+        private PatternSlotRHL(IRecipeHandler handler, MEPatternBufferPartMachine.InternalSlot slot, MEPatternBufferPartMachine buffer) {
+            super(slot, buffer, handler, slot.circuitInventory, slot.shareInventory, slot.shareTank, buffer.circuitInventorySimulated, buffer.shareInventory, buffer.shareTank);
         }
 
         @Override
@@ -167,9 +163,13 @@ public final class InternalSlotRecipeHandler {
 
         final SlotRecipeHandler recipeHandler;
 
-        private PatternBufferRHL(MEPatternBufferPartMachine.InternalSlot slot, MEPatternBufferPartMachine buffer) {
-            super(slot, buffer);
-            recipeHandler = new SlotRecipeHandler(buffer, slot);
+        private static PatternBufferRHL of(MEPatternBufferPartMachine.InternalSlot slot, MEPatternBufferPartMachine buffer) {
+            return new PatternBufferRHL(new SlotRecipeHandler(buffer, slot), slot, buffer);
+        }
+
+        private PatternBufferRHL(SlotRecipeHandler handler, MEPatternBufferPartMachine.InternalSlot slot, MEPatternBufferPartMachine buffer) {
+            super(handler, slot, buffer);
+            recipeHandler = handler;
         }
     }
 
