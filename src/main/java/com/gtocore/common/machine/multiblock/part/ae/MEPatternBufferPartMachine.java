@@ -319,6 +319,7 @@ public abstract class MEPatternBufferPartMachine extends MEPatternPartMachineKt<
                             }
                             storage.setStackInSlot(in, virtualItem);
                             in++;
+                            if (in > storage.getSlots()) break;
                         }
                     }
                     continue;
