@@ -38,9 +38,9 @@ public final class DysonSphereReceivingStationMcahine extends ElectricMultiblock
     }
 
     @Override
-    public void beforeWorking(@NotNull GTRecipe recipe) {
+    public void beforeWorking(@NotNull RecipeHandlerUnit unit, @NotNull GTRecipe recipe) {
         DysonSphereSavaedData.setDysonUse(getDimension(), true);
-        super.beforeWorking(recipe);
+        super.beforeWorking(unit, recipe);
     }
 
     @Override

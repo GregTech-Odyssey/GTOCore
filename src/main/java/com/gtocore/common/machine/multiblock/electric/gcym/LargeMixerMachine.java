@@ -5,6 +5,7 @@ import com.gtolib.api.machine.feature.multiblock.IFluidRendererMachine;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.pattern.util.RelativeDirection;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
+import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -28,9 +29,9 @@ public final class LargeMixerMachine extends GCYMMultiblockMachine implements IF
     }
 
     @Override
-    public void beforeWorking(@NotNull GTRecipe recipe) {
+    public void beforeWorking(@NotNull RecipeHandlerUnit unit, @NotNull GTRecipe recipe) {
         cachedFluid = IFluidRendererMachine.getFluid(recipe);
-        super.beforeWorking(recipe);
+        super.beforeWorking(unit, recipe);
     }
 
     @Override

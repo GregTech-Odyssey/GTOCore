@@ -7,6 +7,7 @@ import com.gtolib.api.machine.multiblock.ElectricMultiblockMachine;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
+import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
 import net.minecraft.core.BlockPos;
@@ -39,13 +40,13 @@ public class PigmentMixer extends ElectricMultiblockMachine implements IMultiFlu
     }
 
     @Override
-    public void beforeWorking(@NotNull GTRecipe recipe) {
+    public void beforeWorking(@NotNull RecipeHandlerUnit unit, @NotNull GTRecipe recipe) {
         cachedYellowOffsets.addAll(getMultiblockState().getMatchContext().getOrDefault(GTOPredicates.DataKeys.YELLOW, new OpenCacheHashSet<>()));
         cachedCyanOffsets.addAll(getMultiblockState().getMatchContext().getOrDefault(GTOPredicates.DataKeys.CYAN, new OpenCacheHashSet<>()));
         cachedMagentaOffsets.addAll(getMultiblockState().getMatchContext().getOrDefault(GTOPredicates.DataKeys.MAGENTA, new OpenCacheHashSet<>()));
         cachedBlackOffsets.addAll(getMultiblockState().getMatchContext().getOrDefault(GTOPredicates.DataKeys.BLACK, new OpenCacheHashSet<>()));
         cachedWhiteOffsets.addAll(getMultiblockState().getMatchContext().getOrDefault(GTOPredicates.DataKeys.WHITE, new OpenCacheHashSet<>()));
-        super.beforeWorking(recipe);
+        super.beforeWorking(unit, recipe);
     }
 
     @Override

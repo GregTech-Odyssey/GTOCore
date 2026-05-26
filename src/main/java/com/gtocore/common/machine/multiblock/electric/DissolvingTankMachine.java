@@ -32,9 +32,9 @@ public final class DissolvingTankMachine extends ElectricMultiblockMachine imple
     }
 
     @Override
-    public void beforeWorking(@NotNull GTRecipe recipe) {
+    public void beforeWorking(@NotNull RecipeHandlerUnit unit, @NotNull GTRecipe recipe) {
         cachedFluid = IFluidRendererMachine.getFluid(recipe);
-        super.beforeWorking(recipe);
+        super.beforeWorking(unit, recipe);
     }
 
     @Override

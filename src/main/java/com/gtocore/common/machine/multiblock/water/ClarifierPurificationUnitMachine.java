@@ -24,7 +24,6 @@ import net.minecraft.world.level.material.Fluids;
 import com.fast.fastcollection.OpenCacheHashSet;
 import com.gto.datasynclib.annotations.SyncToClient;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.Set;
@@ -49,9 +48,9 @@ public final class ClarifierPurificationUnitMachine extends WaterPurificationUni
     }
 
     @Override
-    public void beforeWorking(@Nullable GTRecipe recipe) {
+    public void beforeWorking(RecipeHandlerUnit unit, GTRecipe recipe) {
         cachedFluid = IFluidRendererMachine.getFluid(recipe);
-        super.beforeWorking(recipe);
+        super.beforeWorking(unit, recipe);
     }
 
     @Override

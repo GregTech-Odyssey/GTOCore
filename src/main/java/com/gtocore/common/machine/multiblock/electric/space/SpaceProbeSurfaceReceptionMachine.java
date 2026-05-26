@@ -39,9 +39,9 @@ public final class SpaceProbeSurfaceReceptionMachine extends ElectricMultiblockM
     }
 
     @Override
-    public void beforeWorking(@NotNull GTRecipe recipe) {
+    public void beforeWorking(@NotNull RecipeHandlerUnit unit, @NotNull GTRecipe recipe) {
         if (use) DysonSphereSavaedData.setDysonUse(getDimension(), true);
-        super.beforeWorking(recipe);
+        super.beforeWorking(unit, recipe);
     }
 
     @Override

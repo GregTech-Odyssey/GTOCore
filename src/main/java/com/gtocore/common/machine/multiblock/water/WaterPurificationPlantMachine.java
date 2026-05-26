@@ -125,7 +125,7 @@ public final class WaterPurificationPlantMachine extends ElectricMultiblockMachi
     }
 
     @Override
-    public void beforeWorking(GTRecipe r) {
+    public void beforeWorking(RecipeHandlerUnit unit, GTRecipe recipe) {
         for (var entry : waterPurificationUnitMachineMap.object2BooleanEntrySet()) {
             var m = entry.getKey();
             if (entry.getBooleanValue() && m.recipe != null && m.unit != null) {

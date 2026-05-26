@@ -86,9 +86,9 @@ public class FastNeutronBreederReactor extends CustomParallelMultiblockMachine i
     }
 
     @Override
-    public void beforeWorking(@NotNull GTRecipe recipe) {
+    public void beforeWorking(@NotNull RecipeHandlerUnit unit, @NotNull GTRecipe recipe) {
         recipeHeat = getRecipeHeat(recipe);
-        super.beforeWorking(recipe);
+        super.beforeWorking(unit, recipe);
     }
 
     @Override
