@@ -53,12 +53,12 @@ public class SimpleSpaceStationMachine extends AbstractSpaceStation implements I
 
     @Override
     public void addHandlerList(RecipeHandlerUnit handler) {
-        if (outputDistilledWaterHatches != null && outputDistilledWaterHatches.contains(handler.part.self().getPos())) {
+        if (outputDistilledWaterHatches != null && outputDistilledWaterHatches.contains(handler.part.self().getPos()) && handler.handlerIO == IO.OUT) {
             if (outputDistilledWaterHatchesList == null) {
                 outputDistilledWaterHatchesList = new ArrayList<>();
             }
             outputDistilledWaterHatchesList.add(handler);
-            if (handler.handlerIO == IO.OUT) return;
+            return;
         }
         super.addHandlerList(handler);
     }
@@ -147,7 +147,7 @@ public class SimpleSpaceStationMachine extends AbstractSpaceStation implements I
             /// Distilled Water distribution
             if (waterAmountPerHatch > 0 && outputDistilledWaterHatchesList != null && !outputDistilledWaterHatchesList.isEmpty()) {
                 for (var handler : outputDistilledWaterHatchesList) {
-                    if (inputFluid(DistilledWater.getFluid(), waterAmountPerHatch)) {
+                    if (handler.simulateOutputFluid(DistilledWater.getFluid(), waterAmountPerHatch) && inputFluid(DistilledWater.getFluid(), waterAmountPerHatch)) {
                         handler.outputFluid(DistilledWater.getFluid(), waterAmountPerHatch);
                     }
                 }
