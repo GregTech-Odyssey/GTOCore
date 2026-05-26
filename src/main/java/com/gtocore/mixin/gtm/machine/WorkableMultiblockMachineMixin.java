@@ -8,9 +8,10 @@ import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.recipe.*;
 import com.gregtechceu.gtceu.api.machine.multiblock.MultiblockControllerMachine;
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableMultiblockMachine;
+import com.gregtechceu.gtceu.api.recipe.handler.IO;
 import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
-import com.gregtechceu.gtceu.utils.TaskHandler;
 
+import net.minecraft.server.TickTask;
 import net.minecraft.server.level.ServerLevel;
 
 import com.lowdragmc.lowdraglib.syncdata.ISubscription;
@@ -22,6 +23,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Mixin(WorkableMultiblockMachine.class)
@@ -63,12 +65,18 @@ public abstract class WorkableMultiblockMachineMixin extends MultiblockControlle
     }
 
     @Override
-    public void addHandlerList(RecipeHandlerUnit handler) {
-        IWorkInSpaceMachine.super.addHandlerList(handler);
-        if (this instanceof IEnhancedMultiblockMachine enhancedRecipeLogicMachine && (handler.itemHandlers.length > 0 || handler.fluidHandlers.length > 0)) {
-            traitSubscriptions.add(handler.subscribe(() -> enhancedRecipeLogicMachine.onContentChanges(handler)));
+    public void addHandlerList(RecipeHandlerUnit unit) {
+        if (unit == RecipeHandlerUnit.NO_DATA || unit.handlerIO == IO.NONE || unit.allHandlers.length == 0) return;
+        getCapabilitiesProxy().computeIfAbsent(unit.handlerIO, i -> new ArrayList<>()).add(unit);
+        var list = getCapabilitiesFlat().computeIfAbsent(unit.handlerIO, i -> new ArrayList<>());
+        for (var handler : unit.allHandlers) {
+            if (list.contains(handler)) continue;
+            list.add(handler);
+        }
+        if (this instanceof IEnhancedMultiblockMachine enhancedRecipeLogicMachine && (unit.itemHandlers.length > 0 || unit.fluidHandlers.length > 0)) {
+            traitSubscriptions.add(unit.subscribe(() -> enhancedRecipeLogicMachine.onContentChanges(unit)));
             if (getLevel() instanceof ServerLevel serverLevel) {
-                TaskHandler.enqueueTask(serverLevel, () -> enhancedRecipeLogicMachine.onContentChanges(handler), 0);
+                serverLevel.getServer().tell(new TickTask(1, () -> enhancedRecipeLogicMachine.onContentChanges(unit)));
             }
         }
     }
