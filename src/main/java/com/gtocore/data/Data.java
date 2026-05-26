@@ -29,7 +29,6 @@ import com.gtocore.integration.emi.multipage.MultiblockInfoEmiRecipe;
 import com.gtolib.GTOCore;
 import com.gtolib.api.machine.MultiblockDefinition;
 import com.gtolib.api.recipe.RecipeBuilder;
-import com.gtolib.api.recipe.RecipeDefinition;
 import com.gtolib.utils.GTOUtils;
 import com.gtolib.utils.RegistriesUtils;
 
@@ -201,7 +200,7 @@ public final class Data {
                     continue;
                 }
                 EmiRecipeCategory emiCategory = GTRecipeEMICategory.CATEGORIES.apply(category);
-                type.getRecipesInCategory(category).stream().map(recipe -> new GTEMIRecipe((RecipeDefinition) recipe, emiCategory)).forEach(recipes::add);
+                type.getRecipesInCategory(category).stream().map(recipe -> new GTEMIRecipe(recipe, emiCategory)).forEach(recipes::add);
             }
             for (MachineDefinition machine : GTRegistries.MACHINES.values()) {
                 if (machine instanceof MultiblockMachineDefinition definition && definition.isRenderXEIPreview()) {
@@ -222,10 +221,9 @@ public final class Data {
 
     private static void addNanitesEmiRecipes(GTRecipeType type, GTRecipeCategory category, ImmutableSet.Builder<EmiRecipe> recipes) {
         type.getRecipesInCategory(category).forEach(recipe -> {
-            var definition = (RecipeDefinition) recipe;
-            var emiCategory = NanitesIntegratedProcessingEmiCategory.getCategory(definition.data.getInt(GTORecipeDataKeys.MODULE));
+            var emiCategory = NanitesIntegratedProcessingEmiCategory.getCategory(recipe.data.getInt(GTORecipeDataKeys.MODULE));
             if (emiCategory != null) {
-                recipes.add(new GTEMIRecipe(definition, emiCategory));
+                recipes.add(new GTEMIRecipe(recipe, emiCategory));
             }
         });
     }

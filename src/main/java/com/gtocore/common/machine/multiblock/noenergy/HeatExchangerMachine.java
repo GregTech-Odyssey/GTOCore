@@ -6,8 +6,9 @@ import com.gtocore.common.data.GTORecipeDataKeys;
 import com.gtolib.api.machine.multiblock.NoEnergyMultiblockMachine;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
-import com.gregtechceu.gtceu.api.capability.recipe.FluidRecipeCapability;
 import com.gregtechceu.gtceu.api.machine.feature.IExplosionMachine;
+import com.gregtechceu.gtceu.api.recipe.GTRecipe;
+import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
 import com.gregtechceu.gtceu.api.recipe.modifier.ParallelLogic;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
@@ -38,12 +39,10 @@ public final class HeatExchangerMachine extends NoEnergyMultiblockMachine implem
     @Nullable
     @Override
     public GTRecipe getRealRecipe(@NotNull RecipeHandlerUnit unit, @NotNull GTRecipe recipe) {
-        water = FluidRecipeCapability.CAP.of(recipe.inputs.get(FluidRecipeCapability.CAP).get(1)).getFluid() == Fluids.WATER;
-        var result = ParallelLogic.accurateParallel(this, getRecipeBuilder()
-                .inputFluids(FluidRecipeCapability.CAP.of(recipe.inputs
-                        .get(FluidRecipeCapability.CAP).getFirst()))
-                .outputFluids(FluidRecipeCapability.CAP.of(recipe.outputs
-                        .get(FluidRecipeCapability.CAP).getFirst()))
+        water = recipe.fluidInputs.getFirst().inner.getFluid() == Fluids.WATER;
+        var result = ParallelLogic.accurateParallel(this, unit, getRecipeBuilder()
+                .inputFluids(recipe.fluidInputs.getFirst())
+                .outputFluids(recipe.fluidOutputs.getFirst())
                 .duration(200)
                 .buildRawRecipe(), Integer.MAX_VALUE);
         if (result == null) return null;

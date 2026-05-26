@@ -8,6 +8,7 @@ import com.gtolib.utils.MathUtil;
 
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
+import com.gregtechceu.gtceu.api.recipe.content.Content;
 import com.gregtechceu.gtceu.api.recipe.handler.IO;
 import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
 import com.gregtechceu.gtceu.integration.ae2.utils.AEUtil;
@@ -122,9 +123,8 @@ public class ExportOnlyAEStockingFluidList extends ExportOnlyAEFluidList {
     }
 
     @Override
-    public List<FluidIngredient> handleRecipeInner(IO io, GTRecipe recipe, List<FluidIngredient> left, boolean simulate) {
-        if (machine.isWorkingEnabled()) return super.handleRecipeInner(io, recipe, left, simulate);
-        return left;
+    public void handleRecipeFluid(IO io, GTRecipe recipe, List<Content<FluidIngredient>> left, boolean simulate) {
+        if (machine.isWorkingEnabled()) super.handleRecipeFluid(io, recipe, left, simulate);
     }
 
     @Override

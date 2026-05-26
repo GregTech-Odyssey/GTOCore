@@ -10,7 +10,6 @@ import com.gtocore.common.data.*;
 import com.gtocore.common.data.translation.GTOItemTooltips;
 import com.gtocore.common.forge.ForgeCommonEvent;
 import com.gtocore.common.machine.tesseract.TesseractDirectedTarget;
-import com.gtocore.common.syncdata.GTORecipePayload;
 import com.gtocore.common.syncdata.GenericStackPayload;
 import com.gtocore.config.GTOConfig;
 import com.gtocore.config.SparkRange;
@@ -117,7 +116,7 @@ public class CommonProxy {
             register(NbtTagPayload.class, NbtTagPayload::new, VirtualItemStorageAccessor.INSTANCE, 2);
             register(NbtTagPayload.class, NbtTagPayload::new, VirtualRedstoneAccessor.INSTANCE, 2);
             registerSimple(MaterialPayload.class, MaterialPayload::new, Material.class, 1);
-            registerSimple(GTORecipePayload.class, GTORecipePayload::new, GTRecipe.class, 100);
+            registerSimple(GTRecipePayload.class, GTRecipePayload::new, GTRecipe.class, 100);
             registerSimple(FluidStackPayload.class, FluidStackPayload::new, FluidStack.class, -1);
             registerSimple(TesseractDirectedTarget.Payload.class, TesseractDirectedTarget.Payload::new, TesseractDirectedTarget.class, 10);
             registerSimple(GenericStackPayload.class, GenericStackPayload::new, GenericStack.class, 10);

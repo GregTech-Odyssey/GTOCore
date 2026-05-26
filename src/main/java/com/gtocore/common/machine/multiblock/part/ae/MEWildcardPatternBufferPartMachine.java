@@ -25,14 +25,11 @@ import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.gui.widget.IntInputWidget;
 import com.gregtechceu.gtceu.api.gui.widget.PhantomFluidWidget;
 import com.gregtechceu.gtceu.api.item.MetaMachineItem;
-import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiController;
 import com.gregtechceu.gtceu.api.machine.multiblock.MultiblockControllerMachine;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeDefinition;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.api.recipe.handler.IO;
-import com.gregtechceu.gtceu.api.recipe.handler.IRecipeHandler;
-import com.gregtechceu.gtceu.api.recipe.handler.IRecipeHandlerHolder;
 import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
 import com.gregtechceu.gtceu.api.transfer.fluid.CustomFluidTank;
 import com.gregtechceu.gtceu.api.transfer.item.CustomItemStackHandler;
@@ -115,7 +112,7 @@ public class MEWildcardPatternBufferPartMachine extends MEPatternBufferPartMachi
     private final ReferenceOpenHashSet<Material> blacklistedMaterialSet = new ReferenceOpenHashSet<>();
     private final IntSet blacklistedAltProcessableItemIds = new IntOpenHashSet();
     private final IntSet blacklistedAltProcessableFluidIds = new IntOpenHashSet();
-    private final SearchRecipeCapabilityHolder searchHolder = new SearchRecipeCapabilityHolder();
+    private final SearchRecipeHandlerUnit searchHolder = new SearchRecipeHandlerUnit();
     private final RecipeHandlerUnit sharedSearchHandlers;
 
     public MEWildcardPatternBufferPartMachine(@NotNull MetaMachineBlockEntity holder) {
@@ -484,42 +481,11 @@ public class MEWildcardPatternBufferPartMachine extends MEPatternBufferPartMachi
         return key;
     }
 
-    private static final class SearchRecipeCapabilityHolder implements IRecipeHandlerHolder {
-
-        private final SearchRecipeHandlerList handlerList = new SearchRecipeHandlerList();
-
-        private void use(IntLongMap inputMap) {
-            handlerList.use(inputMap);
-        }
-
-        private void clear() {
-            handlerList.clear();
-        }
-
-        @Override
-        public @NotNull Map<IO, List<RecipeHandlerUnit>> getCapabilitiesProxy() {
-            return Map.of(IO.IN, Collections.singletonList(handlerList));
-        }
-
-        @Override
-        public @NotNull Map<IO, List<IRecipeHandler>> getCapabilitiesFlat() {
-            return Map.of(IO.IN, Arrays.asList(handlerList.allHandlers));
-        }
-
-        @Override
-        public void setIdleReason(Supplier<Component> reason) {}
-
-        @Override
-        public MetaMachine self() {
-            return null;
-        }
-    }
-
-    private static final class SearchRecipeHandlerList extends RecipeHandlerUnit {
+    private static final class SearchRecipeHandlerUnit extends RecipeHandlerUnit {
 
         private IntLongMap inputMap = IntLongMap.EMPTY;
 
-        private SearchRecipeHandlerList() {
+        private SearchRecipeHandlerUnit() {
             super(IO.IN, null);
         }
 

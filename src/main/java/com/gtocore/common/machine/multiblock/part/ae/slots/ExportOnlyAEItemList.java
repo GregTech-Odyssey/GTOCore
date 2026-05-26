@@ -7,6 +7,7 @@ import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
+import com.gregtechceu.gtceu.api.recipe.content.Content;
 import com.gregtechceu.gtceu.api.recipe.handler.IO;
 import com.gregtechceu.gtceu.api.recipe.ingredient.ItemIngredient;
 import com.gregtechceu.gtceu.api.transfer.item.CustomItemStackHandler;
@@ -101,7 +102,7 @@ public class ExportOnlyAEItemList extends NotifiableItemStackHandler implements 
     }
 
     @Override
-    public List<ItemIngredient> handleRecipeInner(IO io, GTRecipe recipe, List<ItemIngredient> left, boolean simulate) {
+    public void handleRecipeItem(IO io, GTRecipe recipe, List<Content<ItemIngredient>> left, boolean simulate) {
         if (io == IO.IN) {
             boolean changed = false;
             for (var it = left.iterator(); it.hasNext();) {
@@ -110,31 +111,28 @@ public class ExportOnlyAEItemList extends NotifiableItemStackHandler implements 
                     it.remove();
                     continue;
                 }
-                long amount = ingredient.amount;
                 for (var i : inventory) {
                     GenericStack stored = i.stock;
                     if (stored == null) continue;
                     long count = stored.amount();
                     if (count == 0) continue;
-                    if (ingredient.test(i.getReadOnlyStack())) {
-                        var extracted = i.extractItem(amount, simulate, false);
+                    if (stored.what() instanceof AEItemKey itemKey && ingredient.inner.testAeKay(itemKey)) {
+                        var extracted = i.extractItem(ingredient.amount, simulate, false);
                         if (extracted > 0) {
                             changed = true;
-                            amount -= extracted;
-                            if (amount <= 0) {
+                            ingredient.shrink(extracted);
+                            if (ingredient.amount <= 0) {
                                 it.remove();
                                 break;
                             }
                         }
                     }
                 }
-                if (amount > 0) ingredient.amount = amount;
             }
             if (!simulate && changed) {
                 onContentsChanged();
             }
         }
-        return left.isEmpty() ? null : left;
     }
 
     @Override

@@ -1,10 +1,9 @@
 package com.gtocore.common.machine.multiblock.steam;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
-import com.gregtechceu.gtceu.api.capability.recipe.FluidRecipeCapability;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.content.Content;
-import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
+import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -27,13 +26,11 @@ public class LargeSteamCracker extends BaseSteamMultiblockMachine {
     }
 
     @Override
-    protected @Nullable GTRecipe getRealRecipe(@NotNull GTRecipe r) {
-        var r1 = super.getRealRecipe(r);
+    protected @Nullable GTRecipe getRealRecipe(RecipeHandlerUnit unit, @NotNull GTRecipe r) {
+        var r1 = super.getRealRecipe(unit, r);
         if (r1 != null) {
-            r1 = r1.copy();
-            var content = ((FluidIngredient) r1.getOutputContents(FluidRecipeCapability.CAP).getFirst().inner).depthCopy();
-            content.changeAmount((long) (content.amount * getEfficiencyMultiplier()));
-            r1.outputs.put(FluidRecipeCapability.CAP, Collections.singletonList(new Content(content, 10000, 0)));
+            var content = r1.fluidOutputs.getFirst();
+            r1.fluidOutputs = Collections.singletonList(new Content<>(content, (long) (content.amount * getEfficiencyMultiplier())));
             return r1;
         }
         return null;

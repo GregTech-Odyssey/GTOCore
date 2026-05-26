@@ -659,8 +659,6 @@ public abstract class MEPatternBufferPartMachine extends MEPatternPartMachineKt<
             return true;
         }
 
-        @Override
-
         public void handleItemInternal(List<Content<ItemIngredient>> left, boolean simulate) {
             boolean changed = false;
             for (var it = left.iterator(); it.hasNext();) {
@@ -674,16 +672,18 @@ public abstract class MEPatternBufferPartMachine extends MEPatternPartMachineKt<
                     if (!ingredient.inner.testAeKay(entry.getKey())) continue;
                     var count = entry.getLongValue();
                     long extracted = Math.min(count, ingredient.amount);
-                    if (!simulate && extracted > 0) {
-                        changed = true;
-                        count -= extracted;
-                        if (count < 1) it2.remove();
-                        else entry.setValue(count);
-                    }
-                    ingredient.shrink(extracted);
-                    if (ingredient.amount < 1) {
-                        it.remove();
-                        break;
+                    if (extracted > 0) {
+                        if (!simulate) {
+                            changed = true;
+                            count -= extracted;
+                            if (count < 1) it2.remove();
+                            else entry.setValue(count);
+                        }
+                        ingredient.shrink(extracted);
+                        if (ingredient.amount < 1) {
+                            it.remove();
+                            break;
+                        }
                     }
                 }
             }
@@ -705,16 +705,18 @@ public abstract class MEPatternBufferPartMachine extends MEPatternPartMachineKt<
                     if (!ingredient.inner.testAeKay(entry.getKey())) continue;
                     var count = entry.getLongValue();
                     long extracted = Math.min(count, ingredient.amount);
-                    if (!simulate && extracted > 0) {
-                        changed = true;
-                        count -= extracted;
-                        if (count < 1) it2.remove();
-                        else entry.setValue(count);
-                    }
-                    ingredient.shrink(extracted);
-                    if (ingredient.amount < 1) {
-                        it.remove();
-                        break;
+                    if (extracted > 0) {
+                        if (!simulate) {
+                            changed = true;
+                            count -= extracted;
+                            if (count < 1) it2.remove();
+                            else entry.setValue(count);
+                        }
+                        ingredient.shrink(extracted);
+                        if (ingredient.amount < 1) {
+                            it.remove();
+                            break;
+                        }
                     }
                 }
             }

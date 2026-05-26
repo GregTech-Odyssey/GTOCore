@@ -7,6 +7,7 @@ import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableFluidTank;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
+import com.gregtechceu.gtceu.api.recipe.content.Content;
 import com.gregtechceu.gtceu.api.recipe.handler.IO;
 import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
 import com.gregtechceu.gtceu.api.transfer.fluid.CustomFluidTank;
@@ -72,7 +73,7 @@ public class ExportOnlyAEFluidList extends NotifiableFluidTank implements IConfi
     public void setFluidInTank(int tank, @NotNull FluidStack fluidStack) {}
 
     @Override
-    public List<FluidIngredient> handleRecipeInner(IO io, GTRecipe recipe, List<FluidIngredient> left, boolean simulate) {
+    public void handleRecipeFluid(IO io, GTRecipe recipe, List<Content<FluidIngredient>> left, boolean simulate) {
         if (io == IO.IN) {
             boolean changed = false;
             for (var it = left.iterator(); it.hasNext();) {
@@ -86,16 +87,16 @@ public class ExportOnlyAEFluidList extends NotifiableFluidTank implements IConfi
                     if (stored == null) continue;
                     long amount = stored.amount();
                     if (amount == 0) continue;
-                    if (stored.what() instanceof AEFluidKey fluidKey && ingredient.testAeKay(fluidKey)) {
+                    if (stored.what() instanceof AEFluidKey fluidKey && ingredient.inner.testAeKay(fluidKey)) {
                         var drained = i.drain(ingredient.amount, simulate, false);
                         if (drained > 0) {
                             changed = true;
                             ingredient.shrink(drained);
+                            if (ingredient.amount <= 0) {
+                                it.remove();
+                                break;
+                            }
                         }
-                    }
-                    if (ingredient.amount <= 0) {
-                        it.remove();
-                        break;
                     }
                 }
             }
@@ -103,7 +104,6 @@ public class ExportOnlyAEFluidList extends NotifiableFluidTank implements IConfi
                 onContentsChanged();
             }
         }
-        return left.isEmpty() ? null : left;
     }
 
     @Override

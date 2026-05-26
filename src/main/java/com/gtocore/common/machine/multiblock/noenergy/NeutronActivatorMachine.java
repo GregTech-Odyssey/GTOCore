@@ -17,7 +17,10 @@ import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.machine.ConditionalSubscriptionHandler;
 import com.gregtechceu.gtceu.api.machine.feature.IExplosionMachine;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
+import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.handler.IO;
+import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
+import com.gregtechceu.gtceu.api.recipe.modifier.RecipeModifier;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.ItemBusPartMachine;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
@@ -105,7 +108,7 @@ public class NeutronActivatorMachine extends NoEnergyMultiblockMachine implement
     @Override
     protected GTRecipe getRealRecipe(RecipeHandlerUnit unit, GTRecipe recipe) {
         if ((eV > recipe.data.getInt(GTORecipeDataKeys.EV_MIN) * 1000000 && eV < recipe.data.getInt(GTORecipeDataKeys.EV_MAX) * 1000000)) {
-            recipe = RecipeModifier.hatchParallel(this, recipe);
+            recipe = RecipeModifier.hatchParallel(this, unit, recipe);
             if (recipe == null) return null;
             recipe.duration = (int) Math.round(Math.max(recipe.duration * getEfficiencyFactor(), 1));
             return recipe;

@@ -82,12 +82,12 @@ public abstract class WorkableElectricMultiblockMachineMixin extends WorkableMul
     }
 
     @Override
-    public void gtolib$setOCLimit(int number) {
+    public void setOverclockLimit(int number) {
         gtolib$ocLimit = number;
     }
 
     @Override
-    public int gtolib$getOCLimit() {
+    public int getOverclockLimit() {
         return gtolib$ocLimit;
     }
 

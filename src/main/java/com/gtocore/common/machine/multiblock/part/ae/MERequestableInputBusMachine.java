@@ -15,7 +15,7 @@ import com.google.common.collect.ImmutableSet;
 
 public class MERequestableInputBusMachine extends MEInputBusPartMachine implements ICraftingRequester {
 
-    MultiCraftingTracker craftingTracker = new MultiCraftingTracker(this, aeItemHandler.getSize());
+    MultiCraftingTracker craftingTracker = new MultiCraftingTracker(this, aeItemHandler.getSlots());
 
     public MERequestableInputBusMachine(MetaMachineBlockEntity holder) {
         super(holder);
@@ -29,7 +29,7 @@ public class MERequestableInputBusMachine extends MEInputBusPartMachine implemen
         }
         var cg = grid.getCraftingService();
         MEStorage networkInv = grid.getStorageService().getInventory();
-        for (int i = 0; i < this.aeItemHandler.getSize(); i++) {
+        for (int i = 0; i < this.aeItemHandler.getSlots(); i++) {
             var aeTank = this.aeItemHandler.getInventory()[i];
             GenericStack exceedFluid = aeTank.exceedStack();
             if (exceedFluid != null) {

@@ -3,11 +3,10 @@ package com.gtocore.common.machine.multiblock.water;
 import com.gtocore.common.data.GTOMaterials;
 import com.gtocore.common.machine.multiblock.part.SensorPartMachine;
 
-import com.gtolib.api.recipe.RecipeRunner;
-
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
+import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
@@ -87,7 +86,7 @@ public final class ExtremeTemperatureFluctuationPurificationUnitMachine extends 
     public boolean onWorking() {
         if (!super.onWorking()) return false;
         if (getOffsetTimer() % 20 == 0) {
-            long[] a = getFluidAmount(HELIUM_LIQUID, HELIUM_PLASMA);
+            long[] a = getFluidAmount(true, HELIUM_LIQUID, HELIUM_PLASMA);
             int helium_liquid = (int) Math.min(100, a[0]);
             if (inputFluid(HELIUM_LIQUID, helium_liquid)) {
                 heat = Math.max(4, heat - (int) (helium_liquid * (4 + Math.random() * 2)));
@@ -121,15 +120,15 @@ public final class ExtremeTemperatureFluctuationPurificationUnitMachine extends 
     }
 
     @Override
-    long before() {
+    long prepareRecipe(RecipeHandlerUnit unit) {
         eut = 0;
         heat = 298;
         chance = 1;
         cycle = false;
-        inputCount = Math.min(parallel(), getFluidAmount(WaterPurificationPlantMachine.GradePurifiedWater4)[0]);
+        inputCount = Math.min(parallel(), unit.getFluidAmount(true, WaterPurificationPlantMachine.GradePurifiedWater4)[0]);
         if (inputCount > 0) {
             recipe = getRecipeBuilder().duration(WaterPurificationPlantMachine.DURATION).inputFluids(WaterPurificationPlantMachine.GradePurifiedWater4, inputCount).buildRawRecipe();
-            if (RecipeRunner.matchRecipe(this, recipe)) {
+            if (matchRecipe(unit, recipe)) {
                 calculateVoltage(inputCount);
             }
         }

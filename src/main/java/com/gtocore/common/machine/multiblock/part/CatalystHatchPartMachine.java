@@ -32,7 +32,7 @@ public final class CatalystHatchPartMachine extends WorkableTieredIOPartMachine 
 
     @Override
     public void onPaintingColorChanged(int color) {
-        getHandlerList().setColor(color, true);
+        getHandlerUnit().setColor(color, true);
     }
 
     @Override

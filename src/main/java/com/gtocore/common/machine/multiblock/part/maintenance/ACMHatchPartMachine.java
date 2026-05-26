@@ -11,6 +11,7 @@ import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMaintenanceMachine;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IWorkableMultiController;
 import com.gregtechceu.gtceu.api.machine.multiblock.part.WorkableTieredPartMachine;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
+import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.network.chat.Component;
@@ -102,7 +103,7 @@ public class ACMHatchPartMachine extends WorkableTieredPartMachine implements IM
 
     @Override
     @Nullable
-    public GTRecipe modifyRecipe(IWorkableMultiController controller, GTRecipe recipe) {
+    public GTRecipe modifyRecipe(IWorkableMultiController controller, RecipeHandlerUnit unit, GTRecipe recipe) {
         recipe.duration = Math.max(1, (int) (recipe.duration * durationMultiplier));
         return recipe;
     }

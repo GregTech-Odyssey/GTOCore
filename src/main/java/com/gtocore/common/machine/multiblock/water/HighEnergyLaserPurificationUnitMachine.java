@@ -3,7 +3,6 @@ package com.gtocore.common.machine.multiblock.water;
 import com.gtocore.common.machine.multiblock.part.IndicatorHatchPartMachine;
 
 import com.gtolib.api.machine.part.ItemPartMachine;
-import com.gtolib.api.recipe.RecipeRunner;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
@@ -11,6 +10,7 @@ import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.chemical.material.MarkerMaterials;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
+import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.network.chat.Component;
@@ -133,14 +133,14 @@ public final class HighEnergyLaserPurificationUnitMachine extends WaterPurificat
     }
 
     @Override
-    long before() {
+    long prepareRecipe(RecipeHandlerUnit unit) {
         eut = 0;
         chance = 0;
         time = GTValues.RNG.nextInt(120) + 120;
-        inputCount = Math.min(parallel(), getFluidAmount(WaterPurificationPlantMachine.GradePurifiedWater5)[0]);
+        inputCount = Math.min(parallel(), unit.getFluidAmount(true, WaterPurificationPlantMachine.GradePurifiedWater5)[0]);
         if (inputCount > 0) {
             recipe = getRecipeBuilder().duration(WaterPurificationPlantMachine.DURATION).inputFluids(WaterPurificationPlantMachine.GradePurifiedWater5, inputCount).buildRawRecipe();
-            if (RecipeRunner.matchRecipe(this, recipe)) {
+            if (matchRecipe(unit, recipe)) {
                 calculateVoltage(inputCount);
             }
         }

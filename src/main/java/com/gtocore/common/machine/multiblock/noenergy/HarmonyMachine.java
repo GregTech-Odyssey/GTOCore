@@ -8,6 +8,8 @@ import com.gtolib.api.recipe.IdleReason;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.ConditionalSubscriptionHandler;
+import com.gregtechceu.gtceu.api.recipe.GTRecipe;
+import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 
@@ -54,20 +56,20 @@ public final class HarmonyMachine extends NoEnergyMultiblockMachine implements I
 
     private void update() {
         oc = 0;
-        long[] a = getFluidAmount(HYDROGEN, HELIUM);
+        long[] a = getFluidAmount(true, HYDROGEN, HELIUM);
         if (inputFluid(HYDROGEN, a[0])) {
             hydrogen += a[0];
         }
         if (inputFluid(HELIUM, a[1])) {
             helium += a[1];
         }
-        if (notConsumableCircuit(4)) {
+        if (matchCircuit(4)) {
             oc = 4;
-        } else if (notConsumableCircuit(3)) {
+        } else if (matchCircuit(3)) {
             oc = 3;
-        } else if (notConsumableCircuit(2)) {
+        } else if (matchCircuit(2)) {
             oc = 2;
-        } else if (notConsumableCircuit(1)) {
+        } else if (matchCircuit(1)) {
             oc = 1;
         }
         tickSubs.updateSubscription();
