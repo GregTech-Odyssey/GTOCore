@@ -1,4 +1,4 @@
-package com.gtocore.mixin.gtm.api.machine;
+package com.gtocore.mixin.gtm.machine;
 
 import com.gtolib.api.machine.feature.ISpaceWorkspaceMachine;
 import com.gtolib.api.machine.feature.IWorkInSpaceMachine;
@@ -64,6 +64,7 @@ public abstract class WorkableMultiblockMachineMixin extends MultiblockControlle
 
     @Override
     public void addHandlerList(RecipeHandlerUnit handler) {
+        IWorkInSpaceMachine.super.addHandlerList(handler);
         if (this instanceof IEnhancedMultiblockMachine enhancedRecipeLogicMachine && (handler.itemHandlers.length > 0 || handler.fluidHandlers.length > 0)) {
             traitSubscriptions.add(handler.subscribe(() -> enhancedRecipeLogicMachine.onContentChanges(handler)));
             if (getLevel() instanceof ServerLevel serverLevel) {

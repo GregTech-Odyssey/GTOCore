@@ -1,4 +1,4 @@
-package com.gtocore.mixin.gtm.api.machine;
+package com.gtocore.mixin.gtm.machine;
 
 import com.gtolib.api.machine.impl.DrillingControlCenterMachine;
 import com.gtolib.api.machine.trait.IFluidDrillLogic;

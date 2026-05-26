@@ -1,4 +1,4 @@
-package com.gtocore.mixin.gtm.api.machine;
+package com.gtocore.mixin.gtm.machine;
 
 import com.gtolib.api.capability.IIWirelessInteractor;
 import com.gtolib.api.machine.IGTOMachineDefinition;

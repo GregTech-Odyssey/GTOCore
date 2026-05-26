@@ -16,6 +16,7 @@ import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.common.machine.multiblock.electric.CleanroomMachine;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.SteamHatchPartMachine;
 import com.gregtechceu.gtceu.common.machine.multiblock.steam.SteamParallelMultiblockMachine;
+import com.gregtechceu.gtceu.utils.GTUtil;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.network.chat.Component;
@@ -81,6 +82,11 @@ public class BaseSteamMultiblockMachine extends SteamParallelMultiblockMachine {
                 return;
             }
         }
+    }
+
+    @Override
+    public int getTier() {
+        return GTUtil.getTierByVoltage(this.eut << euMultiplier);
     }
 
     @Override
