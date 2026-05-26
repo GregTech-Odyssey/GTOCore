@@ -8,7 +8,6 @@ import com.gtocore.common.data.GTORecipeDataKeys;
 
 import com.gtolib.api.machine.feature.multiblock.ITierCasingMachine;
 import com.gtolib.api.machine.multiblock.NoEnergyMultiblockMachine;
-import com.gtolib.api.machine.trait.CustomRecipeLogic;
 import com.gtolib.api.machine.trait.TierCasingTrait;
 import com.gtolib.api.recipe.TierDataKey;
 import com.gtolib.utils.ClientUtil;
@@ -18,10 +17,10 @@ import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
 import com.gregtechceu.gtceu.api.machine.TickableSubscription;
 import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility;
-import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.api.pattern.BlockPattern;
 import com.gregtechceu.gtceu.api.pattern.Predicates;
-import com.gregtechceu.gtceu.api.recipe.GTRecipe;
+import com.gregtechceu.gtceu.api.recipe.GTRecipeDefinition;
+import com.gregtechceu.gtceu.api.recipe.handler.ICustomRecipeLogicHolder;
 import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
@@ -44,7 +43,7 @@ import static com.gtolib.api.GTOValues.GRAVITON_FLOW_TIER;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public final class GodForgeMachine extends NoEnergyMultiblockMachine implements ITierCasingMachine {
+public final class GodForgeMachine extends NoEnergyMultiblockMachine implements ITierCasingMachine, ICustomRecipeLogicHolder {
 
     @SyncToClient
     @Persisted
@@ -192,12 +191,8 @@ public final class GodForgeMachine extends NoEnergyMultiblockMachine implements 
                 .build();
     }
 
-    private GTRecipe getRecipe(RecipeHandlerUnit unit) {
-        return getRecipeBuilder().inputFluids(Fluids.WATER, 100).duration(20).buildRawRecipe();
-    }
-
     @Override
-    public RecipeLogic createRecipeLogic(Object... args) {
-        return new CustomRecipeLogic(this, this::getRecipe, true);
+    public GTRecipeDefinition createCustomRecipe(RecipeHandlerUnit unit) {
+        return getRecipeBuilder().inputFluids(Fluids.WATER, 100).duration(20).build();
     }
 }

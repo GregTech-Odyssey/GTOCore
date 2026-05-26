@@ -17,7 +17,8 @@ import com.gregtechceu.gtceu.api.machine.multiblock.MultiblockControllerMachine;
 import com.gregtechceu.gtceu.api.pattern.MultiblockState;
 import com.gregtechceu.gtceu.api.pattern.TraceabilityPredicate;
 import com.gregtechceu.gtceu.api.pattern.util.RelativeDirection;
-import com.gregtechceu.gtceu.api.recipe.GTRecipe;
+import com.gregtechceu.gtceu.api.recipe.GTRecipeDefinition;
+import com.gregtechceu.gtceu.api.recipe.handler.ICustomRecipeLogicHolder;
 import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 import com.gregtechceu.gtceu.utils.memoization.GTMemoizer;
@@ -45,7 +46,7 @@ import static com.gregtechceu.gtceu.api.pattern.Predicates.blocks;
 import static com.gregtechceu.gtceu.api.pattern.Predicates.custom;
 import static com.gtocore.api.machine.part.ILargeSpaceStationMachine.ConnectType.*;
 
-public interface ILargeSpaceStationMachine extends ICustomHighlightMachine, ISpacePredicateMachine {
+public interface ILargeSpaceStationMachine extends ICustomHighlightMachine, ISpacePredicateMachine, ICustomRecipeLogicHolder {
 
     MultiblockControllerMachine self();
 
@@ -123,14 +124,15 @@ public interface ILargeSpaceStationMachine extends ICustomHighlightMachine, ISpa
         return l;
     }
 
-    default GTRecipe getRecipe(RecipeHandlerUnit unit) {
+    @Override
+    default GTRecipeDefinition createCustomRecipe(RecipeHandlerUnit unit) {
         if (!PlanetApi.API.isSpace(getLevel()))
             return null;
         if (getRoot() == null || !getRoot().isWorkspaceReady())
             return null;
 
         return ((IEnhancedRecipeLogicMachine) self()).getRecipeBuilder().duration(200)
-                .buildRawRecipe();
+                .build();
     }
 
     default void customText(@NotNull List<Component> list) {
