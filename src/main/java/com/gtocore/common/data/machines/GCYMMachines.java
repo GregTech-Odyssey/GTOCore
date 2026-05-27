@@ -435,7 +435,7 @@ public final class GCYMMachines {
                     if (machine.getSubFormedAmount() > 0) {
                         r.duration = Math.max(1, r.duration / 2);
                     }
-                    if (machine.getRecipeType() == ALLOY_SMELTER_RECIPES) {
+                    if (r.definition.recipeType == ALLOY_SMELTER_RECIPES) {
                         return GTORecipeModifiers.UPGRADE_PARALLELIZABLE_OVERCLOCK.applyModifier(m, u, r);
                     } else {
                         return GTORecipeModifiers.UPGRADE_EBF_OVERCLOCK.applyModifier(m, u, r);

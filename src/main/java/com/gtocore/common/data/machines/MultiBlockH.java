@@ -835,9 +835,7 @@ public final class MultiBlockH {
                 if (m instanceof ITierCasingMachine tm) {
                     r.duration = (int) Math.max(Math.pow(0.9, tm.getCasingTier(GTORecipeDataKeys.HERMETIC_CASING_TIER)) * r.duration, 1);
                 }
-                r = RecipeModifier.hatchParallel(m, u, r);
-                if (r == null) return null;
-                return RecipeModifier.overclocking(m, u, r);
+                return GTORecipeModifiers.UPGRADE_PARALLELIZABLE_OVERCLOCK.applyModifier(m, u, r);
             })
             .block(GTOBlocks.COMPRESSOR_CONTROLLER_CASING)
             .pattern(definition -> MultiBlockFileReader.start(definition)

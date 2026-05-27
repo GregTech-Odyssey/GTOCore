@@ -24,6 +24,7 @@ import com.gtolib.GTOCore;
 import com.gtolib.api.annotation.NewDataAttributes;
 import com.gtolib.api.machine.feature.multiblock.ITierCasingMachine;
 import com.gtolib.api.machine.multiblock.*;
+import com.gtolib.api.recipe.GTORecipeModifiers;
 import com.gtolib.utils.MachineUtils;
 import com.gtolib.utils.MultiBlockFileReader;
 import com.gtolib.utils.RegistriesUtils;
@@ -33,7 +34,6 @@ import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
-import com.gregtechceu.gtceu.api.machine.feature.IRecipeLogicMachine;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.ICoilMachine;
 import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility;
 import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
@@ -50,6 +50,7 @@ import net.minecraft.world.level.material.Fluids;
 import static com.gregtechceu.gtceu.api.pattern.Predicates.*;
 import static com.gregtechceu.gtceu.api.pattern.util.RelativeDirection.*;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.Aluminium;
+import static com.gregtechceu.gtceu.common.data.GTRecipeTypes.ALLOY_SMELTER_RECIPES;
 import static com.gtocore.api.machine.part.GTOPartAbility.*;
 import static com.gtocore.api.pattern.GTOPredicates.autoIOAbilities;
 import static com.gtocore.common.block.BlockMap.CALMAP;
@@ -410,7 +411,7 @@ public final class MultiBlockA {
             .tooltips(GTOMachineStories.INSTANCE.getLargeVoidMinerTooltips().getSupplier())
             .tooltips(GTOMachineTooltips.INSTANCE.getLargeVoidMinerTooltips().getSupplier())
             .recipeModifier((m, u, r) -> {
-                if (((IRecipeLogicMachine) m).getRecipeType() == GTORecipeTypes.RANDOM_ORE_RECIPES) {
+                if (r.definition.recipeType == GTORecipeTypes.RANDOM_ORE_RECIPES) {
                     r = ParallelLogic.accurateParallel(m, u, r, 1L << ((((ElectricMultiblockMachine) m).getTier() - GTValues.ZPM) << 1));
                     if (r == null) return null;
                     return RecipeModifier.overclocking(m, u, r);
@@ -1684,7 +1685,7 @@ public final class MultiBlockA {
             return 1L << (long) (m.getTemperature() / 900.0D);
         }
         return 1;
-    }, true, false, false))
+    }, false, false, false))
             .allRotation()
             .recipeTypes(GTORecipeTypes.VACUUM_DRYING_RECIPES)
             .recipeTypes(GTORecipeTypes.DEHYDRATOR_RECIPES)
@@ -1697,14 +1698,11 @@ public final class MultiBlockA {
             .tooltipsText("§7公式 : 2^(向下取整(温度 / 900))", "§7Formula: 2^(Round down(temperature / 900))")
             .specialParallelizableTooltips()
             .recipeModifier((m, u, r) -> {
-                if (m instanceof CoilCustomParallelMultiblockMachine machine) {
-                    if (machine.getRecipeType() == GTORecipeTypes.DEHYDRATOR_RECIPES) {
-                        return RecipeModifier.overclocking(m, u, r);
-                    } else {
-                        return RecipeModifier.EBF_OVERCLOCK.applyModifier(m, u, r);
-                    }
+                if (r.definition.recipeType == GTORecipeTypes.DEHYDRATOR_RECIPES) {
+                    return GTORecipeModifiers.UPGRADE_PARALLELIZABLE_OVERCLOCK.applyModifier(m, u, r);
+                } else {
+                    return GTORecipeModifiers.UPGRADE_EBF_OVERCLOCK.applyModifier(m, u, r);
                 }
-                return null;
             })
             .block(GTOBlocks.RED_STEEL_CASING)
             .pattern(definition -> MultiBlockFileReader.start(definition)
@@ -1722,7 +1720,7 @@ public final class MultiBlockA {
                     .build())
             .workableCasingRenderer(GTOCore.id("block/casings/red_steel_casing"), GTCEu.id("block/multiblock/fusion_reactor"))
             .recoveryStacks((m, r) -> {
-                if (m instanceof IRecipeLogicMachine lm && lm.getRecipeType() == GTORecipeTypes.VACUUM_DRYING_RECIPES)
+                if (r.definition.recipeType == GTORecipeTypes.VACUUM_DRYING_RECIPES)
                     return GTMachineModify.tinydustFromDustOutput(m, r);
                 return ChemicalHelper.get(TagPrefix.dustTiny, GTMaterials.Salt);
             })
