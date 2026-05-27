@@ -18,6 +18,7 @@ import com.gregtechceu.gtceu.api.recipe.modifier.ParallelLogic;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 
+import com.gto.datasynclib.util.holder.BooleanHolder;
 import com.gto.datasynclib.util.holder.ObjHolder;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -25,7 +26,6 @@ import org.jetbrains.annotations.Nullable;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 @DataGeneratorScanned
 public class SpaceDroneDock extends RecipeExtension {
@@ -38,7 +38,7 @@ public class SpaceDroneDock extends RecipeExtension {
     @Nullable
     public GTRecipe fullModifyRecipe(@NotNull RecipeHandlerUnit unit, @NotNull GTRecipe recipe) {
         long maxParallel;
-        AtomicBoolean hasInput = new AtomicBoolean(false);
+        BooleanHolder hasInput = new BooleanHolder();
         ObjHolder<BigInteger> costEU = new ObjHolder<>();
         ObjHolder<ItemStack> outputHolder = new ObjHolder<>();
         ObjHolder<ItemStack> inputHolder = new ObjHolder<>();
@@ -76,7 +76,7 @@ public class SpaceDroneDock extends RecipeExtension {
         recipe.duration = (int) (recipe.duration * (0.1 + 6.384 / base / base));
         recipe = ParallelLogic.accurateParallel(this, unit, recipe, maxParallel);
 
-        inputItem(inputHolder.value);
+        unit.inputItem(inputHolder.value);
         outputItem(outputHolder.value);
 
         return recipe;
