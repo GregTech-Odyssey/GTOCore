@@ -13,7 +13,6 @@ import com.gregtechceu.gtceu.api.gui.fancy.ConfiguratorPanel;
 import com.gregtechceu.gtceu.api.machine.feature.ICleanroomProvider;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
 import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility;
-import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeDefinition;
 import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
@@ -103,12 +102,6 @@ public class RecipeExtension extends Extension implements ICrossRecipeMachine {
         }
 
         return ICrossRecipeMachine.super.getRealRecipe(unit, RecipeModifier.multiplier(recipe, 1, core.getDurationMultiplierFromSpaceElevator()));
-    }
-
-    @Override
-    @NotNull
-    public RecipeLogic createRecipeLogic(Object @NotNull... args) {
-        return new Logic(this);
     }
 
     @Override
