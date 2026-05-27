@@ -236,7 +236,8 @@ public class FullCellGenerator extends ElectricMultiblockMachine {
 
     private GTRecipe getReleaseRecipe(RecipeHandlerUnit unit, GTRecipe recipe) {
         var input = new ArrayList<>(recipe.itemInputs);
-        var ingredient = input.getFirst().inner;
+        var content = input.getFirst();
+        var ingredient = content.inner;
         var item = ingredient.getInnerItemStack().getItem();
         BooleanHolder hasMembrane = new BooleanHolder(false);
         unit.fastForEachItems(true, (i, a) -> {
@@ -249,7 +250,7 @@ public class FullCellGenerator extends ElectricMultiblockMachine {
             return null;
         }
         if (GTValues.RNG.nextFloat() < chanceConsumeMembraneOnDischarge) {
-            inputItem(ingredient.getInnerItemStack().getItem(), ingredient.amount);
+            unit.inputItem(ingredient.getInnerItemStack().getItem(), content.amount);
         }
         return ParallelLogic.accurateParallel(this, unit, recipe, MaxCanReleaseParallel);
     }

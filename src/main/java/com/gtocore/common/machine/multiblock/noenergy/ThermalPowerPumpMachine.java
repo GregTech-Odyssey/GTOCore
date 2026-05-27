@@ -43,7 +43,7 @@ public final class ThermalPowerPumpMachine extends NoEnergyMultiblockMachine imp
         if (biomeModifier == 0) {
             biomeModifier = GTUtil.getPumpBiomeModifier(Objects.requireNonNull(getLevel()).getBiome(getPos()));
         } else if (biomeModifier > 0) {
-            int production = (int) Math.min(getFluidAmount(true, STEAM)[0], getFluidProduction());
+            int production = (int) Math.min(unit.getFluidAmount(true, STEAM)[0], getFluidProduction());
             if (production > 0) {
                 return getRecipeBuilder().duration(20).inputFluids(STEAM, production).outputFluids(Fluids.WATER, production).build();
             }

@@ -47,7 +47,7 @@ public final class HeatExchangerMachine extends NoEnergyMultiblockMachine implem
                 .buildRawRecipe(), Integer.MAX_VALUE);
         if (result == null) return null;
         hs = result.parallels * recipe.data.getLong(GTORecipeDataKeys.EU) / 2;
-        if (inputFluid(water ? Fluids.WATER : DistilledWater, hs / 40)) {
+        if (unit.inputFluid(water ? Fluids.WATER : DistilledWater, hs / 40)) {
             return result;
         } else {
             doExplosion(Math.min(10, hs / 10000));

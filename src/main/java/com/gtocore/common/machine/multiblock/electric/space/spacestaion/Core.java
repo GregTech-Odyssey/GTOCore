@@ -186,6 +186,7 @@ public class Core extends AbstractSpaceStation implements ILargeSpaceStationMach
             if (machine instanceof IRecipeLogicMachine r) r.getRecipeLogic().updateTickSubscription();
         }
         return inputFluids(getRecipeBuilder().duration(20).EUt(EUt), subMachinesFlat.size() + 1)
+                .tier(1)
                 .outputFluids(FlocculationWasteSolution.getFluid(30 * (subMachinesFlat.size() + 1)))
                 .build();
     }

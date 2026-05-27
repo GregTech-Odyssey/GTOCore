@@ -45,7 +45,7 @@ public final class AlgaeFarmMachine extends NoEnergyMultiblockMachine implements
 
     @Override
     public GTRecipeDefinition createCustomRecipe(RecipeHandlerUnit unit) {
-        boolean raise = inputFluid(FERMENTEDBIOMASS, 10000);
+        boolean raise = unit.inputFluid(FERMENTEDBIOMASS, 10000);
         int amount = raise ? 10 : 1;
         amount = amount + GTValues.RNG.nextInt(9 * amount);
         ObjHolder<GTRecipeDefinition> recipe = new ObjHolder<>();
