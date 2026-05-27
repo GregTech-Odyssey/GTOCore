@@ -209,30 +209,30 @@ public class ManaFlowAssembler extends ManaMultiblockMachine {
     private class ItemEntityRecipeHandler implements IRecipeHandler {
 
         @Override
-        public void handleRecipeItem(IO io, GTRecipe recipe, List<Content<ItemIngredient>> left, boolean simulate) {
+        public boolean handleRecipeItem(IO io, GTRecipe recipe, List<Content<ItemIngredient>> items, boolean simulate) {
             if (io == IO.OUT) {
                 if (!simulate && getLevel() instanceof ServerLevel level) {
                     var pos = getPos().above(3);
                     var posCenter = pos.getCenter();
                     var random = level.random;
-                    left.forEach(ingredient -> {
+                    items.forEach(ingredient -> {
                         var itemStack = ingredient.inner.getInnerItemStack().copyWithCount((int) ingredient.amount);
                         var itemEntity = new ItemEntity(level, posCenter.x(), posCenter.y(), posCenter.z(), itemStack);
                         itemEntity.setDeltaMovement(random.nextDouble() * 0.2 - 0.1, 0.2, random.nextDouble() * 0.2 - 0.1);
                         level.addFreshEntity(itemEntity);
                     });
                 }
-                left.clear();
+                return true;
             } else {
                 var itemEntities = getItemEntitiesAbove();
-                if (itemEntities.isEmpty()) return;
+                if (itemEntities.isEmpty()) return items.isEmpty();
                 for (var itemEntity : itemEntities) {
                     if (!itemEntity.isAlive() || itemEntity.getItem().isEmpty()) {
                         continue;
                     }
                     var itemStack = itemEntity.getItem();
                     itemStack = simulate ? itemStack.copy() : itemStack;
-                    var leftConsuming = left.iterator();
+                    var leftConsuming = items.iterator();
                     while (itemStack.getCount() > 0 && leftConsuming.hasNext()) {
                         var ingredient = leftConsuming.next();
                         if (ingredient.inner.testItem(itemStack.getItem())) {
@@ -248,6 +248,7 @@ public class ManaFlowAssembler extends ManaMultiblockMachine {
                         }
                     }
                 }
+                return items.isEmpty();
             }
         }
 

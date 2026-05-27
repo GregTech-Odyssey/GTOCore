@@ -59,15 +59,16 @@ public final class InfiniteWaterHatchPartMachine extends WorkableTieredIOPartMac
         }
 
         @Override
-        public void handleRecipeFluid(IO io, GTRecipe recipe, List<Content<FluidIngredient>> left, boolean simulate) {
+        public boolean handleRecipeFluid(IO io, GTRecipe recipe, List<Content<FluidIngredient>> fluids, boolean simulate) {
             if (io == IO.IN) {
-                for (var it = left.iterator(); it.hasNext();) {
+                for (var it = fluids.iterator(); it.hasNext();) {
                     if (it.next().inner.getFluid() == Fluids.WATER) {
                         it.remove();
                         break;
                     }
                 }
             }
+            return fluids.isEmpty();
         }
 
         @Override

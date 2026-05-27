@@ -102,10 +102,10 @@ public class ExportOnlyAEItemList extends NotifiableItemStackHandler implements 
     }
 
     @Override
-    public void handleRecipeItem(IO io, GTRecipe recipe, List<Content<ItemIngredient>> left, boolean simulate) {
+    public boolean handleRecipeItem(IO io, GTRecipe recipe, List<Content<ItemIngredient>> items, boolean simulate) {
         if (io == IO.IN) {
             boolean changed = false;
-            for (var it = left.iterator(); it.hasNext();) {
+            for (var it = items.iterator(); it.hasNext();) {
                 var ingredient = it.next();
                 if (ingredient.isEmpty()) {
                     it.remove();
@@ -133,6 +133,7 @@ public class ExportOnlyAEItemList extends NotifiableItemStackHandler implements 
                 onContentsChanged();
             }
         }
+        return items.isEmpty();
     }
 
     @Override

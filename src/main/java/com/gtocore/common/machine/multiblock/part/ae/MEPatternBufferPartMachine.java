@@ -669,9 +669,9 @@ public abstract class MEPatternBufferPartMachine extends MEPatternPartMachineKt<
             return true;
         }
 
-        public void handleItemInternal(List<Content<ItemIngredient>> left, boolean simulate) {
+        public boolean handleItemInternal(List<Content<ItemIngredient>> items, boolean simulate) {
             boolean changed = false;
-            for (var it = left.iterator(); it.hasNext();) {
+            for (var it = items.iterator(); it.hasNext();) {
                 var ingredient = it.next();
                 if (ingredient.isEmpty()) {
                     it.remove();
@@ -700,11 +700,12 @@ public abstract class MEPatternBufferPartMachine extends MEPatternPartMachineKt<
             if (changed) {
                 markContentsChanged();
             }
+            return items.isEmpty();
         }
 
-        public void handleFluidInternal(List<Content<FluidIngredient>> left, boolean simulate) {
+        public boolean handleFluidInternal(List<Content<FluidIngredient>> fluids, boolean simulate) {
             boolean changed = false;
-            for (var it = left.iterator(); it.hasNext();) {
+            for (var it = fluids.iterator(); it.hasNext();) {
                 var ingredient = it.next();
                 if (ingredient.isEmpty()) {
                     it.remove();
@@ -733,6 +734,7 @@ public abstract class MEPatternBufferPartMachine extends MEPatternPartMachineKt<
             if (changed) {
                 markContentsChanged();
             }
+            return fluids.isEmpty();
         }
 
         @Override

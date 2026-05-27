@@ -247,9 +247,9 @@ public final class HugeBusPartMachine extends WorkableTieredIOPartMachine implem
         }
 
         @Override
-        public void handleRecipeItem(IO io, GTRecipe recipe, List<Content<ItemIngredient>> left, boolean simulate) {
-            if (io != IO.IN || getCount() < 1) return;
-            for (var it = left.iterator(); it.hasNext();) {
+        public boolean handleRecipeItem(IO io, GTRecipe recipe, List<Content<ItemIngredient>> items, boolean simulate) {
+            if (io != IO.IN || getCount() < 1) return items.isEmpty();
+            for (var it = items.iterator(); it.hasNext();) {
                 var ingredient = it.next();
                 if (ingredient.isEmpty()) {
                     it.remove();
@@ -269,6 +269,7 @@ public final class HugeBusPartMachine extends WorkableTieredIOPartMachine implem
                     }
                 }
             }
+            return items.isEmpty();
         }
     }
 

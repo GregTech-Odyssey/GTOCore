@@ -258,13 +258,13 @@ public final class InternalSlotRecipeHandler {
         }
 
         @Override
-        public void handleRecipeItem(IO io, GTRecipe recipe, List<Content<ItemIngredient>> left, boolean simulate) {
-            slot.handleItemInternal(left, simulate);
+        public boolean handleRecipeItem(IO io, GTRecipe recipe, List<Content<ItemIngredient>> items, boolean simulate) {
+            return slot.handleItemInternal(items, simulate);
         }
 
         @Override
-        public void handleRecipeFluid(IO io, GTRecipe recipe, List<Content<FluidIngredient>> left, boolean simulate) {
-            slot.handleFluidInternal(left, simulate);
+        public boolean handleRecipeFluid(IO io, GTRecipe recipe, List<Content<FluidIngredient>> fluids, boolean simulate) {
+            return slot.handleFluidInternal(fluids, simulate);
         }
 
         @Override

@@ -122,8 +122,9 @@ public class ExportOnlyAEStockingItemList extends ExportOnlyAEItemList {
     }
 
     @Override
-    public void handleRecipeItem(IO io, GTRecipe recipe, List<Content<ItemIngredient>> left, boolean simulate) {
-        if (machine.isWorkingEnabled()) super.handleRecipeItem(io, recipe, left, simulate);
+    public boolean handleRecipeItem(IO io, GTRecipe recipe, List<Content<ItemIngredient>> items, boolean simulate) {
+        if (machine.isWorkingEnabled()) return super.handleRecipeItem(io, recipe, items, simulate);
+        return false;
     }
 
     @Override

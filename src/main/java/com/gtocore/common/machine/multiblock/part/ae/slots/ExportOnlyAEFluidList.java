@@ -73,10 +73,10 @@ public class ExportOnlyAEFluidList extends NotifiableFluidTank implements IConfi
     public void setFluidInTank(int tank, @NotNull FluidStack fluidStack) {}
 
     @Override
-    public void handleRecipeFluid(IO io, GTRecipe recipe, List<Content<FluidIngredient>> left, boolean simulate) {
+    public boolean handleRecipeFluid(IO io, GTRecipe recipe, List<Content<FluidIngredient>> fluids, boolean simulate) {
         if (io == IO.IN) {
             boolean changed = false;
-            for (var it = left.iterator(); it.hasNext();) {
+            for (var it = fluids.iterator(); it.hasNext();) {
                 var ingredient = it.next();
                 if (ingredient.isEmpty()) {
                     it.remove();
@@ -104,6 +104,7 @@ public class ExportOnlyAEFluidList extends NotifiableFluidTank implements IConfi
                 onContentsChanged();
             }
         }
+        return fluids.isEmpty();
     }
 
     @Override

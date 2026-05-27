@@ -123,8 +123,9 @@ public class ExportOnlyAEStockingFluidList extends ExportOnlyAEFluidList {
     }
 
     @Override
-    public void handleRecipeFluid(IO io, GTRecipe recipe, List<Content<FluidIngredient>> left, boolean simulate) {
-        if (machine.isWorkingEnabled()) super.handleRecipeFluid(io, recipe, left, simulate);
+    public boolean handleRecipeFluid(IO io, GTRecipe recipe, List<Content<FluidIngredient>> fluids, boolean simulate) {
+        if (machine.isWorkingEnabled()) return super.handleRecipeFluid(io, recipe, fluids, simulate);
+        return false;
     }
 
     @Override
