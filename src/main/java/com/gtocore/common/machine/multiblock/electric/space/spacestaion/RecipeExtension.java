@@ -15,6 +15,7 @@ import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
 import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
+import com.gregtechceu.gtceu.api.recipe.GTRecipeDefinition;
 import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
 import com.gregtechceu.gtceu.api.recipe.modifier.RecipeModifier;
 
@@ -78,6 +79,16 @@ public class RecipeExtension extends Extension implements ICrossRecipeMachine {
     public void attachConfigurators(@NotNull ConfiguratorPanel configuratorPanel) {
         super.attachConfigurators(configuratorPanel);
         crossRecipeTrait.attachConfigurators(configuratorPanel);
+    }
+
+    @Override
+    public @Nullable GTRecipeDefinition createCustomRecipe(RecipeHandlerUnit unit) {
+        return null;
+    }
+
+    @Override
+    public boolean searchRecipe() {
+        return true;
     }
 
     @Override
