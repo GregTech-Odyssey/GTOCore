@@ -14,18 +14,15 @@ import com.gtolib.api.annotation.dynamic.DynamicInitialValueTypes;
 import com.gtolib.api.annotation.language.RegisterLanguage;
 import com.gtolib.api.machine.multiblock.ElectricMultiblockMachine;
 import com.gtolib.api.recipe.IdleReason;
-import com.gtolib.api.recipe.RecipeHelper;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
-import com.gregtechceu.gtceu.api.capability.recipe.FluidRecipeCapability;
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
 import com.gregtechceu.gtceu.api.machine.TickableSubscription;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.content.Content;
-import com.gregtechceu.gtceu.api.recipe.handler.IO;
 import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
 import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
 import com.gregtechceu.gtceu.api.recipe.modifier.ParallelLogic;
@@ -206,24 +203,6 @@ public class FullCellGenerator extends ElectricMultiblockMachine {
         output.add(new Content<>(FluidIngredient.of(electrolytesExisting.getFluid(GTOFluidStorageKey.ENERGY_STORAGE_ANODE), actuallyConsumedmB), 10000, 0));
         result.fluidInputs = input;
         result.fluidOutputs = output;
-
-        // content output check
-        if (!this.canVoidRecipeOutputs(FluidRecipeCapability.CAP)) {
-            var contents = result.fluidOutputs;
-            var copied = RecipeHelper.copyContents(contents, 1);
-            boolean success = false;
-            for (var handler : getOutputUnits(recipe)) {
-                handler.handleRecipeFluid(IO.OUT, recipe, copied, true);
-                if (copied.isEmpty()) {
-                    success = true;
-                    break;
-                }
-            }
-            if (!success) {
-                setIdleReason(IdleReason.OUTPUT_FULL);
-                return null;
-            }
-        }
         return result;
     }
 
