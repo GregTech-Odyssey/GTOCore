@@ -1544,17 +1544,26 @@ object GTOMachineTooltips {
         "gtocore.cosmic_neutronium", 1.5f,
         "gtocore.eternity", 1.6f,
     )
+    val MATERIAL_TIER_MAP: ImmutableMap<String?, String?> = ImmutableMap.of<String?, String?>(
+        "gtceu.iron", "ZPM",
+        "gtceu.iridium", "UV",
+        "gtocore.orichalcum", "UHV",
+        "gtocore.infuscolium", "UEV",
+        "gtocore.draconium", "UIV",
+        "gtocore.cosmic_neutronium", "UXV",
+        "gtocore.eternity", "OpV",
+    )
     val NanitesIntegratedProcessingCenterTooltips = ComponentListSupplier {
         setTranslationPrefix("nanites_integrated_processing_center")
 
         section(ComponentSlang.RunningRequirements)
         command("安装对应模块解锁对应配方" translatedTo "Install the corresponding module to unlock the corresponding recipe")
         increase("主机中放入纳米蜂群可减少污染概率" translatedTo "Placing nanites in the host can reduce pollution probability")
-        content("每放入一个纳米蜂群，污染概率减少数如下所示" translatedTo "Each nanite placed reduces pollution probability as follows")
+        content("每放入一个纳米蜂群，最低主机电压和污染概率减少数如下所示" translatedTo "Each nanite placed requires the minimum voltage and reduces pollution probability as follows")
         MATERIAL_MAP.forEach { (material: String?, reduction: Float?) ->
             info(
                 Component.translatable("material.$material").toComponentSupplier() +
-                    (": -$reduction%").toLiteralSupplier(),
+                    ("[${MATERIAL_TIER_MAP[material]}]: -$reduction%").toLiteralSupplier(),
             )
         }
     }

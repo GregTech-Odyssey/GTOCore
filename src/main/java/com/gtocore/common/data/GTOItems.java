@@ -16,6 +16,7 @@ import com.gtocore.config.GTOConfig;
 import com.gtocore.data.lootTables.RewardBagLoot;
 import com.gtocore.integration.ae.wtlib.WFTMenu;
 import com.gtocore.integration.ae.wtlib.WRTMenu;
+import com.gtocore.integration.apotheosis.ApotheosisGemFilter;
 
 import com.gtolib.GTOCore;
 import com.gtolib.api.ae2.me2in1.Wireless;
@@ -30,13 +31,11 @@ import com.gregtechceu.gtceu.api.data.chemical.material.stack.MaterialStack;
 import com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys;
 import com.gregtechceu.gtceu.api.item.ComponentItem;
 import com.gregtechceu.gtceu.api.item.component.ElectricStats;
+import com.gregtechceu.gtceu.common.data.GTCovers;
 import com.gregtechceu.gtceu.common.data.GTFluids;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.common.data.GTMedicalConditions;
-import com.gregtechceu.gtceu.common.item.AntidoteBehavior;
-import com.gregtechceu.gtceu.common.item.CoverPlaceBehavior;
-import com.gregtechceu.gtceu.common.item.DataItemBehavior;
-import com.gregtechceu.gtceu.common.item.TooltipBehavior;
+import com.gregtechceu.gtceu.common.item.*;
 import com.gregtechceu.gtceu.common.item.armor.*;
 import com.gregtechceu.gtceu.config.ConfigHolder;
 import com.gregtechceu.gtceu.data.recipe.CustomTags;
@@ -1337,6 +1336,15 @@ public final class GTOItems {
                     .build().getArray())
             .properties(p -> p.stacksTo(1))
             .onRegister(attach(new TesseractTargetMarker()))
+            .register();
+
+    public static ItemEntry<ComponentItem> GEM_ITEM_FILTER = item("gem_item_filter", "神化宝石过滤卡", ComponentItem::create)
+            .toolTips(Component.translatable("item.gtceu.item_filter.tooltip.0"),
+                    Component.translatable("item.gtceu.item_filter.tooltip.1"))
+            .onRegister(attach(new ItemFilterBehaviour(ApotheosisGemFilter::loadFilter),
+                    new CoverPlaceBehavior(GTCovers.ITEM_FILTER)))
+            .onRegister(materialInfo(new ItemMaterialInfo(new MaterialStack(GTOMaterials.Livingsteel, GTValues.M * 2),
+                    new MaterialStack(GTMaterials.Steel, GTValues.M))))
             .register();
 
     // TODO 所有带有此物品的配方都是临时配方，后续会随时被删除

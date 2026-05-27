@@ -11,6 +11,7 @@ import com.fast.fastcollection.O2OOpenCacheHashMap;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import static com.gtocore.common.machine.noenergy.PlatformDeployment.PlatformBlockType.PlatformBlockStructure.structure;
@@ -33,8 +34,22 @@ public final class PlatformTemplateStorage {
     }
 
     private static String add(String cn, String en) {
-        String key = en.replace(' ', '_').toLowerCase();
-        return add(key, cn, en);
+        return add(toLangKey(en), cn, en);
+    }
+
+    private static String toLangKey(String en) {
+        String key = en.toLowerCase(Locale.ROOT)
+                .replace("×", "x")
+                .replace("·", "_")
+                .replace("*", "x")
+                .replaceAll("[^a-z0-9]+", "_")
+                .replaceAll("_+", "_")
+                .replaceAll("^_|_$", "");
+
+        if (key.isEmpty()) {
+            throw new IllegalArgumentException("Invalid platform lang key source: " + en);
+        }
+        return key;
     }
 
     private static String in(String path) {

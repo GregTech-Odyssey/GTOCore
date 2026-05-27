@@ -1003,6 +1003,14 @@ final class Vanilla {
                 "FGH",
                 'A', RegistriesUtils.getItem("botania:lens_speed"), 'B', new MaterialEntry(TagPrefix.plate, GTOMaterials.Thaumium), 'C', RegistriesUtils.getItem("botania:lens_power"), 'D', RegistriesUtils.getItem("botania:tiny_planet_block"), 'E', new MaterialEntry(TagPrefix.frameGt, GTOMaterials.Elementium), 'F', RegistriesUtils.getItem("botania:lens_time"), 'G', RegistriesUtils.getItem("botania:pump"), 'H', RegistriesUtils.getItem("botania:lens_efficiency"));
 
+        VanillaRecipeHelper.addShapedRecipe(GTOCore.id("gem_item_filter"), GTOItems.GEM_ITEM_FILTER.asItem(),
+                "AAA",
+                "ABA",
+                "AAA",
+                'A', new MaterialEntry(TagPrefix.foil, GTOMaterials.Livingsteel), 'B', new MaterialEntry(TagPrefix.plate, GTMaterials.Steel));
+        VanillaRecipeHelper.addShapelessRecipe(GTOCore.id("gem_item_filter"), GTOItems.GEM_ITEM_FILTER.asItem(),
+                GTOItems.GEM_ITEM_FILTER.asItem());
+
         addUpg(GTAEMachines.ME_PATTERN_BUFFER.asItem(), GTOItems.PATTERN_BUFFER_UPGRADER0.asStack());
         addUpg(GTAEMachines.ME_EXTEND_PATTERN_BUFFER.asItem(), GTOItems.PATTERN_BUFFER_UPGRADER1.asStack());
         addUpg(GTAEMachines.ME_EXTEND_PATTERN_BUFFER_ULTRA.asItem(), GTOItems.PATTERN_BUFFER_UPGRADER2.asStack());

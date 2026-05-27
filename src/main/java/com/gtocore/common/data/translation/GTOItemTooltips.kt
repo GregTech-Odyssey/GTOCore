@@ -357,6 +357,19 @@ object GTOItemTooltips : AutoInitialize<GTOItemTooltips>() {
             }.editionByGTONormal(),
         )
 
+        listOf(
+            CustomItems.WIRELESS_ENERGY_TERMINAL.get(),
+            CustomItems.WIRELESS_ENERGY_BINDING_TOOL.get(),
+        ).forEach {
+            it.setTooltips(
+                ComponentListSupplier {
+                    setTranslationPrefix("wireless_energy_binding")
+                    add("右键可绑定电池箱或蓄能变电站" translatedTo "Right-click to bind a Battery Buffer or Power Substation")
+                    add("绑定目标决定了单个无线设备的传输上限" translatedTo "Binding target determines the transmission limit of a single wireless device") { gray() }
+                },
+            )
+        }
+
         CustomMachines.ME_EXPORT_BUFFER.setTooltipBuilder { _, components ->
             components.addAll(
                 ComponentListSupplier {
