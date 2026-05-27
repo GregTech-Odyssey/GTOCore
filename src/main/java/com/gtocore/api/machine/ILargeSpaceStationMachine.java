@@ -135,11 +135,6 @@ public interface ILargeSpaceStationMachine extends ICustomHighlightMachine, ISpa
                 .build();
     }
 
-    @Override
-    default boolean alwaysSearchRecipe() {
-        return true;
-    }
-
     default void customText(@NotNull List<Component> list) {
         list.add(Component.translatable("gui.ae2.PowerUsageRate", "%s EU/t".formatted(FormattingUtil.formatNumbers(getEUt()))).withStyle(ChatFormatting.YELLOW));
         if (getRoot() != null) {

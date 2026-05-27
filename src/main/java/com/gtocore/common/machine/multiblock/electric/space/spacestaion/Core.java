@@ -191,6 +191,11 @@ public class Core extends AbstractSpaceStation implements ILargeSpaceStationMach
                 .build();
     }
 
+    @Override
+    public boolean alwaysSearchRecipe() {
+        return true;
+    }
+
     private static RecipeBuilder inputFluids(RecipeBuilder builder, int mul) {
         builder.inputFluids(DistilledWater, 15 * mul);
         builder.inputFluids(GTMaterials.RocketFuel, 10 * mul);
