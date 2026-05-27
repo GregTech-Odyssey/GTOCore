@@ -9,14 +9,16 @@ import com.gtolib.api.machine.mana.feature.IManaMultiblock;
 import com.gtolib.api.machine.mana.trait.ManaTrait;
 import com.gtolib.api.machine.multiblock.TierCasingMultiblockMachine;
 import com.gtolib.api.misc.ManaContainerList;
-import com.gtolib.api.recipe.Recipe;
-import com.gtolib.api.recipe.modifier.RecipeModifierFunction;
+import com.gtolib.api.recipe.RecipeHelper;
 import com.gtolib.utils.explosion.SphereExplosion;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.feature.IExplosionMachine;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
+import com.gregtechceu.gtceu.api.recipe.GTRecipe;
+import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
+import com.gregtechceu.gtceu.api.recipe.modifier.RecipeModifier;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
@@ -69,19 +71,20 @@ public final class StellarForgeMachine extends TierCasingMultiblockMachine imple
 
     @Nullable
     @Override
-    protected Recipe getRealRecipe(@NotNull Recipe recipe) {
+    public GTRecipe getRealRecipe(@NotNull RecipeHandlerUnit unit, @NotNull GTRecipe recipe) {
         consecutiveRecipes++;
-        if (recipe.manat < 0) {
+        var manat = RecipeHelper.getMANAt(recipe);
+        if (manat < 0) {
             if (getSubFormedAmount() == 0) {
                 consecutiveRecipes = 0;
                 return null;
             }
             if (consecutiveRecipes > 1) {
-                recipe.manat = Math.max((long) (recipe.manat * Math.log(consecutiveRecipes + Math.E - 1)), Long.MIN_VALUE);
+                RecipeHelper.setMANAt(recipe, Math.max((long) (manat * Math.log(consecutiveRecipes + Math.E - 1)), Long.MIN_VALUE));
             }
             return recipe;
         }
-        recipe = RecipeModifierFunction.laserLossOverclocking(this, recipe);
+        recipe = RecipeModifier.laserLossOverclocking(this, unit, recipe);
         if (recipe != null && consecutiveRecipes > 1) {
             recipe.duration = Math.max(recipe.duration / 2, 1);
         }
@@ -89,19 +92,9 @@ public final class StellarForgeMachine extends TierCasingMultiblockMachine imple
     }
 
     @Override
-    public boolean handleTickRecipe(@Nullable Recipe recipe) {
-        if (recipe != null) {
-            long mana = recipe.manat;
-            if (mana < 0) {
-                useMana(mana, false);
-            }
-        }
-        return super.handleTickRecipe(recipe);
-    }
-
-    @Override
     public void regressRecipe(RecipeLogic recipeLogic) {
-        recipeLogic.interruptRecipe();
+        setWorkingEnabled(false);
+        recipeLogic.resetRecipeLogic();
         doExplosion(1);
     }
 

@@ -2,11 +2,8 @@ package com.gtocore.common.machine.multiblock.electric;
 
 import com.gtolib.api.machine.impl.part.WirelessEnergyInterfacePartMachine;
 import com.gtolib.api.machine.multiblock.ElectricMultiblockMachine;
-import com.gtolib.api.machine.trait.CustomRecipeLogic;
 import com.gtolib.api.recipe.IdleReason;
-import com.gtolib.api.recipe.Recipe;
 import com.gtolib.api.recipe.RecipeBuilder;
-import com.gtolib.api.recipe.RecipeRunner;
 import com.gtolib.api.wireless.ExtendWirelessEnergyContainer;
 import com.gtolib.utils.MathUtil;
 
@@ -14,18 +11,19 @@ import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.GTCapabilityHelper;
 import com.gregtechceu.gtceu.api.item.capability.ElectricItem;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
-import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
+import com.gregtechceu.gtceu.api.recipe.GTRecipeDefinition;
+import com.gregtechceu.gtceu.api.recipe.handler.ICustomRecipeLogicHolder;
+import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
 
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.energy.IEnergyStorage;
 
 import com.gto.datasynclib.util.holder.ObjHolder;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.math.BigInteger;
 
-public final class EnergyInjectorMachine extends ElectricMultiblockMachine {
+public final class EnergyInjectorMachine extends ElectricMultiblockMachine implements ICustomRecipeLogicHolder {
 
     private WirelessEnergyInterfacePartMachine energyInterfacePartMachine;
 
@@ -57,8 +55,13 @@ public final class EnergyInjectorMachine extends ElectricMultiblockMachine {
         energyInterfacePartMachine = null;
     }
 
-    @Nullable
-    private Recipe getRecipe() {
+    @Override
+    public boolean alwaysSearchRecipe() {
+        return true;
+    }
+
+    @Override
+    public GTRecipeDefinition createCustomRecipe(RecipeHandlerUnit unit) {
         ExtendWirelessEnergyContainer container = null;
         BigInteger storage = null;
         if (energyInterfacePartMachine != null) {
@@ -69,7 +72,7 @@ public final class EnergyInjectorMachine extends ElectricMultiblockMachine {
         }
         ObjHolder<BigInteger> eu = new ObjHolder<>(BigInteger.ZERO);
         RecipeBuilder builder = getRecipeBuilder();
-        fastForEachInputItems((stack, amount) -> {
+        unit.fastForEachItems(true, (stack, amount) -> {
             int count = MathUtil.saturatedCast(amount);
             ItemStack output = stack.copyWithCount(count);
             boolean processed = false;
@@ -109,30 +112,23 @@ public final class EnergyInjectorMachine extends ElectricMultiblockMachine {
             }
         });
         if (eu.value.compareTo(BigInteger.ZERO) > 0) {
-            Recipe recipe;
+
             if (container != null) {
                 if (storage.compareTo(eu.value) < 0) {
                     setIdleReason(IdleReason.NO_EU);
                     return null;
                 }
                 container.setStorage(storage.subtract(eu.value));
-                recipe = builder.duration(1).buildRawRecipe();
+                return builder.duration(1).build();
             } else {
                 var voltage = getOverclockVoltage();
                 if (voltage <= 0) {
                     setIdleReason(IdleReason.NO_EU);
                     return null;
                 }
-                recipe = builder.EUt(voltage).duration(Math.max(1, eu.value.divide(BigInteger.valueOf(voltage)).intValue())).buildRawRecipe();
-                if (!RecipeRunner.matchTickRecipe(this, recipe)) return null;
+                return builder.EUt(voltage).duration(Math.max(1, eu.value.divide(BigInteger.valueOf(voltage)).intValue())).build();
             }
-            return recipe;
         }
         return null;
-    }
-
-    @Override
-    public RecipeLogic createRecipeLogic(Object @NotNull... args) {
-        return new CustomRecipeLogic(this, this::getRecipe);
     }
 }

@@ -4,44 +4,25 @@ import com.gtocore.common.data.GTOOres;
 import com.gtocore.data.IdleReason;
 
 import com.gtolib.api.machine.multiblock.ElectricMultiblockMachine;
-import com.gtolib.api.machine.trait.CustomRecipeLogic;
-import com.gtolib.api.recipe.Recipe;
 import com.gtolib.api.recipe.RecipeBuilder;
-import com.gtolib.api.recipe.RecipeRunner;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
-import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
-
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import com.gregtechceu.gtceu.api.recipe.GTRecipeDefinition;
+import com.gregtechceu.gtceu.api.recipe.handler.ICustomRecipeLogicHolder;
+import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
 
 import java.util.Objects;
 import java.util.Set;
 
-public final class StarcoreMinerMachine extends ElectricMultiblockMachine {
+public final class StarcoreMinerMachine extends ElectricMultiblockMachine implements ICustomRecipeLogicHolder {
 
     private Set<Material> materials;
 
     public StarcoreMinerMachine(MetaMachineBlockEntity holder) {
         super(holder);
-    }
-
-    @Nullable
-    private Recipe getRecipe() {
-        RecipeBuilder builder = getRecipeBuilder().duration(20).EUt(GTValues.VA[GTValues.MAX]);
-        for (Material material : getMaterials()) {
-            builder.outputItems(TagPrefix.ore, material, 65536);
-        }
-        if (builder.output.isEmpty()) {
-            setIdleReason(IdleReason.NO_ORES);
-            return null;
-        }
-        Recipe recipe = builder.buildRawRecipe();
-        if (RecipeRunner.matchTickRecipe(this, recipe) && RecipeRunner.matchRecipeOutput(this, recipe)) return recipe;
-        return null;
     }
 
     private Set<Material> getMaterials() {
@@ -54,7 +35,15 @@ public final class StarcoreMinerMachine extends ElectricMultiblockMachine {
     }
 
     @Override
-    public RecipeLogic createRecipeLogic(Object @NotNull... args) {
-        return new CustomRecipeLogic(this, this::getRecipe, true);
+    public GTRecipeDefinition createCustomRecipe(RecipeHandlerUnit unit) {
+        RecipeBuilder builder = getRecipeBuilder().duration(20).EUt(GTValues.VA[GTValues.MAX]);
+        for (Material material : getMaterials()) {
+            builder.outputItems(TagPrefix.ore, material, 65536);
+        }
+        if (builder.getItemOutputs().isEmpty()) {
+            setIdleReason(IdleReason.NO_ORES);
+            return null;
+        }
+        return builder.build();
     }
 }

@@ -4,7 +4,6 @@ import com.gtolib.utils.MathUtil;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
-import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.gui.fancy.ConfiguratorPanel;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
@@ -14,6 +13,8 @@ import com.gregtechceu.gtceu.api.machine.multiblock.part.WorkableTieredIOPartMac
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
+import com.gregtechceu.gtceu.api.recipe.content.Content;
+import com.gregtechceu.gtceu.api.recipe.handler.IO;
 import com.gregtechceu.gtceu.api.recipe.ingredient.ItemIngredient;
 import com.gregtechceu.gtceu.api.transfer.item.CustomItemStackHandler;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
@@ -91,7 +92,7 @@ public final class HugeBusPartMachine extends WorkableTieredIOPartMachine implem
 
     @Override
     public void onPaintingColorChanged(int color) {
-        getHandlerList().setColor(color, true);
+        getHandlerUnit().setColor(color, true);
     }
 
     @Override
@@ -228,7 +229,7 @@ public final class HugeBusPartMachine extends WorkableTieredIOPartMachine implem
         }
 
         @Override
-        public IntLongMap getIngredientMap(GTRecipeType type) {
+        public IntLongMap getSearchMap(GTRecipeType type) {
             if (changed) {
                 changed = false;
                 intIngredientMap.clear();
@@ -246,33 +247,29 @@ public final class HugeBusPartMachine extends WorkableTieredIOPartMachine implem
         }
 
         @Override
-        @Nullable
-        public List<ItemIngredient> handleRecipeInner(IO io, GTRecipe recipe, List<ItemIngredient> left, boolean simulate) {
-            if (io != IO.IN && ((HugeCustomItemStackHandler) storage).count > 0) return left.isEmpty() ? null : left;
-            for (var it = left.iterator(); it.hasNext();) {
+        public boolean handleRecipeItem(IO io, GTRecipe recipe, List<Content<ItemIngredient>> items, boolean simulate) {
+            if (io != IO.IN || getCount() < 1) return items.isEmpty();
+            for (var it = items.iterator(); it.hasNext();) {
                 var ingredient = it.next();
                 if (ingredient.isEmpty()) {
                     it.remove();
                     continue;
                 }
-                long amount = ingredient.amount;
-                long count = Math.min(amount, getCount());
-                if (count == 0) continue;
-                if (ingredient.test(getStackInSlot(0))) {
+                if (ingredient.inner.test(getStackInSlot(0))) {
+                    var extracted = Math.min(ingredient.amount, getCount());
                     if (!simulate) {
-                        ((HugeCustomItemStackHandler) storage).count -= count;
+                        ((HugeCustomItemStackHandler) storage).count -= extracted;
                         getStackInSlot(0).setCount(MathUtil.saturatedCast(((HugeCustomItemStackHandler) storage).count));
                         storage.onContentsChanged(0);
                     }
-                    amount -= count;
-                    if (amount <= 0) {
+                    ingredient.shrink(extracted);
+                    if (ingredient.amount <= 0) {
                         it.remove();
-                    } else {
-                        ingredient.amount = amount;
+                        break;
                     }
                 }
             }
-            return left.isEmpty() ? null : left;
+            return items.isEmpty();
         }
     }
 

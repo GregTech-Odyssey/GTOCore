@@ -5,16 +5,15 @@ import com.gtocore.common.data.GTOItems;
 import com.gtocore.common.machine.multiblock.part.BlockBusPartMachine;
 
 import com.gtolib.api.machine.multiblock.StorageMultiblockMachine;
-import com.gtolib.api.machine.trait.CustomRecipeLogic;
-import com.gtolib.api.recipe.Recipe;
-import com.gtolib.api.recipe.RecipeRunner;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
-import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
+import com.gregtechceu.gtceu.api.recipe.GTRecipeDefinition;
+import com.gregtechceu.gtceu.api.recipe.handler.ICustomRecipeLogicHolder;
+import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
 import com.gregtechceu.gtceu.api.transfer.item.CustomItemStackHandler;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
@@ -28,7 +27,6 @@ import net.minecraft.world.level.block.Blocks;
 
 import com.google.common.collect.ImmutableMap;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import vectorwing.farmersdelight.common.registry.ModBlocks;
 
 import java.util.ArrayList;
@@ -36,7 +34,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-public final class BlockConversionRoomMachine extends StorageMultiblockMachine {
+public final class BlockConversionRoomMachine extends StorageMultiblockMachine implements ICustomRecipeLogicHolder {
 
     private static final List<int[]> poses1 = new ArrayList<>();
     private static final List<int[]> poses2 = new ArrayList<>();
@@ -96,8 +94,8 @@ public final class BlockConversionRoomMachine extends StorageMultiblockMachine {
     }
 
     @Override
-    public boolean onWorking() {
-        if (!super.onWorking()) return false;
+    public void onWorking() {
+        super.onWorking();
         if (getOffsetTimer() % 20 == 0) {
             int amount = getConversionAmount();
             if (!blockBusPartMachines.isEmpty() && getStorageStack().getItem() == GTOItems.CONVERSION_SIMULATE_CARD.get()) {
@@ -128,7 +126,6 @@ public final class BlockConversionRoomMachine extends StorageMultiblockMachine {
                 }
             }
         }
-        return true;
     }
 
     // 用来冒充巨构的代码，有了巨构记得改
@@ -164,15 +161,8 @@ public final class BlockConversionRoomMachine extends StorageMultiblockMachine {
         return amountAtUhv << (tier - GTValues.UHV);
     }
 
-    @Nullable
-    private Recipe getRecipe() {
-        Recipe recipe = getRecipeBuilder().duration(400).EUt(GTValues.V[getTier()]).buildRawRecipe();
-        if (RecipeRunner.matchTickRecipe(this, recipe)) return recipe;
-        return null;
-    }
-
     @Override
-    public RecipeLogic createRecipeLogic(Object @NotNull... args) {
-        return new CustomRecipeLogic(this, this::getRecipe, true);
+    public GTRecipeDefinition createCustomRecipe(RecipeHandlerUnit unit) {
+        return getRecipeBuilder().duration(400).EUt(GTValues.V[getTier()]).build();
     }
 }

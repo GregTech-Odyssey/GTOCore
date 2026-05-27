@@ -9,7 +9,6 @@ import com.gtolib.api.machine.feature.IDroneInteractionMachine;
 import com.gtolib.api.machine.feature.IGTOMufflerMachine;
 import com.gtolib.api.machine.feature.multiblock.IDroneControlCenterMachine;
 import com.gtolib.api.misc.Drone;
-import com.gtolib.utils.MachineUtils;
 
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.GTValues;
@@ -23,6 +22,7 @@ import com.gregtechceu.gtceu.api.gui.widget.SlotWidget;
 import com.gregtechceu.gtceu.api.machine.TickableSubscription;
 import com.gregtechceu.gtceu.api.machine.feature.IRecipeLogicMachine;
 import com.gregtechceu.gtceu.api.machine.multiblock.part.WorkableTieredPartMachine;
+import com.gregtechceu.gtceu.api.recipe.handler.IRecipeHandlerHolder;
 import com.gregtechceu.gtceu.api.transfer.item.CustomItemStackHandler;
 import com.gregtechceu.gtceu.common.machine.electric.AirScrubberMachine;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.MufflerPartMachine;
@@ -144,7 +144,7 @@ public abstract class MufflerPartMachineMixin extends WorkableTieredPartMachine 
             ItemStack stack = inventory.stacks[i];
             if (stack.getCount() > 0) {
                 inventory.setStackInSlot(i, ItemStack.EMPTY);
-                MachineUtils.outputItem(centerMachine, stack);
+                ((IRecipeHandlerHolder) centerMachine).outputItem(stack);
             }
         }
     }
@@ -240,7 +240,7 @@ public abstract class MufflerPartMachineMixin extends WorkableTieredPartMachine 
     public void recoverItemsTable(ItemStack recoveryItems) {
         AirScrubberMachine machine = getAirScrubberMachine();
         if (machine != null && GTValues.RNG.nextInt(machine.getTier() << 1 + 1) > 1) {
-            MachineUtils.outputItem(machine, recoveryItems);
+            machine.outputItem(recoveryItems);
             return;
         }
         CustomItemStackHandler.insertItemStackedFast(inventory, recoveryItems);

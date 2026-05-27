@@ -13,9 +13,7 @@ import com.gtolib.api.machine.multiblock.ElectricMultiblockMachine;
 import com.gtolib.api.machine.part.ItemPartMachine;
 import com.gtolib.api.machine.trait.CoilTrait;
 import com.gtolib.api.machine.trait.TierCasingTrait;
-import com.gtolib.api.recipe.Recipe;
 import com.gtolib.api.recipe.TierDataKey;
-import com.gtolib.api.recipe.modifier.ParallelLogic;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.block.ICoilType;
@@ -30,6 +28,9 @@ import com.gregtechceu.gtceu.api.machine.feature.multiblock.ICoilMachine;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMaintenanceMachine;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IWorkableMultiPart;
+import com.gregtechceu.gtceu.api.recipe.GTRecipe;
+import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
+import com.gregtechceu.gtceu.api.recipe.modifier.ParallelLogic;
 import com.gregtechceu.gtceu.common.item.TurbineRotorBehaviour;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.RotorHolderPartMachine;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
@@ -120,11 +121,11 @@ public class TurbineMachine extends ElectricMultiblockMachine {
     }
 
     @Override
-    public boolean matchRecipe(Recipe recipe) {
+    public boolean matchRecipeInput(RecipeHandlerUnit unit, GTRecipe recipe) {
         for (RotorHolderPartMachine part : rotorHolderMachines) {
             if (part.getRotorStack().isEmpty()) return false;
         }
-        return super.matchRecipe(recipe);
+        return super.matchRecipeInput(unit, recipe);
     }
 
     @Override
@@ -174,7 +175,7 @@ public class TurbineMachine extends ElectricMultiblockMachine {
     }
 
     @Override
-    public boolean onWorking() {
+    public void onWorking() {
         if (highSpeedMode && getOffsetTimer() % 20 == 0) {
             accumulatedDamage += getHighSpeedModeDamageMultiplier();
             if (accumulatedDamage >= 1) {
@@ -185,7 +186,7 @@ public class TurbineMachine extends ElectricMultiblockMachine {
                 }
             }
         }
-        return super.onWorking();
+        super.onWorking();
     }
 
     @Override
@@ -242,7 +243,7 @@ public class TurbineMachine extends ElectricMultiblockMachine {
     //////////////////////////////////////
     @Nullable
     @Override
-    protected Recipe getRealRecipe(Recipe recipe) {
+    protected GTRecipe getRealRecipe(RecipeHandlerUnit unit, GTRecipe recipe) {
         RotorHolderPartMachine rotorHolder = getRotorHolder();
         long EUt = recipe.getOutputEUt();
         if (rotorHolder == null || EUt <= 0) return null;
@@ -250,12 +251,12 @@ public class TurbineMachine extends ElectricMultiblockMachine {
         if (rotorSpeed < 0) return null;
         int maxSpeed = rotorHolder.getMaxRotorHolderSpeed();
         long turbineMaxVoltage = Math.min(getOverclockVoltage(), (long) (getVoltage() * Math.pow((double) Math.min(maxSpeed, rotorSpeed) / maxSpeed, 2)));
-        recipe = ParallelLogic.accurateContentParallel(this, recipe, turbineMaxVoltage / EUt);
+        recipe = ParallelLogic.accurateContentParallel(this, unit, recipe, turbineMaxVoltage / EUt);
         if (recipe == null) return null;
         long eut = Math.min(turbineMaxVoltage, recipe.parallels * EUt);
         energyPerTick = eut;
         recipe.duration = (int) (recipe.duration * rotorHolder.getTotalEfficiency() * extraEfficiency / 100);
-        recipe.setOutputEUt(eut);
+        recipe.setEUt(-eut);
         return recipe;
     }
 
@@ -415,7 +416,7 @@ public class TurbineMachine extends ElectricMultiblockMachine {
         }
 
         @Override
-        public boolean onWorking() {
+        public void onWorking() {
             if (getCoilTier() > 0) {
                 this.workAccumulation += getCoilTier() * 1.25f + 4;
                 int addition = (int) Math.floor(this.workAccumulation);
@@ -424,7 +425,7 @@ public class TurbineMachine extends ElectricMultiblockMachine {
                     part.setRotorSpeed(Math.min(part.getRotorSpeed() + addition, part.getMaxRotorHolderSpeed()));
                 }
             }
-            return super.onWorking();
+            super.onWorking();
         }
 
         @Override

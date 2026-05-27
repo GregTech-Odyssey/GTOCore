@@ -9,16 +9,16 @@ import com.gtocore.data.IdleReason;
 import com.gtolib.api.item.ItemStackSet;
 import com.gtolib.api.machine.feature.multiblock.ITierCasingMachine;
 import com.gtolib.api.machine.multiblock.StorageMultiblockMachine;
-import com.gtolib.api.machine.trait.CustomRecipeLogic;
 import com.gtolib.api.machine.trait.TierCasingTrait;
 import com.gtolib.api.recipe.*;
 import com.gtolib.utils.MachineUtils;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
-import com.gregtechceu.gtceu.api.capability.recipe.IO;
-import com.gregtechceu.gtceu.api.machine.trait.RecipeHandlerList;
-import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
+import com.gregtechceu.gtceu.api.recipe.GTRecipeDefinition;
+import com.gregtechceu.gtceu.api.recipe.handler.ICustomRecipeLogicHolder;
+import com.gregtechceu.gtceu.api.recipe.handler.IO;
+import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.network.chat.Component;
@@ -56,7 +56,6 @@ import dev.shadowsoffire.apotheosis.adventure.socket.gem.GemRegistry;
 import dev.shadowsoffire.placebo.reload.WeightedDynamicRegistry;
 import earth.terrarium.adastra.common.entities.mob.GlacianRam;
 import it.unimi.dsi.fastutil.objects.Reference2IntMap;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import snownee.jade.util.CommonProxy;
 
@@ -70,7 +69,7 @@ import static com.gtolib.api.GTOValues.GLASS_TIER;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public final class SlaughterhouseMachine extends StorageMultiblockMachine implements ITierCasingMachine {
+public final class SlaughterhouseMachine extends StorageMultiblockMachine implements ITierCasingMachine, ICustomRecipeLogicHolder {
 
     private int attackDamage;
     private DamageSource damageSource;
@@ -168,11 +167,11 @@ public final class SlaughterhouseMachine extends StorageMultiblockMachine implem
     }
 
     @Override
-    public void onContentChanges(RecipeHandlerList handlerList) {
-        if (handlerList.getHandlerIO() == IO.IN) {
+    public void onContentChanges(RecipeHandlerUnit unit) {
+        if (unit.handlerIO == IO.IN) {
             attackDamage = 1;
             activeWeapon = ItemStack.EMPTY;
-            forEachInputItems((stack, amount) -> {
+            unit.forEachItems(true, (stack, amount) -> {
                 if (stack.getItem() instanceof SwordItem swordItem) {
                     if (activeWeapon.isEmpty()) {
                         activeWeapon = stack;
@@ -200,7 +199,7 @@ public final class SlaughterhouseMachine extends StorageMultiblockMachine implem
     }
 
     @Override
-    public boolean onWorking() {
+    public void onWorking() {
         if (getLevel() instanceof ServerLevel serverLevel && getOffsetTimer() % 200 == 0) {
             var blockPos = MachineUtils.getOffsetPos(3, 1, getFrontFacing(), getPos());
             for (Entity entity : serverLevel.getEntitiesOfClass(LivingEntity.class, new AABB(
@@ -212,7 +211,7 @@ public final class SlaughterhouseMachine extends StorageMultiblockMachine implem
                     blockPos.getZ() + 3).deflate(0.1)))
                 entity.kill();
         }
-        return super.onWorking();
+        super.onWorking();
     }
 
     @Override
@@ -226,14 +225,50 @@ public final class SlaughterhouseMachine extends StorageMultiblockMachine implem
         }
     }
 
+    private void getAllDeathLoot(Player player, ServerLevel level, LivingEntity entity, DamageSource source, LootParams.Builder lootParams, Set<ItemStack> itemStacks, int multiplier) {
+        LootTable lootTable = level.getServer().getLootData().getLootTable(entity.getLootTable());
+        lootTable.getRandomItems(lootParams.withParameter(LootContextParams.THIS_ENTITY, entity).create(lootTable.getParamSet())).forEach(item -> {
+            var count = item.getCount();
+            if (count < 1) return;
+            if (filterNbt && item.hasTag()) return;
+            item.setCount(count * multiplier);
+            itemStacks.add(item);
+        });
+        var sqrt = (int) Math.sqrt(multiplier);
+        ((ILivingEntity) entity).gtocore$getAllDeathLoot(source, itemStacks, sqrt, filterNbt);
+        if (entity instanceof Monster) {
+            if (filterNbt) return;
+            float chance = AdventureConfig.gemDropChance + (entity.getPersistentData().contains("apoth.boss") ? AdventureConfig.gemBossBonus : 0);
+            if (player.getRandom().nextFloat() <= chance) {
+                sqrt = sqrt * 2;
+                var item = GemRegistry.createRandomGemStack(player.getRandom(), level, player.getLuck(), WeightedDynamicRegistry.IDimensional.matches(level), GameStagesCompat.IStaged.matches(player));
+                var count = item.getCount();
+                if (count < 1) return;
+                item.setCount(count * entity.getRandom().nextInt(sqrt / 2, sqrt));
+                if (item.isEmpty()) return;
+                itemStacks.add(item);
+            }
+        } else if (entity instanceof GlacianRam glacianRam) {
+            if (glacianRam.getRandom().nextInt(Math.max(10, 20 - sqrt)) == 1) {
+                itemStacks.add(GTOItems.GLACIO_SPIRIT.asStack());
+            }
+        }
+    }
+
+    @Override
+    public Reference2IntMap<TierDataKey> getCasingTiers() {
+        return tierCasingTrait.getCasingTiers();
+    }
+
+    @Override
     @Nullable
-    private Recipe getRecipe() {
+    public GTRecipeDefinition createCustomRecipe(RecipeHandlerUnit unit) {
         if (getLevel() instanceof ServerLevel serverLevel) {
             if (getTier() < 1) {
                 setIdleReason(IdleReason.VOLTAGE_TIER_NOT_SATISFIES);
                 return null;
             }
-            int c = checkingCircuit(false);
+            int c = unit.getCircuit(false);
             if (c != 1 && c != 2) {
                 setIdleReason(IdleReason.SET_CIRCUIT);
                 return null;
@@ -287,49 +322,13 @@ public final class SlaughterhouseMachine extends StorageMultiblockMachine implem
             int duration = Math.max(60, 600 - attackDamage);
             RecipeBuilder builder = getRecipeBuilder().duration(duration).EUt(getOverclockVoltage());
             itemStacks.forEach(builder::outputItems);
-            Recipe recipe = builder.buildRawRecipe();
-            if (RecipeRunner.matchTickRecipe(this, recipe)) return recipe;
+            return builder.build();
         }
         return null;
     }
 
-    private void getAllDeathLoot(Player player, ServerLevel level, LivingEntity entity, DamageSource source, LootParams.Builder lootParams, Set<ItemStack> itemStacks, int multiplier) {
-        LootTable lootTable = level.getServer().getLootData().getLootTable(entity.getLootTable());
-        lootTable.getRandomItems(lootParams.withParameter(LootContextParams.THIS_ENTITY, entity).create(lootTable.getParamSet())).forEach(item -> {
-            var count = item.getCount();
-            if (count < 1) return;
-            if (filterNbt && item.hasTag()) return;
-            item.setCount(count * multiplier);
-            itemStacks.add(item);
-        });
-        var sqrt = (int) Math.sqrt(multiplier);
-        ((ILivingEntity) entity).gtocore$getAllDeathLoot(source, itemStacks, sqrt, filterNbt);
-        if (entity instanceof Monster) {
-            if (filterNbt) return;
-            float chance = AdventureConfig.gemDropChance + (entity.getPersistentData().contains("apoth.boss") ? AdventureConfig.gemBossBonus : 0);
-            if (player.getRandom().nextFloat() <= chance) {
-                sqrt = sqrt * 2;
-                var item = GemRegistry.createRandomGemStack(player.getRandom(), level, player.getLuck(), WeightedDynamicRegistry.IDimensional.matches(level), GameStagesCompat.IStaged.matches(player));
-                var count = item.getCount();
-                if (count < 1) return;
-                item.setCount(count * entity.getRandom().nextInt(sqrt / 2, sqrt));
-                if (item.isEmpty()) return;
-                itemStacks.add(item);
-            }
-        } else if (entity instanceof GlacianRam glacianRam) {
-            if (glacianRam.getRandom().nextInt(Math.max(10, 20 - sqrt)) == 1) {
-                itemStacks.add(GTOItems.GLACIO_SPIRIT.asStack());
-            }
-        }
-    }
-
     @Override
-    public RecipeLogic createRecipeLogic(Object @NotNull... args) {
-        return new CustomRecipeLogic(this, this::getRecipe);
-    }
-
-    @Override
-    public Reference2IntMap<TierDataKey> getCasingTiers() {
-        return tierCasingTrait.getCasingTiers();
+    public boolean alwaysSearchRecipe() {
+        return true;
     }
 }

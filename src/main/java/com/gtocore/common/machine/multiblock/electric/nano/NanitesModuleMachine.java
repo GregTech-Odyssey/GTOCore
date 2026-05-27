@@ -3,10 +3,12 @@ package com.gtocore.common.machine.multiblock.electric.nano;
 import com.gtocore.common.data.GTORecipeDataKeys;
 
 import com.gtolib.api.machine.multiblock.ElectricMultiblockMachine;
-import com.gtolib.api.recipe.Recipe;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiModule;
+import com.gregtechceu.gtceu.api.recipe.GTRecipe;
+import com.gregtechceu.gtceu.api.recipe.GTRecipeDefinition;
+import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
 import com.gregtechceu.gtceu.common.data.GTRecipeDataKeys;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 
@@ -48,9 +50,9 @@ public final class NanitesModuleMachine extends ElectricMultiblockMachine implem
     }
 
     @Override
-    public Recipe fullModifyRecipe(@NotNull Recipe recipe) {
+    public GTRecipe fullModifyRecipe(@NotNull RecipeHandlerUnit unit, @NotNull GTRecipe recipe) {
         if (controller == null) return null;
-        recipe = super.fullModifyRecipe(recipe);
+        recipe = super.fullModifyRecipe(unit, recipe);
         if (recipe != null) {
             NanitesIntegratedMachine.trimRecipe(recipe, controller.chance);
             return recipe;
@@ -59,9 +61,9 @@ public final class NanitesModuleMachine extends ElectricMultiblockMachine implem
     }
 
     @Override
-    public boolean beforeWorking(@NotNull Recipe recipe) {
+    public boolean checkConditions(RecipeHandlerUnit unit, @NotNull GTRecipeDefinition recipe) {
         if (controller == null || recipe.data.getInt(GTRecipeDataKeys.EBF_TEMP) > controller.getTemperature() || recipe.data.getInt(GTORecipeDataKeys.MODULE) != type) return false;
-        return super.beforeWorking(recipe);
+        return super.checkConditions(unit, recipe);
     }
 
     @Override

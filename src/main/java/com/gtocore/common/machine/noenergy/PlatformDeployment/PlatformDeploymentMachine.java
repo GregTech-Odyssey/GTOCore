@@ -9,13 +9,13 @@ import com.gtolib.api.network.NetworkPack;
 import com.gtolib.utils.ServerUtils;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
-import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.gui.widget.SlotWidget;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.feature.IFancyUIMachine;
 import com.gregtechceu.gtceu.api.machine.feature.IMachineLife;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
+import com.gregtechceu.gtceu.api.recipe.handler.IO;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
@@ -915,7 +915,7 @@ public class PlatformDeploymentMachine extends MetaMachine implements IFancyUIMa
         List<IntObjectHolder<ItemStack>> extraMaterials = structure.extraMaterials();
         Map<Item, Integer> inventoryCount = new HashMap<>();
         int coordinateCards = 0;
-        for (int i = 0; i < inventory.getSize(); i++) {
+        for (int i = 0; i < inventory.getSlots(); i++) {
             ItemStack stack = inventory.getStackInSlot(i);
             if (stack.isEmpty()) continue;
             inventoryCount.put(stack.getItem(), inventoryCount.getOrDefault(stack.getItem(), 0) + stack.getCount());
@@ -947,7 +947,7 @@ public class PlatformDeploymentMachine extends MetaMachine implements IFancyUIMa
         for (IntObjectHolder<ItemStack> holder : extraMaterials) {
             Item item = holder.obj.getItem();
             int remaining = holder.number;
-            for (int i = 0; i < inventory.getSize() && remaining > 0; i++) {
+            for (int i = 0; i < inventory.getSlots() && remaining > 0; i++) {
                 ItemStack stack = inventory.getStackInSlot(i);
                 if (stack.getItem() == item) {
                     int take = Math.min(stack.getCount(), remaining);
@@ -1004,7 +1004,7 @@ public class PlatformDeploymentMachine extends MetaMachine implements IFancyUIMa
 
         if (canExport) {
             BlockPos p1 = null, p2 = null;
-            for (int i = 0; i < inventory.getSize() && (p1 == null || p2 == null); i++) {
+            for (int i = 0; i < inventory.getSlots() && (p1 == null || p2 == null); i++) {
                 ItemStack stack = inventory.getStackInSlot(i);
                 if (stack.is(GTOItems.COORDINATE_CARD.asItem())) {
                     if (p1 == null) p1 = getStoredCoordinates(stack);
@@ -1092,7 +1092,7 @@ public class PlatformDeploymentMachine extends MetaMachine implements IFancyUIMa
         if (!(getLevel() instanceof ServerLevel serverLevel)) return;
         BlockPos pos1 = null;
         BlockPos pos2 = null;
-        for (int i = 0; i < inventory.getSize(); i++) {
+        for (int i = 0; i < inventory.getSlots(); i++) {
             ItemStack stack = inventory.getStackInSlot(i);
             if (stack.getItem() == GTOItems.COORDINATE_CARD.asItem()) {
                 if (pos1 == null) pos1 = getStoredCoordinates(stack);

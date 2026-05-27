@@ -3,10 +3,10 @@ package com.gtocore.common.machine.multiblock.water;
 import com.gtocore.common.data.GTOMaterials;
 
 import com.gtolib.api.recipe.RecipeBuilder;
-import com.gtolib.api.recipe.RecipeRunner;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.feature.IExplosionMachine;
+import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.world.level.material.Fluid;
@@ -24,9 +24,9 @@ public final class OzonationPurificationUnitMachine extends WaterPurificationUni
     }
 
     @Override
-    long before() {
+    long prepareRecipe(RecipeHandlerUnit unit) {
         eut = 0;
-        long[] a = getFluidAmount(WaterPurificationPlantMachine.GradePurifiedWater1, Ozone);
+        long[] a = unit.getFluidAmount(true, WaterPurificationPlantMachine.GradePurifiedWater1, Ozone);
         long ozoneCount = a[1];
         if (ozoneCount > 1024000) {
             inputFluid(Ozone, ozoneCount);
@@ -43,7 +43,7 @@ public final class OzonationPurificationUnitMachine extends WaterPurificationUni
                     builder.outputFluids(WaterPurificationPlantMachine.GradePurifiedWater1, outputCount);
                 }
                 recipe = builder.buildRawRecipe();
-                if (RecipeRunner.matchRecipe(this, recipe)) {
+                if (matchRecipe(unit, recipe)) {
                     calculateVoltage(inputCount);
                 }
             }

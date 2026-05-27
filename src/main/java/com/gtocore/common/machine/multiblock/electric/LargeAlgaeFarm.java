@@ -8,15 +8,15 @@ import com.gtocore.common.machine.multiblock.part.ae.StorageAccessPartMachine;
 
 import com.gtolib.api.machine.feature.multiblock.ITierCasingMachine;
 import com.gtolib.api.machine.multiblock.ElectricMultiblockMachine;
-import com.gtolib.api.machine.trait.CustomRecipeLogic;
 import com.gtolib.api.machine.trait.TierCasingTrait;
-import com.gtolib.api.recipe.Recipe;
 import com.gtolib.api.recipe.TierDataKey;
 import com.gtolib.utils.GTOUtils;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
-import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
+import com.gregtechceu.gtceu.api.recipe.GTRecipeDefinition;
+import com.gregtechceu.gtceu.api.recipe.handler.ICustomRecipeLogicHolder;
+import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
 import com.gregtechceu.gtceu.api.sound.SoundEntry;
 import com.gregtechceu.gtceu.common.data.GTSoundEntries;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
@@ -52,7 +52,7 @@ import java.util.Map;
 import static com.gregtechceu.gtceu.api.GTValues.V;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.Biomass;
 
-public class LargeAlgaeFarm extends ElectricMultiblockMachine implements ITierCasingMachine {
+public class LargeAlgaeFarm extends ElectricMultiblockMachine implements ITierCasingMachine, ICustomRecipeLogicHolder {
 
     private final Map<Algae, LongList> statistics = new EnumMap<>(Algae.class);
     private static final int statMaxSeconds = 30;
@@ -83,17 +83,9 @@ public class LargeAlgaeFarm extends ElectricMultiblockMachine implements ITierCa
     }
 
     @Override
-    public boolean onWorking() {
-        if (super.onWorking()) {
-            if (getOffsetTimer() % 20 == 0) produceAlgae();
-            return true;
-        }
-        return false;
-    }
-
-    @Override
-    public RecipeLogic createRecipeLogic(Object... args) {
-        return new CustomRecipeLogic(this, this::getRecipe, true);
+    public void onWorking() {
+        super.onWorking();
+        if (getOffsetTimer() % 20 == 0) produceAlgae();
     }
 
     @Override
@@ -105,10 +97,6 @@ public class LargeAlgaeFarm extends ElectricMultiblockMachine implements ITierCa
             list.add(Component.empty().append(algae.getDisplayName())
                     .append(Component.literal(" x " + FormattingUtil.formatNumbers(amount))));
         }
-    }
-
-    private Recipe getRecipe() {
-        return getRecipeBuilder().duration(200).EUt(V[tier] / 2).buildRawRecipe();
     }
 
     @Override
@@ -188,7 +176,7 @@ public class LargeAlgaeFarm extends ElectricMultiblockMachine implements ITierCa
                             algaeGreenAbsorptions.get(algae) +
                             algaeBlueAbsorptions.get(algae)) * lightIntensity / 16,
                     algaeWeight);
-            long total = Math.min(getFluidAmount(Biomass.getFluid())[0], currentCount + increasement);
+            long total = Math.min(getFluidAmount(true, Biomass.getFluid())[0], currentCount + increasement);
             inputFluid(Biomass.getFluid(), total);
             if (total - currentCount > 0) {
                 algaeAccessHatch.insert(algae.aeKey(), total - currentCount, Actionable.MODULATE, IActionSource.ofMachine(algaeAccessHatch));
@@ -200,7 +188,7 @@ public class LargeAlgaeFarm extends ElectricMultiblockMachine implements ITierCa
     }
 
     private long[] getRGBIntensity() {
-        return getItemAmount(GTOItems.RED_HALIDE_LAMP.get(), GTOItems.GREEN_HALIDE_LAMP.get(), GTOItems.BLUE_HALIDE_LAMP.get());
+        return getItemAmount(true, GTOItems.RED_HALIDE_LAMP.get(), GTOItems.GREEN_HALIDE_LAMP.get(), GTOItems.BLUE_HALIDE_LAMP.get());
     }
 
     private void updateLightIntensity() {
@@ -246,6 +234,11 @@ public class LargeAlgaeFarm extends ElectricMultiblockMachine implements ITierCa
     @Override
     public Reference2IntMap<TierDataKey> getCasingTiers() {
         return tierCasingTrait.getCasingTiers();
+    }
+
+    @Override
+    public GTRecipeDefinition createCustomRecipe(RecipeHandlerUnit unit) {
+        return getRecipeBuilder().duration(200).EUt(V[tier] / 2).build();
     }
 
     private class StatisticWidget extends WidgetGroup {

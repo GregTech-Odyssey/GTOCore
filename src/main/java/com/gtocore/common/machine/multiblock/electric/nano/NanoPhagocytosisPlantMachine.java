@@ -4,12 +4,10 @@ import com.gtocore.api.machine.IUnlockRecipeTypeMachine;
 import com.gtocore.common.data.GTORecipeTypes;
 
 import com.gtolib.api.machine.multiblock.CrossRecipeMultiblockMachine;
-import com.gtolib.api.recipe.Recipe;
 import com.gtolib.utils.MachineUtils;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
-
-import org.jetbrains.annotations.NotNull;
+import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 
 public final class NanoPhagocytosisPlantMachine extends CrossRecipeMultiblockMachine implements IUnlockRecipeTypeMachine {
 
@@ -18,12 +16,7 @@ public final class NanoPhagocytosisPlantMachine extends CrossRecipeMultiblockMac
     }
 
     @Override
-    public boolean canProcess(Recipe recipe) {
-        return formedAmount > 0 || recipe.recipeType == GTORecipeTypes.MACERATOR_RECIPES;
-    }
-
-    @Override
-    public Recipe getRealRecipe(@NotNull Recipe recipe) {
-        return validateRecipe(super.getRealRecipe(recipe));
+    public boolean canProcess(GTRecipeType type) {
+        return formedAmount > 0 || type == GTORecipeTypes.MACERATOR_RECIPES;
     }
 }

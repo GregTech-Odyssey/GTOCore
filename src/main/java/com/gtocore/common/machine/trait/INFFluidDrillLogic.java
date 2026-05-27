@@ -3,16 +3,15 @@ package com.gtocore.common.machine.trait;
 import com.gtocore.common.machine.multiblock.electric.voidseries.INFFluidDrillMachine;
 
 import com.gtolib.api.machine.impl.DrillingControlCenterMachine;
-import com.gtolib.api.machine.trait.IEnhancedRecipeLogic;
 import com.gtolib.api.machine.trait.IFluidDrillLogic;
-import com.gtolib.api.recipe.Recipe;
-import com.gtolib.api.recipe.RecipeRunner;
+import com.gtolib.api.recipe.RecipeBuilder;
 
 import com.gregtechceu.gtceu.api.GTValues;
-import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.data.worldgen.bedrockfluid.BedrockFluidVeinSavedData;
 import com.gregtechceu.gtceu.api.data.worldgen.bedrockfluid.FluidVeinWorldEntry;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
+import com.gregtechceu.gtceu.api.recipe.GTRecipe;
+import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
 
 import net.minecraft.core.SectionPos;
 import net.minecraft.server.level.ServerLevel;
@@ -21,7 +20,7 @@ import net.minecraftforge.fluids.FluidStack;
 
 import org.jetbrains.annotations.Nullable;
 
-public final class INFFluidDrillLogic extends RecipeLogic implements IFluidDrillLogic, IEnhancedRecipeLogic {
+public final class INFFluidDrillLogic extends RecipeLogic implements IFluidDrillLogic {
 
     public static final int MAX_PROGRESS = 20;
     private DrillingControlCenterMachine cache;
@@ -55,21 +54,18 @@ public final class INFFluidDrillLogic extends RecipeLogic implements IFluidDrill
             }
             var match = getFluidDrillRecipe();
             if (match != null) {
-                if (RecipeRunner.matchRecipe(machine, match) && RecipeRunner.matchTickRecipe(machine, match)) {
-                    setupRecipe(match);
+                if (machine.handleRecipeOutput(match) && machine.matchTickRecipe(match)) {
+                    setupRecipe(RecipeHandlerUnit.NO_DATA, match);
                 }
             }
         }
     }
 
     @Nullable
-    private Recipe getFluidDrillRecipe() {
+    private GTRecipe getFluidDrillRecipe() {
         if (getMachine().getLevel() instanceof ServerLevel serverLevel && veinFluid != null) {
             var data = BedrockFluidVeinSavedData.getOrCreate(serverLevel);
-            var recipe = gtolib$getRecipeBuilder().outputFluids(new FluidStack(veinFluid, getFluidToProduce(data.getFluidVeinWorldEntry(getChunkX(), getChunkZ())))).duration(MAX_PROGRESS).EUt((long) (GTValues.VA[getMachine().getEnergyTier()] * Math.pow(parallel, 1.2))).buildRawRecipe();
-            if (RecipeRunner.matchRecipe(machine, recipe) && RecipeRunner.matchTickRecipe(machine, recipe)) {
-                return recipe;
-            }
+            return RecipeBuilder.ofRaw().outputFluids(new FluidStack(veinFluid, getFluidToProduce(data.getFluidVeinWorldEntry(getChunkX(), getChunkZ())))).duration(MAX_PROGRESS).EUt((long) (GTValues.VA[getMachine().getEnergyTier()] * Math.pow(parallel, 1.2))).buildRawRecipe();
         }
         return null;
     }
@@ -104,12 +100,12 @@ public final class INFFluidDrillLogic extends RecipeLogic implements IFluidDrill
     public void onRecipeFinish() {
         machine.afterWorking();
         if (lastRecipe != null) {
-            handleRecipeIO(lastRecipe, IO.OUT);
+            machine.handleRecipeOutput(lastRecipe);
         }
         var match = getFluidDrillRecipe();
         if (match != null) {
-            if (RecipeRunner.matchRecipe(machine, match) && RecipeRunner.matchTickRecipe(machine, match)) {
-                setupRecipe(match);
+            if (machine.handleRecipeOutput(match) && machine.matchTickRecipe(match)) {
+                setupRecipe(RecipeHandlerUnit.NO_DATA, match);
                 return;
             }
         }

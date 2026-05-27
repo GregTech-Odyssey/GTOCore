@@ -17,7 +17,7 @@ import com.google.common.collect.ImmutableSet;
 
 public class MERequestableInputHatchMachine extends MEInputHatchPartMachine implements ICraftingRequester {
 
-    MultiCraftingTracker craftingTracker = new MultiCraftingTracker(this, aeFluidHandler.getSize());
+    MultiCraftingTracker craftingTracker = new MultiCraftingTracker(this, aeFluidHandler.getTanks());
 
     public MERequestableInputHatchMachine(MetaMachineBlockEntity holder) {
         super(holder);

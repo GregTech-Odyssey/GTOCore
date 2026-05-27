@@ -1,22 +1,21 @@
 package com.gtocore.common.machine.multiblock.electric.space.spacestaion;
 
-import com.gtocore.api.machine.part.ILargeSpaceStationMachine;
+import com.gtocore.api.machine.ILargeSpaceStationMachine;
 import com.gtocore.common.data.GTORecipeDataKeys;
 
 import com.gtolib.api.capability.IIWirelessInteractor;
 import com.gtolib.api.machine.feature.IWirelessDimensionProvider;
-import com.gtolib.api.machine.trait.CustomRecipeLogic;
 import com.gtolib.api.machine.trait.TierCasingTrait;
-import com.gtolib.api.recipe.Recipe;
 import com.gtolib.api.recipe.RecipeBuilder;
 import com.gtolib.api.recipe.TierDataKey;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.feature.IRecipeLogicMachine;
 import com.gregtechceu.gtceu.api.machine.multiblock.CleanroomType;
-import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.api.pattern.util.RelativeDirection;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
+import com.gregtechceu.gtceu.api.recipe.GTRecipeDefinition;
+import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 
@@ -174,13 +173,7 @@ public class Core extends AbstractSpaceStation implements ILargeSpaceStationMach
     }
 
     @Override
-    @NotNull
-    public RecipeLogic createRecipeLogic(Object @NotNull... args) {
-        return new CustomRecipeLogic(this, this::getRecipe, false);
-    }
-
-    @Override
-    public Recipe getRecipe() {
+    public GTRecipeDefinition createCustomRecipe(RecipeHandlerUnit unit) {
         if (!PlanetApi.API.isSpace(getLevel()))
             return null;
         if (dirty) {
@@ -193,8 +186,14 @@ public class Core extends AbstractSpaceStation implements ILargeSpaceStationMach
             if (machine instanceof IRecipeLogicMachine r) r.getRecipeLogic().updateTickSubscription();
         }
         return inputFluids(getRecipeBuilder().duration(20).EUt(EUt), subMachinesFlat.size() + 1)
+                .tier(1)
                 .outputFluids(FlocculationWasteSolution.getFluid(30 * (subMachinesFlat.size() + 1)))
-                .buildRawRecipe();
+                .build();
+    }
+
+    @Override
+    public boolean alwaysSearchRecipe() {
+        return true;
     }
 
     private static RecipeBuilder inputFluids(RecipeBuilder builder, int mul) {
@@ -205,9 +204,9 @@ public class Core extends AbstractSpaceStation implements ILargeSpaceStationMach
     }
 
     @Override
-    public boolean onWorking() {
+    public void onWorking() {
         if (firstLoad() || getOffsetTimer() % 400 == 0) provideOxygen();
-        return super.onWorking();
+        super.onWorking();
     }
 
     @Override

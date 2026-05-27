@@ -11,11 +11,7 @@ import com.gtolib.api.machine.feature.multiblock.IMultiStructureMachine;
 import com.gtolib.api.machine.mana.feature.IManaMultiblock;
 import com.gtolib.api.machine.mana.trait.ManaTrait;
 import com.gtolib.api.machine.multiblock.StorageMultiblockMachine;
-import com.gtolib.api.machine.trait.CustomRecipeLogic;
-import com.gtolib.api.machine.trait.IEnhancedRecipeLogic;
 import com.gtolib.api.misc.ManaContainerList;
-import com.gtolib.api.recipe.Recipe;
-import com.gtolib.api.recipe.RecipeRunner;
 import com.gtolib.utils.GTOUtils;
 import com.gtolib.utils.MachineUtils;
 
@@ -24,12 +20,14 @@ import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.gui.fancy.ConfiguratorPanel;
 import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
-import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.api.pattern.BlockPattern;
 import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
 import com.gregtechceu.gtceu.api.pattern.MultiblockShapeInfo;
 import com.gregtechceu.gtceu.api.pattern.Predicates;
 import com.gregtechceu.gtceu.api.pattern.util.RelativeDirection;
+import com.gregtechceu.gtceu.api.recipe.GTRecipeDefinition;
+import com.gregtechceu.gtceu.api.recipe.handler.ICustomRecipeLogicHolder;
+import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
 import net.minecraft.ChatFormatting;
@@ -43,7 +41,6 @@ import com.gto.datasynclib.annotations.SyncToClient;
 import com.gto.registrate.util.entry.BlockEntry;
 import earth.terrarium.adastra.api.planets.PlanetApi;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import vazkii.botania.common.block.BotaniaBlocks;
 
 import java.util.List;
@@ -59,7 +56,7 @@ import static com.gtocore.data.IdleReason.INCORRECT_DIRECTION_VOLTA;
 import static com.gtocore.data.IdleReason.OBSTRUCTED_VOLTA;
 import static net.minecraft.world.level.block.Blocks.AIR;
 
-public final class PhotovoltaicPowerStationMachine extends StorageMultiblockMachine implements IManaMultiblock, IMultiStructureMachine, ICustomHighlightMachine {
+public final class PhotovoltaicPowerStationMachine extends StorageMultiblockMachine implements IManaMultiblock, IMultiStructureMachine, ICustomHighlightMachine, ICustomRecipeLogicHolder {
 
     private final int basic_rate;
 
@@ -85,27 +82,6 @@ public final class PhotovoltaicPowerStationMachine extends StorageMultiblockMach
         basic_rate = basicRate;
         this.manaTrait = new ManaTrait(this);
         this.patternInSpace = getPatternInSpace(getDefinition(), casing, photovoltaicBlock);
-    }
-
-    @Override
-    public boolean handleTickRecipe(@Nullable Recipe recipe) {
-        if (recipe != null) {
-            long eu = recipe.eut;
-            if (eu != 0) {
-                if (!generateEnergy(-eu, false)) {
-                    IdleReason.setIdleReason(this, IdleReason.INSUFFICIENT_OUT);
-                    return false;
-                }
-            }
-            long mana = recipe.manat;
-            if (mana != 0) {
-                if (!useMana(mana, false)) {
-                    IdleReason.setIdleReason(this, IdleReason.INSUFFICIENT_OUT);
-                    return false;
-                }
-            }
-        }
-        return true;
     }
 
     @Override
@@ -194,49 +170,6 @@ public final class PhotovoltaicPowerStationMachine extends StorageMultiblockMach
     @Override
     public boolean keepSubscribing() {
         return true;
-    }
-
-    @Nullable
-    private Recipe getRecipe() {
-        Level level = getLevel();
-        if (level != null) {
-            boolean canSeeSky;
-            if (refreshSky > 0) {
-                refreshSky--;
-                canSeeSky = this.canSeeSky;
-            } else {
-                this.canSeeSky = canSeeSky = canSeeSky(level);
-                refreshSky = 10;
-            }
-            if (!canSeeSky) {
-                setIdleReason(idleReason);
-                return null;
-            }
-            int eut;
-            int basic = (int) (basic_rate * PlanetApi.API.getSolarPower(level));
-            if (PlanetApi.API.isSpace(level)) {
-                eut = inputFluid(GTMaterials.DistilledWater.getFluid(), basic / 4) ? basic << 4 : 0;
-                if (eut == 0) ((IEnhancedRecipeLogic) getRecipeLogic()).gtolib$setIdleReason(Component.translatable("gtceu.recipe_logic.insufficient_in").append(": ").append(GTMaterials.DistilledWater.getLocalizedName()));
-            } else {
-                eut = (int) (basic * (GTODimensions.isVoid(level.dimension()) ? 14 : GTOUtils.getSunIntensity(level.getDayTime()) * 15 / 100 * (level.isRaining() ? (level.isThundering() ? 0.3f : 0.7f) : 1)));
-                if (eut == 0) ((IEnhancedRecipeLogic) getRecipeLogic()).gtolib$setIdleReason(Component.translatable("recipe.condition.daytime.day.tooltip"));
-            }
-            if (eut == 0) return null;
-            var builder = getRecipeBuilder().duration(20);
-            if (getStorageStack().getCount() == 64) {
-                builder.MANAt(-eut);
-            } else {
-                builder.EUt(-eut);
-            }
-            Recipe recipe = builder.buildRawRecipe();
-            if (RecipeRunner.matchTickRecipe(this, recipe)) return recipe;
-        }
-        return null;
-    }
-
-    @Override
-    public RecipeLogic createRecipeLogic(Object @NotNull... args) {
-        return new CustomRecipeLogic(this, this::getRecipe);
     }
 
     public static BlockPattern getPatternCommon(MultiblockMachineDefinition definition, Supplier<? extends Block> casing, BlockEntry<?> photovoltaicBlock) {
@@ -378,5 +311,47 @@ public final class PhotovoltaicPowerStationMachine extends StorageMultiblockMach
     @Override
     public List<Component> getHighlightText() {
         return List.of(Component.translatable("gtocore.machine.highlight_obstruction"));
+    }
+
+    @Override
+    public GTRecipeDefinition createCustomRecipe(RecipeHandlerUnit unit) {
+        Level level = getLevel();
+        if (level != null) {
+            boolean canSeeSky;
+            if (refreshSky > 0) {
+                refreshSky--;
+                canSeeSky = this.canSeeSky;
+            } else {
+                this.canSeeSky = canSeeSky = canSeeSky(level);
+                refreshSky = 10;
+            }
+            if (!canSeeSky) {
+                setIdleReason(idleReason);
+                return null;
+            }
+            int eut;
+            int basic = (int) (basic_rate * PlanetApi.API.getSolarPower(level));
+            if (PlanetApi.API.isSpace(level)) {
+                eut = unit.inputFluid(GTMaterials.DistilledWater.getFluid(), basic / 4) ? basic << 4 : 0;
+                if (eut == 0) setIdleReason(Component.translatable("gtceu.recipe_logic.insufficient_in").append(": ").append(GTMaterials.DistilledWater.getLocalizedName()));
+            } else {
+                eut = (int) (basic * (GTODimensions.isVoid(level.dimension()) ? 14 : GTOUtils.getSunIntensity(level.getDayTime()) * 15 / 100 * (level.isRaining() ? (level.isThundering() ? 0.3f : 0.7f) : 1)));
+                if (eut == 0) setIdleReason(Component.translatable("recipe.condition.daytime.day.tooltip"));
+            }
+            if (eut == 0) return null;
+            var builder = getRecipeBuilder().duration(20);
+            if (getStorageStack().getCount() == 64) {
+                builder.MANAt(-eut);
+            } else {
+                builder.EUt(-eut);
+            }
+            return builder.build();
+        }
+        return null;
+    }
+
+    @Override
+    public boolean alwaysSearchRecipe() {
+        return true;
     }
 }

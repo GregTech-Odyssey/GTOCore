@@ -467,7 +467,6 @@ public final class MultiBlockB {
                         serverLevel.addFreshEntity(entityToSpawn);
                     }
                 }
-                return true;
             })
             .workableCasingRenderer(GTCEu.id("block/casings/solid/machine_casing_palladium_substation"), GTOCore.id("block/multiblock/general0"))
             .register();

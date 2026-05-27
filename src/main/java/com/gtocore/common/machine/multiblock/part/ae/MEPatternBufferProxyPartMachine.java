@@ -5,12 +5,15 @@ import com.gtocore.common.machine.trait.ProxySlotRecipeHandler;
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.IWailaDisplayProvider;
-import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.feature.IDataStickInteractable;
 import com.gregtechceu.gtceu.api.machine.feature.IMachineLife;
+import com.gregtechceu.gtceu.api.machine.feature.multiblock.IWorkableMultiController;
 import com.gregtechceu.gtceu.api.machine.multiblock.part.WorkableTieredIOPartMachine;
-import com.gregtechceu.gtceu.api.machine.trait.RecipeHandlerList;
+import com.gregtechceu.gtceu.api.recipe.GTRecipe;
+import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
+import com.gregtechceu.gtceu.api.recipe.handler.IO;
+import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
 import com.gregtechceu.gtceu.client.util.TooltipHelper;
 
 import net.minecraft.ChatFormatting;
@@ -60,6 +63,13 @@ public final class MEPatternBufferProxyPartMachine extends WorkableTieredIOPartM
     }
 
     @Override
+    @Nullable
+    public GTRecipe modifyRecipe(IWorkableMultiController controller, RecipeHandlerUnit unit, GTRecipe recipe) {
+        if (recipe.definition.registered && !GTRecipeType.available(recipe.definition.recipeType, controller.getAvailableRecipeTypes())) return null;
+        return recipe;
+    }
+
+    @Override
     public int tintColor(int index) {
         if (index == 9) return getRealColor();
         return -1;
@@ -85,7 +95,7 @@ public final class MEPatternBufferProxyPartMachine extends WorkableTieredIOPartM
     }
 
     @Override
-    public List<RecipeHandlerList> getRecipeHandlers() {
+    public List<RecipeHandlerUnit> getRecipeHandlers() {
         return proxySlotRecipeHandler.getProxySlotHandlers();
     }
 
@@ -108,6 +118,7 @@ public final class MEPatternBufferProxyPartMachine extends WorkableTieredIOPartM
         } else {
             buffer = null;
         }
+        if (buffer == null) proxySlotRecipeHandler.updateProxy(null);
     }
 
     @Nullable

@@ -2,13 +2,13 @@ package com.gtocore.common.machine.multiblock.water;
 
 import com.gtocore.common.machine.multiblock.part.SensorPartMachine;
 
-import com.gtolib.api.recipe.RecipeRunner;
 import com.gtolib.utils.MathUtil;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
+import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
@@ -71,20 +71,19 @@ public final class PHNeutralizationPurificationUnitMachine extends WaterPurifica
     }
 
     @Override
-    public boolean onWorking() {
-        if (!super.onWorking()) return false;
+    public void onWorking() {
+        super.onWorking();
         if (getOffsetTimer() % 20 == 0) {
-            int sh = MathUtil.saturatedCast(getItemAmount(SodiumHydroxide.getItem())[0]);
+            int sh = MathUtil.saturatedCast(getItemAmount(true, SodiumHydroxide.getItem())[0]);
             if (inputItem(SodiumHydroxide.getItem(), sh)) {
                 ph = Math.min(14, ph + sh * 0.01F);
             }
-            int hc = MathUtil.saturatedCast(getFluidAmount(HydrochloricAcid)[0]);
+            int hc = MathUtil.saturatedCast(getFluidAmount(true, HydrochloricAcid)[0]);
             if (inputFluid(HydrochloricAcid, hc)) {
                 ph = Math.max(0.01F, ph - hc * 0.001F);
             }
             sensorPartMachines.forEach(s -> s.update(ph));
         }
-        return true;
     }
 
     @Override
@@ -94,13 +93,13 @@ public final class PHNeutralizationPurificationUnitMachine extends WaterPurifica
     }
 
     @Override
-    long before() {
+    long prepareRecipe(RecipeHandlerUnit unit) {
         eut = 0;
         ph = ((float) Math.random() * 5) + 4.5F;
-        inputCount = Math.min(parallel(), getFluidAmount(WaterPurificationPlantMachine.GradePurifiedWater3)[0]);
+        inputCount = Math.min(parallel(), unit.getFluidAmount(true, WaterPurificationPlantMachine.GradePurifiedWater3)[0]);
         if (inputCount > 0) {
             recipe = getRecipeBuilder().duration(WaterPurificationPlantMachine.DURATION).inputFluids(WaterPurificationPlantMachine.GradePurifiedWater3, inputCount).buildRawRecipe();
-            if (RecipeRunner.matchRecipe(this, recipe)) {
+            if (matchRecipe(unit, recipe)) {
                 calculateVoltage(inputCount);
             }
         }

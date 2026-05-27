@@ -5,14 +5,13 @@ import com.gtocore.common.data.GTORecipeDataKeys;
 import com.gtocore.common.data.GTORecipeTypes;
 import com.gtocore.common.item.ItemMap;
 
-import com.gtolib.api.machine.multiblock.CustomParallelMultiblockMachine;
 import com.gtolib.api.recipe.RecipeBuilder;
-import com.gtolib.utils.MachineUtils;
 import com.gtolib.utils.MathUtil;
 
-import com.gregtechceu.gtceu.api.capability.recipe.IRecipeCapabilityHolder;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeDefinition;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
+import com.gregtechceu.gtceu.api.recipe.handler.IRecipeHandlerHolder;
+import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;
@@ -24,28 +23,26 @@ import org.jetbrains.annotations.Nullable;
 public final class RecyclerLogic implements GTRecipeType.ICustomRecipeLogic {
 
     @Override
-    public @Nullable GTRecipeDefinition createCustomRecipe(IRecipeCapabilityHolder holder) {
-        if (holder instanceof CustomParallelMultiblockMachine parallelMultiblockMachine && MachineUtils.notConsumableItem(parallelMultiblockMachine, GTOItems.SCRAP_BOX.asStack())) {
-            RecipeBuilder builder = parallelMultiblockMachine.getRecipeBuilder().EUt(480);
-            int parallel = MathUtil.saturatedCast(MachineUtils.getItemAmount(parallelMultiblockMachine, GTOItems.SCRAP_BOX.get())[0]);
-            builder.duration(20 * parallel).inputItems(GTOItems.SCRAP_BOX.asStack(parallel));
-            Reference2IntOpenHashMap<Item> map = new Reference2IntOpenHashMap<>();
-            int cycle = Math.min(64, parallel);
-            int multiplier = Math.max(1, parallel / cycle);
-            for (int i = 0; i < cycle; i++) {
-                map.addTo(ItemMap.getScrapItem(), multiplier);
-            }
-            if (multiplier > 1) {
-                for (int i = 0, remainder = parallel % cycle; i < remainder; i++) {
-                    map.addTo(ItemMap.getScrapItem(), 1);
-                }
-            }
-            map.forEach(builder::outputItems);
-            GTRecipeDefinition recipe = builder.build();
-            recipe.data.put(GTORecipeDataKeys.IS_CUSTOM, true);
-            return recipe;
+    public @Nullable GTRecipeDefinition createCustomRecipe(IRecipeHandlerHolder h, RecipeHandlerUnit u) {
+        int parallel = MathUtil.saturatedCast(u.getItemAmount(true, GTOItems.SCRAP_BOX.asItem())[0]);
+        if (parallel == 0) return null;
+        RecipeBuilder builder = RecipeBuilder.ofRaw().EUt(480);
+        builder.duration(20 * parallel).inputItems(GTOItems.SCRAP_BOX.asStack(parallel));
+        Reference2IntOpenHashMap<Item> map = new Reference2IntOpenHashMap<>();
+        int cycle = Math.min(64, parallel);
+        int multiplier = Math.max(1, parallel / cycle);
+        for (int i = 0; i < cycle; i++) {
+            map.addTo(ItemMap.getScrapItem(), multiplier);
         }
-        return null;
+        if (multiplier > 1) {
+            for (int i = 0, remainder = parallel % cycle; i < remainder; i++) {
+                map.addTo(ItemMap.getScrapItem(), 1);
+            }
+        }
+        map.forEach(builder::outputItems);
+        GTRecipeDefinition recipe = builder.build();
+        recipe.data.put(GTORecipeDataKeys.IS_CUSTOM, true);
+        return recipe;
     }
 
     @Override

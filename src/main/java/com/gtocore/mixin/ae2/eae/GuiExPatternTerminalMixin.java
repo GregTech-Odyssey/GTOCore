@@ -1,12 +1,9 @@
 package com.gtocore.mixin.ae2.eae;
 
-import com.gtocore.integration.jech.PinYinUtils;
-
 import com.gtolib.api.ae2.gui.hooks.IExtendedGuiEx;
 import com.gtolib.api.ae2.me2in1.Me2in1Menu;
 import com.gtolib.api.ae2.me2in1.Me2in1Screen;
 
-import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
@@ -18,6 +15,7 @@ import appeng.client.gui.AEBaseScreen;
 import appeng.client.gui.me.patternaccess.PatternContainerRecord;
 import appeng.client.gui.style.ScreenStyle;
 import appeng.client.gui.widgets.AETextField;
+import appeng.client.gui.widgets.Scrollbar;
 import appeng.client.gui.widgets.ServerSettingToggleButton;
 
 import gto_ae.api.config.ExtendedSettings;
@@ -27,8 +25,6 @@ import com.fast.fastcollection.OpenCacheHashSet;
 import com.glodblock.github.extendedae.client.button.HighlightButton;
 import com.glodblock.github.extendedae.client.gui.GuiExPatternTerminal;
 import com.glodblock.github.extendedae.container.ContainerExPatternTerminal;
-import com.glodblock.github.extendedae.util.FCUtil;
-import com.glodblock.github.extendedae.util.MessageUtil;
 import com.google.common.collect.HashMultimap;
 import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.At;
@@ -119,9 +115,18 @@ public abstract class GuiExPatternTerminalMixin<T extends ContainerExPatternTerm
         }
     }
 
+    @Inject(method = "init", at = @At(value = "INVOKE", target = "Lappeng/client/gui/AEBaseScreen;init()V"))
+    private void onSuperInit(CallbackInfo ci) {
+        if (this.getMenu() instanceof Me2in1Menu) {
+            var r = (this.height - GUI_HEADER_HEIGHT - GUI_FOOTER_HEIGHT - GUI_TOP_AND_BOTTOM_PADDING + MAGIC_NUMBER) / ROW_HEIGHT;
+            this.imageHeight = GUI_HEADER_HEIGHT + GUI_FOOTER_HEIGHT + r * ROW_HEIGHT;
+        }
+    }
+
     @Inject(method = "updateBeforeRender", at = @At("TAIL"), remap = false)
     private void updateBeforeRender(CallbackInfo ci) {
         this.gtolib$showMolecularAssembler.set(getMenu().gtolib$showMolecularAssembler);
+        scrollbar.setVisible(false);
     }
 
     /**
@@ -146,129 +151,7 @@ public abstract class GuiExPatternTerminalMixin<T extends ContainerExPatternTerm
             return;
         }
         ci.cancel();
-        this.byGroup.clear();
-        this.highlightBtns.forEach((k, v) -> this.removeWidget(v));
-        this.highlightBtns.clear();
-        this.matchedStack.clear();
-        this.matchedProvider.clear();
-
-        final String outputFilter = this.searchOutField.getValue().toLowerCase().trim();
-        final String inputFilter = this.searchInField.getValue().toLowerCase().trim();
-        final List<String> outputFilters = FCUtil.tokenize(outputFilter);
-        final List<String> inputFilters = FCUtil.tokenize(inputFilter);
-        final String patternFilter = this.gto$getSearchProviderField().getValue().toLowerCase();
-
-        final Set<Object> cachedSearch = this.getCacheForSearchTerm("out:" + outputFilter + "in:" + inputFilter + "pat:" + patternFilter);
-        final boolean rebuild = cachedSearch.isEmpty();
-
-        for (PatternContainerRecord entry : this.byId.values()) {
-            // ignore inventory if not doing a full rebuild or cache already marks it as miss.
-            if (!rebuild && !cachedSearch.contains(entry)) {
-                continue;
-            }
-
-            // Shortcut to skip any filter if search term is ""/empty
-            boolean skipSearch = outputFilter.isEmpty() && inputFilter.isEmpty();
-            boolean found = skipSearch && patternFilter.isEmpty();
-
-            boolean match = PinYinUtils.match(entry.getSearchName(), patternFilter);
-
-            // Search if the current inventory holds a pattern containing the search term.
-            if (!skipSearch && match) {
-                boolean midRes;
-                for (ItemStack itemStack : entry.getInventory()) {
-                    if (!outputFilter.isEmpty()) {
-                        midRes = this.itemStackMatchesSearchTerm(itemStack, outputFilters, true);
-                    } else {
-                        midRes = true;
-                    }
-                    if (!inputFilter.isEmpty() && midRes) {
-                        midRes = this.itemStackMatchesSearchTerm(itemStack, inputFilters, false);
-                    }
-                    if (midRes) {
-                        found = true;
-                    }
-                }
-            }
-            // if found, filter skipped or machine name matching the search term, add it
-            if (found || (match && skipSearch)) {
-                this.byGroup.put(entry.getGroup(), entry);
-                cachedSearch.add(entry);
-                if (match) {
-                    this.matchedProvider.add(entry);
-                }
-            } else {
-                cachedSearch.remove(entry);
-            }
-        }
-
-        this.groups.clear();
-        this.groups.addAll(this.byGroup.keySet());
-
-        this.rows.clear();
-        this.rows.ensureCapacity(this.getMaxRows());
-
-        var row = this.rows;
-        for (var group : this.groups) {
-            row.add(gto$constructGroupHeaderRow(group));
-
-            var containers = new ArrayList<>(this.byGroup.get(group));
-            Collections.sort(containers);
-            for (var container : containers) {
-                var inventory = container.getInventory();
-                // noinspection SizeReplaceableByIsEmpty
-                if (inventory.size() > 0) {
-                    var info = this.infoMap.get(container.getServerId());
-                    if (info == null) {
-                        continue;
-                    }
-                    var btn = new HighlightButton();
-                    btn.setMultiplier(this.playerToBlockDis(info.pos()));
-                    btn.setTarget(info.pos(), info.face(), info.world());
-                    btn.setSuccessJob(() -> {
-                        if (this.getPlayer() != null && info.pos() != null && info.world() != null) {
-                            Component message = MessageUtil.createEnhancedHighlightMessage(this.getPlayer(), info.pos(), info.world(), "chat.ex_pattern_access_terminal.pos");
-                            this.getPlayer().displayClientMessage(message, false);
-                        }
-                    });
-                    btn.setTooltip(Tooltip.create(Component.translatable("gui.expatternprovider.ex_pattern_access_terminal.tooltip.03")));
-                    btn.setVisibility(false);
-                    this.highlightBtns.put(this.rows.size(), this.addRenderableWidget(btn));
-                }
-                for (var offset = 0; offset < inventory.size(); offset += gto$COLUMNS) {
-                    var slots = Math.min(inventory.size() - offset, gto$COLUMNS);
-                    var containerRow = gto$constructSlotRow(container, offset, slots);
-                    row.add(containerRow);
-                }
-            }
-        }
-
-        // lines may have changed - recalculate scroll bar.
-        this.resetScrollbar();
-    }
-
-    @Unique
-    private static Object gto$constructSlotRow(PatternContainerRecord container, int offset, int slots) {
-        try {
-            var slotRowClass = Class.forName("com.glodblock.github.extendedae.client.gui.GuiExPatternTerminal$SlotsRow");
-            var constructor = slotRowClass.getDeclaredConstructor(PatternContainerRecord.class, int.class, int.class);
-            constructor.setAccessible(true);
-            return constructor.newInstance(container, offset, slots);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    @Unique
-    private static Object gto$constructGroupHeaderRow(PatternContainerGroup group) {
-        try {
-            var groupHeaderRowClass = Class.forName("com.glodblock.github.extendedae.client.gui.GuiExPatternTerminal$GroupHeaderRow");
-            var constructor = groupHeaderRowClass.getDeclaredConstructor(PatternContainerGroup.class);
-            constructor.setAccessible(true);
-            return constructor.newInstance(group);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+        gto$refreshSearch();
     }
 
     @Override
@@ -278,4 +161,72 @@ public abstract class GuiExPatternTerminalMixin<T extends ContainerExPatternTerm
 
     @Shadow(remap = false, prefix = "gto$eae$")
     private void gto$eae$refreshList() {}
+
+    @Shadow(remap = false)
+    @Final
+    private Scrollbar scrollbar;
+
+    @Shadow(remap = false)
+    @Final
+    private static int GUI_HEADER_HEIGHT;
+
+    @Shadow(remap = false)
+    @Final
+    private static int GUI_FOOTER_HEIGHT;
+
+    @Shadow(remap = false)
+    @Final
+    private static int GUI_TOP_AND_BOTTOM_PADDING;
+
+    @Shadow(remap = false)
+    @Final
+    private static int ROW_HEIGHT;
+
+    @Shadow(remap = false)
+    @Final
+    private static int MAGIC_NUMBER;
+
+    public void gto$resetExPatternTerminalScrollbar() {
+        resetScrollbar();
+    }
+
+    public HashMultimap<PatternContainerGroup, PatternContainerRecord> gto$getByGroup() {
+        return byGroup;
+    }
+
+    public HashMap<Long, PatternContainerRecord> gto$getById() {
+        return byId;
+    }
+
+    public HashMap<Integer, HighlightButton> gto$getHighlisghtsButtons() {
+        return highlightBtns;
+    }
+
+    public AETextField gto$searchOutField() {
+        return searchOutField;
+    }
+
+    public AETextField gto$searchInField() {
+        return searchInField;
+    }
+
+    public Set<ItemStack> gto$matchedStack() {
+        return matchedStack;
+    }
+
+    public Set<PatternContainerRecord> gto$matchedProvider() {
+        return matchedProvider;
+    }
+
+    public Map<String, Set<Object>> gto$cachedSearches() {
+        return cachedSearches;
+    }
+
+    public HashMap<Long, GuiExPatternTerminal.PatternProviderInfo> gto$infoMap() {
+        return infoMap;
+    }
+
+    public boolean gto$itemStackMatchesSearchTerm(ItemStack itemStack, List<String> searchTerm, boolean checkOut) {
+        return itemStackMatchesSearchTerm(itemStack, searchTerm, checkOut);
+    }
 }

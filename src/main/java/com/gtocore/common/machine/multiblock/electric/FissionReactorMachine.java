@@ -7,8 +7,6 @@ import com.gtocore.common.machine.multiblock.part.SensorPartMachine;
 
 import com.gtolib.api.machine.feature.multiblock.IParallelMachine;
 import com.gtolib.api.machine.multiblock.ElectricMultiblockMachine;
-import com.gtolib.api.recipe.Recipe;
-import com.gtolib.api.recipe.modifier.ParallelLogic;
 import com.gtolib.utils.MachineUtils;
 import com.gtolib.utils.MathUtil;
 import com.gtolib.utils.explosion.SphereExplosion;
@@ -17,7 +15,9 @@ import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.ConditionalSubscriptionHandler;
 import com.gregtechceu.gtceu.api.machine.feature.IExplosionMachine;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
-import com.gregtechceu.gtceu.api.recipe.content.ContentModifier;
+import com.gregtechceu.gtceu.api.recipe.GTRecipe;
+import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
+import com.gregtechceu.gtceu.api.recipe.modifier.ParallelLogic;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
@@ -117,7 +117,7 @@ public final class FissionReactorMachine extends ElectricMultiblockMachine imple
             boolean isCooler = false;
             int required = recipeHeat * parallel * heat / 1500;
             if (required > 0) {
-                long[] a = getFluidAmount(DistilledWater, SodiumPotassium);
+                long[] a = getFluidAmount(true, DistilledWater, SodiumPotassium);
                 int capacity = (int) Math.min(Math.max(a[0] / 800, a[1] / 20), (cooler - (coolerAdjacent / 3L)) << 3);
                 if (capacity - required >= 0) {
                     if (inputFluid(DistilledWater, capacity * 800L)) {
@@ -160,12 +160,12 @@ public final class FissionReactorMachine extends ElectricMultiblockMachine imple
     }
 
     @Override
-    protected @Nullable Recipe getRealRecipe(Recipe recipe) {
+    protected @Nullable GTRecipe getRealRecipe(RecipeHandlerUnit unit, GTRecipe recipe) {
         if (fuel > 1) {
-            long maxContentParallel = ParallelLogic.getMaxContentParallel(this, recipe);
+            long maxContentParallel = ParallelLogic.getMaxContentParallelAmount(this, unit, recipe, ParallelLogic.MAX_PARALLEL);
             if (maxContentParallel == 0) return null;
             if (maxContentParallel > 1) {
-                recipe.modifier(ContentModifier.multiplier(Math.min(fuel, maxContentParallel)), false);
+                recipe.modifier(Math.min(fuel, maxContentParallel), false);
             }
         }
         parallel = MathUtil.saturatedCast(recipe.parallels);

@@ -1,7 +1,7 @@
 package com.gtocore.common.machine.multiblock.part.ae;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
-import com.gregtechceu.gtceu.api.capability.recipe.IO;
+import com.gregtechceu.gtceu.api.recipe.handler.IO;
 
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.InteractionHand;

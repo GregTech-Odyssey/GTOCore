@@ -1,25 +1,24 @@
 package com.gtocore.common.machine.multiblock.electric.space.spacestaion.recipe;
 
-import com.gtocore.api.machine.part.ILargeSpaceStationMachine;
+import com.gtocore.api.machine.ILargeSpaceStationMachine;
 import com.gtocore.common.machine.multiblock.electric.space.spacestaion.RecipeExtension;
 
 import com.gtolib.api.annotation.DataGeneratorScanned;
 import com.gtolib.api.annotation.language.RegisterLanguage;
 import com.gtolib.api.data.GTODimensions;
-import com.gtolib.api.machine.trait.IEnhancedRecipeLogic;
-import com.gtolib.api.recipe.Recipe;
-import com.gtolib.api.recipe.modifier.ParallelLogic;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.GTCapabilityHelper;
-import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
 import com.gregtechceu.gtceu.api.item.capability.ElectricItem;
-import com.gregtechceu.gtceu.api.recipe.content.Content;
+import com.gregtechceu.gtceu.api.recipe.GTRecipe;
+import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
 import com.gregtechceu.gtceu.api.recipe.ingredient.ItemIngredient;
+import com.gregtechceu.gtceu.api.recipe.modifier.ParallelLogic;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 
+import com.gto.datasynclib.util.holder.BooleanHolder;
 import com.gto.datasynclib.util.holder.ObjHolder;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -27,7 +26,6 @@ import org.jetbrains.annotations.Nullable;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 @DataGeneratorScanned
 public class SpaceDroneDock extends RecipeExtension {
@@ -38,14 +36,14 @@ public class SpaceDroneDock extends RecipeExtension {
 
     @Override
     @Nullable
-    public Recipe fullModifyRecipe(@NotNull Recipe recipe) {
+    public GTRecipe fullModifyRecipe(@NotNull RecipeHandlerUnit unit, @NotNull GTRecipe recipe) {
         long maxParallel;
-        AtomicBoolean hasInput = new AtomicBoolean(false);
+        BooleanHolder hasInput = new BooleanHolder();
         ObjHolder<BigInteger> costEU = new ObjHolder<>();
         ObjHolder<ItemStack> outputHolder = new ObjHolder<>();
         ObjHolder<ItemStack> inputHolder = new ObjHolder<>();
-        ItemIngredient chargeable = (ItemIngredient) recipe.inputs.get(ItemRecipeCapability.CAP).getFirst().inner;
-        fastForEachInputItems((stack, amount) -> {
+        ItemIngredient chargeable = recipe.itemInputs.getFirst().inner;
+        unit.fastForEachItems(true, (stack, amount) -> {
             if (hasInput.get()) return;
             ItemStack output = stack.copyWithCount(1);
             ItemStack input = stack.copyWithCount(1);
@@ -61,14 +59,14 @@ public class SpaceDroneDock extends RecipeExtension {
             }
         });
         if (!hasInput.get() || costEU.value == null || costEU.value.compareTo(BigInteger.ZERO) <= 0) {
-            ((IEnhancedRecipeLogic) getRecipeLogic()).gtolib$setIdleReason(Component.translatable(DRONE_NO_ENERGY));
+            setIdleReason(Component.translatable(DRONE_NO_ENERGY));
             return null;
         }
 
-        List<Content> newInput = new ArrayList<>(recipe.inputs.get(ItemRecipeCapability.CAP));
+        var newInput = new ArrayList<>(recipe.itemInputs);
         // ObjectList<Content> newOutput = new ArrayList<>(recipe.outputs.get(ItemRecipeCapability.CAP));
         newInput.removeFirst();
-        recipe.inputs.put(ItemRecipeCapability.CAP, newInput);
+        recipe.itemInputs = newInput;
         // recipe.outputs.put(ItemRecipeCapability.CAP, newOutput);
 
         maxParallel = Math.max(1, costEU.value.divide(BigInteger.valueOf(600_000)).longValue());
@@ -76,9 +74,9 @@ public class SpaceDroneDock extends RecipeExtension {
         double base = (1.632 + costEU.value.doubleValue() / 1_000_000_000);
         base = base * base;
         recipe.duration = (int) (recipe.duration * (0.1 + 6.384 / base / base));
-        recipe = ParallelLogic.accurateParallel(this, recipe, maxParallel);
+        recipe = ParallelLogic.accurateParallel(this, unit, recipe, maxParallel);
 
-        inputItem(inputHolder.value);
+        unit.inputItem(inputHolder.value);
         outputItem(outputHolder.value);
 
         return recipe;

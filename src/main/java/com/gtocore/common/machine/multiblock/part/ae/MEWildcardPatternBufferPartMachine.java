@@ -13,14 +13,12 @@ import com.gtolib.api.annotation.language.RegisterLanguage;
 import com.gtolib.api.fluid.IFluid;
 import com.gtolib.api.gui.ktflexible.VBoxBuilder;
 import com.gtolib.api.item.IItem;
-import com.gtolib.api.recipe.RecipeDefinition;
 import com.gtolib.api.recipe.RecipeType;
 import com.gtolib.utils.GTOUtils;
 
 import com.gregtechceu.gtceu.api.GTCEuAPI;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.recipe.*;
-import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
@@ -29,9 +27,10 @@ import com.gregtechceu.gtceu.api.gui.widget.PhantomFluidWidget;
 import com.gregtechceu.gtceu.api.item.MetaMachineItem;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiController;
 import com.gregtechceu.gtceu.api.machine.multiblock.MultiblockControllerMachine;
-import com.gregtechceu.gtceu.api.machine.trait.RecipeHandlerList;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeDefinition;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
+import com.gregtechceu.gtceu.api.recipe.handler.IO;
+import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
 import com.gregtechceu.gtceu.api.transfer.fluid.CustomFluidTank;
 import com.gregtechceu.gtceu.api.transfer.item.CustomItemStackHandler;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
@@ -113,8 +112,8 @@ public class MEWildcardPatternBufferPartMachine extends MEPatternBufferPartMachi
     private final ReferenceOpenHashSet<Material> blacklistedMaterialSet = new ReferenceOpenHashSet<>();
     private final IntSet blacklistedAltProcessableItemIds = new IntOpenHashSet();
     private final IntSet blacklistedAltProcessableFluidIds = new IntOpenHashSet();
-    private final SearchRecipeCapabilityHolder searchHolder = new SearchRecipeCapabilityHolder();
-    private final RecipeHandlerList sharedSearchHandlers;
+    private final SearchRecipeHandlerUnit searchHolder = new SearchRecipeHandlerUnit();
+    private final RecipeHandlerUnit sharedSearchHandlers;
 
     public MEWildcardPatternBufferPartMachine(@NotNull MetaMachineBlockEntity holder) {
         super(holder, 1);
@@ -139,7 +138,7 @@ public class MEWildcardPatternBufferPartMachine extends MEPatternBufferPartMachi
         getInternalInventory()[0].shareInventory.addChangedListener(requestPatternUpdateIfUnlocked);
         getInternalInventory()[0].setShouldLockRecipe(false);
         var slot = getInternalInventory()[0];
-        sharedSearchHandlers = RecipeHandlerList.of(IO.IN,
+        sharedSearchHandlers = RecipeHandlerUnit.of(IO.IN,
                 slot.circuitInventory, slot.shareInventory, slot.shareTank,
                 circuitInventorySimulated, shareInventory, shareTank);
     }
@@ -384,13 +383,13 @@ public class MEWildcardPatternBufferPartMachine extends MEPatternBufferPartMachi
     // ========== Pattern Validation ==========
 
     private AEProcessingPattern validatePattern(IntLongMap inputMap, GenericStack[] sparseOutput) {
-        ObjHolder<RecipeDefinition> valid = new ObjHolder<>();
-        if (recipeType == GTORecipeTypes.HATCH_COMBINED) {
+        ObjHolder<GTRecipeDefinition> valid = new ObjHolder<>();
+        if (recipeType == null) {
             if (!getRecipeTypes().isEmpty()) {
                 for (var rt : getRecipeTypes()) {
-                    if (searchRecipe(rt, inputMap, r -> {
+                    if (searchRecipe(rt, inputMap, (u, r) -> {
                         if (checkProb(r)) {
-                            valid.value = (RecipeDefinition) r;
+                            valid.value = r;
                             recipeType = r.recipeType;
                             return true;
                         }
@@ -399,9 +398,9 @@ public class MEWildcardPatternBufferPartMachine extends MEPatternBufferPartMachi
                 }
             }
         } else {
-            searchRecipe(recipeType, inputMap, r -> {
+            searchRecipe(recipeType, inputMap, (u, r) -> {
                 if (checkProb(r)) {
-                    valid.value = (RecipeDefinition) r;
+                    valid.value = r;
                     return true;
                 }
                 return false;
@@ -443,19 +442,19 @@ public class MEWildcardPatternBufferPartMachine extends MEPatternBufferPartMachi
     }
 
     private boolean checkProb(GTRecipeDefinition recipe) {
-        for (var ingredient : recipe.getInputContents(ItemRecipeCapability.CAP)) {
+        for (var ingredient : recipe.itemInputs) {
             if (ingredient.chance != 10000 && ingredient.chance != 0) return false;
         }
-        for (var ingredient : recipe.getInputContents(FluidRecipeCapability.CAP)) {
+        for (var ingredient : recipe.fluidInputs) {
             if (ingredient.chance != 10000 && ingredient.chance != 0) return false;
         }
         return true;
     }
 
-    private boolean searchRecipe(GTRecipeType type, IntLongMap inputMap, java.util.function.Predicate<GTRecipeDefinition> canHandle) {
+    private boolean searchRecipe(GTRecipeType type, IntLongMap inputMap, java.util.function.BiPredicate<RecipeHandlerUnit, GTRecipeDefinition> canHandle) {
         searchHolder.use(inputMap);
         try {
-            return type.findRecipe(searchHolder, canHandle);
+            return searchHolder.findRecipe(type, canHandle);
         } finally {
             searchHolder.clear();
         }
@@ -482,34 +481,11 @@ public class MEWildcardPatternBufferPartMachine extends MEPatternBufferPartMachi
         return key;
     }
 
-    private static final class SearchRecipeCapabilityHolder implements IRecipeCapabilityHolder {
-
-        private final SearchRecipeHandlerList handlerList = new SearchRecipeHandlerList();
-
-        private void use(IntLongMap inputMap) {
-            handlerList.use(inputMap);
-        }
-
-        private void clear() {
-            handlerList.clear();
-        }
-
-        @Override
-        public @NotNull Map<IO, List<RecipeHandlerList>> getCapabilitiesProxy() {
-            return Map.of(IO.IN, List.of(handlerList));
-        }
-
-        @Override
-        public @NotNull Map<IO, Map<RecipeCapability<?>, List<IRecipeHandler<?>>>> getCapabilitiesFlat() {
-            return Map.of();
-        }
-    }
-
-    private static final class SearchRecipeHandlerList extends RecipeHandlerList {
+    private static final class SearchRecipeHandlerUnit extends RecipeHandlerUnit {
 
         private IntLongMap inputMap = IntLongMap.EMPTY;
 
-        private SearchRecipeHandlerList() {
+        private SearchRecipeHandlerUnit() {
             super(IO.IN, null);
         }
 
@@ -522,7 +498,7 @@ public class MEWildcardPatternBufferPartMachine extends MEPatternBufferPartMachi
         }
 
         @Override
-        public IntLongMap getIngredientMap(@NotNull GTRecipeType type) {
+        public IntLongMap getSearchMap(@NotNull GTRecipeType type) {
             return inputMap;
         }
     }
@@ -537,7 +513,7 @@ public class MEWildcardPatternBufferPartMachine extends MEPatternBufferPartMachi
             var cachedInput = sharedInputCache.get(type);
             if (cachedInput == null) {
                 var cached = new IntLongMap();
-                sharedSearchHandlers.getIngredientMap(type).copyTo(cached);
+                sharedSearchHandlers.getSearchMap(type).copyTo(cached);
                 sharedInputCache.put(type, cached);
                 cachedInput = cached;
             }

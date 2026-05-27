@@ -1,4 +1,4 @@
-package com.gtocore.api.machine.part;
+package com.gtocore.api.machine;
 
 import com.gtocore.client.forge.ForgeClientEvent;
 import com.gtocore.common.data.GTOBlocks;
@@ -10,7 +10,6 @@ import com.gtocore.common.machine.multiblock.electric.space.spacestaion.ISpacePr
 import com.gtolib.api.capability.IIWirelessInteractor;
 import com.gtolib.api.machine.feature.IEnhancedRecipeLogicMachine;
 import com.gtolib.api.machine.feature.multiblock.ICustomHighlightMachine;
-import com.gtolib.api.recipe.Recipe;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.multiblock.CleanroomType;
@@ -18,6 +17,9 @@ import com.gregtechceu.gtceu.api.machine.multiblock.MultiblockControllerMachine;
 import com.gregtechceu.gtceu.api.pattern.MultiblockState;
 import com.gregtechceu.gtceu.api.pattern.TraceabilityPredicate;
 import com.gregtechceu.gtceu.api.pattern.util.RelativeDirection;
+import com.gregtechceu.gtceu.api.recipe.GTRecipeDefinition;
+import com.gregtechceu.gtceu.api.recipe.handler.ICustomRecipeLogicHolder;
+import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 import com.gregtechceu.gtceu.utils.memoization.GTMemoizer;
 import com.gregtechceu.gtceu.utils.memoization.MemoizedSupplier;
@@ -42,9 +44,9 @@ import java.util.function.Supplier;
 
 import static com.gregtechceu.gtceu.api.pattern.Predicates.blocks;
 import static com.gregtechceu.gtceu.api.pattern.Predicates.custom;
-import static com.gtocore.api.machine.part.ILargeSpaceStationMachine.ConnectType.*;
+import static com.gtocore.api.machine.ILargeSpaceStationMachine.ConnectType.*;
 
-public interface ILargeSpaceStationMachine extends ICustomHighlightMachine, ISpacePredicateMachine {
+public interface ILargeSpaceStationMachine extends ICustomHighlightMachine, ISpacePredicateMachine, ICustomRecipeLogicHolder {
 
     MultiblockControllerMachine self();
 
@@ -122,14 +124,15 @@ public interface ILargeSpaceStationMachine extends ICustomHighlightMachine, ISpa
         return l;
     }
 
-    default Recipe getRecipe() {
+    @Override
+    default GTRecipeDefinition createCustomRecipe(RecipeHandlerUnit unit) {
         if (!PlanetApi.API.isSpace(getLevel()))
             return null;
         if (getRoot() == null || !getRoot().isWorkspaceReady())
             return null;
 
         return ((IEnhancedRecipeLogicMachine) self()).getRecipeBuilder().duration(200)
-                .buildRawRecipe();
+                .build();
     }
 
     default void customText(@NotNull List<Component> list) {

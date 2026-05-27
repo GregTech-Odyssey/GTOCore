@@ -13,7 +13,6 @@ import com.gtolib.utils.WalletUtils;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.IControllable;
-import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.gui.fancy.FancyMachineUIWidget;
 import com.gregtechceu.gtceu.api.gui.fancy.IFancyUIProvider;
@@ -28,6 +27,7 @@ import com.gregtechceu.gtceu.api.machine.feature.IFancyUIMachine;
 import com.gregtechceu.gtceu.api.machine.feature.IMachineLife;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableFluidTank;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
+import com.gregtechceu.gtceu.api.recipe.handler.IO;
 import com.gregtechceu.gtceu.api.transfer.item.CustomItemStackHandler;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 
@@ -385,13 +385,13 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
                 WidgetGroup mainGroup = new DraggableScrollableWidgetGroup(4, 4, 169, height)
                         .setBackground(GuiTextures.DISPLAY).setYScrollBarWidth(2).setYBarStyle(null, ColorPattern.T_WHITE.rectTexture().setRadius(1));
 
-                int itemHigh = inputItem.getSize() / Item_slots_in_a_row;
+                int itemHigh = inputItem.getSlots() / Item_slots_in_a_row;
                 WidgetGroup Item_slot = new WidgetGroup(2, 4, 168, itemHigh * 18 + 10);
                 Item_slot.addWidget(new ComponentPanelWidget(0, 0, List.of(Component.translatable("gtocore.trading_station.item_storage"))));
                 for (int y = 0; y < itemHigh; y++) {
                     for (int x = 0; x < Item_slots_in_a_row; x++) {
                         int slotIndex = y * Item_slots_in_a_row + x;
-                        if (inputItem.getSize() > slotIndex) {
+                        if (inputItem.getSlots() > slotIndex) {
                             Item_slot.addWidget(new SlotWidget(inputItem, slotIndex, x * 18, 10 + y * 18, true, true)
                                     .setBackground(GuiTextures.SLOT));
                             Item_slot.addWidget(new SlotWidget(outputItem, slotIndex, x * 18 + Item_slots_in_a_row * 18 + 18, 10 + y * 18, true, false)
@@ -433,13 +433,13 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
                 WidgetGroup mainGroup = new DraggableScrollableWidgetGroup(4, 4, 169, height)
                         .setBackground(GuiTextures.DISPLAY).setYScrollBarWidth(2).setYBarStyle(null, ColorPattern.T_WHITE.rectTexture().setRadius(1));
 
-                int fluidHigh = inputFluid.getSize() / Fluid_slots_in_a_row;
+                int fluidHigh = inputFluid.getTanks() / Fluid_slots_in_a_row;
                 WidgetGroup Fluid_slot = new WidgetGroup(2, 4, 168, fluidHigh * 18 + 10);
                 Fluid_slot.addWidget(new ComponentPanelWidget(0, 0, List.of(Component.translatable("gtocore.trading_station.fluid_storage"))));
                 for (int y = 0; y < fluidHigh; y++) {
                     for (int x = 0; x < Fluid_slots_in_a_row; x++) {
                         int slotIndex = y * Fluid_slots_in_a_row + x;
-                        if (inputFluid.getSize() > slotIndex) {
+                        if (inputFluid.getTanks() > slotIndex) {
                             Fluid_slot.addWidget(new TankWidget(inputFluid, slotIndex, x * 18, 10 + y * 18, true, true)
                                     .setBackground(GuiTextures.SLOT_DARK));
                             Fluid_slot.addWidget(new TankWidget(outputFluid, slotIndex, x * 18 + Fluid_slots_in_a_row * 18 + 18, 10 + y * 18, true, true)

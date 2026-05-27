@@ -11,15 +11,12 @@ import com.gtolib.api.annotation.language.RegisterLanguage;
 import com.gtolib.api.machine.trait.NotifiableNotConsumableFluidHandler;
 import com.gtolib.api.machine.trait.NotifiableNotConsumableItemHandler;
 import com.gtolib.api.recipe.RecipeBuilder;
-import com.gtolib.api.recipe.RecipeDefinition;
 import com.gtolib.api.recipe.RecipeType;
-import com.gtolib.utils.ExpandedR2LMap;
 import com.gtolib.utils.GTOUtils;
 import com.gtolib.utils.RLUtils;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.IWailaDisplayProvider;
-import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.gui.fancy.ConfiguratorPanel;
 import com.gregtechceu.gtceu.api.gui.fancy.TabsWidget;
@@ -33,9 +30,11 @@ import com.gregtechceu.gtceu.api.machine.feature.IRecipeLogicMachine;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiController;
 import com.gregtechceu.gtceu.api.machine.trait.CircuitHandler;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
-import com.gregtechceu.gtceu.api.machine.trait.RecipeHandlerList;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeDefinition;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
+import com.gregtechceu.gtceu.api.recipe.content.Content;
+import com.gregtechceu.gtceu.api.recipe.handler.IO;
+import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
 import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
 import com.gregtechceu.gtceu.api.recipe.ingredient.ItemIngredient;
 import com.gregtechceu.gtceu.api.transfer.item.LockableItemStackHandler;
@@ -48,10 +47,7 @@ import com.gregtechceu.gtceu.utils.FormattingUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
-import net.minecraft.nbt.StringTag;
-import net.minecraft.nbt.Tag;
+import net.minecraft.nbt.*;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.server.TickTask;
@@ -75,6 +71,7 @@ import com.fast.fastcollection.OpenCacheHashSet;
 import com.fast.recipesearch.IntLongMap;
 import com.gto.datasynclib.annotations.SyncToClient;
 import com.gto.datasynclib.annotations.SyncToServer;
+import com.gto.datasynclib.datasream.data.Data;
 import com.gto.datasynclib.listener.IntNotifiableHolder;
 import com.hepdd.gtmthings.common.item.VirtualItemProviderBehavior;
 import com.hepdd.gtmthings.data.CustomItems;
@@ -112,12 +109,12 @@ public abstract class MEPatternBufferPartMachine extends MEPatternPartMachineKt<
 
     @Override
     public @Nullable GTRecipeType gto$getRecipeType() {
-        return getRecipeType();
+        return recipeType;
     }
 
     @Override
     public @Nullable Collection<GTRecipeType> gto$getRecipeTypes() {
-        return getRecipeTypes();
+        return recipeTypes;
     }
 
     @Persisted
@@ -127,7 +124,7 @@ public abstract class MEPatternBufferPartMachine extends MEPatternPartMachineKt<
     @Persisted
     @SyncToClient
     @Getter
-    public GTRecipeType recipeType = GTORecipeTypes.HATCH_COMBINED;
+    public GTRecipeType recipeType = null;
 
     @SyncToClient
     private final boolean[] caches;
@@ -178,7 +175,7 @@ public abstract class MEPatternBufferPartMachine extends MEPatternPartMachineKt<
         if (stack.getOrCreateTag().tags.get("recipe") instanceof StringTag stringTag) {
             var recipe = RecipeBuilder.get(RLUtils.parse(stringTag.getAsString()));
             if (recipe != null) {
-                if (recipeType == GTORecipeTypes.HATCH_COMBINED) {
+                if (recipeType == null) {
                     if (!recipeTypes.isEmpty() && !RecipeType.available(recipe.recipeType, recipeTypes.toArray(new GTRecipeType[0]))) return false;
                 } else if (!RecipeType.available(recipe.recipeType, recipeType)) {
                     return false;
@@ -196,7 +193,7 @@ public abstract class MEPatternBufferPartMachine extends MEPatternPartMachineKt<
     }
 
     @Override
-    public List<RecipeHandlerList> getRecipeHandlers() {
+    public List<RecipeHandlerUnit> getRecipeHandlers() {
         return internalRecipeHandler.getSlotHandlers();
     }
 
@@ -222,36 +219,48 @@ public abstract class MEPatternBufferPartMachine extends MEPatternPartMachineKt<
         }
     }
 
-    private void changeMode(@Nullable GTRecipeType type) {
-        this.recipeType = type == null ? GTORecipeTypes.HATCH_COMBINED : type;
-    }
-
     @Override
     public void onLoad() {
         super.onLoad();
-        if (recipeType == GTORecipeTypes.DUMMY_RECIPES) {
-            recipeType = GTORecipeTypes.HATCH_COMBINED;
+        if (recipeType == GTORecipeTypes.DUMMY_RECIPES || recipeType == GTORecipeTypes.HATCH_COMBINED) {
+            recipeType = null;
         }
+        MultiMachineModeFancyConfigurator.verify(recipeTypes, recipeType, () -> recipeType = null);
     }
 
     @Override
     public void attachSideTabs(TabsWidget sideTabs) {
         super.attachSideTabs(sideTabs);
-        sideTabs.attachSubTab(new MultiMachineModeFancyConfigurator(recipeTypes, recipeType, this::changeMode));
+        sideTabs.attachSubTab(new MultiMachineModeFancyConfigurator(recipeTypes, recipeType, this::setRecipeType));
     }
 
     @Override
     public void addedToController(IMultiController controller) {
         super.addedToController(controller);
         this.recipeTypes.clear();
-        this.recipeTypes.addAll(MultiMachineModeFancyConfigurator.extractRecipeTypes(this.getControllers()));
+        this.recipeTypes.addAll(MultiMachineModeFancyConfigurator.extractRecipeTypes(this.getController()));
+        MultiMachineModeFancyConfigurator.verify(recipeTypes, recipeType, () -> recipeType = null);
+        for (InternalSlot internalSlot : getInternalInventory()) {
+            internalSlot.verify(recipeTypes);
+        }
     }
 
     @Override
     public void removedFromController(IMultiController controller) {
         super.removedFromController(controller);
         this.recipeTypes.clear();
-        this.recipeTypes.addAll(MultiMachineModeFancyConfigurator.extractRecipeTypes(this.getControllers()));
+    }
+
+    public void setRecipeType(GTRecipeType type) {
+        if (type != recipeType) {
+            recipeType = type;
+            for (var c : getControllers()) {
+                if (c instanceof IRecipeLogicMachine machine) {
+                    machine.getRecipeLogic().markLastRecipeDirty();
+                    machine.getRecipeLogic().updateTickSubscription();
+                }
+            }
+        }
     }
 
     @Override
@@ -310,6 +319,7 @@ public abstract class MEPatternBufferPartMachine extends MEPatternPartMachineKt<
                             }
                             storage.setStackInSlot(in, virtualItem);
                             in++;
+                            if (in > storage.getSlots()) break;
                         }
                     }
                     continue;
@@ -367,7 +377,7 @@ public abstract class MEPatternBufferPartMachine extends MEPatternPartMachineKt<
                 rt = controller instanceof IRecipeLogicMachine rlm ? rlm.getRecipeType() : null;
             if (rt == null || rt == GTORecipeTypes.HATCH_COMBINED) {
                 rt = null;
-                lidComp = (controller instanceof IRecipeLogicMachine rlm ? Stream.of(rlm.getRecipeTypes()) : Stream.<GTRecipeType>empty())
+                lidComp = (controller instanceof IRecipeLogicMachine rlm ? Stream.of(rlm.getAvailableRecipeTypes()) : Stream.<GTRecipeType>empty())
                         .map(r -> Component.translatable("gtceu." + r.registryName.getPath()))
                         .collect(GTOUtils.joiningComponent(Component.literal("/")));
 
@@ -475,8 +485,8 @@ public abstract class MEPatternBufferPartMachine extends MEPatternPartMachineKt<
     }
 
     static void writeBufferTag(CompoundTag data, MEPatternBufferPartMachine buffer) {
-        var items = new ExpandedR2LMap<AEItemKey>();
-        var fluids = new ExpandedR2LMap<AEFluidKey>();
+        var items = new AEKeyMap<AEItemKey>();
+        var fluids = new AEKeyMap<AEFluidKey>();
         for (InternalSlot slot : buffer.getInternalInventory()) {
             slot.itemInventory.reference2LongEntrySet().fastForEach(e -> items.addTo(e.getKey(), e.getLongValue()));
             slot.fluidInventory.reference2LongEntrySet().fastForEach(e -> fluids.addTo(e.getKey(), e.getLongValue()));
@@ -541,10 +551,9 @@ public abstract class MEPatternBufferPartMachine extends MEPatternPartMachineKt<
         public final MEPatternBufferPartMachine machine;
         public final int index;
         private final InputSink inputSink;
-        public final IntLongMap itemIngredientMap = new IntLongMap();
-        public final IntLongMap fluidIngredientMap = new IntLongMap();
-        public final ExpandedR2LMap<AEItemKey> itemInventory = new ExpandedR2LMap<>();
-        public final ExpandedR2LMap<AEFluidKey> fluidInventory = new ExpandedR2LMap<>();
+        public final IntLongMap ingredientMap = new IntLongMap();
+        public final AEKeyMap<AEItemKey> itemInventory = new AEKeyMap<>();
+        public final AEKeyMap<AEFluidKey> fluidInventory = new AEKeyMap<>();
 
         public final NotifiableNotConsumableItemHandler shareInventory;
         public final NotifiableNotConsumableFluidHandler shareTank;
@@ -563,6 +572,12 @@ public abstract class MEPatternBufferPartMachine extends MEPatternPartMachineKt<
             this.circuitInventory = CircuitHandler.create(machine);
             this.inputSink = new InputSink(this);
             this.lockableInventory = new LockableItemStackHandler(shareInventory.storage);
+        }
+
+        public void verify(Collection<GTRecipeType> recipeTypes) {
+            if (recipe != null && !recipeTypes.contains(recipe.recipeType)) {
+                setRecipe(null);
+            }
         }
 
         public void setLock(boolean lock) {
@@ -589,6 +604,14 @@ public abstract class MEPatternBufferPartMachine extends MEPatternPartMachineKt<
 
         public boolean isEmpty() {
             return itemInventory.isEmpty() && fluidInventory.isEmpty();
+        }
+
+        public boolean isItemEmpty() {
+            return itemInventory.isEmpty();
+        }
+
+        public boolean isFluidEmpty() {
+            return fluidInventory.isEmpty();
         }
 
         private void refund() {
@@ -646,103 +669,79 @@ public abstract class MEPatternBufferPartMachine extends MEPatternPartMachineKt<
             return true;
         }
 
-        @Override
-        public long getItemAmount(ItemIngredient ingredient, long limit) {
-            long available = 0;
-            for (var it = itemInventory.reference2LongEntrySet().fastIterator(); it.hasNext();) {
-                var e = it.next();
-                if (ingredient.testItem(e.getKey().getItem())) {
-                    available += e.getLongValue();
-                    if (available >= limit) break;
-                }
-            }
-            return available;
-        }
-
-        @Override
-        public long getFluidAmount(FluidIngredient ingredient, long limit) {
-            for (var it = fluidInventory.reference2LongEntrySet().fastIterator(); it.hasNext();) {
-                var e = it.next();
-                if (ingredient.testFluid(e.getKey().getFluid())) {
-                    return e.getLongValue();
-                }
-            }
-            return 0;
-        }
-
-        @Nullable
-        public List<ItemIngredient> handleItemInternal(List<ItemIngredient> left, boolean simulate) {
+        public boolean handleItemInternal(List<Content<ItemIngredient>> items, boolean simulate) {
             boolean changed = false;
-            for (var it = left.iterator(); it.hasNext();) {
+            for (var it = items.iterator(); it.hasNext();) {
                 var ingredient = it.next();
                 if (ingredient.isEmpty()) {
                     it.remove();
                     continue;
                 }
-                long amount = ingredient.amount;
                 for (var it2 = itemInventory.reference2LongEntrySet().fastIterator(); it2.hasNext();) {
                     var entry = it2.next();
-                    if (!ingredient.testAeKay(entry.getKey())) continue;
+                    if (!ingredient.inner.testAeKay(entry.getKey())) continue;
                     var count = entry.getLongValue();
-                    long extracted = Math.min(count, amount);
-                    if (!simulate && extracted > 0) {
-                        changed = true;
-                        count -= extracted;
-                        if (count < 1) it2.remove();
-                        else entry.setValue(count);
-                    }
-                    amount -= extracted;
-                    if (amount < 1) {
-                        it.remove();
-                        break;
+                    long extracted = Math.min(count, ingredient.amount);
+                    if (extracted > 0) {
+                        if (!simulate) {
+                            changed = true;
+                            count -= extracted;
+                            if (count < 1) it2.remove();
+                            else entry.setValue(count);
+                        }
+                        ingredient.shrink(extracted);
+                        if (ingredient.amount < 1) {
+                            it.remove();
+                            break;
+                        }
                     }
                 }
             }
             if (changed) {
                 markContentsChanged();
             }
-            return left.isEmpty() ? null : left;
+            return items.isEmpty();
         }
 
-        @Nullable
-        public List<FluidIngredient> handleFluidInternal(List<FluidIngredient> left, boolean simulate) {
+        public boolean handleFluidInternal(List<Content<FluidIngredient>> fluids, boolean simulate) {
             boolean changed = false;
-            for (var it = left.iterator(); it.hasNext();) {
+            for (var it = fluids.iterator(); it.hasNext();) {
                 var ingredient = it.next();
                 if (ingredient.isEmpty()) {
                     it.remove();
                     continue;
                 }
-                long amount = ingredient.amount;
                 for (var it2 = fluidInventory.reference2LongEntrySet().fastIterator(); it2.hasNext();) {
                     var entry = it2.next();
-                    if (!ingredient.testAeKay(entry.getKey())) continue;
+                    if (!ingredient.inner.testAeKay(entry.getKey())) continue;
                     var count = entry.getLongValue();
-                    long extracted = Math.min(count, amount);
-                    if (!simulate && extracted > 0) {
-                        changed = true;
-                        count -= extracted;
-                        if (count < 1) it2.remove();
-                        else entry.setValue(count);
-                    }
-                    amount -= extracted;
-                    if (amount < 1) {
-                        it.remove();
-                        break;
+                    long extracted = Math.min(count, ingredient.amount);
+                    if (extracted > 0) {
+                        if (!simulate) {
+                            changed = true;
+                            count -= extracted;
+                            if (count < 1) it2.remove();
+                            else entry.setValue(count);
+                        }
+                        ingredient.shrink(extracted);
+                        if (ingredient.amount < 1) {
+                            it.remove();
+                            break;
+                        }
                     }
                 }
             }
             if (changed) {
                 markContentsChanged();
             }
-            return left.isEmpty() ? null : left;
+            return fluids.isEmpty();
         }
 
         @Override
         public CompoundTag serializeNBT() {
             CompoundTag tag = super.serializeNBT();
             if (recipe != null) {
-                tag.putString("recipe", recipe.id.toString());
+                tag.putByteArray("recipe", GTRecipeDefinition.DATA_CODEC.encode(recipe).writeToBytes());
             }
             ListTag itemsTag = new ListTag();
             for (var it = itemInventory.reference2LongEntrySet().fastIterator(); it.hasNext();) {
@@ -781,7 +780,7 @@ public abstract class MEPatternBufferPartMachine extends MEPatternPartMachineKt<
 
         @Override
         public void deserializeNBT(CompoundTag tag) {
-            setRecipe(RecipeDefinition.of(tag.getString("recipe")));
+            if (tag.get("recipe") instanceof ByteArrayTag byteArrayTag) setRecipe(GTRecipeDefinition.DATA_CODEC.decode(Data.readData(byteArrayTag.getAsByteArray())));
             ListTag items = tag.getList("inventory", Tag.TAG_COMPOUND);
             for (Tag t : items) {
                 if (!(t instanceof CompoundTag ct)) continue;

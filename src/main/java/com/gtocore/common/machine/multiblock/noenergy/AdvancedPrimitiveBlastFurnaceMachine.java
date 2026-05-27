@@ -4,8 +4,6 @@ import com.gtocore.api.pattern.GTOPredicates;
 import com.gtocore.common.data.GTODamageTypes;
 
 import com.gtolib.api.machine.multiblock.NoEnergyCustomParallelMultiblockMachine;
-import com.gtolib.api.recipe.Recipe;
-import com.gtolib.api.recipe.modifier.ParallelLogic;
 import com.gtolib.utils.MachineUtils;
 
 import com.gregtechceu.gtceu.api.GTValues;
@@ -13,6 +11,9 @@ import com.gregtechceu.gtceu.api.blockentity.ITickSubscription;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.ConditionalSubscriptionHandler;
 import com.gregtechceu.gtceu.api.machine.TickableSubscription;
+import com.gregtechceu.gtceu.api.recipe.GTRecipe;
+import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
+import com.gregtechceu.gtceu.api.recipe.modifier.ParallelLogic;
 import com.gregtechceu.gtceu.config.ConfigHolder;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 
@@ -93,7 +94,7 @@ public final class AdvancedPrimitiveBlastFurnaceMachine extends NoEnergyCustomPa
     }
 
     @Override
-    public boolean onWorking() {
+    public void onWorking() {
         if (getOffsetTimer() % 40 == 0 && getLevel() != null) {
             var recipe = getRecipeLogic().getLastRecipe();
             if (recipe != null) {
@@ -113,15 +114,15 @@ public final class AdvancedPrimitiveBlastFurnaceMachine extends NoEnergyCustomPa
                 }
             }
         }
-        return super.onWorking();
+        super.onWorking();
     }
 
     @Override
     @Nullable
-    protected Recipe getRealRecipe(Recipe recipe) {
+    protected GTRecipe getRealRecipe(RecipeHandlerUnit unit, GTRecipe recipe) {
         double dm = Math.min(1, 400D / temperature);
         duration = dm;
-        recipe = ParallelLogic.accurateParallel(this, recipe, getParallel());
+        recipe = ParallelLogic.accurateParallel(this, unit, recipe, getParallel());
         if (recipe == null) return null;
         recipe.duration = (int) (recipe.duration * dm);
         return recipe;

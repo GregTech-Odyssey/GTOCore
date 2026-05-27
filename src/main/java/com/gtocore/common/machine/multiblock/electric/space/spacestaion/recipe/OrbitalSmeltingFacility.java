@@ -1,19 +1,18 @@
 package com.gtocore.common.machine.multiblock.electric.space.spacestaion.recipe;
 
-import com.gtocore.api.machine.part.ILargeSpaceStationMachine;
+import com.gtocore.api.machine.ILargeSpaceStationMachine;
 import com.gtocore.common.machine.multiblock.electric.space.spacestaion.RecipeExtension;
 
 import com.gtolib.api.machine.trait.CoilTrait;
-import com.gtolib.api.recipe.Recipe;
-import com.gtolib.api.recipe.modifier.RecipeModifierFunction;
 
 import com.gregtechceu.gtceu.api.block.ICoilType;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.ICoilMachine;
+import com.gregtechceu.gtceu.api.recipe.GTRecipe;
+import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
+import com.gregtechceu.gtceu.api.recipe.modifier.RecipeModifier;
 
 import org.jetbrains.annotations.NotNull;
-
-import java.util.Objects;
 
 public class OrbitalSmeltingFacility extends RecipeExtension implements ICoilMachine {
 
@@ -30,7 +29,7 @@ public class OrbitalSmeltingFacility extends RecipeExtension implements ICoilMac
     }
 
     @Override
-    public Recipe getRealRecipe(@NotNull Recipe recipe) {
-        return super.getRealRecipe(Objects.requireNonNull(RecipeModifierFunction.recipeReduction(0.8, 0.6).apply(this, recipe)));
+    public GTRecipe getRealRecipe(@NotNull RecipeHandlerUnit unit, @NotNull GTRecipe recipe) {
+        return super.getRealRecipe(unit, RecipeModifier.multiplier(recipe, 0.8, 0.6));
     }
 }

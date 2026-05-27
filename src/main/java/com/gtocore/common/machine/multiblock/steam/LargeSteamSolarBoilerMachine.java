@@ -7,17 +7,17 @@ import com.gtolib.api.annotation.dynamic.DynamicInitialValue;
 import com.gtolib.api.annotation.dynamic.DynamicInitialValueTypes;
 import com.gtolib.api.data.GTODimensions;
 import com.gtolib.api.machine.feature.IEnhancedRecipeLogicMachine;
-import com.gtolib.api.machine.trait.CustomRecipeLogic;
-import com.gtolib.api.recipe.Recipe;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.feature.IExplosionMachine;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IDisplayUIMachine;
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableMultiblockMachine;
-import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.api.pattern.BlockPattern;
 import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
 import com.gregtechceu.gtceu.api.pattern.util.RelativeDirection;
+import com.gregtechceu.gtceu.api.recipe.GTRecipeDefinition;
+import com.gregtechceu.gtceu.api.recipe.handler.ICustomRecipeLogicHolder;
+import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
 import com.gregtechceu.gtceu.common.data.GTBlocks;
 import com.gregtechceu.gtceu.config.ConfigHolder;
 
@@ -38,7 +38,7 @@ import static com.gregtechceu.gtceu.api.pattern.Predicates.*;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.Steam;
 
 @Scanned
-public class LargeSteamSolarBoilerMachine extends WorkableMultiblockMachine implements IExplosionMachine, IDisplayUIMachine, IEnhancedRecipeLogicMachine {
+public class LargeSteamSolarBoilerMachine extends WorkableMultiblockMachine implements IExplosionMachine, IDisplayUIMachine, IEnhancedRecipeLogicMachine, ICustomRecipeLogicHolder {
 
     @DynamicInitialValue(key = "gtocore.machine.large_steam_solar_boiler", typeKey = DynamicInitialValueTypes.KEY_MULTIPLY, easyValue = "30", normalValue = "18", expertValue = "12", cn = "单集热管产率 : %s / t", en = "Steam production per tube : %s / t")
     private static int basicSteamProduction = 10;
@@ -150,27 +150,6 @@ public class LargeSteamSolarBoilerMachine extends WorkableMultiblockMachine impl
         return true;
     }
 
-    @Override
-    public RecipeLogic createRecipeLogic(Object... args) {
-        return new CustomRecipeLogic(this, this::getRecipe);
-    }
-
-    private Recipe getRecipe() {
-        Level level = getLevel();
-        if (level != null && isFormed()) {
-            if (timing == 0) {
-                sunlit = calculateSunlit(level);
-                timing = 5;
-            } else {
-                timing--;
-            }
-            if (sunlit > 0) {
-                return createNextRecipe();
-            }
-        }
-        return null;
-    }
-
     private int calculateSunlit(Level level) {
         if (!isAppropriateDimensionAndTime(level, getPos())) return 0;
         int count = 0;
@@ -191,7 +170,7 @@ public class LargeSteamSolarBoilerMachine extends WorkableMultiblockMachine impl
     private boolean isAppropriateDimensionAndTime(Level world, BlockPos pos) {
         if (GTODimensions.isVoid(world.dimension())) return true;
         if (!world.isDay()) {
-            getEnhancedRecipeLogic().gtolib$setIdleReason(Component.translatable("gtceu.recipe_logic.condition_fails")
+            setIdleReason(Component.translatable("gtceu.recipe_logic.condition_fails")
                     .append(": ").append(Component.translatable("recipe.condition.daytime.day.tooltip")));
             return false;
         }
@@ -206,7 +185,7 @@ public class LargeSteamSolarBoilerMachine extends WorkableMultiblockMachine impl
         return !hasPrecipitation;
     }
 
-    private Recipe createNextRecipe() {
+    private GTRecipeDefinition createNextRecipe() {
         int steamAmount = basicSteamProduction * sunlit * STEAM_GENERATION_INTERVAL;
         int waterAmount = (int) Math.ceil((double) steamAmount / ConfigHolder.INSTANCE.machines.largeBoilers.steamPerWater);
 
@@ -217,7 +196,7 @@ public class LargeSteamSolarBoilerMachine extends WorkableMultiblockMachine impl
                 .inputFluids(Fluids.WATER, waterAmount)
                 .outputFluids(Steam.getFluid(), steamAmount)
                 .duration(STEAM_GENERATION_INTERVAL)
-                .buildRawRecipe();
+                .build();
     }
 
     public void addDisplayText(List<Component> textList) {
@@ -229,5 +208,27 @@ public class LargeSteamSolarBoilerMachine extends WorkableMultiblockMachine impl
         } else {
             textList.add(Component.translatable("gtceu.top.invalid_structure"));
         }
+    }
+
+    @Override
+    public GTRecipeDefinition createCustomRecipe(RecipeHandlerUnit unit) {
+        Level level = getLevel();
+        if (level != null && isFormed()) {
+            if (timing == 0) {
+                sunlit = calculateSunlit(level);
+                timing = 5;
+            } else {
+                timing--;
+            }
+            if (sunlit > 0) {
+                return createNextRecipe();
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public boolean alwaysSearchRecipe() {
+        return true;
     }
 }

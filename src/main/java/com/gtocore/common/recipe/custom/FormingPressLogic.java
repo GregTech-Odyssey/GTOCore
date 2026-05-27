@@ -1,14 +1,11 @@
 package com.gtocore.common.recipe.custom;
 
-import com.gtolib.api.machine.trait.IEnhancedRecipeLogic;
 import com.gtolib.api.recipe.RecipeBuilder;
 
-import com.gregtechceu.gtceu.api.capability.recipe.IRecipeCapabilityHolder;
-import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
-import com.gregtechceu.gtceu.api.machine.feature.IRecipeLogicMachine;
-import com.gregtechceu.gtceu.api.machine.trait.RecipeHandlerList;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeDefinition;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
+import com.gregtechceu.gtceu.api.recipe.handler.IRecipeHandlerHolder;
+import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
 import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 
@@ -20,20 +17,14 @@ import net.minecraft.world.item.Items;
 import com.gto.datasynclib.util.holder.ObjHolder;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.List;
-
 public final class FormingPressLogic implements GTRecipeType.ICustomRecipeLogic {
 
     private static final class RecipeData {
 
-        private final RecipeBuilder recipeBuilder;
+        private final RecipeBuilder recipeBuilder = RecipeBuilder.ofRaw();
 
         private ItemStack mold = ItemStack.EMPTY;
         private ItemStack item = ItemStack.EMPTY;
-
-        private RecipeData(RecipeBuilder recipeBuilder) {
-            this.recipeBuilder = recipeBuilder;
-        }
 
         private boolean found() {
             return !mold.isEmpty() && !item.isEmpty();
@@ -59,45 +50,27 @@ public final class FormingPressLogic implements GTRecipeType.ICustomRecipeLogic 
     }
 
     @Override
-    public @Nullable GTRecipeDefinition createCustomRecipe(IRecipeCapabilityHolder h) {
-        if (h instanceof IRecipeLogicMachine recipeLogicMachine) {
-            RecipeData data = new RecipeData(IEnhancedRecipeLogic.of(recipeLogicMachine.getRecipeLogic()).gtolib$getRecipeBuilder());
-            return collect(data, h.getInputList(), h);
-        }
-        return null;
-    }
-
-    private static GTRecipeDefinition collect(RecipeData data, List<RecipeHandlerList> rhls, IRecipeCapabilityHolder h) {
+    public @Nullable GTRecipeDefinition createCustomRecipe(IRecipeHandlerHolder h, RecipeHandlerUnit u) {
+        RecipeData data = new RecipeData();
         ObjHolder<GTRecipeDefinition> recipeObjectHolder = new ObjHolder<>();
-        l:
-        for (var rhl : rhls) {
-            data.mold = ItemStack.EMPTY;
-            data.item = ItemStack.EMPTY;
-            var handlers = rhl.getCapability(ItemRecipeCapability.CAP);
-            if (handlers.isEmpty()) continue;
-            for (var handler : handlers) {
-                if (!handler.shouldSearchContent()) continue;
-                if (handler.forEachItems((stack, amount) -> {
-                    boolean isMold = GTItems.SHAPE_MOLD_NAME.isIn(stack);
-                    if (isMold && data.mold.isEmpty() && stack.hasCustomHoverName()) {
-                        data.mold = stack;
-                    } else if (!isMold && data.item.isEmpty() && !stack.hasCustomHoverName()) {
-                        data.item = stack;
-                    }
-                    if (data.found()) {
-                        var recipe = data.buildRecipe();
-                        if (recipe != null) {
-                            h.setCurrentHandlerList(rhl);
-                            recipeObjectHolder.value = recipe;
-                            return true;
-                        }
-                    }
-                    return false;
-                })) {
-                    break l;
+        data.mold = ItemStack.EMPTY;
+        data.item = ItemStack.EMPTY;
+        u.forEachItems(false, (stack, amount) -> {
+            boolean isMold = GTItems.SHAPE_MOLD_NAME.isIn(stack);
+            if (isMold && data.mold.isEmpty() && stack.hasCustomHoverName()) {
+                data.mold = stack;
+            } else if (!isMold && data.item.isEmpty() && !stack.hasCustomHoverName()) {
+                data.item = stack;
+            }
+            if (data.found()) {
+                var recipe = data.buildRecipe();
+                if (recipe != null) {
+                    recipeObjectHolder.value = recipe;
+                    return true;
                 }
             }
-        }
+            return false;
+        });
         return recipeObjectHolder.value;
     }
 

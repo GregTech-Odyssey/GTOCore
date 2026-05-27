@@ -1,36 +1,27 @@
 package com.gtocore.common.machine.multiblock.part.ae;
 
-import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
-import com.gregtechceu.gtceu.api.recipe.ingredient.ItemIngredient;
-
 public abstract class AbstractRecipeInternalSlot extends MEPatternPartMachineKt.AbstractInternalSlot {
 
     private Runnable onContentsChanged = () -> {};
-    private boolean itemChanged = true;
-    private boolean fluidChanged = true;
+    private boolean isContentsChanged = true;
 
     public abstract boolean isEmpty();
 
-    public abstract long getItemAmount(ItemIngredient ingredient, long limit);
+    public abstract boolean isItemEmpty();
 
-    public abstract long getFluidAmount(FluidIngredient ingredient, long limit);
+    public abstract boolean isFluidEmpty();
 
     public final void markContentsChanged() {
-        itemChanged = true;
-        fluidChanged = true;
+        isContentsChanged = true;
         onContentsChanged.run();
     }
 
-    public final boolean consumeItemChanged() {
-        if (!itemChanged) return false;
-        itemChanged = false;
-        return true;
-    }
-
-    public final boolean consumeFluidChanged() {
-        if (!fluidChanged) return false;
-        fluidChanged = false;
-        return true;
+    public boolean isContentsChanged() {
+        if (isContentsChanged) {
+            isContentsChanged = false;
+            return true;
+        }
+        return false;
     }
 
     @Override

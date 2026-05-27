@@ -2,13 +2,12 @@ package com.gtocore.common.machine.multiblock.electric;
 
 import com.gtolib.api.machine.feature.multiblock.IFluidRendererMachine;
 import com.gtolib.api.machine.multiblock.ElectricMultiblockMachine;
-import com.gtolib.api.recipe.Recipe;
-import com.gtolib.api.recipe.modifier.RecipeModifierFunction;
+import com.gtolib.api.recipe.GTORecipeModifiers;
 import com.gtolib.utils.MachineUtils;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
-import com.gregtechceu.gtceu.api.capability.recipe.FluidRecipeCapability;
-import com.gregtechceu.gtceu.api.recipe.content.Content;
+import com.gregtechceu.gtceu.api.recipe.GTRecipe;
+import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.material.Fluid;
@@ -18,7 +17,7 @@ import com.gto.datasynclib.annotations.SyncToClient;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.List;
+import java.util.Collections;
 import java.util.Set;
 
 public final class DissolvingTankMachine extends ElectricMultiblockMachine implements IFluidRendererMachine {
@@ -33,9 +32,9 @@ public final class DissolvingTankMachine extends ElectricMultiblockMachine imple
     }
 
     @Override
-    protected boolean beforeWorking(@NotNull Recipe recipe) {
+    public void beforeWorking(@NotNull RecipeHandlerUnit unit, @NotNull GTRecipe recipe) {
         cachedFluid = IFluidRendererMachine.getFluid(recipe);
-        return super.beforeWorking(recipe);
+        super.beforeWorking(unit, recipe);
     }
 
     @Override
@@ -60,19 +59,20 @@ public final class DissolvingTankMachine extends ElectricMultiblockMachine imple
 
     @Nullable
     @Override
-    protected Recipe getRealRecipe(@NotNull Recipe recipe) {
+    public GTRecipe getRealRecipe(@NotNull RecipeHandlerUnit unit, @NotNull GTRecipe recipe) {
         if (getSubFormedAmount() > 0) {
-            return RecipeModifierFunction.overclocking(this, RecipeModifierFunction.hatchParallel(this, recipe));
+            return GTORecipeModifiers.UPGRADE_PARALLELIZABLE_OVERCLOCK.applyModifier(this, unit, recipe);
         }
-        List<Content> fluidList = recipe.inputs.getOrDefault(FluidRecipeCapability.CAP, null);
-        var fluidStack1 = FluidRecipeCapability.CAP.of(fluidList.get(0));
-        var fluidStack2 = FluidRecipeCapability.CAP.of(fluidList.get(1));
-        long[] a = getFluidAmount(fluidStack1.getFluid(), fluidStack2.getFluid());
+        var fluidList = recipe.fluidInputs;
+        var fluidStack1 = fluidList.get(0);
+        var fluidStack2 = fluidList.get(1);
+        long[] a = unit.getFluidAmount(true, fluidStack1.inner.getFluid(), fluidStack2.inner.getFluid());
         if (a[1] > 0) {
-            recipe = RecipeModifierFunction.overclocking(this, RecipeModifierFunction.hatchParallel(this, recipe));
+            recipe = GTORecipeModifiers.UPGRADE_PARALLELIZABLE_OVERCLOCK.applyModifier(this, unit, recipe);
             if (recipe != null) {
                 if ((double) a[0] / a[1] != ((double) fluidStack1.amount) / fluidStack2.amount) {
-                    recipe.outputs.clear();
+                    recipe.fluidOutputs = Collections.emptyList();
+                    recipe.itemOutputs = Collections.emptyList();
                 }
                 return recipe;
             }

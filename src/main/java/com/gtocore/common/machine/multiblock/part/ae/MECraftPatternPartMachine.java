@@ -51,11 +51,6 @@ public class MECraftPatternPartMachine extends MEPatternPartMachineKt<MECraftPat
         return false;
     }
 
-    @Override
-    public boolean canShared() {
-        return false;
-    }
-
     public static final class InternalSlot extends AbstractInternalSlot {
 
         @Getter

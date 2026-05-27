@@ -1,4 +1,4 @@
-package com.gtocore.mixin.gtm.api.machine;
+package com.gtocore.mixin.gtm.machine;
 
 import com.gtocore.common.machine.multiblock.part.ProgrammableHatchPartMachine;
 
@@ -6,18 +6,14 @@ import com.gtolib.api.capability.IWirelessChargerInteraction;
 import com.gtolib.api.machine.feature.IPowerAmplifierMachine;
 import com.gtolib.api.machine.feature.IUpgradeMachine;
 import com.gtolib.api.machine.impl.WirelessChargerMachine;
-import com.gtolib.api.machine.trait.IEnhancedRecipeLogic;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
-import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
-import com.gregtechceu.gtceu.api.gui.GuiTextures;
-import com.gregtechceu.gtceu.api.gui.fancy.IFancyTooltip;
-import com.gregtechceu.gtceu.api.gui.fancy.TooltipsPanel;
 import com.gregtechceu.gtceu.api.machine.SimpleTieredMachine;
 import com.gregtechceu.gtceu.api.machine.TickableSubscription;
 import com.gregtechceu.gtceu.api.machine.WorkableTieredMachine;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
+import com.gregtechceu.gtceu.api.recipe.handler.IO;
 
 import net.minecraft.nbt.CompoundTag;
 
@@ -33,7 +29,6 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import java.util.List;
 import java.util.UUID;
 
 @Mixin(SimpleTieredMachine.class)
@@ -154,15 +149,6 @@ public abstract class SimpleTieredMachineMixin extends WorkableTieredMachine imp
     @Override
     public boolean gtolib$canUpgraded() {
         return true;
-    }
-
-    @Override
-    public void attachTooltips(TooltipsPanel tooltipsPanel) {
-        tooltipsPanel.attachTooltips(this);
-        getTraits().stream().filter(IFancyTooltip.class::isInstance).map(IFancyTooltip.class::cast).forEach(tooltipsPanel::attachTooltips);
-        if (getRecipeLogic() instanceof IEnhancedRecipeLogic enhancedRecipeLogic) {
-            tooltipsPanel.attachTooltips(new Basic(() -> GuiTextures.INDICATOR_NO_STEAM.get(true), () -> List.of(enhancedRecipeLogic.gtolib$getIdleReason()), () -> getRecipeLogic().isIdle() && enhancedRecipeLogic.gtolib$getIdleReason() != null, () -> null));
-        }
     }
 
     @Override

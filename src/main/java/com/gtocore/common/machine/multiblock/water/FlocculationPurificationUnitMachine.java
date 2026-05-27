@@ -2,9 +2,8 @@ package com.gtocore.common.machine.multiblock.water;
 
 import com.gtocore.common.data.GTOMaterials;
 
-import com.gtolib.api.recipe.RecipeRunner;
-
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
+import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.network.chat.Component;
@@ -45,10 +44,10 @@ public final class FlocculationPurificationUnitMachine extends WaterPurification
     }
 
     @Override
-    public boolean onWorking() {
-        if (!super.onWorking()) return false;
+    public void onWorking() {
+        super.onWorking();
         if (getOffsetTimer() % 20 == 0) {
-            long amount = getFluidAmount(PolyAluminiumChloride)[0];
+            long amount = getFluidAmount(true, PolyAluminiumChloride)[0];
             if (inputFluid(PolyAluminiumChloride, amount)) {
                 outputCount += amount;
                 if (amount % 100000 == 0) {
@@ -58,7 +57,6 @@ public final class FlocculationPurificationUnitMachine extends WaterPurification
                 }
             }
         }
-        return true;
     }
 
     @Override
@@ -71,14 +69,14 @@ public final class FlocculationPurificationUnitMachine extends WaterPurification
     }
 
     @Override
-    long before() {
+    long prepareRecipe(RecipeHandlerUnit unit) {
         eut = 0;
         chance = 0;
         outputCount = 0;
-        inputCount = Math.min(parallel(), getFluidAmount(WaterPurificationPlantMachine.GradePurifiedWater2)[0]);
+        inputCount = Math.min(parallel(), unit.getFluidAmount(true, WaterPurificationPlantMachine.GradePurifiedWater2)[0]);
         if (inputCount > 0) {
             recipe = getRecipeBuilder().duration(WaterPurificationPlantMachine.DURATION).inputFluids(WaterPurificationPlantMachine.GradePurifiedWater2, inputCount).buildRawRecipe();
-            if (RecipeRunner.matchRecipe(this, recipe)) {
+            if (matchRecipe(unit, recipe)) {
                 calculateVoltage(inputCount);
             }
         }

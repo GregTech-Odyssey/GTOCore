@@ -3,15 +3,14 @@ package com.gtocore.common.machine.multiblock.electric;
 import com.gtocore.common.machine.multiblock.part.ae.MECraftPatternPartMachine;
 
 import com.gtolib.api.machine.multiblock.ElectricMultiblockMachine;
-import com.gtolib.api.machine.trait.CustomRecipeLogic;
-import com.gtolib.api.recipe.Recipe;
 import com.gtolib.api.recipe.RecipeBuilder;
 import com.gtolib.utils.MathUtil;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
-import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
-import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
+import com.gregtechceu.gtceu.api.recipe.GTRecipeDefinition;
+import com.gregtechceu.gtceu.api.recipe.handler.ICustomRecipeLogicHolder;
+import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
 import com.gregtechceu.gtceu.api.recipe.ingredient.ItemIngredient;
 import com.gregtechceu.gtceu.utils.ItemStackHashStrategy;
 
@@ -24,7 +23,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SuperMolecularAssemblerMachine extends ElectricMultiblockMachine {
+public class SuperMolecularAssemblerMachine extends ElectricMultiblockMachine implements ICustomRecipeLogicHolder {
 
     private final List<MECraftPatternPartMachine> partMachines = new ArrayList<>();
 
@@ -53,7 +52,8 @@ public class SuperMolecularAssemblerMachine extends ElectricMultiblockMachine {
         partMachines.clear();
     }
 
-    private Recipe getRecipe() {
+    @Override
+    public GTRecipeDefinition createCustomRecipe(RecipeHandlerUnit unit) {
         long maxEUt = getOverclockVoltage();
         if (maxEUt == 0) return null;
         Object2LongOpenCustomHashMap<ItemStack> map = new O2LOpenCustomCacheHashMap<>(ItemStackHashStrategy.ITEM_AND_TAG);
@@ -68,18 +68,18 @@ public class SuperMolecularAssemblerMachine extends ElectricMultiblockMachine {
         if (map.isEmpty()) return null;
         long totalEu = map.values().longStream().sum();
         double d = (double) totalEu / maxEUt;
-        int limit = gtolib$getOCLimit();
+        int limit = getOverclockLimit();
         RecipeBuilder builder = getRecipeBuilder().EUt(Math.max(1, d >= limit ? maxEUt : (long) (maxEUt * d / limit))).duration((int) Math.max(d, limit));
         for (var entry : map.object2LongEntrySet()) {
             var item = entry.getKey();
             item.setCount(MathUtil.saturatedCast(entry.getLongValue()));
-            builder.output(ItemRecipeCapability.CAP, ItemIngredient.of(entry.getKey(), entry.getLongValue()));
+            builder.outputItems(ItemIngredient.of(entry.getKey(), entry.getLongValue()));
         }
-        return builder.buildRawRecipe();
+        return builder.build();
     }
 
     @Override
-    public RecipeLogic createRecipeLogic(Object @NotNull... args) {
-        return new CustomRecipeLogic(this, this::getRecipe);
+    public boolean alwaysSearchRecipe() {
+        return true;
     }
 }

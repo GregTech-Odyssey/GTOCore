@@ -9,19 +9,20 @@ import com.gtolib.api.capability.IManaContainer;
 import com.gtolib.api.machine.ManaDistributorMachine;
 import com.gtolib.api.machine.mana.trait.ManaTrait;
 import com.gtolib.api.misc.ManaContainerList;
-import com.gtolib.api.recipe.IdleReason;
-import com.gtolib.api.recipe.Recipe;
+import com.gtolib.api.recipe.RecipeHelper;
 import com.gtolib.api.recipe.RecipeType;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.recipe.*;
-import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.TickableSubscription;
-import com.gregtechceu.gtceu.api.machine.trait.RecipeHandlerList;
 import com.gregtechceu.gtceu.api.pattern.TraceabilityPredicate;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
+import com.gregtechceu.gtceu.api.recipe.content.Content;
+import com.gregtechceu.gtceu.api.recipe.handler.IO;
+import com.gregtechceu.gtceu.api.recipe.handler.IRecipeHandler;
+import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
 import com.gregtechceu.gtceu.api.recipe.ingredient.ItemIngredient;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 import com.gregtechceu.gtceu.utils.function.ObjLongPredicate;
@@ -79,8 +80,8 @@ public class ManaFlowAssembler extends ManaMultiblockMachine {
     @Override
     public void onStructureFormed() {
         super.onStructureFormed();
-        addHandlerList(RecipeHandlerList.of(IO.IN, itemIn));
-        addHandlerList(RecipeHandlerList.of(IO.OUT, itemIn));
+        addHandlerList(RecipeHandlerUnit.of(IO.IN, itemIn));
+        addHandlerList(RecipeHandlerUnit.of(IO.OUT, itemIn));
 
         var f = getMultiblockState().getMatchContext().get(MAX_RATE);
         maxRate = f == null ? 0 : f.get();
@@ -172,30 +173,16 @@ public class ManaFlowAssembler extends ManaMultiblockMachine {
     }
 
     @Override
-    protected @Nullable Recipe getRealRecipe(Recipe recipe) {
+    protected @Nullable GTRecipe getRealRecipe(@NotNull RecipeHandlerUnit unit, GTRecipe recipe) {
         if (recipe.eut != 0 || maxRate == 0) return null;
-        int duration = Math.toIntExact(recipe.duration * recipe.manat / maxRate);
+        int duration = Math.toIntExact(recipe.duration * RecipeHelper.getMANAt(recipe) / maxRate);
         if (duration > 200) {
-            this.getEnhancedRecipeLogic().gtolib$setIdleReason(Component.translatable(MANA_FLOW_TOO_WEAK));
+            setIdleReason(() -> Component.translatable(MANA_FLOW_TOO_WEAK));
             return null;
         }
         recipe.duration = 200;
-        recipe.manat = maxRate;
-        return super.getRealRecipe(recipe);
-    }
-
-    @Override
-    public boolean handleTickRecipe(@Nullable Recipe recipe) {
-        if (recipe != null) {
-            long mana = recipe.manat;
-            if (mana > 0) {
-                if (!useMana(mana, false)) {
-                    IdleReason.setIdleReason(this, IdleReason.NO_MANA);
-                    return false;
-                }
-            }
-        }
-        return true;
+        RecipeHelper.setMANAt(recipe, maxRate);
+        return super.getRealRecipe(unit, recipe);
     }
 
     @Override
@@ -219,59 +206,50 @@ public class ManaFlowAssembler extends ManaMultiblockMachine {
         });
     }
 
-    private class ItemEntityRecipeHandler implements IRecipeHandler<ItemIngredient> {
+    private class ItemEntityRecipeHandler implements IRecipeHandler {
 
         @Override
-        public List<ItemIngredient> handleRecipeInner(IO io, GTRecipe recipe, List<ItemIngredient> left, boolean simulate) {
+        public boolean handleRecipeItem(IO io, GTRecipe recipe, List<Content<ItemIngredient>> items, boolean simulate) {
             if (io == IO.OUT) {
                 if (!simulate && getLevel() instanceof ServerLevel level) {
                     var pos = getPos().above(3);
                     var posCenter = pos.getCenter();
                     var random = level.random;
-                    left.forEach(ingredient -> {
-                        var itemStack = ingredient.getInnerItemStack().copyWithCount((int) ingredient.amount);
+                    items.forEach(ingredient -> {
+                        var itemStack = ingredient.inner.getInnerItemStack().copyWithCount((int) ingredient.amount);
                         var itemEntity = new ItemEntity(level, posCenter.x(), posCenter.y(), posCenter.z(), itemStack);
                         itemEntity.setDeltaMovement(random.nextDouble() * 0.2 - 0.1, 0.2, random.nextDouble() * 0.2 - 0.1);
                         level.addFreshEntity(itemEntity);
                     });
                 }
-                return null;
-            }
-            var itemEntities = getItemEntitiesAbove();
-            if (itemEntities.isEmpty()) {
-                return left;
-            }
-            for (var itemEntity : itemEntities) {
-                if (!itemEntity.isAlive() || itemEntity.getItem().isEmpty()) {
-                    continue;
-                }
-                var itemStack = itemEntity.getItem();
-                itemStack = simulate ? itemStack.copy() : itemStack;
-                var leftConsuming = left.iterator();
-                while (itemStack.getCount() > 0 && leftConsuming.hasNext()) {
-                    var ingredient = leftConsuming.next();
-                    if (ingredient.testItem(itemStack.getItem())) {
-                        var toExtract = (int) Math.min(ingredient.amount, itemStack.getCount());
-                        ingredient.amount -= toExtract;
-                        itemStack.shrink(toExtract);
-                        if (ingredient.amount <= 0) {
-                            leftConsuming.remove();
-                        }
-                        if (!simulate && itemStack.isEmpty()) {
-                            itemEntity.discard();
+                return true;
+            } else {
+                var itemEntities = getItemEntitiesAbove();
+                if (itemEntities.isEmpty()) return items.isEmpty();
+                for (var itemEntity : itemEntities) {
+                    if (!itemEntity.isAlive() || itemEntity.getItem().isEmpty()) {
+                        continue;
+                    }
+                    var itemStack = itemEntity.getItem();
+                    itemStack = simulate ? itemStack.copy() : itemStack;
+                    var leftConsuming = items.iterator();
+                    while (itemStack.getCount() > 0 && leftConsuming.hasNext()) {
+                        var ingredient = leftConsuming.next();
+                        if (ingredient.inner.testItem(itemStack.getItem())) {
+                            var toExtract = (int) Math.min(ingredient.amount, itemStack.getCount());
+                            ingredient.shrink(toExtract);;
+                            itemStack.shrink(toExtract);
+                            if (ingredient.amount <= 0) {
+                                leftConsuming.remove();
+                            }
+                            if (!simulate && itemStack.isEmpty()) {
+                                itemEntity.discard();
+                            }
                         }
                     }
                 }
+                return items.isEmpty();
             }
-            if (left.isEmpty()) {
-                return null;
-            }
-            return left;
-        }
-
-        @Override
-        public int getSize() {
-            return SIZE;
         }
 
         @Override
@@ -300,7 +278,7 @@ public class ManaFlowAssembler extends ManaMultiblockMachine {
         }
 
         @Override
-        public IntLongMap getIngredientMap(@NotNull GTRecipeType type) {
+        public IntLongMap getSearchMap(@NotNull GTRecipeType type) {
             var intIngredientMap = new IntLongMap();
             boolean specialConverter = ((RecipeType) type).specialConverter;
             for (var i : getItemEntitiesAbove()) {
@@ -317,16 +295,6 @@ public class ManaFlowAssembler extends ManaMultiblockMachine {
         @Override
         public boolean isEmpty() {
             return getItemEntitiesAbove().stream().noneMatch(ItemEntity::isAlive);
-        }
-
-        @Override
-        public boolean isDistinct() {
-            return true;
-        }
-
-        @Override
-        public RecipeCapability<ItemIngredient> getCapability() {
-            return ItemRecipeCapability.CAP;
         }
     }
 

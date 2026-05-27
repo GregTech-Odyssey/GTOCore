@@ -18,17 +18,16 @@ import com.gtolib.api.recipe.RecipeType;
 import com.gregtechceu.gtceu.api.GTCEuAPI;
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.block.ICoilType;
-import com.gregtechceu.gtceu.api.capability.recipe.FluidRecipeCapability;
-import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
+import com.gregtechceu.gtceu.api.recipe.GTRecipeBuilder;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
+import com.gregtechceu.gtceu.api.recipe.handler.IO;
 import com.gregtechceu.gtceu.api.sound.ExistingSoundEntry;
 import com.gregtechceu.gtceu.common.data.GCYMRecipeTypes;
 import com.gregtechceu.gtceu.common.data.GTRecipeDataKeys;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import com.gregtechceu.gtceu.common.data.GTSoundEntries;
 import com.gregtechceu.gtceu.common.item.armor.PowerlessJetpack;
-import com.gregtechceu.gtceu.data.recipe.builder.GTRecipeBuilder;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 
 import net.minecraft.client.resources.language.I18n;
@@ -66,7 +65,7 @@ public final class GTORecipeTypes {
         RecipeTypeModify.init();
     }
 
-    private static final Consumer<GTRecipeBuilder> addFuelProperties = (b) -> PowerlessJetpack.FUELS.putIfAbsent(FluidRecipeCapability.CAP.of(b.input.get(FluidRecipeCapability.CAP).getFirst()).copy(), (int) (b.duration * Math.abs(b.EUt())));
+    private static final Consumer<GTRecipeBuilder> addFuelProperties = (b) -> PowerlessJetpack.FUELS.putIfAbsent(b.getFluidInputs().getFirst().inner, (int) (b.getDuration() * Math.abs(b.EUt())));
     public static final GTRecipeType HATCH_COMBINED = register("hatch_combined", "Combined / Machine", "组合模式/机器模式", DUMMY).setXEIVisible(false);
     public static final RecipeType ALLOY_BLAST_RECIPES = (RecipeType) GCYMRecipeTypes.ALLOY_BLAST_RECIPES;
     public static final RecipeType STEAM_BOILER_RECIPES = (RecipeType) GTRecipeTypes.STEAM_BOILER_RECIPES;
@@ -122,7 +121,7 @@ public final class GTORecipeTypes {
     public static final RecipeType CRACKING_RECIPES = (RecipeType) GTRecipeTypes.CRACKING_RECIPES;
     public static final RecipeType IMPLOSION_RECIPES = (RecipeType) GTRecipeTypes.IMPLOSION_RECIPES;
     public static final RecipeType VACUUM_RECIPES = (RecipeType) GTRecipeTypes.VACUUM_RECIPES;
-    public static final RecipeType ASSEMBLY_LINE_RECIPES = ((RecipeType) GTRecipeTypes.ASSEMBLY_LINE_RECIPES).compression(false);
+    public static final RecipeType ASSEMBLY_LINE_RECIPES = ((RecipeType) GTRecipeTypes.ASSEMBLY_LINE_RECIPES);
     public static final RecipeType LARGE_CHEMICAL_RECIPES = (RecipeType) GTRecipeTypes.LARGE_CHEMICAL_RECIPES;
     public static final RecipeType FUSION_RECIPES = (RecipeType) GTRecipeTypes.FUSION_RECIPES;
     public static final RecipeType DUMMY_RECIPES = (RecipeType) GTRecipeTypes.DUMMY_RECIPES;
@@ -280,7 +279,7 @@ public final class GTORecipeTypes {
             .setMaxIOSize(2, 9, 1, 0)
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.MACERATOR)
-            .onRecipeBuild(b -> b.duration((int) (Math.sqrt(b.duration + 100) * 2)));
+            .onRecipeBuild(b -> b.duration((int) (Math.sqrt(b.getDuration() + 100) * 2)));
 
     public static final RecipeType FISSION_REACTOR_RECIPES = register("fission_reactor", "裂变反应堆", MULTIBLOCK)
             .setMaxIOSize(1, 1, 0, 0)
@@ -302,7 +301,7 @@ public final class GTORecipeTypes {
                 };
                 return LocalizationUtils.format(TierCasingTrait.getTierTranslationKey(STELLAR_CONTAINMENT_TIER), tierString);
             })
-            .onRecipeBuild(b -> b.duration(b.duration * GTOCore.difficulty / 3));
+            .onRecipeBuild(b -> b.duration(b.getDuration() * GTOCore.difficulty / 3));
 
     public static final RecipeType COMPONENT_ASSEMBLY_RECIPES = register("component_assembly", "部件装配", MULTIBLOCK)
             .setMaxIOSize(9, 1, 9, 0)
@@ -314,7 +313,6 @@ public final class GTORecipeTypes {
 
     public static final RecipeType GREENHOUSE_RECIPES = register("greenhouse", "温室培育", MULTIBLOCK)
             .setEUIO(IO.IN)
-            .setMANAIO(IO.IN)
             .setMaxIOSize(3, 1, 1, 0)
             .setProgressBar(GuiTextures.PROGRESS_BAR_BATH, LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.COOLING);
@@ -1027,7 +1025,6 @@ public final class GTORecipeTypes {
     // ********** Magic **********//
     //////////////////////////////////////
     public static final RecipeType ALCHEMY_CAULDRON_RECIPES = register("alchemy_cauldron", "炼金锅", MAGIC)
-            .setMANAIO(IO.IN)
             .setMaxIOSize(6, 6, 3, 3)
             .setProgressBar(GuiTextures.PROGRESS_BAR_BATH, LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.COOLING)
@@ -1070,38 +1067,32 @@ public final class GTORecipeTypes {
             .setSound(GTSoundEntries.FURNACE);
 
     public static final RecipeType MANA_INFUSER_RECIPES = register("mana_infuser", "魔力灌注", MAGIC)
-            .setMANAIO(IO.IN)
             .setMaxIOSize(3, 1, 0, 0)
             .setProgressBar(GuiTextures.PROGRESS_BAR_BATH, LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.BATH);
 
     public static final RecipeType MANA_CONDENSER_RECIPES = register("mana_condenser", "魔力凝聚", MAGIC)
-            .setMANAIO(IO.IN)
             .setMaxIOSize(15, 1, 3, 0)
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.FIRE);
 
     public static final RecipeType ELF_EXCHANGE_RECIPES = register("elf_exchange", "ELF Exchange", "精灵交易", MAGIC)
-            .setMANAIO(IO.IN)
             .setMaxIOSize(2, 1, 0, 0)
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.REPLICATOR);
 
     public static final RecipeType INDUSTRIAL_ALTAR_RECIPES = register("industrial_altar", "工业祭坛", MAGIC)
-            .setMANAIO(IO.IN)
             .setMaxIOSize(18, 1, 3, 0)
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.ARC);
 
     public static final RecipeType RUNE_ENGRAVING_RECIPES = register("rune_engraving", "符文铭刻", MAGIC)
-            .setMANAIO(IO.IN)
             .setMaxIOSize(6, 1, 3, 0)
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.REPLICATOR);
 
     public static final RecipeType MANA_GARDEN_RECIPES = register("mana_garden", "魔力花园", MAGIC)
             .setEUIO(IO.IN)
-            .setMANAIO(IO.OUT)
             .setMaxIOSize(2, 2, 2, 2)
             .setMaxTooltips(5)
             .setProgressBar(GuiTextures.PROGRESS_BAR_BATH, LEFT_TO_RIGHT)
@@ -1109,7 +1100,6 @@ public final class GTORecipeTypes {
 
     public static final RecipeType MANA_GARDEN_FUEL = register("mana_garden_fuel", "魔力花园：燃料", MAGIC)
             .setEUIO(IO.IN)
-            .setMANAIO(IO.OUT)
             .setMaxIOSize(2, 0, 1, 0)
             .setSlotOverlay(false, true, true, GuiTextures.FURNACE_OVERLAY_2)
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW_MULTIPLE, LEFT_TO_RIGHT)
@@ -1117,13 +1107,11 @@ public final class GTORecipeTypes {
             .setSound(GTSoundEntries.FIRE);
 
     public static final RecipeType INFUSER_CORE_RECIPES = register("infuser_core", "灌注核心", MAGIC)
-            .setMANAIO(IO.IN)
             .setMaxIOSize(18, 1, 3, 0)
             .setProgressBar(GuiTextures.PROGRESS_BAR_BATH, LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.BATH);
 
     public static final RecipeType MANA_FLOW_ASSEMBLER_RECIPES = register("manaflow_assemble", "魔力流组装", MAGIC)
-            .setMANAIO(IO.IN)
             .setMaxIOSize(9, 1, 1, 0)
             .setProgressBar(GuiTextures.PROGRESS_BAR_BATH, LEFT_TO_RIGHT)
             .setSmallRecipeMap(ASSEMBLER_RECIPES)

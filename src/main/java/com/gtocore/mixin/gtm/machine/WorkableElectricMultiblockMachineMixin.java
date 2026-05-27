@@ -1,16 +1,14 @@
-package com.gtocore.mixin.gtm.api.machine;
+package com.gtocore.mixin.gtm.machine;
 
 import com.gtocore.config.GTOConfig;
 
 import com.gtolib.api.gui.OverclockConfigurator;
-import com.gtolib.api.machine.feature.IElectricMachine;
 import com.gtolib.api.machine.feature.IOverclockConfigMachine;
 import com.gtolib.api.machine.feature.IPowerAmplifierMachine;
 import com.gtolib.api.machine.feature.IUpgradeMachine;
 import com.gtolib.utils.MachineUtils;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
-import com.gregtechceu.gtceu.api.capability.IEnergyContainer;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.gui.fancy.ConfiguratorPanel;
 import com.gregtechceu.gtceu.api.gui.fancy.IFancyConfiguratorButton;
@@ -19,7 +17,6 @@ import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine;
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableMultiblockMachine;
 import com.gregtechceu.gtceu.api.misc.EnergyContainerList;
-import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.data.lang.LangHandler;
 
 import net.minecraft.core.Direction;
@@ -41,7 +38,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import java.util.List;
 
 @Mixin(WorkableElectricMultiblockMachine.class)
-public abstract class WorkableElectricMultiblockMachineMixin extends WorkableMultiblockMachine implements IDisplayUIMachine, IOverclockConfigMachine, IUpgradeMachine, IPowerAmplifierMachine, IElectricMachine {
+public abstract class WorkableElectricMultiblockMachineMixin extends WorkableMultiblockMachine implements IDisplayUIMachine, IOverclockConfigMachine, IUpgradeMachine, IPowerAmplifierMachine {
 
     @Unique
     private double gtolib$powerAmplifier;
@@ -80,22 +77,17 @@ public abstract class WorkableElectricMultiblockMachineMixin extends WorkableMul
     }
 
     @Override
-    public GTRecipe fullModifyRecipe(GTRecipe recipe) {
-        return doModifyRecipe(recipe);
-    }
-
-    @Override
     public boolean hasCheckButton() {
         return true;
     }
 
     @Override
-    public void gtolib$setOCLimit(int number) {
+    public void setOverclockLimit(int number) {
         gtolib$ocLimit = number;
     }
 
     @Override
-    public int gtolib$getOCLimit() {
+    public int getOverclockLimit() {
         return gtolib$ocLimit;
     }
 
@@ -168,12 +160,6 @@ public abstract class WorkableElectricMultiblockMachineMixin extends WorkableMul
                 voidingMode = VoidingMode.VALUES[voidingMode.ordinal() + 1];
             } else voidingMode = VoidingMode.VALUES[0];
         }
-    }
-
-    @Override
-    @NotNull
-    public IEnergyContainer gtolib$getEnergyContainer() {
-        return energyContainer;
     }
 
     @Override

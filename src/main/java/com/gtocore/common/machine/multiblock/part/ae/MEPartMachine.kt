@@ -26,12 +26,12 @@ import appeng.api.networking.IManagedGridNode
 import appeng.api.networking.security.IActionSource
 import com.gregtechceu.gtceu.api.GTValues
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity
-import com.gregtechceu.gtceu.api.capability.recipe.IO
 import com.gregtechceu.gtceu.api.gui.fancy.TabsWidget
 import com.gregtechceu.gtceu.api.item.tool.GTToolType
 import com.gregtechceu.gtceu.api.machine.feature.IMachineLife
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IDistinctPart
 import com.gregtechceu.gtceu.api.machine.multiblock.part.WorkableTieredIOPartMachine
+import com.gregtechceu.gtceu.api.recipe.handler.IO
 import com.gregtechceu.gtceu.api.transfer.fluid.IFluidHandlerModifiable
 import com.gregtechceu.gtceu.integration.ae2.machine.trait.GridNodeHolder
 import com.gto.datasynclib.annotations.SyncToClient
@@ -184,20 +184,20 @@ abstract class MEPartMachine(holder: MetaMachineBlockEntity, io: IO) :
         }
         if (isRemote) return
         onWirelessLoad()
-        getHandlerList().isDistinct = distinctField
-        getHandlerList().color = paintingColor
+        handlerUnit.isDistinct = distinctField
+        handlerUnit.color = paintingColor
     }
 
     override fun getMainNode(): IManagedGridNode = nodeHolder.getMainNode()
 
     override fun onPaintingColorChanged(color: Int) {
-        handlerList.setColor(color, true)
+        handlerUnit.setColor(color, true)
     }
 
     override fun isDistinct(): Boolean = distinctField
     override fun setDistinct(isDistinct: Boolean) {
         this.distinctField = isDistinct
-        handlerList.setDistinctAndNotify(isDistinct)
+        handlerUnit.setDistinctAndNotify(isDistinct)
     }
 
     override fun setOnline(isOnline: Boolean) {

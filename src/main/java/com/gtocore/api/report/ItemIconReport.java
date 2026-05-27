@@ -7,7 +7,6 @@ import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.capability.recipe.*;
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
 import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
-import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.api.registry.GTRegistries;
 import com.gregtechceu.gtceu.common.data.GTItems;
@@ -1428,8 +1427,6 @@ public class ItemIconReport {
         Map<String, List<JsonObject>> recipesByType = new HashMap<>();
 
         for (Recipe<?> recipe : recipeManager.getRecipes()) {
-            if (recipe instanceof GTRecipe) continue;
-
             try {
                 String recipeType = recipe.getType().toString();
                 String typeName = recipeType.replace(':', '_');

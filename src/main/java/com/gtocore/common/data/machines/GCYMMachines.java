@@ -12,7 +12,7 @@ import com.gtocore.utils.register.MachineRegisterUtils;
 import com.gtolib.api.annotation.NewDataAttributes;
 import com.gtolib.api.machine.impl.part.ParallelHatchPartMachine;
 import com.gtolib.api.machine.multiblock.CoilCustomParallelMultiblockMachine;
-import com.gtolib.api.recipe.modifier.RecipeModifierFunction;
+import com.gtolib.api.recipe.GTORecipeModifiers;
 
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.GTValues;
@@ -72,7 +72,7 @@ public final class GCYMMachines {
             .parallelizableTooltips()
             .nonYAxisRotation()
             .recipeTypes(MACERATOR_RECIPES)
-            .recipeModifier(RecipeModifierFunction.GCYM_OVERCLOCKING)
+            .recipeModifier(GTORecipeModifiers.UPGRADE_GCYM_OVERCLOCKING)
             .block(CASING_SECURE_MACERATION)
             .pattern(definition -> FactoryBlockPattern.start(definition)
                     .aisle("XXXXX", "XXXXX", "XXXXX", "XXXXX")
@@ -100,7 +100,7 @@ public final class GCYMMachines {
             .parallelizableTooltips()
             .nonYAxisRotation()
             .recipeTypes(CHEMICAL_BATH_RECIPES, ORE_WASHER_RECIPES)
-            .recipeModifier(RecipeModifierFunction.GCYM_OVERCLOCKING)
+            .recipeModifier(GTORecipeModifiers.UPGRADE_GCYM_OVERCLOCKING)
             .block(CASING_WATERTIGHT)
             .pattern(definition -> FactoryBlockPattern.start(definition)
                     .aisle("XXXXX", "XXXXX", "XXXXX")
@@ -130,7 +130,7 @@ public final class GCYMMachines {
             .parallelizableTooltips()
             .allRotation()
             .recipeTypes(CENTRIFUGE_RECIPES, THERMAL_CENTRIFUGE_RECIPES)
-            .recipeModifier(RecipeModifierFunction.GCYM_OVERCLOCKING)
+            .recipeModifier(GTORecipeModifiers.UPGRADE_GCYM_OVERCLOCKING)
             .block(CASING_VIBRATION_SAFE)
             .pattern(definition -> FactoryBlockPattern.start(definition)
                     .aisle("#XXX#", "XXXXX", "#XXX#")
@@ -159,7 +159,7 @@ public final class GCYMMachines {
             .parallelizableTooltips()
             .nonYAxisRotation()
             .recipeTypes(MIXER_RECIPES)
-            .recipeModifier(RecipeModifierFunction.GCYM_OVERCLOCKING)
+            .recipeModifier(GTORecipeModifiers.UPGRADE_GCYM_OVERCLOCKING)
             .block(CASING_REACTION_SAFE)
             .pattern(definition -> FactoryBlockPattern.start(definition)
                     .aisle("#XXX#", "#XXX#", "#XXX#", "#XXX#", "#XXX#", "##F##")
@@ -190,7 +190,7 @@ public final class GCYMMachines {
             .parallelizableTooltips()
             .allRotation()
             .recipeTypes(ELECTROLYZER_RECIPES)
-            .recipeModifier(RecipeModifierFunction.GCYM_OVERCLOCKING)
+            .recipeModifier(GTORecipeModifiers.UPGRADE_GCYM_OVERCLOCKING)
             .block(CASING_NONCONDUCTING)
             .pattern(definition -> FactoryBlockPattern.start(definition)
                     .aisle("XXXXX", "XXXXX", "XXXXX")
@@ -216,7 +216,7 @@ public final class GCYMMachines {
             .parallelizableTooltips()
             .allRotation()
             .recipeTypes(ELECTROMAGNETIC_SEPARATOR_RECIPES, POLARIZER_RECIPES)
-            .recipeModifier(RecipeModifierFunction.GCYM_OVERCLOCKING)
+            .recipeModifier(GTORecipeModifiers.UPGRADE_GCYM_OVERCLOCKING)
             .block(CASING_NONCONDUCTING)
             .pattern(definition -> FactoryBlockPattern.start(definition)
                     .aisle("XXXXX", "XXXXX", "XXXXX")
@@ -243,7 +243,7 @@ public final class GCYMMachines {
             .allRotation()
             .recipeTypes(PACKER_RECIPES)
             .recipeTypes(GTORecipeTypes.UNPACKER_RECIPES)
-            .recipeModifier(RecipeModifierFunction.GCYM_OVERCLOCKING)
+            .recipeModifier(GTORecipeModifiers.UPGRADE_GCYM_OVERCLOCKING)
             .block(CASING_TUNGSTENSTEEL_ROBUST)
             .pattern(definition -> FactoryBlockPattern.start(definition)
                     .aisle("XXX", "XXX", "XXX")
@@ -271,7 +271,7 @@ public final class GCYMMachines {
             .parallelizableTooltips()
             .allRotation()
             .recipeTypes(ASSEMBLER_RECIPES)
-            .recipeModifier(RecipeModifierFunction.GCYM_OVERCLOCKING)
+            .recipeModifier(GTORecipeModifiers.UPGRADE_GCYM_OVERCLOCKING)
             .block(CASING_LARGE_SCALE_ASSEMBLING)
             .pattern(definition -> FactoryBlockPattern.start(definition)
                     .aisle("XXXXXXXXX", "XXXXXXXXX", "XXXXXXXXX")
@@ -298,7 +298,7 @@ public final class GCYMMachines {
             .parallelizableTooltips()
             .allRotation()
             .recipeTypes(CIRCUIT_ASSEMBLER_RECIPES)
-            .recipeModifier(RecipeModifierFunction.GCYM_OVERCLOCKING)
+            .recipeModifier(GTORecipeModifiers.UPGRADE_GCYM_OVERCLOCKING)
             .block(CASING_LARGE_SCALE_ASSEMBLING)
             .pattern(definition -> FactoryBlockPattern.start(definition)
                     .aisle("XXXXXXX", "XXXXXXX", "XXXXXXX")
@@ -329,7 +329,7 @@ public final class GCYMMachines {
             .parallelizableTooltips()
             .allRotation()
             .recipeTypes(ARC_FURNACE_RECIPES)
-            .recipeModifier(RecipeModifierFunction.GCYM_OVERCLOCKING)
+            .recipeModifier(GTORecipeModifiers.UPGRADE_GCYM_OVERCLOCKING)
             .block(CASING_HIGH_TEMPERATURE_SMELTING)
             .pattern(definition -> FactoryBlockPattern.start(definition)
                     .aisle("#XXX#", "#XXX#", "#XXX#", "#XXX#")
@@ -358,7 +358,7 @@ public final class GCYMMachines {
             .parallelizableTooltips()
             .allRotation()
             .recipeTypes(LASER_ENGRAVER_RECIPES)
-            .recipeModifier(RecipeModifierFunction.GCYM_OVERCLOCKING)
+            .recipeModifier(GTORecipeModifiers.UPGRADE_GCYM_OVERCLOCKING)
             .block(CASING_LASER_SAFE_ENGRAVING)
             .pattern(definition -> FactoryBlockPattern.start(definition)
                     .aisle("XXXXX", "XXGXX", "XXGXX", "XXXXX")
@@ -388,7 +388,7 @@ public final class GCYMMachines {
             .parallelizableTooltips()
             .nonYAxisRotation()
             .recipeTypes(SIFTER_RECIPES)
-            .recipeModifier(RecipeModifierFunction.GCYM_OVERCLOCKING)
+            .recipeModifier(GTORecipeModifiers.UPGRADE_GCYM_OVERCLOCKING)
             .block(CASING_VIBRATION_SAFE)
             .pattern(definition -> FactoryBlockPattern.start(definition)
                     .aisle("#X#X#", "#X#X#", "#XXX#", "XXXXX", "#XXX#")
@@ -415,7 +415,7 @@ public final class GCYMMachines {
                     return 1L << (long) (m.getTemperature() / 900.0D);
                 }
                 return 1;
-            }, true, true, false))
+            }, false, true, false))
             .genLang("合金冶炼炉")
             .tooltipsKey("gtocore.machine.recipe.run", Component.translatable("gtceu.alloy_blast_smelter"))
             .tooltipsKey("gtceu.machine.electric_blast_furnace.tooltip.0")
@@ -430,16 +430,15 @@ public final class GCYMMachines {
             .allRotation()
             .recipeTypes(ALLOY_BLAST_RECIPES)
             .recipeTypes(ALLOY_SMELTER_RECIPES)
-            .disabledCombined()
-            .recipeModifier((m, r) -> {
+            .recipeModifier((m, u, r) -> {
                 if (m instanceof CoilCustomParallelMultiblockMachine machine) {
                     if (machine.getSubFormedAmount() > 0) {
                         r.duration = Math.max(1, r.duration / 2);
                     }
-                    if (machine.getRecipeType() == ALLOY_SMELTER_RECIPES) {
-                        return RecipeModifierFunction.overclocking(m, r);
+                    if (r.definition.recipeType == ALLOY_SMELTER_RECIPES) {
+                        return GTORecipeModifiers.UPGRADE_PARALLELIZABLE_OVERCLOCK.applyModifier(m, u, r);
                     } else {
-                        return RecipeModifierFunction.ebfOverclock(m, r);
+                        return GTORecipeModifiers.UPGRADE_EBF_OVERCLOCK.applyModifier(m, u, r);
                     }
                 }
                 return null;
@@ -495,7 +494,7 @@ public final class GCYMMachines {
             .parallelizableTooltips()
             .allRotation()
             .recipeTypes(AUTOCLAVE_RECIPES)
-            .recipeModifier(RecipeModifierFunction.GCYM_OVERCLOCKING)
+            .recipeModifier(GTORecipeModifiers.UPGRADE_GCYM_OVERCLOCKING)
             .block(CASING_WATERTIGHT)
             .pattern(definition -> FactoryBlockPattern.start(definition)
                     .aisle("XXX", "XXX", "XXX")
@@ -523,7 +522,7 @@ public final class GCYMMachines {
             .parallelizableTooltips()
             .allRotation()
             .recipeTypes(COMPRESSOR_RECIPES)
-            .recipeModifier(RecipeModifierFunction.GCYM_OVERCLOCKING)
+            .recipeModifier(GTORecipeModifiers.UPGRADE_GCYM_OVERCLOCKING)
             .block(CASING_STRESS_PROOF)
             .pattern(definition -> FactoryBlockPattern.start(definition)
                     .aisle("XXXXXXX", "XXXXXXX", "XXXXXXX")
@@ -549,7 +548,7 @@ public final class GCYMMachines {
             .parallelizableTooltips()
             .allRotation()
             .recipeTypes(BREWING_RECIPES, FERMENTING_RECIPES, FLUID_HEATER_RECIPES)
-            .recipeModifier(RecipeModifierFunction.GCYM_OVERCLOCKING)
+            .recipeModifier(GTORecipeModifiers.UPGRADE_GCYM_OVERCLOCKING)
             .block(CASING_CORROSION_PROOF)
             .pattern(definition -> FactoryBlockPattern.start(definition)
                     .aisle("#XXX#", "#XXX#", "#XXX#", "#XXX#", "#####")
@@ -580,7 +579,7 @@ public final class GCYMMachines {
             .parallelizableTooltips()
             .allRotation()
             .recipeTypes(CUTTER_RECIPES, LATHE_RECIPES)
-            .recipeModifier(RecipeModifierFunction.GCYM_OVERCLOCKING)
+            .recipeModifier(GTORecipeModifiers.UPGRADE_GCYM_OVERCLOCKING)
             .block(CASING_SHOCK_PROOF)
             .pattern(definition -> FactoryBlockPattern.start(definition)
                     .aisle("XXXXXXX", "XXXXXXX", "XXXXXXX", "##XXXXX")
@@ -609,7 +608,7 @@ public final class GCYMMachines {
             .parallelizableTooltips()
             .nonYAxisRotation()
             .recipeTypes(DISTILLATION_RECIPES, DISTILLERY_RECIPES)
-            .recipeModifier(RecipeModifierFunction.GCYM_OVERCLOCKING)
+            .recipeModifier(GTORecipeModifiers.UPGRADE_GCYM_OVERCLOCKING)
             .block(CASING_WATERTIGHT)
             .pattern(definition -> {
                 TraceabilityPredicate casingPredicate = blocks(CASING_WATERTIGHT.get()).setMinGlobalLimited(40);
@@ -700,7 +699,7 @@ public final class GCYMMachines {
             .parallelizableTooltips()
             .allRotation()
             .recipeTypes(EXTRACTOR_RECIPES, CANNER_RECIPES)
-            .recipeModifier(RecipeModifierFunction.GCYM_OVERCLOCKING)
+            .recipeModifier(GTORecipeModifiers.UPGRADE_GCYM_OVERCLOCKING)
             .block(CASING_WATERTIGHT)
             .pattern(definition -> FactoryBlockPattern.start(definition)
                     .aisle("XXXXX", "XXXXX", "XXXXX")
@@ -725,7 +724,7 @@ public final class GCYMMachines {
             .parallelizableTooltips()
             .allRotation()
             .recipeTypes(EXTRUDER_RECIPES)
-            .recipeModifier(RecipeModifierFunction.GCYM_OVERCLOCKING)
+            .recipeModifier(GTORecipeModifiers.UPGRADE_GCYM_OVERCLOCKING)
             .block(CASING_STRESS_PROOF)
             .pattern(definition -> FactoryBlockPattern.start(definition)
                     .aisle("##XXX", "##XXX", "##XXX")
@@ -754,7 +753,7 @@ public final class GCYMMachines {
             .parallelizableTooltips()
             .allRotation()
             .recipeTypes(FLUID_SOLIDFICATION_RECIPES)
-            .recipeModifier(RecipeModifierFunction.GCYM_OVERCLOCKING)
+            .recipeModifier(GTORecipeModifiers.UPGRADE_GCYM_OVERCLOCKING)
             .block(CASING_WATERTIGHT)
             .pattern(definition -> FactoryBlockPattern.start(definition)
                     .aisle("#XXX#", "#XXX#", "#XXX#", "#XXX#")
@@ -784,7 +783,7 @@ public final class GCYMMachines {
             .allRotation()
             .recipeTypes(WIREMILL_RECIPES)
             .recipeTypes(GTORecipeTypes.LOOM_RECIPES)
-            .recipeModifier(RecipeModifierFunction.GCYM_OVERCLOCKING)
+            .recipeModifier(GTORecipeModifiers.UPGRADE_GCYM_OVERCLOCKING)
             .block(CASING_STRESS_PROOF)
             .pattern(definition -> FactoryBlockPattern.start(definition)
                     .aisle("XXXXX", "XXXXX", "XXX##")
@@ -810,7 +809,7 @@ public final class GCYMMachines {
             .parallelizableTooltips()
             .nonYAxisRotation()
             .recipeTypes(BLAST_RECIPES)
-            .recipeModifier(RecipeModifierFunction.GCYM_OVERCLOCKING)
+            .recipeModifier(GTORecipeModifiers.UPGRADE_GCYM_OVERCLOCKING)
             .block(CASING_HIGH_TEMPERATURE_SMELTING)
             .pattern(definition -> {
                 TraceabilityPredicate casing = blocks(CASING_HIGH_TEMPERATURE_SMELTING.get()).setMinGlobalLimited(360);
@@ -858,7 +857,7 @@ public final class GCYMMachines {
             .allRotation()
             .recipeTypes(VACUUM_RECIPES)
             .recipeTypes(ATOMIZATION_CONDENSATION_RECIPES)
-            .recipeModifier(RecipeModifierFunction.GCYM_OVERCLOCKING)
+            .recipeModifier(GTORecipeModifiers.UPGRADE_GCYM_OVERCLOCKING)
             .block(CASING_ALUMINIUM_FROSTPROOF)
             .pattern(definition -> FactoryBlockPattern.start(definition)
                     .aisle("XXXXXXX#KKK", "XXXXXXX#KVK", "XXXXXXX#KVK", "XXXXXXX#KVK", "XXXXXXX#KKK", "XXXXXXX####", "XXXXXXX####")
@@ -890,7 +889,7 @@ public final class GCYMMachines {
             .durationMultiplierTooltips(0.6)
             .tooltipsKey("gtceu.machine.electric_blast_furnace.tooltip.2")
             .parallelizableTooltips()
-            .recipeModifier(RecipeModifierFunction.GCYM_OVERCLOCKING)
+            .recipeModifier(GTORecipeModifiers.UPGRADE_GCYM_OVERCLOCKING)
             .block(GCYMBlocks.CASING_HIGH_TEMPERATURE_SMELTING)
             .pattern(definition -> FactoryBlockPattern.start(definition)
                     .aisle("   eeeee   ", "   cbbbc   ", "   cbbbc   ", "   cbbbc   ", "   eeeee   ", "   bbbbb   ", "           ", "           ", "           ", "           ", "           ", "           ", "           ", "           ", "           ", "           ", "           ", "           ")
@@ -931,7 +930,7 @@ public final class GCYMMachines {
             .durationMultiplierTooltips(0.6)
             .tooltipsText("需要在输入仓中放入对应流体", "Requires the corresponding fluid to be placed in the input chamber")
             .parallelizableTooltips()
-            .recipeModifier(RecipeModifierFunction.GCYM_OVERCLOCKING)
+            .recipeModifier(GTORecipeModifiers.UPGRADE_GCYM_OVERCLOCKING)
             .block(GCYMBlocks.CASING_SECURE_MACERATION)
             .pattern(definition -> FactoryBlockPattern.start(definition)
                     .aisle("AAAAA", "AAAAA", "AAAAA", "AAAAA")
@@ -962,7 +961,7 @@ public final class GCYMMachines {
             .durationMultiplierTooltips(0.6)
             .parallelizableTooltips()
             .recipeTypes(GTRecipeTypes.BENDER_RECIPES)
-            .recipeModifier(RecipeModifierFunction.GCYM_OVERCLOCKING)
+            .recipeModifier(GTORecipeModifiers.UPGRADE_GCYM_OVERCLOCKING)
             .block(GCYMBlocks.CASING_STRESS_PROOF)
             .pattern(definition -> FactoryBlockPattern.start(definition)
                     .aisle("AAAAA", "A   A", "AAAAA", " AAA ")
@@ -993,7 +992,7 @@ public final class GCYMMachines {
             .parallelizableTooltips()
             .recipeTypes(GTORecipeTypes.ROLLING_RECIPES)
             .recipeTypes(GTORecipeTypes.CLUSTER_RECIPES)
-            .recipeModifier(RecipeModifierFunction.GCYM_OVERCLOCKING)
+            .recipeModifier(GTORecipeModifiers.UPGRADE_GCYM_OVERCLOCKING)
             .block(GCYMBlocks.CASING_STRESS_PROOF)
             .pattern(definition -> FactoryBlockPattern.start(definition, RelativeDirection.FRONT, RelativeDirection.UP, RelativeDirection.RIGHT)
                     .aisle("AAAAA", "B   B", "CCCCC", "     ")
@@ -1025,7 +1024,7 @@ public final class GCYMMachines {
             .parallelizableTooltips()
             .recipeTypes(GTRecipeTypes.FORGE_HAMMER_RECIPES)
             .recipeTypes(GTRecipeTypes.FORMING_PRESS_RECIPES)
-            .recipeModifier(RecipeModifierFunction.GCYM_OVERCLOCKING)
+            .recipeModifier(GTORecipeModifiers.UPGRADE_GCYM_OVERCLOCKING)
             .block(GCYMBlocks.CASING_STRESS_PROOF)
             .pattern(definition -> FactoryBlockPattern.start(definition)
                     .aisle("EEEEE", "AAAAA", "DDDDD", "DHHHD", "DDDDD", "DHHHD", "DDDDD", "     ")
@@ -1055,7 +1054,7 @@ public final class GCYMMachines {
             .durationMultiplierTooltips(0.6)
             .parallelizableTooltips()
             .recipeTypes(GTORecipeTypes.ARC_GENERATOR_RECIPES)
-            .recipeModifier(RecipeModifierFunction.GCYM_OVERCLOCKING)
+            .recipeModifier(GTORecipeModifiers.UPGRADE_GCYM_OVERCLOCKING)
             .block(GCYMBlocks.CASING_NONCONDUCTING)
             .pattern(definition -> FactoryBlockPattern.start(definition, RelativeDirection.FRONT, RelativeDirection.UP, RelativeDirection.RIGHT)
                     .aisle("AaaaaaA", "AaaaaaA", "ABCCCBA", "A A A A", "       ", "       ", "       ", "       ", "       ", "       ", "       ", "       ", "       ", "       ")
@@ -1086,7 +1085,7 @@ public final class GCYMMachines {
             .durationMultiplierTooltips(0.6)
             .parallelizableTooltips()
             .recipeTypes(GTORecipeTypes.LAMINATOR_RECIPES)
-            .recipeModifier(RecipeModifierFunction.GCYM_OVERCLOCKING)
+            .recipeModifier(GTORecipeModifiers.UPGRADE_GCYM_OVERCLOCKING)
             .block(GTBlocks.CASING_PTFE_INERT)
             .pattern(definition -> FactoryBlockPattern.start(definition, RelativeDirection.BACK, RelativeDirection.UP, RelativeDirection.LEFT)
                     .aisle("ABBBB", "ABCBB", "ABBBB")
@@ -1116,7 +1115,7 @@ public final class GCYMMachines {
             .durationMultiplierTooltips(0.6)
             .parallelizableTooltips()
             .recipeTypes(GTORecipeTypes.LASER_WELDER_RECIPES)
-            .recipeModifier(RecipeModifierFunction.GCYM_OVERCLOCKING)
+            .recipeModifier(GTORecipeModifiers.UPGRADE_GCYM_OVERCLOCKING)
             .block(GCYMBlocks.CASING_LASER_SAFE_ENGRAVING)
             .pattern(definition -> FactoryBlockPattern.start(definition)
                     .aisle("AAA", "AAA", "AAA")
@@ -1147,7 +1146,7 @@ public final class GCYMMachines {
             .durationMultiplierTooltips(0.6)
             .parallelizableTooltips()
             .recipeTypes(GTORecipeTypes.CRUSHER_RECIPES)
-            .recipeModifier(RecipeModifierFunction.GCYM_OVERCLOCKING)
+            .recipeModifier(GTORecipeModifiers.UPGRADE_GCYM_OVERCLOCKING)
             .block(GCYMBlocks.CASING_SECURE_MACERATION)
             .pattern(definition -> FactoryBlockPattern.start(definition, RelativeDirection.FRONT, RelativeDirection.UP, RelativeDirection.RIGHT)
                     .aisle("AAAAAAAAA", "XXXXXXXXX", "AAAAAAAAA", "AAAAAAAAA", "     AAA ")

@@ -4,17 +4,14 @@ import com.gtolib.api.machine.multiblock.CrossRecipeMultiblockMachine;
 import com.gtolib.api.machine.trait.CrossRecipeTrait;
 import com.gtolib.api.machine.trait.EnergyContainerTrait;
 import com.gtolib.api.recipe.IdleReason;
-import com.gtolib.api.recipe.Recipe;
 import com.gtolib.utils.MachineUtils;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.IEnergyContainer;
-import com.gregtechceu.gtceu.api.capability.recipe.EURecipeCapability;
-import com.gregtechceu.gtceu.api.capability.recipe.FluidRecipeCapability;
-import com.gregtechceu.gtceu.api.capability.recipe.IO;
-import com.gregtechceu.gtceu.api.capability.recipe.IRecipeHandler;
 import com.gregtechceu.gtceu.api.machine.ConditionalSubscriptionHandler;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
+import com.gregtechceu.gtceu.api.recipe.handler.IO;
+import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
 import com.gregtechceu.gtceu.common.data.GTRecipeDataKeys;
 import com.gregtechceu.gtceu.utils.GTUtil;
 
@@ -64,10 +61,8 @@ public final class AdvancedFusionReactorMachine extends CrossRecipeMultiblockMac
     public void onStructureFormed() {
         super.onStructureFormed();
         int size = 0;
-        for (IRecipeHandler<?> handler : getCapabilitiesFlat(IO.IN, EURecipeCapability.CAP)) {
-            if (handler instanceof IEnergyContainer) {
-                size++;
-            }
+        for (var handler : getCapabilitiesFlat(IO.IN, IEnergyContainer.class)) {
+            size++;
         }
         var bonusTier = calculateBonusTier();
         energyContainer.resetBasicInfo(calculateEnergyStorageFactor(tier + bonusTier, size));
@@ -103,7 +98,7 @@ public final class AdvancedFusionReactorMachine extends CrossRecipeMultiblockMac
 
     @Override
     @Nullable
-    public Recipe getRealRecipe(Recipe recipe) {
+    public GTRecipe getRealRecipe(RecipeHandlerUnit unit, GTRecipe recipe) {
         long eu_to_start = recipe.data.getLong(GTRecipeDataKeys.EU_TO_START);
         if (eu_to_start > energyContainer.getEnergyCapacity()) {
             setIdleReason(IdleReason.INSUFFICIENT_ENERGY_BUFFER);
@@ -118,7 +113,7 @@ public final class AdvancedFusionReactorMachine extends CrossRecipeMultiblockMac
             energyContainer.removeEnergy(heatDiff);
             heat += heatDiff;
         }
-        return super.getRealRecipe(recipe);
+        return super.getRealRecipe(unit, recipe);
     }
 
     private void updateHeat() {
@@ -135,12 +130,12 @@ public final class AdvancedFusionReactorMachine extends CrossRecipeMultiblockMac
     }
 
     @Override
-    public boolean onWorking() {
+    public void onWorking() {
         if (color == -1) {
             GTRecipe recipe = recipeLogic.getLastRecipe();
             assert recipe != null;
-            if (!recipe.getOutputContents(FluidRecipeCapability.CAP).isEmpty()) {
-                var fluid = FluidRecipeCapability.CAP.of(recipe.getOutputContents(FluidRecipeCapability.CAP).getFirst()).getFluid();
+            if (!recipe.fluidOutputs.isEmpty()) {
+                var fluid = recipe.fluidOutputs.getFirst().inner.getFluid();
                 if (fluid != null) {
                     int newColor = -16777216 | GTUtil.getFluidColor(fluid);
                     if (color != newColor) {
@@ -149,7 +144,7 @@ public final class AdvancedFusionReactorMachine extends CrossRecipeMultiblockMac
                 }
             }
         }
-        return super.onWorking();
+        super.onWorking();
     }
 
     @Override

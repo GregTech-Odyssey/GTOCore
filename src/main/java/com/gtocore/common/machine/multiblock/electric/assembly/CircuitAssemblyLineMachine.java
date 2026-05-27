@@ -3,20 +3,22 @@ package com.gtocore.common.machine.multiblock.electric.assembly;
 import com.gtocore.common.data.GTOItems;
 
 import com.gtolib.api.machine.multiblock.StorageMultiblockMachine;
-import com.gtolib.api.recipe.Recipe;
-import com.gtolib.api.recipe.modifier.ParallelLogic;
-import com.gtolib.api.recipe.modifier.RecipeModifierFunction;
 import com.gtolib.utils.ItemUtils;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
-import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
+import com.gregtechceu.gtceu.api.recipe.GTRecipe;
+import com.gregtechceu.gtceu.api.recipe.handler.IO;
+import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
+import com.gregtechceu.gtceu.api.recipe.modifier.ParallelLogic;
+import com.gregtechceu.gtceu.api.recipe.modifier.RecipeModifier;
 import com.gregtechceu.gtceu.api.transfer.item.CustomItemStackHandler;
 
 import net.minecraft.world.item.ItemStack;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Predicate;
 
@@ -70,10 +72,11 @@ public final class CircuitAssemblyLineMachine extends StorageMultiblockMachine {
     }
 
     @Override
-    protected @NotNull Recipe getRealRecipe(@NotNull Recipe recipe) {
+    protected @Nullable GTRecipe getRealRecipe(@NotNull RecipeHandlerUnit unit, @NotNull GTRecipe recipe) {
         if (inputEUt == recipe.getInputEUt()) {
-            recipe = ParallelLogic.accurateParallel(this, recipe, parallel);
+            recipe = ParallelLogic.accurateParallel(this, unit, recipe, parallel);
+            if (recipe == null) return null;
         }
-        return RecipeModifierFunction.overclocking(this, recipe);
+        return RecipeModifier.overclocking(this, unit, recipe);
     }
 }

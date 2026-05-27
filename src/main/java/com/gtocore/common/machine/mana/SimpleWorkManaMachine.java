@@ -1,11 +1,12 @@
 package com.gtocore.common.machine.mana;
 
 import com.gtolib.api.machine.mana.feature.IManaEnergyMachine;
-import com.gtolib.api.recipe.Recipe;
-import com.gtolib.api.recipe.modifier.RecipeModifierFunction;
+import com.gtolib.api.recipe.GTORecipeModifiers;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.IEnergyContainer;
+import com.gregtechceu.gtceu.api.recipe.GTRecipe;
+import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
 
 import it.unimi.dsi.fastutil.ints.Int2IntFunction;
 import org.jetbrains.annotations.NotNull;
@@ -22,18 +23,18 @@ public class SimpleWorkManaMachine extends SimpleManaMachine implements IManaEne
 
     @Nullable
     @Override
-    public Recipe doModifyRecipe(@NotNull Recipe recipe) {
+    public GTRecipe doModifyRecipe(RecipeHandlerUnit unit, @NotNull GTRecipe recipe) {
         long eu = recipe.getInputEUt();
         if (eu > 0) {
-            recipe = RecipeModifierFunction.externalEnergyOverclocking(this, recipe, eu, getTierMana(), true, 1, 1);
+            recipe = GTORecipeModifiers.externalEnergyOverclocking(this, unit, recipe, eu, getTierMana(), true, 1, 1);
             return recipe;
         } else {
-            return RecipeModifierFunction.manaOverclocking(this, recipe, getTierMana());
+            return GTORecipeModifiers.manaOverclocking(this, unit, recipe, getTierMana());
         }
     }
 
     @Override
-    public @NotNull IEnergyContainer gtolib$getEnergyContainer() {
+    public @NotNull IEnergyContainer getEnergyContainer() {
         return container;
     }
 }

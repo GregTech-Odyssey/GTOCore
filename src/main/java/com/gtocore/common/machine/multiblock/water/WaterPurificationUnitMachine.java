@@ -3,14 +3,13 @@ package com.gtocore.common.machine.multiblock.water;
 import com.gtolib.api.capability.IIWirelessInteractor;
 import com.gtolib.api.machine.feature.multiblock.IParallelMachine;
 import com.gtolib.api.machine.multiblock.NoEnergyCustomParallelMultiblockMachine;
-import com.gtolib.api.recipe.Recipe;
 import com.gtolib.utils.GTOUtils;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
-import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.machine.ConditionalSubscriptionHandler;
-import com.gregtechceu.gtceu.api.machine.trait.RecipeHandlerList;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
+import com.gregtechceu.gtceu.api.recipe.GTRecipe;
+import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
 import com.gregtechceu.gtceu.api.sound.SoundEntry;
 import com.gregtechceu.gtceu.common.data.GTSoundEntries;
 
@@ -23,10 +22,11 @@ import org.jetbrains.annotations.NotNull;
 @MethodsReturnNonnullByDefault
 abstract class WaterPurificationUnitMachine extends NoEnergyCustomParallelMultiblockMachine implements IIWirelessInteractor<WaterPurificationPlantMachine> {
 
-    abstract long before();
+    abstract long prepareRecipe(RecipeHandlerUnit unit);
 
     private WaterPurificationPlantMachine netMachineCache;
-    Recipe recipe;
+    GTRecipe recipe;
+    RecipeHandlerUnit unit;
     @Persisted
     long eut;
     public final long multiple;
@@ -62,7 +62,7 @@ abstract class WaterPurificationUnitMachine extends NoEnergyCustomParallelMultib
     }
 
     @Override
-    public void onContentChanges(RecipeHandlerList handlerList) {
+    public void onContentChanges(RecipeHandlerUnit handlerList) {
         if (getRecipeLogic().isIdle()) {
             WaterPurificationPlantMachine machine = getNetMachine();
             if (machine != null && machine.getRecipeLogic().isIdle()) {
@@ -101,6 +101,7 @@ abstract class WaterPurificationUnitMachine extends NoEnergyCustomParallelMultib
 
     @Override
     public void onStructureFormed() {
+        unit = null;
         super.onStructureFormed();
         if (!isRemote()) {
             getNetMachine();
@@ -112,6 +113,7 @@ abstract class WaterPurificationUnitMachine extends NoEnergyCustomParallelMultib
     public void onStructureInvalid() {
         super.onStructureInvalid();
         removeNetMachineCache();
+        unit = null;
     }
 
     @Override
@@ -153,7 +155,7 @@ abstract class WaterPurificationUnitMachine extends NoEnergyCustomParallelMultib
         public void onRecipeFinish() {
             machine.afterWorking();
             if (lastRecipe != null) {
-                handleRecipeIO(lastRecipe, IO.OUT);
+                machine.handleRecipeOutput(lastRecipe);
                 lastRecipe = null;
             }
             if (suspendAfterFinish) {

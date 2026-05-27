@@ -32,11 +32,9 @@ import appeng.api.networking.IGridNodeListener
 import appeng.api.networking.crafting.ICraftingProvider
 import appeng.api.stacks.AEItemKey
 import appeng.api.stacks.KeyCounter
-import appeng.crafting.pattern.EncodedPatternItem
 import com.google.common.collect.BiMap
 import com.google.common.collect.HashBiMap
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity
-import com.gregtechceu.gtceu.api.capability.recipe.IO
 import com.gregtechceu.gtceu.api.gui.GuiTextures
 import com.gregtechceu.gtceu.api.gui.fancy.ConfiguratorPanel
 import com.gregtechceu.gtceu.api.gui.fancy.FancyMachineUIWidget
@@ -45,8 +43,9 @@ import com.gregtechceu.gtceu.api.machine.TickableSubscription
 import com.gregtechceu.gtceu.api.machine.feature.IDropSaveMachine
 import com.gregtechceu.gtceu.api.machine.feature.IInteractedMachine
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiController
-import com.gregtechceu.gtceu.api.machine.trait.RecipeHandlerList
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType
+import com.gregtechceu.gtceu.api.recipe.handler.IO
+import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit
 import com.gregtechceu.gtceu.api.transfer.item.CustomItemStackHandler
 import com.gregtechceu.gtceu.utils.TaskHandler
 import com.gregtechceu.gtceu.utils.asm.EmptyMethodChecker
@@ -213,6 +212,8 @@ abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.AbstractInterna
         level?.let { TravelSavedData.getTravelData(it).removeTravelTargetAt(it, holder.blockPos) }
     }
 
+    override fun canShared(): Boolean = false
+
     override fun addedToController(controller: IMultiController) {
         super.addedToController(controller)
         TravelUtils.requireResync(level!!)
@@ -270,7 +271,7 @@ abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.AbstractInterna
                                 (
                                     if (controller is IEnhancedRecipeLogicMachine) {
                                         Stream.of(
-                                            *controller.recipeTypes,
+                                            *controller.availableRecipeTypes,
                                         )
                                             .map { r: GTRecipeType? -> Component.translatable("gtceu." + r!!.registryName.path) }
                                             .collect(
@@ -315,8 +316,8 @@ abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.AbstractInterna
     // ==================== 其他接口实现 ====================
     override fun getGrid(): IGrid? = mainNode.grid
 
-    override fun getRecipeHandlers(): List<RecipeHandlerList> = emptyList()
-    override fun getHandlerList(): RecipeHandlerList = RecipeHandlerList.NO_DATA
+    override fun getRecipeHandlers(): List<RecipeHandlerUnit> = emptyList()
+    override fun getHandlerUnit(): RecipeHandlerUnit = RecipeHandlerUnit.NO_DATA
     override fun isWorkingEnabled(): Boolean = true
     override fun setWorkingEnabled(ignored: Boolean) {}
     override fun isDistinct(): Boolean = true

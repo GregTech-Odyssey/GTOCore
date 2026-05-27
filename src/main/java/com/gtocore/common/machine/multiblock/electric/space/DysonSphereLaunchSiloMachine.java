@@ -4,9 +4,10 @@ import com.gtocore.common.saved.DysonSphereSavaedData;
 
 import com.gtolib.api.data.GTODimensions;
 import com.gtolib.api.machine.multiblock.ElectricMultiblockMachine;
-import com.gtolib.api.recipe.Recipe;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
+import com.gregtechceu.gtceu.api.recipe.GTRecipe;
+import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
@@ -32,15 +33,11 @@ public final class DysonSphereLaunchSiloMachine extends ElectricMultiblockMachin
     }
 
     @Override
-    protected Recipe getRealRecipe(@NotNull Recipe recipe) {
+    public GTRecipe getRealRecipe(@NotNull RecipeHandlerUnit unit, @NotNull GTRecipe recipe) {
+        if (!GTODimensions.isPlanet(getDimension())) return null;
         int integer = GTODimensions.getPlanetDistances(getDimension());
         if (integer > 0) recipe.duration = recipe.duration * integer / 4;
         return recipe;
-    }
-
-    @Override
-    protected boolean beforeWorking(@NotNull Recipe recipe) {
-        return GTODimensions.isPlanet(getDimension()) && super.beforeWorking(recipe);
     }
 
     @Override

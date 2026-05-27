@@ -7,24 +7,19 @@ import com.gtocore.common.recipe.custom.FormingPressLogic;
 import com.gtocore.data.recipe.classified.ManaSimulator;
 import com.gtocore.data.recipe.generated.GenerateDisassembly;
 
-import com.gtolib.api.capability.recipe.ManaRecipeCapability;
+import com.gtolib.api.recipe.MANATExpander;
 
 import com.gregtechceu.gtceu.api.GTValues;
-import com.gregtechceu.gtceu.api.capability.recipe.FluidRecipeCapability;
-import com.gregtechceu.gtceu.api.capability.recipe.IO;
-import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
+import com.gregtechceu.gtceu.api.recipe.GTRecipeBuilder;
 import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import com.gregtechceu.gtceu.common.machine.steam.SteamLiquidBoilerMachine;
 import com.gregtechceu.gtceu.common.machine.steam.SteamSolidBoilerMachine;
-import com.gregtechceu.gtceu.data.recipe.builder.GTRecipeBuilder;
 import com.gregtechceu.gtceu.utils.GTUtil;
 
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.world.level.material.Fluid;
-
-import java.util.Collections;
 
 import static com.gregtechceu.gtceu.api.GTValues.MV;
 import static com.gregtechceu.gtceu.api.GTValues.VA;
@@ -61,10 +56,9 @@ public final class RecipeTypeModify {
 
         ASSEMBLY_LINE_RECIPES.onRecipeBuild(GenerateDisassembly::generateDisassembly);
 
-        ASSEMBLER_RECIPES.setMANAIO(IO.IN);
         ASSEMBLER_RECIPES.onRecipeBuild((b) -> {
-            var mana = b.tickInput.get(ManaRecipeCapability.CAP);
-            if (mana != null && !mana.isEmpty()) {
+            var mana = b.getData().getLong(MANATExpander.INSTANCE);
+            if (mana > 0) {
                 b.category(GTORecipeCategories.MANA_ASSEMBLER);
                 MANA_FLOW_ASSEMBLER_RECIPES.copyFrom(b).save();
             }
@@ -72,15 +66,11 @@ public final class RecipeTypeModify {
         });
 
         PLASMA_GENERATOR_FUELS.onRecipeBuild((recipeBuilder) -> {
-            long eu = recipeBuilder.duration * GTValues.V[GTValues.EV] * 2;
+            long eu = recipeBuilder.getDuration() * GTValues.V[GTValues.EV] * 2;
             int water = (int) (eu / 80);
-            FluidIngredient output = FluidRecipeCapability.CAP.of(recipeBuilder.output
-                    .get(FluidRecipeCapability.CAP).getFirst()).depthCopy();
-            FluidIngredient input = FluidRecipeCapability.CAP.of(recipeBuilder.input
-                    .get(FluidRecipeCapability.CAP).getFirst()).depthCopy();
-            output.changeAmount(9);
-            input.changeAmount(10);
-            HEAT_EXCHANGER_RECIPES.recipeBuilder(recipeBuilder.id)
+            FluidIngredient input = recipeBuilder.getFluidInputs().getFirst().inner.copy(10);
+            FluidIngredient output = recipeBuilder.getFluidOutputs().getFirst().inner.copy(9);
+            HEAT_EXCHANGER_RECIPES.recipeBuilder(recipeBuilder.getId())
                     .inputFluids(input)
                     .inputFluids(GTMaterials.DistilledWater.getFluid(water))
                     .outputFluids(output)
@@ -93,9 +83,9 @@ public final class RecipeTypeModify {
 
         LASER_ENGRAVER_RECIPES.setMaxIOSize(2, 1, 2, 1)
                 .onRecipeBuild((recipeBuilder) -> {
-                    if (recipeBuilder.data.contains(GTORecipeDataKeys.SPECIAL)) return;
-                    GTRecipeBuilder recipe = DIMENSIONAL_FOCUS_ENGRAVING_ARRAY_RECIPES.copyFrom(recipeBuilder)
-                            .duration((int) (recipeBuilder.duration * 0.2))
+                    if (recipeBuilder.getData().contains(GTORecipeDataKeys.SPECIAL)) return;
+                    var recipe = DIMENSIONAL_FOCUS_ENGRAVING_ARRAY_RECIPES.copyFrom(recipeBuilder)
+                            .duration((int) (recipeBuilder.getDuration() * 0.2))
                             .EUt(recipeBuilder.EUt() << 2);
                     double value = Math.log10(recipeBuilder.EUt()) / Math.log10(4);
                     if (value > 10) {
@@ -107,13 +97,12 @@ public final class RecipeTypeModify {
                 });
 
         CUTTER_RECIPES.onRecipeBuild((recipeBuilder) -> {
-            if (recipeBuilder.input.getOrDefault(FluidRecipeCapability.CAP, Collections.emptyList()).isEmpty() &&
-                    recipeBuilder.tickInput.getOrDefault(FluidRecipeCapability.CAP, Collections.emptyList()).isEmpty()) {
+            if (recipeBuilder.getFluidInputs().isEmpty()) {
 
-                int originalDuration = recipeBuilder.duration;
+                int originalDuration = recipeBuilder.getDuration();
                 int index = getEUTierIndex(GTUtil.getTierByVoltage(recipeBuilder.EUt()));
 
-                GTRecipeBuilder builder = recipeBuilder.copy(recipeBuilder.id);
+                var builder = recipeBuilder.copy(recipeBuilder.getId());
                 addCuttingFluid(recipeBuilder, index);
                 if (index > 1 && index < FLUID_TIERS.length - 1) {
                     int maxUpgradeTiers = FLUID_TIERS.length - index;
@@ -121,7 +110,7 @@ public final class RecipeTypeModify {
                     for (int upgradeTier = 1; upgradeTier < maxUpgradeTiers; upgradeTier++) {
                         double reductionFactor = Math.pow(0.8, upgradeTier);
 
-                        GTRecipeBuilder upgradedRecipe = builder.copy(builder.id.getPath() + "_upgraded_t" + (index + upgradeTier))
+                        var upgradedRecipe = builder.copy(builder.getId().getPath() + "_upgraded_t" + (index + upgradeTier))
                                 .duration((int) Math.max(1, originalDuration * reductionFactor));
 
                         addUpgradedCuttingFluid(upgradedRecipe, index, index + upgradeTier, originalDuration, builder.EUt(), reductionFactor);
@@ -131,9 +120,7 @@ public final class RecipeTypeModify {
         });
 
         CIRCUIT_ASSEMBLER_RECIPES.onRecipeBuild((recipeBuilder) -> {
-            if (recipeBuilder.input.getOrDefault(FluidRecipeCapability.CAP, Collections.emptyList()).isEmpty() &&
-                    recipeBuilder.tickInput.getOrDefault(FluidRecipeCapability.CAP, Collections.emptyList())
-                            .isEmpty()) {
+            if (recipeBuilder.getFluidInputs().isEmpty()) {
                 if (recipeBuilder.EUt() < GTValues.VA[GTValues.HV]) {
                     recipeBuilder.inputFluids(GTMaterials.Tin.getFluid(Math.max(1, 144 * recipeBuilder.getSolderMultiplier())));
                 } else if (recipeBuilder.EUt() < GTValues.VA[GTValues.UV]) {
@@ -149,24 +136,24 @@ public final class RecipeTypeModify {
         STEAM_BOILER_RECIPES.onRecipeBuild((builder) -> {
             THERMAL_GENERATOR_FUELS.copyFrom(builder)
                     .EUt(-8)
-                    .duration((int) Math.sqrt(builder.duration))
+                    .duration((int) Math.sqrt(builder.getDuration()))
                     .save();
 
             MANA_GARDEN_FUEL.copyFrom(builder)
                     .notConsumable("botania:endoflame")
                     .MANAt(-(int) (1.5 * ManaSimulator.BUFF_FACTOR))
                     .EUt(VA[MV])
-                    .duration(builder.duration / 2)
+                    .duration(builder.getDuration() / 2)
                     .save();
 
-            var list = builder.input.getOrDefault(FluidRecipeCapability.CAP, Collections.emptyList());
-            if (!list.isEmpty()) {
-                var fluid = FluidRecipeCapability.CAP.of(list.getFirst()).getFluid();
+            var fluids = builder.getFluidInputs();
+            if (!fluids.isEmpty()) {
+                var fluid = fluids.getFirst().inner.getFluid();
                 if (fluid != null) SteamLiquidBoilerMachine.FUEL_CACHE.add(fluid);
             }
-            list = builder.input.getOrDefault(ItemRecipeCapability.CAP, Collections.emptyList());
-            if (!list.isEmpty()) {
-                var item = ItemRecipeCapability.CAP.of(list.getFirst()).getItem();
+            var items = builder.getItemInputs();
+            if (!items.isEmpty()) {
+                var item = items.getFirst().inner.getItem();
                 if (!item.isEmpty()) SteamSolidBoilerMachine.FUEL_CACHE.add(item.getItem());
             }
         });
@@ -177,7 +164,7 @@ public final class RecipeTypeModify {
                 return I18n.get("gtceu.multiblock.hpca.temperature", temperature);
             }
             return "";
-        }).prioritySearch();
+        });
 
         GTRecipeTypes.FORMING_PRESS_RECIPES.getCustomRecipeLogicRunners().clear();
         GTRecipeTypes.FORMING_PRESS_RECIPES.getCustomRecipeLogicRunners().add(new FormingPressLogic());
@@ -200,7 +187,7 @@ public final class RecipeTypeModify {
 
     private static void addCuttingFluid(GTRecipeBuilder recipeBuilder, int index) {
         CuttingFluid selected = FLUID_TIERS[index];
-        long fluidAmount = Math.max(1, recipeBuilder.duration * recipeBuilder.EUt() / selected.divisor());
+        long fluidAmount = Math.max(1, recipeBuilder.getDuration() * recipeBuilder.EUt() / selected.divisor());
         recipeBuilder.inputFluids(FluidIngredient.of(selected.fluid(), fluidAmount));
     }
 

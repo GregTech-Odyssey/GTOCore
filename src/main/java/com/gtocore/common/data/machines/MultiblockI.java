@@ -13,11 +13,11 @@ import com.gtocore.common.machine.multiblock.electric.PigmentMixer;
 import com.gtocore.common.machine.multiblock.electric.VirtualCoinMiner;
 
 import com.gtolib.GTOCore;
-import com.gtolib.api.recipe.modifier.RecipeModifierFunction;
 import com.gtolib.utils.MultiBlockFileReader;
 
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
+import com.gregtechceu.gtceu.api.recipe.modifier.RecipeModifier;
 import com.gregtechceu.gtceu.common.data.GCYMBlocks;
 import com.gregtechceu.gtceu.common.data.GTBlocks;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
@@ -42,7 +42,7 @@ public class MultiblockI {
             .perfectOCTooltips()
             .tooltips(GTOMachineStories.INSTANCE.getPigmentMixerTooltips().getSupplier())
             .recipeTypes(GTORecipeTypes.PIGMENT_MIXING_RECIPES)
-            .recipeModifier(RecipeModifierFunction.PERFECT_OVERCLOCKING)
+            .recipeModifier(RecipeModifier.PERFECT_OVERCLOCKING)
             .block(GTOBlocks.PRESSURE_RESISTANT_HOUSING_MECHANICAL_BLOCK)
             .pattern(definition -> MultiBlockFileReader.start(definition)
                     .where('A', blocks(GTBlocks.CASING_PTFE_INERT.get()))
@@ -82,7 +82,7 @@ public class MultiblockI {
     public static final MultiblockMachineDefinition LARGE_ALGAE_FARM = multiblock("large_algae_farm", "大型藻类养殖中心", LargeAlgaeFarm::new)
             .nonYAxisRotation()
             .recipeTypes(GTORecipeTypes.DUMMY_RECIPES)
-            .recipeModifier(RecipeModifierFunction.PERFECT_OVERCLOCKING)
+            .recipeModifier(RecipeModifier.PERFECT_OVERCLOCKING)
             .tooltipsSupplier(GTOMachineStories.INSTANCE.getLargeAlgaeFarmTooltips().getSupplier())
             .tooltipsSupplier(GTOMachineTooltipsA.INSTANCE.getLargeAlgaeFarmTooltips().getSupplier())
             .block(GTOBlocks.STAINLESS_STEEL_CORROSION_RESISTANT_CASING)

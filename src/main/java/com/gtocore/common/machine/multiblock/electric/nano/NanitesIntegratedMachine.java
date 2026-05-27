@@ -7,18 +7,17 @@ import com.gtocore.common.data.machines.MultiBlockC;
 
 import com.gtolib.api.machine.feature.multiblock.IStorageMultiblock;
 import com.gtolib.api.machine.multiblock.CoilCrossRecipeMultiblockMachine;
-import com.gtolib.api.recipe.Recipe;
 import com.gtolib.utils.MachineUtils;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
-import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
 import com.gregtechceu.gtceu.api.data.chemical.material.stack.MaterialEntry;
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
+import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
 import net.minecraft.network.chat.Component;
@@ -91,19 +90,19 @@ public final class NanitesIntegratedMachine extends CoilCrossRecipeMultiblockMac
 
     static void trimRecipe(GTRecipe recipe, int chance) {
         if (GTValues.RNG.nextInt(100) < chance) {
-            var input = new ArrayList<>(recipe.inputs.get(ItemRecipeCapability.CAP));
+            var input = new ArrayList<>(recipe.itemInputs);
             input.removeFirst();
-            var output = new ArrayList<>(recipe.outputs.get(ItemRecipeCapability.CAP));
+            var output = new ArrayList<>(recipe.itemOutputs);
             output.removeFirst();
-            recipe.inputs.put(ItemRecipeCapability.CAP, input);
-            recipe.outputs.put(ItemRecipeCapability.CAP, output);
+            recipe.itemInputs = input;
+            recipe.itemOutputs = output;
         }
     }
 
     @Override
-    public Recipe fullModifyRecipe(@NotNull Recipe recipe) {
+    public GTRecipe fullModifyRecipe(@NotNull RecipeHandlerUnit unit, @NotNull GTRecipe recipe) {
         if (module.contains(recipe.data.getInt(GTORecipeDataKeys.MODULE))) {
-            recipe = super.fullModifyRecipe(recipe);
+            recipe = super.fullModifyRecipe(unit, recipe);
             if (recipe != null) {
                 trimRecipe(recipe, chance);
                 return recipe;

@@ -6,19 +6,14 @@ import com.gtocore.common.item.DimensionDataItem;
 
 import com.gtolib.api.data.GTODimensions;
 import com.gtolib.api.machine.multiblock.StorageMultiblockMachine;
-import com.gtolib.api.machine.trait.CustomRecipeLogic;
-import com.gtolib.api.recipe.ContentBuilder;
-import com.gtolib.api.recipe.Recipe;
-import com.gtolib.api.recipe.RecipeBuilder;
-import com.gtolib.api.recipe.RecipeRunner;
-import com.gtolib.api.recipe.modifier.ParallelLogic;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
-import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
-import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
+import com.gregtechceu.gtceu.api.recipe.GTRecipeDefinition;
+import com.gregtechceu.gtceu.api.recipe.handler.ICustomRecipeLogicHolder;
+import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
@@ -33,13 +28,7 @@ import static com.gregtechceu.gtceu.api.GTValues.VA;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.DrillingFluid;
 import static net.minecraft.network.chat.Component.translatable;
 
-public final class VoidMinerMachine extends StorageMultiblockMachine {
-
-    private static final Recipe RECIPE = RecipeBuilder.ofRaw()
-            .inputFluids(DrillingFluid, 1000)
-            .EUt(VA[GTValues.EV])
-            .duration(20)
-            .buildRawRecipe();
+public final class VoidMinerMachine extends StorageMultiblockMachine implements ICustomRecipeLogicHolder {
 
     private ResourceKey<Level> dim;
 
@@ -57,19 +46,6 @@ public final class VoidMinerMachine extends StorageMultiblockMachine {
             return;
         }
         dim = null;
-    }
-
-    private Recipe getRecipe() {
-        if (dim == null) return null;
-        if (!isEmpty()) {
-            if (RecipeRunner.matchRecipeInput(this, RECIPE)) {
-                Recipe recipe = RECIPE.copy();
-                recipe.eut = GTValues.VA[getTier()];
-                recipe.outputs.put(ItemRecipeCapability.CAP, ContentBuilder.createList().items(getItems()).buildList());
-                return ParallelLogic.accurateParallel(this, recipe, 64);
-            }
-        }
-        return null;
     }
 
     private ItemStack[] getItems() {
@@ -96,7 +72,21 @@ public final class VoidMinerMachine extends StorageMultiblockMachine {
     }
 
     @Override
-    public RecipeLogic createRecipeLogic(Object @NotNull... args) {
-        return new CustomRecipeLogic(this, this::getRecipe);
+    public GTRecipeDefinition createCustomRecipe(RecipeHandlerUnit unit) {
+        if (dim == null) return null;
+        if (!isEmpty()) {
+            if (unit.inputFluid(DrillingFluid.getFluid(), 1000)) {
+                var builder = getRecipeBuilder();
+                builder.EUt(GTValues.VA[getTier()]);
+                builder.outputItems(getItems());
+                return builder.build();
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public boolean alwaysSearchRecipe() {
+        return true;
     }
 }

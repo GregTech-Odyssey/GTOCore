@@ -2,8 +2,6 @@ package com.gtocore.integration.jade.provider;
 
 import com.gtolib.api.machine.feature.multiblock.IParallelMachine;
 import com.gtolib.api.machine.impl.part.ParallelHatchPartMachine;
-import com.gtolib.api.recipe.Recipe;
-import com.gtolib.api.recipe.RecipeHelper;
 
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
@@ -12,6 +10,7 @@ import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
 import com.gregtechceu.gtceu.api.machine.SimpleGeneratorMachine;
 import com.gregtechceu.gtceu.api.machine.feature.IRecipeLogicMachine;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IWorkableMultiController;
+import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 
 import net.minecraft.ChatFormatting;
@@ -47,7 +46,7 @@ public final class ParallelProvider implements IBlockComponentProvider, IServerD
         if (blockAccessor.getBlockEntity() instanceof MetaMachineBlockEntity blockEntity) {
             MetaMachine machine = blockEntity.getMetaMachine();
             if (machine instanceof ParallelHatchPartMachine parallelHatchPartMachine) {
-                compoundTag.putLong("parallel", parallelHatchPartMachine.getCurrentParallelLong());
+                compoundTag.putLong("parallel", parallelHatchPartMachine.getCurrentParallel());
                 return;
             }
             if (machine instanceof SimpleGeneratorMachine) return;
@@ -65,7 +64,7 @@ public final class ParallelProvider implements IBlockComponentProvider, IServerD
                 } else {
                     var parallelHatch = controller.getParallelHatch();
                     if (parallelHatch != null) {
-                        originParallel = ((ParallelHatchPartMachine) parallelHatch).getCurrentParallelLong();
+                        originParallel = parallelHatch.getCurrentParallel();
                     }
                 }
             }
@@ -79,8 +78,8 @@ public final class ParallelProvider implements IBlockComponentProvider, IServerD
 
     private static long[] getRecipeParallel(MetaMachine machine) {
         long[] parallel = new long[] { 0L, 0L };
-        if (machine instanceof IRecipeLogicMachine rlm && rlm.getRecipeLogic().isActive() && rlm.getRecipeLogic().getLastRecipe() instanceof Recipe recipe) {
-            parallel[0] = RecipeHelper.getParallel(recipe);
+        if (machine instanceof IRecipeLogicMachine rlm && rlm.getRecipeLogic().isActive() && rlm.getRecipeLogic().getLastRecipe() instanceof GTRecipe recipe) {
+            parallel[0] = recipe.parallels;
             parallel[1] = recipe.batchParallels;
         }
         return parallel;

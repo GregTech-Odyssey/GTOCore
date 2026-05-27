@@ -16,6 +16,7 @@ import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.gui.widget.SlotWidget;
 import com.gregtechceu.gtceu.api.gui.widget.TankWidget;
 import com.gregtechceu.gtceu.api.recipe.content.Content;
+import com.gregtechceu.gtceu.api.recipe.ingredient.ItemIngredient;
 import com.gregtechceu.gtceu.api.transfer.fluid.CustomFluidTank;
 import com.gregtechceu.gtceu.api.transfer.item.CustomItemStackHandler;
 import com.gregtechceu.gtceu.common.data.GTMachines;
@@ -306,7 +307,7 @@ final class OreByProductWrapper {
     private void addChance(int base, int tier) {
         // this is solely for the chance overlay and tooltip, neither of which care
         // about the ItemStack
-        chances.put(currentSlot - 1, new Content(ItemStack.EMPTY, base, tier));
+        chances.put(currentSlot - 1, new Content<>(ItemIngredient.EMPTY, base, tier));
     }
 
     // make the code less :weary:

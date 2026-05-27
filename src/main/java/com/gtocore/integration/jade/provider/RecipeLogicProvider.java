@@ -4,28 +4,24 @@ import com.gtocore.config.GTOConfig;
 
 import com.gtolib.api.annotation.DataGeneratorScanned;
 import com.gtolib.api.annotation.language.RegisterLanguage;
-import com.gtolib.api.machine.feature.DummyEnergyMachine;
 import com.gtolib.api.machine.feature.ICustomElectricMachine;
 import com.gtolib.api.machine.feature.multiblock.ICrossRecipeMachine;
 import com.gtolib.api.machine.mana.feature.IManaEnergyMachine;
-import com.gtolib.api.machine.trait.IEnhancedRecipeLogic;
-import com.gtolib.api.recipe.Recipe;
-import com.gtolib.api.recipe.RecipeDefinition;
+import com.gtolib.api.recipe.RecipeHelper;
 import com.gtolib.utils.NumberUtils;
 
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.IEnergyContainer;
-import com.gregtechceu.gtceu.api.capability.recipe.EURecipeCapability;
-import com.gregtechceu.gtceu.api.capability.recipe.IO;
-import com.gregtechceu.gtceu.api.capability.recipe.IRecipeHandler;
 import com.gregtechceu.gtceu.api.machine.SimpleGeneratorMachine;
 import com.gregtechceu.gtceu.api.machine.SimpleTieredMachine;
+import com.gregtechceu.gtceu.api.machine.feature.IDummyEnergyMachine;
 import com.gregtechceu.gtceu.api.machine.feature.IRecipeLogicMachine;
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine;
 import com.gregtechceu.gtceu.api.machine.steam.SimpleSteamMachine;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
+import com.gregtechceu.gtceu.api.recipe.handler.IO;
 import com.gregtechceu.gtceu.client.util.TooltipHelper;
 import com.gregtechceu.gtceu.common.machine.multiblock.steam.SteamParallelMultiblockMachine;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
@@ -86,7 +82,7 @@ public final class RecipeLogicProvider implements IBlockComponentProvider, IServ
                     boolean isSteam = false;
                     if (blockAccessor.getBlockEntity() instanceof MetaMachineBlockEntity mbe) {
                         var machine = mbe.getMetaMachine();
-                        if (machine instanceof DummyEnergyMachine energyMachine && !energyMachine.jade()) {
+                        if (machine instanceof IDummyEnergyMachine energyMachine && !energyMachine.jade()) {
                             return;
                         } else if (machine instanceof SimpleSteamMachine ssm) {
                             EUt = (long) (EUt * ssm.getConversionRate());
@@ -183,20 +179,18 @@ public final class RecipeLogicProvider implements IBlockComponentProvider, IServ
             }
             if (machineBlock.metaMachine instanceof IRecipeLogicMachine recipeLogicMachine) {
                 var capability = recipeLogicMachine.getRecipeLogic();
-                if (capability instanceof IEnhancedRecipeLogic recipeLogic) {
-                    if (capability.isIdle() && recipeLogic.gtolib$getIdleReason() != null) {
-                        compoundTag.putString("reason", Component.Serializer.toJson(recipeLogic.gtolib$getIdleReason()));
-                    } else if (capability.isWaiting()) {
-                        if (!capability.getFancyTooltip().isEmpty()) {
-                            compoundTag.putString("reason", Component.Serializer.toJson(capability.getFancyTooltip().get(0)));
-                        } else if (recipeLogic.gtolib$getIdleReason() != null) {
-                            compoundTag.putString("reason", Component.Serializer.toJson(recipeLogic.gtolib$getIdleReason()));
-                        }
-                    } else {
-                        compoundTag.putBoolean("Working", capability.isWorking());
-                        var recipeInfo = getRecipeInfo(capability);
-                        compoundTag.put("Recipe", recipeInfo);
+                if (capability.isIdle() && capability.getIdleReason() != null) {
+                    compoundTag.putString("reason", Component.Serializer.toJson(capability.getIdleReason()));
+                } else if (capability.isWaiting()) {
+                    if (!capability.getFancyTooltip().isEmpty()) {
+                        compoundTag.putString("reason", Component.Serializer.toJson(capability.getFancyTooltip().get(0)));
+                    } else if (capability.getIdleReason() != null) {
+                        compoundTag.putString("reason", Component.Serializer.toJson(capability.getIdleReason()));
                     }
+                } else {
+                    compoundTag.putBoolean("Working", capability.isWorking());
+                    var recipeInfo = getRecipeInfo(capability);
+                    compoundTag.put("Recipe", recipeInfo);
                 }
             }
         }
@@ -209,7 +203,7 @@ public final class RecipeLogicProvider implements IBlockComponentProvider, IServ
             var inputEUt = recipe.getInputEUt();
             var outputEUt = recipe.getOutputEUt();
             recipeInfo.putLong("EUt", inputEUt - outputEUt);
-            recipeInfo.putLong("Manat", Recipe.of(recipe).manat);
+            recipeInfo.putLong("Manat", RecipeHelper.getMANAt(recipe));
             recipeInfo.putLong("voltage", getVoltage(capability));
 
             if (capability.machine instanceof ICustomElectricMachine machine && machine.isActivated()) {
@@ -226,9 +220,9 @@ public final class RecipeLogicProvider implements IBlockComponentProvider, IServ
                 var originInputEUt = originRecipe.getInputEUt();
                 var originOutputEUt = originRecipe.getOutputEUt();
                 var origin = new CompoundTag();
-                if (originInputEUt != inputEUt || originOutputEUt != outputEUt || Recipe.of(recipe).manat != RecipeDefinition.of(originRecipe).manat) {
+                if (originInputEUt != inputEUt || originOutputEUt != outputEUt || RecipeHelper.getMANAt(recipe) != RecipeHelper.getMANAt(originRecipe)) {
                     origin.putLong("EUt", originInputEUt - originOutputEUt);
-                    origin.putLong("Manat", RecipeDefinition.of(originRecipe).manat);
+                    origin.putLong("Manat", RecipeHelper.getMANAt(originRecipe));
                 }
                 var maxProgress = originRecipe.duration;
                 if (maxProgress > 0) {
@@ -298,14 +292,12 @@ public final class RecipeLogicProvider implements IBlockComponentProvider, IServ
         } else if (capability.machine instanceof SimpleGeneratorMachine machine) {
             voltage = GTValues.VEX[machine.getTier()];
         } else if (capability.machine instanceof WorkableElectricMultiblockMachine machine) {
-            var handlers = machine.getCapabilitiesFlat(IO.IN, EURecipeCapability.CAP);
+            var handlers = machine.getCapabilitiesFlat(IO.IN, IEnergyContainer.class);
             if (handlers.isEmpty()) {
-                handlers = machine.getCapabilitiesFlat(IO.OUT, EURecipeCapability.CAP);
+                handlers = machine.getCapabilitiesFlat(IO.OUT, IEnergyContainer.class);
             }
-            for (IRecipeHandler<?> handler : handlers) {
-                if (handler instanceof IEnergyContainer container) {
-                    voltage = Math.max(voltage, Math.max(container.getInputVoltage(), container.getOutputVoltage()));
-                }
+            for (var handler : handlers) {
+                voltage = Math.max(voltage, Math.max(handler.getInputVoltage(), handler.getOutputVoltage()));
             }
         }
         return voltage;

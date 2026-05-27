@@ -11,10 +11,7 @@ import com.gtolib.api.capability.IIWirelessInteractor;
 import com.gtolib.api.data.GTODimensions;
 import com.gtolib.api.machine.feature.multiblock.IHighlightMachine;
 import com.gtolib.api.machine.multiblock.TierCasingMultiblockMachine;
-import com.gtolib.api.machine.trait.CustomRecipeLogic;
 import com.gtolib.api.misc.PlanetManagement;
-import com.gtolib.api.recipe.Recipe;
-import com.gtolib.api.recipe.RecipeRunner;
 import com.gtolib.utils.MachineUtils;
 import com.gtolib.utils.MathUtil;
 
@@ -25,7 +22,9 @@ import com.gregtechceu.gtceu.api.gui.fancy.ConfiguratorPanel;
 import com.gregtechceu.gtceu.api.gui.fancy.IFancyConfiguratorButton;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.TickableSubscription;
-import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
+import com.gregtechceu.gtceu.api.recipe.GTRecipeDefinition;
+import com.gregtechceu.gtceu.api.recipe.handler.ICustomRecipeLogicHolder;
+import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
@@ -45,14 +44,13 @@ import earth.terrarium.botarium.common.menu.MenuHooks;
 import lombok.Getter;
 import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @DataGeneratorScanned
-public class SpaceElevatorMachine extends TierCasingMultiblockMachine implements IHighlightMachine, IIWirelessInteractor<SpaceElevatorConnectorModule> {
+public class SpaceElevatorMachine extends TierCasingMultiblockMachine implements IHighlightMachine, IIWirelessInteractor<SpaceElevatorConnectorModule>, ICustomRecipeLogicHolder {
 
     private TickableSubscription highSubscription;
 
@@ -96,7 +94,7 @@ public class SpaceElevatorMachine extends TierCasingMultiblockMachine implements
         if (promptly || getOffsetTimer() % 80 == 0) {
             moduleCount = 0;
             if (spoolCount < getMaxSpoolCount()) {
-                forEachInputItems((stack, amount) -> {
+                forEachItems(true, (stack, amount) -> {
                     if (stack.getItem() == GTOItems.NANOTUBE_SPOOL.get()) {
                         int count = Math.min(stack.getCount(), getMaxSpoolCount() - spoolCount);
                         if (count < 1) return true;
@@ -174,14 +172,13 @@ public class SpaceElevatorMachine extends TierCasingMultiblockMachine implements
     }
 
     @Override
-    public boolean onWorking() {
-        if (!super.onWorking()) return false;
+    public void onWorking() {
+        super.onWorking();
         update(false);
         if (getRecipeLogic().getProgress() > 190) {
             getRecipeLogic().setProgress(1);
             getNetMachine();
         }
-        return true;
     }
 
     @Override
@@ -208,24 +205,6 @@ public class SpaceElevatorMachine extends TierCasingMultiblockMachine implements
                 MenuHooks.openMenu(player, new PlanetsMenuProvider());
             }
         }).setTooltipsSupplier(pressed -> List.of(Component.translatable("gtocore.machine.space_elevator.set_out"))));
-    }
-
-    @Nullable
-    private Recipe getRecipe() {
-        if (getTier() > GTValues.ZPM) {
-            var exCWUt = netMachineCache == null ? 1.0 : 1.5;
-            Recipe recipe = getRecipeBuilder().duration(400).CWUt((int) (128 * (getTier() - GTValues.ZPM) * exCWUt)).EUt(GTValues.VA[getTier()]).buildRawRecipe();
-            if (RecipeRunner.matchTickRecipe(this, recipe)) return recipe;
-        } else {
-            setIdleReason(IdleReason.VOLTAGE_TIER_NOT_SATISFIES);
-        }
-        return null;
-    }
-
-    @Override
-    @NotNull
-    public RecipeLogic createRecipeLogic(Object @NotNull... args) {
-        return new CustomRecipeLogic(this, this::getRecipe, true);
     }
 
     @Override
@@ -279,5 +258,16 @@ public class SpaceElevatorMachine extends TierCasingMultiblockMachine implements
         MinecraftServer server = getLevel().getServer();
         if (server == null) return null;
         return server.getLevel(orbitLevel.get());
+    }
+
+    @Override
+    public GTRecipeDefinition createCustomRecipe(RecipeHandlerUnit unit) {
+        if (getTier() > GTValues.ZPM) {
+            var exCWUt = netMachineCache == null ? 1.0 : 1.5;
+            return getRecipeBuilder().duration(400).CWUt((int) (128 * (getTier() - GTValues.ZPM) * exCWUt)).EUt(GTValues.VA[getTier()]).build();
+        } else {
+            setIdleReason(IdleReason.VOLTAGE_TIER_NOT_SATISFIES);
+        }
+        return null;
     }
 }

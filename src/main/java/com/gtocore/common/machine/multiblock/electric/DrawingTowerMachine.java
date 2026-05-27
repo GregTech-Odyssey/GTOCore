@@ -5,11 +5,12 @@ import com.gtocore.common.data.GTORecipeDataKeys;
 import com.gtocore.common.machine.multiblock.part.SpoolHatchPartMachine;
 
 import com.gtolib.api.machine.multiblock.CoilMultiblockMachine;
-import com.gtolib.api.recipe.Recipe;
-import com.gtolib.api.recipe.modifier.ParallelLogic;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
+import com.gregtechceu.gtceu.api.recipe.GTRecipe;
+import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
+import com.gregtechceu.gtceu.api.recipe.modifier.ParallelLogic;
 import com.gregtechceu.gtceu.api.transfer.item.CustomItemStackHandler;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
@@ -64,7 +65,7 @@ public final class DrawingTowerMachine extends CoilMultiblockMachine {
     }
 
     @Override
-    protected @Nullable Recipe getRealRecipe(Recipe recipe) {
+    protected @Nullable GTRecipe getRealRecipe(RecipeHandlerUnit unit, GTRecipe recipe) {
         if (spoolHatchPartMachine == null) return null;
         CustomItemStackHandler storage = spoolHatchPartMachine.getInventory().storage;
         ItemStack item = storage.getStackInSlot(0);
@@ -80,7 +81,7 @@ public final class DrawingTowerMachine extends CoilMultiblockMachine {
                 storage.setStackInSlot(0, ItemStack.EMPTY); // Remove the item if only one left
             }
             recipe.duration = (int) (recipe.duration * reduction);
-            return ParallelLogic.accurateParallel(this, recipe, parallels);
+            return ParallelLogic.accurateParallel(this, unit, recipe, parallels);
         }
         return null;
     }

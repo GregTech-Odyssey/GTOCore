@@ -4,11 +4,9 @@ import com.gtocore.api.machine.IUnlockRecipeTypeMachine;
 import com.gtocore.common.data.GTORecipeTypes;
 
 import com.gtolib.api.machine.multiblock.CoilCrossRecipeMultiblockMachine;
-import com.gtolib.api.recipe.Recipe;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
-
-import org.jetbrains.annotations.NotNull;
+import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 
 public final class MoltenCoreMachine extends CoilCrossRecipeMultiblockMachine implements IUnlockRecipeTypeMachine {
 
@@ -17,12 +15,7 @@ public final class MoltenCoreMachine extends CoilCrossRecipeMultiblockMachine im
     }
 
     @Override
-    public boolean canProcess(Recipe recipe) {
-        return formedAmount > 0 || recipe.recipeType == GTORecipeTypes.FLUID_HEATER_RECIPES;
-    }
-
-    @Override
-    public Recipe getRealRecipe(@NotNull Recipe recipe) {
-        return validateRecipe(super.getRealRecipe(recipe));
+    public boolean canProcess(GTRecipeType type) {
+        return formedAmount > 0 || type == GTORecipeTypes.FLUID_HEATER_RECIPES;
     }
 }

@@ -1,10 +1,11 @@
 package com.gtocore.common.machine.multiblock.electric;
 
 import com.gtolib.api.machine.multiblock.ElectricMultiblockMachine;
-import com.gtolib.api.recipe.Recipe;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
+import com.gregtechceu.gtceu.api.recipe.GTRecipeDefinition;
+import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
 
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
@@ -23,7 +24,7 @@ public final class BedrockDrillingRigMachine extends ElectricMultiblockMachine {
     }
 
     @Override
-    protected boolean beforeWorking(@Nullable Recipe recipe) {
+    public boolean checkConditions(RecipeHandlerUnit unit, @Nullable GTRecipeDefinition recipe) {
         Level level = getLevel();
         boolean value = false;
         if (level != null) {
@@ -32,6 +33,6 @@ public final class BedrockDrillingRigMachine extends ElectricMultiblockMachine {
                 level.setBlockAndUpdate(getPos().offset(0, -9, 0), Blocks.AIR.defaultBlockState());
             }
         }
-        return value;
+        return value && super.checkConditions(unit, recipe);
     }
 }

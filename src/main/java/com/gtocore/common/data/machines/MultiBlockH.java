@@ -17,7 +17,7 @@ import com.gtolib.api.machine.feature.multiblock.ITierCasingMachine;
 import com.gtolib.api.machine.impl.EncapsulatorExecutionModuleMachine;
 import com.gtolib.api.machine.impl.ProcessingEncapsulatorMachine;
 import com.gtolib.api.machine.multiblock.*;
-import com.gtolib.api.recipe.modifier.RecipeModifierFunction;
+import com.gtolib.api.recipe.GTORecipeModifiers;
 import com.gtolib.utils.MultiBlockFileReader;
 import com.gtolib.utils.RegistriesUtils;
 
@@ -752,7 +752,7 @@ public final class MultiBlockH {
             .recipeTypes(GTORecipeTypes.ELECTROPLATING_RECIPES)
             .tooltips(GTOMachineStories.INSTANCE.getElectroplatingBathTooltips().getSupplier())
             .block(GTBlocks.CASING_PTFE_INERT)
-            .recipeModifier(RecipeModifierFunction.GCYM_OVERCLOCKING)
+            .recipeModifier(GTORecipeModifiers.UPGRADE_GCYM_OVERCLOCKING)
             .pattern(definition -> MultiBlockFileReader.start(definition)
                     .where('A', blocks(GTBlocks.CASING_PTFE_INERT.get())
                             .or(autoGCYMAbilities(definition.getRecipeTypes()))
@@ -777,7 +777,7 @@ public final class MultiBlockH {
             .multipleRecipesTooltips()
             .recipeTypes(GTORecipeTypes.ELECTROPLATING_RECIPES, GTORecipeTypes.ELECTROLYZER_RECIPES)
             .block(GTOBlocks.SPACE_ELEVATOR_MECHANICAL_CASING)
-            .recipeModifier(RecipeModifierFunction.GCYM_OVERCLOCKING)
+            .recipeModifier(GTORecipeModifiers.UPGRADE_GCYM_OVERCLOCKING)
             .pattern(definition -> MultiBlockFileReader.start(definition)
                     .where('A', blocks(GTOBlocks.HYPER_MECHANICAL_CASING.get()))
                     .where('B', blocks(GTOBlocks.SPACE_ELEVATOR_MECHANICAL_CASING.get())
@@ -807,7 +807,7 @@ public final class MultiBlockH {
             .specialParallelizableTooltips()
             .tooltips(GTOMachineStories.INSTANCE.getAtomizingCondenserTooltips().getSupplier())
             .recipeTypes(GTORecipeTypes.ATOMIZATION_CONDENSATION_RECIPES)
-            .recipeModifier(RecipeModifierFunction.GCYM_OVERCLOCKING)
+            .recipeModifier(GTORecipeModifiers.UPGRADE_GCYM_OVERCLOCKING)
             .block(GTBlocks.CASING_ALUMINIUM_FROSTPROOF)
             .tooltips(NewDataAttributes.ALLOW_PARALLEL_NUMBER.create(h -> h.addLines("(密封机械方块等级)×4", "(Hermetic Mechanical Casing tier)×4")))
             .pattern(definition -> MultiBlockFileReader.start(definition)
@@ -831,11 +831,11 @@ public final class MultiBlockH {
             .tooltips(GTOMachineStories.INSTANCE.getThermoPressTooltips().getSupplier())
             .tooltips(NewDataAttributes.TIME_COST_MULTIPLY.create(h -> h.addLines("0.9^(密封机械方块等级)", "0.9^(Hermetic Mechanical Casing tier)")))
             .recipeTypes(GTORecipeTypes.THERMO_PRESSING_RECIPES)
-            .recipeModifier((m, r) -> {
+            .recipeModifier((m, u, r) -> {
                 if (m instanceof ITierCasingMachine tm) {
                     r.duration = (int) Math.max(Math.pow(0.9, tm.getCasingTier(GTORecipeDataKeys.HERMETIC_CASING_TIER)) * r.duration, 1);
                 }
-                return RecipeModifierFunction.overclocking(m, RecipeModifierFunction.hatchParallel(m, r));
+                return GTORecipeModifiers.UPGRADE_PARALLELIZABLE_OVERCLOCK.applyModifier(m, u, r);
             })
             .block(GTOBlocks.COMPRESSOR_CONTROLLER_CASING)
             .pattern(definition -> MultiBlockFileReader.start(definition)
@@ -883,7 +883,7 @@ public final class MultiBlockH {
             .nonYAxisRotation()
             .tooltips(GTOMachineStories.INSTANCE.getBrickKilnTooltips().getSupplier())
             .tooltips(NewDataAttributes.ALLOW_PARALLEL_NUMBER.create(4))
-            .recipeModifiers(RecipeModifierFunction.accurateParallel(4))
+            .recipeModifiers(RecipeModifier.accurateParallel(4))
             .recipeTypes(GTORecipeTypes.BRICK_FURNACE_RECIPES)
             .block(GTBlocks.CASING_PRIMITIVE_BRICKS)
             .pattern(definition -> MultiBlockFileReader.start(definition)

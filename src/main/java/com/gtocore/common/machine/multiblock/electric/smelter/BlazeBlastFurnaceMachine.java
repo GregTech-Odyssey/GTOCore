@@ -1,14 +1,15 @@
 package com.gtocore.common.machine.multiblock.electric.smelter;
 
 import com.gtolib.api.machine.multiblock.CoilCustomParallelMultiblockMachine;
-import com.gtolib.api.recipe.Recipe;
-import com.gtolib.api.recipe.modifier.ParallelLogic;
-import com.gtolib.api.recipe.modifier.RecipeModifierFunction;
+import com.gtolib.api.recipe.GTORecipeModifiers;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
+import com.gregtechceu.gtceu.api.recipe.GTRecipe;
+import com.gregtechceu.gtceu.api.recipe.handler.ActionResult;
+import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
+import com.gregtechceu.gtceu.api.recipe.modifier.ParallelLogic;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
-import net.minecraft.network.chat.Component;
 import net.minecraftforge.fluids.FluidStack;
 
 import org.jetbrains.annotations.NotNull;
@@ -25,26 +26,26 @@ public final class BlazeBlastFurnaceMachine extends CoilCustomParallelMultiblock
         if (inputFluid(BLAZE.getRawFluid(), (1L << Math.max(0, getTier() - 2)) * 10L)) {
             return true;
         }
-        getEnhancedRecipeLogic().gtolib$setIdleReason(Component.translatable("gtceu.recipe_logic.insufficient_in").append(": ").append(BLAZE.getDisplayName()));
+        setIdleReason(() -> ActionResult.failInsufficientIn(BLAZE.getDisplayName()).reason());
         return false;
     }
 
     @Override
-    public Recipe getRealRecipe(@NotNull Recipe recipe) {
+    public GTRecipe getRealRecipe(@NotNull RecipeHandlerUnit unit, @NotNull GTRecipe recipe) {
         recipe.duration = recipe.duration / 2;
-        recipe = ParallelLogic.accurateParallel(this, recipe, getParallel());
+        recipe = ParallelLogic.accurateParallel(this, unit, recipe, getParallel());
         if (recipe == null) return null;
-        return RecipeModifierFunction.ebfOverclock(this, recipe);
+        return GTORecipeModifiers.UPGRADE_EBF_OVERCLOCK.applyModifier(this, unit, recipe);
     }
 
     @Override
-    public boolean onWorking() {
+    public boolean handleTickRecipe(GTRecipe recipe) {
         if (getOffsetTimer() % 20 == 0 && !inputFluid()) getRecipeLogic().setProgress(0);
-        return super.onWorking();
+        return super.handleTickRecipe(recipe);
     }
 
     @Override
-    protected boolean beforeWorking(@NotNull Recipe recipe) {
-        return super.beforeWorking(recipe) && inputFluid();
+    public boolean handleRecipeInput(RecipeHandlerUnit unit, @NotNull GTRecipe recipe) {
+        return inputFluid() && super.handleRecipeInput(unit, recipe);
     }
 }

@@ -8,10 +8,6 @@ import com.gtolib.api.annotation.dynamic.DynamicInitialValueTypes;
 import com.gtolib.api.capability.IExtendWirelessEnergyContainerHolder;
 import com.gtolib.api.machine.feature.multiblock.IArrayMachine;
 import com.gtolib.api.machine.multiblock.StorageMultiblockMachine;
-import com.gtolib.api.recipe.Recipe;
-import com.gtolib.api.recipe.RecipeRunner;
-import com.gtolib.api.recipe.RecipeType;
-import com.gtolib.api.recipe.modifier.ParallelLogic;
 import com.gtolib.utils.GTOUtils;
 
 import com.gregtechceu.gtceu.api.GTValues;
@@ -22,6 +18,8 @@ import com.gregtechceu.gtceu.api.machine.MachineDefinition;
 import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
+import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
+import com.gregtechceu.gtceu.api.recipe.modifier.ParallelLogic;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 import com.gregtechceu.gtceu.utils.GTUtil;
@@ -37,6 +35,7 @@ import com.lowdragmc.lowdraglib.gui.widget.ComponentPanelWidget;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
@@ -112,11 +111,6 @@ public final class GeneratorArrayMachine extends StorageMultiblockMachine implem
     }
 
     @Override
-    public RecipeType getRecipeType() {
-        return (RecipeType) recipeTypes()[getActiveRecipeType()];
-    }
-
-    @Override
     public void onMachineChanged() {
         onStorageChanged();
     }
@@ -132,8 +126,7 @@ public final class GeneratorArrayMachine extends StorageMultiblockMachine implem
     }
 
     @Override
-    public boolean onWorking() {
-        if (!super.onWorking()) return false;
+    public boolean handleTickRecipe(GTRecipe recipe) {
         if (isw) {
             if (eut > 0) {
                 var container = getWirelessEnergyContainer();
@@ -146,6 +139,8 @@ public final class GeneratorArrayMachine extends StorageMultiblockMachine implem
             } else {
                 return false;
             }
+        } else {
+            return super.handleTickRecipe(recipe);
         }
         return true;
     }
@@ -155,25 +150,21 @@ public final class GeneratorArrayMachine extends StorageMultiblockMachine implem
         return true;
     }
 
-    @Override
-    protected boolean beforeWorking(Recipe recipe) {
-        if (isEmpty()) return false;
-        return super.beforeWorking(recipe);
-    }
-
     @Nullable
     @Override
-    protected Recipe getRealRecipe(Recipe recipe) {
+    protected GTRecipe getRealRecipe(RecipeHandlerUnit unit, GTRecipe recipe) {
+        if (isEmpty()) return null;
         int a = machineStorage.storage.getStackInSlot(0).getCount();
         if (a > 0) {
             long EUt = recipe.getOutputEUt();
             if (EUt > 0) {
-                recipe.outputs.clear();
-                recipe = ParallelLogic.accurateContentParallel(this, recipe, (long) (multiply * GTValues.V[getOverclockTier()] * a * GTOUtils.getGeneratorAmperage(getTier()) / EUt));
+                recipe.itemOutputs = Collections.emptyList();
+                recipe.fluidOutputs = Collections.emptyList();
+                recipe = ParallelLogic.accurateContentParallel(this, unit, recipe, (long) (multiply * GTValues.V[getOverclockTier()] * a * GTOUtils.getGeneratorAmperage(getTier()) / EUt));
                 if (recipe == null) return null;
-                recipe.duration = recipe.duration * GTOUtils.getGeneratorEfficiency(getRecipeType(), getTier()) / 100;
+                recipe.duration = recipe.duration * GTOUtils.getGeneratorEfficiency(recipe.definition.recipeType, getTier()) / 100;
                 if (isw) {
-                    recipe.setOutputEUt(0);
+                    recipe.setEUt(0);
                     eut = EUt * recipe.parallels;
                 }
                 return recipe;
@@ -217,12 +208,12 @@ public final class GeneratorArrayMachine extends StorageMultiblockMachine implem
     }
 
     @Override
-    public boolean matchRecipe(Recipe recipe) {
-        return RecipeRunner.matchRecipeInput(this, recipe);
+    public boolean matchRecipeOutput(GTRecipe recipe) {
+        return true;
     }
 
     @Override
-    public boolean matchTickRecipe(Recipe recipe) {
+    public boolean matchTickRecipe(GTRecipe recipe) {
         return isw || super.matchTickRecipe(recipe);
     }
 

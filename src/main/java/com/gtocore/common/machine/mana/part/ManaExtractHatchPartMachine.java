@@ -6,7 +6,7 @@ import com.gtolib.api.machine.mana.feature.IManaMachine;
 import com.gtolib.utils.MathUtil;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
-import com.gregtechceu.gtceu.api.capability.recipe.IO;
+import com.gregtechceu.gtceu.api.recipe.handler.IO;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;

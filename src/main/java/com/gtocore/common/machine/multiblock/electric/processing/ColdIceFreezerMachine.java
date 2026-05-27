@@ -4,12 +4,14 @@ import com.gtocore.api.machine.IUnlockRecipeTypeMachine;
 import com.gtocore.common.data.GTORecipeTypes;
 
 import com.gtolib.api.machine.multiblock.CustomParallelMultiblockMachine;
-import com.gtolib.api.recipe.Recipe;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
+import com.gregtechceu.gtceu.api.recipe.GTRecipe;
+import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
+import com.gregtechceu.gtceu.api.recipe.handler.ActionResult;
+import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
-import net.minecraft.network.chat.Component;
 import net.minecraftforge.fluids.FluidStack;
 
 import org.jetbrains.annotations.NotNull;
@@ -26,30 +28,24 @@ public final class ColdIceFreezerMachine extends CustomParallelMultiblockMachine
         if (inputFluid(ICE.getRawFluid(), (1L << Math.max(0, getTier() - 2)) * 10L)) {
             return true;
         }
-        getEnhancedRecipeLogic().gtolib$setIdleReason(Component.translatable("gtceu.recipe_logic.insufficient_in").append(": ").append(ICE.getDisplayName()));
+        setIdleReason(() -> ActionResult.failInsufficientIn(ICE.getDisplayName()).reason());
         return false;
     }
 
     @Override
-    public boolean onWorking() {
+    public boolean handleTickRecipe(GTRecipe recipe) {
         if (getOffsetTimer() % 20 == 0 && !inputFluid()) getRecipeLogic().setProgress(0);
-        return super.onWorking();
+        return super.handleTickRecipe(recipe);
     }
 
     @Override
-    protected boolean beforeWorking(@NotNull Recipe recipe) {
-        if (!super.beforeWorking(recipe)) return false;
-        return inputFluid();
+    public boolean handleRecipeInput(RecipeHandlerUnit unit, @NotNull GTRecipe recipe) {
+        return inputFluid() && super.handleRecipeInput(unit, recipe);
     }
 
     @Override
-    protected Recipe getRealRecipe(Recipe recipe) {
-        return validateRecipe(super.getRealRecipe(recipe));
-    }
-
-    @Override
-    public boolean canProcess(Recipe recipe) {
-        if (recipe.recipeType == GTORecipeTypes.ATOMIZATION_CONDENSATION_RECIPES) {
+    public boolean canProcess(GTRecipeType type) {
+        if (type == GTORecipeTypes.ATOMIZATION_CONDENSATION_RECIPES) {
             return formedAmount > 0;
         }
         return true;

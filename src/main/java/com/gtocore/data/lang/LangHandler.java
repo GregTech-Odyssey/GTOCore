@@ -393,6 +393,7 @@ public final class LangHandler {
         addCNEN("gtocore.ae.appeng.me2in1.config_mapping", "配置配方搜索映射", "Configure Recipe Search Mapping");
         addCNEN("gtocore.ae.appeng.me2in1.panel.bufferPanel", "样板缓存区", "Patterns Output");
         addCNEN("gtocore.ae.appeng.me2in1.panel.mePanel", "ME存储区", "ME Storage");
+        addCNEN("gtocore.ae.appeng.me2in1.panel.exPatternTerminalPanel", "样板终端区", "Pattern Terminal");
         addCNEN("gtocore.ae.appeng.me2in1.panel.encodingModePanel", "编码区", "Encoding Configs");
         addCNEN("gtocore.ae.appeng.craft.add_missing_to_emi", "收藏缺失", "Bookmark Missing");
         addCNEN("gtocore.ae.appeng.craft.add_missing_to_emi.desc", "将缺失的物品添加到EMI书签页", "Add missing items to EMI bookmark page");

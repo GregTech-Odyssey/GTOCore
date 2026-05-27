@@ -4,13 +4,14 @@ import com.gtocore.common.data.GTOItems;
 import com.gtocore.common.data.GTORecipeDataKeys;
 
 import com.gtolib.api.machine.feature.multiblock.IStorageMultiblock;
-import com.gtolib.api.recipe.Recipe;
-import com.gtolib.api.recipe.modifier.ParallelLogic;
 import com.gtolib.utils.RegistriesUtils;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.feature.IDropSaveMachine;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
+import com.gregtechceu.gtceu.api.recipe.GTRecipe;
+import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
+import com.gregtechceu.gtceu.api.recipe.modifier.ParallelLogic;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -27,7 +28,6 @@ import net.minecraftforge.registries.ForgeRegistries;
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -82,7 +82,7 @@ public class ResonanceFlowerMachine extends ManaMultiblockMachine implements ISt
     }
 
     @Override
-    protected @Nullable Recipe getRealRecipe(@NotNull Recipe recipe) {
+    public GTRecipe getRealRecipe(@NotNull RecipeHandlerUnit unit, GTRecipe recipe) {
         resetResonance();
 
         String id = recipe.definition.id.getPath();
@@ -102,13 +102,13 @@ public class ResonanceFlowerMachine extends ManaMultiblockMachine implements ISt
 
         double durationMultiplier = recipe.duration * timeFluctuationCoefficient * (float) tierEffect[0];
         recipe.duration = (int) Math.max(1, durationMultiplier);
-        long maxContentParallel = Math.min(ParallelLogic.getMaxContentParallel(this, recipe), (long) tierEffect[1]);
+        long maxContentParallel = ParallelLogic.getMaxContentParallelAmount(this, unit, recipe, (long) tierEffect[1]);
 
         addEntry(id, maxContentParallel);
         upgradeEntry(id);
         updateStableTime();
 
-        return ParallelLogic.accurateParallel(this, recipe, maxContentParallel);
+        return ParallelLogic.accurateParallel(this, unit, recipe, maxContentParallel);
     }
 
     @Override
@@ -122,8 +122,8 @@ public class ResonanceFlowerMachine extends ManaMultiblockMachine implements ISt
     }
 
     @Override
-    public boolean onWorking() {
-        if (super.onWorking()) {
+    public boolean handleTickRecipe(GTRecipe recipe) {
+        if (super.handleTickRecipe(recipe)) {
             if (frequency > 0 && getRecipeLogic().getProgress() % frequency == 0 && getRecipeLogic().getProgress() != 0) {
                 if (!resonanceFluid.isEmpty()) {
                     return inputFluid(resonanceFluid);

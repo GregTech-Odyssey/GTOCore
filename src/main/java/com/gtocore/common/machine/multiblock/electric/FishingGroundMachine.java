@@ -5,16 +5,15 @@ import com.gtocore.common.data.GTOLoots;
 import com.gtolib.GTOCore;
 import com.gtolib.api.item.ItemStackSet;
 import com.gtolib.api.machine.multiblock.ElectricMultiblockMachine;
-import com.gtolib.api.machine.trait.CustomRecipeLogic;
-import com.gtolib.api.recipe.Recipe;
 import com.gtolib.api.recipe.RecipeBuilder;
-import com.gtolib.api.recipe.RecipeRunner;
-import com.gtolib.api.recipe.modifier.ParallelLogic;
 import com.gtolib.utils.MachineUtils;
 import com.gtolib.utils.MathUtil;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
-import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
+import com.gregtechceu.gtceu.api.recipe.GTRecipeDefinition;
+import com.gregtechceu.gtceu.api.recipe.handler.ICustomRecipeLogicHolder;
+import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
+import com.gregtechceu.gtceu.api.recipe.modifier.ParallelLogic;
 
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
@@ -31,12 +30,10 @@ import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.phys.Vec3;
 
 import com.gto.datasynclib.util.holder.IntHolder;
-import com.gto.datasynclib.util.holder.ObjHolder;
-import org.jetbrains.annotations.NotNull;
 
 import static net.minecraft.sounds.SoundEvents.*;
 
-public class FishingGroundMachine extends ElectricMultiblockMachine {
+public class FishingGroundMachine extends ElectricMultiblockMachine implements ICustomRecipeLogicHolder {
 
     private static final ItemStack FISHING_ROD = new ItemStack(Items.FISHING_ROD);
 
@@ -46,9 +43,25 @@ public class FishingGroundMachine extends ElectricMultiblockMachine {
         super(holder);
     }
 
-    private Recipe getRecipe() {
-        ObjHolder<Recipe> recipe = new ObjHolder<>();
-        int mode = checkingCircuit(false);
+    private int piglinSoundPlayCD = 0;
+    private static final SoundEvent[] soundEntries = new SoundEvent[] {
+            FISHING_BOBBER_RETRIEVE, FISHING_BOBBER_SPLASH, FISHING_BOBBER_THROW, FISH_SWIM
+    };
+
+    @Override
+    public void onWorking() {
+        if (piglinSoundPlayCD > 0) piglinSoundPlayCD--;
+        else if (fishingHook != null && getLevel() instanceof ServerLevel level) {
+            SoundEvent soundEvent = soundEntries[level.random.nextInt(soundEntries.length)];
+            level.playSound(null, getPos(), soundEvent, SoundSource.BLOCKS);
+            piglinSoundPlayCD = 10 + level.random.nextInt(100);
+        }
+        super.onWorking();
+    }
+
+    @Override
+    public GTRecipeDefinition createCustomRecipe(RecipeHandlerUnit unit) {
+        int mode = unit.getCircuit(false);
         if (mode > 0) {
             RecipeBuilder builder = getRecipeBuilder().duration(20).EUt(480);
             if (getLevel() instanceof ServerLevel level) {
@@ -65,12 +78,12 @@ public class FishingGroundMachine extends ElectricMultiblockMachine {
                         .withParameter(LootContextParams.ORIGIN, new Vec3(getPos().getX(), getPos().getY(), getPos().getZ()))
                         .create(LootContextParamSets.FISHING);
                 ItemStackSet itemStacks = new ItemStackSet();
-                recipe.value = ParallelLogic.accurateParallel(this, builder.copy(GTOCore.id("test")).outputItems(Items.STICK).buildRawRecipe(), MachineUtils.getHatchParallel(this));
-                if (recipe.value == null) return null;
+                var maxParallel = ParallelLogic.getMaxParallelAmount(this, unit, builder.copy(GTOCore.id("test")).outputItems(Items.STICK).buildRawRecipe(), MachineUtils.getHatchParallel(this));
+                if (maxParallel == 0) return null;
                 IntHolder nbt = new IntHolder();
-                builder.EUt(recipe.value.getInputEUt());
-                var parallel = Math.min(1024, recipe.value.parallels);
-                var multiplier = recipe.value.parallels / parallel;
+                builder.EUt(480 * maxParallel);
+                var parallel = Math.min(1024, maxParallel);
+                var multiplier = maxParallel / parallel;
                 GTOLoots.modifyLoot = false;
                 for (int i = 0; i < parallel; i++) {
                     lootTable.getRandomItems(lootContext).forEach(itemStack -> {
@@ -88,41 +101,20 @@ public class FishingGroundMachine extends ElectricMultiblockMachine {
                     }
                     builder.outputItems(i);
                 });
-                recipe.value = builder.buildRawRecipe();
+                return builder.build();
             }
-        } else {
-            getRecipeType().findRecipe(this, r -> {
-                var modify = (Recipe) fullModifyRecipe(r.toRuntime());
-                if (modify != null && RecipeRunner.matchRecipe(this, modify) && RecipeRunner.matchTickRecipe(this, recipe.value)) {
-                    fishingHook = null;
-                    recipe.value = modify;
-                    return true;
-                }
-                return false;
-            });
         }
-        return recipe.value;
+        return null;
     }
 
     @Override
-    public RecipeLogic createRecipeLogic(Object @NotNull... args) {
-        return new CustomRecipeLogic(this, this::getRecipe);
+    public boolean alwaysSearchRecipe() {
+        return true;
     }
 
-    private int piglinSoundPlayCD = 0;
-    private static final SoundEvent[] soundEntries = new SoundEvent[] {
-            FISHING_BOBBER_RETRIEVE, FISHING_BOBBER_SPLASH, FISHING_BOBBER_THROW, FISH_SWIM
-    };
-
     @Override
-    public boolean onWorking() {
-        if (piglinSoundPlayCD > 0) piglinSoundPlayCD--;
-        else if (fishingHook != null && getLevel() instanceof ServerLevel level) {
-            SoundEvent soundEvent = soundEntries[level.random.nextInt(soundEntries.length)];
-            level.playSound(null, getPos(), soundEvent, SoundSource.BLOCKS);
-            piglinSoundPlayCD = 10 + level.random.nextInt(100);
-        }
-        return super.onWorking();
+    public boolean searchRecipe() {
+        return true;
     }
 
     private static class MyFishingHook extends FishingHook {

@@ -12,7 +12,6 @@ import com.gtolib.utils.StringConverter;
 import com.gtolib.utils.StringIndex;
 
 import com.gregtechceu.gtceu.api.capability.recipe.*;
-import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.gui.WidgetUtils;
 import com.gregtechceu.gtceu.api.gui.editor.EditableMachineUI;
@@ -28,7 +27,7 @@ import com.gregtechceu.gtceu.api.item.component.IItemUIFactory;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.feature.IRecipeLogicMachine;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
-import com.gregtechceu.gtceu.api.recipe.content.Content;
+import com.gregtechceu.gtceu.api.recipe.handler.IO;
 import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
 import com.gregtechceu.gtceu.api.recipe.ingredient.ItemIngredient;
 import com.gregtechceu.gtceu.api.recipe.ui.GTRecipeTypeUI;
@@ -103,9 +102,9 @@ public final class RecipeEditorBehavior implements IItemUIFactory, IFancyUIProvi
                     for (var recipe : recipeType.recipes.values()) {
                         var id = recipe.id;
                         var input = new OpenCacheHashSet<String>();
-                        if (recipe.inputs.containsKey(ItemRecipeCapability.CAP)) {
-                            for (Content content : recipe.inputs.get(ItemRecipeCapability.CAP)) {
-                                var ingredient = ItemRecipeCapability.CAP.of(content);
+                        if (!recipe.itemInputs.isEmpty()) {
+                            for (var content : recipe.itemInputs) {
+                                var ingredient = content.inner;
                                 Ingredient inner = ingredient.inner;
                                 a:
                                 for (Ingredient.Value value : inner.values) {
@@ -135,9 +134,9 @@ public final class RecipeEditorBehavior implements IItemUIFactory, IFancyUIProvi
                                 }
                             }
                         }
-                        if (recipe.inputs.containsKey(FluidRecipeCapability.CAP)) {
-                            for (Content content : recipe.inputs.get(FluidRecipeCapability.CAP)) {
-                                FluidStack[] stacks = FluidRecipeCapability.CAP.of(content).getStacks();
+                        if (!recipe.fluidInputs.isEmpty()) {
+                            for (var content : recipe.fluidInputs) {
+                                FluidStack[] stacks = content.inner.getStacks();
                                 if (stacks.length == 0) {
                                     GTOCore.LOGGER.error("配方 {} 存在空流体输入", id);
                                     continue;
@@ -359,7 +358,7 @@ public final class RecipeEditorBehavior implements IItemUIFactory, IFancyUIProvi
                         if (stack.isEmpty()) continue;
                         id = ItemUtils.getIdLocation(stack.getItem()).getPath();
                     }
-                    for (int i = 0; i < machine.exportFluids.getSize(); i++) {
+                    for (int i = 0; i < machine.exportFluids.getTanks(); i++) {
                         if (!id.isEmpty()) break;
                         FluidStack stack = machine.exportFluids.getFluidInTank(i);
                         if (stack.isEmpty()) continue;
@@ -379,13 +378,13 @@ public final class RecipeEditorBehavior implements IItemUIFactory, IFancyUIProvi
                     String stringItem = StringConverter.fromItem(ItemIngredient.of(stack), 1);
                     stringBuilder.append(".outputItems(").append(stringItem).append(")").append("\n");
                 }
-                for (int i = 0; i < machine.importFluids.getSize(); i++) {
+                for (int i = 0; i < machine.importFluids.getTanks(); i++) {
                     FluidStack stack = machine.importFluids.getFluidInTank(i);
                     if (stack.isEmpty()) continue;
                     String stringFluid = StringConverter.fromFluid(FluidIngredient.of(stack), true);
                     stringBuilder.append(".inputFluids(").append(stringFluid).append(")").append("\n");
                 }
-                for (int i = 0; i < machine.exportFluids.getSize(); i++) {
+                for (int i = 0; i < machine.exportFluids.getTanks(); i++) {
                     FluidStack stack = machine.exportFluids.getFluidInTank(i);
                     if (stack.isEmpty()) continue;
                     String stringFluid = StringConverter.fromFluid(FluidIngredient.of(stack), true);

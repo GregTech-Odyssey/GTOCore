@@ -14,22 +14,18 @@ import com.gtolib.api.annotation.dynamic.DynamicInitialValueTypes;
 import com.gtolib.api.annotation.language.RegisterLanguage;
 import com.gtolib.api.machine.multiblock.ElectricMultiblockMachine;
 import com.gtolib.api.recipe.IdleReason;
-import com.gtolib.api.recipe.Recipe;
-import com.gtolib.api.recipe.modifier.ParallelLogic;
-import com.gtolib.utils.MachineUtils;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
-import com.gregtechceu.gtceu.api.capability.recipe.FluidRecipeCapability;
-import com.gregtechceu.gtceu.api.capability.recipe.IO;
-import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
 import com.gregtechceu.gtceu.api.machine.TickableSubscription;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
+import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.content.Content;
+import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
 import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
-import com.gregtechceu.gtceu.api.recipe.ingredient.ItemIngredient;
+import com.gregtechceu.gtceu.api.recipe.modifier.ParallelLogic;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 
@@ -109,7 +105,7 @@ public class FullCellGenerator extends ElectricMultiblockMachine {
     }
 
     private void updateGeneratorState() {
-        isGenerator = getRecipeTypes()[getActiveRecipeType()] == GTORecipeTypes.FUEL_CELL_ENERGY_RELEASE_RECIPES;
+        isGenerator = getRecipeType() == GTORecipeTypes.FUEL_CELL_ENERGY_RELEASE_RECIPES;
         requestSync();
     }
 
@@ -126,14 +122,14 @@ public class FullCellGenerator extends ElectricMultiblockMachine {
     }
 
     @Override
-    protected @Nullable Recipe getRealRecipe(Recipe recipe) {
-        var activeType = getRecipeTypes()[getActiveRecipeType()];
+    protected @Nullable GTRecipe getRealRecipe(@NotNull RecipeHandlerUnit unit, GTRecipe recipe) {
+        var activeType = recipe.definition.recipeType;
         if (activeType == GTORecipeTypes.FUEL_CELL_ENERGY_RELEASE_RECIPES) {
-            return getReleaseRecipe(recipe);
+            return getReleaseRecipe(unit, recipe);
         } else if (activeType == GTORecipeTypes.FUEL_CELL_ENERGY_ABSORPTION_RECIPES) {
-            return getAbsorptionRecipe(recipe);
+            return getAbsorptionRecipe(unit, recipe);
         } else if (activeType == GTORecipeTypes.FUEL_CELL_ENERGY_TRANSFER_RECIPES) {
-            return getElectrolyteTransferRecipe(recipe);
+            return getElectrolyteTransferRecipe(unit, recipe);
         }
         return null;
     }
@@ -143,19 +139,19 @@ public class FullCellGenerator extends ElectricMultiblockMachine {
         return super.getOverclockVoltage();
     }
 
-    private Recipe getAbsorptionRecipe(Recipe recipe) {
+    private GTRecipe getAbsorptionRecipe(RecipeHandlerUnit unit, GTRecipe recipe) {
         var fuelEnergyPerUnit = recipe.data.getLong(GTORecipeDataKeys.CONVERTED_ENERGY);
 
         // membrane bonus
         MembraneBonusInfo membraneInfo = null;
         for (int membraneTier = Wrapper.MEMBRANE_MATS.length - 1; membraneTier >= 0; membraneTier--) {
-            if (MachineUtils.notConsumableItem(this, ChemicalHelper.get(GTOTagPrefix.MEMBRANE_ELECTRODE, Wrapper.MEMBRANE_MATS[membraneTier].membrane))) {
+            if (unit.matchItem(ChemicalHelper.get(GTOTagPrefix.MEMBRANE_ELECTRODE, Wrapper.MEMBRANE_MATS[membraneTier].membrane))) {
                 membraneInfo = Wrapper.MEMBRANE_MATS[membraneTier];
                 break;
             }
         }
         if (membraneInfo == null) {
-            IdleReason.setIdleReason(this, IdleReason.INVALID_INPUT);
+            setIdleReason(IdleReason.INVALID_INPUT);
             return null;
         }
         if (GTOCore.isEasy()) {
@@ -176,10 +172,10 @@ public class FullCellGenerator extends ElectricMultiblockMachine {
         long amountExisting = 0;
 
         Material[] electrolyteMaterials = Wrapper.ELECTROLYTES_PER_MATERIAL_PER_MILLIBUCKET.keySet().toArray(new Material[0]);
-        long[] cElectrolytesAmounts = getFluidAmount(
+        long[] cElectrolytesAmounts = unit.getFluidAmount(true,
                 Stream.of(electrolyteMaterials)
                         .map(m -> m.getFluid(GTOFluidStorageKey.ENERGY_RELEASE_CATHODE)).toArray(Fluid[]::new));
-        long[] aElectrolytesAmounts = getFluidAmount(
+        long[] aElectrolytesAmounts = unit.getFluidAmount(true,
                 Stream.of(electrolyteMaterials)
                         .map(m -> m.getFluid(GTOFluidStorageKey.ENERGY_RELEASE_ANODE)).toArray(Fluid[]::new));
         for (int i = 0; i < cElectrolytesAmounts.length; i++) {
@@ -194,45 +190,23 @@ public class FullCellGenerator extends ElectricMultiblockMachine {
         // parallel calculation
         long euPermB = Wrapper.ELECTROLYTES_PER_MATERIAL_PER_MILLIBUCKET.get(electrolytesExisting);
         long maxCanAbsorbParallel = amountExisting * euPermB / fuelEnergyPerUnit;
-        Recipe result = ParallelLogic.accurateParallel(this, recipe, maxCanAbsorbParallel);
+        var result = ParallelLogic.accurateParallel(this, unit, recipe, maxCanAbsorbParallel);
         if (result == null) return null;
 
         // electrolyte consumption adjustment
         long actuallyConsumedmB = result.parallels * fuelEnergyPerUnit / euPermB;
-        var input = new ArrayList<>(result.inputs.get(FluidRecipeCapability.CAP));
-        input.add(new Content(FluidIngredient.of(electrolytesExisting.getFluid(GTOFluidStorageKey.ENERGY_RELEASE_ANODE), actuallyConsumedmB), 10000, 0));
-        input.add(new Content(FluidIngredient.of(electrolytesExisting.getFluid(GTOFluidStorageKey.ENERGY_RELEASE_CATHODE), actuallyConsumedmB), 10000, 0));
-        var output = new ArrayList<Content>();
-        output.add(new Content(FluidIngredient.of(electrolytesExisting.getFluid(GTOFluidStorageKey.ENERGY_STORAGE_CATHODE), actuallyConsumedmB), 10000, 0));
-        output.add(new Content(FluidIngredient.of(electrolytesExisting.getFluid(GTOFluidStorageKey.ENERGY_STORAGE_ANODE), actuallyConsumedmB), 10000, 0));
-        result.inputs.put(FluidRecipeCapability.CAP, input);
-        result.outputs.put(FluidRecipeCapability.CAP, output);
-
-        // content output check
-        if (!this.canVoidRecipeOutputs(FluidRecipeCapability.CAP)) {
-            var contents = result.getOutputContents(FluidRecipeCapability.CAP);
-            List<FluidIngredient> copied = new ArrayList<>(contents.size());
-            for (var ing : contents) {
-                copied.add(((FluidIngredient) (ing.inner)).copy());
-            }
-            boolean success = false;
-            for (var handler : getCapabilitiesFlat(IO.OUT, FluidRecipeCapability.CAP)) {
-                // noinspection unchecked
-                copied = (List<FluidIngredient>) handler.handleRecipe(IO.OUT, recipe, copied, true);
-                if (copied == null || copied.isEmpty()) {
-                    success = true;
-                    break;
-                }
-            }
-            if (!success) {
-                IdleReason.setIdleReason(this, IdleReason.OUTPUT_FULL);
-                return null;
-            }
-        }
+        var input = new ArrayList<>(result.fluidInputs);
+        input.add(new Content<>(FluidIngredient.of(electrolytesExisting.getFluid(GTOFluidStorageKey.ENERGY_RELEASE_ANODE), actuallyConsumedmB), 10000, 0));
+        input.add(new Content<>(FluidIngredient.of(electrolytesExisting.getFluid(GTOFluidStorageKey.ENERGY_RELEASE_CATHODE), actuallyConsumedmB), 10000, 0));
+        var output = new ArrayList<Content<FluidIngredient>>();
+        output.add(new Content<>(FluidIngredient.of(electrolytesExisting.getFluid(GTOFluidStorageKey.ENERGY_STORAGE_CATHODE), actuallyConsumedmB), 10000, 0));
+        output.add(new Content<>(FluidIngredient.of(electrolytesExisting.getFluid(GTOFluidStorageKey.ENERGY_STORAGE_ANODE), actuallyConsumedmB), 10000, 0));
+        result.fluidInputs = input;
+        result.fluidOutputs = output;
         return result;
     }
 
-    private Recipe getElectrolyteTransferRecipe(Recipe recipe) {
+    private GTRecipe getElectrolyteTransferRecipe(RecipeHandlerUnit unit, GTRecipe recipe) {
         if (recipe.data.getFloat(GTORecipeDataKeys.EFFICIENCY) <= 0) {
             return null;
         }
@@ -240,7 +214,7 @@ public class FullCellGenerator extends ElectricMultiblockMachine {
         if (sensorPart != null) {
             sensorPart.update((float) bonusEfficiency);
         }
-        return ParallelLogic.accurateParallel(this, recipe, Long.MAX_VALUE);
+        return ParallelLogic.accurateParallel(this, unit, recipe, Long.MAX_VALUE);
     }
 
     @Override
@@ -260,24 +234,25 @@ public class FullCellGenerator extends ElectricMultiblockMachine {
         bonusEfficiency = 1.0d;
     }
 
-    private Recipe getReleaseRecipe(Recipe recipe) {
-        var input = new ArrayList<>(recipe.inputs.get(ItemRecipeCapability.CAP));
-        var ingredient = (ItemIngredient) input.getFirst().inner;
+    private GTRecipe getReleaseRecipe(RecipeHandlerUnit unit, GTRecipe recipe) {
+        var input = new ArrayList<>(recipe.itemInputs);
+        var content = input.getFirst();
+        var ingredient = content.inner;
         var item = ingredient.getInnerItemStack().getItem();
         BooleanHolder hasMembrane = new BooleanHolder(false);
-        fastForEachInputItems((i, a) -> {
+        unit.fastForEachItems(true, (i, a) -> {
             if (i.getItem() == item) {
                 hasMembrane.value = true;
             }
         });
         if (!hasMembrane.value) {
-            IdleReason.setIdleReason(this, IdleReason.INVALID_INPUT);
+            setIdleReason(IdleReason.INVALID_INPUT);
             return null;
         }
         if (GTValues.RNG.nextFloat() < chanceConsumeMembraneOnDischarge) {
-            inputItem(ingredient.getInnerItemStack().getItem(), ingredient.amount);
+            unit.inputItem(ingredient.getInnerItemStack().getItem(), content.amount);
         }
-        return ParallelLogic.accurateParallel(this, recipe, MaxCanReleaseParallel);
+        return ParallelLogic.accurateParallel(this, unit, recipe, MaxCanReleaseParallel);
     }
 
     @Override

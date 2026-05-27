@@ -1,11 +1,8 @@
 package com.gtocore.common.machine.multiblock.electric.space.spacestaion;
 
-import com.gtocore.api.machine.part.ILargeSpaceStationMachine;
-
-import com.gtolib.api.machine.trait.CustomRecipeLogic;
+import com.gtocore.api.machine.ILargeSpaceStationMachine;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
-import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
@@ -83,11 +80,5 @@ public class Conjunction extends AbstractSpaceStation implements ILargeSpaceStat
     public void customText(@NotNull List<Component> list) {
         super.customText(list);
         ILargeSpaceStationMachine.super.customText(list);
-    }
-
-    @Override
-    @NotNull
-    public RecipeLogic createRecipeLogic(Object @NotNull... args) {
-        return new CustomRecipeLogic(this, this::getRecipe, false);
     }
 }

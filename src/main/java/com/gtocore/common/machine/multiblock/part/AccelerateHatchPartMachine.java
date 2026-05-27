@@ -8,7 +8,7 @@ import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IWorkableMultiController;
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
-import com.gregtechceu.gtceu.api.recipe.RecipeHelper;
+import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
 
 import com.lowdragmc.lowdraglib.gui.widget.LabelWidget;
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
@@ -31,10 +31,10 @@ public final class AccelerateHatchPartMachine extends WorkableAmountConfiguratio
     }
 
     @Override
-    public GTRecipe modifyRecipe(IWorkableMultiController controller, @NotNull GTRecipe recipe) {
+    public GTRecipe modifyRecipe(IWorkableMultiController controller, RecipeHandlerUnit unit, @NotNull GTRecipe recipe) {
         if (controller instanceof WorkableElectricMultiblockMachine) {
             int reduction = (int) getCurrent();
-            int recipeTier = RecipeHelper.getRecipeEUtTier(recipe);
+            int recipeTier = recipe.tier;
             int t = recipeTier - getTier();
             if (t > 0) {
                 reduction = Math.min(100, reduction + 20 * t);

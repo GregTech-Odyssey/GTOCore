@@ -13,6 +13,8 @@ import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
 import com.gregtechceu.gtceu.api.pattern.BlockPattern;
 import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
 import com.gregtechceu.gtceu.api.pattern.util.RelativeDirection;
+import com.gregtechceu.gtceu.api.recipe.GTRecipeDefinition;
+import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
 import com.gregtechceu.gtceu.common.data.GCYMBlocks;
 import com.gregtechceu.gtceu.common.data.GTBlocks;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
@@ -39,6 +41,12 @@ public final class CompoundExtremeCoolingMachine extends CrossRecipeMultiblockMa
             updateCheck();
             super.setActiveRecipeType(activeRecipeType);
         }
+    }
+
+    @Override
+    public boolean checkConditions(RecipeHandlerUnit unit, GTRecipeDefinition recipe) {
+        if (getRecipeType() != GTORecipeTypes.PLASMA_CONDENSER_RECIPES && recipe.recipeType != GTORecipeTypes.VACUUM_RECIPES) return false;
+        return super.checkConditions(unit, recipe);
     }
 
     public static BlockPattern getBlockPattern(int tier, MultiblockMachineDefinition definition) {
@@ -120,11 +128,6 @@ public final class CompoundExtremeCoolingMachine extends CrossRecipeMultiblockMa
     @Override
     public BlockPattern getPattern() {
         return getBlockPattern(getRecipeType() == GTORecipeTypes.PLASMA_CONDENSER_RECIPES ? 1 : 0, getDefinition());
-    }
-
-    @Override
-    public boolean disabledCombined() {
-        return getRecipeType() != GTORecipeTypes.PLASMA_CONDENSER_RECIPES;
     }
 
     @Override

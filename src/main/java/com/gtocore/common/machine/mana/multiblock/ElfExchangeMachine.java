@@ -4,17 +4,16 @@ import com.gtocore.common.data.GTOLoots;
 
 import com.gtolib.GTOCore;
 import com.gtolib.api.item.ItemStackSet;
-import com.gtolib.api.machine.trait.CustomRecipeLogic;
-import com.gtolib.api.recipe.Recipe;
 import com.gtolib.api.recipe.RecipeBuilder;
-import com.gtolib.api.recipe.RecipeRunner;
-import com.gtolib.api.recipe.modifier.ParallelLogic;
 import com.gtolib.utils.MachineUtils;
 import com.gtolib.utils.MathUtil;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
-import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
+import com.gregtechceu.gtceu.api.recipe.GTRecipeDefinition;
+import com.gregtechceu.gtceu.api.recipe.handler.ICustomRecipeLogicHolder;
+import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
 import com.gregtechceu.gtceu.api.recipe.ingredient.ItemIngredient;
+import com.gregtechceu.gtceu.api.recipe.modifier.ParallelLogic;
 
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
@@ -29,15 +28,12 @@ import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 
 import com.gto.datasynclib.util.holder.IntHolder;
-import com.gto.datasynclib.util.holder.ObjHolder;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import static net.minecraft.sounds.SoundEvents.*;
 import static net.minecraft.world.item.Items.GOLD_INGOT;
 import static net.minecraft.world.level.Level.NETHER;
 
-public class ElfExchangeMachine extends ManaMultiblockMachine {
+public class ElfExchangeMachine extends ManaMultiblockMachine implements ICustomRecipeLogicHolder {
 
     private PiglinMerchant piglin;
 
@@ -45,10 +41,25 @@ public class ElfExchangeMachine extends ManaMultiblockMachine {
         super(holder);
     }
 
-    @Nullable
-    private Recipe getRecipe() {
-        ObjHolder<Recipe> recipe = new ObjHolder<>();
-        int mode = checkingCircuit(false);
+    private int piglinSoundPlayCD = 0;
+    private static final SoundEvent[] soundEntries = new SoundEvent[] {
+            PIGLIN_CELEBRATE, PIGLIN_JEALOUS, PIGLIN_ADMIRING_ITEM, PIGLIN_AMBIENT, PIGLIN_RETREAT
+    };
+
+    @Override
+    public void onWorking() {
+        if (piglinSoundPlayCD > 0) piglinSoundPlayCD--;
+        else if (piglin != null && getLevel() instanceof ServerLevel level) {
+            SoundEvent soundEvent = soundEntries[level.random.nextInt(soundEntries.length)];
+            level.playSound(null, getPos(), soundEvent, SoundSource.BLOCKS);
+            piglinSoundPlayCD = 10 + level.random.nextInt(100);
+        }
+        super.onWorking();
+    }
+
+    @Override
+    public GTRecipeDefinition createCustomRecipe(RecipeHandlerUnit unit) {
+        int mode = unit.getCircuit(false);
         if (getLevel() instanceof ServerLevel level && level.dimension() == NETHER && mode > 0) {
             RecipeBuilder builder = getRecipeBuilder().duration(120).MANAt(10);
             LootTable lootTable = level.getServer().getLootData().getLootTable(BuiltInLootTables.PIGLIN_BARTERING);
@@ -59,13 +70,13 @@ public class ElfExchangeMachine extends ManaMultiblockMachine {
                     .create(LootContextParamSets.PIGLIN_BARTER);
             ItemStackSet itemStacks = new ItemStackSet();
 
-            recipe.value = ParallelLogic.accurateParallel(this, builder.copy(GTOCore.id("test")).inputItems(GOLD_INGOT).outputItems(Items.STICK).buildRawRecipe(), MachineUtils.getHatchParallel(this));
-            if (recipe.value == null) return null;
+            var maxParallel = ParallelLogic.getMaxParallelAmount(this, unit, builder.copy(GTOCore.id("test")).inputItems(GOLD_INGOT).outputItems(Items.STICK).build().toRuntime(), MachineUtils.getHatchParallel(this));
+            if (maxParallel == 0) return null;
             IntHolder nbt = new IntHolder();
-            builder.MANAt(recipe.value.getInputMANAt());
-            builder.inputItems(ItemIngredient.of(GOLD_INGOT, recipe.value.parallels));
-            var parallel = Math.min(1024, recipe.value.parallels);
-            var multiplier = recipe.value.parallels / parallel;
+            builder.MANAt(10 * maxParallel);
+            builder.inputItems(ItemIngredient.of(GOLD_INGOT, maxParallel));
+            var parallel = Math.min(1024, maxParallel);
+            var multiplier = maxParallel / parallel;
             GTOLoots.modifyLoot = false;
             for (int i = 0; i < parallel; i++) {
                 lootTable.getRandomItems(lootContext).forEach(itemStack -> {
@@ -83,40 +94,19 @@ public class ElfExchangeMachine extends ManaMultiblockMachine {
                 }
                 builder.outputItems(i);
             });
-            recipe.value = builder.buildRawRecipe();
-        } else {
-            getRecipeType().findRecipe(this, r -> {
-                var modify = (Recipe) fullModifyRecipe(r.toRuntime());
-                if (modify != null && RecipeRunner.matchRecipe(this, modify) && RecipeRunner.matchTickRecipe(this, recipe.value)) {
-                    piglin = null;
-                    recipe.value = modify;
-                    return true;
-                }
-                return false;
-            });
+            return builder.build();
         }
-        return recipe.value;
-    }
-
-    private int piglinSoundPlayCD = 0;
-    private static final SoundEvent[] soundEntries = new SoundEvent[] {
-            PIGLIN_CELEBRATE, PIGLIN_JEALOUS, PIGLIN_ADMIRING_ITEM, PIGLIN_AMBIENT, PIGLIN_RETREAT
-    };
-
-    @Override
-    public boolean onWorking() {
-        if (piglinSoundPlayCD > 0) piglinSoundPlayCD--;
-        else if (piglin != null && getLevel() instanceof ServerLevel level) {
-            SoundEvent soundEvent = soundEntries[level.random.nextInt(soundEntries.length)];
-            level.playSound(null, getPos(), soundEvent, SoundSource.BLOCKS);
-            piglinSoundPlayCD = 10 + level.random.nextInt(100);
-        }
-        return super.onWorking();
+        return null;
     }
 
     @Override
-    public RecipeLogic createRecipeLogic(Object @NotNull... args) {
-        return new CustomRecipeLogic(this, this::getRecipe);
+    public boolean alwaysSearchRecipe() {
+        return true;
+    }
+
+    @Override
+    public boolean searchRecipe() {
+        return true;
     }
 
     private static class PiglinMerchant extends Piglin {

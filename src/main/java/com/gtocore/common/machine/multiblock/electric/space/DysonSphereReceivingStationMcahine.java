@@ -5,13 +5,13 @@ import com.gtocore.common.saved.DysonSphereSavaedData;
 
 import com.gtolib.api.data.GTODimensions;
 import com.gtolib.api.machine.multiblock.ElectricMultiblockMachine;
-import com.gtolib.api.machine.trait.CustomRecipeLogic;
-import com.gtolib.api.recipe.Recipe;
-import com.gtolib.api.recipe.RecipeRunner;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
-import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
+import com.gregtechceu.gtceu.api.recipe.GTRecipe;
+import com.gregtechceu.gtceu.api.recipe.GTRecipeDefinition;
+import com.gregtechceu.gtceu.api.recipe.handler.ICustomRecipeLogicHolder;
+import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
@@ -20,12 +20,11 @@ import net.minecraftforge.fluids.FluidStack;
 
 import it.unimi.dsi.fastutil.ints.IntIntImmutablePair;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.Objects;
 
-public final class DysonSphereReceivingStationMcahine extends ElectricMultiblockMachine {
+public final class DysonSphereReceivingStationMcahine extends ElectricMultiblockMachine implements ICustomRecipeLogicHolder {
 
     private ResourceKey<Level> dimension;
 
@@ -39,9 +38,9 @@ public final class DysonSphereReceivingStationMcahine extends ElectricMultiblock
     }
 
     @Override
-    protected boolean beforeWorking(@NotNull Recipe recipe) {
+    public void beforeWorking(@NotNull RecipeHandlerUnit unit, @NotNull GTRecipe recipe) {
         DysonSphereSavaedData.setDysonUse(getDimension(), true);
-        return super.beforeWorking(recipe);
+        super.beforeWorking(unit, recipe);
     }
 
     @Override
@@ -56,8 +55,17 @@ public final class DysonSphereReceivingStationMcahine extends ElectricMultiblock
         DysonSphereSavaedData.setDysonUse(getDimension(), false);
     }
 
-    @Nullable
-    private Recipe getRecipe() {
+    @Override
+    public void customText(@NotNull List<Component> textList) {
+        super.customText(textList);
+        IntIntImmutablePair pair = DysonSphereSavaedData.getDimensionData(getDimension());
+        textList.add(Component.translatable("gtocore.machine.dyson_sphere.number", pair.leftInt()));
+        textList.add(Component.translatable("gtocore.machine.dyson_sphere.voltage", (pair.leftInt() > 0 ? getOverclockVoltage() : 0)));
+        textList.add(Component.translatable("gtocore.machine.fission_reactor.damaged", pair.rightInt()).append("%"));
+    }
+
+    @Override
+    public GTRecipeDefinition createCustomRecipe(RecipeHandlerUnit unit) {
         if (DysonSphereSavaedData.getDimensionUse(getDimension())) return null;
         IntIntImmutablePair pair = DysonSphereSavaedData.getDimensionData(getDimension());
         if (pair.leftInt() < 1) return null;
@@ -75,26 +83,15 @@ public final class DysonSphereReceivingStationMcahine extends ElectricMultiblock
         }
         int integer = GTODimensions.getPlanetDistances(getDimension());
         if (integer == 0) return null;
-        Recipe recipe = getRecipeBuilder().duration(20)
+        return getRecipeBuilder().duration(20)
                 .CWUt(Math.max(1, pair.leftInt() * integer / 2))
                 .EUt(-GTValues.V[GTValues.MAX] * pair.leftInt() * (50 - Math.max(0, pair.rightInt() - 60)) / 50)
                 .inputFluids(new FluidStack(GTOFluids.GELID_CRYOTHEUM.get(), Math.max(1, (int) Math.sqrt(pair.leftInt()))))
-                .buildRawRecipe();
-        if (RecipeRunner.matchRecipe(this, recipe) && RecipeRunner.matchTickRecipe(this, recipe)) return recipe;
-        return null;
+                .build();
     }
 
     @Override
-    public RecipeLogic createRecipeLogic(Object @NotNull... args) {
-        return new CustomRecipeLogic(this, this::getRecipe);
-    }
-
-    @Override
-    public void customText(@NotNull List<Component> textList) {
-        super.customText(textList);
-        IntIntImmutablePair pair = DysonSphereSavaedData.getDimensionData(getDimension());
-        textList.add(Component.translatable("gtocore.machine.dyson_sphere.number", pair.leftInt()));
-        textList.add(Component.translatable("gtocore.machine.dyson_sphere.voltage", (pair.leftInt() > 0 ? getOverclockVoltage() : 0)));
-        textList.add(Component.translatable("gtocore.machine.fission_reactor.damaged", pair.rightInt()).append("%"));
+    public boolean alwaysSearchRecipe() {
+        return true;
     }
 }

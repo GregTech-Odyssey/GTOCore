@@ -3,18 +3,16 @@ package com.gtocore.common.machine.trait;
 import com.gtocore.common.machine.multiblock.electric.voidseries.AdvancedInfiniteDrillMachine;
 
 import com.gtolib.api.machine.impl.DrillingControlCenterMachine;
-import com.gtolib.api.machine.trait.IEnhancedRecipeLogic;
 import com.gtolib.api.machine.trait.IFluidDrillLogic;
-import com.gtolib.api.recipe.Recipe;
-import com.gtolib.api.recipe.RecipeRunner;
-import com.gtolib.api.recipe.modifier.RecipeModifierFunction;
+import com.gtolib.api.recipe.RecipeBuilder;
 
-import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.data.worldgen.bedrockfluid.BedrockFluidVeinSavedData;
 import com.gregtechceu.gtceu.api.data.worldgen.bedrockfluid.FluidVeinWorldEntry;
 import com.gregtechceu.gtceu.api.machine.feature.IRecipeLogicMachine;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
-import com.gregtechceu.gtceu.api.recipe.content.ContentModifier;
+import com.gregtechceu.gtceu.api.recipe.GTRecipe;
+import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
+import com.gregtechceu.gtceu.api.recipe.modifier.RecipeModifier;
 
 import net.minecraft.core.SectionPos;
 import net.minecraft.server.level.ServerLevel;
@@ -26,7 +24,7 @@ import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public final class AdvancedInfiniteDrillLogic extends RecipeLogic implements IEnhancedRecipeLogic, IFluidDrillLogic {
+public final class AdvancedInfiniteDrillLogic extends RecipeLogic implements IFluidDrillLogic {
 
     private static final int MAX_PROGRESS = 20;
     private final Reference2IntOpenHashMap<Fluid> veinFluids = new Reference2IntOpenHashMap<>();
@@ -61,27 +59,23 @@ public final class AdvancedInfiniteDrillLogic extends RecipeLogic implements IEn
             }
             var match = getFluidDrillRecipe();
             if (match != null) {
-                if (RecipeRunner.matchRecipe(machine, match) && RecipeRunner.matchTickRecipe(machine, match)) {
-                    setupRecipe(match);
+                if (machine.handleRecipeOutput(match) && machine.matchTickRecipe(match)) {
+                    setupRecipe(RecipeHandlerUnit.NO_DATA, match);
                 }
             }
         }
     }
 
     @Nullable
-    private Recipe getFluidDrillRecipe() {
+    private GTRecipe getFluidDrillRecipe() {
         if (getMachine().isEmpty() || !getMachine().canRunnable()) return null;
         if (!veinFluids.isEmpty()) {
-            var builder = gtolib$getRecipeBuilder().duration(MAX_PROGRESS).EUt(20000);
-            veinFluids.reference2IntEntrySet().fastForEach(e -> {
-                builder.outputFluids(e.getKey(), e.getIntValue());
-            });
+            var builder = RecipeBuilder.ofRaw().duration(MAX_PROGRESS).EUt(20000);
+            veinFluids.reference2IntEntrySet().fastForEach(e -> builder.outputFluids(e.getKey(), e.getIntValue()));
             var recipe = builder.buildRawRecipe();
-            recipe.modifier(new ContentModifier(getParallel() * efficiency(getMachine().getRate() * 500)), true);
-            RecipeModifierFunction.overclocking(getMachine(), recipe);
-            if (RecipeRunner.matchRecipe(machine, recipe) && RecipeRunner.matchTickRecipe(machine, recipe)) {
-                return recipe;
-            }
+            recipe.modifier(getParallel() * efficiency(getMachine().getRate() * 500), true);
+            recipe = RecipeModifier.overclocking(getMachine(), RecipeHandlerUnit.NO_DATA, recipe);
+            return recipe;
         }
         return null;
     }
@@ -151,13 +145,13 @@ public final class AdvancedInfiniteDrillLogic extends RecipeLogic implements IEn
     public void onRecipeFinish() {
         machine.afterWorking();
         if (lastRecipe != null) {
-            handleRecipeIO(lastRecipe, IO.OUT);
+            machine.handleRecipeOutput(lastRecipe);
         }
         // try it again
         var match = getFluidDrillRecipe();
         if (match != null) {
-            if (RecipeRunner.matchRecipe(machine, match) && RecipeRunner.matchTickRecipe(machine, match)) {
-                setupRecipe(match);
+            if (machine.handleRecipeOutput(match) && machine.matchTickRecipe(match)) {
+                setupRecipe(RecipeHandlerUnit.NO_DATA, match);
                 return;
             }
         }

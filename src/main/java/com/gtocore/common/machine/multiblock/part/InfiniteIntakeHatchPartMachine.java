@@ -3,14 +3,12 @@ package com.gtocore.common.machine.multiblock.part;
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.blockentity.ITickSubscription;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
-import com.gregtechceu.gtceu.api.capability.recipe.FluidRecipeCapability;
-import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.machine.TickableSubscription;
 import com.gregtechceu.gtceu.api.machine.multiblock.part.WorkableTieredIOPartMachine;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableFluidTank;
-import com.gregtechceu.gtceu.api.recipe.RecipeHelper;
+import com.gregtechceu.gtceu.api.recipe.GTRecipeBuilder;
+import com.gregtechceu.gtceu.api.recipe.handler.IO;
 import com.gregtechceu.gtceu.common.recipe.condition.DimensionCondition;
-import com.gregtechceu.gtceu.data.recipe.builder.GTRecipeBuilder;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -60,12 +58,12 @@ public final class InfiniteIntakeHatchPartMachine extends WorkableTieredIOPartMa
     }
 
     public static void init(GTRecipeBuilder recipeBuilder) {
-        for (var condition : recipeBuilder.conditions) {
+        for (var condition : recipeBuilder.getConditions()) {
             if (condition instanceof DimensionCondition dimensionCondition) {
                 var dim = dimensionCondition.dimension;
-                var fluids = RecipeHelper.getOutputContents(recipeBuilder, FluidRecipeCapability.CAP);
+                var fluids = recipeBuilder.getFluidOutputs();
                 if (!fluids.isEmpty()) {
-                    AIR_MAP.put(dim, fluids.getFirst().getFluid());
+                    AIR_MAP.put(dim, fluids.getFirst().inner.getFluid());
                     break;
                 }
             }
@@ -97,7 +95,7 @@ public final class InfiniteIntakeHatchPartMachine extends WorkableTieredIOPartMa
 
     @Override
     public void onPaintingColorChanged(int color) {
-        getHandlerList().setColor(color, true);
+        getHandlerUnit().setColor(color, true);
     }
 
     @Override

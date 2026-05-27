@@ -5,10 +5,7 @@ import com.gtocore.common.data.machines.SpaceMultiblock;
 
 import com.gtolib.api.machine.feature.multiblock.ICrossRecipeMachine;
 import com.gtolib.api.machine.trait.CrossRecipeTrait;
-import com.gtolib.api.machine.trait.IEnhancedRecipeLogic;
 import com.gtolib.api.recipe.IdleReason;
-import com.gtolib.api.recipe.Recipe;
-import com.gtolib.api.recipe.modifier.RecipeModifierFunction;
 import com.gtolib.utils.MachineUtils;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
@@ -16,17 +13,18 @@ import com.gregtechceu.gtceu.api.gui.fancy.ConfiguratorPanel;
 import com.gregtechceu.gtceu.api.machine.feature.ICleanroomProvider;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
 import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility;
-import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
+import com.gregtechceu.gtceu.api.recipe.GTRecipe;
+import com.gregtechceu.gtceu.api.recipe.GTRecipeDefinition;
+import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
+import com.gregtechceu.gtceu.api.recipe.modifier.RecipeModifier;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import earth.terrarium.adastra.api.planets.PlanetApi;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Objects;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.function.ToLongFunction;
@@ -83,34 +81,27 @@ public class RecipeExtension extends Extension implements ICrossRecipeMachine {
     }
 
     @Override
-    public Recipe getRecipe() {
-        if (!PlanetApi.API.isSpace(getLevel()) || getRoot() == null || !getRoot().isWorkspaceReady()) {
-            setIdleReason(IdleReason.CANNOT_WORK_IN_SPACE);
-            return null;
-        }
-
-        return crossRecipeTrait.getRecipe();
+    public @Nullable GTRecipeDefinition createCustomRecipe(RecipeHandlerUnit unit) {
+        return null;
     }
 
     @Override
-    public Recipe getRealRecipe(@NotNull Recipe recipe) {
+    public boolean searchRecipe() {
+        return true;
+    }
+
+    @Override
+    public GTRecipe getRealRecipe(@NotNull RecipeHandlerUnit unit, @NotNull GTRecipe recipe) {
         if (!isWorkspaceReady()) {
             setIdleReason(IdleReason.CANNOT_WORK_IN_SPACE);
             return null;
         }
         if (hasLaserInput && !core.canUseLaser()) {
-            ((IEnhancedRecipeLogic) getRecipeLogic())
-                    .gtolib$setIdleReason(Component.translatable("gtocore.machine.spacestation.require_module", Component.translatable(SpaceMultiblock.SPACE_STATION_ENERGY_CONVERSION_MODULE.getDescriptionId())));
+            setIdleReason(Component.translatable("gtocore.machine.spacestation.require_module", Component.translatable(SpaceMultiblock.SPACE_STATION_ENERGY_CONVERSION_MODULE.getDescriptionId())));
             return null;
         }
 
-        return ICrossRecipeMachine.super.getRealRecipe(Objects.requireNonNull(RecipeModifierFunction.recipeReduction(1, core.getDurationMultiplierFromSpaceElevator()).apply(this, recipe)));
-    }
-
-    @Override
-    @NotNull
-    public RecipeLogic createRecipeLogic(Object @NotNull... args) {
-        return new Logic(this, this::getRecipe);
+        return ICrossRecipeMachine.super.getRealRecipe(unit, RecipeModifier.multiplier(recipe, 1, core.getDurationMultiplierFromSpaceElevator()));
     }
 
     @Override

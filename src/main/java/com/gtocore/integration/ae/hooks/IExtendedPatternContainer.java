@@ -120,11 +120,11 @@ public interface IExtendedPatternContainer extends PatternContainer {
     static List<GTRecipeType> gto$getRecipeTypes(IPPPC self) {
         var adjBe = IExtendedPatternContainer.getPushBlockEntity(self);
         if (adjBe instanceof IMultiPart partMachine) {
-            return partMachine.getController() instanceof IRecipeLogicMachine rlm ? Arrays.asList(rlm.getRecipeTypes()) : null;
+            return partMachine.getController() instanceof IRecipeLogicMachine rlm ? Arrays.asList(rlm.getAvailableRecipeTypes()) : null;
         }
 
         if (adjBe instanceof IRecipeLogicMachine rlm) {
-            return Arrays.asList(rlm.getRecipeTypes());
+            return Arrays.asList(rlm.getAvailableRecipeTypes());
         }
 
         return null;

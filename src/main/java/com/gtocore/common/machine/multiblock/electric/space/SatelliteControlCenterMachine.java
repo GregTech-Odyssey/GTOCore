@@ -10,9 +10,6 @@ import com.gtolib.api.annotation.language.RegisterLanguage;
 import com.gtolib.api.data.Dimension;
 import com.gtolib.api.data.GTODimensions;
 import com.gtolib.api.machine.multiblock.ElectricMultiblockMachine;
-import com.gtolib.api.machine.trait.CustomRecipeLogic;
-import com.gtolib.api.recipe.Recipe;
-import com.gtolib.api.recipe.RecipeRunner;
 import com.gtolib.utils.RegistriesUtils;
 
 import com.gregtechceu.gtceu.GTCEu;
@@ -20,7 +17,9 @@ import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.gui.fancy.ConfiguratorPanel;
-import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
+import com.gregtechceu.gtceu.api.recipe.GTRecipeDefinition;
+import com.gregtechceu.gtceu.api.recipe.handler.ICustomRecipeLogicHolder;
+import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
 import net.minecraft.network.chat.Component;
@@ -34,7 +33,6 @@ import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import earth.terrarium.adastra.common.registry.ModFluids;
 import earth.terrarium.adastra.common.registry.ModItems;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,7 +41,7 @@ import java.util.Map;
 import static com.gregtechceu.gtceu.api.GTValues.*;
 
 @DataGeneratorScanned
-public final class SatelliteControlCenterMachine extends ElectricMultiblockMachine {
+public final class SatelliteControlCenterMachine extends ElectricMultiblockMachine implements ICustomRecipeLogicHolder {
 
     @RegisterLanguage(en = "Selected planet: ", cn = "已选择的星球：")
     private static final String PLANET = "gtocore.satellite_control_center.planet";
@@ -108,34 +106,6 @@ public final class SatelliteControlCenterMachine extends ElectricMultiblockMachi
         }
     }
 
-    @Nullable
-    private Recipe getRecipe() {
-        if (launch && getTier() > GTValues.MV && getOwnerUUID() != null) {
-            launch = false;
-            Item item = getRocket(Wrapper.LIST[index].getTier());
-            if (item == null) return null;
-            Recipe recipe = getRecipeBuilder()
-                    .inputItems(GTOItems.PLANET_SCAN_SATELLITE.asStack())
-                    .inputFluids(getFuel(Wrapper.LIST[index].getTier()))
-                    .inputItems(item)
-                    .inputItems(GTOItems.PLANET_DATA_CHIP.asStack())
-                    .outputItems(item)
-                    .outputItems(GTOItems.PLANET_DATA_CHIP.get().getPlanetDataChip(getOwnerUUID(), Wrapper.LIST[index].getLocation()))
-                    .EUt(V[HV])
-                    .duration(6000)
-                    .buildRawRecipe();
-            if (RecipeRunner.matchRecipe(this, recipe) && RecipeRunner.matchTickRecipe(this, recipe)) return recipe;
-        } else if (getTier() <= GTValues.MV) {
-            setIdleReason(IdleReason.VOLTAGE_TIER_NOT_SATISFIES);
-        }
-        return null;
-    }
-
-    @Override
-    public RecipeLogic createRecipeLogic(Object @NotNull... args) {
-        return new CustomRecipeLogic(this, this::getRecipe, true);
-    }
-
     public static Dimension[] getPlanets() {
         return Wrapper.LIST;
     }
@@ -146,6 +116,28 @@ public final class SatelliteControlCenterMachine extends ElectricMultiblockMachi
 
     public static FluidStack getFuel(int tier) {
         return Wrapper.FUEL.get(tier);
+    }
+
+    @Override
+    public GTRecipeDefinition createCustomRecipe(RecipeHandlerUnit unit) {
+        if (launch && getTier() > GTValues.MV && getOwnerUUID() != null) {
+            launch = false;
+            Item item = getRocket(Wrapper.LIST[index].getTier());
+            if (item == null) return null;
+            return getRecipeBuilder()
+                    .inputItems(GTOItems.PLANET_SCAN_SATELLITE.asStack())
+                    .inputFluids(getFuel(Wrapper.LIST[index].getTier()))
+                    .inputItems(item)
+                    .inputItems(GTOItems.PLANET_DATA_CHIP.asStack())
+                    .outputItems(item)
+                    .outputItems(GTOItems.PLANET_DATA_CHIP.get().getPlanetDataChip(getOwnerUUID(), Wrapper.LIST[index].getLocation()))
+                    .EUt(V[HV])
+                    .duration(6000)
+                    .build();
+        } else if (getTier() <= GTValues.MV) {
+            setIdleReason(IdleReason.VOLTAGE_TIER_NOT_SATISFIES);
+        }
+        return null;
     }
 
     private static class Wrapper {

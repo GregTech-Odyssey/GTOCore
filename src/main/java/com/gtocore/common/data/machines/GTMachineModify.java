@@ -6,13 +6,10 @@ import com.gtocore.common.data.GTOMachines;
 
 import com.gtolib.api.data.GTODimensions;
 import com.gtolib.api.misc.PlanetManagement;
-import com.gtolib.api.recipe.modifier.RecipeModifierFunction;
-import com.gtolib.api.recipe.modifier.RecipeModifierFunctionList;
-import com.gtolib.utils.MachineUtils;
+import com.gtolib.api.recipe.GTORecipeModifiers;
 import com.gtolib.utils.RLUtils;
 
 import com.gregtechceu.gtceu.api.GTValues;
-import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
@@ -22,7 +19,6 @@ import com.gregtechceu.gtceu.api.pattern.Predicates;
 import com.gregtechceu.gtceu.api.pattern.TraceabilityPredicate;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
-import com.gregtechceu.gtceu.api.recipe.ingredient.ItemIngredient;
 import com.gregtechceu.gtceu.api.recipe.modifier.RecipeModifier;
 import com.gregtechceu.gtceu.common.data.GTBlocks;
 import com.gregtechceu.gtceu.common.data.GTMachines;
@@ -52,21 +48,17 @@ public final class GTMachineModify {
     public static void init() {
         GTMultiMachines.MULTI_SMELTER.setRecipeTypes(new GTRecipeType[] { GTRecipeTypes.FURNACE_RECIPES });
         GTMultiMachines.MULTI_SMELTER.setTooltipBuilder((itemStack, components) -> components.add(Component.translatable("gtceu.machine.available_recipe_map_1.tooltip", Component.translatable("gtceu.electric_furnace"))));
-        GTMultiMachines.MULTI_SMELTER.setRecipeModifier(new RecipeModifierFunctionList(RecipeModifierFunction::multiSmelterParallel));
+        GTMultiMachines.MULTI_SMELTER.setRecipeModifier(GTORecipeModifiers.UPGRADE_MULTI_SMELTER_OVERCLOCK);
         GTMultiMachines.LARGE_CHEMICAL_REACTOR.setRecipeModifier(RecipeModifier.NO_MODIFIER);
-        GTMultiMachines.LARGE_BOILER_BRONZE.setRecipeModifier(RecipeModifierFunction.LARGE_BOILER_MODIFIER);
-        GTMultiMachines.LARGE_BOILER_STEEL.setRecipeModifier(RecipeModifierFunction.LARGE_BOILER_MODIFIER);
-        GTMultiMachines.LARGE_BOILER_TITANIUM.setRecipeModifier(RecipeModifierFunction.LARGE_BOILER_MODIFIER);
-        GTMultiMachines.LARGE_BOILER_TUNGSTENSTEEL.setRecipeModifier(RecipeModifierFunction.LARGE_BOILER_MODIFIER);
-        GTMultiMachines.ELECTRIC_BLAST_FURNACE.setRecipeModifier(new RecipeModifierFunctionList(RecipeModifierFunction::ebfOverclock));
-        GTMultiMachines.PYROLYSE_OVEN.setRecipeModifier(new RecipeModifierFunctionList(RecipeModifierFunction::pyrolyseOvenOverclock));
+        GTMultiMachines.ELECTRIC_BLAST_FURNACE.setRecipeModifier(GTORecipeModifiers.UPGRADE_EBF_OVERCLOCK);
+        GTMultiMachines.PYROLYSE_OVEN.setRecipeModifier(GTORecipeModifiers.UPGRADE_PYROLYSE_OVEN_OVERCLOCK);
         GTMultiMachines.PYROLYSE_OVEN.setRecoveryItems(GTMachineModify::tinydustFromDustOutput);
-        GTMultiMachines.CRACKER.setRecipeModifier(new RecipeModifierFunctionList(RecipeModifierFunction::crackerOverclock));
-        GTMultiMachines.IMPLOSION_COMPRESSOR.setRecipeModifier(RecipeModifierFunction.OVERCLOCKING);
+        GTMultiMachines.CRACKER.setRecipeModifier(GTORecipeModifiers.UPGRADE_CRACKER_OVERCLOCK);
+        GTMultiMachines.IMPLOSION_COMPRESSOR.setRecipeModifier(GTORecipeModifiers.UPGRADE_OVERCLOCK);
         GTMultiMachines.IMPLOSION_COMPRESSOR.setRecoveryItems((a, b) -> ChemicalHelper.get(TagPrefix.dustTiny, GTMaterials.Saltpeter));
-        GTMultiMachines.DISTILLATION_TOWER.setRecipeModifier(RecipeModifierFunction.OVERCLOCKING);
-        GTMultiMachines.VACUUM_FREEZER.setRecipeModifier(RecipeModifierFunction.OVERCLOCKING);
-        GTMultiMachines.ASSEMBLY_LINE.setRecipeModifier(RecipeModifierFunction.OVERCLOCKING);
+        GTMultiMachines.DISTILLATION_TOWER.setRecipeModifier(GTORecipeModifiers.UPGRADE_OVERCLOCK);
+        GTMultiMachines.VACUUM_FREEZER.setRecipeModifier(GTORecipeModifiers.UPGRADE_OVERCLOCK);
+        GTMultiMachines.ASSEMBLY_LINE.setRecipeModifier(GTORecipeModifiers.UPGRADE_OVERCLOCK);
         GTMultiMachines.STEAM_GRINDER.setPatternFactory(definition -> FactoryBlockPattern.start(definition)
                 .aisle("XXX", "XXX", "XXX")
                 .aisle("XXX", "X#X", "XXX")
@@ -158,12 +150,12 @@ public final class GTMachineModify {
         GTMultiMachines.ELECTRIC_BLAST_FURNACE.setAdditionalDisplay((m, l) -> {});
 
         for (int tier : GTMachineUtils.ELECTRIC_TIERS) {
-            GTMachines.MACERATOR[tier].setRecipeModifier(RecipeModifierFunction.OVERCLOCKING);
-            GTMachines.ROCK_CRUSHER[tier].setRecipeModifier(RecipeModifierFunction.OVERCLOCKING);
+            GTMachines.MACERATOR[tier].setRecipeModifier(GTORecipeModifiers.UPGRADE_OVERCLOCK);
+            GTMachines.ROCK_CRUSHER[tier].setRecipeModifier(GTORecipeModifiers.UPGRADE_OVERCLOCK);
             if (tier > GTValues.LV) {
                 GTMachines.SCANNER[tier].setOnWorking(machine -> {
                     if (machine.getProgress() == machine.getMaxProgress() - 1) {
-                        MachineUtils.forEachInputItems(machine, (stack, amount) -> {
+                        machine.forEachItems(true, (stack, amount) -> {
                             CompoundTag tag = stack.getTag();
                             if (tag != null) {
                                 String planet = tag.getString("planet");
@@ -177,7 +169,6 @@ public final class GTMachineModify {
                             return false;
                         });
                     }
-                    return true;
                 });
             }
         }
@@ -191,7 +182,7 @@ public final class GTMachineModify {
                         Component.literal(FormattingUtil.formatNumbers(getAirScrubberRange(tier))).withStyle(ChatFormatting.WHITE))
                         .withStyle(ChatFormatting.GRAY));
             });
-            GTMachines.AIR_SCRUBBER[tier].setRecipeModifier(RecipeModifierFunction.OVERCLOCKING);
+            GTMachines.AIR_SCRUBBER[tier].setRecipeModifier(GTORecipeModifiers.UPGRADE_OVERCLOCK);
         }
     }
 
@@ -214,9 +205,9 @@ public final class GTMachineModify {
             ash = GTMachineModify.ash;
         }
         if (machine.getLevel() == null) return ash;
-        if (gtRecipe != null && gtRecipe.outputs.get(ItemRecipeCapability.CAP) != null) {
-            var pool = gtRecipe.outputs.get(ItemRecipeCapability.CAP)
-                    .stream().map(ing -> ((ItemIngredient) ing.inner).getInnerItemStack())
+        if (gtRecipe != null && !gtRecipe.itemOutputs.isEmpty()) {
+            var pool = gtRecipe.itemOutputs
+                    .stream().map(ing -> ing.inner.getInnerItemStack())
                     .filter(i -> !i.isEmpty() && ChemicalHelper.getPrefix(i.getItem()) == TagPrefix.dust)
                     .map(i -> ChemicalHelper.get(TagPrefix.dustTiny, ChemicalHelper.getMaterialStack(i).material()))
                     .toList();

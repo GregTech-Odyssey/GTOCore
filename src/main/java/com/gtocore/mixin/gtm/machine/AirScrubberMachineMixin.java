@@ -5,9 +5,11 @@ import com.gtolib.api.capability.IIWirelessInteractor;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.SimpleTieredMachine;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
+import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
 import com.gregtechceu.gtceu.common.machine.electric.AirScrubberMachine;
 
 import it.unimi.dsi.fastutil.ints.Int2IntFunction;
+import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Mixin;
 
 @Mixin(AirScrubberMachine.class)
@@ -43,11 +45,8 @@ public class AirScrubberMachineMixin extends SimpleTieredMachine {
     }
 
     @Override
-    public boolean beforeWorking(GTRecipe recipe) {
-        if (super.beforeWorking(recipe)) {
-            IIWirelessInteractor.addToNet(this, AirScrubberMachine.class);
-            return true;
-        }
-        return false;
+    public void beforeWorking(@NotNull RecipeHandlerUnit unit, @NotNull GTRecipe recipe) {
+        super.beforeWorking(unit, recipe);
+        IIWirelessInteractor.addToNet(this, AirScrubberMachine.class);
     }
 }

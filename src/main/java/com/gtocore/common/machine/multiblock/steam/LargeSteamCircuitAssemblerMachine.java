@@ -4,16 +4,13 @@ import com.gtolib.api.annotation.Scanned;
 import com.gtolib.api.annotation.dynamic.DynamicInitialValue;
 import com.gtolib.api.annotation.dynamic.DynamicInitialValueTypes;
 import com.gtolib.api.annotation.language.RegisterLanguage;
-import com.gtolib.api.recipe.Recipe;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
-import com.gregtechceu.gtceu.api.capability.recipe.IO;
-import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
-import com.gregtechceu.gtceu.api.recipe.content.Content;
-import com.gregtechceu.gtceu.api.recipe.content.ContentModifier;
+import com.gregtechceu.gtceu.api.recipe.handler.IO;
+import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.ItemBusPartMachine;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
@@ -108,20 +105,20 @@ public final class LargeSteamCircuitAssemblerMachine extends BaseSteamMultiblock
 
     @Nullable
     @Override
-    protected GTRecipe getRealRecipe(GTRecipe recipe) {
+    protected GTRecipe getRealRecipe(RecipeHandlerUnit unit, GTRecipe recipe) {
         if (count < Engraving_needed_amount) return null;
-        Content content = recipe.outputs.get(ItemRecipeCapability.CAP).get(0);
-        if (ItemRecipeCapability.CAP.of(content).getInnerItemStack().getItem() == item) {
+        var content = recipe.itemOutputs.getFirst();
+        if (content.inner.getInnerItemStack().getItem() == item) {
             if (isMultiMode) {
-                recipe.outputs.put(ItemRecipeCapability.CAP, List.of(content.copy(ItemRecipeCapability.CAP, ContentModifier.multiplier(PRODUCT_MULTIPLY))));
-                recipe = super.getRealRecipe(recipe);
+                recipe.itemOutputs = List.of(content.copy(PRODUCT_MULTIPLY));
+                recipe = super.getRealRecipe(unit, recipe);
                 if (recipe != null) {
                     recipe.duration = recipe.duration * RECIPE_DURATION_MULTIPLY;
-                    ((Recipe) recipe).eut = recipe.getInputEUt() * COST_STEAM_MULTIPLY;
+                    recipe.setEUt(recipe.getInputEUt() * COST_STEAM_MULTIPLY);
                 }
                 return recipe;
             } else {
-                return super.getRealRecipe(recipe);
+                return super.getRealRecipe(unit, recipe);
             }
         }
         return null;
