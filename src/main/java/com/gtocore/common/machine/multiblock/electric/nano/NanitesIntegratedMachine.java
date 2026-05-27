@@ -80,13 +80,13 @@ public final class NanitesIntegratedMachine extends CoilCrossRecipeMultiblockMac
 
     @Override
     public void onMachineChanged() {
+        chance = 0;
         if (isEmpty()) {
-            chance = 0;
             return;
         }
         Material material = ChemicalHelper.getMaterialEntry(getStorageStack().getItem()).material();
         if (MATERIAL_TIER_MAP.get(material) > getTier()) return;
-        chance = (int) (getStorageStack().getCount() * MATERIAL_MAP.get(material));
+        chance = Math.min(100, (int) (getStorageStack().getCount() * MATERIAL_MAP.get(material)));
     }
 
     static void trimRecipe(GTRecipe recipe, int chance) {

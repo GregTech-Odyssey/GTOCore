@@ -348,7 +348,7 @@ object AnalyzeData : AutoInitialize<AnalyzeData>() {
         )
         addResearch("hypersonic_reentry_thermal_protection", "高超声速再入热防护", "Hypersonic Reentry Thermal Protection", 4, 4)
         addResearch("lightweight_pressure_vessel_tech", "轻量化压力容器技术", "Lightweight Pressure Vessel Technology", 4, 4)
-        addResearch("航天器_propulsion_control", "航天器推进控制", "Spacecraft Propulsion Control", 4, 4)
+        addResearch("spacecraft_propulsion_control", "航天器推进控制", "Spacecraft Propulsion Control", 4, 4)
         // 人工智能应用
         addResearch("ai_flight_control_algorithm", "AI飞行控制算法", "AI Flight Control Algorithm", 4, 4)
         addResearch("machine_learning_data_analysis", "机器学习数据分析", "Machine Learning Data Analysis", 4, 4)
@@ -455,7 +455,7 @@ object AnalyzeData : AutoInitialize<AnalyzeData>() {
         addResearch("quantum_optical_sensor", "量子光学传感器", "Quantum Optical Sensor", 5, 4)
         addResearch("quantum_light_matter_interaction", "量子光物质相互作用", "Quantum Light-Matter Interaction", 5, 4)
         // 先进航天器技术
-        addResearch(" Alcubierre_warp_theory", "阿尔库比尔曲速理论", "Alcubierre Warp Theory", 5, 5)
+        addResearch("alcubierre_warp_theory", "阿尔库比尔曲速理论", "Alcubierre Warp Theory", 5, 5)
         addResearch(
             "antimatter_confinement_tech",
             "反物质约束技术",
