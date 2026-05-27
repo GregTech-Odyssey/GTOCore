@@ -56,6 +56,11 @@ public final class EnergyInjectorMachine extends ElectricMultiblockMachine imple
     }
 
     @Override
+    public boolean alwaysSearchRecipe() {
+        return true;
+    }
+
+    @Override
     public GTRecipeDefinition createCustomRecipe(RecipeHandlerUnit unit) {
         ExtendWirelessEnergyContainer container = null;
         BigInteger storage = null;

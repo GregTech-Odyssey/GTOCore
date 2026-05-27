@@ -1,7 +1,7 @@
 package com.gtocore.common.machine.multiblock.electric.space.spacestaion;
 
 import com.gtocore.api.gui.GTOGuiTextures;
-import com.gtocore.api.machine.part.ILargeSpaceStationMachine;
+import com.gtocore.api.machine.ILargeSpaceStationMachine;
 import com.gtocore.api.pattern.GTOPredicates;
 import com.gtocore.common.data.GTOBlocks;
 import com.gtocore.common.data.GTOMaterials;
@@ -37,7 +37,7 @@ import java.util.function.Function;
 import java.util.stream.Stream;
 
 import static com.gregtechceu.gtceu.api.pattern.Predicates.*;
-import static com.gtocore.api.machine.part.ILargeSpaceStationMachine.ConnectType.MODULE;
+import static com.gtocore.api.machine.ILargeSpaceStationMachine.ConnectType.MODULE;
 
 @DataGeneratorScanned
 public class WorkspaceExtension extends Extension implements IMultiStructureMachine {

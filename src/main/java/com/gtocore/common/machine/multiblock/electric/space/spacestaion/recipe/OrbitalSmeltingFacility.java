@@ -1,6 +1,6 @@
 package com.gtocore.common.machine.multiblock.electric.space.spacestaion.recipe;
 
-import com.gtocore.api.machine.part.ILargeSpaceStationMachine;
+import com.gtocore.api.machine.ILargeSpaceStationMachine;
 import com.gtocore.common.machine.multiblock.electric.space.spacestaion.RecipeExtension;
 
 import com.gtolib.api.machine.trait.CoilTrait;

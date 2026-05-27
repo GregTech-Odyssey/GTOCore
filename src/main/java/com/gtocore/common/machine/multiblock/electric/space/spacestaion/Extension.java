@@ -1,6 +1,6 @@
 package com.gtocore.common.machine.multiblock.electric.space.spacestaion;
 
-import com.gtocore.api.machine.part.ILargeSpaceStationMachine;
+import com.gtocore.api.machine.ILargeSpaceStationMachine;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 

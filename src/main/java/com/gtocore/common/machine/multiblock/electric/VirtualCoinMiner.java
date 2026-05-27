@@ -8,7 +8,6 @@ import com.gtolib.api.annotation.DataGeneratorScanned;
 import com.gtolib.api.annotation.language.RegisterLanguage;
 import com.gtolib.api.machine.feature.ICustomElectricMachine;
 import com.gtolib.api.machine.multiblock.ElectricMultiblockMachine;
-import com.gtolib.api.recipe.RecipeBuilder;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
@@ -112,7 +111,7 @@ public class VirtualCoinMiner extends ElectricMultiblockMachine implements ICust
     @Override
     public GTRecipeDefinition createCustomRecipe(RecipeHandlerUnit unit) {
         if (getOwner() == null) return null;
-        return RecipeBuilder.ofRaw().duration(20).inputFluids(GTMaterials.PCBCoolant.getFluid(), 20).build();
+        return getRecipeBuilder().duration(20).inputFluids(GTMaterials.PCBCoolant, 20).build();
     }
 
     private record ParallelConfigurator(VirtualCoinMiner machine) implements IFancyConfigurator {

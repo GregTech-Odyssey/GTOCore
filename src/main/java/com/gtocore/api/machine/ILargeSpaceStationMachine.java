@@ -1,4 +1,4 @@
-package com.gtocore.api.machine.part;
+package com.gtocore.api.machine;
 
 import com.gtocore.client.forge.ForgeClientEvent;
 import com.gtocore.common.data.GTOBlocks;
@@ -44,7 +44,7 @@ import java.util.function.Supplier;
 
 import static com.gregtechceu.gtceu.api.pattern.Predicates.blocks;
 import static com.gregtechceu.gtceu.api.pattern.Predicates.custom;
-import static com.gtocore.api.machine.part.ILargeSpaceStationMachine.ConnectType.*;
+import static com.gtocore.api.machine.ILargeSpaceStationMachine.ConnectType.*;
 
 public interface ILargeSpaceStationMachine extends ICustomHighlightMachine, ISpacePredicateMachine, ICustomRecipeLogicHolder {
 
@@ -133,6 +133,11 @@ public interface ILargeSpaceStationMachine extends ICustomHighlightMachine, ISpa
 
         return ((IEnhancedRecipeLogicMachine) self()).getRecipeBuilder().duration(200)
                 .build();
+    }
+
+    @Override
+    default boolean alwaysSearchRecipe() {
+        return true;
     }
 
     default void customText(@NotNull List<Component> list) {

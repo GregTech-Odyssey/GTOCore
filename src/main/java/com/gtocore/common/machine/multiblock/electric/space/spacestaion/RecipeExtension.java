@@ -86,6 +86,11 @@ public class RecipeExtension extends Extension implements ICrossRecipeMachine {
     }
 
     @Override
+    public boolean alwaysSearchRecipe() {
+        return false;
+    }
+
+    @Override
     public boolean searchRecipe() {
         return true;
     }

@@ -1,6 +1,6 @@
 package com.gtocore.common.machine.multiblock.electric.space.spacestaion;
 
-import com.gtocore.api.machine.part.ILargeSpaceStationMachine;
+import com.gtocore.api.machine.ILargeSpaceStationMachine;
 import com.gtocore.common.machine.multiblock.part.maintenance.CMHatchPartMachine;
 
 import com.gtolib.api.capability.IIWirelessInteractor;

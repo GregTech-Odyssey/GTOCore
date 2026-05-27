@@ -77,4 +77,9 @@ public class SuperMolecularAssemblerMachine extends ElectricMultiblockMachine im
         }
         return builder.build();
     }
+
+    @Override
+    public boolean alwaysSearchRecipe() {
+        return true;
+    }
 }
