@@ -2,17 +2,20 @@ package com.gtocore.mixin.mc;
 
 import net.minecraft.world.entity.LivingEntity;
 
-import org.spongepowered.asm.mixin.Overwrite;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @org.spongepowered.asm.mixin.Mixin(net.minecraft.client.renderer.GameRenderer.class)
 public class GameRendererMixin {
 
     /**
-     * @author .
-     * @reason Disable night vision blink effect
+     * Inject at HEAD to disable night vision blink effect
+     * while preserving vanilla logic and shader mod compatibility.
+     * Early return prevents null pointer issues.
      */
-    @Overwrite
-    public static float getNightVisionScale(LivingEntity livingEntity, float nanoTime) {
-        return 1.0f;
+    @Inject(method = "getNightVisionScale", at = @At("HEAD"), cancellable = true)
+    private static void onGetNightVisionScale(LivingEntity livingEntity, float nanoTime, CallbackInfoReturnable<Float> cir) {
+        cir.setReturnValue(1.0f);
     }
 }
