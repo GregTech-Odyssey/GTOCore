@@ -3,7 +3,8 @@ package com.gtocore.common.machine.tesseract;
 import com.gregtechceu.gtceu.api.cover.CoverBehavior;
 import com.gregtechceu.gtceu.api.machine.feature.IMachineFeature;
 import com.gregtechceu.gtceu.api.transfer.fluid.FluidHandlerList;
-import com.gregtechceu.gtceu.api.transfer.fluid.IFluidHandlerModifiable;
+import com.gregtechceu.gtceu.api.transfer.fluid.ICustomFluidStackHandler;
+import com.gregtechceu.gtceu.api.transfer.item.ICustomItemStackHandler;
 import com.gregtechceu.gtceu.api.transfer.item.ItemHandlerList;
 import com.gregtechceu.gtceu.utils.LazyOptionalUtil;
 
@@ -14,7 +15,6 @@ import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.items.IItemHandler;
-import net.minecraftforge.items.IItemHandlerModifiable;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -36,17 +36,17 @@ public interface IMultiTesseract extends IMachineFeature, ITesseractMarkerIntera
                     setCalled(true);
                     var h = LazyOptionalUtil.get(c.getCapability(ForgeCapabilities.ITEM_HANDLER, getSideForBlockEntity(i, side)));
                     setCalled(false);
-                    if (h != null) {
-                        getItemHandlers().add(h);
+                    if (h instanceof ICustomItemStackHandler handler) {
+                        getItemHandlers().add(handler);
                     }
                 }
             }
             var s = getItemHandlers().size();
             if (s > 0) {
-                var result = s > 1 ? new ItemHandlerList(getItemHandlers().toArray(new IItemHandler[0])) : getItemHandlers().getFirst();
+                var result = s > 1 ? new ItemHandlerList(getItemHandlers().toArray(new ICustomItemStackHandler[0])) : getItemHandlers().getFirst();
                 if (side != null) {
                     CoverBehavior cover = self().getCoverContainer().getCoverAtSide(side);
-                    if (cover != null && result instanceof IItemHandlerModifiable modifiable) {
+                    if (cover != null && result instanceof ICustomItemStackHandler modifiable) {
                         result = cover.getItemHandlerCap(modifiable);
                     }
                 }
@@ -62,17 +62,17 @@ public interface IMultiTesseract extends IMachineFeature, ITesseractMarkerIntera
                     setCalled(true);
                     var h = LazyOptionalUtil.get(c.getCapability(ForgeCapabilities.FLUID_HANDLER, getSideForBlockEntity(i, side)));
                     setCalled(false);
-                    if (h != null) {
-                        getFluidHandlers().add(h);
+                    if (h instanceof ICustomFluidStackHandler handler) {
+                        getFluidHandlers().add(handler);
                     }
                 }
             }
             var s = getFluidHandlers().size();
             if (s > 0) {
-                var result = s > 1 ? new FluidHandlerList(getFluidHandlers().toArray(new IFluidHandler[0])) : getFluidHandlers().getFirst();
+                var result = s > 1 ? new FluidHandlerList(getFluidHandlers().toArray(new ICustomFluidStackHandler[0])) : getFluidHandlers().getFirst();
                 if (side != null) {
                     CoverBehavior cover = self().getCoverContainer().getCoverAtSide(side);
-                    if (cover != null && result instanceof IFluidHandlerModifiable modifiable) {
+                    if (cover != null && result instanceof ICustomFluidStackHandler modifiable) {
                         result = cover.getFluidHandlerCap(modifiable);
                     }
                 }
@@ -83,9 +83,9 @@ public interface IMultiTesseract extends IMachineFeature, ITesseractMarkerIntera
         return null;
     }
 
-    List<IItemHandler> getItemHandlers();
+    List<ICustomItemStackHandler> getItemHandlers();
 
-    List<IFluidHandler> getFluidHandlers();
+    List<ICustomFluidStackHandler> getFluidHandlers();
 
     boolean isCalled();
 

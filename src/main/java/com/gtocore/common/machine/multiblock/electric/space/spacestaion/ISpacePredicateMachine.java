@@ -64,7 +64,7 @@ public interface ISpacePredicateMachine extends ISpaceWorkspaceMachine, ICleanro
             });
             setSpaceMachines(null);
         }
-        setSpaceMachines(getMultiblockState().getMatchContext().getOrDefault(GTOPredicates.DataKeys.SPACE_MACHINE, Collections.emptyList()));
+        setSpaceMachines(getMultiblockState().getMatchContext().getOrDefault(GTOPredicates.DataKeys.SPACE_MACHINE, Collections.emptySet()));
         getSpaceMachines().forEach(receiver -> {
             receiver.setCleanroom(this);
             receiver.setWorkspaceProvider(this);

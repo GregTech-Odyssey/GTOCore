@@ -159,7 +159,7 @@ public final class RecipeTypeModify {
         });
 
         LARGE_BOILER_RECIPES.addDataInfo(data -> {
-            int temperature = data.getInt(GTORecipeDataKeys.TEMPERATURE);
+            int temperature = data.data.getInt(GTORecipeDataKeys.TEMPERATURE);
             if (temperature > 0) {
                 return I18n.get("gtceu.multiblock.hpca.temperature", temperature);
             }

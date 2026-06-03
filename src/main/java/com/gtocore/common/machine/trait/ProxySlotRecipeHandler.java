@@ -52,18 +52,32 @@ public final class ProxySlotRecipeHandler {
         private final ProxyRecipeHandler slotSharedFluid;
 
         private static PatternBufferProxyRHL of(MEPatternBufferProxyPartMachine machine, MEPatternBufferPartMachine.InternalSlot slot) {
-            return new PatternBufferProxyRHL(machine, slot, new ProxyRecipeHandler(machine), new ProxyRecipeHandler(machine), new ProxyRecipeHandler(machine), new ProxyRecipeHandler(machine), new ProxyRecipeHandler(machine), new ProxyRecipeHandler(machine), new ProxyRecipeHandler(machine));
+            var slotHandler = new ProxyRecipeHandler(machine);
+            var circuit = new ProxyRecipeHandler(machine);
+            var slotCircuit = new ProxyRecipeHandler(machine);
+            var sharedItem = new ProxyRecipeHandler(machine);
+            var slotSharedItem = new ProxyRecipeHandler(machine);
+            var sharedFluid = new ProxyRecipeHandler(machine);
+            var slotSharedFluid = new ProxyRecipeHandler(machine);
+            slotHandler.setCanHandleItem(true).setCanHandleFluid(true);
+            circuit.setCanHandleItem(true);
+            slotCircuit.setCanHandleItem(true);
+            sharedItem.setCanHandleItem(true);
+            slotSharedItem.setCanHandleItem(true);
+            sharedFluid.setCanHandleFluid(true);
+            slotSharedFluid.setCanHandleFluid(true);
+            return new PatternBufferProxyRHL(machine, slot, slotHandler, circuit, slotCircuit, sharedItem, slotSharedItem, sharedFluid, slotSharedFluid);
         }
 
         private PatternBufferProxyRHL(MEPatternBufferProxyPartMachine machine, MEPatternBufferPartMachine.InternalSlot slot, ProxyRecipeHandler slotHandler, ProxyRecipeHandler circuit, ProxyRecipeHandler slotCircuit, ProxyRecipeHandler sharedItem, ProxyRecipeHandler slotSharedItem, ProxyRecipeHandler sharedFluid, ProxyRecipeHandler slotSharedFluid) {
             super(slot, machine, slotHandler, circuit, slotCircuit, sharedItem, slotSharedItem, sharedFluid, slotSharedFluid);
-            this.slotHandler = slotHandler.setCanHandleItem(true).setCanHandleFluid(true);
-            this.circuit = circuit.setCanHandleItem(true);
-            this.slotCircuit = slotCircuit.setCanHandleItem(true);
-            this.sharedItem = sharedItem.setCanHandleItem(true);
-            this.slotSharedItem = slotSharedItem.setCanHandleItem(true);
-            this.sharedFluid = sharedFluid.setCanHandleFluid(true);
-            this.slotSharedFluid = slotSharedFluid.setCanHandleFluid(true);
+            this.slotHandler = slotHandler;
+            this.circuit = circuit;
+            this.slotCircuit = slotCircuit;
+            this.sharedItem = sharedItem;
+            this.slotSharedItem = slotSharedItem;
+            this.sharedFluid = sharedFluid;
+            this.slotSharedFluid = slotSharedFluid;
         }
 
         private void setBuffer(MEPatternBufferPartMachine buffer, InternalSlotRecipeHandler.PatternBufferRHL slotRHL) {

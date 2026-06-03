@@ -23,11 +23,11 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidType;
 import net.minecraftforge.fluids.FluidUtil;
 
+import com.gto.datasynclib.annotations.SaveToDisk;
 import com.gto.datasynclib.annotations.SyncToClient;
 import com.lowdragmc.lowdraglib.gui.widget.ImageWidget;
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.utils.Position;
 import lombok.Getter;
 import lombok.Setter;
@@ -47,15 +47,15 @@ public class ScanningHolderMachine extends MultiblockPartMachine implements IMac
     public static final int SCAN_SLOT = 2;
     public static final int FLUID_TANK_CAPACITY = 64 * FluidType.BUCKET_VOLUME;
 
-    @Persisted
+    @SaveToDisk
     private final ScanningHolder heldItems;
     @Setter
     @Getter
-    @Persisted
+    @SaveToDisk
     @SyncToClient
     private boolean isLocked;
     @Getter
-    @Persisted
+    @SaveToDisk
     private final NotifiableFluidTank catalystFluidTank;
 
     public ScanningHolderMachine(MetaMachineBlockEntity holder) {

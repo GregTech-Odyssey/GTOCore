@@ -744,7 +744,7 @@ public final class MultiBlockB {
                     .where('s', blocks(GTOBlocks.HIGH_PRESSURE_PIPE_CASING.get()))
                     .where('t', blocks(GTOBlocks.ENHANCE_HYPER_MECHANICAL_CASING.get()))
                     .where('u', blocks(GTOBlocks.SPACE_ELEVATOR_MECHANICAL_CASING.get())
-                            .or(abilities(GTOPartAbility.ITEMS_INPUT).setExactLimit(1))
+                            .or(abilities(GTOPartAbility.ITEMS_INPUT_BUS).setExactLimit(1))
                             .or(abilities(INPUT_ENERGY).setExactLimit(1))
                             .or(abilities(COMPUTATION_DATA_RECEPTION).setExactLimit(1)))
                     .where('v', controller(definition))

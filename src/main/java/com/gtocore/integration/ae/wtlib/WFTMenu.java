@@ -11,7 +11,7 @@ import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
-import appeng.api.config.*;
+import appeng.api.config.YesNo;
 import appeng.api.implementations.menuobjects.ItemMenuHost;
 import appeng.api.storage.ITerminalHost;
 import appeng.api.upgrades.IUpgradeInventory;

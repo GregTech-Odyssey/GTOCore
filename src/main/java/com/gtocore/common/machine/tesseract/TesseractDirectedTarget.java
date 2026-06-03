@@ -2,17 +2,12 @@ package com.gtocore.common.machine.tesseract;
 
 import net.minecraft.core.Direction;
 import net.minecraft.core.GlobalPos;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.NbtOps;
-import net.minecraft.nbt.Tag;
 import net.minecraft.network.FriendlyByteBuf;
 
-import com.lowdragmc.lowdraglib.syncdata.payload.ObjectTypedPayload;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.ListCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.Comparator;
 import java.util.List;
@@ -49,32 +44,5 @@ public record TesseractDirectedTarget(GlobalPos pos, Direction face, int order) 
         Direction face = Direction.from3DDataValue(buffer.readShort());
         int order = buffer.readVarInt();
         return new TesseractDirectedTarget(pos, face, order);
-    }
-
-    public static class Payload extends ObjectTypedPayload<TesseractDirectedTarget> {
-
-        @Override
-        public @Nullable Tag serializeNBT() {
-            return CODEC.encodeStart(NbtOps.INSTANCE, getPayload())
-                    .result().orElse(new CompoundTag());
-        }
-
-        @Override
-        public void deserializeNBT(Tag tag) {
-            TesseractDirectedTarget result = CODEC.parse(NbtOps.INSTANCE, tag)
-                    .result().orElse(null);
-            setPayload(result);
-        }
-
-        @Override
-        public void writePayload(FriendlyByteBuf buf) {
-            writeToBuffer(buf, getPayload());
-        }
-
-        @Override
-        public void readPayload(FriendlyByteBuf buf) {
-            TesseractDirectedTarget result = readFromBuffer(buf);
-            setPayload(result);
-        }
     }
 }

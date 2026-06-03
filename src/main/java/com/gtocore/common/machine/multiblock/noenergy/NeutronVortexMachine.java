@@ -27,8 +27,8 @@ import com.gregtechceu.gtceu.common.data.GTBlocks;
 
 import net.minecraft.network.chat.Component;
 
+import com.gto.datasynclib.annotations.SaveToDisk;
 import com.gto.datasynclib.annotations.SyncToClient;
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -42,7 +42,7 @@ public final class NeutronVortexMachine extends NeutronActivatorMachine implemen
 
     private static final Int2ObjectOpenHashMap<BlockPattern> PATTERNS = new Int2ObjectOpenHashMap<>(3, 0.9F);
 
-    @Persisted
+    @SaveToDisk
     @SyncToClient
     private boolean energy;
 
@@ -79,7 +79,7 @@ public final class NeutronVortexMachine extends NeutronActivatorMachine implemen
     }
 
     @Override
-    protected boolean working() {
+    public boolean handleTickRecipe(@NotNull GTRecipe recipe) {
         return true;
     }
 

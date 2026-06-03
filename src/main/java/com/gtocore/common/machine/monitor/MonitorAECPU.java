@@ -21,10 +21,10 @@ import appeng.me.cluster.implementations.CraftingCPUCluster;
 import appeng.menu.me.crafting.CraftingStatusMenu;
 
 import com.google.common.collect.ImmutableSet;
+import com.gto.datasynclib.annotations.SaveToDisk;
 import com.gto.datasynclib.annotations.SyncToClient;
 import com.hepdd.gtmthings.utils.FormatUtil;
 import com.lowdragmc.lowdraglib.gui.widget.*;
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import org.apache.commons.lang3.time.DurationFormatUtils;
 import org.jetbrains.annotations.Nullable;
@@ -48,7 +48,7 @@ public class MonitorAECPU extends AbstractAEInfoMonitor {
 
     private CraftingStatusMenu.CraftingCpuList cpuList = EMPTY_CPU_LIST;
     @SyncToClient
-    @Persisted
+    @SaveToDisk
     private int selectedCpuSerial = -1;
 
     public MonitorAECPU(MetaMachineBlockEntity holder) {

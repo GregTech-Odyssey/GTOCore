@@ -5,11 +5,11 @@ import com.gtolib.api.machine.feature.IWorkInSpaceMachine;
 import com.gtolib.api.machine.feature.multiblock.IEnhancedMultiblockMachine;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
-import com.gregtechceu.gtceu.api.capability.recipe.*;
 import com.gregtechceu.gtceu.api.machine.multiblock.MultiblockControllerMachine;
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableMultiblockMachine;
 import com.gregtechceu.gtceu.api.recipe.handler.IO;
 import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
+import com.gregtechceu.gtceu.api.recipe.info.RecipeInfo;
 import com.gregtechceu.gtceu.utils.TaskHandler;
 
 import net.minecraft.server.level.ServerLevel;
@@ -51,7 +51,7 @@ public abstract class WorkableMultiblockMachineMixin extends MultiblockControlle
     }
 
     @Override
-    public boolean canVoidRecipeOutputs(RecipeCapability<?> capability) {
+    public boolean canVoidRecipeOutputs(RecipeInfo capability) {
         return getVoidingMode().canVoid(capability);
     }
 

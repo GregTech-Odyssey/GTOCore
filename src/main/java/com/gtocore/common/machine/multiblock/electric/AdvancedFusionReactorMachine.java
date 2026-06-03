@@ -18,13 +18,12 @@ import com.gregtechceu.gtceu.utils.GTUtil;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.network.chat.Component;
 
+import com.gto.datasynclib.annotations.SaveToDisk;
 import com.gto.datasynclib.annotations.SyncToClient;
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import lombok.Getter;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
-import java.util.Objects;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
@@ -39,9 +38,9 @@ public final class AdvancedFusionReactorMachine extends CrossRecipeMultiblockMac
     @SyncToClient
     private int color = -1;
     private static final int tier = LuV;
-    @Persisted
+    @SaveToDisk
     private long heat = 0;
-    @Persisted
+    @SaveToDisk
     private final EnergyContainerTrait energyContainer;
     private final ConditionalSubscriptionHandler preHeatSubs;
 
@@ -52,9 +51,7 @@ public final class AdvancedFusionReactorMachine extends CrossRecipeMultiblockMac
     }
 
     private EnergyContainerTrait createEnergyContainer() {
-        var container = new EnergyContainerTrait(this, 0);
-        container.setCapabilityValidator(Objects::isNull);
-        return container;
+        return new EnergyContainerTrait(this, 0);
     }
 
     @Override

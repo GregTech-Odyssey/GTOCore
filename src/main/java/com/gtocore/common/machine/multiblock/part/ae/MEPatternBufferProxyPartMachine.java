@@ -30,9 +30,9 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.BlockHitResult;
 
+import com.gto.datasynclib.annotations.SaveToDisk;
 import com.gto.datasynclib.annotations.SyncToClient;
 import com.lowdragmc.lowdraglib.gui.modular.ModularUI;
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import org.jetbrains.annotations.Nullable;
 import snownee.jade.api.BlockAccessor;
 import snownee.jade.api.ITooltip;
@@ -50,7 +50,7 @@ import static com.gtocore.common.machine.multiblock.part.ae.MEPatternBufferPartM
 public final class MEPatternBufferProxyPartMachine extends WorkableTieredIOPartMachine implements IMachineLife, IDataStickInteractable, IWailaDisplayProvider {
 
     private ProxySlotRecipeHandler proxySlotRecipeHandler = ProxySlotRecipeHandler.DEFAULT;
-    @Persisted
+    @SaveToDisk
     @SyncToClient
     @Nullable
     private BlockPos bufferPos;

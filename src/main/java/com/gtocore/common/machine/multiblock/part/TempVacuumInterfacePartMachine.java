@@ -7,11 +7,11 @@ import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.TickableSubscription;
 import com.gregtechceu.gtceu.api.machine.multiblock.part.MultiblockPartMachine;
 
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
+import com.gto.datasynclib.annotations.SaveToDisk;
 
 public class TempVacuumInterfacePartMachine extends MultiblockPartMachine implements ITempPartMachine, IVacuumPartMachine {
 
-    @Persisted
+    @SaveToDisk
     private int temperature = 293;
 
     private TickableSubscription tickableSubscription;

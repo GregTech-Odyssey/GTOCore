@@ -2,15 +2,6 @@ package com.gtocore.common.machine.multiblock.part.ae
 
 import com.gtocore.api.gui.ktflexible.textBlock
 import com.gtocore.common.data.GTORecipes
-import com.gtocore.common.machine.multiblock.part.ae.MEPatternBufferPartMachineKt.Companion.add_recipe_msg
-import com.gtocore.common.machine.multiblock.part.ae.MEPatternBufferPartMachineKt.Companion.circuit_special
-import com.gtocore.common.machine.multiblock.part.ae.MEPatternBufferPartMachineKt.Companion.clear_recipe_slot
-import com.gtocore.common.machine.multiblock.part.ae.MEPatternBufferPartMachineKt.Companion.clear_recipe_slot_msg
-import com.gtocore.common.machine.multiblock.part.ae.MEPatternBufferPartMachineKt.Companion.fluid_special
-import com.gtocore.common.machine.multiblock.part.ae.MEPatternBufferPartMachineKt.Companion.item_special
-import com.gtocore.common.machine.multiblock.part.ae.MEPatternBufferPartMachineKt.Companion.no_recipe
-import com.gtocore.common.machine.multiblock.part.ae.MEPatternBufferPartMachineKt.Companion.recipe_special
-import com.gtocore.common.machine.multiblock.part.ae.MEPatternBufferPartMachineKt.Companion.view_recipe
 
 import net.minecraft.client.gui.GuiGraphics
 import net.minecraft.network.FriendlyByteBuf
@@ -22,20 +13,16 @@ import net.minecraft.world.item.ItemStack
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity
 import com.gregtechceu.gtceu.api.gui.GuiTextures
 import com.gregtechceu.gtceu.api.gui.widget.SlotWidget
-import com.gregtechceu.gtceu.api.gui.widget.TankWidget
 import com.gregtechceu.gtceu.api.transfer.fluid.CustomFluidTank
 import com.gregtechceu.gtceu.common.item.IntCircuitBehaviour
 import com.gtolib.api.annotation.DataGeneratorScanned
 import com.gtolib.api.annotation.language.RegisterLanguage
 import com.gtolib.api.gui.ktflexible.VBoxBuilder
-import com.gtolib.api.gui.ktflexible.blank
 import com.gtolib.api.gui.ktflexible.field
 import com.gtolib.api.gui.ktflexible.iconButton
 import com.gtolib.api.network.NetworkPack
 import com.gtolib.api.recipe.RecipeBuilder
 import com.lowdragmc.lowdraglib.gui.util.DrawerHelper
-import com.lowdragmc.lowdraglib.gui.widget.Widget
-import com.lowdragmc.lowdraglib.jei.IngredientIO
 import dev.emi.emi.api.EmiApi
 
 import java.util.function.IntSupplier
@@ -162,7 +149,7 @@ open class MEPatternBufferPartMachineKt(holder: MetaMachineBlockEntity, maxPatte
     override fun runOnUpdate() = run {
         if (isRemote) {
             configuratorField.set(-1)
-            configuratorField.markAsDirty()
+            configuratorField.markAsChanged()
             syncToServer()
         }
     }

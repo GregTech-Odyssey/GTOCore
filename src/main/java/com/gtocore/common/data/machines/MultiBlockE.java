@@ -15,7 +15,8 @@ import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
 import com.gregtechceu.gtceu.common.data.GCYMBlocks;
 import com.gregtechceu.gtceu.common.data.GTBlocks;
 
-import static com.gregtechceu.gtceu.api.machine.multiblock.PartAbility.*;
+import static com.gregtechceu.gtceu.api.machine.multiblock.PartAbility.MAINTENANCE;
+import static com.gregtechceu.gtceu.api.machine.multiblock.PartAbility.OPTICAL_DATA_RECEPTION;
 import static com.gregtechceu.gtceu.api.pattern.Predicates.*;
 import static com.gtocore.utils.register.MachineRegisterUtils.multiblock;
 

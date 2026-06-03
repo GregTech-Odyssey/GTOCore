@@ -2,12 +2,14 @@ package com.gtocore.api.report;
 
 import com.gtolib.GTOCore;
 import com.gtolib.api.annotation.DataGeneratorScanned;
+import com.gtolib.utils.RLUtils;
 
 import com.gregtechceu.gtceu.api.GTValues;
-import com.gregtechceu.gtceu.api.capability.recipe.*;
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
 import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
+import com.gregtechceu.gtceu.api.recipe.info.FluidRecipeInfo;
+import com.gregtechceu.gtceu.api.recipe.info.ItemRecipeInfo;
 import com.gregtechceu.gtceu.api.registry.GTRegistries;
 import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.item.IntCircuitBehaviour;
@@ -85,7 +87,7 @@ public class ItemIconReport {
         String langFile = String.format(Locale.ROOT, "lang/%s.json", langCode);
         for (String namespace : resourceManager.getNamespaces()) {
             try {
-                ResourceLocation langResource = new ResourceLocation(namespace, langFile);
+                var langResource = RLUtils.fromNamespaceAndPath(namespace, langFile);
                 List<Resource> resources = resourceManager.getResourceStack(langResource);
                 for (Resource res : resources) {
                     try (InputStream is = res.open()) {
@@ -1247,7 +1249,7 @@ public class ItemIconReport {
     // JsonArray inputItems = new JsonArray();
     // boolean hasCircuit = false;
     // int circuitConfig = -1;
-    // for (Content content : recipe.inputs.getOrDefault(ItemRecipeCapability.CAP, Collections.emptyList())) {
+    // for (Content content : recipe.inputs.getOrDefault(ItemRecipeInfo.INSTANCE, Collections.emptyList())) {
     // JsonObject itemObj = serializeItemContent(content, true);
     // inputItems.add(itemObj);
     // // Check if this input is a programmed circuit
@@ -1266,21 +1268,21 @@ public class ItemIconReport {
     //
     // // Output items
     // JsonArray outputItems = new JsonArray();
-    // for (Content content : recipe.outputs.getOrDefault(ItemRecipeCapability.CAP, Collections.emptyList())) {
+    // for (Content content : recipe.outputs.getOrDefault(ItemRecipeInfo.INSTANCE, Collections.emptyList())) {
     // outputItems.add(serializeItemContent(content, false));
     // }
     // json.add("output_items", outputItems);
     //
     // // Input fluids
     // JsonArray inputFluids = new JsonArray();
-    // for (Content content : recipe.inputs.getOrDefault(FluidRecipeCapability.CAP, Collections.emptyList())) {
+    // for (Content content : recipe.inputs.getOrDefault(FluidRecipeInfo.INSTANCE, Collections.emptyList())) {
     // inputFluids.add(serializeFluidContent(content));
     // }
     // json.add("input_fluids", inputFluids);
     //
     // // Output fluids
     // JsonArray outputFluids = new JsonArray();
-    // for (Content content : recipe.outputs.getOrDefault(FluidRecipeCapability.CAP, Collections.emptyList())) {
+    // for (Content content : recipe.outputs.getOrDefault(FluidRecipeInfo.INSTANCE, Collections.emptyList())) {
     // outputFluids.add(serializeFluidContent(content));
     // }
     // json.add("output_fluids", outputFluids);
@@ -1941,10 +1943,10 @@ public class ItemIconReport {
 
                 // IO sizes
                 try {
-                    rtJson.addProperty("max_item_inputs", recipeType.getMaxInputs(ItemRecipeCapability.CAP));
-                    rtJson.addProperty("max_item_outputs", recipeType.getMaxOutputs(ItemRecipeCapability.CAP));
-                    rtJson.addProperty("max_fluid_inputs", recipeType.getMaxInputs(FluidRecipeCapability.CAP));
-                    rtJson.addProperty("max_fluid_outputs", recipeType.getMaxOutputs(FluidRecipeCapability.CAP));
+                    rtJson.addProperty("max_item_inputs", recipeType.getMaxInputs(ItemRecipeInfo.INSTANCE));
+                    rtJson.addProperty("max_item_outputs", recipeType.getMaxOutputs(ItemRecipeInfo.INSTANCE));
+                    rtJson.addProperty("max_fluid_inputs", recipeType.getMaxInputs(FluidRecipeInfo.INSTANCE));
+                    rtJson.addProperty("max_fluid_outputs", recipeType.getMaxOutputs(FluidRecipeInfo.INSTANCE));
                 } catch (Exception ignored) {}
 
                 // Machines that process this recipe type

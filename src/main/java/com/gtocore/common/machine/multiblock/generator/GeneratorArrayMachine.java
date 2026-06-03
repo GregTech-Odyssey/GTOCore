@@ -12,13 +12,13 @@ import com.gtolib.utils.GTOUtils;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
-import com.gregtechceu.gtceu.api.capability.recipe.RecipeCapability;
 import com.gregtechceu.gtceu.api.item.MetaMachineItem;
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
 import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
+import com.gregtechceu.gtceu.api.recipe.info.RecipeInfo;
 import com.gregtechceu.gtceu.api.recipe.modifier.ParallelLogic;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
@@ -29,10 +29,10 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
+import com.gto.datasynclib.annotations.SaveToDisk;
 import com.hepdd.gtmthings.api.misc.WirelessEnergyContainer;
 import com.lowdragmc.lowdraglib.gui.util.ClickData;
 import com.lowdragmc.lowdraglib.gui.widget.ComponentPanelWidget;
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Collections;
@@ -72,9 +72,9 @@ public final class GeneratorArrayMachine extends StorageMultiblockMachine implem
     private static int generatorLimit = 16;
     private WirelessEnergyContainer WirelessEnergyContainerCache;
     private MachineDefinition machineDefinitionCache;
-    @Persisted
+    @SaveToDisk
     private boolean isw;
-    @Persisted
+    @SaveToDisk
     private long eut;
 
     private static boolean isEligibleRecipeType(GTRecipeType type) {
@@ -140,7 +140,7 @@ public final class GeneratorArrayMachine extends StorageMultiblockMachine implem
     }
 
     @Override
-    public boolean canVoidRecipeOutputs(RecipeCapability<?> capability) {
+    public boolean canVoidRecipeOutputs(RecipeInfo capability) {
         return true;
     }
 

@@ -36,7 +36,9 @@ import appeng.api.storage.IStorageMounts;
 import appeng.api.storage.IStorageProvider;
 import appeng.api.storage.MEStorage;
 
+import com.gto.datasynclib.annotations.SaveToDisk;
 import com.gto.datasynclib.annotations.SyncToClient;
+import com.gto.datasynclib.util.DataCodecs;
 import com.hepdd.gtmthings.common.item.VirtualItemProviderBehavior;
 import com.hepdd.gtmthings.data.CustomItems;
 import com.lowdragmc.lowdraglib.gui.modular.ModularUI;
@@ -45,7 +47,6 @@ import com.lowdragmc.lowdraglib.gui.widget.ButtonWidget;
 import com.lowdragmc.lowdraglib.gui.widget.DraggableScrollableWidgetGroup;
 import com.lowdragmc.lowdraglib.gui.widget.LabelWidget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 
 import java.util.stream.Stream;
 
@@ -62,9 +63,9 @@ public final class VirtualItemProviderMachine extends MetaMachine implements IUI
     }
 
     private final CellDataStorage storage = new CellDataStorage();
-    @Persisted
+    @SaveToDisk
     private final NotifiableItemStackHandler inventory;
-    @Persisted
+    @SaveToDisk
     private final GridNodeHolder nodeHolder;
     @SyncToClient
     private boolean isOnline;
@@ -143,12 +144,12 @@ public final class VirtualItemProviderMachine extends MetaMachine implements IUI
 
     @Override
     public void loadFromItem(CompoundTag tag) {
-        inventory.storage.deserializeNBT(tag.getCompound("inventory"));
+        inventory.storage.readData(DataCodecs.COMPOUND_TAG_CODEC.encode(tag.getCompound("inventory")), 0);
     }
 
     @Override
     public void saveToItem(CompoundTag tag) {
-        tag.put("inventory", inventory.storage.serializeNBT());
+        tag.put("inventory", DataCodecs.COMPOUND_TAG_CODEC.decode(inventory.storage.writeData()));
     }
 
     @Override

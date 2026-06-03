@@ -23,8 +23,8 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 
 import com.google.common.collect.ImmutableMap;
+import com.gto.datasynclib.annotations.SaveToDisk;
 import com.gto.datasynclib.annotations.SyncToClient;
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import lombok.Getter;
 
 import java.util.Map;
@@ -45,7 +45,7 @@ public final class BallHatchPartMachine extends WorkableItemPartMachine implemen
         GRINDBALL = grindball.build();
     }
 
-    @Persisted
+    @SaveToDisk
     @SyncToClient(notifyUpdate = true)
     private boolean isWorking;
 

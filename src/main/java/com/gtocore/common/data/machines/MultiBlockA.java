@@ -4,7 +4,6 @@ import com.gtocore.api.machine.part.GTOPartAbility;
 import com.gtocore.api.pattern.GTOPredicates;
 import com.gtocore.client.renderer.machine.DigitalMinerRenderer;
 import com.gtocore.common.data.*;
-import com.gtocore.common.data.GTORecipeDataKeys;
 import com.gtocore.common.data.translation.GTOMachineStories;
 import com.gtocore.common.data.translation.GTOMachineTooltips;
 import com.gtocore.common.machine.multiblock.electric.FishingGroundMachine;
@@ -50,7 +49,6 @@ import net.minecraft.world.level.material.Fluids;
 import static com.gregtechceu.gtceu.api.pattern.Predicates.*;
 import static com.gregtechceu.gtceu.api.pattern.util.RelativeDirection.*;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.Aluminium;
-import static com.gregtechceu.gtceu.common.data.GTRecipeTypes.ALLOY_SMELTER_RECIPES;
 import static com.gtocore.api.machine.part.GTOPartAbility.*;
 import static com.gtocore.api.pattern.GTOPredicates.autoIOAbilities;
 import static com.gtocore.common.block.BlockMap.CALMAP;
@@ -372,7 +370,7 @@ public final class MultiBlockA {
                     .where('I', blocks(GTBlocks.CASING_TUNGSTENSTEEL_ROBUST.get()))
                     .where('A', blocks(GTBlocks.CASING_HSSE_STURDY.get())
                             .or(abilities(INPUT_ENERGY).setMaxGlobalLimited(2).setMinGlobalLimited(1))
-                            .or(abilities(GTOPartAbility.ITEMS_INPUT).setExactLimit(1))
+                            .or(abilities(GTOPartAbility.ITEMS_INPUT_BUS).setExactLimit(1))
                             .or(abilities(EXPORT_FLUIDS).setExactLimit(1))
                             .or(abilities(MAINTENANCE).setExactLimit(1)))
                     .where(' ', any())

@@ -6,12 +6,12 @@ import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.TickableSubscription;
 import com.gregtechceu.gtceu.api.machine.steam.SimpleSteamMachine;
 
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
+import com.gto.datasynclib.annotations.SaveToDisk;
 import lombok.Getter;
 
 public final class SteamVacuumPumpMachine extends SimpleSteamMachine implements IVacuumMachine {
 
-    @Persisted
+    @SaveToDisk
     private int vacuumTier;
     @Getter
     private TickableSubscription tickSubs;

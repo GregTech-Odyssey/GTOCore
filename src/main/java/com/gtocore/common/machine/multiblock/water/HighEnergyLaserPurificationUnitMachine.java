@@ -16,7 +16,7 @@ import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;
 
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
+import com.gto.datasynclib.annotations.SaveToDisk;
 
 import java.util.List;
 
@@ -38,22 +38,22 @@ public final class HighEnergyLaserPurificationUnitMachine extends WaterPurificat
             ChemicalHelper.getItem(TagPrefix.lens, MarkerMaterials.Color.Magenta),
             ChemicalHelper.getItem(TagPrefix.lens, MarkerMaterials.Color.Pink));
 
-    @Persisted
+    @SaveToDisk
     private int index;
 
-    @Persisted
+    @SaveToDisk
     private int time;
 
-    @Persisted
+    @SaveToDisk
     private int await;
 
-    @Persisted
+    @SaveToDisk
     private int working;
 
-    @Persisted
+    @SaveToDisk
     private int chance;
 
-    @Persisted
+    @SaveToDisk
     private long inputCount;
 
     private IndicatorHatchPartMachine indicatorHatchPartMachine;

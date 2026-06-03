@@ -30,8 +30,8 @@ import net.minecraft.world.phys.AABB;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
+import com.gto.datasynclib.annotations.SaveToDisk;
 import com.gto.datasynclib.annotations.SyncToClient;
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 
 import java.util.List;
 
@@ -46,10 +46,10 @@ public final class AdvancedPrimitiveBlastFurnaceMachine extends NoEnergyCustomPa
     private BlockPos pos;
     @SyncToClient
     private int height;
-    @Persisted
+    @SaveToDisk
     private double duration = 1;
 
-    @Persisted
+    @SaveToDisk
     private int temperature = 298;
 
     private final ConditionalSubscriptionHandler tickSubs;

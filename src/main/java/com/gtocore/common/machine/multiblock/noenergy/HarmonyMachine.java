@@ -17,9 +17,9 @@ import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.material.Fluid;
 
+import com.gto.datasynclib.annotations.SaveToDisk;
 import com.hepdd.gtmthings.api.misc.WirelessEnergyContainer;
 import com.hepdd.gtmthings.utils.TeamUtil;
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import org.jetbrains.annotations.Nullable;
 
 import java.math.BigInteger;
@@ -37,15 +37,15 @@ public final class HarmonyMachine extends NoEnergyMultiblockMachine implements I
     private static final Fluid HYDROGEN = GTMaterials.Hydrogen.getFluid();
     private static final Fluid HELIUM = GTMaterials.Helium.getFluid();
     private WirelessEnergyContainer WirelessEnergyContainerCache;
-    @Persisted
+    @SaveToDisk
     private int tier = 1;
-    @Persisted
+    @SaveToDisk
     private int count;
-    @Persisted
+    @SaveToDisk
     private int oc;
-    @Persisted
+    @SaveToDisk
     private long hydrogen;
-    @Persisted
+    @SaveToDisk
     private long helium;
     private final ConditionalSubscriptionHandler tickSubs;
 

@@ -42,7 +42,10 @@ import appeng.api.networking.IGrid;
 import appeng.api.networking.IGridNode;
 import appeng.api.networking.IGridNodeListener;
 import appeng.api.networking.IStackWatcher;
-import appeng.api.networking.crafting.*;
+import appeng.api.networking.crafting.ICraftingLink;
+import appeng.api.networking.crafting.ICraftingProvider;
+import appeng.api.networking.crafting.ICraftingRequester;
+import appeng.api.networking.crafting.ICraftingWatcherNode;
 import appeng.api.stacks.*;
 import appeng.api.storage.MEStorage;
 import appeng.client.gui.me.common.StackSizeRenderer;
@@ -54,12 +57,12 @@ import appeng.helpers.MultiCraftingTracker;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Multimaps;
+import com.gto.datasynclib.annotations.SaveToDisk;
 import com.gto.datasynclib.annotations.SyncToClient;
 import com.gto.datasynclib.annotations.SyncToServer;
 import com.gto.datasynclib.datasream.data.Data;
 import com.gto.datasynclib.listener.IntNotifiableHolder;
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import it.unimi.dsi.fastutil.objects.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -83,7 +86,7 @@ public class MEInputBufferPartMachine extends MEPatternPartMachineKt<MEInputBuff
     @SyncToServer
     public IntNotifiableHolder configuratorField = IntNotifiableHolder.create(-1)
             .setReceiverListener((side, o, n) -> {
-                if (side.isServer()) TaskHandler.enqueueTask(Objects.requireNonNull(getLevel()), () -> freshWidgetGroup.serverFresh(), 10);
+                if (side.isServer()) TaskHandler.enqueueTask(Objects.requireNonNull(getLevel()), () -> freshWidgetGroup.serverFresh());
             });
 
     @Override
@@ -94,7 +97,7 @@ public class MEInputBufferPartMachine extends MEPatternPartMachineKt<MEInputBuff
         } else {
             configuratorField.set(index);
         }
-        configuratorField.markAsDirty();
+        configuratorField.markAsChanged();
         syncToServer();
     }
 
@@ -268,7 +271,7 @@ public class MEInputBufferPartMachine extends MEPatternPartMachineKt<MEInputBuff
     public void runOnUpdate() {
         if (isRemote()) {
             configuratorField.set(-1);
-            configuratorField.markAsDirty();
+            configuratorField.markAsChanged();
             syncToServer();
         }
     }
@@ -309,13 +312,13 @@ public class MEInputBufferPartMachine extends MEPatternPartMachineKt<MEInputBuff
         public final MEInputBufferPartMachine machine;
         public final int index;
 
-        @Persisted
+        @SaveToDisk
         public final NotifiableNotConsumableItemHandler notConsumableItem;
-        @Persisted
+        @SaveToDisk
         public final NotifiableNotConsumableFluidHandler notConsumableFluid;
-        @Persisted
+        @SaveToDisk
         public final ExportOnlyAEItemList exportOnlyItemList;
-        @Persisted
+        @SaveToDisk
         public final ExportOnlyAEFluidList exportOnlyFluidList;
         public final NotifiableItemStackHandler circuitInventory;
 
@@ -325,13 +328,13 @@ public class MEInputBufferPartMachine extends MEPatternPartMachineKt<MEInputBuff
         public AEKey reportingKey = null;
         @Getter
         @Setter
-        @Persisted
+        @SaveToDisk
         public long minThreshold = -1;
         @Setter
         public long multiplier = 1;
-        @Persisted
+        @SaveToDisk
         private boolean isEmitterMode = false;
-        @Persisted
+        @SaveToDisk
         public boolean useRequest = false;
         @Setter
         public GTRecipeDefinition recipe;
@@ -525,10 +528,10 @@ public class MEInputBufferPartMachine extends MEPatternPartMachineKt<MEInputBuff
                     long total = exceedItem.amount();
                     long inserted = networkInv.insert(exceedItem.what(), exceedItem.amount(), Actionable.MODULATE, machine.getActionSourceField());
                     if (inserted > 0) {
-                        aeSlot.extractItem(inserted, false, true);
+                        aeSlot.extract(inserted, false, true);
                         continue;
                     } else {
-                        aeSlot.extractItem(total, false, true);
+                        aeSlot.extract(total, false, true);
                     }
                 }
                 GenericStack reqItem = aeSlot.requestStack();
@@ -550,10 +553,10 @@ public class MEInputBufferPartMachine extends MEPatternPartMachineKt<MEInputBuff
                     long total = exceedFluid.amount();
                     long inserted = networkInv.insert(exceedFluid.what(), exceedFluid.amount(), Actionable.MODULATE, machine.getActionSourceField());
                     if (inserted > 0) {
-                        aeTank.drain(inserted, false, true);
+                        aeTank.extract(inserted, false, true);
                         continue;
                     } else {
-                        aeTank.drain(total, false, true);
+                        aeTank.extract(total, false, true);
                     }
                 }
                 GenericStack reqFluid = aeTank.requestStack();

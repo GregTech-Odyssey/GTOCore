@@ -18,19 +18,19 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 
+import com.gto.datasynclib.annotations.SaveToDisk;
 import com.gto.datasynclib.util.holder.ObjHolder;
 import com.lowdragmc.lowdraglib.LDLib;
 import com.lowdragmc.lowdraglib.gui.texture.GuiTextureGroup;
 import com.lowdragmc.lowdraglib.gui.widget.*;
 import com.lowdragmc.lowdraglib.misc.ItemStackTransfer;
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
 
 public class TravelAnchorMachine extends MetaMachine implements IFancyUIMachine, IMachineLife {
 
-    @Persisted
+    @SaveToDisk
     private final ItemStackTransfer itemTransfer;
 
     public TravelAnchorMachine(MetaMachineBlockEntity holder) {

@@ -36,13 +36,13 @@ import appeng.api.storage.IStorageProvider;
 import appeng.api.storage.MEStorage;
 import appeng.api.storage.StorageHelper;
 
+import com.gto.datasynclib.annotations.SaveToDisk;
 import com.gto.datasynclib.annotations.SyncToClient;
 import com.hepdd.gtmthings.utils.BigIntegerUtils;
 import com.lowdragmc.lowdraglib.gui.texture.GuiTextureGroup;
 import com.lowdragmc.lowdraglib.gui.widget.LabelWidget;
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import it.unimi.dsi.fastutil.objects.Reference2ReferenceOpenHashMap;
 import lombok.Getter;
 import lombok.Setter;
@@ -81,18 +81,18 @@ public abstract class StorageAccessPartMachine extends AmountConfigurationPartMa
 
     @Setter
     @Getter
-    @Persisted
+    @SaveToDisk
     double capacity;
     @Setter
     @Getter
-    @Persisted
+    @SaveToDisk
     boolean isInfinite;
     @SyncToClient
     boolean isOnline;
-    @Persisted
+    @SaveToDisk
     public UUID uuid;
 
-    @Persisted
+    @SaveToDisk
     private final GridNodeHolder nodeHolder;
     private final ConditionalSubscriptionHandler tickSubs;
 
@@ -297,11 +297,11 @@ public abstract class StorageAccessPartMachine extends AmountConfigurationPartMa
 
     private static class IO extends LONG implements IControllable {
 
-        @Persisted
+        @SaveToDisk
         private boolean isWorkingEnabled;
-        @Persisted
+        @SaveToDisk
         private boolean export;
-        @Persisted
+        @SaveToDisk
         private long rate = 33554432L;
 
         private final IActionSource mySrc;

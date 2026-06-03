@@ -13,7 +13,6 @@ import com.gtolib.api.recipe.RecipeHelper;
 import com.gtolib.api.recipe.RecipeType;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
-import com.gregtechceu.gtceu.api.capability.recipe.*;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.TickableSubscription;
 import com.gregtechceu.gtceu.api.pattern.TraceabilityPredicate;
@@ -60,8 +59,8 @@ import static com.gtolib.api.recipe.lookup.MapIngredient.ITEM_CONVERTER;
 @DataGeneratorScanned
 public class ManaFlowAssembler extends ManaMultiblockMachine {
 
-    private static final DataComponentKey<AtomicInteger> MAX_RATE = DataComponentKey.create("maxRate", null);
-    private static final DataComponentKey<List<BlockPos>> POOL = DataComponentKey.create("manaPool", null);
+    private static final DataComponentKey<AtomicInteger> MAX_RATE = DataComponentKey.createNoCodec("maxRate");
+    private static final DataComponentKey<List<BlockPos>> POOL = DataComponentKey.createNoCodec("manaPool");
 
     private final static int SIZE = 9;
     private final ItemEntityRecipeHandler itemIn = new ItemEntityRecipeHandler();
@@ -209,6 +208,11 @@ public class ManaFlowAssembler extends ManaMultiblockMachine {
     private class ItemEntityRecipeHandler implements IRecipeHandler {
 
         @Override
+        public boolean canHandleItem() {
+            return true;
+        }
+
+        @Override
         public boolean handleRecipeItem(IO io, GTRecipe recipe, List<Content<ItemIngredient>> items, boolean simulate) {
             if (io == IO.OUT) {
                 if (!simulate && getLevel() instanceof ServerLevel level) {
@@ -290,11 +294,6 @@ public class ManaFlowAssembler extends ManaMultiblockMachine {
                 }
             }
             return intIngredientMap;
-        }
-
-        @Override
-        public boolean isEmpty() {
-            return getItemEntitiesAbove().stream().noneMatch(ItemEntity::isAlive);
         }
     }
 

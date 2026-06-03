@@ -19,7 +19,8 @@ import static com.gregtechceu.gtceu.common.data.GTItems.*;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
 import static com.gtocore.api.data.tag.GTOTagPrefix.NANO;
 import static com.gtocore.common.data.GTOMaterials.*;
-import static com.gtocore.common.data.GTORecipeTypes.*;
+import static com.gtocore.common.data.GTORecipeTypes.CHEMICAL_RECIPES;
+import static com.gtocore.common.data.GTORecipeTypes.LARGE_CHEMICAL_RECIPES;
 
 final class ChemicaRreactor {
 

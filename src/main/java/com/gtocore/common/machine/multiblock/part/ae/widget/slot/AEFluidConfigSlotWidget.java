@@ -283,9 +283,9 @@ public class AEFluidConfigSlotWidget extends AEConfigSlotWidget implements IGhos
         if (handler == null) return -1;
         int maxAttempts = isShiftKeyDown ? currentStack.getCount() : 1;
 
-        if (fluidTank.getFluidAmount() > 0) {
+        if (!fluidTank.getStack().isEmpty()) {
             boolean performedFill = false;
-            FluidStack initialFluid = fluidTank.getFluid();
+            FluidStack initialFluid = fluidTank.getStack();
             for (int i = 0; i < maxAttempts; i++) {
                 FluidActionResult result = FluidUtil.tryFillContainer(currentStack, fluidTank, Integer.MAX_VALUE, null,
                         false);

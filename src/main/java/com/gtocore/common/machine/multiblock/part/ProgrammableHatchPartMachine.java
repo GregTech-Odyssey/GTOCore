@@ -22,11 +22,11 @@ import com.gregtechceu.gtceu.common.machine.multiblock.part.DualHatchPartMachine
 
 import net.minecraft.world.item.ItemStack;
 
+import com.gto.datasynclib.annotations.SaveToDisk;
 import com.gto.datasynclib.annotations.SyncToClient;
 import com.hepdd.gtmthings.api.machine.IProgrammableMachine;
 import com.hepdd.gtmthings.common.item.VirtualItemProviderBehavior;
 import com.hepdd.gtmthings.data.CustomItems;
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -38,10 +38,10 @@ import java.util.function.BiPredicate;
 @DataGeneratorScanned
 public final class ProgrammableHatchPartMachine extends DualHatchPartMachine implements IProgrammableMachine {
 
-    @Persisted
+    @SaveToDisk
     @SyncToClient
     private final ArrayList<GTRecipeType> recipeTypes = new ArrayList<>();
-    @Persisted
+    @SaveToDisk
     @SyncToClient
     private GTRecipeType recipeType = null;
 

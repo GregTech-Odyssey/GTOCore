@@ -19,10 +19,10 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.BlockHitResult;
 
+import com.gto.datasynclib.annotations.SaveToDisk;
 import com.hollingsworth.arsnouveau.api.source.ISpecialSourceProvider;
 import com.hollingsworth.arsnouveau.api.util.SourceUtil;
 import com.hollingsworth.arsnouveau.common.block.tile.SourceJarTile;
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import org.jetbrains.annotations.NotNull;
 import vazkii.botania.api.mana.ManaCollector;
 import vazkii.botania.api.mana.ManaPool;
@@ -32,7 +32,7 @@ import vazkii.botania.xplat.XplatAbstractions;
 public class ManaHatchPartMachine extends WorkableTieredIOPartMachine implements IManaMachine {
 
     TickableSubscription tickSubs;
-    @Persisted
+    @SaveToDisk
     private final NotifiableManaContainer manaContainer;
 
     public ManaHatchPartMachine(MetaMachineBlockEntity holder, int tier, IO io, int rate) {

@@ -9,7 +9,7 @@ import net.minecraft.world.item.ItemStack;
 import appeng.menu.AEBaseMenu;
 import appeng.menu.implementations.PatternAccessTermMenu;
 
-import org.spongepowered.asm.mixin.*;
+import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
 

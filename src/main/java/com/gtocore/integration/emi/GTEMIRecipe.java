@@ -6,6 +6,7 @@ import com.gregtechceu.gtceu.api.recipe.GTRecipeDefinition;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
 import com.gregtechceu.gtceu.api.recipe.ingredient.ItemIngredient;
+import com.gregtechceu.gtceu.api.transfer.item.ICustomItemStackHandler;
 import com.gregtechceu.gtceu.integration.xei.widgets.GTRecipeWidget;
 import com.gregtechceu.gtceu.utils.ItemStackHashStrategy;
 import com.gregtechceu.gtceu.utils.ResearchManager;
@@ -17,8 +18,6 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraftforge.fluids.capability.templates.EmptyFluidHandler;
-import net.minecraftforge.items.IItemHandlerModifiable;
-import net.minecraftforge.items.wrapper.EmptyHandler;
 
 import com.lowdragmc.lowdraglib.emi.ModularEmiRecipe;
 import com.lowdragmc.lowdraglib.emi.ModularForegroundRenderWidget;
@@ -54,16 +53,13 @@ public final class GTEMIRecipe extends ModularEmiRecipe<Widget> {
     public final IntSupplier displayPriority;
 
     public GTEMIRecipe(GTRecipeDefinition recipe, EmiRecipeCategory category) {
-        super(() -> EMI_RECIPE_WIDGETS.computeIfAbsent(recipe.recipeType, type -> new Widget(getXOffset(recipe), 0, type.getRecipeUI().getJEISize().width, getHeight(recipe))));
+        super(() -> EMI_RECIPE_WIDGETS.computeIfAbsent(recipe.recipeType, type -> new Widget(GTRecipeWidget.getXOffset(recipe), 0, type.getRecipeUI().getJEISize(recipe).width, type.getRecipeUI().getJEISize(recipe).height)));
         this.recipe = recipe;
         this.category = category;
-        displayPriority = () -> recipe.priority;
-        inputs = null;
-        widget = () -> {
-            var w = new GTRecipeWidget(recipe);
-            w.setSizeHeight(getHeight(recipe));
-            return w;
-        };
+        this.height = recipe.recipeType.getRecipeUI().getJEISize(recipe).height;
+        this.displayPriority = () -> recipe.priority;
+        this.inputs = null;
+        this.widget = () -> new GTRecipeWidget(recipe);
     }
 
     public int getTier() {
@@ -72,23 +68,6 @@ public final class GTEMIRecipe extends ModularEmiRecipe<Widget> {
 
     public GTRecipeType getRecipeType() {
         return recipe.recipeType;
-    }
-
-    private static int getXOffset(GTRecipeDefinition recipe) {
-        if (recipe.recipeType.getRecipeUI().getOriginalWidth() != recipe.recipeType.getRecipeUI().getJEISize().width) {
-            return (recipe.recipeType.getRecipeUI().getJEISize().width -
-                    recipe.recipeType.getRecipeUI().getOriginalWidth()) / 2;
-        }
-        return 0;
-    }
-
-    private static int getHeight(GTRecipeDefinition recipe) {
-        return recipe.recipeType.getRecipeUI().getJEISize().height + (recipe.contentExpanders.length + recipe.tickContentExpanders.length + recipe.conditions.length) * 10;
-    }
-
-    @Override
-    public int getDisplayHeight() {
-        return getHeight(recipe);
     }
 
     @SuppressWarnings("all")
@@ -171,7 +150,7 @@ public final class GTEMIRecipe extends ModularEmiRecipe<Widget> {
                     SlotWidget slotWidget = null;
                     // Clear the LDLib slots & add EMI slots based on them.
                     if (slot instanceof com.gregtechceu.gtceu.api.gui.widget.SlotWidget slotW) {
-                        slotW.setHandlerSlot((IItemHandlerModifiable) EmptyHandler.INSTANCE, 0);
+                        slotW.setHandlerSlot(ICustomItemStackHandler.EMPTY, 0);
                         slotW.setDrawHoverOverlay(false).setDrawHoverTips(false);
                     } else if (slot instanceof com.gregtechceu.gtceu.api.gui.widget.TankWidget tankW) {
                         tankW.setFluidTank(EmptyFluidHandler.INSTANCE);

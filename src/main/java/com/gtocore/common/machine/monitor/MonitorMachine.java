@@ -45,12 +45,12 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraftforge.fluids.FluidStack;
 
 import com.google.common.collect.ImmutableBiMap;
+import com.gto.datasynclib.annotations.SaveToDisk;
 import com.gto.datasynclib.annotations.SyncToClient;
 import com.lowdragmc.lowdraglib.gui.texture.IGuiTexture;
 import com.lowdragmc.lowdraglib.gui.texture.ResourceTexture;
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import kotlin.Pair;
 import org.jetbrains.annotations.NotNull;
 import snownee.jade.api.BlockAccessor;
@@ -91,7 +91,7 @@ public class MonitorMachine extends AbstractInfoProviderMonitor implements IMach
             .put(index++, DisplayRegistry.MACHINE_RECIPE_OUTPUT_FLUID_3)
             .put(index++, DisplayRegistry.MACHINE_MANTENANCE)
             .build();
-    @Persisted
+    @SaveToDisk
     private final NotifiableItemStackHandler inventory;
     private boolean isCardChange;
 

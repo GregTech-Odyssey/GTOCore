@@ -46,9 +46,14 @@ public class GalaxyCondition extends DimensionCondition {
     }
 
     @Override
-    public void addXEIInfo(GTRecipeDefinition recipe, WidgetGroup group, int xOffset, MutableInt yOffset) {
-        super.addXEIInfo(recipe, group, xOffset, yOffset);
+    public void addInfo(GTRecipeDefinition recipe, WidgetGroup group, int xOffset, MutableInt yOffset) {
+        super.addInfo(recipe, group, xOffset, yOffset);
         group.addWidget(new LabelWidget(3 - xOffset, yOffset.addAndGet(10), getTooltips().getString()));
+    }
+
+    @Override
+    public int getInfoHeight(GTRecipeDefinition recipe) {
+        return 10;
     }
 
     @Override

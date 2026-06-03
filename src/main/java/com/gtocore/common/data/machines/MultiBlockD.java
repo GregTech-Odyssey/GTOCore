@@ -4,11 +4,7 @@ import com.gtocore.api.machine.part.GTOPartAbility;
 import com.gtocore.api.pattern.GTOPredicates;
 import com.gtocore.client.renderer.machine.*;
 import com.gtocore.common.block.FusionCasings;
-import com.gtocore.common.data.GTOBlocks;
-import com.gtocore.common.data.GTOMachines;
-import com.gtocore.common.data.GTOMaterials;
-import com.gtocore.common.data.GTORecipeDataKeys;
-import com.gtocore.common.data.GTORecipeTypes;
+import com.gtocore.common.data.*;
 import com.gtocore.common.data.translation.GTOMachineStories;
 import com.gtocore.common.data.translation.GTOMachineTooltips;
 import com.gtocore.common.data.translation.GTOMachineTooltipsA;
@@ -64,9 +60,7 @@ import net.minecraft.world.level.block.Blocks;
 
 import earth.terrarium.adastra.common.registry.ModItems;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 import java.util.function.Function;
 
 import static com.gregtechceu.gtceu.api.GTValues.LuV;
@@ -662,13 +656,14 @@ public final class MultiBlockD {
                     .aisle("FOF", "RTR", "DAG", "#Y#")
                     .where('S', controller(definition))
                     .where('F', blocks(GTBlocks.CASING_STEEL_SOLID.get())
-                            .or(abilities(IMPORT_FLUIDS).setMaxGlobalLimited(4).setPreviewCount(1))
+                            .or(blocks(IMPORT_FLUIDS.getAllBlocks().stream().filter(b -> !DUAL_INPUT.getAllBlocks().contains(b))
+                                    .toArray(Block[]::new)).setMaxGlobalLimited(4).setPreviewCount(1))
                             .or(abilities(PARALLEL_HATCH).setMaxGlobalLimited(1)))
                     .where('O', abilities(EXPORT_ITEMS).addTooltips(Component.translatable("gtceu.multiblock.pattern.location_end")))
                     .where('Y', blocks(GTBlocks.CASING_STEEL_SOLID.get())
                             .or(abilities(INPUT_ENERGY).setMaxGlobalLimited(2).setPreviewCount(1))
                             .or(abilities(INPUT_LASER).setMaxGlobalLimited(2)))
-                    .where('I', abilities(GTOPartAbility.ITEMS_INPUT))
+                    .where('I', abilities(GTOPartAbility.ITEMS_INPUT_BUS))
                     .where('G', blocks(GTBlocks.CASING_GRATE.get()))
                     .where('D', blocks(GTBlocks.CASING_GRATE.get())
                             .or(abilities(OPTICAL_DATA_RECEPTION).setExactLimit(1)))
@@ -725,7 +720,7 @@ public final class MultiBlockD {
                     .where('I', air())
                     .where('J', blocks(GTOBlocks.SPACE_ELEVATOR_POWER_CORE.get()))
                     .where('X', blocks(GTOBlocks.SPACE_ELEVATOR_MECHANICAL_CASING.get())
-                            .or(abilities(GTOPartAbility.ITEMS_INPUT).setExactLimit(1))
+                            .or(abilities(GTOPartAbility.ITEMS_INPUT_BUS).setExactLimit(1))
                             .or(abilities(INPUT_ENERGY).setExactLimit(1))
                             .or(abilities(COMPUTATION_DATA_RECEPTION).setExactLimit(1)))
                     .where(' ', any())

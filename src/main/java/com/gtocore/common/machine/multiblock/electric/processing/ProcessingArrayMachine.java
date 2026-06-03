@@ -29,8 +29,8 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
 
-import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
+import com.gto.datasynclib.annotations.SaveToDisk;
+import com.gto.datasynclib.annotations.SyncToClient;
 import lombok.Getter;
 
 import java.util.List;
@@ -44,8 +44,8 @@ public final class ProcessingArrayMachine extends TierCasingMultiblockMachine im
 
     private MachineDefinition machineDefinitionCache;
     @Getter
-    @DescSynced
-    @Persisted
+    @SyncToClient
+    @SaveToDisk
     private final NotifiableItemStackHandler inventory;
     private final int arrayTier;
 

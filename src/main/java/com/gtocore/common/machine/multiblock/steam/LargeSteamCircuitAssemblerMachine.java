@@ -19,9 +19,9 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
+import com.gto.datasynclib.annotations.SaveToDisk;
 import com.lowdragmc.lowdraglib.gui.util.ClickData;
 import com.lowdragmc.lowdraglib.gui.widget.ComponentPanelWidget;
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -33,7 +33,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 @MethodsReturnNonnullByDefault
 public final class LargeSteamCircuitAssemblerMachine extends BaseSteamMultiblockMachine {
 
-    @Persisted
+    @SaveToDisk
     private boolean isMultiMode = true;
     @DynamicInitialValue(
                          key = "gtceu.machine.multiblock.steam.large_circuit_assembler.max_parallel",
@@ -93,10 +93,10 @@ public final class LargeSteamCircuitAssemblerMachine extends BaseSteamMultiblock
         return true;
     }
 
-    @Persisted
+    @SaveToDisk
     private Item item;
 
-    @Persisted
+    @SaveToDisk
     private int count;
 
     public LargeSteamCircuitAssemblerMachine(MetaMachineBlockEntity holder) {

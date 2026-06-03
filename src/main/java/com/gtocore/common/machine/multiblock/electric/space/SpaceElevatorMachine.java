@@ -35,8 +35,8 @@ import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
+import com.gto.datasynclib.annotations.SaveToDisk;
 import com.gto.datasynclib.annotations.SyncToClient;
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import earth.terrarium.adastra.api.planets.Planet;
 import earth.terrarium.adastra.api.planets.PlanetApi;
 import earth.terrarium.adastra.common.menus.base.PlanetsMenuProvider;
@@ -79,7 +79,7 @@ public class SpaceElevatorMachine extends TierCasingMultiblockMachine implements
     @SyncToClient
     protected double high;
     @Getter
-    @Persisted
+    @SaveToDisk
     @SyncToClient
     protected int spoolCount;
     protected int moduleCount;
@@ -175,7 +175,7 @@ public class SpaceElevatorMachine extends TierCasingMultiblockMachine implements
     public void onWorking() {
         super.onWorking();
         update(false);
-        if (getRecipeLogic().getProgress() > 190) {
+        if (getRecipeLogic().getLastOriginRecipe() != null && getRecipeLogic().getProgress() > 190) {
             getRecipeLogic().setProgress(1);
             getNetMachine();
         }

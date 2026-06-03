@@ -13,7 +13,7 @@ import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
 
 import net.minecraft.network.chat.Component;
 
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
+import com.gto.datasynclib.annotations.SaveToDisk;
 import it.unimi.dsi.fastutil.objects.ReferenceOpenHashSet;
 import org.jetbrains.annotations.NotNull;
 
@@ -22,7 +22,7 @@ import java.util.Set;
 
 public class RadioactivityTrait extends MultiblockTrait {
 
-    @Persisted
+    @SaveToDisk
     private int recipeRadioactivity;
 
     private final Set<RadiationHatchPartMachine> radiationHatchPartMachines = new ReferenceOpenHashSet<>();

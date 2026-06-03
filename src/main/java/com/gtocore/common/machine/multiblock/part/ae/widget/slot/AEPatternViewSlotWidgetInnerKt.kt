@@ -10,11 +10,11 @@ import net.minecraftforge.items.IItemHandlerModifiable
 
 import appeng.crafting.pattern.EncodedPatternItem
 import com.gregtechceu.gtceu.api.gui.GuiTextures
-import com.lowdragmc.lowdraglib.gui.util.DrawerHelper
+import com.gregtechceu.gtceu.api.transfer.item.ICustomItemStackHandler
 
 import java.util.function.IntSupplier
 
-open class AEPatternViewSlotWidgetInnerKt(itemHandler: IItemHandlerModifiable, slotIndex: Int, xPosition: Int, yPosition: Int, private val clicked: Runnable) :
+open class AEPatternViewSlotWidgetInnerKt(itemHandler: ICustomItemStackHandler, slotIndex: Int, xPosition: Int, yPosition: Int, private val clicked: Runnable) :
     com.gregtechceu.gtceu.integration.ae2.gui.widget.slot.AEPatternViewSlotWidget(
         itemHandler,
         slotIndex,
@@ -31,7 +31,7 @@ open class AEPatternViewSlotWidgetInnerKt(itemHandler: IItemHandlerModifiable, s
     }
 }
 
-open class AEPatternViewSlotWidgetKt(x: Int, y: Int, val slotIndex: Int, val applyIndexSupplier: IntSupplier, val itemHandler: IItemHandlerModifiable, val destroy: Runnable, val clicked: Runnable) : SyncWidget(x, y, 18, 18) {
+open class AEPatternViewSlotWidgetKt(x: Int, y: Int, val slotIndex: Int, val applyIndexSupplier: IntSupplier, val itemHandler: ICustomItemStackHandler, val destroy: Runnable, val clicked: Runnable) : SyncWidget(x, y, 18, 18) {
     var applyIndex = syncInt({ applyIndexSupplier.asInt }, -1, -1)
     var inner: AEPatternViewSlotWidgetInnerKt = AEPatternViewSlotWidgetInnerKt(itemHandler, slotIndex, 0, 0, clicked)
     var emiFlag = false

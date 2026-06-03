@@ -27,12 +27,12 @@ import appeng.api.storage.IStorageProvider;
 import appeng.api.storage.MEStorage;
 
 import appbot.ae2.ManaKey;
+import com.gto.datasynclib.annotations.SaveToDisk;
 import com.gto.datasynclib.annotations.SyncToClient;
 import com.hepdd.gtmthings.utils.BigIntegerUtils;
 import com.lowdragmc.lowdraglib.gui.widget.LabelWidget;
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import gripe._90.arseng.me.key.SourceKey;
 import lombok.Getter;
 import lombok.Setter;
@@ -52,13 +52,13 @@ public final class MEManaInterface extends MetaMachine implements
     @Getter
     @Setter
     private WirelessManaContainer wirelessManaContainerCache;
-    @Persisted
+    @SaveToDisk
     private final GridNodeHolder nodeHolder;
     @SyncToClient
     @Getter
     @Setter
     private boolean isOnline;
-    @Persisted
+    @SaveToDisk
     @Getter
     private int priority = 0;
 

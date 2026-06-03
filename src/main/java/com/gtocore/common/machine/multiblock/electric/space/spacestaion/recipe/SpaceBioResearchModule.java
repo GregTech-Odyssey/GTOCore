@@ -19,9 +19,9 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
 
 import com.google.common.collect.ImmutableSet;
+import com.gto.datasynclib.annotations.SaveToDisk;
 import com.lowdragmc.lowdraglib.gui.util.ClickData;
 import com.lowdragmc.lowdraglib.gui.widget.ComponentPanelWidget;
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -30,10 +30,10 @@ import java.util.Set;
 @DataGeneratorScanned
 public class SpaceBioResearchModule extends RecipeExtension {
 
-    @Persisted
+    @SaveToDisk
     private final RadioactivityTrait radioactivityTrait;
 
-    @Persisted
+    @SaveToDisk
     private int radioactivity = 80;
 
     public SpaceBioResearchModule(MetaMachineBlockEntity metaMachineBlockEntity) {

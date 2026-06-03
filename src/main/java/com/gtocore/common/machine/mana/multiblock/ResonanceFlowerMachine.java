@@ -25,8 +25,8 @@ import net.minecraft.world.level.material.Fluids;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.registries.ForgeRegistries;
 
+import com.gto.datasynclib.annotations.SaveToDisk;
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -38,32 +38,32 @@ import static com.lowdragmc.lowdraglib.LDLib.random;
 public class ResonanceFlowerMachine extends ManaMultiblockMachine implements IStorageMultiblock, IDropSaveMachine {
 
     // 时间消耗波动系数
-    @Persisted
+    @SaveToDisk
     private double timeFluctuationCoefficient = 1.0D;
     // 元素消耗波动系数
-    @Persisted
+    @SaveToDisk
     private double elementalFluctuationCoefficient = 1.0D;
 
     // 剩余的锚定时间
-    @Persisted
+    @SaveToDisk
     private int stableTime = 0;
 
     // TODO 使用Map<GTRecipeDefinition, CompoundTag>重写
     // 存储信息
-    @Persisted
+    @SaveToDisk
     private final List<CompoundTag> recipeIncremental = new ArrayList<>();
     private static final int MAX_SIZE = 10;
     private static final String NBT_KEY_RECIPE_INCREMENTAL = "RecipeIncremental";
 
     // 额外共鸣输入
-    @Persisted
+    @SaveToDisk
     private int frequency = Integer.MAX_VALUE;
-    @Persisted
+    @SaveToDisk
     private ItemStack resonanceItem = ItemStack.EMPTY;
-    @Persisted
+    @SaveToDisk
     private FluidStack resonanceFluid = FluidStack.EMPTY;
 
-    @Persisted
+    @SaveToDisk
     protected final NotifiableItemStackHandler machineStorage;
 
     public ResonanceFlowerMachine(MetaMachineBlockEntity holder) {

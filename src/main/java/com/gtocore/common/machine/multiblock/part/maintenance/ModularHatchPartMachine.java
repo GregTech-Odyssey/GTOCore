@@ -28,12 +28,12 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
+import com.gto.datasynclib.annotations.SaveToDisk;
 import com.gto.datasynclib.annotations.SyncToClient;
 import com.lowdragmc.lowdraglib.gui.widget.ComponentPanelWidget;
 import com.lowdragmc.lowdraglib.gui.widget.DraggableScrollableWidgetGroup;
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 
@@ -48,33 +48,33 @@ public class ModularHatchPartMachine extends ACMHatchPartMachine implements IMod
 
     private TickableSubscription tickSubs;
 
-    @Persisted
+    @SaveToDisk
     private final NotifiableItemStackHandler temperatureModuleInv;
-    @Persisted
+    @SaveToDisk
     private final NotifiableItemStackHandler gravityModuleInv;
-    @Persisted
+    @SaveToDisk
     private final NotifiableItemStackHandler vacuumModuleInv;
-    @Persisted
+    @SaveToDisk
     private final NotifiableItemStackHandler cleanroomModuleInv;
-    @Persisted
+    @SaveToDisk
     private int temperature = 293;
-    @Persisted
+    @SaveToDisk
     private int activeTemperature = 293;
-    @Persisted
+    @SaveToDisk
     @SyncToClient
     private int currentGravity = 0;
     @Getter
-    @Persisted
+    @SaveToDisk
     @SyncToClient
     private boolean vacuumMode = false;
     @Getter
-    @Persisted
+    @SaveToDisk
     @SyncToClient
     private boolean gravityMode = false;
     /// indicates whether player could set temperature
     /// notice that even if temperatureMode is false, the temperature could be set passively by other machines
     @Getter
-    @Persisted
+    @SaveToDisk
     @SyncToClient
     private boolean temperatureMode = false;
 

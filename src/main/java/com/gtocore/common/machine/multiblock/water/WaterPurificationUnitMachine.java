@@ -16,7 +16,7 @@ import com.gregtechceu.gtceu.common.data.GTSoundEntries;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.world.level.Level;
 
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
+import com.gto.datasynclib.annotations.SaveToDisk;
 import org.jetbrains.annotations.NotNull;
 
 @MethodsReturnNonnullByDefault
@@ -27,7 +27,7 @@ abstract class WaterPurificationUnitMachine extends NoEnergyCustomParallelMultib
     private WaterPurificationPlantMachine netMachineCache;
     GTRecipe recipe;
     RecipeHandlerUnit unit;
-    @Persisted
+    @SaveToDisk
     long eut;
     public final long multiple;
     private final ConditionalSubscriptionHandler tickSubs;

@@ -13,7 +13,7 @@ import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.material.Fluid;
 
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
+import com.gto.datasynclib.annotations.SaveToDisk;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,16 +29,16 @@ public final class ExtremeTemperatureFluctuationPurificationUnitMachine extends 
     private static final Fluid HELIUM_LIQUID = GTMaterials.Helium.getFluid(FluidStorageKeys.LIQUID);
     private static final Fluid HELIUM_PLASMA = GTMaterials.Helium.getFluid(FluidStorageKeys.PLASMA);
 
-    @Persisted
+    @SaveToDisk
     private int heat = 298;
 
-    @Persisted
+    @SaveToDisk
     private int chance = 1;
 
-    @Persisted
+    @SaveToDisk
     private long inputCount;
 
-    @Persisted
+    @SaveToDisk
     private boolean cycle;
 
     private final List<SensorPartMachine> sensorMachine = new ArrayList<>();

@@ -6,9 +6,6 @@ import com.gtolib.api.machine.multiblock.TierCasingParallelMultiblockMachine;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 
-import static com.gtolib.api.GTOValues.GLASS_TIER;
-import static com.gtolib.api.GTOValues.MACHINE_CASING_TIER;
-
 public final class PrecisionAssemblerMachine extends TierCasingParallelMultiblockMachine {
 
     public PrecisionAssemblerMachine(MetaMachineBlockEntity holder) {

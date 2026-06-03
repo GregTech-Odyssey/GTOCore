@@ -11,7 +11,6 @@ import net.minecraftforge.api.distmarker.Dist
 import net.minecraftforge.api.distmarker.OnlyIn
 
 import com.gto.datasynclib.listener.IntNotifiableHolder
-import com.gtolib.api.capability.ISync
 import com.gtolib.api.gui.ktflexible.LayoutBuilder
 import com.gtolib.api.gui.ktflexible.Style
 import com.gtolib.api.gui.ktflexible.VBoxBuilder

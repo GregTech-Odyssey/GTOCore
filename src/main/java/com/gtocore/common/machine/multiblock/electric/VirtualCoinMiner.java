@@ -24,10 +24,10 @@ import com.gregtechceu.gtceu.utils.FormattingUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 
+import com.gto.datasynclib.annotations.SaveToDisk;
 import com.lowdragmc.lowdraglib.gui.texture.IGuiTexture;
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import dev.shadowsoffire.placebo.color.GradientColor;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
@@ -35,17 +35,18 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-import static com.gregtechceu.gtceu.api.GTValues.*;
+import static com.gregtechceu.gtceu.api.GTValues.EV;
+import static com.gregtechceu.gtceu.api.GTValues.VA;
 
 @DataGeneratorScanned
 public class VirtualCoinMiner extends ElectricMultiblockMachine implements ICustomElectricMachine, ICustomRecipeLogicHolder {
 
-    @Persisted
+    @SaveToDisk
     @Getter
     private long cwuLimitConfig = 256L;
-    @Persisted
+    @SaveToDisk
     private long cwuBuffer = 0L;
-    @Persisted
+    @SaveToDisk
     private long coinBuffer = 0L;
     private long eut = 0L;
 

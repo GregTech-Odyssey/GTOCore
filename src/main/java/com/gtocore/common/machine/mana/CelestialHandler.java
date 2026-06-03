@@ -7,7 +7,7 @@ import com.gtolib.api.data.GTODimensions;
 
 import net.minecraft.world.level.Level;
 
-import com.gto.datasynclib.CombinationCodec;
+import com.gto.datasynclib.DataSyncCodec;
 import com.gto.datasynclib.datasream.DataComponentKey;
 import earth.terrarium.adastra.api.planets.PlanetApi;
 
@@ -15,12 +15,12 @@ public record CelestialHandler(long maxCapacity) {
 
     public static void init() {}
 
-    public static final DataComponentKey<Integer> SOLARIS = GTORecipeDataKeys.register("solaris", CombinationCodec.INT_CODEC);
+    public static final DataComponentKey<Integer> SOLARIS = GTORecipeDataKeys.register("solaris", DataSyncCodec.INT_CODEC);
 
-    public static final DataComponentKey<Integer> LUNARA = GTORecipeDataKeys.register("lunara", CombinationCodec.INT_CODEC);
-    public static final DataComponentKey<Integer> VOIDFLUX = GTORecipeDataKeys.register("voidflux", CombinationCodec.INT_CODEC);
-    public static final DataComponentKey<Integer> STELLARM = GTORecipeDataKeys.register("stellarm", CombinationCodec.INT_CODEC);
-    public static final DataComponentKey<Integer> ANY = GTORecipeDataKeys.register("any", CombinationCodec.INT_CODEC);
+    public static final DataComponentKey<Integer> LUNARA = GTORecipeDataKeys.register("lunara", DataSyncCodec.INT_CODEC);
+    public static final DataComponentKey<Integer> VOIDFLUX = GTORecipeDataKeys.register("voidflux", DataSyncCodec.INT_CODEC);
+    public static final DataComponentKey<Integer> STELLARM = GTORecipeDataKeys.register("stellarm", DataSyncCodec.INT_CODEC);
+    public static final DataComponentKey<Integer> ANY = GTORecipeDataKeys.register("any", DataSyncCodec.INT_CODEC);
 
     public enum Mode {
         VOID,

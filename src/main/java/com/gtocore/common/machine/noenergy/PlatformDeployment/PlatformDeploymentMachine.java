@@ -30,12 +30,12 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
+import com.gto.datasynclib.annotations.SaveToDisk;
 import com.gto.datasynclib.util.holder.IntObjectHolder;
 import com.lowdragmc.lowdraglib.gui.texture.IGuiTexture;
 import com.lowdragmc.lowdraglib.gui.texture.ResourceTexture;
 import com.lowdragmc.lowdraglib.gui.util.ClickData;
 import com.lowdragmc.lowdraglib.gui.widget.*;
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -83,7 +83,7 @@ public class PlatformDeploymentMachine extends MetaMachine implements IFancyUIMa
         }, ServerUtils.getServer());
     }
 
-    @Persisted
+    @SaveToDisk
     private final NotifiableItemStackHandler inventory;
 
     public PlatformDeploymentMachine(MetaMachineBlockEntity holder) {
@@ -128,59 +128,59 @@ public class PlatformDeploymentMachine extends MetaMachine implements IFancyUIMa
 
     // ------------------- 第一步：选择预设 -------------------
     // 是否已完成预设选择
-    @Persisted
+    @SaveToDisk
     private boolean presetConfirm = false;
     // 当前查看的预设组索引
-    @Persisted
+    @SaveToDisk
     private int checkGroup = 0;
     // 显示的预设编号
-    @Persisted
+    @SaveToDisk
     private int checkId = 0;
     // 保存的预设组编号
-    @Persisted
+    @SaveToDisk
     private int saveGroup = 0;
     // 保存的预设编号
-    @Persisted
+    @SaveToDisk
     private int saveId = 0;
     // 是否显示预览
-    @Persisted
+    @SaveToDisk
     private boolean preview = false;
     // 是否高亮
-    @Persisted
+    @SaveToDisk
     private boolean highlight = false;
 
     // ------------------- 第二步：选择偏移 -------------------
     // X方向区块偏移
-    @Persisted
+    @SaveToDisk
     private int offsetX = 0;
     // Z方向区块偏移
-    @Persisted
+    @SaveToDisk
     private int offsetZ = 0;
     // Y方向高度偏移
-    @Persisted
+    @SaveToDisk
     private int offsetY = -1;
 
     // X方向区块偏移修改大小
-    @Persisted
+    @SaveToDisk
     private int adjustX = 0;
     // Z方向区块偏移修改大小
-    @Persisted
+    @SaveToDisk
     private int adjustZ = 0;
     // Y方向偏移修改大小
-    @Persisted
+    @SaveToDisk
     private int adjustY = 0;
     // 坐标点
-    @Persisted
+    @SaveToDisk
     private BlockPos pos1 = new BlockPos(0, 0, 0);
-    @Persisted
+    @SaveToDisk
     private BlockPos pos2 = new BlockPos(0, 0, 0);
 
     // ------------------- 第三步：确认放置 -------------------
     // 库存的原料量
-    @Persisted
+    @SaveToDisk
     private final int[] materialInventory = new int[] { 0, 0, 0 };
     // 库存是否充足
-    @Persisted
+    @SaveToDisk
     private boolean insufficient = false;
     // 原料物品
     private static final List<List<IntObjectHolder<Item>>> ITEM_VALUE_HOLDERS = List.of(
@@ -199,28 +199,28 @@ public class PlatformDeploymentMachine extends MetaMachine implements IFancyUIMa
 
     // ------------------- 第四步：运行中 -------------------
     // 任务是否完成
-    @Persisted
+    @SaveToDisk
     private boolean taskCompleted = true;
     // 跳过空气
-    @Persisted
+    @SaveToDisk
     private boolean skipAir = true;
     // 光照更新
-    @Persisted
+    @SaveToDisk
     private boolean updateLight = true;
     // 速度
-    @Persisted
+    @SaveToDisk
     private int speed = 50;
     // X轴对称
-    @Persisted
+    @SaveToDisk
     private boolean xMirror = false;
     // Z轴对称
-    @Persisted
+    @SaveToDisk
     private boolean zMirror = false;
     // Y轴旋转
-    @Persisted
+    @SaveToDisk
     private int rotation = 0;
     // 可导出
-    @Persisted
+    @SaveToDisk
     private boolean canExport = false;
 
     private int progress = 0;

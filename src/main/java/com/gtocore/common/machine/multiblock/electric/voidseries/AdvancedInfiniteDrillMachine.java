@@ -22,7 +22,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
 
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
+import com.gto.datasynclib.annotations.SaveToDisk;
 import lombok.Getter;
 
 import java.util.List;
@@ -42,9 +42,9 @@ public final class AdvancedInfiniteDrillMachine extends StorageMultiblockMachine
     private static final int RUNNING_HEAT = 2000;
     private static final int MAX_HEAT = 10000;
     @Getter
-    @Persisted
+    @SaveToDisk
     private int currentHeat = 300;
-    @Persisted
+    @SaveToDisk
     private int process;
     private final ConditionalSubscriptionHandler heatSubs;
 

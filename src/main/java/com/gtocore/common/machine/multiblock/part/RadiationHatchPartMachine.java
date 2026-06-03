@@ -19,9 +19,9 @@ import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
 
+import com.gto.datasynclib.annotations.SaveToDisk;
 import com.lowdragmc.lowdraglib.gui.util.ClickData;
 import com.lowdragmc.lowdraglib.gui.widget.*;
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import lombok.Getter;
 
 import java.util.List;
@@ -32,20 +32,20 @@ import javax.annotation.ParametersAreNonnullByDefault;
 @MethodsReturnNonnullByDefault
 public final class RadiationHatchPartMachine extends MultiblockPartMachine implements IMachineLife {
 
-    @Persisted
+    @SaveToDisk
     private final NotifiableItemStackHandler inventory;
     @Getter
-    @Persisted
+    @SaveToDisk
     private int radioactivity;
-    @Persisted
+    @SaveToDisk
     private int initialRadioactivity;
-    @Persisted
+    @SaveToDisk
     private int count;
-    @Persisted
+    @SaveToDisk
     private int time;
-    @Persisted
+    @SaveToDisk
     private int inhibitionDose;
-    @Persisted
+    @SaveToDisk
     private int initialTime;
 
     private TickableSubscription radiationSubs;

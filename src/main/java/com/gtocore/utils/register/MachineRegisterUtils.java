@@ -24,8 +24,6 @@ import com.gtolib.utils.GTOUtils;
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
-import com.gregtechceu.gtceu.api.capability.recipe.FluidRecipeCapability;
-import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
 import com.gregtechceu.gtceu.api.machine.*;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.ICoilMachine;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiController;
@@ -37,6 +35,8 @@ import com.gregtechceu.gtceu.api.pattern.Predicates;
 import com.gregtechceu.gtceu.api.pattern.util.RelativeDirection;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.api.recipe.handler.IO;
+import com.gregtechceu.gtceu.api.recipe.info.FluidRecipeInfo;
+import com.gregtechceu.gtceu.api.recipe.info.ItemRecipeInfo;
 import com.gregtechceu.gtceu.api.registry.registrate.MultiblockMachineBuilder;
 import com.gregtechceu.gtceu.client.renderer.machine.OverlayTieredMachineRenderer;
 import com.gregtechceu.gtceu.client.renderer.machine.SimpleGeneratorMachineRenderer;
@@ -157,8 +157,8 @@ public final class MachineRegisterUtils {
                         .allRotation()
                         .recipeType(recipeType)
                         .recipeModifier(GTORecipeModifiers.SIMPLE_GENERATOR_MACHINEMODIFIER)
-                        .addOutputLimit(ItemRecipeCapability.CAP, 0)
-                        .addOutputLimit(FluidRecipeCapability.CAP, 0)
+                        .addOutputLimit(ItemRecipeInfo.INSTANCE, 0)
+                        .addOutputLimit(FluidRecipeInfo.INSTANCE, 0)
                         .renderer(() -> new SimpleGeneratorMachineRenderer(tier, GTOCore.id("block/generators/" + name)))
                         .tooltips(Component.translatable("gtocore.machine.efficiency.tooltip", GTOUtils.getGeneratorEfficiency(recipeType, tier)).append("%"))
                         .tooltips(Component.translatable("gtceu.universal.tooltip.amperage_out", GTOUtils.getGeneratorAmperage(tier)))
@@ -177,8 +177,8 @@ public final class MachineRegisterUtils {
                         .workableInSpace()
                         .recipeType(recipeType)
                         .recipeModifier(GTORecipeModifiers.SIMPLE_GENERATOR_MACHINEMODIFIER)
-                        .addOutputLimit(ItemRecipeCapability.CAP, 0)
-                        .addOutputLimit(FluidRecipeCapability.CAP, 0)
+                        .addOutputLimit(ItemRecipeInfo.INSTANCE, 0)
+                        .addOutputLimit(FluidRecipeInfo.INSTANCE, 0)
                         .renderer(() -> new SimpleGeneratorMachineRenderer(tier, GTOCore.id("block/generators/" + name)))
                         .tooltips(Component.translatable("gtocore.machine.efficiency.tooltip", GTOUtils.getGeneratorEfficiency(recipeType, tier)).append("%"))
                         .tooltips(Component.translatable("gtceu.universal.tooltip.amperage_out", GTOUtils.getGeneratorAmperage(tier)))
@@ -245,8 +245,8 @@ public final class MachineRegisterUtils {
 
     public static Component[] workableNoEnergy(GTRecipeType recipeType, long tankCapacity) {
         List<Component> tooltipComponents = new ArrayList<>();
-        if (recipeType.getMaxInputs(FluidRecipeCapability.CAP) > 0 ||
-                recipeType.getMaxOutputs(FluidRecipeCapability.CAP) > 0)
+        if (recipeType.getMaxInputs(FluidRecipeInfo.INSTANCE) > 0 ||
+                recipeType.getMaxOutputs(FluidRecipeInfo.INSTANCE) > 0)
             tooltipComponents
                     .add(Component.translatable("gtceu.universal.tooltip.fluid_storage_capacity",
                             FormattingUtil.formatNumbers(tankCapacity)));

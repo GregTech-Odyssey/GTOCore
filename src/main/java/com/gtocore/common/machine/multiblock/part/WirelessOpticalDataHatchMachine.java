@@ -15,9 +15,9 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
+import com.gto.datasynclib.annotations.SaveToDisk;
 import com.hepdd.gtmthings.api.capability.IGTMTJadeIF;
 import com.hepdd.gtmthings.api.misc.CleanableReferenceSupplier;
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -26,9 +26,9 @@ import javax.annotation.ParametersAreNonnullByDefault;
 @ParametersAreNonnullByDefault
 public final class WirelessOpticalDataHatchMachine extends OpticalDataHatchMachine implements IDataStickInteractable, IGTMTJadeIF {
 
-    @Persisted
+    @SaveToDisk
     private BlockPos transmitterPos;
-    @Persisted
+    @SaveToDisk
     private BlockPos receiverPos;
 
     private static final String KEY_TRANSMITTER = "wireless_data_transmitter";

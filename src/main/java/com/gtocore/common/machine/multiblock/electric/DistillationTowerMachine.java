@@ -11,7 +11,9 @@ import net.minecraftforge.fluids.capability.IFluidHandler;
 
 import lombok.Getter;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 

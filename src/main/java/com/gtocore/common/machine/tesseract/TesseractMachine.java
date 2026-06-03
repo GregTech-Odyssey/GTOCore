@@ -12,7 +12,8 @@ import com.gregtechceu.gtceu.api.machine.feature.IFancyUIMachine;
 import com.gregtechceu.gtceu.api.machine.feature.IMachineLife;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
 import com.gregtechceu.gtceu.api.recipe.handler.IO;
-import com.gregtechceu.gtceu.api.transfer.fluid.IFluidHandlerModifiable;
+import com.gregtechceu.gtceu.api.transfer.fluid.ICustomFluidStackHandler;
+import com.gregtechceu.gtceu.api.transfer.item.ICustomItemStackHandler;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -26,14 +27,13 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.items.IItemHandlerModifiable;
 
 import appeng.api.config.Actionable;
 import appeng.api.networking.security.IActionSource;
 import appeng.api.stacks.AEItemKey;
 
+import com.gto.datasynclib.annotations.SaveToDisk;
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -52,10 +52,10 @@ public class TesseractMachine extends MetaMachine implements IFancyUIMachine, IM
 
     private WeakReference<BlockEntity> blockEntityReference;
 
-    @Persisted
+    @SaveToDisk
     public BlockPos pos;
 
-    @Persisted
+    @SaveToDisk
     protected NotifiableItemStackHandler inventory;
 
     private boolean call;
@@ -63,7 +63,7 @@ public class TesseractMachine extends MetaMachine implements IFancyUIMachine, IM
     public TesseractMachine(MetaMachineBlockEntity holder) {
         super(holder);
         inventory = new NotifiableItemStackHandler(this, 1, IO.NONE, IO.NONE);
-        inventory.storage.setOnContentsChangedAndfreeze(() -> {
+        inventory.storage.setOnContentsChanged(() -> {
             onChanged();
             call = false;
             pos = null;
@@ -84,15 +84,15 @@ public class TesseractMachine extends MetaMachine implements IFancyUIMachine, IM
     }
 
     @Override
-    public @Nullable IItemHandlerModifiable getItemHandlerCap(@Nullable Direction side, boolean useCoverCapability) {
+    public @Nullable ICustomItemStackHandler getItemHandlerCap(@Nullable Direction side, boolean useCoverCapability) {
         var cap = getCapability(ForgeCapabilities.ITEM_HANDLER, side);
-        return cap != null ? cap.orElse(null) instanceof IItemHandlerModifiable m ? m : null : null;
+        return cap != null ? cap.orElse(null) instanceof ICustomItemStackHandler m ? m : null : null;
     }
 
     @Override
-    public @Nullable IFluidHandlerModifiable getFluidHandlerCap(@Nullable Direction side, boolean useCoverCapability) {
+    public @Nullable ICustomFluidStackHandler getFluidHandlerCap(@Nullable Direction side, boolean useCoverCapability) {
         var cap = getCapability(ForgeCapabilities.FLUID_HANDLER, side);
-        return cap != null ? cap.orElse(null) instanceof IFluidHandlerModifiable m ? m : null : null;
+        return cap != null ? cap.orElse(null) instanceof ICustomFluidStackHandler m ? m : null : null;
     }
 
     @Override
@@ -123,10 +123,10 @@ public class TesseractMachine extends MetaMachine implements IFancyUIMachine, IM
             call = false;
             if (side != null && result != null) {
                 var handler = result.orElse(null);
-                if (handler instanceof IItemHandlerModifiable modifiable) {
+                if (handler instanceof ICustomItemStackHandler modifiable) {
                     CoverBehavior cover = getCoverContainer().getCoverAtSide(side);
                     return cover != null ? ForgeCapabilities.ITEM_HANDLER.orEmpty(cap, LazyOptional.of(() -> cover.getItemHandlerCap(modifiable))) : result;
-                } else if (handler instanceof IFluidHandlerModifiable modifiable) {
+                } else if (handler instanceof ICustomFluidStackHandler modifiable) {
                     CoverBehavior cover = getCoverContainer().getCoverAtSide(side);
                     return cover != null ? ForgeCapabilities.FLUID_HANDLER.orEmpty(cap, LazyOptional.of(() -> cover.getFluidHandlerCap(modifiable))) : result;
                 }

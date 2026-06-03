@@ -8,7 +8,10 @@ import appeng.api.storage.MEStorage;
 import com.glodblock.github.extendedae.api.StorageMode;
 import com.glodblock.github.extendedae.common.parts.PartPreciseStorageBus;
 import com.glodblock.github.extendedae.common.parts.base.PartSpecialStorageBus;
-import org.spongepowered.asm.mixin.*;
+import org.spongepowered.asm.mixin.Final;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Overwrite;
+import org.spongepowered.asm.mixin.Shadow;
 
 @Mixin(PartPreciseStorageBus.class)
 public abstract class PreciseStorageMixin implements IPreciseBus {

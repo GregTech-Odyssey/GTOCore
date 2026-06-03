@@ -1,5 +1,6 @@
 package com.gtocore.common.data.machines;
 
+import com.gtocore.api.machine.part.GTOPartAbility;
 import com.gtocore.api.pattern.GTOPredicates;
 import com.gtocore.common.data.translation.GTOMachineTooltips;
 import com.gtocore.common.machine.multiblock.electric.ChiselMachine;
@@ -37,7 +38,7 @@ public final class OptionalMachine {
                     .tooltips(GTOMachineTooltips.INSTANCE.getMePatternHatchTooltips().invoke(9).getSupplier())
                     .tier(MV)
                     .allRotation()
-                    .abilities(PartAbility.IMPORT_ITEMS, PartAbility.IMPORT_FLUIDS)
+                    .abilities(PartAbility.IMPORT_ITEMS, PartAbility.IMPORT_FLUIDS, GTOPartAbility.DUAL_INPUT)
                     .notAllowSharedTooltips()
                     .renderer(() -> new OverlayTieredMachineRenderer(MV, GTCEu.id("block/machine/part/me_pattern_buffer")))
                     .register() :

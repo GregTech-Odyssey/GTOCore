@@ -20,6 +20,7 @@ import com.gregtechceu.gtceu.api.machine.feature.IMachineLife;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
 import com.gregtechceu.gtceu.api.recipe.handler.IO;
 import com.gregtechceu.gtceu.api.transfer.item.CustomItemStackHandler;
+import com.gregtechceu.gtceu.api.transfer.item.ICustomItemStackHandler;
 import com.gregtechceu.gtceu.common.data.GTMachines;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
@@ -30,9 +31,8 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraftforge.items.IItemHandlerModifiable;
-import net.minecraftforge.items.ItemStackHandler;
 
+import com.gto.datasynclib.annotations.SaveToDisk;
 import com.gto.datasynclib.annotations.SyncToClient;
 import com.lowdragmc.lowdraglib.gui.texture.IGuiTexture;
 import com.lowdragmc.lowdraglib.gui.texture.ItemStackTexture;
@@ -42,8 +42,6 @@ import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
 import com.lowdragmc.lowdraglib.gui.widget.layout.Layout;
 import com.lowdragmc.lowdraglib.syncdata.ISubscription;
-import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -69,32 +67,32 @@ public class VillageTradingStationMachine extends MetaMachine implements IAutoOu
     private ISubscription exportItemSubs;
 
     // 输入输出物品存储
-    @Persisted
+    @SaveToDisk
     private final NotifiableItemStackHandler input;
-    @Persisted
+    @SaveToDisk
     private final NotifiableItemStackHandler output;
 
     // 村民存储与配置
-    @Persisted
-    @DescSynced
+    @SaveToDisk
+    @SyncToClient
     private final VillageHolder villagers;
-    @Persisted
+    @SaveToDisk
     @SyncToClient
     private final boolean[] isLocked = new boolean[10];
-    @Persisted
+    @SaveToDisk
     @SyncToClient
     private final int[] selected = new int[10];
-    @Persisted
+    @SaveToDisk
     @SyncToClient
     private final boolean[] startUp = new boolean[10];
 
     private final VillagerRecipe[][] villagersDataset = new VillagerRecipe[10][];
-    private final ItemStackHandler RecipesHandler = new ItemStackHandler(3 * 10);
+    private final CustomItemStackHandler RecipesHandler = new CustomItemStackHandler(3 * 10);
 
     // 升级物品
-    @Persisted
+    @SaveToDisk
     private final CustomItemStackHandler upgrade;
-    @Persisted
+    @SaveToDisk
     private final CustomItemStackHandler enhance;
 
     // 最大交易次数 32*
@@ -103,12 +101,12 @@ public class VillageTradingStationMachine extends MetaMachine implements IAutoOu
             FIELD_GENERATOR_IV.asItem(), FIELD_GENERATOR_LuV.asItem(), FIELD_GENERATOR_ZPM.asItem(), FIELD_GENERATOR_UV.asItem() };
 
     // 补货与交易参数
-    @Persisted
+    @SaveToDisk
     private int replenishmentInterval = 2400;
-    @Persisted
+    @SaveToDisk
     private int tradingMultiple = 1;
 
-    @Persisted
+    @SaveToDisk
     private int tire = 0;
     // 补货时间间隔 -225* 多倍交易 4*
     private static final Map<Item, Integer> ENHANCE_INDEX_MAP = Map.ofEntries(
@@ -233,7 +231,7 @@ public class VillageTradingStationMachine extends MetaMachine implements IAutoOu
     }
 
     // 计算两个输入物品堆能支持的最大交易次数
-    private int getMaxPossibleTrades(IItemHandlerModifiable input, ItemStack buy, ItemStack buyB) {
+    private int getMaxPossibleTrades(ICustomItemStackHandler input, ItemStack buy, ItemStack buyB) {
         int totalBuy = 0;
         for (int i = 0; i < input.getSlots(); i++) {
             ItemStack stack = input.getStackInSlot(i);
@@ -259,7 +257,7 @@ public class VillageTradingStationMachine extends MetaMachine implements IAutoOu
     }
 
     // 从物品处理器中扣除指定数量的物品
-    private void deductItems(IItemHandlerModifiable handler, ItemStack target, int count) {
+    private void deductItems(ICustomItemStackHandler handler, ItemStack target, int count) {
         if (target.isEmpty() || count <= 0) return;
 
         int remaining = target.getCount() * count;
@@ -277,7 +275,7 @@ public class VillageTradingStationMachine extends MetaMachine implements IAutoOu
     }
 
     // 向物品处理器中添加物品
-    private void addItems(IItemHandlerModifiable handler, ItemStack stack) {
+    private void addItems(ICustomItemStackHandler handler, ItemStack stack) {
         if (stack.isEmpty()) return;
 
         ItemStack remaining = stack.copy();
@@ -756,13 +754,13 @@ public class VillageTradingStationMachine extends MetaMachine implements IAutoOu
     // ********* 自动输出实现 ********* //
     /////////////////////////////////////
 
-    @Persisted
+    @SaveToDisk
     @SyncToClient(notifyUpdate = true)
     private Direction outputFacingItems;
-    @Persisted
+    @SaveToDisk
     @SyncToClient(notifyUpdate = true)
     private boolean autoOutputItems;
-    @Persisted
+    @SaveToDisk
     private boolean allowInputFromOutputSideItems;
 
     @Override

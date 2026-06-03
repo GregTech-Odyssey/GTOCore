@@ -23,9 +23,9 @@ import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 
+import com.gto.datasynclib.annotations.SaveToDisk;
 import com.lowdragmc.lowdraglib.gui.util.ClickData;
 import com.lowdragmc.lowdraglib.gui.widget.ComponentPanelWidget;
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
@@ -52,7 +52,7 @@ public abstract class WorkableElectricMultiblockMachineMixin extends WorkableMul
     private int gtolib$ocLimit;
 
     @Unique
-    @Persisted
+    @SaveToDisk
     private VoidingMode voidingMode = VoidingMode.VOID_NONE;
 
     @Shadow(remap = false)

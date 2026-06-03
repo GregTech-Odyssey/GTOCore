@@ -25,9 +25,9 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
+import com.gto.datasynclib.annotations.SaveToDisk;
 import com.lowdragmc.lowdraglib.gui.util.ClickData;
 import com.lowdragmc.lowdraglib.gui.widget.ComponentPanelWidget;
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import it.unimi.dsi.fastutil.objects.Reference2ObjectMap;
 import it.unimi.dsi.fastutil.objects.Reference2ObjectOpenHashMap;
 import org.jetbrains.annotations.NotNull;
@@ -60,7 +60,7 @@ public class PulseMachineMaintenancePedestal extends NoEnergyMultiblockMachine i
 
     private final Reference2ObjectMap<MetaMachine, Runnable> problems = new Reference2ObjectOpenHashMap<>();
     private PulseMachineMaintenanceCore core;
-    @Persisted
+    @SaveToDisk
     private int totalResolvedProblems = 0;
 
     public PulseMachineMaintenancePedestal(MetaMachineBlockEntity holder) {

@@ -2,7 +2,7 @@ package com.gtocore.common.cover;
 
 import com.gregtechceu.gtceu.api.capability.ICoverable;
 import com.gregtechceu.gtceu.api.cover.CoverDefinition;
-import com.gregtechceu.gtceu.api.transfer.fluid.IFluidHandlerModifiable;
+import com.gregtechceu.gtceu.api.transfer.fluid.ICustomFluidStackHandler;
 import com.gregtechceu.gtceu.common.cover.PumpCover;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.utils.GTTransferUtils;
@@ -21,7 +21,7 @@ public final class SteamPumpCover extends PumpCover {
     }
 
     @Override
-    protected int transferAny(@NotNull IFluidHandlerModifiable source, @NotNull IFluidHandlerModifiable destination, int platformTransferLimit) {
+    protected int transferAny(@NotNull ICustomFluidStackHandler source, @NotNull ICustomFluidStackHandler destination, int platformTransferLimit) {
         return GTTransferUtils.transferFluidsFiltered(source, destination, f -> f.getFluid() == STEAM, platformTransferLimit);
     }
 }

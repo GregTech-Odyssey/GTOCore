@@ -6,19 +6,20 @@ import com.gtocore.common.machine.multiblock.part.ae.MEPatternBufferPartMachine;
 import com.gtolib.api.ae2.stacks.IAEFluidKey;
 import com.gtolib.api.ae2.stacks.IAEItemKey;
 
-import com.gregtechceu.gtceu.api.capability.recipe.*;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableRecipeHandlerTrait;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeDefinition;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.api.recipe.content.Content;
-import com.gregtechceu.gtceu.api.recipe.handler.*;
+import com.gregtechceu.gtceu.api.recipe.handler.IFilteredHandler;
+import com.gregtechceu.gtceu.api.recipe.handler.IO;
+import com.gregtechceu.gtceu.api.recipe.handler.IRecipeHandler;
+import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
 import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
 import com.gregtechceu.gtceu.api.recipe.ingredient.ItemIngredient;
 import com.gregtechceu.gtceu.utils.function.ObjLongPredicate;
 
-import net.minecraft.core.Direction;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
 
@@ -181,11 +182,6 @@ public final class InternalSlotRecipeHandler {
             super(buffer);
             this.slot = slot;
             slot.setOnContentsChanged(this::notifyListeners);
-        }
-
-        @Override
-        public boolean hasCapability(@Nullable Direction side) {
-            return false;
         }
 
         @Override

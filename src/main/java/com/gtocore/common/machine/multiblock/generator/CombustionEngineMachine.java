@@ -15,7 +15,8 @@ import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.handler.IO;
 import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
 import com.gregtechceu.gtceu.api.recipe.modifier.ParallelLogic;
-import com.gregtechceu.gtceu.api.transfer.fluid.IFluidHandlerModifiable;
+import com.gregtechceu.gtceu.api.transfer.fluid.ICustomFluidStackHandler;
+import com.gregtechceu.gtceu.api.transfer.item.ICustomItemStackHandler;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
 import net.minecraft.ChatFormatting;
@@ -25,9 +26,8 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.IFluidHandler;
-import net.minecraftforge.items.IItemHandlerModifiable;
 
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
+import com.gto.datasynclib.annotations.SaveToDisk;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -44,7 +44,7 @@ public final class CombustionEngineMachine extends ElectricMultiblockMachine {
     private final int tier;
     // runtime
     private boolean isOxygenBoosted;
-    @Persisted
+    @SaveToDisk
     private final NotifiableFluidTank tank;
     private final ConditionalSubscriptionHandler tankSubs;
 
@@ -57,13 +57,13 @@ public final class CombustionEngineMachine extends ElectricMultiblockMachine {
 
     @Override
     @Nullable
-    public IItemHandlerModifiable getItemHandlerCap(@Nullable Direction side, boolean useCoverCapability) {
+    public ICustomItemStackHandler getItemHandlerCap(@Nullable Direction side, boolean useCoverCapability) {
         return null;
     }
 
     @Override
     @Nullable
-    public IFluidHandlerModifiable getFluidHandlerCap(@Nullable Direction side, boolean useCoverCapability) {
+    public ICustomFluidStackHandler getFluidHandlerCap(@Nullable Direction side, boolean useCoverCapability) {
         return null;
     }
 

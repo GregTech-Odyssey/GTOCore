@@ -11,7 +11,7 @@ import com.gregtechceu.gtceu.api.recipe.modifier.ParallelLogic;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
 
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
+import com.gto.datasynclib.annotations.SaveToDisk;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -21,7 +21,7 @@ import static com.lowdragmc.lowdraglib.LDLib.random;
 
 public final class LargeAlchemicalDeviceMachine extends ManaMultiblockMachine {
 
-    @Persisted
+    @SaveToDisk
     private final int[] probabilityParams = { 10000, 10000, 10000 };
 
     private final int[] currentRecipeParams = new int[3];

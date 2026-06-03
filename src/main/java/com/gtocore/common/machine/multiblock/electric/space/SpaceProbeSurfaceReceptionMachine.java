@@ -15,7 +15,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.Level;
 
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
+import com.gto.datasynclib.annotations.SaveToDisk;
 import earth.terrarium.adastra.api.planets.PlanetApi;
 import org.jetbrains.annotations.NotNull;
 
@@ -26,7 +26,7 @@ public final class SpaceProbeSurfaceReceptionMachine extends ElectricMultiblockM
 
     private ResourceKey<Level> dimension;
 
-    @Persisted
+    @SaveToDisk
     private boolean use;
 
     public SpaceProbeSurfaceReceptionMachine(MetaMachineBlockEntity holder) {

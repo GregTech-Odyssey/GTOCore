@@ -37,6 +37,7 @@ import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 
+import com.gto.datasynclib.annotations.SaveToDisk;
 import com.lowdragmc.lowdraglib.gui.modular.ModularUI;
 import com.lowdragmc.lowdraglib.gui.texture.GuiTextureGroup;
 import com.lowdragmc.lowdraglib.gui.widget.ButtonWidget;
@@ -44,7 +45,6 @@ import com.lowdragmc.lowdraglib.gui.widget.LabelWidget;
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
 import com.lowdragmc.lowdraglib.gui.widget.layout.Align;
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import dev.shadowsoffire.placebo.util.EnchantmentUtils;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
@@ -59,16 +59,16 @@ import static com.gtocore.data.tag.Tags.XP_JUICE_TAG;
 @DataGeneratorScanned
 public class ExperienceObelisk extends MetaMachine implements IFancyUIMachine, IDropSaveMachine {
 
-    @Persisted
+    @SaveToDisk
     private final NotifiableFluidTank experienceTank;
-    @Persisted
+    @SaveToDisk
     @Getter
     private int currentConfigAmount = 0;
-    @Persisted
+    @SaveToDisk
     @Getter
     private boolean isConfiguringLevels = false;
 
-    @Persisted
+    @SaveToDisk
     @Getter
     private boolean vacuumHopperMode = false;
     private final ConditionalSubscriptionHandler tickSubs;
@@ -93,7 +93,7 @@ public class ExperienceObelisk extends MetaMachine implements IFancyUIMachine, I
         this.tickSubs.updateSubscription();
         Level world = holder.getLevel();
         if (world == null) return;
-        var aabb = new AABB(holder.getSelf().getBlockPos()).inflate(14.0);
+        var aabb = new AABB(holder.getBlockPos()).inflate(14.0);
         var xpOrbs = world.getEntitiesOfClass(ExperienceOrb.class, aabb);
         for (var xpOrb : xpOrbs) {
             int juiceAmount = xpOrb.getValue();

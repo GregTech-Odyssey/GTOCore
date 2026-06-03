@@ -20,12 +20,12 @@ import net.minecraft.network.chat.Style;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 
+import com.gto.datasynclib.annotations.SaveToDisk;
 import com.gto.datasynclib.annotations.SyncToClient;
 import com.lowdragmc.lowdraglib.gui.widget.ComponentPanelWidget;
 import com.lowdragmc.lowdraglib.gui.widget.DraggableScrollableWidgetGroup;
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import lombok.Getter;
 
 import java.math.BigDecimal;
@@ -59,7 +59,7 @@ public class ACMHatchPartMachine extends WorkableTieredPartMachine implements IM
         return this.durationMultiplier * 100.0F;
     }
 
-    @Persisted
+    @SaveToDisk
     @SyncToClient
     private float durationMultiplier = 1.0F;
 

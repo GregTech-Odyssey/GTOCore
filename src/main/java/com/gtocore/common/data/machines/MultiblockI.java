@@ -26,7 +26,6 @@ import net.minecraft.world.level.material.Fluids;
 
 import static com.gregtechceu.gtceu.api.machine.multiblock.PartAbility.*;
 import static com.gregtechceu.gtceu.api.pattern.Predicates.*;
-import static com.gregtechceu.gtceu.common.data.GTBlocks.ADVANCED_COMPUTER_CASING;
 import static com.gtocore.api.pattern.GTOPredicates.glass;
 import static com.gtocore.api.pattern.GTOPredicates.recordPosition;
 import static com.gtocore.utils.register.MachineRegisterUtils.multiblock;

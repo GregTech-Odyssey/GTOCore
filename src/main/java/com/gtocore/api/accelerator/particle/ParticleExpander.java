@@ -8,7 +8,7 @@ import com.gregtechceu.gtceu.api.recipe.handler.IRecipeHandlerHolder;
 import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
 
 import com.fast.recipesearch.IntLongMap;
-import com.gto.datasynclib.CombinationCodec;
+import com.gto.datasynclib.DataSyncCodec;
 import com.gto.datasynclib.datasream.DataComponentKey;
 import com.gto.datasynclib.datasream.codec.DataCodec;
 import com.gto.datasynclib.datasream.codec.DataDecoder;
@@ -25,7 +25,7 @@ public final class ParticleExpander extends DataComponentKey<List<ParticleBeam>>
     public static final ParticleExpander INSTANCE = new ParticleExpander();
 
     private ParticleExpander() {
-        super("particle", CombinationCodec.of(DataCodec.of(DataEncoder.collection(ParticleBeam.DATA_CODEC), DataDecoder.list(ParticleBeam.DATA_CODEC))));
+        super("particle", DataSyncCodec.of(DataCodec.of(DataEncoder.collection(ParticleBeam.DATA_CODEC), DataDecoder.list(ParticleBeam.DATA_CODEC))));
     }
 
     @Override
@@ -54,5 +54,10 @@ public final class ParticleExpander extends DataComponentKey<List<ParticleBeam>>
     public void setParallel(GTRecipe recipe, long parallel) {}
 
     @Override
-    public void addXEIInfo(GTRecipeDefinition recipe, WidgetGroup group, int xOffset, MutableInt yOffset) {}
+    public void addInfo(GTRecipeDefinition recipe, WidgetGroup group, int xOffset, MutableInt yOffset) {}
+
+    @Override
+    public int getInfoHeight(GTRecipeDefinition recipe) {
+        return 0;
+    }
 }

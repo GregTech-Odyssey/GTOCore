@@ -22,8 +22,8 @@ import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
 
 import com.fast.fastcollection.OpenCacheHashSet;
+import com.gto.datasynclib.annotations.SaveToDisk;
 import com.gto.datasynclib.annotations.SyncToClient;
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 
 import java.util.List;
 import java.util.Set;
@@ -36,7 +36,7 @@ public final class ClarifierPurificationUnitMachine extends WaterPurificationUni
 
     private static final Fluid AIR = GTMaterials.Air.getFluid();
 
-    @Persisted
+    @SaveToDisk
     private int count;
     @SyncToClient(notifyUpdate = true)
     private final Set<BlockPos> fluidBlockOffsets = new OpenCacheHashSet<>();

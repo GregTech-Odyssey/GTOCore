@@ -21,12 +21,12 @@ import appeng.api.stacks.AEKey;
 import appeng.api.stacks.AmountFormat;
 
 import com.google.common.collect.ImmutableList;
+import com.gto.datasynclib.annotations.SaveToDisk;
 import com.gto.datasynclib.annotations.SyncToClient;
 import com.hepdd.gtmthings.api.misc.EnergyStat;
 import com.lowdragmc.lowdraglib.gui.widget.ComponentPanelWidget;
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -48,9 +48,9 @@ public class MonitorAEThroughput extends AbstractAEInfoMonitor {
     private CompoundTag displayingEntry = new CompoundTag();
     private final EnergyStat[] stats = new EnergyStat[2];
     private final long[] lastAmount = new long[] { 0, 0 };
-    @Persisted
+    @SaveToDisk
     private final AEItem aeItem = new AEItem();
-    @Persisted
+    @SaveToDisk
     private final AEFluid aeFluid = new AEFluid();
     @SyncToClient
     private final long[] currentAmount = new long[] { 0, 0 };

@@ -306,7 +306,7 @@ public final class GTOMachines {
             (tier, builder) -> builder
                     .langValue("%s Programmable Hatch".formatted(GTOValues.VNFR[tier]))
                     .allRotation()
-                    .abilities(PartAbility.IMPORT_ITEMS)
+                    .abilities(PartAbility.IMPORT_ITEMS, GTOPartAbility.DUAL_INPUT)
                     .renderer(() -> new OverlayTieredMachineRenderer(tier, GTCEu.id("block/machine/part/dual_hatch.import")))
                     .notAllowSharedTooltips()
                     .tooltips(Component.translatable("gtceu.machine.dual_hatch.import.tooltip"),
@@ -852,7 +852,7 @@ public final class GTOMachines {
             .tier(ZPM)
             .langValue("Huge Input Bus")
             .allRotation()
-            .abilities(PartAbility.IMPORT_ITEMS, GTOPartAbility.ITEMS_INPUT)
+            .abilities(PartAbility.IMPORT_ITEMS, GTOPartAbility.ITEMS_INPUT_BUS)
             .tooltipsKey("gtceu.part_sharing.enabled")
             .renderer(() -> new OverlayTieredMachineRenderer(ZPM, GTCEu.id("block/machine/part/item_bus.import")))
             .register();

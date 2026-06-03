@@ -13,7 +13,7 @@ import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
 
 import net.minecraft.util.Mth;
 
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
+import com.gto.datasynclib.annotations.SaveToDisk;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -21,10 +21,10 @@ import static com.lowdragmc.lowdraglib.LDLib.random;
 
 public class AlchemyCauldron extends SimpleManaMachine implements IReceiveHeatMachine {
 
-    @Persisted
+    @SaveToDisk
     private int temperature = 293;
     private TickableSubscription tickSubs;
-    @Persisted
+    @SaveToDisk
     private final int[] probabilityParams = { 10000, 10000, 10000 };
     private final int[] currentRecipeParams = new int[3];
 

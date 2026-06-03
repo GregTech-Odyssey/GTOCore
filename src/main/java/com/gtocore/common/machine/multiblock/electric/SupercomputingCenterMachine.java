@@ -39,7 +39,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
 import com.google.common.collect.ImmutableMap;
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
+import com.gto.datasynclib.annotations.SaveToDisk;
 import earth.terrarium.adastra.common.registry.ModItems;
 import it.unimi.dsi.fastutil.objects.Reference2IntOpenHashMap;
 import lombok.Setter;
@@ -81,9 +81,9 @@ public final class SupercomputingCenterMachine extends StorageMultiblockMachine 
     @Setter
     private ThermalConductorHatchPartMachine ThermalConductorHatchPart;
     private final ConditionalSubscriptionHandler maxCWUtModificationSubs;
-    @Persisted
+    @SaveToDisk
     private int machineTier = 1;
-    @Persisted
+    @SaveToDisk
     private int maxCWUtModification;
     private boolean incompatible;
     private boolean canBridge;
@@ -92,6 +92,7 @@ public final class SupercomputingCenterMachine extends StorageMultiblockMachine 
     private int coolingAmountProvided;
     private int coolantAmount;
     private final Reference2IntOpenHashMap<IItem> componentsMap = new Reference2IntOpenHashMap<>();
+    private int lastTimeStamp;;
     private long allocatedCWUt;
     private long cacheCWUt;
     private long maxEUt;
@@ -292,8 +293,12 @@ public final class SupercomputingCenterMachine extends StorageMultiblockMachine 
     }
 
     private void tick() {
-        cacheCWUt = allocatedCWUt;
-        allocatedCWUt = 0;
+        var timer = getOffsetTimer();
+        if (lastTimeStamp != timer) {
+            lastTimeStamp = timer;
+            cacheCWUt = allocatedCWUt;
+            allocatedCWUt = 0;
+        }
     }
 
     @Override
@@ -325,6 +330,12 @@ public final class SupercomputingCenterMachine extends StorageMultiblockMachine 
     }
 
     private long requestCWUt(boolean simulate, long cwu) {
+        var timer = getOffsetTimer();
+        if (lastTimeStamp != timer) {
+            lastTimeStamp = timer;
+            cacheCWUt = allocatedCWUt;
+            allocatedCWUt = 0;
+        }
         long toAllocate = Math.min(cwu, getAdjustedMaxCWU() - allocatedCWUt);
         if (!simulate) {
             this.allocatedCWUt += toAllocate;
@@ -348,11 +359,6 @@ public final class SupercomputingCenterMachine extends StorageMultiblockMachine 
             }
         }
         return 0;
-    }
-
-    @Override
-    public long getMaxCWU() {
-        return getAdjustedMaxCWU() - cacheCWUt;
     }
 
     private long getAdjustedMaxCWU() {

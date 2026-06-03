@@ -24,7 +24,6 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-import static com.gregtechceu.gtceu.api.GTValues.VA;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.DrillingFluid;
 import static net.minecraft.network.chat.Component.translatable;
 
@@ -74,7 +73,7 @@ public final class VoidMinerMachine extends StorageMultiblockMachine implements 
     @Override
     public GTRecipeDefinition createCustomRecipe(RecipeHandlerUnit unit) {
         if (dim == null) return null;
-        if (!isEmpty()) {
+        if (!isEmpty() && getTier() > 3) {
             if (unit.matchFluid(DrillingFluid.getFluid(), 1000)) {
                 var builder = getRecipeBuilder();
                 builder.EUt(GTValues.VA[getTier()]);

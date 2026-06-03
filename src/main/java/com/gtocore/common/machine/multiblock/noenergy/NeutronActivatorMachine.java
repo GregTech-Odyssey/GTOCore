@@ -30,8 +30,8 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 
+import com.gto.datasynclib.annotations.SaveToDisk;
 import com.lowdragmc.lowdraglib.gui.modular.ModularUI;
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import lombok.Getter;
 import org.jetbrains.annotations.Nullable;
 
@@ -48,7 +48,7 @@ public class NeutronActivatorMachine extends NoEnergyMultiblockMachine implement
     private static final Item dustGraphite = ChemicalHelper.getItem(TagPrefix.dust, GTMaterials.Graphite);
     int height;
     @Getter
-    @Persisted
+    @SaveToDisk
     protected int eV;
     private final ConditionalSubscriptionHandler neutronEnergySubs;
     private SensorPartMachine sensorMachine;
@@ -119,18 +119,12 @@ public class NeutronActivatorMachine extends NoEnergyMultiblockMachine implement
 
     @Override
     public boolean handleTickRecipe(GTRecipe recipe) {
-        return super.handleTickRecipe(recipe) && working();
-    }
-
-    boolean working() {
-        if (getRecipeLogic().getLastRecipe() != null) {
-            int evt = (int) (getRecipeLogic().getLastRecipe().data.getInt(GTORecipeDataKeys.EVT) * 1000 * getEVtMultiplier());
-            if (eV < evt) {
-                setIdleReason(IdleReason.NEUTRON_KINETIC_ENERGY_NOT_SATISFIES);
-                return false;
-            } else {
-                eV -= evt;
-            }
+        int evt = (int) (recipe.data.getInt(GTORecipeDataKeys.EVT) * 1000 * getEVtMultiplier());
+        if (eV < evt) {
+            setIdleReason(IdleReason.NEUTRON_KINETIC_ENERGY_NOT_SATISFIES);
+            return false;
+        } else {
+            eV -= evt;
         }
         return true;
     }

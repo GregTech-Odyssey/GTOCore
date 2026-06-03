@@ -156,7 +156,7 @@
     "gtm.FluidPipeTypeMixin",
     "gtm.GTCEuMixin",
     "gtm.GTUtilMixin",
-    "gtm.capability.ItemRecipeCapabilityMixin",
+    "gtm.capability.ItemRecipeInfoMixin",
     "gtm.chemical.MaterialBuilderMixin",
     "gtm.chemical.MaterialMixin",
     "gtm.chemical.TagPrefixMixin",

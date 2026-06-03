@@ -12,11 +12,9 @@ import com.gregtechceu.gtceu.api.blockentity.ISync;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.gui.fancy.IFancyUIProvider;
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
-import com.gregtechceu.gtceu.api.machine.TickableSubscription;
 import com.gregtechceu.gtceu.integration.ae2.machine.feature.IGridConnectedMachine;
 import com.gregtechceu.gtceu.utils.TaskHandler;
 
-import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -31,7 +29,6 @@ import appeng.me.helpers.IGridConnectedBlockEntity;
 
 import com.gto.datasynclib.listener.IntNotifiableHolder;
 import com.gto.datasynclib.listener.ObjNotifiableHolder;
-import com.gto.datasynclib.util.holder.ObjHolder;
 import com.hepdd.gtmthings.api.capability.IBindable;
 import it.unimi.dsi.fastutil.objects.ReferenceOpenHashSet;
 import it.unimi.dsi.fastutil.objects.ReferenceSet;
@@ -255,17 +252,15 @@ public interface WirelessMachine extends IGridConnectedMachine, ISync, IBindable
 
     default void onWirelessLoad() {
         if (self().isRemote()) return;
-        ObjHolder<TickableSubscription> subscription = new ObjHolder<>();
-        subscription.value = TaskHandler.enqueueTick(Objects.requireNonNull(getHolder().getLevel()), self().holder.isRemove, () -> {
+        TaskHandler.enqueueTask(Objects.requireNonNull(getHolder().getLevel()), () -> {
             if (self().getLevel() != null && getMainNode().getNode() != null) {
                 String id = getConnectedNetworkId();
                 if (!id.isEmpty()) {
                     linkNetwork(id);
                     WirelessNetworkSavedData.requireWriteToAll();
                 }
-                subscription.value.unsubscribe();
             }
-        }, 20, 40);
+        }, 40);
     }
 
     default void onWirelessUnload() {
@@ -363,7 +358,9 @@ public interface WirelessMachine extends IGridConnectedMachine, ISync, IBindable
         String syncConnId = connId;
         getNetworkListCache().set(
                 WirelessNetworkSavedData.Companion.getNetworkSummaries(getRequesterUUID(), syncConnId));
+        getNetworkListCache().markAsChanged();
         getUnassignedOutputCount().set(net != null ? net.getUnassignedOutputCount() : 0);
+        getUnassignedOutputCount().markAsChanged();
         // Only sync topology for connected network
         if (syncConnId.isEmpty()) {
             getTopologyCache().set(List.of());
@@ -372,9 +369,12 @@ public interface WirelessMachine extends IGridConnectedMachine, ISync, IBindable
                     WirelessNetworkSavedData.Companion.getTopologySummaries(getRequesterUUID())
                             .stream().filter(t -> t.getNetworkId().equals(syncConnId)).toList());
         }
+        getTopologyCache().markAsChanged();
         getNodeTypeSync().set(getNodeType().ordinal());
+        getNodeTypeSync().markAsChanged();
         if (self().getLevel() != null) {
             WirelessNetworkSavedData.write(Objects.requireNonNull(self().getLevel()));
+            self().syncToClient();
         }
     }
 
@@ -433,18 +433,6 @@ public interface WirelessMachine extends IGridConnectedMachine, ISync, IBindable
             return gridNode.getMaxChannels();
         }
         return 0;
-    }
-
-    @SuppressWarnings("ConstantValue")
-    default void onNeighborChanged(BlockPos neighborPos) {
-        if (self().isRemote()) return;
-        if (getConnectedNetworkId().isEmpty()) return;
-        if (getHolder().getBlockPos().relative(self().getFrontFacing()).equals(neighborPos)) {
-            var netwoork = WirelessNetworkSavedData.get().getNetworkPool().get(getConnectedNetworkId());
-            if (netwoork != null) {
-                netwoork.setNeedsRefresh(true);
-            }
-        }
     }
 
     // ==================== GUI ====================

@@ -1,10 +1,10 @@
 package com.gtocore.data.transaction.manager;
 
-import com.gregtechceu.gtceu.api.transfer.fluid.IFluidHandlerModifiable;
+import com.gregtechceu.gtceu.api.transfer.fluid.ICustomFluidStackHandler;
+import com.gregtechceu.gtceu.api.transfer.item.ICustomItemStackHandler;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.items.IItemHandlerModifiable;
 
 import org.jetbrains.annotations.Nullable;
 
@@ -16,8 +16,8 @@ import java.util.UUID;
  * @param inputItem 输入输出存储
  * @param uuid      玩家信息
  */
-public record TradeData(@Nullable Level level, BlockPos pos, IItemHandlerModifiable inputItem,
-                        IItemHandlerModifiable outputItem, IFluidHandlerModifiable inputFluid,
-                        IFluidHandlerModifiable outputFluid, UUID uuid, List<UUID> sharedUUIDs, UUID teamUUID) {
+public record TradeData(@Nullable Level level, BlockPos pos, ICustomItemStackHandler inputItem,
+                        ICustomItemStackHandler outputItem, ICustomFluidStackHandler inputFluid,
+                        ICustomFluidStackHandler outputFluid, UUID uuid, List<UUID> sharedUUIDs, UUID teamUUID) {
 
 }

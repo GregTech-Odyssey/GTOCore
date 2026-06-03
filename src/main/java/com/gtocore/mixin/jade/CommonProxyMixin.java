@@ -7,17 +7,16 @@ import com.gtocore.integration.jade.GTOJadePlugin;
 import com.gtocore.integration.lang.LangAdaptor;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
-import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
 import com.gregtechceu.gtceu.api.transfer.fluid.FluidHandlerList;
+import com.gregtechceu.gtceu.api.transfer.fluid.ICustomFluidStackHandler;
+import com.gregtechceu.gtceu.api.transfer.item.ICustomItemStackHandler;
 import com.gregtechceu.gtceu.api.transfer.item.ItemHandlerList;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.MufflerPartMachine;
 
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityProvider;
 import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
-import net.minecraftforge.items.IItemHandler;
 
 import appeng.integration.modules.jade.JadeModule;
 
@@ -68,18 +67,14 @@ public class CommonProxyMixin {
                 return LazyOptional.of(mufflerPartMachine::getInventory).cast();
             }
             var ts = blockEntity.metaMachine.getTraits();
-            List<IItemHandler> filteredTraits = new ArrayList<>(ts.size());
+            List<ICustomItemStackHandler> filteredTraits = new ArrayList<>(ts.size());
             for (var t : ts) {
-                if (t instanceof IItemHandler handler) {
-                    if (handler instanceof NotifiableItemStackHandler stackHandler) {
-                        filteredTraits.add(stackHandler.storage);
-                    } else {
-                        filteredTraits.add(handler);
-                    }
+                if (t instanceof ICustomItemStackHandler handler) {
+                    filteredTraits.add(handler);
                 }
             }
             if (!filteredTraits.isEmpty()) {
-                return LazyOptional.of(() -> new ItemHandlerList(filteredTraits.toArray(new IItemHandler[0]))).cast();
+                return LazyOptional.of(() -> new ItemHandlerList(filteredTraits.toArray(new ICustomItemStackHandler[0]))).cast();
             }
         }
         return instance.getCapability(capability);
@@ -90,14 +85,14 @@ public class CommonProxyMixin {
         if (instance instanceof MetaMachineBlockEntity blockEntity) {
             if (blockEntity.metaMachine instanceof MEPatternPartMachineKt<?>) return LazyOptional.empty();
             var ts = blockEntity.metaMachine.getTraits();
-            List<IFluidHandler> filteredTraits = new ArrayList<>(ts.size());
+            List<ICustomFluidStackHandler> filteredTraits = new ArrayList<>(ts.size());
             for (var t : ts) {
-                if (t instanceof IFluidHandler) {
-                    filteredTraits.add((IFluidHandler) t);
+                if (t instanceof ICustomFluidStackHandler handler) {
+                    filteredTraits.add(handler);
                 }
             }
             if (!filteredTraits.isEmpty()) {
-                return LazyOptional.of(() -> new FluidHandlerList(filteredTraits.toArray(new IFluidHandler[0]))).cast();
+                return LazyOptional.of(() -> new FluidHandlerList(filteredTraits.toArray(new ICustomFluidStackHandler[0]))).cast();
             }
         }
         return instance.getCapability(capability);

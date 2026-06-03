@@ -10,7 +10,6 @@ import com.gtolib.api.recipe.IdleReason;
 import com.gregtechceu.gtceu.api.blockentity.ITickSubscription;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.IEnergyContainer;
-import com.gregtechceu.gtceu.api.capability.recipe.*;
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
@@ -43,10 +42,10 @@ import net.minecraft.world.level.material.Fluids;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 
 import com.fast.fastcollection.OpenCacheHashSet;
+import com.gto.datasynclib.annotations.SaveToDisk;
 import com.gto.datasynclib.annotations.SyncToClient;
 import com.gto.datasynclib.datasream.DataComponentKey;
 import com.lowdragmc.lowdraglib.gui.widget.*;
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.utils.BlockInfo;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
@@ -56,14 +55,14 @@ import java.util.*;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
-import static com.gregtechceu.gtceu.api.machine.multiblock.PartAbility.*;
+import static com.gregtechceu.gtceu.api.machine.multiblock.PartAbility.IMPORT_FLUIDS;
 import static com.gregtechceu.gtceu.api.pattern.Predicates.abilities;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 public final class PrimitiveDistillationTowerMachine extends NoEnergyMultiblockMachine implements IExplosionMachine, IDummyEnergyMachine, IDistillationTower {
 
-    private static final DataComponentKey<Set<BlockPos>> WATER = DataComponentKey.create("water", null);
+    private static final DataComponentKey<Set<BlockPos>> WATER = DataComponentKey.createNoCodec("water");
 
     @Nullable
     private Set<BlockPos> waterSources = null;
@@ -77,7 +76,7 @@ public final class PrimitiveDistillationTowerMachine extends NoEnergyMultiblockM
 
     private static final Item COAL_DUST = ChemicalHelper.getItem(TagPrefix.dust, GTMaterials.Coal);
     @Getter
-    @Persisted
+    @SaveToDisk
     @SyncToClient(notifyUpdate = true)
     private int heat = 298;
     @Getter
@@ -86,9 +85,9 @@ public final class PrimitiveDistillationTowerMachine extends NoEnergyMultiblockM
     @Getter
     @SyncToClient(notifyUpdate = true)
     private int waterLevel = 0; // Used for rendering water level in the machine
-    @Persisted
+    @SaveToDisk
     private int tier;
-    @Persisted
+    @SaveToDisk
     private long time;
     private final ConditionalSubscriptionHandler tickSubs;
     private SensorPartMachine sensorMachine;

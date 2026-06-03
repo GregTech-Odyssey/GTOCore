@@ -71,7 +71,7 @@ public class ExportOnlyAEItemSlot extends ExportOnlyAESlot {
         return ItemStack.EMPTY;
     }
 
-    public long extractItem(long amount, boolean simulate, boolean notify) {
+    public long extract(long amount, boolean simulate, boolean notify) {
         if (this.stock != null) {
             long extracted = Math.min(this.stock.amount(), amount);
             if (!(this.stock.what() instanceof AEItemKey)) return 0;
@@ -86,24 +86,6 @@ public class ExportOnlyAEItemSlot extends ExportOnlyAESlot {
             return extracted;
         }
         return 0;
-    }
-
-    public ItemStack extractItem(int slot, int amount, boolean simulate) {
-        if (slot == 0 && this.stock != null) {
-            int extracted = (int) Math.min(this.stock.amount(), amount);
-            if (!(this.stock.what() instanceof AEItemKey itemKey)) return ItemStack.EMPTY;
-            ItemStack result = itemKey.toStack(extracted);
-            if (!simulate) {
-                this.stock = ExportOnlyAESlot.copy(this.stock, this.stock.amount() - extracted);
-                if (this.stock.amount() == 0) {
-                    this.stock = null;
-                    stack = null;
-                } else if (stack != null) stack.setCount(MathUtil.saturatedCast(stock.amount()));
-                onContentsChanged();
-            }
-            return result;
-        }
-        return ItemStack.EMPTY;
     }
 
     @Override

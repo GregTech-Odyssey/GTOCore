@@ -12,11 +12,11 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 
+import com.gto.datasynclib.annotations.SaveToDisk;
 import com.gto.datasynclib.annotations.SyncToClient;
 import com.lowdragmc.lowdraglib.gui.widget.ComponentPanelWidget;
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.utils.Position;
 import com.lowdragmc.lowdraglib.utils.Size;
 import it.unimi.dsi.fastutil.objects.ObjectBooleanPair;
@@ -26,15 +26,15 @@ import java.util.List;
 
 public abstract class AbstractInfoProviderMonitor extends BasicMonitor implements IInformationProvider {
 
-    @Persisted
+    @SaveToDisk
     @SyncToClient
     private long priority = 0;
 
-    @Persisted
+    @SaveToDisk
     @SyncToClient
     private ResourceLocation[] displayOrderCache = new ResourceLocation[0];
 
-    @Persisted
+    @SaveToDisk
     @SyncToClient
     private boolean[] displayEnabledCache = new boolean[0];
 

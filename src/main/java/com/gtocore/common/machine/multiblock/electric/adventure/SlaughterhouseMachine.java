@@ -10,7 +10,8 @@ import com.gtolib.api.item.ItemStackSet;
 import com.gtolib.api.machine.feature.multiblock.ITierCasingMachine;
 import com.gtolib.api.machine.multiblock.StorageMultiblockMachine;
 import com.gtolib.api.machine.trait.TierCasingTrait;
-import com.gtolib.api.recipe.*;
+import com.gtolib.api.recipe.RecipeBuilder;
+import com.gtolib.api.recipe.TierDataKey;
 import com.gtolib.utils.MachineUtils;
 
 import com.gregtechceu.gtceu.api.GTValues;
@@ -44,10 +45,10 @@ import net.minecraftforge.registries.ForgeRegistries;
 
 import appeng.util.Platform;
 
+import com.gto.datasynclib.annotations.SaveToDisk;
 import com.hollingsworth.arsnouveau.common.items.MobJarItem;
 import com.lowdragmc.lowdraglib.gui.util.ClickData;
 import com.lowdragmc.lowdraglib.gui.widget.ComponentPanelWidget;
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import dev.shadowsoffire.apotheosis.adventure.AdventureConfig;
 import dev.shadowsoffire.apotheosis.adventure.boss.ApothBoss;
 import dev.shadowsoffire.apotheosis.adventure.boss.BossRegistry;
@@ -66,8 +67,6 @@ import java.util.Set;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
-import static com.gtolib.api.GTOValues.GLASS_TIER;
-
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 public final class SlaughterhouseMachine extends StorageMultiblockMachine implements ITierCasingMachine, ICustomRecipeLogicHolder {
@@ -76,7 +75,7 @@ public final class SlaughterhouseMachine extends StorageMultiblockMachine implem
     private DamageSource damageSource;
     private ItemStack activeWeapon = ItemStack.EMPTY;
     private boolean bossMode = false;
-    @Persisted
+    @SaveToDisk
     private boolean filterNbt = false;
     private String entityId;
     private long xp = 0;

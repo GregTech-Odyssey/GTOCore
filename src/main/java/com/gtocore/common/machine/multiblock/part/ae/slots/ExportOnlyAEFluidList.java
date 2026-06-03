@@ -4,13 +4,13 @@ import com.gtolib.api.ae2.stacks.IAEFluidKey;
 import com.gtolib.api.recipe.RecipeType;
 
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
-import com.gregtechceu.gtceu.api.machine.trait.NotifiableFluidTank;
+import com.gregtechceu.gtceu.api.machine.trait.NotifiableContentHandler;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.api.recipe.content.Content;
 import com.gregtechceu.gtceu.api.recipe.handler.IO;
 import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
-import com.gregtechceu.gtceu.api.transfer.fluid.CustomFluidTank;
+import com.gregtechceu.gtceu.api.transfer.fluid.ICustomFluidStackHandler;
 import com.gregtechceu.gtceu.integration.ae2.slot.IConfigurableSlot;
 import com.gregtechceu.gtceu.integration.ae2.slot.IConfigurableSlotList;
 import com.gregtechceu.gtceu.utils.function.ObjLongPredicate;
@@ -20,7 +20,7 @@ import net.minecraftforge.fluids.FluidStack;
 import appeng.api.stacks.AEFluidKey;
 
 import com.fast.recipesearch.IntLongMap;
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
+import com.gto.datasynclib.annotations.SaveToDisk;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 
@@ -29,9 +29,9 @@ import java.util.function.ObjLongConsumer;
 import java.util.function.Supplier;
 
 @Getter
-public class ExportOnlyAEFluidList extends NotifiableFluidTank implements IConfigurableSlotList {
+public class ExportOnlyAEFluidList extends NotifiableContentHandler implements ICustomFluidStackHandler, IConfigurableSlotList {
 
-    @Persisted
+    @SaveToDisk
     final ExportOnlyAEFluidSlot[] inventory;
 
     public ExportOnlyAEFluidList(MetaMachine machine, int slots) {
@@ -39,38 +39,73 @@ public class ExportOnlyAEFluidList extends NotifiableFluidTank implements IConfi
     }
 
     ExportOnlyAEFluidList(MetaMachine machine, int slots, Supplier<ExportOnlyAEFluidSlot> slotFactory) {
-        super(machine, slots, 0, IO.IN, IO.NONE);
+        super(machine, IO.IN);
         this.inventory = new ExportOnlyAEFluidSlot[slots];
         for (int i = 0; i < slots; i++) {
             this.inventory[i] = slotFactory.get();
-            this.storages[i] = new FluidStorageDelegate(inventory[i]);
             this.inventory[i].setOnContentsChangedAndfreeze(this::onContentsChanged);
         }
     }
 
     @Override
-    public boolean isEmpty() {
-        if (isEmpty == null) {
-            isEmpty = true;
-            for (var i : inventory) {
-                if (i.config == null) continue;
-                var stock = i.stock;
-                if (stock == null || stock.amount() == 0) continue;
-                isEmpty = false;
-                break;
-            }
+    public boolean updateEmpty() {
+        for (var i : inventory) {
+            if (i.config == null) continue;
+            var stock = i.stock;
+            if (stock == null || stock.amount() == 0) continue;
+            return false;
         }
-        return isEmpty;
+        return true;
+    }
+
+    @Override
+    public int getTanks() {
+        return inventory.length;
     }
 
     @NotNull
     @Override
     public FluidStack getFluidInTank(int tank) {
-        return inventory[tank].getFluid();
+        return inventory[tank].getStack();
+    }
+
+    @Override
+    public int getTankCapacity(int i) {
+        return Integer.MAX_VALUE;
+    }
+
+    @Override
+    public boolean isFluidValid(int i, @NotNull FluidStack fluidStack) {
+        return false;
     }
 
     @Override
     public void setFluidInTank(int tank, @NotNull FluidStack fluidStack) {}
+
+    @Override
+    public int fill(FluidStack resource, FluidAction action) {
+        return 0;
+    }
+
+    @Override
+    public @NotNull FluidStack drain(FluidStack fluidStack, FluidAction fluidAction) {
+        return FluidStack.EMPTY;
+    }
+
+    @Override
+    public @NotNull FluidStack drain(int i, FluidAction fluidAction) {
+        return FluidStack.EMPTY;
+    }
+
+    @Override
+    public boolean supportsFill(int tank) {
+        return false;
+    }
+
+    @Override
+    public boolean canHandleFluid() {
+        return true;
+    }
 
     @Override
     public boolean handleRecipeFluid(IO io, GTRecipe recipe, List<Content<FluidIngredient>> fluids, boolean simulate) {
@@ -88,7 +123,7 @@ public class ExportOnlyAEFluidList extends NotifiableFluidTank implements IConfi
                     long amount = stored.amount();
                     if (amount == 0) continue;
                     if (stored.what() instanceof AEFluidKey fluidKey && ingredient.inner.testAeKay(fluidKey)) {
-                        var drained = i.drain(ingredient.amount, simulate, false);
+                        var drained = i.extract(ingredient.amount, simulate, false);
                         if (drained > 0) {
                             changed = true;
                             ingredient.shrink(drained);
@@ -105,42 +140,6 @@ public class ExportOnlyAEFluidList extends NotifiableFluidTank implements IConfi
             }
         }
         return fluids.isEmpty();
-    }
-
-    @Override
-    public int fill(FluidStack resource, FluidAction action) {
-        return 0;
-    }
-
-    @Override
-    public boolean supportsFill(int tank) {
-        return false;
-    }
-
-    @Override
-    public FluidStack drainInternal(int maxDrain, FluidAction action) {
-        if (maxDrain == 0) {
-            return FluidStack.EMPTY;
-        }
-        FluidStack totalDrained = null;
-        for (var tank : inventory) {
-            if (totalDrained == null || totalDrained.isEmpty()) {
-                totalDrained = tank.drain(maxDrain, action);
-                if (totalDrained.isEmpty()) {
-                    totalDrained = null;
-                } else {
-                    maxDrain -= totalDrained.getAmount();
-                }
-            } else {
-                FluidStack copy = totalDrained.copy();
-                copy.setAmount(maxDrain);
-                FluidStack drain = tank.drain(copy, action);
-                totalDrained.grow(drain.getAmount());
-                maxDrain -= drain.getAmount();
-            }
-            if (maxDrain <= 0) break;
-        }
-        return totalDrained == null ? FluidStack.EMPTY : totalDrained;
     }
 
     @Override
@@ -165,25 +164,20 @@ public class ExportOnlyAEFluidList extends NotifiableFluidTank implements IConfi
     }
 
     @Override
-    public IntLongMap getSearchMap(@NotNull GTRecipeType type) {
-        if (changed) {
-            changed = false;
-            intIngredientMap.clear();
-            boolean specialConverter = ((RecipeType) type).specialConverter;
-            for (var i : inventory) {
-                if (i.config == null) continue;
-                var stock = i.stock;
-                if (stock == null || stock.amount() == 0) continue;
-                if (stock.what() instanceof AEFluidKey fluidKey) {
-                    if (specialConverter) {
-                        type.convertFluid(i.getReadOnlyStack(), stock.amount(), intIngredientMap);
-                    } else {
-                        ((IAEFluidKey) (Object) fluidKey).gtolib$convert(stock.amount(), intIngredientMap);
-                    }
+    public void fillSearchMap(@NotNull GTRecipeType type, @NotNull IntLongMap map) {
+        boolean specialConverter = ((RecipeType) type).specialConverter;
+        for (var i : inventory) {
+            if (i.config == null) continue;
+            var stock = i.stock;
+            if (stock == null || stock.amount() == 0) continue;
+            if (stock.what() instanceof AEFluidKey fluidKey) {
+                if (specialConverter) {
+                    type.convertFluid(i.getReadOnlyStack(), stock.amount(), map);
+                } else {
+                    ((IAEFluidKey) (Object) fluidKey).gtolib$convert(stock.amount(), map);
                 }
             }
         }
-        return intIngredientMap;
     }
 
     @Override
@@ -202,43 +196,5 @@ public class ExportOnlyAEFluidList extends NotifiableFluidTank implements IConfi
 
     public boolean isStocking() {
         return false;
-    }
-
-    private static class FluidStorageDelegate extends CustomFluidTank {
-
-        private final ExportOnlyAEFluidSlot fluid;
-
-        FluidStorageDelegate(ExportOnlyAEFluidSlot fluid) {
-            super(Integer.MAX_VALUE);
-            this.fluid = fluid;
-        }
-
-        @Override
-        @NotNull
-        public FluidStack getFluid() {
-            return this.fluid.getFluid();
-        }
-
-        @Override
-        @NotNull
-        public FluidStack drain(int maxDrain, FluidAction action) {
-            return fluid.drain(maxDrain, action);
-        }
-
-        @Override
-        @NotNull
-        public FluidStack drain(FluidStack resource, FluidAction action) {
-            return fluid.drain(resource, action);
-        }
-
-        @Override
-        public int fill(FluidStack resource, FluidAction action) {
-            return 0;
-        }
-
-        @Override
-        public boolean supportsFill(int tank) {
-            return false;
-        }
     }
 }

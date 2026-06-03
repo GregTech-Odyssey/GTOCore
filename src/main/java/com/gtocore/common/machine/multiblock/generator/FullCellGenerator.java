@@ -34,9 +34,9 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.material.Fluid;
 
 import com.google.common.collect.ImmutableMap;
+import com.gto.datasynclib.annotations.SaveToDisk;
 import com.gto.datasynclib.annotations.SyncToClient;
 import com.gto.datasynclib.util.holder.BooleanHolder;
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -62,9 +62,9 @@ public class FullCellGenerator extends ElectricMultiblockMachine {
 
     @SyncToClient
     private boolean isGenerator = false;
-    @Persisted
+    @SaveToDisk
     private double bonusEfficiency = 1.0f;
-    @Persisted
+    @SaveToDisk
     private double accumulatedEfficiencyDecay = 1.0f;
 
     @Nullable

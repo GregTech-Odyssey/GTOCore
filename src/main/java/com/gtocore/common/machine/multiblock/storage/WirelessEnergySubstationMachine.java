@@ -30,10 +30,10 @@ import net.minecraft.world.level.Level;
 
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Multimaps;
+import com.gto.datasynclib.annotations.SaveToDisk;
 import com.hepdd.gtmthings.api.misc.WirelessEnergyContainer;
 import com.hepdd.gtmthings.utils.BigIntegerUtils;
 import com.hepdd.gtmthings.utils.TeamUtil;
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import it.unimi.dsi.fastutil.objects.Reference2IntMap;
@@ -53,7 +53,7 @@ public final class WirelessEnergySubstationMachine extends NoRecipeLogicMultiblo
     private final TierCasingTrait tierCasingTrait;
     private final Multimap<Integer, BlockPos> wirelessEnergyUnitPositions = Multimaps.newMultimap(new Int2ObjectOpenHashMap<>(), ObjectOpenHashSet::new);
 
-    @Persisted
+    @SaveToDisk
     private ResourceLocation dimension;
 
     public WirelessEnergySubstationMachine(MetaMachineBlockEntity holder) {

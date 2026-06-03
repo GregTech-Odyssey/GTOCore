@@ -11,10 +11,10 @@ import com.gregtechceu.gtceu.api.recipe.handler.IO;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.world.item.Item;
 
+import com.gto.datasynclib.annotations.SaveToDisk;
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
 import com.lowdragmc.lowdraglib.jei.IngredientIO;
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import lombok.Getter;
 
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -24,7 +24,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 @MethodsReturnNonnullByDefault
 public class ThermalConductorHatchPartMachine extends MultiblockPartMachine implements IMachineLife {
 
-    @Persisted
+    @SaveToDisk
     private final NotifiableItemStackHandler inventory;
 
     public ThermalConductorHatchPartMachine(MetaMachineBlockEntity holder) {

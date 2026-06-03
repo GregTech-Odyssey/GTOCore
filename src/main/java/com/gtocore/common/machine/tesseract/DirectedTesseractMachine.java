@@ -14,6 +14,8 @@ import com.gregtechceu.gtceu.api.machine.ConditionalSubscriptionHandler;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.feature.IFancyUIMachine;
 import com.gregtechceu.gtceu.api.machine.feature.IMachineLife;
+import com.gregtechceu.gtceu.api.transfer.fluid.ICustomFluidStackHandler;
+import com.gregtechceu.gtceu.api.transfer.item.ICustomItemStackHandler;
 
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
@@ -23,8 +25,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.fluids.capability.IFluidHandler;
-import net.minecraftforge.items.IItemHandler;
 
 import appeng.api.config.Actionable;
 import appeng.api.crafting.IPatternDetails;
@@ -44,11 +44,11 @@ import com.fast.fastcollection.O2OOpenCacheHashMap;
 import com.google.common.collect.HashMultiset;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Multiset;
+import com.gto.datasynclib.annotations.SaveToDisk;
+import com.gto.datasynclib.annotations.SyncToClient;
 import com.gto.datasynclib.util.holder.BooleanHolder;
 import com.gto.datasynclib.util.holder.ObjHolder;
 import com.lowdragmc.lowdraglib.syncdata.IManaged;
-import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.FieldManagedStorage;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import lombok.Getter;
@@ -69,19 +69,19 @@ public class DirectedTesseractMachine extends MetaMachine implements
     public static final Multiset<ImmutableList<TesseractDirectedTarget>> HIGHLIGHTS = HashMultiset.create();
 
     @Getter
-    private final List<IItemHandler> itemHandlers = new ArrayList<>(20);
+    private final List<ICustomItemStackHandler> itemHandlers = new ArrayList<>(20);
     @Getter
-    private final List<IFluidHandler> fluidHandlers = new ArrayList<>(20);
+    private final List<ICustomFluidStackHandler> fluidHandlers = new ArrayList<>(20);
 
     @Getter
     @Setter
     private boolean called;
 
-    @Persisted
-    @DescSynced
+    @SaveToDisk
+    @SyncToClient
     @Getter
     public final List<TesseractDirectedTarget> targets;
-    @Persisted
+    @SaveToDisk
     private final UnfinishedPushList unfinishedPushLists;
     private WeakReference<BlockEntity>[] blockEntityReference;
     private final ConditionalSubscriptionHandler task;
@@ -248,9 +248,9 @@ public class DirectedTesseractMachine extends MetaMachine implements
 
         final DirectedTesseractMachine machine;
 
-        @Persisted
+        @SaveToDisk
         final List<TesseractDirectedTarget> unfinishedPushes = new ArrayList<>();
-        @Persisted
+        @SaveToDisk
         final List<GenericStack> unfinishedStacks = new ArrayList<>();
 
         public static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(UnfinishedPushList.class);

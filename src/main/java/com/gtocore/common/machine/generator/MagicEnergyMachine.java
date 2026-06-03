@@ -17,7 +17,7 @@ import net.minecraft.world.entity.boss.enderdragon.EndCrystal;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
+import com.gto.datasynclib.annotations.SaveToDisk;
 import com.mojang.blaze3d.MethodsReturnNonnullByDefault;
 import org.jetbrains.annotations.NotNull;
 
@@ -29,10 +29,10 @@ public final class MagicEnergyMachine extends TieredEnergyMachine implements IMa
 
     private TickableSubscription energySubs;
 
-    @Persisted
+    @SaveToDisk
     private final NotifiableManaContainer manaContainer;
 
-    @Persisted
+    @SaveToDisk
     private boolean enabled;
 
     private final long tierMana;

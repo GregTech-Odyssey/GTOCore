@@ -8,12 +8,12 @@ import com.gtolib.api.machine.feature.IUpgradeMachine;
 import com.gtolib.api.machine.impl.WirelessChargerMachine;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
-import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
 import com.gregtechceu.gtceu.api.machine.SimpleTieredMachine;
 import com.gregtechceu.gtceu.api.machine.TickableSubscription;
 import com.gregtechceu.gtceu.api.machine.WorkableTieredMachine;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
 import com.gregtechceu.gtceu.api.recipe.handler.IO;
+import com.gregtechceu.gtceu.api.recipe.info.ItemRecipeInfo;
 
 import net.minecraft.nbt.CompoundTag;
 
@@ -60,7 +60,9 @@ public abstract class SimpleTieredMachineMixin extends WorkableTieredMachine imp
 
     @Override
     protected @NotNull NotifiableItemStackHandler createImportItemHandler(Object @NotNull... args) {
-        return new NotifiableItemStackHandler(this, getRecipeType().getMaxInputs(ItemRecipeCapability.CAP), IO.IN).setFilter(i -> !(i.hasTag() && i.is(CustomItems.VIRTUAL_ITEM_PROVIDER.get())));
+        var handler = new NotifiableItemStackHandler(this, getRecipeType().getMaxInputs(ItemRecipeInfo.INSTANCE), IO.IN).setFilter(i -> !(i.hasTag() && i.is(CustomItems.VIRTUAL_ITEM_PROVIDER.get())));
+        if (handler.storage.size == 0) handler.setAvailable(false);
+        return handler;
     }
 
     @Inject(method = "<init>", at = @At("TAIL"), remap = false)

@@ -24,12 +24,12 @@ import net.minecraft.world.level.Level;
 
 import appeng.api.stacks.AEKey;
 
+import com.gto.datasynclib.annotations.SaveToDisk;
 import com.hepdd.gtmthings.api.capability.IBindable;
 import com.hepdd.gtmthings.utils.BigIntegerUtils;
 import com.lowdragmc.lowdraglib.gui.util.ClickData;
 import com.lowdragmc.lowdraglib.gui.widget.ComponentPanelWidget;
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import it.unimi.dsi.fastutil.objects.Reference2ReferenceMap;
 import org.jetbrains.annotations.Nullable;
 
@@ -44,11 +44,11 @@ public final class MEStorageMachine extends NoRecipeLogicMultiblockMachine imple
     public static final long infinite = 1000000000000L; // 1T
     @RegisterLanguage(en = "Data Index Position: ", cn = "数据索引位置：")
     private static final String MODE = "gtocore.machine.me_storage.mode";
-    @Persisted
+    @SaveToDisk
     private final NotifiableItemStackHandler machineStorage;
-    @Persisted
+    @SaveToDisk
     private UUID uuid;
-    @Persisted
+    @SaveToDisk
     private boolean player = true;
     private StorageAccessPartMachine accessPartMachine;
     private final List<Reference2ReferenceMap.Entry<AEKey, BigInteger>> list = new ArrayList<>();

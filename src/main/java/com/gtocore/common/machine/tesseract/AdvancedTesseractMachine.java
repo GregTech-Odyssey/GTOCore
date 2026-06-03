@@ -17,7 +17,8 @@ import com.gregtechceu.gtceu.api.machine.feature.IFancyUIMachine;
 import com.gregtechceu.gtceu.api.machine.feature.IMachineLife;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
 import com.gregtechceu.gtceu.api.recipe.handler.IO;
-import com.gregtechceu.gtceu.api.transfer.fluid.IFluidHandlerModifiable;
+import com.gregtechceu.gtceu.api.transfer.fluid.ICustomFluidStackHandler;
+import com.gregtechceu.gtceu.api.transfer.item.ICustomItemStackHandler;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -33,9 +34,6 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.fluids.capability.IFluidHandler;
-import net.minecraftforge.items.IItemHandler;
-import net.minecraftforge.items.IItemHandlerModifiable;
 
 import appeng.api.config.Actionable;
 import appeng.api.crafting.IPatternDetails;
@@ -48,12 +46,12 @@ import appeng.helpers.patternprovider.PatternProviderTarget;
 import com.google.common.collect.HashMultiset;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Multiset;
+import com.gto.datasynclib.annotations.SaveToDisk;
 import com.gto.datasynclib.annotations.SyncToClient;
 import com.gto.datasynclib.util.holder.BooleanHolder;
 import com.gto.datasynclib.util.holder.ObjHolder;
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import lombok.Getter;
 import lombok.Setter;
 import org.jetbrains.annotations.Nullable;
@@ -69,20 +67,20 @@ public class AdvancedTesseractMachine extends MetaMachine implements IFancyUIMac
 
     private final WeakReference<BlockEntity>[] blockEntityReference = new WeakReference[20];
 
-    @Persisted
+    @SaveToDisk
     @SyncToClient
     public final List<BlockPos> poss = new ArrayList<>(20);
 
-    @Persisted
+    @SaveToDisk
     protected NotifiableItemStackHandler inventory;
 
-    @Persisted
+    @SaveToDisk
     private boolean roundRobin;
 
     @Getter
-    private final List<IItemHandler> itemHandlers = new ArrayList<>(20);
+    private final List<ICustomItemStackHandler> itemHandlers = new ArrayList<>(20);
     @Getter
-    private final List<IFluidHandler> fluidHandlers = new ArrayList<>(20);
+    private final List<ICustomFluidStackHandler> fluidHandlers = new ArrayList<>(20);
 
     @Getter
     @Setter
@@ -91,7 +89,7 @@ public class AdvancedTesseractMachine extends MetaMachine implements IFancyUIMac
     public AdvancedTesseractMachine(MetaMachineBlockEntity holder) {
         super(holder);
         inventory = new NotifiableItemStackHandler(this, 20, IO.NONE, IO.NONE);
-        inventory.storage.setOnContentsChangedAndfreeze(() -> {
+        inventory.storage.setOnContentsChanged(() -> {
             onChanged();
             called = false;
             poss.clear();
@@ -149,15 +147,15 @@ public class AdvancedTesseractMachine extends MetaMachine implements IFancyUIMac
     }
 
     @Override
-    public @Nullable IItemHandlerModifiable getItemHandlerCap(@Nullable Direction side, boolean useCoverCapability) {
+    public @Nullable ICustomItemStackHandler getItemHandlerCap(@Nullable Direction side, boolean useCoverCapability) {
         var cap = getCapability(ForgeCapabilities.ITEM_HANDLER, side);
-        return cap != null ? cap.orElse(null) instanceof IItemHandlerModifiable m ? m : null : null;
+        return cap != null ? cap.orElse(null) instanceof ICustomItemStackHandler m ? m : null : null;
     }
 
     @Override
-    public @Nullable IFluidHandlerModifiable getFluidHandlerCap(@Nullable Direction side, boolean useCoverCapability) {
+    public @Nullable ICustomFluidStackHandler getFluidHandlerCap(@Nullable Direction side, boolean useCoverCapability) {
         var cap = getCapability(ForgeCapabilities.FLUID_HANDLER, side);
-        return cap != null ? cap.orElse(null) instanceof IFluidHandlerModifiable m ? m : null : null;
+        return cap != null ? cap.orElse(null) instanceof ICustomFluidStackHandler m ? m : null : null;
     }
 
     @Override

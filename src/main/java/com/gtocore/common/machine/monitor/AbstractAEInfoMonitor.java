@@ -11,8 +11,8 @@ import net.minecraft.resources.ResourceLocation;
 
 import appeng.api.networking.IManagedGridNode;
 
+import com.gto.datasynclib.annotations.SaveToDisk;
 import com.gto.datasynclib.annotations.SyncToClient;
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.EnumSet;
@@ -26,7 +26,7 @@ public abstract class AbstractAEInfoMonitor extends AbstractInfoProviderMonitor 
 
     int lastUpdateTime = 0;
 
-    @Persisted
+    @SaveToDisk
     final GridNodeHolder nodeHolder;
 
     @SyncToClient

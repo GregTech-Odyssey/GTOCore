@@ -14,7 +14,6 @@ import com.gregtechceu.gtceu.api.recipe.handler.IO;
 import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
 import com.gregtechceu.gtceu.utils.function.ObjLongPredicate;
 
-import net.minecraft.core.Direction;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.material.Fluids;
@@ -23,7 +22,6 @@ import net.minecraftforge.fluids.FluidStack;
 
 import com.fast.recipesearch.IntLongMap;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.function.ObjLongConsumer;
@@ -51,11 +49,6 @@ public final class InfiniteWaterHatchPartMachine extends WorkableTieredIOPartMac
 
         private FluidTank(MetaMachine machine) {
             super(machine);
-        }
-
-        @Override
-        public boolean hasCapability(@Nullable Direction side) {
-            return false;
         }
 
         @Override
@@ -95,6 +88,11 @@ public final class InfiniteWaterHatchPartMachine extends WorkableTieredIOPartMac
         @Override
         public IntLongMap getSearchMap(@NotNull GTRecipeType type) {
             return MAP;
+        }
+
+        @Override
+        public boolean canHandleFluid() {
+            return true;
         }
     }
 }

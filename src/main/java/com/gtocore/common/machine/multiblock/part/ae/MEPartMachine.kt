@@ -32,8 +32,10 @@ import com.gregtechceu.gtceu.api.machine.feature.IMachineLife
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IDistinctPart
 import com.gregtechceu.gtceu.api.machine.multiblock.part.WorkableTieredIOPartMachine
 import com.gregtechceu.gtceu.api.recipe.handler.IO
-import com.gregtechceu.gtceu.api.transfer.fluid.IFluidHandlerModifiable
+import com.gregtechceu.gtceu.api.transfer.fluid.ICustomFluidStackHandler
+import com.gregtechceu.gtceu.api.transfer.item.ICustomItemStackHandler
 import com.gregtechceu.gtceu.integration.ae2.machine.trait.GridNodeHolder
+import com.gto.datasynclib.annotations.SaveToDisk
 import com.gto.datasynclib.annotations.SyncToClient
 import com.gto.datasynclib.listener.IntNotifiableHolder
 import com.gto.datasynclib.listener.ObjNotifiableHolder
@@ -60,7 +62,7 @@ abstract class MEPartMachine(holder: MetaMachineBlockEntity, io: IO) :
     IMachineLife {
 
     // ==================== AE2 Grid ====================
-    @Persisted
+    @SaveToDisk
     private val nodeHolder: GridNodeHolder = GridNodeHolder(this)
 
     @SyncToClient
@@ -68,14 +70,14 @@ abstract class MEPartMachine(holder: MetaMachineBlockEntity, io: IO) :
 
     val actionSourceField: IActionSource = IActionSource.ofMachine { nodeHolder.getMainNode().node }
 
-    @Persisted
+    @SaveToDisk
     protected var distinctField: Boolean = false
 
-    @Persisted
+    @SaveToDisk
     var isAllFacing: Boolean = false
 
-    override fun getItemHandlerCap(side: Direction?, useCoverCapability: Boolean): IItemHandlerModifiable? = null
-    override fun getFluidHandlerCap(side: Direction?, useCoverCapability: Boolean): IFluidHandlerModifiable? = null
+    override fun getItemHandlerCap(side: Direction?, useCoverCapability: Boolean): ICustomItemStackHandler? = null
+    override fun getFluidHandlerCap(side: Direction?, useCoverCapability: Boolean): ICustomFluidStackHandler? = null
 
     override fun tintColor(index: Int): Int = if (index == 9) realColor else -1
 
@@ -112,22 +114,13 @@ abstract class MEPartMachine(holder: MetaMachineBlockEntity, io: IO) :
     override fun getNodeType(): WirelessMachine.NodeType? = WirelessMachine.NodeType.CHILD
 
     // ==================== WirelessMachine - Persisted State ====================
-    @Persisted
+    @SaveToDisk
     @SyncToClient
     private var _connectedNetworkId: String = ""
 
     override fun getConnectedNetworkId(): String = _connectedNetworkId
     override fun setConnectedNetworkId(id: String) {
         _connectedNetworkId = id
-    }
-
-    var lastNeighbor: Block? = null
-    override fun onNeighborChanged(block: Block, fromPos: BlockPos, isMoving: Boolean) {
-        super<WorkableTieredIOPartMachine>.onNeighborChanged(block, fromPos, isMoving)
-
-        if (lastNeighbor === block) return
-        super<WirelessMachine>.onNeighborChanged(fromPos)
-        lastNeighbor = block
     }
 
     // ==================== WirelessMachine - Sync Fields ====================

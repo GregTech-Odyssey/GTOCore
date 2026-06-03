@@ -8,8 +8,6 @@ import net.minecraft.world.phys.Vec3;
 import vazkii.botania.client.fx.SparkleParticleData;
 import vazkii.botania.client.fx.WispParticleData;
 
-import java.awt.*;
-
 public interface IClientPylon {
 
     RandomSource rs = RandomSource.create();

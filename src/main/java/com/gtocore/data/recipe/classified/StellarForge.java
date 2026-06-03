@@ -1,11 +1,7 @@
 package com.gtocore.data.recipe.classified;
 
 import com.gtocore.api.data.tag.GTOTagPrefix;
-import com.gtocore.common.data.GTOBlocks;
-import com.gtocore.common.data.GTOItems;
-import com.gtocore.common.data.GTOMaterials;
-import com.gtocore.common.data.GTORecipeCategories;
-import com.gtocore.common.data.GTORecipeDataKeys;
+import com.gtocore.common.data.*;
 
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys;

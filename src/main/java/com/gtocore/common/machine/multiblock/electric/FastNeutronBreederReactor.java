@@ -30,8 +30,8 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.level.material.Fluid;
 
 import com.google.common.collect.ImmutableMap;
+import com.gto.datasynclib.annotations.SaveToDisk;
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -40,13 +40,13 @@ import java.util.Map;
 
 public class FastNeutronBreederReactor extends CustomParallelMultiblockMachine implements IStorageMultiblock, IExplosionMachine {
 
-    @Persisted
+    @SaveToDisk
     private final NotifiableItemStackHandler machineStorage;
-    @Persisted
+    @SaveToDisk
     private float temperature = 298;
-    @Persisted
+    @SaveToDisk
     private double neutronFluxkeV = 0;
-    @Persisted
+    @SaveToDisk
     private double recipeHeat = 0;
     private SensorPartMachine sensorMachineTemp;
     private SensorPartMachine sensorNeutronFlux;

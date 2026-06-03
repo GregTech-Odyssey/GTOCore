@@ -27,9 +27,9 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.fluids.FluidStack;
 
+import com.gto.datasynclib.annotations.SaveToDisk;
 import com.lowdragmc.lowdraglib.gui.util.ClickData;
 import com.lowdragmc.lowdraglib.gui.widget.ComponentPanelWidget;
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import earth.terrarium.adastra.common.registry.ModFluids;
 import earth.terrarium.adastra.common.registry.ModItems;
 import org.jetbrains.annotations.NotNull;
@@ -38,7 +38,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import static com.gregtechceu.gtceu.api.GTValues.*;
+import static com.gregtechceu.gtceu.api.GTValues.HV;
+import static com.gregtechceu.gtceu.api.GTValues.V;
 
 @DataGeneratorScanned
 public final class SatelliteControlCenterMachine extends ElectricMultiblockMachine implements ICustomRecipeLogicHolder {
@@ -61,7 +62,7 @@ public final class SatelliteControlCenterMachine extends ElectricMultiblockMachi
 
     private boolean launch;
 
-    @Persisted
+    @SaveToDisk
     private int index;
 
     public SatelliteControlCenterMachine(MetaMachineBlockEntity holder) {

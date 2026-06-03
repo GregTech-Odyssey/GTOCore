@@ -39,10 +39,10 @@ public class MERequestableInputHatchMachine extends MEInputHatchPartMachine impl
                 long inserted = networkInv.insert(exceedFluid.what(), exceedFluid.amount(), Actionable.MODULATE, this.getActionSourceField());
                 throughputCounter.add(exceedFluid.what(), inserted);
                 if (inserted > 0) {
-                    aeTank.drain(inserted, false, true);
+                    aeTank.extract(inserted, false, true);
                     continue;
                 } else {
-                    aeTank.drain(total, false, true);
+                    aeTank.extract(total, false, true);
                 }
             }
             GenericStack reqFluid = aeTank.requestStack();

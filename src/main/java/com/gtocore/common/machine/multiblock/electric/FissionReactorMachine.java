@@ -25,7 +25,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.material.Fluid;
 
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
+import com.gto.datasynclib.annotations.SaveToDisk;
 
 import java.util.List;
 
@@ -42,13 +42,13 @@ public final class FissionReactorMachine extends ElectricMultiblockMachine imple
     private static final Fluid HotSodiumPotassium = GTOMaterials.HotSodiumPotassium.getFluid();
     private static final Fluid SupercriticalSodiumPotassium = GTOMaterials.SupercriticalSodiumPotassium.getFluid();
 
-    @Persisted
+    @SaveToDisk
     private int heat = 298;
-    @Persisted
+    @SaveToDisk
     private int damaged;
-    @Persisted
+    @SaveToDisk
     private int parallel;
-    @Persisted
+    @SaveToDisk
     private int recipeHeat;
     private int fuel, cooler, heatAdjacent = 1, coolerAdjacent;
 

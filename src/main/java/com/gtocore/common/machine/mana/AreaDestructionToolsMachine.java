@@ -27,9 +27,9 @@ import net.minecraft.world.level.Level;
 
 import appeng.core.definitions.AEItems;
 
+import com.gto.datasynclib.annotations.SaveToDisk;
 import com.lowdragmc.lowdraglib.gui.util.ClickData;
 import com.lowdragmc.lowdraglib.gui.widget.*;
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 
 import java.util.List;
 
@@ -41,7 +41,7 @@ import static com.gtocore.common.item.CoordinateCardBehavior.getStoredCoordinate
 @MethodsReturnNonnullByDefault
 public class AreaDestructionToolsMachine extends MetaMachine implements IFancyUIMachine, IMachineLife {
 
-    @Persisted
+    @SaveToDisk
     private final NotifiableItemStackHandler inventory;
 
     private int model = 0;

@@ -12,8 +12,8 @@ import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.network.chat.Component;
 import net.minecraftforge.fluids.FluidStack;
 
+import com.gto.datasynclib.annotations.SaveToDisk;
 import com.gto.datasynclib.util.holder.IntHolder;
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 
 import java.util.List;
 
@@ -37,16 +37,16 @@ public final class ResidualDecontaminantDegasserPurificationUnitMachine extends 
             GTMaterials.RutheniumTriniumAmericiumNeutronate.getFluid(1000),
             GTMaterials.Neutronium.getFluid(2000));
 
-    @Persisted
+    @SaveToDisk
     private long inputCount;
 
-    @Persisted
+    @SaveToDisk
     private boolean successful;
 
-    @Persisted
+    @SaveToDisk
     private boolean failed;
 
-    @Persisted
+    @SaveToDisk
     private FluidStack fluidStack;
 
     private IndicatorHatchPartMachine indicatorHatchPartMachine;

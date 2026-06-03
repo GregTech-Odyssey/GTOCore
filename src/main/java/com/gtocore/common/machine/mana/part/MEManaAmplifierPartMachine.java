@@ -21,6 +21,7 @@ import appeng.api.networking.IManagedGridNode;
 import appeng.api.networking.security.IActionSource;
 
 import appbot.ae2.ManaKey;
+import com.gto.datasynclib.annotations.SaveToDisk;
 import com.gto.datasynclib.annotations.SyncToClient;
 import com.lowdragmc.lowdraglib.gui.texture.GuiTextureGroup;
 import com.lowdragmc.lowdraglib.gui.util.ClickData;
@@ -28,7 +29,6 @@ import com.lowdragmc.lowdraglib.gui.widget.LabelWidget;
 import com.lowdragmc.lowdraglib.gui.widget.SwitchWidget;
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import gripe._90.arseng.me.key.SourceKey;
 import lombok.Getter;
 import lombok.Setter;
@@ -42,7 +42,7 @@ public final class MEManaAmplifierPartMachine extends ManaAmplifierPartMachine i
     public static final String LANG_USE_SOURCE = "gtceu.machine.mana_amplifier.use_source";
     @RegisterLanguage(cn = "从ME网络拉取魔源", en = "Pull Source from ME Network")
     public static final String LANG_USE_MANA = "gtceu.machine.mana_amplifier.use_mana";
-    @Persisted
+    @SaveToDisk
     private final GridNodeHolder nodeHolder;
     @SyncToClient
     @Getter

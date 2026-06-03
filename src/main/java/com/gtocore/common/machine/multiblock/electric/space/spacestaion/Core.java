@@ -26,7 +26,10 @@ import net.minecraft.network.chat.Component;
 
 import com.hepdd.gtmthings.api.misc.WirelessEnergyContainer;
 import earth.terrarium.adastra.api.planets.PlanetApi;
-import it.unimi.dsi.fastutil.objects.*;
+import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
+import it.unimi.dsi.fastutil.objects.Reference2IntMap;
+import it.unimi.dsi.fastutil.objects.Reference2ObjectOpenHashMap;
+import it.unimi.dsi.fastutil.objects.ReferenceOpenHashSet;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;

@@ -74,6 +74,8 @@ import appeng.core.AEConfig;
 import appeng.hotkeys.HotkeyActions;
 import appeng.items.tools.powered.WirelessTerminalItem;
 
+import com.gto.datasynclib.DataSyncCodec;
+import com.gto.datasynclib.datasream.codec.ByteStreamCodec;
 import com.lowdragmc.lowdraglib.syncdata.payload.FriendlyBufPayload;
 import com.lowdragmc.lowdraglib.syncdata.payload.NbtTagPayload;
 import de.mari_023.ae2wtlib.AE2wtlib;
@@ -119,7 +121,6 @@ public class CommonProxy {
             registerSimple(MaterialPayload.class, MaterialPayload::new, Material.class, 1);
             registerSimple(GTORecipePayload.class, GTORecipePayload::new, GTRecipe.class, 100);
             registerSimple(FluidStackPayload.class, FluidStackPayload::new, FluidStack.class, -1);
-            registerSimple(TesseractDirectedTarget.Payload.class, TesseractDirectedTarget.Payload::new, TesseractDirectedTarget.class, 10);
             registerSimple(GenericStackPayload.class, GenericStackPayload::new, GenericStack.class, 10);
         });
         GTEMIPlugin.init();
@@ -180,6 +181,7 @@ public class CommonProxy {
         }
         Message.init();
         GTOItemTooltips.INSTANCE.initLanguage();
+        DataSyncCodec.register(TesseractDirectedTarget.class, ByteStreamCodec.of(TesseractDirectedTarget.CODEC), TesseractDirectedTarget.CODEC);
     }
 
     public static void afterStartup() {

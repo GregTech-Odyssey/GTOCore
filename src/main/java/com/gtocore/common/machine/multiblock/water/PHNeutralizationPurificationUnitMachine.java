@@ -16,7 +16,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.material.Fluid;
 
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
+import com.gto.datasynclib.annotations.SaveToDisk;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,10 +30,10 @@ public final class PHNeutralizationPurificationUnitMachine extends WaterPurifica
     private static final ItemStack SodiumHydroxide = ChemicalHelper.get(TagPrefix.dust, GTMaterials.SodiumHydroxide);
     private static final Fluid HydrochloricAcid = GTMaterials.HydrochloricAcid.getFluid();
 
-    @Persisted
+    @SaveToDisk
     private float ph = 7;
 
-    @Persisted
+    @SaveToDisk
     private long inputCount;
 
     private final List<SensorPartMachine> sensorPartMachines = new ArrayList<>(2);

@@ -9,7 +9,7 @@ import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.material.Fluid;
 
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
+import com.gto.datasynclib.annotations.SaveToDisk;
 
 import java.util.List;
 
@@ -22,13 +22,13 @@ public final class FlocculationPurificationUnitMachine extends WaterPurification
     private static final Fluid PolyAluminiumChloride = GTOMaterials.PolyAluminiumChloride.getFluid();
     private static final Fluid FlocculationWasteSolution = GTOMaterials.FlocculationWasteSolution.getFluid();
 
-    @Persisted
+    @SaveToDisk
     private long chance;
 
-    @Persisted
+    @SaveToDisk
     private long inputCount;
 
-    @Persisted
+    @SaveToDisk
     private long outputCount;
 
     public FlocculationPurificationUnitMachine(MetaMachineBlockEntity holder) {

@@ -21,7 +21,7 @@ import com.gregtechceu.gtceu.api.recipe.modifier.RecipeModifier;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
+import com.gto.datasynclib.annotations.SaveToDisk;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -32,7 +32,7 @@ import java.util.function.ToLongFunction;
 public class RecipeExtension extends Extension implements ICrossRecipeMachine {
 
     private boolean hasLaserInput = false;
-    @Persisted
+    @SaveToDisk
     private final CrossRecipeTrait crossRecipeTrait;
 
     @NotNull

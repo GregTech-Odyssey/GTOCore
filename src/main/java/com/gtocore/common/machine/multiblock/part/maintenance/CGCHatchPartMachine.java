@@ -8,9 +8,9 @@ import com.gregtechceu.gtceu.api.gui.widget.IntInputWidget;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.util.Mth;
 
+import com.gto.datasynclib.annotations.SaveToDisk;
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
@@ -18,7 +18,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 @MethodsReturnNonnullByDefault
 public final class CGCHatchPartMachine extends ACMHatchPartMachine implements IGravityPartMachine {
 
-    @Persisted
+    @SaveToDisk
     private int currentGravity;
 
     public CGCHatchPartMachine(MetaMachineBlockEntity metaTileEntityId) {

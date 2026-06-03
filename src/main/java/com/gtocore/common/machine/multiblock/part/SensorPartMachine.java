@@ -11,11 +11,11 @@ import com.gregtechceu.gtceu.api.machine.multiblock.part.MultiblockPartMachine;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.Direction;
 
+import com.gto.datasynclib.annotations.SaveToDisk;
 import com.gto.datasynclib.annotations.SyncToClient;
 import com.lowdragmc.lowdraglib.gui.widget.TextBoxWidget;
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.utils.LocalizationUtils;
 import com.lowdragmc.lowdraglib.utils.Position;
 import com.lowdragmc.lowdraglib.utils.Size;
@@ -30,16 +30,16 @@ import javax.annotation.ParametersAreNonnullByDefault;
 @MethodsReturnNonnullByDefault
 public final class SensorPartMachine extends MultiblockPartMachine {
 
-    @Persisted
+    @SaveToDisk
     @SyncToClient
     private float min;
-    @Persisted
+    @SaveToDisk
     @SyncToClient
     private float max;
-    @Persisted
+    @SaveToDisk
     private boolean isInverted;
     @Getter
-    @Persisted
+    @SaveToDisk
     private int redstoneSignalOutput;
 
     public SensorPartMachine(MetaMachineBlockEntity holder) {

@@ -163,7 +163,7 @@ final class MachineLang {
         addCNEN("gtocore.machine.monitor.mana.pool.2", "池/s)", "Pools per Second)");
         addCNEN("gtocore.machine.monitor.mana.increase", "每秒魔力增长: ", "Mana Growth Per Second: ");
         addCNEN("gtocore.machine.monitor.mana.decrease", "每秒魔力消耗: ", "Mana Consumption Per Second: ");
-        addCNEN("gtocore.machine.monitor.cwu.capacity", "当前网络可请求算力/最大算力: %s/%s CWU", "Current Network (Requestable/Max) Hashrate: %s/%s CWU");
+        addCNEN("gtocore.machine.monitor.cwu.capacity", "当前网络可请求算力: %s CWU", "Current Network Requestable Hashrate: %s CWU");
         addCNEN("gtocore.machine.monitor.cwu.used", "（平均使用算力: %s CWU）", "(Average Used Hashrate: %s CWU)");
         addCNEN("gtocore.machine.monitor.eu.no_container", "警告：无限能源塔绑定信息缺失！", "Warning: Infinite Energy Tower binding information is missing!");
         addCNEN("gtocore.machine.monitor.eu.fullness", "能量塔能量存量: %s%%", "Energy Tower Energy Storage: %s%%");

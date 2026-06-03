@@ -22,7 +22,6 @@ import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
 import org.jetbrains.annotations.NotNull;
 
-import static com.gtolib.api.GTOValues.GLASS_TIER;
 import static java.lang.Math.min;
 
 public class MEEnergyAccessPartMachine extends MEPartMachine implements IAEPowerStorage {

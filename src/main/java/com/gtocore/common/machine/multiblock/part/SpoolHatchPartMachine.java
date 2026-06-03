@@ -14,7 +14,7 @@ import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.world.item.Item;
 
 import com.google.common.collect.ImmutableMap;
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
+import com.gto.datasynclib.annotations.SaveToDisk;
 
 import java.util.Map;
 
@@ -36,7 +36,7 @@ public final class SpoolHatchPartMachine extends WorkableItemPartMachine impleme
         SPOOL = spoolBuilder.build();
     }
 
-    @Persisted
+    @SaveToDisk
     private boolean isWorking;
 
     public SpoolHatchPartMachine(MetaMachineBlockEntity holder) {

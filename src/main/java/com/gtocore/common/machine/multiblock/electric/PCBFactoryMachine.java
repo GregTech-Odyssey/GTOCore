@@ -26,8 +26,8 @@ import com.gregtechceu.gtceu.common.data.GTMaterials;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.network.chat.Component;
 
+import com.gto.datasynclib.annotations.SaveToDisk;
 import com.gto.datasynclib.annotations.SyncToClient;
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import org.jetbrains.annotations.Nullable;
 
@@ -49,7 +49,7 @@ public final class PCBFactoryMachine extends StorageMultiblockMachine implements
 
     private static final Int2ObjectOpenHashMap<BlockPattern> PATTERNS = new Int2ObjectOpenHashMap<>(3, 0.9F);
 
-    @Persisted
+    @SaveToDisk
     @SyncToClient
     private int machineTier = 1;
 

@@ -38,10 +38,10 @@ import net.minecraft.world.phys.AABB;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
+import com.gto.datasynclib.annotations.SaveToDisk;
 import com.lowdragmc.lowdraglib.gui.modular.ModularUI;
 import com.lowdragmc.lowdraglib.gui.widget.LabelWidget;
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.utils.Position;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Final;
@@ -59,7 +59,7 @@ import java.util.List;
 public abstract class MufflerPartMachineMixin extends WorkableTieredPartMachine implements IGTOMufflerMachine, IDroneInteractionMachine, IAirScrubberInteractor {
 
     @Unique
-    @Persisted
+    @SaveToDisk
     private boolean gtocore$isWorkingEnabled;
     @Shadow(remap = false)
     @Final

@@ -11,7 +11,6 @@ import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.api.recipe.content.Content;
 import com.gregtechceu.gtceu.api.recipe.handler.IO;
 import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
-import com.gregtechceu.gtceu.integration.ae2.utils.AEUtil;
 import com.gregtechceu.gtceu.utils.function.ObjLongPredicate;
 
 import net.minecraftforge.fluids.FluidStack;
@@ -87,39 +86,32 @@ public class ExportOnlyAEStockingFluidList extends ExportOnlyAEFluidList {
     }
 
     @Override
-    public IntLongMap getSearchMap(@NotNull GTRecipeType type) {
-        if (machine.isWorkingEnabled()) {
-            if (changed) {
-                if (!machine.isOnline()) return IntLongMap.EMPTY;
-                var grid = machine.getMainNode().getGrid();
-                if (grid == null) return IntLongMap.EMPTY;
-                AEKeyMap<AEKey> map = null;
-                intIngredientMap.clear();
-                boolean specialConverter = ((RecipeType) type).specialConverter;
-                int time = machine.getOffsetTimer();
-                for (var i : inventory) {
-                    if (i.config == null) continue;
-                    var stock = i.stock;
-                    if (stock == null) continue;
-                    if (stock.what() instanceof AEFluidKey fluidKey) {
-                        if (map == null) {
-                            map = grid.getStorageService().getCachedInventory().getMap();
-                            if (map.isEmpty()) return IntLongMap.EMPTY;
-                        }
-                        var amount = ((ExportOnlyAEStockingFluidSlot) i).refresh(map, stock.amount(), fluidKey, time);
-                        if (amount < 1) continue;
-                        if (specialConverter) {
-                            type.convertFluid(i.getReadOnlyStack(), amount, intIngredientMap);
-                        } else {
-                            ((IAEFluidKey) (Object) fluidKey).gtolib$convert(amount, intIngredientMap);
-                        }
+    public void fillSearchMap(@NotNull GTRecipeType type, @NotNull IntLongMap map) {
+        if (machine.isWorkingEnabled() && machine.isOnline()) {
+            var grid = machine.getMainNode().getGrid();
+            if (grid == null) return;
+            AEKeyMap<AEKey> keyMap = null;
+            boolean specialConverter = ((RecipeType) type).specialConverter;
+            int time = machine.getOffsetTimer();
+            for (var i : inventory) {
+                if (i.config == null) continue;
+                var stock = i.stock;
+                if (stock == null) continue;
+                if (stock.what() instanceof AEFluidKey fluidKey) {
+                    if (keyMap == null) {
+                        keyMap = grid.getStorageService().getCachedInventory().getMap();
+                        if (keyMap.isEmpty()) return;
+                    }
+                    var amount = ((ExportOnlyAEStockingFluidSlot) i).refresh(keyMap, stock.amount(), fluidKey, time);
+                    if (amount < 1) continue;
+                    if (specialConverter) {
+                        type.convertFluid(i.getReadOnlyStack(), amount, map);
+                    } else {
+                        ((IAEFluidKey) (Object) fluidKey).gtolib$convert(amount, map);
                     }
                 }
-                changed = false;
             }
-            return intIngredientMap;
         }
-        return IntLongMap.EMPTY;
     }
 
     @Override
@@ -187,7 +179,7 @@ public class ExportOnlyAEStockingFluidList extends ExportOnlyAEFluidList {
         }
 
         @Override
-        public long drain(long amount, boolean simulate, boolean notify) {
+        public long extract(long amount, boolean simulate, boolean notify) {
             if (this.stock != null && this.config != null) {
                 if (!machine.isOnline()) return 0;
                 var grid = machine.getMainNode().getGrid();
@@ -207,31 +199,6 @@ public class ExportOnlyAEStockingFluidList extends ExportOnlyAEFluidList {
                 }
             }
             return 0;
-        }
-
-        @Override
-        public @NotNull FluidStack drain(int maxDrain, @NotNull FluidAction action) {
-            if (this.stock != null && this.config != null) {
-                if (!machine.isOnline()) return FluidStack.EMPTY;
-                var grid = machine.getMainNode().getGrid();
-                if (grid == null) return FluidStack.EMPTY;
-                var key = stock.what();
-                long extracted = action.simulate() ? stock.amount() : grid.getStorageService().getInventory().extract(key, maxDrain, Actionable.MODULATE, machine.getActionSource());
-                if (extracted > 0) {
-                    FluidStack resultStack = key instanceof AEFluidKey fluidKey ? AEUtil.toFluidStack(fluidKey, extracted) : FluidStack.EMPTY;
-                    if (action.execute()) {
-                        machine.getThroughputCounter().remove(stock.what(), extracted);
-                        this.stock = ExportOnlyAESlot.copy(stock, stock.amount() - extracted);
-                        if (this.stock.amount() == 0) {
-                            this.stock = null;
-                            forgeStock = null;
-                        } else if (forgeStock != null) forgeStock.setAmount(MathUtil.saturatedCast(stock.amount()));
-                        onContentsChanged();
-                    }
-                    return resultStack;
-                }
-            }
-            return FluidStack.EMPTY;
         }
     }
 }

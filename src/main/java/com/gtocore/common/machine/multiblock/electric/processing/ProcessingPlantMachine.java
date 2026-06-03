@@ -34,7 +34,7 @@ import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
+import com.gto.datasynclib.annotations.SaveToDisk;
 import it.unimi.dsi.fastutil.objects.Reference2IntMap;
 import org.jetbrains.annotations.Nullable;
 
@@ -101,7 +101,7 @@ public final class ProcessingPlantMachine extends StorageMultiblockMachine imple
 
     private boolean mismatched;
 
-    @Persisted
+    @SaveToDisk
     private final CustomParallelTrait customParallelTrait;
 
     private final TierCasingTrait tierCasingTrait;

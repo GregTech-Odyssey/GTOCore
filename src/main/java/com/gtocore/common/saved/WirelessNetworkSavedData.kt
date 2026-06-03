@@ -20,7 +20,7 @@ import net.minecraftforge.fml.common.Mod
 
 import com.fast.fastcollection.O2OOpenCacheHashMap
 import com.gregtechceu.gtceu.GTCEu
-import com.gto.datasynclib.CombinationCodec
+import com.gto.datasynclib.DataSyncCodec
 import com.gto.datasynclib.datasream.codec.ByteStreamCodec
 import com.gto.datasynclib.datasream.codec.ByteStreamDecoder
 import com.gto.datasynclib.datasream.codec.ByteStreamEncoder
@@ -490,7 +490,7 @@ enum class STATUS {
  * 创建用于同步网络摘要列表的 ISync.ObjectSyncedField。
  */
 fun createNetworkSummarySyncField(): ObjNotifiableHolder<List<NetworkSummary>> = ObjNotifiableHolder.create(
-    CombinationCodec.of(
+    DataSyncCodec.of(
         ByteStreamCodec.of(
             ByteStreamEncoder.collection
                 { buf, s ->
@@ -523,7 +523,7 @@ fun createNetworkSummarySyncField(): ObjNotifiableHolder<List<NetworkSummary>> =
  * 创建用于同步拓扑信息列表的 ISync.ObjectSyncedField。
  */
 fun createTopologySyncField(): ObjNotifiableHolder<List<TopologySummary>> = ObjNotifiableHolder.create(
-    CombinationCodec.of(
+    DataSyncCodec.of(
         ByteStreamCodec.of(
             ByteStreamEncoder.collection { buf, topo ->
 

@@ -4,7 +4,7 @@ import com.gtocore.common.blockentity.TesseractBlockEntity;
 import com.gtocore.common.machine.multiblock.part.ae.MEPatternPartMachineKt;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
-import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
+import com.gregtechceu.gtceu.api.transfer.item.ICustomItemStackHandler;
 import com.gregtechceu.gtceu.api.transfer.item.ItemHandlerList;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.MufflerPartMachine;
 
@@ -45,18 +45,14 @@ public abstract class JadeForgeUtilsMixin {
                         return mufflerPartMachine.getInventory();
                     }
                     var ts = blockEntity.metaMachine.getTraits();
-                    List<IItemHandler> filteredTraits = new ArrayList<>(ts.size());
+                    List<ICustomItemStackHandler> filteredTraits = new ArrayList<>(ts.size());
                     for (var t : ts) {
-                        if (t instanceof IItemHandler handler) {
-                            if (handler instanceof NotifiableItemStackHandler stackHandler) {
-                                filteredTraits.add(stackHandler.storage);
-                            } else {
-                                filteredTraits.add(handler);
-                            }
+                        if (t instanceof ICustomItemStackHandler handler) {
+                            filteredTraits.add(handler);
                         }
                     }
                     if (!filteredTraits.isEmpty()) {
-                        return new ItemHandlerList(filteredTraits.toArray(new IItemHandler[0]));
+                        return new ItemHandlerList(filteredTraits.toArray(new ICustomItemStackHandler[0]));
                     }
                 }
                 return capProvider.getCapability(ForgeCapabilities.ITEM_HANDLER).orElse(null);

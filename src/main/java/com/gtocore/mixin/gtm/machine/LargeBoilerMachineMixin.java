@@ -12,7 +12,8 @@ import com.gregtechceu.gtceu.api.recipe.modifier.ParallelLogic;
 import com.gregtechceu.gtceu.common.machine.multiblock.steam.LargeBoilerMachine;
 
 import org.jetbrains.annotations.Nullable;
-import org.spongepowered.asm.mixin.*;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Overwrite;
 
 @Mixin(LargeBoilerMachine.class)
 public abstract class LargeBoilerMachineMixin extends WorkableMultiblockMachine {

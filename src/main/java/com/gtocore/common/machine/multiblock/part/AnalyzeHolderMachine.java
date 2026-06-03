@@ -16,11 +16,11 @@ import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.ItemStack;
 
+import com.gto.datasynclib.annotations.SaveToDisk;
 import com.gto.datasynclib.annotations.SyncToClient;
 import com.lowdragmc.lowdraglib.gui.widget.ImageWidget;
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.utils.Position;
 import lombok.Getter;
 import lombok.Setter;
@@ -34,11 +34,11 @@ public class AnalyzeHolderMachine extends MultiblockPartMachine implements IMach
 
     protected final IO io;
 
-    @Persisted
+    @SaveToDisk
     private final AnalyzeHolder heldItems;
     @Setter
     @Getter
-    @Persisted
+    @SaveToDisk
     @SyncToClient
     private boolean isLocked;
 

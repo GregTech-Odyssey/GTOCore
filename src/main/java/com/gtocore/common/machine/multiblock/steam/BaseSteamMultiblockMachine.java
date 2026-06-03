@@ -6,7 +6,7 @@ import com.gtolib.utils.MathUtil;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.feature.ICleanroomProvider;
-import com.gregtechceu.gtceu.api.machine.feature.IDummyEnergyMachine;
+import com.gregtechceu.gtceu.api.machine.steam.SteamEnergyContainer;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableFluidTank;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
@@ -25,9 +25,9 @@ import net.minecraft.util.Mth;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 
+import com.gto.datasynclib.annotations.SaveToDisk;
 import com.lowdragmc.lowdraglib.gui.util.ClickData;
 import com.lowdragmc.lowdraglib.gui.widget.ComponentPanelWidget;
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -40,8 +40,9 @@ public class BaseSteamMultiblockMachine extends SteamParallelMultiblockMachine {
 
     protected int maxOCamount;
     private int euMultiplier;
+    private double conversionRate;
 
-    @Persisted
+    @SaveToDisk
     private int amountOC;
 
     private final long eut;
@@ -70,9 +71,9 @@ public class BaseSteamMultiblockMachine extends SteamParallelMultiblockMachine {
     protected void addSteamEnergy() {
         maxOCamount = 0;
         euMultiplier = 0;
+        conversionRate = 2D;
         for (var part : getParts()) {
             if (part instanceof SteamHatchPartMachine machine) {
-                var conversionRate = 2D;
                 var fluid = GTMaterials.Steam.getFluid(1);
                 if (machine instanceof LargeSteamHatchPartMachine partMachine) {
                     conversionRate = partMachine.c;
@@ -84,6 +85,11 @@ public class BaseSteamMultiblockMachine extends SteamParallelMultiblockMachine {
                 return;
             }
         }
+    }
+
+    @Override
+    public double getConversionRate() {
+        return conversionRate;
     }
 
     @Nullable
@@ -131,7 +137,7 @@ public class BaseSteamMultiblockMachine extends SteamParallelMultiblockMachine {
         super.setCleanroom(provider);
     }
 
-    private static class EnergyContainer extends IDummyEnergyMachine.DummyContainer {
+    private static class EnergyContainer extends SteamEnergyContainer {
 
         private final FluidStack steam;
 
@@ -139,7 +145,7 @@ public class BaseSteamMultiblockMachine extends SteamParallelMultiblockMachine {
         private final NotifiableFluidTank steamTank;
 
         private EnergyContainer(FluidStack steam, double conversionRate, NotifiableFluidTank steamTank) {
-            super(Integer.MAX_VALUE);
+            super(conversionRate, steamTank);
             this.steam = steam;
             this.conversionRate = conversionRate;
             this.steamTank = steamTank;
@@ -155,11 +161,6 @@ public class BaseSteamMultiblockMachine extends SteamParallelMultiblockMachine {
             if (leftSteam == totalSteam) return -differenceAmount;
             differenceAmount = (long) (leftSteam / conversionRate);
             return -differenceAmount;
-        }
-
-        @Override
-        public long getEnergyStored() {
-            return (long) (steamTank.getFluidInTank(0).getAmount() / conversionRate);
         }
     }
 }

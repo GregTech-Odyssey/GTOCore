@@ -23,8 +23,6 @@ import java.util.function.ToLongFunction;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
-import static com.gtolib.api.GTOValues.POWER_MODULE_TIER;
-
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 public class SpaceElevatorModuleMachine extends CustomParallelMultiblockMachine {

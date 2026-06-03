@@ -2,11 +2,8 @@ package com.gtocore.common.machine.multiblock.part.ae.widget
 
 import com.gtocore.api.gui.ktflexible.textBlock
 import com.gtocore.common.machine.multiblock.part.ae.*
-import com.gtocore.common.machine.multiblock.part.ae.MEInputBufferPartMachine
-import com.gtocore.common.machine.multiblock.part.ae.MEPatternBufferPartMachineKt.Companion.circuit_special
 import com.gtocore.common.machine.multiblock.part.ae.MEPatternBufferPartMachineKt.Companion.emitting_crafting_mode
 import com.gtocore.common.machine.multiblock.part.ae.MEPatternBufferPartMachineKt.Companion.emitting_crafting_mode_tooltip
-import com.gtocore.common.machine.multiblock.part.ae.MEPatternBufferPartMachineKt.Companion.fluid_special
 import com.gtocore.common.machine.multiblock.part.ae.MEPatternBufferPartMachineKt.Companion.item_special
 import com.gtocore.common.machine.multiblock.part.ae.MEPatternBufferPartMachineKt.Companion.low_stock_triggering_mode
 import com.gtocore.common.machine.multiblock.part.ae.MEPatternBufferPartMachineKt.Companion.low_stock_triggering_mode_tooltip
@@ -16,25 +13,20 @@ import com.gtocore.common.machine.multiblock.part.ae.MEPatternBufferPartMachineK
 import com.gtocore.common.machine.multiblock.part.ae.MEPatternBufferPartMachineKt.Companion.pattern_configuration
 import com.gtocore.common.machine.multiblock.part.ae.MEPatternBufferPartMachineKt.Companion.request_crafting_when_insufficient
 
-import net.minecraft.client.gui.GuiGraphics
 import net.minecraft.network.chat.Component
 import net.minecraft.world.item.ItemStack
 
 import com.gregtechceu.gtceu.api.gui.GuiTextures
 import com.gregtechceu.gtceu.api.gui.widget.LongInputWidget
 import com.gregtechceu.gtceu.api.gui.widget.SlotWidget
-import com.gregtechceu.gtceu.api.gui.widget.TankWidget
 import com.gregtechceu.gtceu.api.transfer.fluid.CustomFluidTank
 import com.gregtechceu.gtceu.common.item.IntCircuitBehaviour
 import com.gtolib.api.gui.ktflexible.VBoxBuilder
 import com.gtolib.api.gui.ktflexible.blank
-import com.gtolib.api.gui.ktflexible.field
 import com.gtolib.api.gui.ktflexible.rootFresh
 import com.lowdragmc.lowdraglib.gui.util.ClickData
-import com.lowdragmc.lowdraglib.gui.util.DrawerHelper
 import com.lowdragmc.lowdraglib.gui.widget.SwitchWidget
 import com.lowdragmc.lowdraglib.gui.widget.Widget
-import com.lowdragmc.lowdraglib.jei.IngredientIO
 import it.unimi.dsi.fastutil.booleans.BooleanConsumer
 
 import java.util.concurrent.atomic.AtomicReference

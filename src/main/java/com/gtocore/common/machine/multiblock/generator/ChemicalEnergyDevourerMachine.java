@@ -18,7 +18,8 @@ import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.handler.IO;
 import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
 import com.gregtechceu.gtceu.api.recipe.modifier.ParallelLogic;
-import com.gregtechceu.gtceu.api.transfer.fluid.IFluidHandlerModifiable;
+import com.gregtechceu.gtceu.api.transfer.fluid.ICustomFluidStackHandler;
+import com.gregtechceu.gtceu.api.transfer.item.ICustomItemStackHandler;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
 import net.minecraft.ChatFormatting;
@@ -29,10 +30,9 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.IFluidHandler;
-import net.minecraftforge.items.IItemHandlerModifiable;
 
+import com.gto.datasynclib.annotations.SaveToDisk;
 import com.gto.datasynclib.annotations.SyncToClient;
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -49,7 +49,7 @@ public final class ChemicalEnergyDevourerMachine extends ElectricMultiblockMachi
     private static final int tier = 5;
     private boolean isOxygenBoosted;
     private boolean isDinitrogenTetroxideBoosted;
-    @Persisted
+    @SaveToDisk
     private final NotifiableFluidTank tank;
     private final ConditionalSubscriptionHandler tankSubs;
     @SyncToClient
@@ -65,13 +65,13 @@ public final class ChemicalEnergyDevourerMachine extends ElectricMultiblockMachi
 
     @Override
     @Nullable
-    public IItemHandlerModifiable getItemHandlerCap(@Nullable Direction side, boolean useCoverCapability) {
+    public ICustomItemStackHandler getItemHandlerCap(@Nullable Direction side, boolean useCoverCapability) {
         return null;
     }
 
     @Override
     @Nullable
-    public IFluidHandlerModifiable getFluidHandlerCap(@Nullable Direction side, boolean useCoverCapability) {
+    public ICustomFluidStackHandler getFluidHandlerCap(@Nullable Direction side, boolean useCoverCapability) {
         return null;
     }
 

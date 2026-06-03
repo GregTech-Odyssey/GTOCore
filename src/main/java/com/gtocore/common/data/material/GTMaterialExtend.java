@@ -19,9 +19,6 @@ import com.gregtechceu.gtceu.common.data.GTMedicalConditions;
 
 import java.util.List;
 
-import static com.gregtechceu.gtceu.api.GTValues.*;
-import static com.gregtechceu.gtceu.api.GTValues.UHV;
-import static com.gregtechceu.gtceu.api.GTValues.VA;
 import static com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialFlags.*;
 import static com.gregtechceu.gtceu.api.data.chemical.material.properties.PropertyKey.*;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.*;

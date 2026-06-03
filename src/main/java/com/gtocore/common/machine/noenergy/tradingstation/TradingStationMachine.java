@@ -46,6 +46,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 
+import com.gto.datasynclib.annotations.SaveToDisk;
 import com.gto.datasynclib.annotations.SyncToClient;
 import com.hepdd.gtmthings.utils.TeamUtil;
 import com.lowdragmc.lowdraglib.gui.editor.ColorPattern;
@@ -56,8 +57,6 @@ import com.lowdragmc.lowdraglib.gui.texture.TextTexture;
 import com.lowdragmc.lowdraglib.gui.widget.*;
 import com.lowdragmc.lowdraglib.gui.widget.layout.Layout;
 import com.lowdragmc.lowdraglib.syncdata.ISubscription;
-import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import it.unimi.dsi.fastutil.objects.Object2ObjectMap;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
@@ -80,24 +79,24 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
 
     /** 输入输出存储 */
     @Getter
-    @Persisted
-    @DescSynced
+    @SaveToDisk
+    @SyncToClient
     private final NotifiableItemStackHandler inputItem;
     @Getter
-    @Persisted
-    @DescSynced
+    @SaveToDisk
+    @SyncToClient
     private final NotifiableItemStackHandler outputItem;
     @Getter
-    @Persisted
-    @DescSynced
+    @SaveToDisk
+    @SyncToClient
     private final NotifiableFluidTank inputFluid;
     @Getter
-    @Persisted
-    @DescSynced
+    @SaveToDisk
+    @SyncToClient
     private final NotifiableFluidTank outputFluid;
 
     /** 其他位置存储 */
-    @Persisted
+    @SaveToDisk
     private final CustomItemStackHandler cardHandler;
 
     private static final int Item_slots_in_a_row = 4;
@@ -105,17 +104,17 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
 
     /** 玩家信息 */
     @Getter
-    @Persisted
+    @SaveToDisk
     private UUID uuid;
     @Getter
-    @Persisted
+    @SaveToDisk
     List<UUID> sharedUUIDs = new ArrayList<>();
     @Getter
-    @Persisted
+    @SaveToDisk
     private UUID teamUUID;
 
     /** 交易信息 */
-    @Persisted
+    @SaveToDisk
     @SyncToClient
     private int groupSelected = 0;
     private int shopSelected = -1;
@@ -803,16 +802,16 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
     // ********* 自动输出实现 ********* //
     /////////////////////////////////////
 
-    @Persisted
+    @SaveToDisk
     @SyncToClient(notifyUpdate = true)
     private Direction outputFacingItems = Direction.DOWN;
-    @Persisted
+    @SaveToDisk
     @SyncToClient(notifyUpdate = true)
     private Direction outputFacingFluids = Direction.DOWN;
-    @Persisted
+    @SaveToDisk
     @SyncToClient(notifyUpdate = true)
     private boolean autoOutputItems = false;
-    @Persisted
+    @SaveToDisk
     @SyncToClient(notifyUpdate = true)
     private boolean autoOutputFluids = false;
     @Nullable
@@ -942,7 +941,7 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
     // ********** 是否运行中 ********** //
     /////////////////////////////////////
 
-    @Persisted
+    @SaveToDisk
     private boolean working = false;
 
     @Override

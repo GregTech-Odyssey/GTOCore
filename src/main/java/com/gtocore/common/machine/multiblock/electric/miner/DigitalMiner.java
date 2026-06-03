@@ -33,6 +33,7 @@ import net.minecraft.network.chat.Style;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.phys.AABB;
 
+import com.gto.datasynclib.annotations.SaveToDisk;
 import com.gto.datasynclib.annotations.SyncToClient;
 import com.hepdd.gtmthings.api.gui.widget.SimpleNumberInputWidget;
 import com.lowdragmc.lowdraglib.gui.texture.TextTexture;
@@ -40,7 +41,6 @@ import com.lowdragmc.lowdraglib.gui.util.ClickData;
 import com.lowdragmc.lowdraglib.gui.widget.*;
 import com.lowdragmc.lowdraglib.gui.widget.layout.Align;
 import com.lowdragmc.lowdraglib.syncdata.ISubscription;
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.mojang.blaze3d.MethodsReturnNonnullByDefault;
 import lombok.Getter;
 import lombok.Setter;
@@ -57,9 +57,9 @@ public class DigitalMiner extends TierCasingMultiblockMachine implements IDigita
 
     // ===================== UI相关方法 =====================
     private static final int BORDER_WIDTH = 3;
-    @Persisted
+    @SaveToDisk
     protected final CustomItemStackHandler filterInventory;
-    @Persisted
+    @SaveToDisk
     public IDigitalMiner.FluidMode fluidMode = IDigitalMiner.FluidMode.Harvest;
     @Nullable
     protected ISubscription energySubs;
@@ -73,34 +73,34 @@ public class DigitalMiner extends TierCasingMultiblockMachine implements IDigita
     // ===================== 构造与初始化 =====================
     protected ButtonWidget fluidModeButton;
     protected DraggableScrollableWidgetGroup mapArea;
-    @Persisted
+    @SaveToDisk
     @SyncToClient
     private int xRadialLength;
-    @Persisted
+    @SaveToDisk
     @SyncToClient
     private int zRadialLength;
     @Getter
-    @Persisted
+    @SaveToDisk
     @SyncToClient
     private int xOffset;
     @Getter
-    @Persisted
+    @SaveToDisk
     @SyncToClient
     private int zOffset;
     @Setter
     @Getter
-    @Persisted
+    @SaveToDisk
     @SyncToClient
     private int minHeight;
     @Setter
     @Getter
-    @Persisted
+    @SaveToDisk
     @SyncToClient
     private int maxHeight;
 
     // ===================== 逻辑相关方法 =====================
     @Getter
-    @Persisted
+    @SaveToDisk
     private int silkLevel;
     @SyncToClient
     private long energyPerTickBase = 0L;
@@ -110,12 +110,12 @@ public class DigitalMiner extends TierCasingMultiblockMachine implements IDigita
     @SyncToClient
     private int prospectorRadius;
     @SyncToClient
-    @Persisted
+    @SaveToDisk
     private int maxRadius = 1;
     // ===================== Getter/Setter =====================
     @Getter
     @SyncToClient
-    @Persisted
+    @SaveToDisk
     private boolean showRange = false;
     @Getter
     private long energyPerTick;

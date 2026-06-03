@@ -3,12 +3,12 @@ package com.gtocore.common.syncdata;
 import com.gtolib.api.recipe.RecipeBuilder;
 import com.gtolib.utils.RLUtils;
 
-import com.gregtechceu.gtceu.api.capability.recipe.FluidRecipeCapability;
-import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
-import com.gregtechceu.gtceu.api.capability.recipe.RecipeCapability;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.content.Content;
 import com.gregtechceu.gtceu.api.recipe.content.ContentInner;
+import com.gregtechceu.gtceu.api.recipe.info.FluidRecipeInfo;
+import com.gregtechceu.gtceu.api.recipe.info.ItemRecipeInfo;
+import com.gregtechceu.gtceu.api.recipe.info.RecipeInfo;
 import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
 import com.gregtechceu.gtceu.api.recipe.ingredient.ItemIngredient;
 
@@ -41,21 +41,21 @@ public final class GTORecipePayload extends ObjectTypedPayload<GTRecipe> {
             var duration = compoundTag.getInt("duration");
             var tier = compoundTag.getInt("tier");
             var eu = compoundTag.getLong("eu");
-            List<Content<ItemIngredient>> itemInput = compoundTag.get("inputs") instanceof CompoundTag i ? fromNbt(ItemRecipeCapability.CAP, i) : Collections.emptyList();
-            List<Content<ItemIngredient>> itemOutput = compoundTag.get("outputs") instanceof CompoundTag i ? fromNbt(ItemRecipeCapability.CAP, i) : Collections.emptyList();
-            List<Content<FluidIngredient>> fluidInput = compoundTag.get("inputs") instanceof CompoundTag i ? fromNbt(FluidRecipeCapability.CAP, i) : Collections.emptyList();
-            List<Content<FluidIngredient>> fluidOutput = compoundTag.get("outputs") instanceof CompoundTag i ? fromNbt(FluidRecipeCapability.CAP, i) : Collections.emptyList();
+            List<Content<ItemIngredient>> itemInput = compoundTag.get("inputs") instanceof CompoundTag i ? fromNbt(ItemRecipeInfo.INSTANCE, i) : Collections.emptyList();
+            List<Content<ItemIngredient>> itemOutput = compoundTag.get("outputs") instanceof CompoundTag i ? fromNbt(ItemRecipeInfo.INSTANCE, i) : Collections.emptyList();
+            List<Content<FluidIngredient>> fluidInput = compoundTag.get("inputs") instanceof CompoundTag i ? fromNbt(FluidRecipeInfo.INSTANCE, i) : Collections.emptyList();
+            List<Content<FluidIngredient>> fluidOutput = compoundTag.get("outputs") instanceof CompoundTag i ? fromNbt(FluidRecipeInfo.INSTANCE, i) : Collections.emptyList();
             payload = new GTRecipe(definition, itemInput, itemOutput, fluidInput, fluidOutput, data, eu, tier, duration);
         }
     }
 
-    private static <T extends ContentInner> List<Content<T>> fromNbt(RecipeCapability<T> capability, CompoundTag tag) {
+    private static <T extends ContentInner> List<Content<T>> fromNbt(RecipeInfo capability, CompoundTag tag) {
         if (tag.tags.get(capability.name) instanceof ListTag listTag) {
             var list = new ArrayList<Content<T>>();
             for (var t : listTag) {
                 var content = fromNbtContent(capability, t);
                 if (content != null) {
-                    list.add(content);
+                    list.add((Content<T>) content);
                 }
             }
             if (!list.isEmpty()) return list;
@@ -64,9 +64,9 @@ public final class GTORecipePayload extends ObjectTypedPayload<GTRecipe> {
     }
 
     @Nullable
-    private static <T extends ContentInner> Content<T> fromNbtContent(RecipeCapability<T> capability, @Nullable Tag tag) {
+    private static <T extends ContentInner> Content<T> fromNbtContent(RecipeInfo capability, @Nullable Tag tag) {
         if (tag instanceof CompoundTag compoundTag && compoundTag.tags.get("content") instanceof CompoundTag content) {
-            var ingredient = capability == ItemRecipeCapability.CAP ? ItemIngredient.fromNbt(content) : FluidIngredient.fromNbt(content);
+            var ingredient = capability == ItemRecipeInfo.INSTANCE ? ItemIngredient.fromNbt(content) : FluidIngredient.fromNbt(content);
             if (ingredient instanceof ContentInner inner && !inner.isEmpty()) return new Content(ingredient, getChance(compoundTag), getTierChanceBoost(compoundTag));
         }
         return null;

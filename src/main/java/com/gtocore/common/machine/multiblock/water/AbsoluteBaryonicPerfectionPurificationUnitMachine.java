@@ -18,8 +18,8 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.material.Fluid;
 
+import com.gto.datasynclib.annotations.SaveToDisk;
 import com.gto.datasynclib.annotations.SyncToClient;
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,20 +41,20 @@ public final class AbsoluteBaryonicPerfectionPurificationUnitMachine extends Wat
     private static final Fluid QUARK_GLUON = GTOMaterials.QuarkGluon.getFluid(FluidStorageKeys.PLASMA);
     private static final Fluid STABLE_BARYONIC_MATTER = GTOMaterials.StableBaryonicMatter.getFluid();
 
-    @Persisted
+    @SaveToDisk
     @SyncToClient
     private Item catalyst1;
-    @Persisted
+    @SaveToDisk
     @SyncToClient
     private Item catalyst2;
 
-    @Persisted
+    @SaveToDisk
     private long inputCount;
 
-    @Persisted
+    @SaveToDisk
     private boolean successful;
 
-    @Persisted
+    @SaveToDisk
     private final List<ItemStack> outputs = new ArrayList<>();
 
     private final List<ItemBusPartMachine> busMachines = new ArrayList<>();

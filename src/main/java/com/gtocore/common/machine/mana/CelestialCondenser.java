@@ -16,7 +16,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Blocks;
 
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
+import com.gto.datasynclib.annotations.SaveToDisk;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 import snownee.jade.api.BlockAccessor;
@@ -30,16 +30,16 @@ public class CelestialCondenser extends SimpleNoEnergyMachine implements IWailaD
     private final CelestialHandler celestialHandler;
 
     @Getter
-    @Persisted
+    @SaveToDisk
     private long solaris = 0;
     @Getter
-    @Persisted
+    @SaveToDisk
     private long lunara = 0;
     @Getter
-    @Persisted
+    @SaveToDisk
     private long voidflux = 0;
     @Getter
-    @Persisted
+    @SaveToDisk
     private long stellarm = 0;
 
     private static final long MAX_CAPACITY = 1000000;

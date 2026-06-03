@@ -23,10 +23,9 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.phys.BlockHitResult;
 
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
+import com.gto.datasynclib.annotations.SaveToDisk;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Objects;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 
@@ -89,10 +88,10 @@ public final class VoidTransporterMachine extends ElectricMultiblockMachine impl
     private final int id;
     private final int eu;
 
-    @Persisted
+    @SaveToDisk
     private final EnergyContainerTrait energyContainer;
 
-    @Persisted
+    @SaveToDisk
     private boolean setup = false;
     private final BiConsumer<VoidTransporterMachine, Player> consumer;
 
@@ -106,9 +105,7 @@ public final class VoidTransporterMachine extends ElectricMultiblockMachine impl
     }
 
     private EnergyContainerTrait createEnergyContainer() {
-        var container = eu == 0 ? new EnergyContainerTrait(this, 0) : new EnergyContainerTrait(this, 409600);
-        container.setCapabilityValidator(Objects::isNull);
-        return container;
+        return eu == 0 ? new EnergyContainerTrait(this, 0) : new EnergyContainerTrait(this, 409600);
     }
 
     private boolean check() {

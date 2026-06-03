@@ -624,7 +624,7 @@ public final class GCYMMachines {
                                 .or(abilities(IMPORT_FLUIDS).setMinGlobalLimited(1))
                                 .or(Predicates.abilities(GTOPartAbility.ACCELERATE_HATCH).setMaxGlobalLimited(1))
                                 .or(Predicates.blocks(ManaMachine.MANA_AMPLIFIER_HATCH.get()).setMaxGlobalLimited(1))
-                                .or(abilities(GTOPartAbility.ITEMS_OUTPUT).or(blocks(GTAEMachines.ITEM_EXPORT_BUS_ME.get())).setMaxLayerLimited(1))
+                                .or(abilities(GTOPartAbility.ITEMS_OUTPUT_BUS).or(blocks(GTAEMachines.ITEM_EXPORT_BUS_ME.get())).setMaxLayerLimited(1))
                                 .or(autoAbilities(true, false, true)))
                         .where('X', casingPredicate.or(abilities(PartAbility.EXPORT_FLUIDS_1X).or(blocks(GTAEMachines.FLUID_EXPORT_HATCH_ME.get())).setMaxLayerLimited(1)))
                         .where('Z', casingPredicate)

@@ -16,14 +16,14 @@ import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.material.Fluids;
 
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
+import com.gto.datasynclib.annotations.SaveToDisk;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public final class BoilWaterMachine extends SimpleNoEnergyMachine implements IReceiveHeatMachine, ICustomRecipeLogicHolder {
 
     public static final int DrawWaterExplosionLine = 400;
-    @Persisted
+    @SaveToDisk
     private int temperature = 293;
     private TickableSubscription tickSubs;
 

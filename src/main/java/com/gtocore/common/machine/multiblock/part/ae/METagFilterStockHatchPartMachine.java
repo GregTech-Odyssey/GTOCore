@@ -11,7 +11,7 @@ import net.minecraft.nbt.CompoundTag;
 import appeng.api.stacks.AEKey;
 import appeng.util.prioritylist.IPartitionList;
 
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
+import com.gto.datasynclib.annotations.SaveToDisk;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
@@ -19,9 +19,9 @@ import javax.annotation.ParametersAreNonnullByDefault;
 @ParametersAreNonnullByDefault
 public class METagFilterStockHatchPartMachine extends MEStockingHatchPartMachine implements ITagFilterPartMachine {
 
-    @Persisted
+    @SaveToDisk
     private String tagWhite = "";
-    @Persisted
+    @SaveToDisk
     private String tagBlack = "";
 
     private IPartitionList filter;
