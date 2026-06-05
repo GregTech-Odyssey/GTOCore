@@ -17,8 +17,7 @@ import java.util.Map;
 @OnlyIn(Dist.CLIENT)
 public final class ClientAdjustablePropertyCache {
 
-    private static final Map<PlayerAttributes.AttributeDefinition, HUDPropertyEntry> ENTRIES =
-            new Reference2ObjectArrayMap<>();
+    private static final Map<PlayerAttributes.AttributeDefinition, HUDPropertyEntry> ENTRIES = new Reference2ObjectArrayMap<>();
 
     private static boolean init;
 
@@ -35,7 +34,6 @@ public final class ClientAdjustablePropertyCache {
         }
         return List.copyOf(ENTRIES.values());
     }
-
 
     private static void syncFromPlayer() {
         if (init) {
@@ -54,15 +52,11 @@ public final class ClientAdjustablePropertyCache {
         Component label = Component.translatable(attribute.getLangKey());
 
         return switch (attribute) {
-            case PlayerAttributes.BooleanAttribute booleanAttribute ->
-                    new HUDPropertyEntry.BooleanEntry(attribute.getName(), label, booleanAttribute);
-            case PlayerAttributes.IntAttribute intAttribute ->
-                    new HUDPropertyEntry.IntegerEntry(attribute.getName(), label, intAttribute);
-            case PlayerAttributes.NumericAttribute numericAttribute ->
-                    new HUDPropertyEntry.FloatEntry(attribute.getName(), label, numericAttribute);
+            case PlayerAttributes.BooleanAttribute booleanAttribute -> new HUDPropertyEntry.BooleanEntry(attribute.getName(), label, booleanAttribute);
+            case PlayerAttributes.IntAttribute intAttribute -> new HUDPropertyEntry.IntegerEntry(attribute.getName(), label, intAttribute);
+            case PlayerAttributes.NumericAttribute numericAttribute -> new HUDPropertyEntry.FloatEntry(attribute.getName(), label, numericAttribute);
             default -> null;
         };
-
     }
 
     private static void syncEntryState(PlayerAttributes.AttributeDefinition attribute, HUDPropertyEntry entry) {
@@ -90,5 +84,4 @@ public final class ClientAdjustablePropertyCache {
         IEnhancedPlayer enhancedPlayer = IEnhancedPlayer.of(mc.player);
         return enhancedPlayer.getPlayerData().getPlayerAttributes();
     }
-
 }

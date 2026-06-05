@@ -1,7 +1,7 @@
 package com.gtocore.client.hud;
 
 import com.gtolib.api.player.PlayerAttributes;
-import lombok.Getter;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
@@ -10,6 +10,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
 
 import it.unimi.dsi.fastutil.booleans.BooleanConsumer;
+import lombok.Getter;
 
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
@@ -274,8 +275,7 @@ public abstract class HUDPropertyEntry {
         private static final int TRACK_HEIGHT = 4;
         private static final int TRACK_HOTSPOT_HEIGHT = 12;
         private static final int KNOB_WIDTH = 6;
-        private static final DecimalFormat VALUE_FORMAT =
-                new DecimalFormat("0.###", DecimalFormatSymbols.getInstance(Locale.ROOT));
+        private static final DecimalFormat VALUE_FORMAT = new DecimalFormat("0.###", DecimalFormatSymbols.getInstance(Locale.ROOT));
 
         private double minValue;
         private double maxValue;
