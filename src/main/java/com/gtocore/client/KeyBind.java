@@ -1,12 +1,8 @@
 package com.gtocore.client;
 
-import com.gtocore.config.GTOConfig;
-
 import com.gtolib.utils.ClientUtil;
 
 import net.minecraft.client.KeyMapping;
-import net.minecraft.client.Minecraft;
-import net.minecraft.network.chat.Component;
 import net.minecraftforge.client.settings.KeyConflictContext;
 import net.minecraftforge.client.settings.KeyModifier;
 

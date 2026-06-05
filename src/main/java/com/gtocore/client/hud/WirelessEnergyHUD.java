@@ -22,7 +22,6 @@ import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
 import java.math.BigInteger;
-import java.util.List;
 
 import static com.hepdd.gtmthings.utils.FormatUtil.formatBigIntegerNumberOrSic;
 

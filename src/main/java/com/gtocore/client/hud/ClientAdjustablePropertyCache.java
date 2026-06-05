@@ -1,20 +1,14 @@
 package com.gtocore.client.hud;
 
 import com.gtolib.api.player.PlayerAttributes;
-import it.unimi.dsi.fastutil.objects.Reference2ObjectArrayMap;
-import net.minecraft.network.chat.Component;
+
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
-import it.unimi.dsi.fastutil.booleans.BooleanConsumer;
+import it.unimi.dsi.fastutil.objects.Reference2ObjectArrayMap;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.function.IntConsumer;
-import java.util.function.IntSupplier;
-import java.util.function.BooleanSupplier;
 
 @OnlyIn(Dist.CLIENT)
 public final class ClientAdjustablePropertyCache {

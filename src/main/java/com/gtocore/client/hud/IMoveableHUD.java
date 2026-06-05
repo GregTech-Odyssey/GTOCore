@@ -19,13 +19,12 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
 import dev.emi.emi.config.EmiConfig;
+import it.unimi.dsi.fastutil.objects.ReferenceOpenHashSet;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
-
-import it.unimi.dsi.fastutil.objects.ReferenceOpenHashSet;
 
 @DataGeneratorScanned
 public interface IMoveableHUD extends IGuiOverlay, GuiEventListener, Renderable {
@@ -71,7 +70,6 @@ public interface IMoveableHUD extends IGuiOverlay, GuiEventListener, Renderable 
     default Rect2i getPropertyAnchorBounds(int screenWidth, int screenHeight) {
         return getBounds(screenWidth, screenHeight);
     }
-
 
     Rect2i getBounds(int screenWidth, int screenHeight);
 

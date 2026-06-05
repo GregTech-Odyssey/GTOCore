@@ -1,7 +1,5 @@
 package com.gtocore.client.hud;
 
-import lombok.Getter;
-import lombok.Setter;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
@@ -10,6 +8,8 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
 
 import it.unimi.dsi.fastutil.booleans.BooleanConsumer;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.function.BooleanSupplier;
 import java.util.function.IntConsumer;

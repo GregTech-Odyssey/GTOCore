@@ -2,11 +2,10 @@ package com.gtocore.client;
 
 import com.gtolib.api.network.NetworkPack;
 import com.gtolib.api.player.IEnhancedPlayer;
+import com.gtolib.api.player.PlayerAttributes;
 
 import com.gregtechceu.gtceu.api.item.IGTTool;
 
-import com.gtolib.api.player.PlayerAttributes;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
