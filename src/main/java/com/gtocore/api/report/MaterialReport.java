@@ -182,7 +182,7 @@ public class MaterialReport {
                 entry.cnName = material.getLocalizedName().getString();
                 entry.enName = material.getUnlocalizedName();
             }
-            entry.symbol = material.getChemicalFormula();
+            entry.symbol = material.getChemicalFormula().getString();
             entry.hexColor1 = getHexColorString(material.getMaterialRGB());
             entry.hexColor2 = getHexColorString(material.getMaterialSecondaryRGB());
             entry.iconSetName = material.getMaterialIconSet().name;

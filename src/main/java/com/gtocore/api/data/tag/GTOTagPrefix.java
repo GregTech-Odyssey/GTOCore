@@ -139,7 +139,8 @@ public final class GTOTagPrefix extends TagPrefix {
 
                 @Override
                 public @NotNull Component getName(@NotNull ItemStack stack) {
-                    return BoronFormula.matcher(m.getChemicalFormula()).matches() ||
+                    var chemicalFormula = m.getChemicalFormula();
+                    return (chemicalFormula != null && BoronFormula.matcher(chemicalFormula.getString()).matches()) ||
                             m.getMaterialComponents().stream().anyMatch(ms -> ms.material() == Boron) ?
                                     Component.translatable("tagprefix.mborene", m) :
                                     super.getName(stack);
