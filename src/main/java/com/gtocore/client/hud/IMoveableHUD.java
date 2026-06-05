@@ -9,6 +9,7 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Renderable;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.renderer.Rect2i;
+import net.minecraft.network.chat.Component;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RegisterGuiOverlaysEvent;
 import net.minecraftforge.client.event.ScreenEvent;
@@ -18,16 +19,18 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
 import dev.emi.emi.config.EmiConfig;
-import it.unimi.dsi.fastutil.objects.ReferenceOpenHashSet;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
+
+import it.unimi.dsi.fastutil.objects.ReferenceOpenHashSet;
 
 @DataGeneratorScanned
 public interface IMoveableHUD extends IGuiOverlay, GuiEventListener, Renderable {
 
-    Map<String, IMoveableHUD> REGISTERED_HUDS = new java.util.HashMap<>();
+    Map<String, IMoveableHUD> REGISTERED_HUDS = new LinkedHashMap<>();
 
     static void registerHUD(RegisterGuiOverlaysEvent event, String id, IMoveableHUD hud) {
         REGISTERED_HUDS.put(id, hud);
@@ -54,13 +57,21 @@ public interface IMoveableHUD extends IGuiOverlay, GuiEventListener, Renderable 
     /// renderInContainerScreen
     @Override
     default void render(@NotNull GuiGraphics guiGraphics, int i, int i1, float v) {
+        Minecraft mc = Minecraft.getInstance();
+        int screenWidth = mc.getWindow().getGuiScaledWidth();
+        int screenHeight = mc.getWindow().getGuiScaledHeight();
         renderGeneral(guiGraphics, v,
-                Minecraft.getInstance().getWindow().getGuiScaledWidth(),
-                Minecraft.getInstance().getWindow().getGuiScaledHeight());
+                screenWidth,
+                screenHeight);
     }
 
     /// can store shared logic here
     default void renderGeneral(GuiGraphics guiGraphics, float partialTick, int screenWidth, int screenHeight) {}
+
+    default Rect2i getPropertyAnchorBounds(int screenWidth, int screenHeight) {
+        return getBounds(screenWidth, screenHeight);
+    }
+
 
     Rect2i getBounds(int screenWidth, int screenHeight);
 
@@ -78,9 +89,21 @@ public interface IMoveableHUD extends IGuiOverlay, GuiEventListener, Renderable 
         return false;
     }
 
-    default void toggleEnabled() {}
+    Component getDisplayName();
+
+    default void toggleEnabled() {
+        setEnabled(!isEnabled());
+    }
+
+    default void setEnabled(boolean enabled) {}
+
+    default void setTopLeftPosition(int x, int y, int screenWidth, int screenHeight) {}
 
     default boolean isEnabled() {
+        return false;
+    }
+
+    default boolean isPositionDragging() {
         return false;
     }
 
@@ -102,6 +125,7 @@ public interface IMoveableHUD extends IGuiOverlay, GuiEventListener, Renderable 
 
         @SubscribeEvent
         public static void onGuiRender(ScreenEvent.Render.Post event) {
+            if (event.getScreen() instanceof HUDScreen) return;
             for (IMoveableHUD hud : activeHuds) {
                 if (hud.isEnabled()) {
                     hud.render(event.getGuiGraphics(), event.getMouseX(), event.getMouseY(), event.getPartialTick());
@@ -111,6 +135,7 @@ public interface IMoveableHUD extends IGuiOverlay, GuiEventListener, Renderable 
 
         @SubscribeEvent
         public static void onMouseClicked(ScreenEvent.MouseButtonPressed.Pre event) {
+            if (event.getScreen() instanceof HUDScreen) return;
             boolean handled = false;
             for (IMoveableHUD hud : activeHuds) {
                 if (hud.isEnabled() && !handled) {
@@ -122,6 +147,7 @@ public interface IMoveableHUD extends IGuiOverlay, GuiEventListener, Renderable 
 
         @SubscribeEvent
         public static void onMouseDragged(ScreenEvent.MouseDragged.Pre event) {
+            if (event.getScreen() instanceof HUDScreen) return;
             boolean handled = false;
             for (IMoveableHUD hud : activeHuds) {
                 if (hud.isEnabled() && !handled) {
@@ -134,6 +160,7 @@ public interface IMoveableHUD extends IGuiOverlay, GuiEventListener, Renderable 
 
         @SubscribeEvent
         public static void onMouseReleased(ScreenEvent.MouseButtonReleased.Pre event) {
+            if (event.getScreen() instanceof HUDScreen) return;
             boolean handled = false;
             for (IMoveableHUD hud : activeHuds) {
                 if (hud.isEnabled() && !handled) {
@@ -145,6 +172,7 @@ public interface IMoveableHUD extends IGuiOverlay, GuiEventListener, Renderable 
 
         @SubscribeEvent
         public static void onClosing(ScreenEvent.Closing event) {
+            if (event.getScreen() instanceof HUDScreen) return;
             activeHuds.clear();
             EmiConfig.enabled = true;
         }

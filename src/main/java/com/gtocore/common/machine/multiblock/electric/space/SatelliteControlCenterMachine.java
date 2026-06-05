@@ -1,6 +1,6 @@
 package com.gtocore.common.machine.multiblock.electric.space;
 
-import com.gtocore.client.hud.Configurator;
+import com.gtocore.client.hud.HUDConfigurator;
 import com.gtocore.common.data.GTOItems;
 import com.gtocore.common.data.GTOMaterials;
 import com.gtocore.data.IdleReason;
@@ -72,9 +72,9 @@ public final class SatelliteControlCenterMachine extends ElectricMultiblockMachi
     @Override
     public void attachConfigurators(@NotNull ConfiguratorPanel configuratorPanel) {
         super.attachConfigurators(configuratorPanel);
-        Configurator c;
+        HUDConfigurator c;
         configuratorPanel.attachConfigurators(
-                c = new Configurator(GuiTextures.LIGHT_ON, GuiTextures.LIGHT_OFF));
+                c = new HUDConfigurator(GuiTextures.LIGHT_ON, GuiTextures.LIGHT_OFF));
         if (isRemote()) c.setHudInstance("adastra_hud");
     }
 

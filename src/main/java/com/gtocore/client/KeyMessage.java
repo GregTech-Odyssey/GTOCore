@@ -5,6 +5,7 @@ import com.gtolib.api.player.IEnhancedPlayer;
 
 import com.gregtechceu.gtceu.api.item.IGTTool;
 
+import com.gtolib.api.player.PlayerAttributes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
@@ -25,32 +26,8 @@ public final class KeyMessage {
             return;
         }
         switch (type) {
-            case 0 -> handleFlightSpeed(player);
             case 2 -> upgradeToolSpeed(player);
             case 3 -> drift(player);
-        }
-    }
-
-    private static void handleFlightSpeed(Player player) {
-        float speed = IEnhancedPlayer.of(player).getPlayerData().flySpeedAble;
-        if (speed == 0F) return;
-        CompoundTag data = player.getPersistentData();
-        int speedFactor = data.getInt("fly_speed") + 1;
-        if (player.isShiftKeyDown()) {
-            player.getAbilities().setFlyingSpeed(0.05F);
-            player.onUpdateAbilities();
-            player.displayClientMessage(Component.translatable("gtocore.fly_speed_reset"), true);
-            data.remove("fly_speed");
-        } else {
-            float currentSpeed = player.getAbilities().getFlyingSpeed();
-            if (currentSpeed < speed) {
-                player.getAbilities().setFlyingSpeed(0.05F * speedFactor);
-                player.onUpdateAbilities();
-                data.putInt("fly_speed", speedFactor);
-                player.displayClientMessage(Component.translatable("gtocore.fly_speed", (speedFactor + 1)), true);
-            } else {
-                player.displayClientMessage(Component.translatable("gtocore.reach_limit"), true);
-            }
         }
     }
 
@@ -84,7 +61,7 @@ public final class KeyMessage {
 
     private static void drift(ServerPlayer player) {
         if (player instanceof IEnhancedPlayer enhancedPlayer) {
-            boolean disableDrift = !enhancedPlayer.getPlayerData().disableDrift;
+            boolean disableDrift = !enhancedPlayer.getPlayerData().getPlayerAttributes().getBooleanCurrent(PlayerAttributes.DISABLE_DRIFT);
             enhancedPlayer.getPlayerData().setDrift(disableDrift);
             if (disableDrift) {
                 player.displayClientMessage(Component.translatable("key.gtocore.drift").append(": ").append(Component.translatable("gtocore.machine.off")), true);

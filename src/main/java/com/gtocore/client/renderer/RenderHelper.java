@@ -255,6 +255,17 @@ public final class RenderHelper {
                     Font.DisplayMode.SEE_THROUGH,
                     0,
                     15728880);
+            font.drawInBatch(
+                    text,
+                    -font.width(text) / 2f,
+                    -font.lineHeight / 2f,
+                    color,
+                    false,
+                    matrix4f,
+                    bufferSource,
+                    Font.DisplayMode.NORMAL,
+                    0,
+                    15728880);
         }
         poseStack.popPose();
         RenderSystem.enableCull();

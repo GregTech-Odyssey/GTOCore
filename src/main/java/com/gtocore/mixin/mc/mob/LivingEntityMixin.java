@@ -45,14 +45,6 @@ public abstract class LivingEntityMixin extends Entity implements ILivingEntity 
     @Redirect(method = "die", at = @At(value = "INVOKE", target = "Lorg/slf4j/Logger;info(Ljava/lang/String;Ljava/lang/Object;Ljava/lang/Object;)V", remap = false))
     private void gto$fixSpam(Logger instance, String s, Object o1, Object o2) {}
 
-    @Inject(method = "hasEffect", at = @At("HEAD"), cancellable = true)
-    @SuppressWarnings({ "ConstantConditions", "resource" })
-    private void gto$hasEffectInject(MobEffect effect, CallbackInfoReturnable<Boolean> cir) {
-        if (effect == MobEffects.NIGHT_VISION && level().isClientSide() && (Object) this instanceof Player && GTOConfig.INSTANCE.client.nightVision) {
-            cir.setReturnValue(true);
-        }
-    }
-
     @Override
     public void gtocore$getAllDeathLoot(DamageSource source, Set<ItemStack> itemStacks, int multiplier, boolean filterNbt) {
         this.captureDrops(new ArrayList<>());

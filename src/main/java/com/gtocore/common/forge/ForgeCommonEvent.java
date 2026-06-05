@@ -18,6 +18,7 @@ import com.gtolib.api.data.GTODimensions;
 import com.gtolib.api.item.tool.VajraItem;
 import com.gtolib.api.machine.feature.IVacuumMachine;
 import com.gtolib.api.player.IEnhancedPlayer;
+import com.gtolib.api.player.PlayerAttributes;
 import com.gtolib.utils.RLUtils;
 import com.gtolib.utils.RegistriesUtils;
 import com.gtolib.utils.ServerUtils;
@@ -120,7 +121,7 @@ public final class ForgeCommonEvent {
             fallingBlock.discard();
         }
         if (event.getEntity() instanceof Player player && event.getDimension() == Dimension.OTHERSIDE.getResourceKey()) {
-            boolean othersidePass = IEnhancedPlayer.of(player).getPlayerData().wardenState || player.getAbilities().instabuild;
+            boolean othersidePass = IEnhancedPlayer.of(player).getPlayerData().getPlayerAttributes().getBooleanCurrent(PlayerAttributes.WARDEN_STATE) || player.getAbilities().instabuild;
             if (!othersidePass) {
                 event.setCanceled(true);
                 player.sendSystemMessage(Component.translatable("gtocore.message.otherside_pass_required").withStyle(ChatFormatting.DARK_GRAY));
