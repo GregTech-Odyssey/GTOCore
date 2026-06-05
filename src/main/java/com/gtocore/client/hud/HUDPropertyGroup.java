@@ -154,7 +154,7 @@ public class HUDPropertyGroup implements IMoveableHUD {
             if (entryBounds != null) {
                 entry.renderEditor(guiGraphics, entryBounds, mouseX, mouseY);
 
-                //DEBUG
+                // DEBUG
                 guiGraphics.hLine(entryBounds.getX(), entryBounds.getX() + entryBounds.getWidth(), entryBounds.getY() + entryBounds.getHeight(), 0xFFc05050);
                 guiGraphics.hLine(entryBounds.getX(), entryBounds.getX() + entryBounds.getWidth(), entryBounds.getY(), 0xFFc05050);
                 guiGraphics.vLine(entryBounds.getX() + entryBounds.getWidth(), entryBounds.getY(), entryBounds.getY() + entryBounds.getHeight(), 0xFFc05050);

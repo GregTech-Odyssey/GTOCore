@@ -139,6 +139,7 @@ public abstract class HUDPropertyEntry {
     }
 
     private abstract static class SliderEntry extends HUDPropertyEntry {
+
         private static final int TRACK_HEIGHT = 4;
         private static final int TRACK_HOTSPOT_HEIGHT = 12;
         private static final int KNOB_WIDTH = 6;
@@ -231,6 +232,7 @@ public abstract class HUDPropertyEntry {
         public boolean isInteracting() {
             return sliding;
         }
+
         protected abstract float minValue();
 
         protected abstract float maxValue();
