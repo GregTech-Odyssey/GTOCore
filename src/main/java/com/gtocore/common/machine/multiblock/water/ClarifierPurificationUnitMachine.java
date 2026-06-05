@@ -10,7 +10,6 @@ import com.gtolib.utils.NumberUtils;
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
-import com.gregtechceu.gtceu.api.recipe.handler.ActionResult;
 import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
@@ -89,10 +88,7 @@ public final class ClarifierPurificationUnitMachine extends WaterPurificationUni
     long prepareRecipe(RecipeHandlerUnit unit) {
         eut = 0;
         if (count > 100) {
-            if (!simulateOutputItem(GTOItems.SCRAP.asItem(), count / 20)) {
-                setIdleReason(ActionResult.FAIL_INSUFFICIENT_OUT);
-                return 0;
-            }
+            if (!simulateOutputItem(GTOItems.SCRAP.asItem(), count / 20)) return 0;
             if (inputFluid(AIR, count * 10000L) && inputFluid(Fluids.WATER, (200L + GTValues.RNG.nextInt(100)) * 1000) && outputItem(GTOItems.SCRAP.asItem(), count / 20)) {
                 count = 0;
             } else {

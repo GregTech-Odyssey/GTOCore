@@ -98,6 +98,7 @@ public final class GTOConfig {
         ConfigHolder.INSTANCE.worldgen.oreVeins.oreIndicators = true;
         ConfigHolder.INSTANCE.worldgen.oreVeins.oreGenerationChunkCacheSize = 512;
         ConfigHolder.INSTANCE.worldgen.oreVeins.oreIndicatorChunkCacheSize = 2048;
+        ConfigHolder.INSTANCE.machines.batchDuration = INSTANCE.gamePlay.batchProcessingMaxDuration;
         ConfigHolder.INSTANCE.machines.recipeProgressLowEnergy = difficulty == 3;
         ConfigHolder.INSTANCE.machines.requireGTToolsForBlocks = difficulty > 1;
         ConfigHolder.INSTANCE.machines.shouldWeatherOrTerrainExplosion = difficulty == 3;
