@@ -13,6 +13,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.client.gui.overlay.ForgeGui;
 
 import it.unimi.dsi.fastutil.booleans.BooleanConsumer;
 
@@ -27,10 +28,10 @@ import java.util.function.Supplier;
 @DataGeneratorScanned
 public class HUDPropertyGroup implements IMoveableHUD {
 
-    @RegisterLanguage(en = "Client Property HUD", cn = "客户端属性 HUD")
+    @RegisterLanguage(en = "Player Realtime Attribute", cn = "玩家实时属性")
     public static final String DISPLAY_NAME = "gtocore.hud.client_property.name";
 
-    @RegisterLanguage(en = "No adjustable properties.", cn = "暂无可调属性")
+    @RegisterLanguage(en = "No adjustable attributes.", cn = "暂无可调属性")
     public static final String EMPTY_MESSAGE = "gtocore.hud.client_property.empty";
 
     public static final HUDPropertyGroup INSTANCE = new HUDPropertyGroup(
@@ -130,6 +131,15 @@ public class HUDPropertyGroup implements IMoveableHUD {
     }
 
     @Override
+    public void render(ForgeGui forgeGui, GuiGraphics guiGraphics, float partialTick, int screenWidth, int screenHeight) {
+        Minecraft mc = Minecraft.getInstance();
+        if (!isEnabled() || mc.level == null || mc.options.renderDebug || mc.options.hideGui || isEditorActive()) {
+            return;
+        }
+        renderGeneral(guiGraphics, partialTick, screenWidth, screenHeight);
+    }
+
+    @Override
     public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
         Rect2i bounds = getEditorBounds(getScreenWidth(), getScreenHeight());
         guiGraphics.fill(bounds.getX(), bounds.getY(),
@@ -150,22 +160,19 @@ public class HUDPropertyGroup implements IMoveableHUD {
         }
 
         for (HUDPropertyEntry entry : entries) {
+            if (!entry.isVisible()) {
+                continue;
+            }
             Rect2i entryBounds = getEntryBounds(bounds, entries, entry);
             if (entryBounds != null) {
                 entry.renderEditor(guiGraphics, entryBounds, mouseX, mouseY);
-
-                // DEBUG
-                guiGraphics.hLine(entryBounds.getX(), entryBounds.getX() + entryBounds.getWidth(), entryBounds.getY() + entryBounds.getHeight(), 0xFFc05050);
-                guiGraphics.hLine(entryBounds.getX(), entryBounds.getX() + entryBounds.getWidth(), entryBounds.getY(), 0xFFc05050);
-                guiGraphics.vLine(entryBounds.getX() + entryBounds.getWidth(), entryBounds.getY(), entryBounds.getY() + entryBounds.getHeight(), 0xFFc05050);
-                guiGraphics.vLine(entryBounds.getX(), entryBounds.getY(), entryBounds.getY() + entryBounds.getHeight(), 0xFFc05050);
             }
         }
     }
 
     @Override
     public Rect2i getBounds(int screenWidth, int screenHeight) {
-        return isEditorContext() ? getEditorBounds(screenWidth, screenHeight) : getPreviewBounds(screenWidth, screenHeight);
+        return isEditorActive() ? getEditorBounds(screenWidth, screenHeight) : getPreviewBounds(screenWidth, screenHeight);
     }
 
     @Override
@@ -175,7 +182,7 @@ public class HUDPropertyGroup implements IMoveableHUD {
 
     @Override
     public void setTopLeftPosition(int x, int y, int screenWidth, int screenHeight) {
-        Rect2i bounds = isEditorContext() ? getEditorBoundsWithoutPending(screenWidth, screenHeight) : getPreviewBounds(screenWidth, screenHeight);
+        Rect2i bounds = getPreviewBounds(screenWidth, screenHeight);
         int maxX = Math.max(0, screenWidth - bounds.getWidth());
         int maxY = Math.max(0, screenHeight - bounds.getHeight());
         int clampedX = Mth.clamp(x, 0, maxX);
@@ -198,6 +205,9 @@ public class HUDPropertyGroup implements IMoveableHUD {
 
         List<HUDPropertyEntry> entries = entriesSupplier.get();
         for (HUDPropertyEntry entry : entries) {
+            if (!entry.isVisible()) {
+                continue;
+            }
             Rect2i entryBounds = getEntryBounds(bounds, entries, entry);
             if (entryBounds != null && contains(entryBounds, mouseX, mouseY)) {
                 activeEntry = entry.mouseClicked(mouseX, mouseY, button, entryBounds) ? entry : null;
@@ -300,9 +310,8 @@ public class HUDPropertyGroup implements IMoveableHUD {
 
     private Rect2i getEditorBoundsWithoutPending(int screenWidth, int screenHeight) {
         int height = getEditorHeight();
-        int x = getBaseX(screenWidth, EDITOR_WIDTH);
-        int y = getBaseY(screenHeight, height);
-        return new Rect2i(x, y, EDITOR_WIDTH, height);
+        Rect2i previewBounds = getPreviewBounds(screenWidth, screenHeight);
+        return new Rect2i(previewBounds.getX(), previewBounds.getY(), EDITOR_WIDTH, height);
     }
 
     private int getEditorHeight() {
@@ -329,12 +338,12 @@ public class HUDPropertyGroup implements IMoveableHUD {
         int width = panelBounds.getWidth() - EDITOR_PADDING * 2;
 
         for (HUDPropertyEntry entry : entries) {
+            if (!entry.isVisible()) {
+                continue;
+            }
             Rect2i entryBounds = new Rect2i(x, y, width, entry.getEditorHeight());
             if (entry == targetEntry) {
                 return entryBounds;
-            }
-            if (!entry.isVisible()) {
-                continue;
             }
             y += entry.getEditorHeight() + EDITOR_ENTRY_SPACING;
         }
@@ -359,8 +368,9 @@ public class HUDPropertyGroup implements IMoveableHUD {
         return Minecraft.getInstance().getWindow().getGuiScaledHeight();
     }
 
-    private boolean isEditorContext() {
-        return Minecraft.getInstance().screen != null;
+    private boolean isEditorActive() {
+        Minecraft mc = Minecraft.getInstance();
+        return mc.screen instanceof HUDScreen || (mc.screen != null && IMoveableHUD.activeHuds.contains(this));
     }
 
     private void drawOutline(GuiGraphics guiGraphics, Rect2i bounds, int color) {

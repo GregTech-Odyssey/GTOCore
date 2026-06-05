@@ -11,6 +11,7 @@ object OrganTranslation : AutoInitialize<OrganTranslation>() {
     val level = { level: Int -> (("级别: " translatedTo "Level: ").gold() + (level.toLiteralSupplier().red().bold())) }.initialize()
     val speedBoostInfo = { speed: Float -> (("此套器官将提供" translatedTo "This organ set will provide ") + "%.2f".format(speed).toLiteralSupplier().red().bold() + ("速度加成" translatedTo " Speed Boost")).green() }.initialize()
     val blockReachInfo = { reach: Int -> (("此套器官将提供" translatedTo "This organ set will provide ") + reach.toLiteralSupplier().gold().bold() + ("触及距离加成" translatedTo " Block Reach")).yellow() }.initialize()
+    val nanoWallInfo = (("此套器官将提供" translatedTo "This organ set will provide ") + ("纳米遁墙能力" translatedTo "Nano Wall Capability")).lightPurple().initialize()
     val armor = { armor: Int -> (("此套器官将提供" translatedTo "This organ set will provide ") + armor.toLiteralSupplier().gold().bold() + ("护甲" translatedTo " Armor")).yellow() }.initialize()
     val armor_toughness = { toughness: Int -> (("此套器官将提供" translatedTo "This organ set will provide ") + toughness.toLiteralSupplier().gold().bold() + ("护甲韧性" translatedTo " Armor Toughness")).yellow() }.initialize()
     val flightInfo = (("此套器官将提供" translatedTo "This organ set will provide ") + ComponentSlang.Infinite.bold() + ("飞行能力" translatedTo " Flight Capability")).lightPurple().initialize()

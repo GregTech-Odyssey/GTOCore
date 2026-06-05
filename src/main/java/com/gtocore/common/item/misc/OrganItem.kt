@@ -93,6 +93,7 @@ sealed class OrganItemBase(properties: Properties, val organType: OrganType) :
             }
             if (tier >= 2) tooltipComponents.add(OrganTranslation.blockReachInfo(4).get())
             if (tier >= 3) tooltipComponents.add(OrganTranslation.alwaysSaturation.get())
+            if (tier >= 3) tooltipComponents.add(OrganTranslation.nanoWallInfo.get())
             if (tier >= 2 && organType == OrganType.Liver) tooltipComponents.add(OrganTranslation.noPoisonAndWither.get())
             if (tier >= 2 && organType == OrganType.Lung) tooltipComponents.add(OrganTranslation.breathUnderWater.get())
             if (tier >= 4) tooltipComponents.add(OrganTranslation.flightInfo.get())
