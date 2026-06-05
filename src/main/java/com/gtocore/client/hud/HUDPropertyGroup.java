@@ -193,8 +193,8 @@ public class HUDPropertyGroup implements IMoveableHUD {
         List<HUDPropertyEntry> entries = entriesSupplier.get();
         for (HUDPropertyEntry entry : entries) {
             Rect2i entryBounds = getEntryBounds(bounds, entries, entry);
-            if (entryBounds != null && entry.mouseClicked(mouseX, mouseY, button, entryBounds)) {
-                activeEntry = entry;
+            if (entryBounds != null && contains(entryBounds, mouseX, mouseY)) {
+                activeEntry = entry.mouseClicked(mouseX, mouseY, button, entryBounds) ? entry : null;
                 draggingPosition = false;
                 pendingMovedX = 0;
                 pendingMovedY = 0;
@@ -261,11 +261,11 @@ public class HUDPropertyGroup implements IMoveableHUD {
         List<Component> lines = new ArrayList<>();
         lines.add(title.copy());
         for (HUDPropertyEntry entry : entriesSupplier.get()) {
-            if (entry.isVisibleInGame()) {
+            if (entry.isVisible()) {
                 lines.add(entry.createPreviewLine());
             }
         }
-        return lines.size() > 1 ? lines : List.of();
+        return lines;
     }
 
     private Rect2i getPreviewBounds(int screenWidth, int screenHeight) {
@@ -308,6 +308,9 @@ public class HUDPropertyGroup implements IMoveableHUD {
 
         int height = EDITOR_PADDING * 2 + font.lineHeight + EDITOR_HEADER_GAP;
         for (HUDPropertyEntry entry : entries) {
+            if (!entry.isVisible()) {
+                continue;
+            }
             height += entry.getEditorHeight() + EDITOR_ENTRY_SPACING;
         }
         return height - EDITOR_ENTRY_SPACING + EDITOR_PADDING;
@@ -323,6 +326,9 @@ public class HUDPropertyGroup implements IMoveableHUD {
             Rect2i entryBounds = new Rect2i(x, y, width, entry.getEditorHeight());
             if (entry == targetEntry) {
                 return entryBounds;
+            }
+            if (!entry.isVisible()) {
+                continue;
             }
             y += entry.getEditorHeight() + EDITOR_ENTRY_SPACING;
         }
