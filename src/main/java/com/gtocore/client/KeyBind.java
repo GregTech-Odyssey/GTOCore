@@ -13,15 +13,13 @@ import org.lwjgl.glfw.GLFW;
 public final class KeyBind {
 
     public static final KeyMapping vajraKey = new KeyMap("key.gtocore.vajra", InputConstants.KEY_J, 2);
-    private static final KeyMapping driftKey = new KeyMap("key.gtocore.drift", InputConstants.KEY_I, 3);
     public static final KeyMapping debugInspectKey = new KeyMapping("key.gtocore.debug_inspect",
             KeyConflictContext.GUI, KeyModifier.CONTROL, InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_I, "key.keybinding.gtocore");
     public static final KeyMapping movableHudToggle = new KeyMapping("key.gtocore.movable_hud_toggle",
-            KeyConflictContext.UNIVERSAL, InputConstants.UNKNOWN, "key.keybinding.gtocore");
+            InputConstants.KEY_Z, "key.keybinding.gtocore");
 
     public static void init() {
         KeyMappingRegistry.register(vajraKey);
-        KeyMappingRegistry.register(driftKey);
         KeyMappingRegistry.register(debugInspectKey);
         KeyMappingRegistry.register(movableHudToggle);
     }

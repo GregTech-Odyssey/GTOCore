@@ -1,8 +1,6 @@
 package com.gtocore.client;
 
 import com.gtolib.api.network.NetworkPack;
-import com.gtolib.api.player.IEnhancedPlayer;
-import com.gtolib.api.player.PlayerAttributes;
 
 import com.gregtechceu.gtceu.api.item.IGTTool;
 
@@ -26,7 +24,6 @@ public final class KeyMessage {
         }
         switch (type) {
             case 2 -> upgradeToolSpeed(player);
-            case 3 -> drift(player);
         }
     }
 
@@ -56,17 +53,5 @@ public final class KeyMessage {
             }
         }
         return fallback;
-    }
-
-    private static void drift(ServerPlayer player) {
-        if (player instanceof IEnhancedPlayer enhancedPlayer) {
-            boolean disableDrift = !enhancedPlayer.getPlayerData().getPlayerAttributes().getBooleanCurrent(PlayerAttributes.DISABLE_DRIFT);
-            enhancedPlayer.getPlayerData().setDrift(disableDrift);
-            if (disableDrift) {
-                player.displayClientMessage(Component.translatable("key.gtocore.drift").append(": ").append(Component.translatable("gtocore.machine.off")), true);
-            } else {
-                player.displayClientMessage(Component.translatable("key.gtocore.drift").append(": ").append(Component.translatable("gtocore.machine.on")), true);
-            }
-        }
     }
 }
