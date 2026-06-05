@@ -2,9 +2,7 @@ package com.gtocore.client.forge;
 
 import com.gtocore.client.ClientCache;
 import com.gtocore.client.GTOClientCommands;
-import com.gtocore.client.KeyBind;
 import com.gtocore.client.Tooltips;
-import com.gtocore.client.hud.HUDScreen;
 import com.gtocore.client.renderer.RenderHelper;
 import com.gtocore.common.data.GTOItems;
 import com.gtocore.common.item.StructureDetectBehavior;
@@ -51,10 +49,8 @@ import com.fast.fastcollection.O2IOpenCacheHashMap;
 import com.hepdd.gtmthings.common.block.machine.electric.WirelessEnergyMonitor;
 import com.hepdd.gtmthings.data.CustomItems;
 import com.lowdragmc.lowdraglib.gui.modular.ModularUIGuiContainer;
-import com.mojang.blaze3d.platform.InputConstants;
 import com.mojang.blaze3d.vertex.PoseStack;
 import dev.emi.emi.screen.RecipeScreen;
-import org.lwjgl.glfw.GLFW;
 import snownee.jade.util.Color;
 
 import java.util.List;
@@ -126,9 +122,7 @@ public final class ForgeClientEvent {
     @SubscribeEvent
     public static void onClientTick(TickEvent.ClientTickEvent event) {
         if (event.phase != TickEvent.Phase.START) return;
-        Minecraft mc = Minecraft.getInstance();
-        updateHudScreen(mc);
-        if (mc.player instanceof IEnhancedPlayer) {
+        if (Minecraft.getInstance().player instanceof IEnhancedPlayer) {
             boolean isShiftDown = Screen.hasShiftDown();
             if (isShiftDown != lastShiftState) {
                 PlayerData.SHIFT_KEY.send(buf -> buf.writeBoolean(isShiftDown));
@@ -268,31 +262,4 @@ public final class ForgeClientEvent {
     }
 
     public record HighlightNeed(BlockPos start, BlockPos end, int color) {}
-
-    private static void updateHudScreen(Minecraft mc) {
-        boolean keyDown = isMovableHudTogglePhysicallyDown(mc);
-        boolean inGame = mc.level != null && mc.player != null;
-        if (mc.screen instanceof HUDScreen) {
-            if (!keyDown || !inGame) {
-                mc.setScreen(null);
-            }
-            return;
-        }
-        if (keyDown && inGame && mc.screen == null) {
-            mc.setScreen(new HUDScreen());
-        }
-    }
-
-    private static boolean isMovableHudTogglePhysicallyDown(Minecraft mc) {
-        var key = KeyBind.movableHudToggle.getKey();
-        long window = mc.getWindow().getWindow();
-        if (key == InputConstants.UNKNOWN) {
-            return false;
-        }
-        return switch (key.getType()) {
-            case KEYSYM -> InputConstants.isKeyDown(window, key.getValue());
-            case MOUSE -> GLFW.glfwGetMouseButton(window, key.getValue()) == GLFW.GLFW_PRESS;
-            case SCANCODE -> KeyBind.movableHudToggle.isDown();
-        };
-    }
 }

@@ -17,7 +17,7 @@ import java.util.function.BiConsumer;
 
 import static com.gto.registrate.util.nullness.NonNullBiConsumer.noop;
 
-public class HUDConfigurator extends IFancyConfiguratorButton.Toggle {
+public class Configurator extends IFancyConfiguratorButton.Toggle {
 
     @Getter
     @OnlyIn(Dist.CLIENT)
@@ -29,7 +29,7 @@ public class HUDConfigurator extends IFancyConfiguratorButton.Toggle {
     @Setter
     private boolean isConfigurationMode = false;
 
-    public HUDConfigurator(IGuiTexture on, IGuiTexture off) {
+    public Configurator(IGuiTexture on, IGuiTexture off) {
         super(on, off, () -> false, noop());
 
         this.on = on;

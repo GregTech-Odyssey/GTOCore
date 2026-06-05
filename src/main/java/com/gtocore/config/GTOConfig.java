@@ -356,25 +356,6 @@ public final class GTOConfig {
             public int wirelessEnergyHUDDefaultY = 75;
 
             @Configurable
-            @Configurable.Comment({ "启用客户端属性 HUD 显示", "Enable Client Property HUD display" })
-            @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Client Property HUD Enabled", cn = "客户端属性 HUD 启用")
-            public boolean clientPropertyHUDEnabled = false;
-
-            @Configurable
-            @Configurable.Comment({ "客户端属性 HUD 的默认 X 相对位置", "0意味着屏幕左侧，100意味着屏幕右侧", "The default X relative position of the Client Property HUD", "0 means the left side of the screen, 100 means the right side of the screen" })
-            @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Client Property HUD Default X", cn = "客户端属性 HUD 默认 X 位置")
-            @Configurable.Range(min = 0, max = 100)
-            @Configurable.Gui.Slider
-            public int clientPropertyHUDDefaultX = 8;
-
-            @Configurable
-            @Configurable.Comment({ "客户端属性 HUD 的默认 Y 相对位置", "0意味着屏幕顶部，100意味着屏幕底部", "The default Y relative position of the Client Property HUD", "0 means the top of the screen, 100 means the bottom of the screen" })
-            @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Client Property HUD Default Y", cn = "客户端属性 HUD 默认 Y 位置")
-            @Configurable.Range(min = 0, max = 100)
-            @Configurable.Gui.Slider
-            public int clientPropertyHUDDefaultY = 12;
-
-            @Configurable
             @Configurable.Comment({ "无线能量 HUD 显示的历史秒数", "例如：设为30则显示过去30秒的能量变化情况", "The number of historical seconds displayed by the Wireless Energy HUD", "For example: setting it to 30 will show the energy changes over the past 30 seconds" })
             @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Wireless Energy HUD History Seconds", cn = "无线能量 HUD 历史秒数")
             @Configurable.Range(min = 5, max = 300)

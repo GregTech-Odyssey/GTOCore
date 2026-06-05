@@ -37,7 +37,6 @@ import com.gtolib.api.ae2.me2in1.emi.CategoryMappingSubMenu;
 import com.gtolib.api.ae2.stacks.TagPrefixKeyType;
 import com.gtolib.api.item.IItem;
 import com.gtolib.api.player.IEnhancedPlayer;
-import com.gtolib.api.player.PlayerAttributes;
 import com.gtolib.api.registries.ScanningClass;
 
 import com.gregtechceu.gtceu.GTCEu;
@@ -132,7 +131,6 @@ public class CommonProxy {
         } else {
             AEConfig.instance().setChannelModel(ChannelMode.INFINITE);
         }
-        PlayerAttributes.init();
 
         FusionReactorMachine.registerFusionTier(GTValues.UHV, " (MKIV)");
         FusionReactorMachine.registerFusionTier(GTValues.UEV, " (MKV)");

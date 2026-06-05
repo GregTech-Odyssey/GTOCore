@@ -1,7 +1,7 @@
 package com.gtocore.common.machine.multiblock.storage;
 
 import com.gtocore.api.pattern.GTOPredicates;
-import com.gtocore.client.hud.HUDConfigurator;
+import com.gtocore.client.hud.Configurator;
 import com.gtocore.common.block.WirelessEnergyUnitBlock;
 import com.gtocore.common.data.GTORecipeDataKeys;
 
@@ -192,9 +192,9 @@ public final class WirelessEnergySubstationMachine extends NoRecipeLogicMultiblo
     @Override
     public void attachConfigurators(ConfiguratorPanel configuratorPanel) {
         super.attachConfigurators(configuratorPanel);
-        HUDConfigurator c;
+        Configurator c;
         configuratorPanel.attachConfigurators(
-                c = new HUDConfigurator(GuiTextures.LIGHT_ON, GuiTextures.LIGHT_OFF));
+                c = new Configurator(GuiTextures.LIGHT_ON, GuiTextures.LIGHT_OFF));
         if (isRemote()) c.setHudInstance("wireless_energy_hud");
     }
 

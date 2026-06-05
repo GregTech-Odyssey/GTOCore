@@ -20,7 +20,6 @@ import com.gtolib.api.data.Dimension;
 import com.gtolib.api.lang.CNEN;
 import com.gtolib.api.lang.SimplifiedChineseLanguageProvider;
 import com.gtolib.api.lang.TraditionalChineseLanguageProvider;
-import com.gtolib.api.player.PlayerAttributes;
 import com.gtolib.api.recipe.IdleReason;
 import com.gtolib.api.registries.GTOMachineBuilder;
 import com.gtolib.api.registries.MultiblockBuilder;
@@ -84,7 +83,6 @@ public final class LangHandler {
         ScanningClass.LANG.forEach(LangHandler::addCNEN);
         DynamicInitialData.LANG.forEach(LangHandler::addCNEN);
         TranslationKeyProvider.LANG.forEach(LangHandler::addCNEN);
-        PlayerAttributes.NAMES.forEach((k, v) -> addCNEN(k.getLangKey(), v));
         GTOTrade.init();
         TradeLang.LANG.forEach(LangHandler::addCNEN);
         for (var reasons : IdleReason.values()) {
@@ -525,7 +523,6 @@ public final class LangHandler {
 
         addCNEN("gtocore.message.otherside_pass_required", "你感受到来自幽冥的隔绝感...", "You feel a sense of isolation from the Other Side...");
         addCNEN("gtocore.message.otherside_pass_required.1", "似乎需要伪装成幽冥中最强大的生物之一，才能通过这里。", "It seems you need to disguise yourself as one of the most powerful beings in the Other Side to pass through here.");
-        addCNEN("key.gtocore.movable_hud_toggle", "HUD 调节", "HUD Editing key");
     }
 
     public static void enInitialize(LanguageProvider provider) {
