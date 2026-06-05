@@ -26,12 +26,6 @@ public final class ClientAdjustablePropertyCache {
     public static List<HUDPropertyEntry> getEntries() {
         syncFromPlayer();
 
-        for (PlayerAttributes.AttributeDefinition attribute : PlayerAttributes.REGISTRY.values()) {
-            HUDPropertyEntry entry = ENTRIES.get(attribute);
-            if (entry != null) {
-                syncEntryState(attribute, entry);
-            }
-        }
         return List.copyOf(ENTRIES.values());
     }
 
@@ -57,23 +51,6 @@ public final class ClientAdjustablePropertyCache {
             case PlayerAttributes.NumericAttribute numericAttribute -> new HUDPropertyEntry.FloatEntry(attribute.getName(), label, numericAttribute);
             default -> null;
         };
-    }
-
-    private static void syncEntryState(PlayerAttributes.AttributeDefinition attribute, HUDPropertyEntry entry) {
-        PlayerAttributes playerAttributes = getPlayerAttributes();
-
-        if (attribute instanceof PlayerAttributes.IntAttribute intAttribute &&
-                entry instanceof HUDPropertyEntry.IntegerEntry integerEntry) {
-            var value = playerAttributes.getNumeric(intAttribute);
-            integerEntry.setRange(Mth.floor(value.getMin()), Mth.ceil(value.getMax()));
-            return;
-        }
-
-        if (attribute instanceof PlayerAttributes.NumericAttribute numericAttribute &&
-                entry instanceof HUDPropertyEntry.FloatEntry floatEntry) {
-            var value = playerAttributes.getNumeric(numericAttribute);
-            floatEntry.setRange(value.getMin(), value.getMax());
-        }
     }
 
     public static PlayerAttributes getPlayerAttributes() {
