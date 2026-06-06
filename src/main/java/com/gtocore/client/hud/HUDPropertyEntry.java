@@ -1,7 +1,7 @@
 package com.gtocore.client.hud;
 
 import com.gtolib.api.player.IEnhancedPlayer;
-import com.gtolib.api.player.PlayerAttributes;
+import com.gtolib.api.player.attribute.*;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
@@ -17,6 +17,9 @@ import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.Locale;
 import java.util.Set;
+
+import static com.gtolib.api.player.attribute.PlayerAttributes.REGISTRY;
+import static com.gtolib.api.player.attribute.PlayerAttributes.syncToServer;
 
 @Getter
 public abstract class HUDPropertyEntry {
@@ -82,66 +85,61 @@ public abstract class HUDPropertyEntry {
         return true;
     }
 
-    protected static boolean isAvailable(PlayerAttributes.NumericAttribute attribute) {
+    protected static boolean isAvailable(AttributeDefinition<?, ?> attribute) {
         PlayerAttributes playerAttributes = getPlayerAttributes();
-        return playerAttributes != null && playerAttributes.getNumeric(attribute).isAvailable();
+        return playerAttributes != null && playerAttributes.get(attribute).isAvailable();
     }
 
-    protected static boolean isAvailable(PlayerAttributes.BooleanAttribute attribute) {
-        PlayerAttributes playerAttributes = getPlayerAttributes();
-        return playerAttributes != null && playerAttributes.getBoolean(attribute).isAvailable();
-    }
-
-    protected static int getCurrentValue(PlayerAttributes.IntAttribute attribute) {
+    protected static int getCurrentValue(IntAttribute attribute) {
         PlayerAttributes playerAttributes = getPlayerAttributes();
         return playerAttributes == null ? 0 : playerAttributes.getNumericCurrentInt(attribute);
     }
 
-    protected static float getCurrentValue(PlayerAttributes.NumericAttribute attribute) {
+    protected static float getCurrentValue(NumericAttribute<?> attribute) {
         PlayerAttributes playerAttributes = getPlayerAttributes();
         return playerAttributes == null ? 0.0F : playerAttributes.getNumericCurrentFloat(attribute);
     }
 
-    protected static float getCurrentMin(PlayerAttributes.NumericAttribute attribute) {
+    protected static float getCurrentMin(NumericAttribute<?> attribute) {
         PlayerAttributes playerAttributes = getPlayerAttributes();
         return playerAttributes == null ? 0.0F : playerAttributes.getNumeric(attribute).getMin();
     }
 
-    protected static float getCurrentMax(PlayerAttributes.NumericAttribute attribute) {
+    protected static float getCurrentMax(NumericAttribute<?> attribute) {
         PlayerAttributes playerAttributes = getPlayerAttributes();
         return playerAttributes == null ? 0.0F : playerAttributes.getNumeric(attribute).getMax();
     }
 
-    protected static boolean getCurrentValue(PlayerAttributes.BooleanAttribute attribute) {
+    protected static boolean getCurrentValue(BooleanAttribute attribute) {
         PlayerAttributes playerAttributes = getPlayerAttributes();
-        return playerAttributes != null && playerAttributes.getBoolean(attribute).isCurrent();
+        return playerAttributes != null && playerAttributes.getBoolean(attribute).getCurrent();
     }
 
-    protected static void setCurrentValue(PlayerAttributes.IntAttribute attribute, int value) {
-        PlayerAttributes playerAttributes = getPlayerAttributes();
-        if (playerAttributes == null) {
-            return;
-        }
-        playerAttributes.setNumericCurrent(attribute, value);
-        PlayerAttributes.syncToServer(Minecraft.getInstance().player, attribute, (float) value);
-    }
-
-    protected static void setCurrentValue(PlayerAttributes.NumericAttribute attribute, float value) {
+    protected static void setCurrentValue(IntAttribute attribute, int value) {
         PlayerAttributes playerAttributes = getPlayerAttributes();
         if (playerAttributes == null) {
             return;
         }
         playerAttributes.setNumericCurrent(attribute, value);
-        PlayerAttributes.syncToServer(Minecraft.getInstance().player, attribute, value);
+        syncToServer(Minecraft.getInstance().player, attribute);
     }
 
-    protected static void setCurrentValue(PlayerAttributes.BooleanAttribute attribute, boolean value) {
+    protected static void setCurrentValue(NumericAttribute<?> attribute, float value) {
+        PlayerAttributes playerAttributes = getPlayerAttributes();
+        if (playerAttributes == null) {
+            return;
+        }
+        playerAttributes.setNumericCurrent(attribute, value);
+        syncToServer(Minecraft.getInstance().player, attribute);
+    }
+
+    protected static void setCurrentValue(BooleanAttribute attribute, boolean value) {
         PlayerAttributes playerAttributes = getPlayerAttributes();
         if (playerAttributes == null) {
             return;
         }
         playerAttributes.setBooleanCurrent(attribute, value);
-        PlayerAttributes.syncToServer(Minecraft.getInstance().player, attribute, value);
+        syncToServer(Minecraft.getInstance().player, attribute);
     }
 
     private static PlayerAttributes getPlayerAttributes() {
@@ -309,7 +307,7 @@ public abstract class HUDPropertyEntry {
                 return trackBounds.getWidth();
             }
             float normalized = (value - minValue) / (maxValue - minValue);
-            return Mth.clamp((int) Math.round(normalized * trackBounds.getWidth()), 0, trackBounds.getWidth());
+            return Mth.clamp(Math.round(normalized * trackBounds.getWidth()), 0, trackBounds.getWidth());
         }
 
         private int getKnobX(Rect2i trackBounds, float value) {
@@ -324,9 +322,9 @@ public abstract class HUDPropertyEntry {
 
     public static final class IntegerEntry extends SliderEntry {
 
-        private final PlayerAttributes.IntAttribute attribute;
+        private final IntAttribute attribute;
 
-        public IntegerEntry(Component label, PlayerAttributes.IntAttribute attribute) {
+        public IntegerEntry(Component label, IntAttribute attribute) {
             super(label);
             this.attribute = attribute;
             initializePreviewValue();
@@ -364,7 +362,7 @@ public abstract class HUDPropertyEntry {
 
         @Override
         protected String formatValue(float value) {
-            return Integer.toString((int) Math.round(value));
+            return Integer.toString(Math.round(value));
         }
     }
 
@@ -372,9 +370,9 @@ public abstract class HUDPropertyEntry {
 
         private static final DecimalFormat VALUE_FORMAT = new DecimalFormat("0.###", DecimalFormatSymbols.getInstance(Locale.ROOT));
 
-        private final PlayerAttributes.NumericAttribute attribute;
+        private final NumericAttribute<?> attribute;
 
-        public FloatEntry(Component label, PlayerAttributes.NumericAttribute attribute) {
+        public FloatEntry(Component label, NumericAttribute<?> attribute) {
             super(label);
             this.attribute = attribute;
             initializePreviewValue();
@@ -424,9 +422,9 @@ public abstract class HUDPropertyEntry {
         private static final int TOGGLE_HEIGHT = 14;
         private static final int KNOB_SIZE = 10;
 
-        private final PlayerAttributes.BooleanAttribute attribute;
+        private final BooleanAttribute attribute;
 
-        public BooleanEntry(Component label, PlayerAttributes.BooleanAttribute attribute) {
+        public BooleanEntry(Component label, BooleanAttribute attribute) {
             super(label);
             this.attribute = attribute;
         }
@@ -488,7 +486,7 @@ public abstract class HUDPropertyEntry {
             return;
         }
         init = true;
-        for (var attribute : PlayerAttributes.REGISTRY.values()) {
+        for (var attribute : REGISTRY.values()) {
             HUDPropertyEntry entry = createEntry(attribute);
             if (entry != null) {
                 ENTRIES.add(entry);
@@ -496,13 +494,13 @@ public abstract class HUDPropertyEntry {
         }
     }
 
-    private static HUDPropertyEntry createEntry(PlayerAttributes.AttributeDefinition attribute) {
+    private static HUDPropertyEntry createEntry(AttributeDefinition<?, ?> attribute) {
         Component label = Component.translatable(attribute.getLangKey());
 
         return switch (attribute) {
-            case PlayerAttributes.BooleanAttribute booleanAttribute -> new HUDPropertyEntry.BooleanEntry(label, booleanAttribute);
-            case PlayerAttributes.IntAttribute intAttribute -> new HUDPropertyEntry.IntegerEntry(label, intAttribute);
-            case PlayerAttributes.NumericAttribute numericAttribute -> new HUDPropertyEntry.FloatEntry(label, numericAttribute);
+            case BooleanAttribute booleanAttribute -> new HUDPropertyEntry.BooleanEntry(label, booleanAttribute);
+            case IntAttribute intAttribute -> new HUDPropertyEntry.IntegerEntry(label, intAttribute);
+            case NumericAttribute<?> numericAttribute -> new HUDPropertyEntry.FloatEntry(label, numericAttribute);
             default -> null;
         };
     }
