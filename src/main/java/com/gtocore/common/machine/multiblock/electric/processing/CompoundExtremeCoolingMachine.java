@@ -45,7 +45,7 @@ public final class CompoundExtremeCoolingMachine extends CrossRecipeMultiblockMa
 
     @Override
     public boolean checkConditions(RecipeHandlerUnit unit, GTRecipeDefinition recipe) {
-        if (getRecipeType() != GTORecipeTypes.PLASMA_CONDENSER_RECIPES && recipe.recipeType != GTORecipeTypes.VACUUM_RECIPES) return false;
+        if (getRecipeType() != GTORecipeTypes.PLASMA_CONDENSER_RECIPES && recipe.recipeType == GTORecipeTypes.PLASMA_CONDENSER_RECIPES) return false;
         return super.checkConditions(unit, recipe);
     }
 

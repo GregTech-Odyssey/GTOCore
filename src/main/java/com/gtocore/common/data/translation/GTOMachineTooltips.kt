@@ -1754,6 +1754,7 @@ object GTOMachineTooltips {
 
         section(ComponentSlang.RunningRequirements)
         command("在主机内更改机器模式以引导不同的结构" translatedTo "Change recipe type in the controller to guide different structures")
+        important("机器模式为等离子冷凝模式时才可以运行等离子冷凝配方" translatedTo "Must be in Plasma Condenser mode to run Plasma Condenser recipe")
         info("真空冷冻机/雾化冷凝：P:0，等离子冷凝：P:1" translatedTo "Vacuum Freezer/Atomization Condensation: P:0, Plasma Condenser: P:1")
         info("引导后可使用终端搭建指定结构，无视\"模块搭建\"设置" translatedTo "After guiding, you can use the terminal to build the specified structure, ignoring \"Module Build\" setting")
     }

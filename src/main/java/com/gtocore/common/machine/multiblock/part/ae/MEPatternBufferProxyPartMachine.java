@@ -8,10 +8,7 @@ import com.gregtechceu.gtceu.api.capability.IWailaDisplayProvider;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.feature.IDataStickInteractable;
 import com.gregtechceu.gtceu.api.machine.feature.IMachineLife;
-import com.gregtechceu.gtceu.api.machine.feature.multiblock.IWorkableMultiController;
 import com.gregtechceu.gtceu.api.machine.multiblock.part.WorkableTieredIOPartMachine;
-import com.gregtechceu.gtceu.api.recipe.GTRecipe;
-import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.api.recipe.handler.IO;
 import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
 import com.gregtechceu.gtceu.client.util.TooltipHelper;
@@ -60,13 +57,6 @@ public final class MEPatternBufferProxyPartMachine extends WorkableTieredIOPartM
 
     public MEPatternBufferProxyPartMachine(MetaMachineBlockEntity holder) {
         super(holder, GTValues.LuV, IO.IN);
-    }
-
-    @Override
-    @Nullable
-    public GTRecipe modifyRecipe(IWorkableMultiController controller, RecipeHandlerUnit unit, GTRecipe recipe) {
-        if (recipe.definition.registered && !GTRecipeType.available(recipe.definition.recipeType, controller.getAvailableRecipeTypes())) return null;
-        return recipe;
     }
 
     @Override

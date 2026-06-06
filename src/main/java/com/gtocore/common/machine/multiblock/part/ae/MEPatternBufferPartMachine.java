@@ -198,6 +198,11 @@ public abstract class MEPatternBufferPartMachine extends MEPatternPartMachineKt<
         return internalRecipeHandler.getSlotHandlers();
     }
 
+    @Override
+    public boolean canShared() {
+        return true;
+    }
+
     void addProxy(MEPatternBufferProxyPartMachine proxy) {
         proxies.add(proxy.getPos());
         proxyMachines.add(proxy);

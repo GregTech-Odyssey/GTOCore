@@ -88,11 +88,6 @@ public final class ProgrammableHatchPartMachine extends DualHatchPartMachine imp
     }
 
     @Override
-    public boolean canShared() {
-        return false;
-    }
-
-    @Override
     public void onLoad() {
         super.onLoad();
         if (recipeType == GTORecipeTypes.DUMMY_RECIPES || recipeType == GTORecipeTypes.HATCH_COMBINED) {
