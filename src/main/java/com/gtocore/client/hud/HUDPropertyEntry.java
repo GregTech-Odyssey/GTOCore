@@ -18,9 +18,6 @@ import java.text.DecimalFormatSymbols;
 import java.util.Locale;
 import java.util.Set;
 
-import static com.gtolib.api.player.attribute.PlayerAttributes.REGISTRY;
-import static com.gtolib.api.player.attribute.PlayerAttributes.syncToServer;
-
 @Getter
 public abstract class HUDPropertyEntry {
 
@@ -121,7 +118,7 @@ public abstract class HUDPropertyEntry {
             return;
         }
         playerAttributes.setNumericCurrent(attribute, value);
-        syncToServer(Minecraft.getInstance().player, attribute);
+        PlayerAttributes.syncToServer(Minecraft.getInstance().player, attribute);
     }
 
     protected static void setCurrentValue(NumericAttribute<?> attribute, float value) {
@@ -130,7 +127,7 @@ public abstract class HUDPropertyEntry {
             return;
         }
         playerAttributes.setNumericCurrent(attribute, value);
-        syncToServer(Minecraft.getInstance().player, attribute);
+        PlayerAttributes.syncToServer(Minecraft.getInstance().player, attribute);
     }
 
     protected static void setCurrentValue(BooleanAttribute attribute, boolean value) {
@@ -139,7 +136,7 @@ public abstract class HUDPropertyEntry {
             return;
         }
         playerAttributes.setBooleanCurrent(attribute, value);
-        syncToServer(Minecraft.getInstance().player, attribute);
+        PlayerAttributes.syncToServer(Minecraft.getInstance().player, attribute);
     }
 
     private static PlayerAttributes getPlayerAttributes() {
@@ -486,7 +483,7 @@ public abstract class HUDPropertyEntry {
             return;
         }
         init = true;
-        for (var attribute : REGISTRY.values()) {
+        for (var attribute : PlayerAttributes.REGISTRY.values()) {
             HUDPropertyEntry entry = createEntry(attribute);
             if (entry != null) {
                 ENTRIES.add(entry);
