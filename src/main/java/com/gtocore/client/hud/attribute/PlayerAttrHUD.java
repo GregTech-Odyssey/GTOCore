@@ -88,7 +88,7 @@ public class PlayerAttrHUD implements IMoveableHUD {
         int lineY = bounds.getY() + PREVIEW_PADDING;
 
         guiGraphics.fill(bounds.getX(), bounds.getY(),
-                bounds.getX() + bounds.getWidth(), bounds.getY() + bounds.getHeight(), 0xC0101010);
+                bounds.getX() + bounds.getWidth(), bounds.getY() + bounds.getHeight(), 0xA0101010);
         IMoveableHUD.drawOutline(guiGraphics, bounds, 0xFFFFFFFF);
 
         for (Component line : lines) {

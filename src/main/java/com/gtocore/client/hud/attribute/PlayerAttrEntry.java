@@ -3,6 +3,7 @@ package com.gtocore.client.hud.attribute;
 import com.gtolib.api.player.IEnhancedPlayer;
 import com.gtolib.api.player.attribute.*;
 
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
@@ -66,13 +67,6 @@ public abstract class PlayerAttrEntry {
         return Minecraft.getInstance().font;
     }
 
-    protected Component createControlLabel(Component value) {
-        return Component.empty()
-                .append(getLabel().copy())
-                .append(Component.literal(": "))
-                .append(value);
-    }
-
     protected static boolean contains(Rect2i bounds, double mouseX, double mouseY) {
         return bounds != null && bounds.contains((int) mouseX, (int) mouseY);
     }
@@ -122,7 +116,7 @@ public abstract class PlayerAttrEntry {
             return;
         }
         playerAttributes.setNumericCurrent(attribute, value);
-        playerAttributes.syncToServer(Minecraft.getInstance().player, attribute);
+        PlayerAttributes.syncToServer(Minecraft.getInstance().player, attribute);
     }
 
     protected static void setCurrentValue(NumericAttribute<?> attribute, float value) {
@@ -131,7 +125,7 @@ public abstract class PlayerAttrEntry {
             return;
         }
         playerAttributes.setNumericCurrent(attribute, value);
-        playerAttributes.syncToServer(Minecraft.getInstance().player, attribute);
+        PlayerAttributes.syncToServer(Minecraft.getInstance().player, attribute);
     }
 
     protected static void setCurrentValue(BooleanAttribute attribute, boolean value) {
@@ -140,7 +134,7 @@ public abstract class PlayerAttrEntry {
             return;
         }
         playerAttributes.setBooleanCurrent(attribute, value);
-        playerAttributes.syncToServer(Minecraft.getInstance().player, attribute);
+        PlayerAttributes.syncToServer(Minecraft.getInstance().player, attribute);
     }
 
     private static PlayerAttributes getPlayerAttributes() {
@@ -172,7 +166,10 @@ public abstract class PlayerAttrEntry {
 
         @Override
         public Component createPreviewLine() {
-            return createControlLabel(Component.literal(formatValue(getCommittedValue())));
+            return Component.empty()
+                    .append(getLabel())
+                    .append(Component.literal(": "))
+                    .append(Component.literal(formatValue(getCommittedValue())).withStyle(ChatFormatting.AQUA));
         }
 
         @Override
@@ -259,7 +256,7 @@ public abstract class PlayerAttrEntry {
 
         protected abstract String formatValue(float value);
 
-        protected boolean valuesEqual(float a, float b) {
+        protected static boolean valuesEqual(float a, float b) {
             return Math.abs(a - b) < 1.0E-6F;
         }
 
@@ -435,13 +432,14 @@ public abstract class PlayerAttrEntry {
             return isAvailable(attribute);
         }
 
-        public Component createControlLabel(boolean value) {
-            return createControlLabel(Component.translatable(value ? "options.on" : "options.off"));
-        }
-
         @Override
         public Component createPreviewLine() {
-            return createControlLabel(getCurrentValue(attribute));
+            var value = getCurrentValue(attribute);
+            return Component.empty()
+                    .append(getLabel())
+                    .append(Component.literal(": "))
+                    .append(Component.translatable(value ? "options.on" : "options.off")
+                            .withStyle(value ? ChatFormatting.GREEN : ChatFormatting.RED));
         }
 
         @Override

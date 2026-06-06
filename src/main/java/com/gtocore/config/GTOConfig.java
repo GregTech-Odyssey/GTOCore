@@ -313,6 +313,11 @@ public final class GTOConfig {
         public boolean lightningRodEffect = true;
 
         @Configurable
+        @Configurable.Comment({ "AE 终端在切换页面时使用选择器替代循环顺序切换", "AE Terminals use a selector instead of cycling through pages when switching pages" })
+        @RegisterLanguage(namePrefix = "config.gtocore.option", en = "AE Terminal Page Switch Style Rework", cn = "AE 终端页面切换样式重做")
+        public boolean aeTerminalPageSwitchStyleSelector = false;
+
+        @Configurable
         @Configurable.Comment({ "禁用后将渲染视角外，且渲染器被标记为Global的机器，一些高级特效机器需要开启此选项才能正常渲染", "When turned disable, machines that are outside the field of view and whose renderer is marked as Global will be rendered. Some advanced effect machines need to turn on this option to render properly" })
         @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Disable Embeddium Global BE Culling", cn = "禁用Embbedium Global方块实体剔除")
         public boolean disableEmbeddiumBECulling = true;

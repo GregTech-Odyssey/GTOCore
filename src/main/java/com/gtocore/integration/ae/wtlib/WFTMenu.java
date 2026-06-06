@@ -1,7 +1,5 @@
 package com.gtocore.integration.ae.wtlib;
 
-import com.gtolib.api.ae2.wtlib.CycleTerminalButton;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -38,6 +36,7 @@ import de.mari_023.ae2wtlib.AE2wtlibSlotSemantics;
 import de.mari_023.ae2wtlib.terminal.IUniversalWirelessTerminalItem;
 import de.mari_023.ae2wtlib.terminal.WTMenuHost;
 import de.mari_023.ae2wtlib.wct.WCTMenuHost;
+import de.mari_023.ae2wtlib.wut.CycleTerminalButton;
 import de.mari_023.ae2wtlib.wut.IUniversalTerminalCapable;
 import de.mari_023.ae2wtlib.wut.ItemWUT;
 import org.jetbrains.annotations.NotNull;
@@ -80,10 +79,6 @@ public class WFTMenu extends FacilityManagementMenu {
 
     public ITerminalHost getHost() {
         return watMenuHost;
-    }
-
-    public ToolboxMenu getToolbox() {
-        return toolboxMenu;
     }
 
     public static class WFTHost extends WTMenuHost implements IFacilityManagementHost {
@@ -180,8 +175,7 @@ public class WFTMenu extends FacilityManagementMenu {
         public WFTScreen(WFTMenu menu, Inventory playerInventory, Component name, ScreenStyle style) {
             super(menu, playerInventory, name, style);
             if (getMenu().isWUT()) {
-                var b = addToLeftToolbar(new CycleTerminalButton(CycleTerminalButton.LayoutDirection.LEFT));
-                this.filterModeGroup.add(b);
+                addToLeftToolbar(new CycleTerminalButton(btn -> cycleTerminal()));
             }
 
             setSlotsHidden(SlotSemantics.UPGRADE, true);

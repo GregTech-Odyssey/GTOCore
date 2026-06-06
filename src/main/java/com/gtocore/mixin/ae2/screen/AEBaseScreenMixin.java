@@ -2,6 +2,8 @@ package com.gtocore.mixin.ae2.screen;
 
 import com.gtocore.client.forge.DebugScreenInspector;
 import com.gtocore.client.renderer.RenderUtil;
+import com.gtocore.config.GTOConfig;
+import com.gtocore.integration.ae.wtlib.WFTMenu;
 
 import com.gtolib.api.ae2.gui.hooks.IWUTScreen;
 import com.gtolib.api.ae2.wtlib.CycleTerminalButton;
@@ -61,8 +63,10 @@ public abstract class AEBaseScreenMixin<T extends AEBaseMenu> extends AbstractCo
 
     @Inject(method = "addToLeftToolbar", at = @At("HEAD"), remap = false, cancellable = true)
     private <B extends Button> void gtolib$addToLeftToolbar(B button, CallbackInfoReturnable<B> cir) {
-        if (button instanceof de.mari_023.ae2wtlib.wut.CycleTerminalButton) {
-            verticalToolbar.add(new CycleTerminalButton(CycleTerminalButton.LayoutDirection.LEFT));
+        if (button instanceof de.mari_023.ae2wtlib.wut.CycleTerminalButton && GTOConfig.INSTANCE.client.aeTerminalPageSwitchStyleSelector) {
+            CycleTerminalButton b;
+            verticalToolbar.add(b = new CycleTerminalButton(CycleTerminalButton.LayoutDirection.LEFT));
+            if ((Object) this instanceof WFTMenu.WFTScreen fs) fs.filterModeGroup.add(b);
             cir.setReturnValue(button);
         }
     }

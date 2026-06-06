@@ -18,6 +18,8 @@ import net.minecraft.util.Mth;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
+import appeng.client.gui.Rects;
+
 import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
@@ -101,6 +103,12 @@ public class WirelessEnergyHUD implements IMoveableHUD {
 
     @Override
     public Rect2i getBounds(int screenWidth, int screenHeight) {
+        Minecraft mc = Minecraft.getInstance();
+        PlayerData playerData = getPlayerData(mc);
+        if (playerData == null) return Rects.ZERO;
+        if (playerData.electricityCapacityCache.compareTo(BigInteger.ZERO) <= 0) {
+            return Rects.ZERO;
+        }
         updateDimensions(Minecraft.getInstance().font, getPreviewLabel());
         int absX = (int) (GTOConfig.INSTANCE.client.hud.wirelessEnergyHUDDefaultX / 100d * (screenWidth - realWidth));
         int absY = (int) (GTOConfig.INSTANCE.client.hud.wirelessEnergyHUDDefaultY / 100d * (screenHeight - realHeight));
