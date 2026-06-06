@@ -6,14 +6,10 @@ import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.SimpleGeneratorMachine;
 import com.gregtechceu.gtceu.api.machine.WorkableTieredMachine;
-import com.gregtechceu.gtceu.api.machine.trait.NotifiableFluidTank;
-import com.gregtechceu.gtceu.api.recipe.handler.IO;
 
 import it.unimi.dsi.fastutil.ints.Int2IntFunction;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
-
-import java.util.Collections;
 
 @Mixin(SimpleGeneratorMachine.class)
 public class SimpleGeneratorMachineMixin extends WorkableTieredMachine {
@@ -34,10 +30,5 @@ public class SimpleGeneratorMachineMixin extends WorkableTieredMachine {
     @Override
     public long getOverclockVoltage() {
         return GTValues.V[getTier()] * getMaxInputOutputAmperage();
-    }
-
-    @Override
-    protected NotifiableFluidTank createExportFluidHandler(Object... args) {
-        return new NotifiableFluidTank((SimpleGeneratorMachine) (Object) this, Collections.emptyList(), IO.OUT);
     }
 }
