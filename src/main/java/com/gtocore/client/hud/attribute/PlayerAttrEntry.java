@@ -83,7 +83,7 @@ public abstract class PlayerAttrEntry {
 
     protected static boolean isAvailable(NumericAttribute<?> attribute) {
         PlayerAttributes playerAttributes = getPlayerAttributes();
-        return playerAttributes != null && playerAttributes.getNumeric(attribute).isAvailable();
+        return playerAttributes != null && playerAttributes.get(attribute).isAvailable();
     }
 
     protected static boolean isAvailable(BooleanAttribute attribute) {
@@ -308,7 +308,7 @@ public abstract class PlayerAttrEntry {
                 return trackBounds.getWidth();
             }
             float normalized = (value - minValue) / (maxValue - minValue);
-            return Mth.clamp((int) Math.round(normalized * trackBounds.getWidth()), 0, trackBounds.getWidth());
+            return Mth.clamp(Math.round(normalized * trackBounds.getWidth()), 0, trackBounds.getWidth());
         }
 
         private int getKnobX(Rect2i trackBounds, float value) {
@@ -363,7 +363,7 @@ public abstract class PlayerAttrEntry {
 
         @Override
         protected String formatValue(float value) {
-            return Integer.toString((int) Math.round(value));
+            return Integer.toString(Math.round(value));
         }
     }
 
