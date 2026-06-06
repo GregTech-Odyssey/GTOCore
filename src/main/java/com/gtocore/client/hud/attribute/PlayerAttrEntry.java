@@ -1,7 +1,7 @@
-package com.gtocore.client.hud;
+package com.gtocore.client.hud.attribute;
 
 import com.gtolib.api.player.IEnhancedPlayer;
-import com.gtolib.api.player.PlayerAttributes;
+import com.gtolib.api.player.attribute.*;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
@@ -10,19 +10,18 @@ import net.minecraft.client.renderer.Rect2i;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
 
-import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
+import com.google.common.collect.ImmutableList;
 import lombok.Getter;
 
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
+import java.util.List;
 import java.util.Locale;
-import java.util.Set;
 
 @Getter
 public abstract class PlayerAttrEntry {
 
-    private static final Set<PlayerAttrEntry> ENTRIES = new ObjectOpenHashSet<>();
-    private static boolean init;
+    private static List<PlayerAttrEntry> ENTRIES;
 
     protected static final int ROW_HEIGHT = 24;
     protected static final int TEXT_COLOR = 0xFFFFFFFF;
@@ -34,7 +33,7 @@ public abstract class PlayerAttrEntry {
         this.label = label;
     }
 
-    public static Set<PlayerAttrEntry> getEntries() {
+    public static List<PlayerAttrEntry> getEntries() {
         init();
         return ENTRIES;
     }
@@ -82,66 +81,66 @@ public abstract class PlayerAttrEntry {
         return true;
     }
 
-    protected static boolean isAvailable(PlayerAttributes.NumericAttribute attribute) {
+    protected static boolean isAvailable(NumericAttribute<?> attribute) {
         PlayerAttributes playerAttributes = getPlayerAttributes();
         return playerAttributes != null && playerAttributes.getNumeric(attribute).isAvailable();
     }
 
-    protected static boolean isAvailable(PlayerAttributes.BooleanAttribute attribute) {
+    protected static boolean isAvailable(BooleanAttribute attribute) {
         PlayerAttributes playerAttributes = getPlayerAttributes();
         return playerAttributes != null && playerAttributes.getBoolean(attribute).isAvailable();
     }
 
-    protected static int getCurrentValue(PlayerAttributes.IntAttribute attribute) {
+    protected static int getCurrentValue(IntAttribute attribute) {
         PlayerAttributes playerAttributes = getPlayerAttributes();
         return playerAttributes == null ? 0 : playerAttributes.getNumericCurrentInt(attribute);
     }
 
-    protected static float getCurrentValue(PlayerAttributes.NumericAttribute attribute) {
+    protected static float getCurrentValue(NumericAttribute<?> attribute) {
         PlayerAttributes playerAttributes = getPlayerAttributes();
         return playerAttributes == null ? 0.0F : playerAttributes.getNumericCurrentFloat(attribute);
     }
 
-    protected static float getCurrentMin(PlayerAttributes.NumericAttribute attribute) {
+    protected static float getCurrentMin(NumericAttribute<?> attribute) {
         PlayerAttributes playerAttributes = getPlayerAttributes();
         return playerAttributes == null ? 0.0F : playerAttributes.getNumeric(attribute).getMin();
     }
 
-    protected static float getCurrentMax(PlayerAttributes.NumericAttribute attribute) {
+    protected static float getCurrentMax(NumericAttribute<?> attribute) {
         PlayerAttributes playerAttributes = getPlayerAttributes();
         return playerAttributes == null ? 0.0F : playerAttributes.getNumeric(attribute).getMax();
     }
 
-    protected static boolean getCurrentValue(PlayerAttributes.BooleanAttribute attribute) {
+    protected static boolean getCurrentValue(BooleanAttribute attribute) {
         PlayerAttributes playerAttributes = getPlayerAttributes();
-        return playerAttributes != null && playerAttributes.getBoolean(attribute).isCurrent();
+        return playerAttributes != null && playerAttributes.getBoolean(attribute).getCurrent();
     }
 
-    protected static void setCurrentValue(PlayerAttributes.IntAttribute attribute, int value) {
-        PlayerAttributes playerAttributes = getPlayerAttributes();
-        if (playerAttributes == null) {
-            return;
-        }
-        playerAttributes.setNumericCurrent(attribute, value);
-        PlayerAttributes.syncToServer(Minecraft.getInstance().player, attribute, (float) value);
-    }
-
-    protected static void setCurrentValue(PlayerAttributes.NumericAttribute attribute, float value) {
+    protected static void setCurrentValue(IntAttribute attribute, int value) {
         PlayerAttributes playerAttributes = getPlayerAttributes();
         if (playerAttributes == null) {
             return;
         }
         playerAttributes.setNumericCurrent(attribute, value);
-        PlayerAttributes.syncToServer(Minecraft.getInstance().player, attribute, value);
+        playerAttributes.syncToServer(Minecraft.getInstance().player, attribute);
     }
 
-    protected static void setCurrentValue(PlayerAttributes.BooleanAttribute attribute, boolean value) {
+    protected static void setCurrentValue(NumericAttribute<?> attribute, float value) {
+        PlayerAttributes playerAttributes = getPlayerAttributes();
+        if (playerAttributes == null) {
+            return;
+        }
+        playerAttributes.setNumericCurrent(attribute, value);
+        playerAttributes.syncToServer(Minecraft.getInstance().player, attribute);
+    }
+
+    protected static void setCurrentValue(BooleanAttribute attribute, boolean value) {
         PlayerAttributes playerAttributes = getPlayerAttributes();
         if (playerAttributes == null) {
             return;
         }
         playerAttributes.setBooleanCurrent(attribute, value);
-        PlayerAttributes.syncToServer(Minecraft.getInstance().player, attribute, value);
+        playerAttributes.syncToServer(Minecraft.getInstance().player, attribute);
     }
 
     private static PlayerAttributes getPlayerAttributes() {
@@ -324,9 +323,9 @@ public abstract class PlayerAttrEntry {
 
     public static final class IntegerEntry extends SliderEntry {
 
-        private final PlayerAttributes.IntAttribute attribute;
+        private final IntAttribute attribute;
 
-        public IntegerEntry(Component label, PlayerAttributes.IntAttribute attribute) {
+        public IntegerEntry(Component label, IntAttribute attribute) {
             super(label);
             this.attribute = attribute;
             initializePreviewValue();
@@ -372,9 +371,9 @@ public abstract class PlayerAttrEntry {
 
         private static final DecimalFormat VALUE_FORMAT = new DecimalFormat("0.###", DecimalFormatSymbols.getInstance(Locale.ROOT));
 
-        private final PlayerAttributes.NumericAttribute attribute;
+        private final NumericAttribute<?> attribute;
 
-        public FloatEntry(Component label, PlayerAttributes.NumericAttribute attribute) {
+        public FloatEntry(Component label, NumericAttribute<?> attribute) {
             super(label);
             this.attribute = attribute;
             initializePreviewValue();
@@ -424,9 +423,9 @@ public abstract class PlayerAttrEntry {
         private static final int TOGGLE_HEIGHT = 14;
         private static final int KNOB_SIZE = 10;
 
-        private final PlayerAttributes.BooleanAttribute attribute;
+        private final BooleanAttribute attribute;
 
-        public BooleanEntry(Component label, PlayerAttributes.BooleanAttribute attribute) {
+        public BooleanEntry(Component label, BooleanAttribute attribute) {
             super(label);
             this.attribute = attribute;
         }
@@ -484,25 +483,26 @@ public abstract class PlayerAttrEntry {
     }
 
     private static void init() {
-        if (init) {
+        if (ENTRIES != null) {
             return;
         }
-        init = true;
+        var entries = new ImmutableList.Builder<PlayerAttrEntry>();
         for (var attribute : PlayerAttributes.REGISTRY.values()) {
             PlayerAttrEntry entry = createEntry(attribute);
             if (entry != null) {
-                ENTRIES.add(entry);
+                entries.add(entry);
             }
         }
+        ENTRIES = entries.build();
     }
 
-    private static PlayerAttrEntry createEntry(PlayerAttributes.AttributeDefinition attribute) {
+    private static PlayerAttrEntry createEntry(AttributeDefinition<?, ?> attribute) {
         Component label = Component.translatable(attribute.getLangKey());
 
         return switch (attribute) {
-            case PlayerAttributes.BooleanAttribute booleanAttribute -> new PlayerAttrEntry.BooleanEntry(label, booleanAttribute);
-            case PlayerAttributes.IntAttribute intAttribute -> new PlayerAttrEntry.IntegerEntry(label, intAttribute);
-            case PlayerAttributes.NumericAttribute numericAttribute -> new PlayerAttrEntry.FloatEntry(label, numericAttribute);
+            case BooleanAttribute booleanAttribute -> new PlayerAttrEntry.BooleanEntry(label, booleanAttribute);
+            case IntAttribute intAttribute -> new PlayerAttrEntry.IntegerEntry(label, intAttribute);
+            case NumericAttribute<?> numericAttribute -> new PlayerAttrEntry.FloatEntry(label, numericAttribute);
             default -> null;
         };
     }

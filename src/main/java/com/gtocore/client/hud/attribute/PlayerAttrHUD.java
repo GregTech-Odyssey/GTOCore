@@ -1,5 +1,7 @@
-package com.gtocore.client.hud;
+package com.gtocore.client.hud.attribute;
 
+import com.gtocore.client.hud.HUDScreen;
+import com.gtocore.client.hud.IMoveableHUD;
 import com.gtocore.config.GTOConfig;
 
 import com.gtolib.api.annotation.DataGeneratorScanned;
@@ -17,17 +19,16 @@ import net.minecraftforge.client.gui.overlay.ForgeGui;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 @OnlyIn(Dist.CLIENT)
 @DataGeneratorScanned
 public class PlayerAttrHUD implements IMoveableHUD {
 
     @RegisterLanguage(en = "Player Realtime Attribute", cn = "玩家实时属性")
-    public static final String DISPLAY_NAME = "gtocore.hud.client_property.name";
+    public static final String DISPLAY_NAME = "gtocore.hud.client.attributes.name";
 
     @RegisterLanguage(en = "No adjustable attributes.", cn = "暂无可调属性")
-    public static final String EMPTY_MESSAGE = "gtocore.hud.client_property.empty";
+    public static final String EMPTY_MESSAGE = "gtocore.hud.client.attributes.empty";
 
     public static final PlayerAttrHUD INSTANCE = new PlayerAttrHUD();
 
@@ -55,12 +56,12 @@ public class PlayerAttrHUD implements IMoveableHUD {
 
     @Override
     public boolean isEnabled() {
-        return GTOConfig.INSTANCE.client.hud.clientPropertyHUDEnabled;
+        return GTOConfig.INSTANCE.client.hud.clientAttributesHUDEnabled;
     }
 
     @Override
     public void setEnabled(boolean enabled) {
-        GTOConfig.set("clientPropertyHUDEnabled", enabled, "client", "hud");
+        GTOConfig.set("clientAttributesHUDEnabled", enabled, "client", "hud");
         if (!enabled) {
             activeEntry = null;
             draggingPosition = false;
@@ -158,8 +159,8 @@ public class PlayerAttrHUD implements IMoveableHUD {
 
         var newX = ((int) Mth.clamp(Math.round((clampedX * 100.0) / xRange), 0, 100));
         var newY = ((int) Mth.clamp(Math.round((clampedY * 100.0) / yRange), 0, 100));
-        GTOConfig.set("clientPropertyHUDDefaultX", newX, "client", "hud");
-        GTOConfig.set("clientPropertyHUDDefaultY", newY, "client", "hud");
+        GTOConfig.set("clientAttributesHUDDefaultX", newX, "client", "hud");
+        GTOConfig.set("clientAttributesHUDDefaultY", newY, "client", "hud");
         pendingMovedX = 0;
         pendingMovedY = 0;
         draggingPosition = false;
@@ -172,7 +173,7 @@ public class PlayerAttrHUD implements IMoveableHUD {
             return false;
         }
 
-        Set<PlayerAttrEntry> entries = PlayerAttrEntry.getEntries();
+        List<PlayerAttrEntry> entries = PlayerAttrEntry.getEntries();
         for (PlayerAttrEntry entry : entries) {
             if (!entry.isVisible()) {
                 continue;
@@ -197,7 +198,7 @@ public class PlayerAttrHUD implements IMoveableHUD {
     @Override
     public boolean mouseDragged(double mouseX, double mouseY, int button, double dragX, double dragY) {
         Rect2i bounds = getEditorBounds(getScreenWidth(), getScreenHeight());
-        Set<PlayerAttrEntry> entries = PlayerAttrEntry.getEntries();
+        List<PlayerAttrEntry> entries = PlayerAttrEntry.getEntries();
         if (activeEntry != null) {
             Rect2i entryBounds = getEntryBounds(bounds, entries, activeEntry);
             if (entryBounds != null && activeEntry.mouseDragged(mouseX, mouseY, button, dragX, dragY, entryBounds)) {
@@ -219,7 +220,7 @@ public class PlayerAttrHUD implements IMoveableHUD {
     @Override
     public boolean mouseReleased(double mouseX, double mouseY, int button) {
         Rect2i bounds = getEditorBounds(getScreenWidth(), getScreenHeight());
-        Set<PlayerAttrEntry> entries = PlayerAttrEntry.getEntries();
+        List<PlayerAttrEntry> entries = PlayerAttrEntry.getEntries();
         boolean handled = false;
 
         if (activeEntry != null) {
@@ -282,7 +283,7 @@ public class PlayerAttrHUD implements IMoveableHUD {
 
     private int getEditorHeight() {
         Font font = Minecraft.getInstance().font;
-        Set<PlayerAttrEntry> entries = PlayerAttrEntry.getEntries();
+        List<PlayerAttrEntry> entries = PlayerAttrEntry.getEntries();
         if (entries.stream().noneMatch(PlayerAttrEntry::isVisible)) {
             return EDITOR_PADDING * 2 + font.lineHeight * 2 + EDITOR_HEADER_GAP;
         }
@@ -297,7 +298,7 @@ public class PlayerAttrHUD implements IMoveableHUD {
         return height - EDITOR_ENTRY_SPACING + EDITOR_PADDING;
     }
 
-    private Rect2i getEntryBounds(Rect2i panelBounds, Set<PlayerAttrEntry> entries, PlayerAttrEntry targetEntry) {
+    private Rect2i getEntryBounds(Rect2i panelBounds, List<PlayerAttrEntry> entries, PlayerAttrEntry targetEntry) {
         Font font = Minecraft.getInstance().font;
         int x = panelBounds.getX() + EDITOR_PADDING;
         int y = panelBounds.getY() + EDITOR_PADDING + font.lineHeight + EDITOR_HEADER_GAP;
@@ -318,12 +319,12 @@ public class PlayerAttrHUD implements IMoveableHUD {
 
     private int getBaseX(int screenWidth, int contentWidth) {
         int maxX = Math.max(0, screenWidth - contentWidth);
-        return (int) (GTOConfig.INSTANCE.client.hud.clientPropertyHUDDefaultX / 100d * maxX);
+        return (int) (GTOConfig.INSTANCE.client.hud.clientAttributesHUDDefaultX / 100d * maxX);
     }
 
     private int getBaseY(int screenHeight, int contentHeight) {
         int maxY = Math.max(0, screenHeight - contentHeight);
-        return (int) (GTOConfig.INSTANCE.client.hud.clientPropertyHUDDefaultY / 100d * maxY);
+        return (int) (GTOConfig.INSTANCE.client.hud.clientAttributesHUDDefaultY / 100d * maxY);
     }
 
     private int getScreenWidth() {

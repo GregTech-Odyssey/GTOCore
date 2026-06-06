@@ -18,7 +18,7 @@ import com.gtolib.api.data.GTODimensions;
 import com.gtolib.api.item.tool.VajraItem;
 import com.gtolib.api.machine.feature.IVacuumMachine;
 import com.gtolib.api.player.IEnhancedPlayer;
-import com.gtolib.api.player.PlayerAttributes;
+import com.gtolib.api.player.attribute.PlayerAttributes;
 import com.gtolib.utils.RLUtils;
 import com.gtolib.utils.RegistriesUtils;
 import com.gtolib.utils.ServerUtils;

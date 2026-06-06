@@ -20,7 +20,7 @@ import com.gtolib.api.data.Dimension;
 import com.gtolib.api.lang.CNEN;
 import com.gtolib.api.lang.SimplifiedChineseLanguageProvider;
 import com.gtolib.api.lang.TraditionalChineseLanguageProvider;
-import com.gtolib.api.player.PlayerAttributes;
+import com.gtolib.api.player.attribute.PlayerAttributes;
 import com.gtolib.api.recipe.IdleReason;
 import com.gtolib.api.registries.GTOMachineBuilder;
 import com.gtolib.api.registries.MultiblockBuilder;
