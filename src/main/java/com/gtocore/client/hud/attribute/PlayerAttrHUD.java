@@ -179,12 +179,16 @@ public class PlayerAttrHUD implements IMoveableHUD {
                 continue;
             }
             Rect2i entryBounds = getEntryBounds(bounds, entries, entry);
-            if (entryBounds != null && bounds.contains((int) mouseX, (int) mouseY)) {
-                activeEntry = entry.mouseClicked(mouseX, mouseY, button, entryBounds) ? entry : null;
+            if (entryBounds != null && entryBounds.contains((int) mouseX, (int) mouseY)) {
+                boolean handled = entry.mouseClicked(mouseX, mouseY, button, entryBounds);
+                activeEntry = handled ? entry : null;
                 draggingPosition = false;
                 pendingMovedX = 0;
                 pendingMovedY = 0;
-                return true;
+                if (handled) {
+                    return true;
+                }
+                break;
             }
         }
 
