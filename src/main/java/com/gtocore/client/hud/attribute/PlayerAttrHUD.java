@@ -1,5 +1,7 @@
-package com.gtocore.client.hud;
+package com.gtocore.client.hud.attribute;
 
+import com.gtocore.client.hud.HUDScreen;
+import com.gtocore.client.hud.IMoveableHUD;
 import com.gtocore.config.GTOConfig;
 
 import com.gtolib.api.annotation.DataGeneratorScanned;
@@ -17,19 +19,18 @@ import net.minecraftforge.client.gui.overlay.ForgeGui;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 @OnlyIn(Dist.CLIENT)
 @DataGeneratorScanned
-public class HUDPropertyGroup implements IMoveableHUD {
+public class PlayerAttrHUD implements IMoveableHUD {
 
     @RegisterLanguage(en = "Player Realtime Attribute", cn = "玩家实时属性")
-    public static final String DISPLAY_NAME = "gtocore.hud.client_property.name";
+    public static final String DISPLAY_NAME = "gtocore.hud.client.attributes.name";
 
     @RegisterLanguage(en = "No adjustable attributes.", cn = "暂无可调属性")
-    public static final String EMPTY_MESSAGE = "gtocore.hud.client_property.empty";
+    public static final String EMPTY_MESSAGE = "gtocore.hud.client.attributes.empty";
 
-    public static final HUDPropertyGroup INSTANCE = new HUDPropertyGroup();
+    public static final PlayerAttrHUD INSTANCE = new PlayerAttrHUD();
 
     private static final int PREVIEW_PADDING = 4;
     private static final int PREVIEW_LINE_SPACING = 2;
@@ -39,14 +40,14 @@ public class HUDPropertyGroup implements IMoveableHUD {
     private static final int EDITOR_ENTRY_SPACING = 4;
     private static final int EDITOR_HEADER_GAP = 6;
 
-    private HUDPropertyEntry activeEntry;
+    private PlayerAttrEntry activeEntry;
     private boolean draggingPosition;
     private int dragStartX;
     private int dragStartY;
     private int pendingMovedX;
     private int pendingMovedY;
 
-    public HUDPropertyGroup() {}
+    public PlayerAttrHUD() {}
 
     @Override
     public Component getDisplayName() {
@@ -55,12 +56,12 @@ public class HUDPropertyGroup implements IMoveableHUD {
 
     @Override
     public boolean isEnabled() {
-        return GTOConfig.INSTANCE.client.hud.clientPropertyHUDEnabled;
+        return GTOConfig.INSTANCE.client.hud.clientAttributesHUDEnabled;
     }
 
     @Override
     public void setEnabled(boolean enabled) {
-        GTOConfig.set("clientPropertyHUDEnabled", enabled, "client", "hud");
+        GTOConfig.set("clientAttributesHUDEnabled", enabled, "client", "hud");
         if (!enabled) {
             activeEntry = null;
             draggingPosition = false;
@@ -119,13 +120,13 @@ public class HUDPropertyGroup implements IMoveableHUD {
         guiGraphics.drawString(font, getDisplayName(), contentX, cursorY, 0xFFFFFFFF, false);
         cursorY += font.lineHeight + EDITOR_HEADER_GAP;
 
-        var entries = HUDPropertyEntry.getEntries();
-        if (entries.stream().noneMatch(HUDPropertyEntry::isVisible)) {
+        var entries = PlayerAttrEntry.getEntries();
+        if (entries.stream().noneMatch(PlayerAttrEntry::isVisible)) {
             guiGraphics.drawString(font, Component.translatable(EMPTY_MESSAGE), contentX, cursorY, 0xFFB8C2CC, false);
             return;
         }
 
-        for (HUDPropertyEntry entry : entries) {
+        for (PlayerAttrEntry entry : entries) {
             if (!entry.isVisible()) {
                 continue;
             }
@@ -158,8 +159,8 @@ public class HUDPropertyGroup implements IMoveableHUD {
 
         var newX = ((int) Mth.clamp(Math.round((clampedX * 100.0) / xRange), 0, 100));
         var newY = ((int) Mth.clamp(Math.round((clampedY * 100.0) / yRange), 0, 100));
-        GTOConfig.set("clientPropertyHUDDefaultX", newX, "client", "hud");
-        GTOConfig.set("clientPropertyHUDDefaultY", newY, "client", "hud");
+        GTOConfig.set("clientAttributesHUDDefaultX", newX, "client", "hud");
+        GTOConfig.set("clientAttributesHUDDefaultY", newY, "client", "hud");
         pendingMovedX = 0;
         pendingMovedY = 0;
         draggingPosition = false;
@@ -172,18 +173,22 @@ public class HUDPropertyGroup implements IMoveableHUD {
             return false;
         }
 
-        Set<HUDPropertyEntry> entries = HUDPropertyEntry.getEntries();
-        for (HUDPropertyEntry entry : entries) {
+        List<PlayerAttrEntry> entries = PlayerAttrEntry.getEntries();
+        for (PlayerAttrEntry entry : entries) {
             if (!entry.isVisible()) {
                 continue;
             }
             Rect2i entryBounds = getEntryBounds(bounds, entries, entry);
-            if (entryBounds != null && bounds.contains((int) mouseX, (int) mouseY)) {
-                activeEntry = entry.mouseClicked(mouseX, mouseY, button, entryBounds) ? entry : null;
+            if (entryBounds != null && entryBounds.contains((int) mouseX, (int) mouseY)) {
+                boolean handled = entry.mouseClicked(mouseX, mouseY, button, entryBounds);
+                activeEntry = handled ? entry : null;
                 draggingPosition = false;
                 pendingMovedX = 0;
                 pendingMovedY = 0;
-                return true;
+                if (handled) {
+                    return true;
+                }
+                break;
             }
         }
 
@@ -197,7 +202,7 @@ public class HUDPropertyGroup implements IMoveableHUD {
     @Override
     public boolean mouseDragged(double mouseX, double mouseY, int button, double dragX, double dragY) {
         Rect2i bounds = getEditorBounds(getScreenWidth(), getScreenHeight());
-        Set<HUDPropertyEntry> entries = HUDPropertyEntry.getEntries();
+        List<PlayerAttrEntry> entries = PlayerAttrEntry.getEntries();
         if (activeEntry != null) {
             Rect2i entryBounds = getEntryBounds(bounds, entries, activeEntry);
             if (entryBounds != null && activeEntry.mouseDragged(mouseX, mouseY, button, dragX, dragY, entryBounds)) {
@@ -219,7 +224,7 @@ public class HUDPropertyGroup implements IMoveableHUD {
     @Override
     public boolean mouseReleased(double mouseX, double mouseY, int button) {
         Rect2i bounds = getEditorBounds(getScreenWidth(), getScreenHeight());
-        Set<HUDPropertyEntry> entries = HUDPropertyEntry.getEntries();
+        List<PlayerAttrEntry> entries = PlayerAttrEntry.getEntries();
         boolean handled = false;
 
         if (activeEntry != null) {
@@ -245,7 +250,7 @@ public class HUDPropertyGroup implements IMoveableHUD {
     private List<Component> collectPreviewLines() {
         List<Component> lines = new ArrayList<>();
         lines.add(getDisplayName());
-        for (HUDPropertyEntry entry : HUDPropertyEntry.getEntries()) {
+        for (PlayerAttrEntry entry : PlayerAttrEntry.getEntries()) {
             if (entry.isVisible()) {
                 lines.add(entry.createPreviewLine());
             }
@@ -282,13 +287,13 @@ public class HUDPropertyGroup implements IMoveableHUD {
 
     private int getEditorHeight() {
         Font font = Minecraft.getInstance().font;
-        Set<HUDPropertyEntry> entries = HUDPropertyEntry.getEntries();
-        if (entries.stream().noneMatch(HUDPropertyEntry::isVisible)) {
+        List<PlayerAttrEntry> entries = PlayerAttrEntry.getEntries();
+        if (entries.stream().noneMatch(PlayerAttrEntry::isVisible)) {
             return EDITOR_PADDING * 2 + font.lineHeight * 2 + EDITOR_HEADER_GAP;
         }
 
         int height = EDITOR_PADDING * 2 + font.lineHeight + EDITOR_HEADER_GAP;
-        for (HUDPropertyEntry entry : entries) {
+        for (PlayerAttrEntry entry : entries) {
             if (!entry.isVisible()) {
                 continue;
             }
@@ -297,13 +302,13 @@ public class HUDPropertyGroup implements IMoveableHUD {
         return height - EDITOR_ENTRY_SPACING + EDITOR_PADDING;
     }
 
-    private Rect2i getEntryBounds(Rect2i panelBounds, Set<HUDPropertyEntry> entries, HUDPropertyEntry targetEntry) {
+    private Rect2i getEntryBounds(Rect2i panelBounds, List<PlayerAttrEntry> entries, PlayerAttrEntry targetEntry) {
         Font font = Minecraft.getInstance().font;
         int x = panelBounds.getX() + EDITOR_PADDING;
         int y = panelBounds.getY() + EDITOR_PADDING + font.lineHeight + EDITOR_HEADER_GAP;
         int width = panelBounds.getWidth() - EDITOR_PADDING * 2;
 
-        for (HUDPropertyEntry entry : entries) {
+        for (PlayerAttrEntry entry : entries) {
             if (!entry.isVisible()) {
                 continue;
             }
@@ -318,12 +323,12 @@ public class HUDPropertyGroup implements IMoveableHUD {
 
     private int getBaseX(int screenWidth, int contentWidth) {
         int maxX = Math.max(0, screenWidth - contentWidth);
-        return (int) (GTOConfig.INSTANCE.client.hud.clientPropertyHUDDefaultX / 100d * maxX);
+        return (int) (GTOConfig.INSTANCE.client.hud.clientAttributesHUDDefaultX / 100d * maxX);
     }
 
     private int getBaseY(int screenHeight, int contentHeight) {
         int maxY = Math.max(0, screenHeight - contentHeight);
-        return (int) (GTOConfig.INSTANCE.client.hud.clientPropertyHUDDefaultY / 100d * maxY);
+        return (int) (GTOConfig.INSTANCE.client.hud.clientAttributesHUDDefaultY / 100d * maxY);
     }
 
     private int getScreenWidth() {
