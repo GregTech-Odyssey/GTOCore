@@ -19,9 +19,9 @@ import java.util.Locale;
 import java.util.Set;
 
 @Getter
-public abstract class HUDPropertyEntry {
+public abstract class PlayerAttrEntry {
 
-    private static final Set<HUDPropertyEntry> ENTRIES = new ObjectOpenHashSet<>();
+    private static final Set<PlayerAttrEntry> ENTRIES = new ObjectOpenHashSet<>();
     private static boolean init;
 
     protected static final int ROW_HEIGHT = 24;
@@ -30,11 +30,11 @@ public abstract class HUDPropertyEntry {
 
     private final Component label;
 
-    protected HUDPropertyEntry(Component label) {
+    protected PlayerAttrEntry(Component label) {
         this.label = label;
     }
 
-    public static Set<HUDPropertyEntry> getEntries() {
+    public static Set<PlayerAttrEntry> getEntries() {
         init();
         return ENTRIES;
     }
@@ -153,7 +153,7 @@ public abstract class HUDPropertyEntry {
         return enhancedPlayer.getPlayerData().getPlayerAttributes();
     }
 
-    private abstract static class SliderEntry extends HUDPropertyEntry {
+    private abstract static class SliderEntry extends PlayerAttrEntry {
 
         private static final int TRACK_HEIGHT = 4;
         private static final int TRACK_HOTSPOT_HEIGHT = 12;
@@ -418,7 +418,7 @@ public abstract class HUDPropertyEntry {
         }
     }
 
-    public static final class BooleanEntry extends HUDPropertyEntry {
+    public static final class BooleanEntry extends PlayerAttrEntry {
 
         private static final int TOGGLE_WIDTH = 30;
         private static final int TOGGLE_HEIGHT = 14;
@@ -489,20 +489,20 @@ public abstract class HUDPropertyEntry {
         }
         init = true;
         for (var attribute : PlayerAttributes.REGISTRY.values()) {
-            HUDPropertyEntry entry = createEntry(attribute);
+            PlayerAttrEntry entry = createEntry(attribute);
             if (entry != null) {
                 ENTRIES.add(entry);
             }
         }
     }
 
-    private static HUDPropertyEntry createEntry(PlayerAttributes.AttributeDefinition attribute) {
+    private static PlayerAttrEntry createEntry(PlayerAttributes.AttributeDefinition attribute) {
         Component label = Component.translatable(attribute.getLangKey());
 
         return switch (attribute) {
-            case PlayerAttributes.BooleanAttribute booleanAttribute -> new HUDPropertyEntry.BooleanEntry(label, booleanAttribute);
-            case PlayerAttributes.IntAttribute intAttribute -> new HUDPropertyEntry.IntegerEntry(label, intAttribute);
-            case PlayerAttributes.NumericAttribute numericAttribute -> new HUDPropertyEntry.FloatEntry(label, numericAttribute);
+            case PlayerAttributes.BooleanAttribute booleanAttribute -> new PlayerAttrEntry.BooleanEntry(label, booleanAttribute);
+            case PlayerAttributes.IntAttribute intAttribute -> new PlayerAttrEntry.IntegerEntry(label, intAttribute);
+            case PlayerAttributes.NumericAttribute numericAttribute -> new PlayerAttrEntry.FloatEntry(label, numericAttribute);
             default -> null;
         };
     }
