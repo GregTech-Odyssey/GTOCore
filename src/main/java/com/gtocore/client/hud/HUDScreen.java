@@ -50,7 +50,11 @@ public class HUDScreen extends Screen {
             hud.render(guiGraphics, mouseX, mouseY, partialTick);
         }
 
-        renderSelectedHudOutline(guiGraphics);
+        if (selectedHud == null || !selectedHud.isEnabled()) {
+            return;
+        }
+        IMoveableHUD.drawOutline(guiGraphics, selectedHud.getPropertyAnchorBounds(width, height), 0xFF7FDBFF);
+
         renderCornerButton(guiGraphics, mouseX, mouseY, hiddenHuds);
         if (dropdownOpen) {
             renderHiddenHudDropdown(guiGraphics, mouseX, mouseY, hiddenHuds);
@@ -181,13 +185,6 @@ public class HUDScreen extends Screen {
         clearHudInteraction();
     }
 
-    private void renderSelectedHudOutline(GuiGraphics guiGraphics) {
-        if (selectedHud == null || !selectedHud.isEnabled()) {
-            return;
-        }
-        drawOutline(guiGraphics, selectedHud.getPropertyAnchorBounds(width, height), 0xFF7FDBFF);
-    }
-
     private void renderCornerButton(GuiGraphics guiGraphics, int mouseX, int mouseY, List<IMoveableHUD> hiddenHuds) {
         Rect2i buttonBounds = getCornerButtonBounds();
         boolean positionDragging = isPositionDragActive();
@@ -202,7 +199,7 @@ public class HUDScreen extends Screen {
                 buttonBounds.getX() + buttonBounds.getWidth(),
                 buttonBounds.getY() + buttonBounds.getHeight(),
                 background);
-        drawOutline(guiGraphics, buttonBounds, border);
+        IMoveableHUD.drawOutline(guiGraphics, buttonBounds, border);
         guiGraphics.drawCenteredString(font, label,
                 buttonBounds.getX() + buttonBounds.getWidth() / 2,
                 buttonBounds.getY() + (buttonBounds.getHeight() - font.lineHeight) / 2,
@@ -218,7 +215,7 @@ public class HUDScreen extends Screen {
                 dropdownBounds.getX() + dropdownBounds.getWidth(),
                 dropdownBounds.getY() + dropdownBounds.getHeight(),
                 0xD0101010);
-        drawOutline(guiGraphics, dropdownBounds, 0xFFFFFFFF);
+        IMoveableHUD.drawOutline(guiGraphics, dropdownBounds, 0xFFFFFFFF);
 
         for (int i = 0; i < hiddenHuds.size(); i++) {
             Rect2i entryBounds = getDropdownEntryBounds(dropdownBounds, i);
@@ -306,20 +303,6 @@ public class HUDScreen extends Screen {
                 dropdownBounds.getY() + (index * DROPDOWN_ENTRY_HEIGHT),
                 dropdownBounds.getWidth(),
                 DROPDOWN_ENTRY_HEIGHT);
-    }
-
-    private void drawOutline(GuiGraphics guiGraphics, Rect2i bounds, int color) {
-        if (bounds == null || bounds.getWidth() <= 0 || bounds.getHeight() <= 0) {
-            return;
-        }
-        int left = bounds.getX();
-        int top = bounds.getY();
-        int right = left + bounds.getWidth() - 1;
-        int bottom = top + bounds.getHeight() - 1;
-        guiGraphics.hLine(left, right, top, color);
-        guiGraphics.hLine(left, right, bottom, color);
-        guiGraphics.vLine(left, top, bottom, color);
-        guiGraphics.vLine(right, top, bottom, color);
     }
 
     private boolean contains(Rect2i bounds, double mouseX, double mouseY) {

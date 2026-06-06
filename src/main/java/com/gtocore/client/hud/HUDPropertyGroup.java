@@ -19,10 +19,10 @@ import it.unimi.dsi.fastutil.booleans.BooleanConsumer;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.function.BooleanSupplier;
 import java.util.function.IntConsumer;
 import java.util.function.IntSupplier;
-import java.util.function.Supplier;
 
 @OnlyIn(Dist.CLIENT)
 @DataGeneratorScanned
@@ -36,7 +36,6 @@ public class HUDPropertyGroup implements IMoveableHUD {
 
     public static final HUDPropertyGroup INSTANCE = new HUDPropertyGroup(
             Component.translatable(DISPLAY_NAME),
-            ClientAdjustablePropertyCache::getEntries,
             () -> GTOConfig.INSTANCE.client.hud.clientPropertyHUDEnabled,
             enabled -> GTOConfig.set("clientPropertyHUDEnabled", enabled, "client", "hud"),
             () -> GTOConfig.INSTANCE.client.hud.clientPropertyHUDDefaultX,
@@ -53,7 +52,6 @@ public class HUDPropertyGroup implements IMoveableHUD {
     private static final int EDITOR_HEADER_GAP = 6;
 
     private final Component title;
-    private final Supplier<List<HUDPropertyEntry>> entriesSupplier;
     private final BooleanSupplier enabledGetter;
     private final BooleanConsumer enabledSetter;
     private final IntSupplier relativeXGetter;
@@ -68,12 +66,11 @@ public class HUDPropertyGroup implements IMoveableHUD {
     private int pendingMovedX;
     private int pendingMovedY;
 
-    public HUDPropertyGroup(Component title, Supplier<List<HUDPropertyEntry>> entriesSupplier,
+    public HUDPropertyGroup(Component title,
                             BooleanSupplier enabledGetter, BooleanConsumer enabledSetter,
                             IntSupplier relativeXGetter, IntSupplier relativeYGetter,
                             IntConsumer relativeXSetter, IntConsumer relativeYSetter) {
         this.title = title;
-        this.entriesSupplier = entriesSupplier;
         this.enabledGetter = enabledGetter;
         this.enabledSetter = enabledSetter;
         this.relativeXGetter = relativeXGetter;
@@ -122,7 +119,7 @@ public class HUDPropertyGroup implements IMoveableHUD {
 
         guiGraphics.fill(bounds.getX(), bounds.getY(),
                 bounds.getX() + bounds.getWidth(), bounds.getY() + bounds.getHeight(), 0xC0101010);
-        drawOutline(guiGraphics, bounds, 0xFFFFFFFF);
+        IMoveableHUD.drawOutline(guiGraphics, bounds, 0xFFFFFFFF);
 
         for (Component line : lines) {
             guiGraphics.drawString(font, line, bounds.getX() + PREVIEW_PADDING, lineY, 0xFFFFFFFF, false);
@@ -144,7 +141,7 @@ public class HUDPropertyGroup implements IMoveableHUD {
         Rect2i bounds = getEditorBounds(getScreenWidth(), getScreenHeight());
         guiGraphics.fill(bounds.getX(), bounds.getY(),
                 bounds.getX() + bounds.getWidth(), bounds.getY() + bounds.getHeight(), 0xD0101010);
-        drawOutline(guiGraphics, bounds, 0xFFFFFFFF);
+        IMoveableHUD.drawOutline(guiGraphics, bounds, 0xFFFFFFFF);
 
         Font font = Minecraft.getInstance().font;
         int contentX = bounds.getX() + EDITOR_PADDING;
@@ -153,8 +150,8 @@ public class HUDPropertyGroup implements IMoveableHUD {
         guiGraphics.drawString(font, title, contentX, cursorY, 0xFFFFFFFF, false);
         cursorY += font.lineHeight + EDITOR_HEADER_GAP;
 
-        List<HUDPropertyEntry> entries = entriesSupplier.get();
-        if (entries.isEmpty()) {
+        var entries = HUDPropertyEntry.getEntries();
+        if (entries.stream().noneMatch(HUDPropertyEntry::isVisible)) {
             guiGraphics.drawString(font, Component.translatable(EMPTY_MESSAGE), contentX, cursorY, 0xFFB8C2CC, false);
             return;
         }
@@ -199,17 +196,17 @@ public class HUDPropertyGroup implements IMoveableHUD {
     @Override
     public boolean mouseClicked(double mouseX, double mouseY, int button) {
         Rect2i bounds = getEditorBounds(getScreenWidth(), getScreenHeight());
-        if (!contains(bounds, mouseX, mouseY)) {
+        if (!bounds.contains((int) mouseX, (int) mouseY)) {
             return false;
         }
 
-        List<HUDPropertyEntry> entries = entriesSupplier.get();
+        Set<HUDPropertyEntry> entries = HUDPropertyEntry.getEntries();
         for (HUDPropertyEntry entry : entries) {
             if (!entry.isVisible()) {
                 continue;
             }
             Rect2i entryBounds = getEntryBounds(bounds, entries, entry);
-            if (entryBounds != null && contains(entryBounds, mouseX, mouseY)) {
+            if (entryBounds != null && bounds.contains((int) mouseX, (int) mouseY)) {
                 activeEntry = entry.mouseClicked(mouseX, mouseY, button, entryBounds) ? entry : null;
                 draggingPosition = false;
                 pendingMovedX = 0;
@@ -228,7 +225,7 @@ public class HUDPropertyGroup implements IMoveableHUD {
     @Override
     public boolean mouseDragged(double mouseX, double mouseY, int button, double dragX, double dragY) {
         Rect2i bounds = getEditorBounds(getScreenWidth(), getScreenHeight());
-        List<HUDPropertyEntry> entries = entriesSupplier.get();
+        Set<HUDPropertyEntry> entries = HUDPropertyEntry.getEntries();
         if (activeEntry != null) {
             Rect2i entryBounds = getEntryBounds(bounds, entries, activeEntry);
             if (entryBounds != null && activeEntry.mouseDragged(mouseX, mouseY, button, dragX, dragY, entryBounds)) {
@@ -250,7 +247,7 @@ public class HUDPropertyGroup implements IMoveableHUD {
     @Override
     public boolean mouseReleased(double mouseX, double mouseY, int button) {
         Rect2i bounds = getEditorBounds(getScreenWidth(), getScreenHeight());
-        List<HUDPropertyEntry> entries = entriesSupplier.get();
+        Set<HUDPropertyEntry> entries = HUDPropertyEntry.getEntries();
         boolean handled = false;
 
         if (activeEntry != null) {
@@ -276,7 +273,7 @@ public class HUDPropertyGroup implements IMoveableHUD {
     private List<Component> collectPreviewLines() {
         List<Component> lines = new ArrayList<>();
         lines.add(title.copy());
-        for (HUDPropertyEntry entry : entriesSupplier.get()) {
+        for (HUDPropertyEntry entry : HUDPropertyEntry.getEntries()) {
             if (entry.isVisible()) {
                 lines.add(entry.createPreviewLine());
             }
@@ -286,9 +283,6 @@ public class HUDPropertyGroup implements IMoveableHUD {
 
     private Rect2i getPreviewBounds(int screenWidth, int screenHeight) {
         List<Component> lines = collectPreviewLines();
-        if (lines.isEmpty()) {
-            return new Rect2i(getBaseX(screenWidth, 0), getBaseY(screenHeight, 0), 0, 0);
-        }
 
         Font font = Minecraft.getInstance().font;
         int width = 0;
@@ -316,8 +310,8 @@ public class HUDPropertyGroup implements IMoveableHUD {
 
     private int getEditorHeight() {
         Font font = Minecraft.getInstance().font;
-        List<HUDPropertyEntry> entries = entriesSupplier.get();
-        if (entries.isEmpty()) {
+        Set<HUDPropertyEntry> entries = HUDPropertyEntry.getEntries();
+        if (entries.stream().noneMatch(HUDPropertyEntry::isVisible)) {
             return EDITOR_PADDING * 2 + font.lineHeight * 2 + EDITOR_HEADER_GAP;
         }
 
@@ -331,7 +325,7 @@ public class HUDPropertyGroup implements IMoveableHUD {
         return height - EDITOR_ENTRY_SPACING + EDITOR_PADDING;
     }
 
-    private Rect2i getEntryBounds(Rect2i panelBounds, List<HUDPropertyEntry> entries, HUDPropertyEntry targetEntry) {
+    private Rect2i getEntryBounds(Rect2i panelBounds, Set<HUDPropertyEntry> entries, HUDPropertyEntry targetEntry) {
         Font font = Minecraft.getInstance().font;
         int x = panelBounds.getX() + EDITOR_PADDING;
         int y = panelBounds.getY() + EDITOR_PADDING + font.lineHeight + EDITOR_HEADER_GAP;
@@ -371,23 +365,5 @@ public class HUDPropertyGroup implements IMoveableHUD {
     private boolean isEditorActive() {
         Minecraft mc = Minecraft.getInstance();
         return mc.screen instanceof HUDScreen || (mc.screen != null && IMoveableHUD.activeHuds.contains(this));
-    }
-
-    private void drawOutline(GuiGraphics guiGraphics, Rect2i bounds, int color) {
-        if (bounds.getWidth() <= 0 || bounds.getHeight() <= 0) {
-            return;
-        }
-        int left = bounds.getX();
-        int top = bounds.getY();
-        int right = left + bounds.getWidth() - 1;
-        int bottom = top + bounds.getHeight() - 1;
-        guiGraphics.hLine(left, right, top, color);
-        guiGraphics.hLine(left, right, bottom, color);
-        guiGraphics.vLine(left, top, bottom, color);
-        guiGraphics.vLine(right, top, bottom, color);
-    }
-
-    private boolean contains(Rect2i bounds, double mouseX, double mouseY) {
-        return bounds.contains((int) mouseX, (int) mouseY);
     }
 }

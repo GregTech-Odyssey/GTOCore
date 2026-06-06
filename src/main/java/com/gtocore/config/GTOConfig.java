@@ -313,12 +313,6 @@ public final class GTOConfig {
         public boolean lightningRodEffect = true;
 
         @Configurable
-        @Configurable.Comment({ "启用内置夜视。该效果也可在游戏内按绑定热键切换", "Enable built-in night vision. This effect can also be toggled in-game by pressing the bound hotkey"
-        })
-        @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Built-in Night Vision", cn = "内置夜视")
-        public boolean nightVision = false;
-
-        @Configurable
         @Configurable.Comment({ "禁用后将渲染视角外，且渲染器被标记为Global的机器，一些高级特效机器需要开启此选项才能正常渲染", "When turned disable, machines that are outside the field of view and whose renderer is marked as Global will be rendered. Some advanced effect machines need to turn on this option to render properly" })
         @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Disable Embeddium Global BE Culling", cn = "禁用Embbedium Global方块实体剔除")
         public boolean disableEmbeddiumBECulling = true;

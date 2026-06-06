@@ -1,5 +1,6 @@
 package com.gtocore.client.hud;
 
+import com.gtolib.api.player.IEnhancedPlayer;
 import com.gtolib.api.player.PlayerAttributes;
 
 import net.minecraft.client.Minecraft;
@@ -9,28 +10,33 @@ import net.minecraft.client.renderer.Rect2i;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
 
+import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import lombok.Getter;
 
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.Locale;
-
-import static com.gtocore.client.hud.ClientAdjustablePropertyCache.getPlayerAttributes;
+import java.util.Set;
 
 @Getter
 public abstract class HUDPropertyEntry {
 
+    private static final Set<HUDPropertyEntry> ENTRIES = new ObjectOpenHashSet<>();
+    private static boolean init;
+
     protected static final int ROW_HEIGHT = 24;
     protected static final int TEXT_COLOR = 0xFFFFFFFF;
     protected static final int MUTED_TEXT_COLOR = 0xFFB8C2CC;
-    protected static final int DISABLED_TEXT_COLOR = 0xFF7F8790;
 
-    private final String id;
     private final Component label;
 
-    protected HUDPropertyEntry(String id, Component label) {
-        this.id = id;
+    protected HUDPropertyEntry(Component label) {
         this.label = label;
+    }
+
+    public static Set<HUDPropertyEntry> getEntries() {
+        init();
+        return ENTRIES;
     }
 
     public int getEditorHeight() {
@@ -138,6 +144,15 @@ public abstract class HUDPropertyEntry {
         PlayerAttributes.syncToServer(Minecraft.getInstance().player, attribute, value);
     }
 
+    private static PlayerAttributes getPlayerAttributes() {
+        Minecraft mc = Minecraft.getInstance();
+        if (mc.player == null) {
+            return null;
+        }
+        IEnhancedPlayer enhancedPlayer = IEnhancedPlayer.of(mc.player);
+        return enhancedPlayer.getPlayerData().getPlayerAttributes();
+    }
+
     private abstract static class SliderEntry extends HUDPropertyEntry {
 
         private static final int TRACK_HEIGHT = 4;
@@ -148,8 +163,8 @@ public abstract class HUDPropertyEntry {
         private float previewValue;
         private boolean pendingCommit;
 
-        protected SliderEntry(String id, Component label) {
-            super(id, label);
+        protected SliderEntry(Component label) {
+            super(label);
         }
 
         protected final void initializePreviewValue() {
@@ -311,8 +326,8 @@ public abstract class HUDPropertyEntry {
 
         private final PlayerAttributes.IntAttribute attribute;
 
-        public IntegerEntry(String id, Component label, PlayerAttributes.IntAttribute attribute) {
-            super(id, label);
+        public IntegerEntry(Component label, PlayerAttributes.IntAttribute attribute) {
+            super(label);
             this.attribute = attribute;
             initializePreviewValue();
         }
@@ -320,10 +335,6 @@ public abstract class HUDPropertyEntry {
         @Override
         public boolean isVisible() {
             return isAvailable(attribute);
-        }
-
-        public Component createControlLabel(int value) {
-            return createControlLabel(Component.literal(Integer.toString(value)));
         }
 
         @Override
@@ -363,8 +374,8 @@ public abstract class HUDPropertyEntry {
 
         private final PlayerAttributes.NumericAttribute attribute;
 
-        public FloatEntry(String id, Component label, PlayerAttributes.NumericAttribute attribute) {
-            super(id, label);
+        public FloatEntry(Component label, PlayerAttributes.NumericAttribute attribute) {
+            super(label);
             this.attribute = attribute;
             initializePreviewValue();
         }
@@ -372,10 +383,6 @@ public abstract class HUDPropertyEntry {
         @Override
         public boolean isVisible() {
             return isAvailable(attribute);
-        }
-
-        public Component createControlLabel(float value) {
-            return createControlLabel(Component.literal(formatValue(value)));
         }
 
         @Override
@@ -419,8 +426,8 @@ public abstract class HUDPropertyEntry {
 
         private final PlayerAttributes.BooleanAttribute attribute;
 
-        public BooleanEntry(String id, Component label, PlayerAttributes.BooleanAttribute attribute) {
-            super(id, label);
+        public BooleanEntry(Component label, PlayerAttributes.BooleanAttribute attribute) {
+            super(label);
             this.attribute = attribute;
         }
 
@@ -474,5 +481,29 @@ public abstract class HUDPropertyEntry {
             int y = bounds.getY() + (bounds.getHeight() - TOGGLE_HEIGHT) / 2;
             return new Rect2i(x, y, TOGGLE_WIDTH, TOGGLE_HEIGHT);
         }
+    }
+
+    private static void init() {
+        if (init) {
+            return;
+        }
+        init = true;
+        for (var attribute : PlayerAttributes.REGISTRY.values()) {
+            HUDPropertyEntry entry = createEntry(attribute);
+            if (entry != null) {
+                ENTRIES.add(entry);
+            }
+        }
+    }
+
+    private static HUDPropertyEntry createEntry(PlayerAttributes.AttributeDefinition attribute) {
+        Component label = Component.translatable(attribute.getLangKey());
+
+        return switch (attribute) {
+            case PlayerAttributes.BooleanAttribute booleanAttribute -> new HUDPropertyEntry.BooleanEntry(label, booleanAttribute);
+            case PlayerAttributes.IntAttribute intAttribute -> new HUDPropertyEntry.IntegerEntry(label, intAttribute);
+            case PlayerAttributes.NumericAttribute numericAttribute -> new HUDPropertyEntry.FloatEntry(label, numericAttribute);
+            default -> null;
+        };
     }
 }

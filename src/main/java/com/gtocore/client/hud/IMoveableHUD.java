@@ -31,6 +31,8 @@ public interface IMoveableHUD extends IGuiOverlay, GuiEventListener, Renderable 
 
     Map<String, IMoveableHUD> REGISTERED_HUDS = new LinkedHashMap<>();
 
+    Set<IMoveableHUD> activeHuds = new ReferenceOpenHashSet<>();
+
     static void registerHUD(RegisterGuiOverlaysEvent event, String id, IMoveableHUD hud) {
         REGISTERED_HUDS.put(id, hud);
         event.registerAboveAll(id, hud);
@@ -105,8 +107,6 @@ public interface IMoveableHUD extends IGuiOverlay, GuiEventListener, Renderable 
         return false;
     }
 
-    Set<IMoveableHUD> activeHuds = new ReferenceOpenHashSet<>();
-
     static boolean addActiveHud(IMoveableHUD hud) {
         if (EmiConfig.enabled) EmiConfig.enabled = false;
         return activeHuds.add(hud);
@@ -174,5 +174,19 @@ public interface IMoveableHUD extends IGuiOverlay, GuiEventListener, Renderable 
             activeHuds.clear();
             EmiConfig.enabled = true;
         }
+    }
+
+    static void drawOutline(GuiGraphics guiGraphics, Rect2i bounds, int color) {
+        if (bounds == null || bounds.getWidth() <= 0 || bounds.getHeight() <= 0) {
+            return;
+        }
+        int left = bounds.getX();
+        int top = bounds.getY();
+        int right = left + bounds.getWidth() - 1;
+        int bottom = top + bounds.getHeight() - 1;
+        guiGraphics.hLine(left, right, top, color);
+        guiGraphics.hLine(left, right, bottom, color);
+        guiGraphics.vLine(left, top, bottom, color);
+        guiGraphics.vLine(right, top, bottom, color);
     }
 }
