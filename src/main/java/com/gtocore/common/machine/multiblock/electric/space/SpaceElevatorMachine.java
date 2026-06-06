@@ -12,6 +12,7 @@ import com.gtolib.api.data.GTODimensions;
 import com.gtolib.api.machine.feature.multiblock.IHighlightMachine;
 import com.gtolib.api.machine.multiblock.TierCasingMultiblockMachine;
 import com.gtolib.api.misc.PlanetManagement;
+import com.gtolib.mc.ILevel;
 import com.gtolib.utils.MachineUtils;
 import com.gtolib.utils.MathUtil;
 
@@ -252,6 +253,7 @@ public class SpaceElevatorMachine extends TierCasingMultiblockMachine implements
     public Level getTargetLevel() {
         if (isRemote() || getLevel() == null) return null;
         Planet planet = PlanetApi.API.getPlanet(getLevel());
+        if (((ILevel) getLevel()).gtolib$isVoid()) planet = PlanetApi.API.getPlanet(GTODimensions.OVERWORLD);
         if (planet == null) return null;
         Optional<ResourceKey<Level>> orbitLevel = planet.orbit();
         if (orbitLevel.isEmpty()) return null;
