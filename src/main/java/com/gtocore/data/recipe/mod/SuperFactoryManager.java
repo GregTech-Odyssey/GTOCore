@@ -76,7 +76,7 @@ public class SuperFactoryManager {
                 "   ",
                 'A', RegistriesUtils.getItemStack("sfm:cable"));
 
-        VanillaRecipeHelper.addShapedRecipe(GTOCore.id("cable"), RegistriesUtils.getItemStack("sfm:cable"),
+        VanillaRecipeHelper.addShapedRecipe(GTOCore.id("cable_conv"), RegistriesUtils.getItemStack("sfm:cable"),
                 "A  ",
                 "   ",
                 "   ",
