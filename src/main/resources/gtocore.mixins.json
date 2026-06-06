@@ -10,7 +10,6 @@
     "adastra.AdAstraOverlayScreenMixin",
     "adastra.PlanetsScreenMixin",
     "ae2.eae.ExPATScreensMixin",
-    "ae2.eae.FCUtilMixin",
     "ae2.eae.GuiExPatternTerminalMixin",
     "ae2.eae.GuiPatternMixin",
     "ae2.eae.GuiTagExportBusMixin",
