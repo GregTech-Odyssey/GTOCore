@@ -104,6 +104,14 @@ public class ModularHatchPartMachine extends ACMHatchPartMachine implements IMod
     }
 
     @Override
+    public void onLoad() {
+        super.onLoad();
+        if (!isRemote() && temperatureMode && heatContainer.getCurrentHeat() == 0 && activeTemperature > getHeatContainerTemperature()) {
+            setActiveTemperature(activeTemperature);
+        }
+    }
+
+    @Override
     public int getCurrentGravity() {
         return gravityMode ? currentGravity : 1;
     }
@@ -151,8 +159,8 @@ public class ModularHatchPartMachine extends ACMHatchPartMachine implements IMod
                         () -> temperatureMode ?
                                 Component.translatable(TEMPERATURE_CONFIG) :
                                 Component.translatable(TOOLTIP_REQUIRED_KEY, getDisplayName(TEMPERATURE_SHORT_NAME)),
-                        v -> setActiveTemperature(activeTemperature + v),
-                        v -> setActiveTemperature(activeTemperature - v),
+                        v -> setActiveTemperature(getHeatContainerTemperature() + v),
+                        v -> setActiveTemperature(getHeatContainerTemperature() - v),
                         () -> temperatureMode, MIN_TEMPERATURE, MAX_TEMPERATURE))
                 // Gravity
                 .addWidget(new SlotWidget(gravityModuleInv.storage, 0, xslot, ylabel + y * rowHeight, true, true)
@@ -257,6 +265,12 @@ public class ModularHatchPartMachine extends ACMHatchPartMachine implements IMod
 
     private void setActiveTemperature(int activeTemperature) {
         this.activeTemperature = Mth.clamp(activeTemperature, MIN_TEMPERATURE, MAX_TEMPERATURE);
+        long targetHeat = Math.round(Math.max(0, this.activeTemperature - heatContainer.getAmbientTemperature()) * heatContainer.getHeatCapacity());
+        heatContainer.setCurrentHeat(Math.min(targetHeat, Math.max(0, heatContainer.getMaxHeat())));
+    }
+
+    private int getHeatContainerTemperature() {
+        return Mth.clamp((int) Math.round(heatContainer.getTemperature()), MIN_TEMPERATURE, MAX_TEMPERATURE);
     }
 
     @Override
@@ -282,7 +296,11 @@ public class ModularHatchPartMachine extends ACMHatchPartMachine implements IMod
     }
 
     private void onConditionChange() {
+        boolean wasTemperatureMode = temperatureMode;
         temperatureMode = !temperatureModuleInv.getStackInSlot(0).isEmpty();
+        if (temperatureMode && !wasTemperatureMode) {
+            setActiveTemperature(activeTemperature);
+        }
         gravityMode = !gravityModuleInv.getStackInSlot(0).isEmpty();
         vacuumMode = !vacuumModuleInv.getStackInSlot(0).isEmpty();
         var cleanroom = Wrapper.CLEAN_CHECK.get(cleanroomModuleInv.getStackInSlot(0).getItem());
