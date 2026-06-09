@@ -46,6 +46,7 @@ import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.math.BigInteger;
 import java.util.List;
 import java.util.Map;
 
@@ -375,9 +376,9 @@ public final class SupercomputingCenterMachine extends StorageMultiblockMachine 
     }
 
     private static long saturatingMultiplyDivideNonNegative(long value, long multiplier, long divisor) {
-        if (value <= 0 || multiplier <= 0) return 0;
-        if (value > Long.MAX_VALUE / multiplier) return Long.MAX_VALUE;
-        return (value * multiplier) / divisor;
+        if (value <= 0 || multiplier <= 0 || divisor <= 0) return 0;
+        BigInteger result = BigInteger.valueOf(value).multiply(BigInteger.valueOf(multiplier)).divide(BigInteger.valueOf(divisor));
+        return result.compareTo(BigInteger.valueOf(Long.MAX_VALUE)) > 0 ? Long.MAX_VALUE : result.longValue();
     }
 
     private void maxCWUtModificationUpdate() {
