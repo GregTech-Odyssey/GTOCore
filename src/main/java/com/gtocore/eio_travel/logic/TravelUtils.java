@@ -72,6 +72,9 @@ public interface TravelUtils {
         return chunkMap.values().stream();
     }
 
+    /**
+     * Filters travel targets by the block id stored on the travelling staff without materializing the stream.
+     */
     static Stream<ITravelTarget> filterByBlock(Player player, Stream<ITravelTarget> targets) {
         ItemStack stack = player.getMainHandItem().isEmpty() ?
                 player.getOffhandItem() : player.getMainHandItem();
@@ -84,21 +87,7 @@ public interface TravelUtils {
         String filterBlock = tag.getString(FILTER_BLOCK_TAG);
         Level level = player.level();
 
-        List<ITravelTarget> targetList = targets.toList();
-
-        Set<String> existingBlockTypes = new HashSet<>();
-        for (ITravelTarget target : targetList) {
-            BlockPos pos = target.getPos();
-            BlockState blockState = level.getBlockState(pos);
-            String blockId = Objects.requireNonNull(ForgeRegistries.BLOCKS.getKey(blockState.getBlock())).toString();
-            existingBlockTypes.add(blockId);
-        }
-
-        if (!existingBlockTypes.contains(filterBlock)) {
-            return Stream.empty();
-        }
-
-        return targetList.stream().filter(target -> {
+        return targets.filter(target -> {
             BlockPos pos = target.getPos();
             BlockState blockState = level.getBlockState(pos);
             String blockId = Objects.requireNonNull(ForgeRegistries.BLOCKS.getKey(blockState.getBlock())).toString();
