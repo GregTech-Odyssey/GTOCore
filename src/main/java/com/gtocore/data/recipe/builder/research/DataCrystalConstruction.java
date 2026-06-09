@@ -117,7 +117,7 @@ public final class DataCrystalConstruction {
             builder.outputItems(dataStack)
                     .EUt(eut)
                     .CWUt(cwut)
-                    .totalCWU(totalCWU)
+                    .duration(ResearchRecipeDuration.fromTotalCWU(totalCWU, cwut))
                     .save();
         }
     }

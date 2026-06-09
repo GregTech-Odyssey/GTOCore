@@ -99,7 +99,7 @@ public final class DataAnalysisRecipeBuilder {
                 .chancedOutput(ErrorDataCrystalList.get(crystalTire), errorChance, 0)
                 .EUt(eut)
                 .CWUt(cwut)
-                .totalCWU(totalCWU)
+                .duration(ResearchRecipeDuration.fromTotalCWU(totalCWU, cwut))
                 .save();
     }
 }

@@ -116,7 +116,7 @@ public final class RecipesDataGenerateRecipeBuilder {
                 .chancedOutput(dataStack, chance, 0)
                 .EUt(eut)
                 .CWUt(cwut)
-                .totalCWU(totalCWU)
+                .duration(ResearchRecipeDuration.fromTotalCWU(totalCWU, cwut))
                 .save();
     }
 }

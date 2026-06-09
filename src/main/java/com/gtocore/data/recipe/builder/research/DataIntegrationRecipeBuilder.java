@@ -98,7 +98,7 @@ public final class DataIntegrationRecipeBuilder {
                 .chancedOutput(ErrorDataCrystalList.get(crystalTire), normalizedError, 0)
                 .EUt(eut)
                 .CWUt(cwut)
-                .totalCWU(totalCWU)
+                .duration(ResearchRecipeDuration.fromTotalCWU(totalCWU, cwut))
                 .save();
     }
 }
