@@ -24,8 +24,9 @@ public class RenderTravelTargets {
 
     @SubscribeEvent
     public static void renderLevel(RenderLevelStageEvent event) {
-        ClientLevel level = Minecraft.getInstance().level;
-        LocalPlayer player = Minecraft.getInstance().player;
+        Minecraft minecraft = Minecraft.getInstance();
+        ClientLevel level = minecraft.level;
+        LocalPlayer player = minecraft.player;
         if (level == null || player == null || event.getStage() != RenderLevelStageEvent.Stage.AFTER_TRIPWIRE_BLOCKS) {
             return;
         }
@@ -35,10 +36,13 @@ public class RenderTravelTargets {
         }
 
         boolean itemTeleport = TravelHandler.canItemTeleport(player);
-        TravelSavedData data = TravelSavedData.getTravelData(Minecraft.getInstance().level);
+        TravelSavedData data = TravelSavedData.getTravelData(level);
         @Nullable
         ITravelTarget activeTarget = TravelHandler.getTeleportAnchorTarget(player).orElse(null);
         var targets = TravelUtils.filterTargets(player, data.getTravelTargets().stream()).toList();
+        PoseStack poseStack = event.getPoseStack();
+        Camera mainCamera = minecraft.gameRenderer.getMainCamera();
+        Vec3 projectedView = mainCamera.getPosition();
         for (ITravelTarget target : targets) {
             double range = itemTeleport ? target.getItem2BlockRange() : target.getBlock2BlockRange();
             double distanceSquared = target.getPos().distToCenterSqr(player.position());
@@ -46,10 +50,7 @@ public class RenderTravelTargets {
                 continue;
             }
 
-            PoseStack poseStack = event.getPoseStack();
             poseStack.pushPose();
-            Camera mainCamera = Minecraft.getInstance().gameRenderer.getMainCamera();
-            Vec3 projectedView = mainCamera.getPosition();
             poseStack.translate(-projectedView.x, -projectedView.y, -projectedView.z);
 
             boolean active = activeTarget == target;
