@@ -378,23 +378,20 @@ public final class SupercomputingCenterMachine extends StorageMultiblockMachine 
                         if (valueItem != null) {
                             int count = itemStack.getCount();
                             int index = getIndexForItem(itemStack.getItem());
-                            int consumption = Math.min(count, (max - maxCWUtModification) / N_MFPCs[index] + 1);
-                            stackTransfer.setStackInSlot(i, itemStack.copyWithCount(count - consumption));
-                            maxCWUtModification += N_MFPCs[index] * consumption;
-                            for (int j = 0; j < stackTransfer.getSlots(); j++) {
-                                if (stackTransfer.getStackInSlot(j).getItem() == valueItem) {
-                                    int count2 = stackTransfer.getStackInSlot(j).getCount();
-                                    if (count2 + consumption <= 64) {
-                                        stackTransfer.setStackInSlot(j, new ItemStack(valueItem, count2 + consumption));
-                                        break;
-                                    }
-                                }
-                                if (stackTransfer.getStackInSlot(j).isEmpty()) {
-                                    ItemStack convertedStack = new ItemStack(valueItem, consumption);
-                                    stackTransfer.setStackInSlot(j, convertedStack);
-                                    break;
+                            int requestedConsumption = Math.min(count, (max - maxCWUtModification) / N_MFPCs[index] + 1);
+                            ItemStack convertedStack = new ItemStack(valueItem);
+                            int outputCapacity = getConversionOutputCapacity(stackTransfer, convertedStack);
+                            if (outputCapacity < requestedConsumption && requestedConsumption == count) {
+                                int sourceSlotCapacity = getEmptySlotOutputCapacity(stackTransfer, i, convertedStack);
+                                if ((long) outputCapacity + sourceSlotCapacity >= count) {
+                                    outputCapacity = count;
                                 }
                             }
+                            int consumption = Math.min(requestedConsumption, outputCapacity);
+                            if (consumption <= 0) continue;
+                            stackTransfer.setStackInSlot(i, consumption == count ? ItemStack.EMPTY : itemStack.copyWithCount(count - consumption));
+                            maxCWUtModification += N_MFPCs[index] * consumption;
+                            insertConversionOutput(stackTransfer, convertedStack, consumption);
                         }
                         if (maxCWUtModification >= max) break;
                     }
@@ -403,6 +400,58 @@ public final class SupercomputingCenterMachine extends StorageMultiblockMachine 
             } else maxCWUtModification = 10000;
         }
         maxCWUtModificationSubs.updateSubscription();
+    }
+
+    private static int getConversionOutputCapacity(CustomItemStackHandler stackTransfer, ItemStack convertedStack) {
+        int capacity = 0;
+        for (int slot = 0; slot < stackTransfer.getSlots(); slot++) {
+            ItemStack slotStack = stackTransfer.getStackInSlot(slot);
+            if (slotStack.isEmpty()) {
+                capacity = addCapacity(capacity, getEmptySlotOutputCapacity(stackTransfer, slot, convertedStack));
+            } else if (ItemStack.isSameItemSameTags(slotStack, convertedStack)) {
+                int stackLimit = getOutputStackLimit(stackTransfer, slot, slotStack);
+                if (slotStack.getCount() < stackLimit) {
+                    capacity = addCapacity(capacity, stackLimit - slotStack.getCount());
+                }
+            }
+        }
+        return capacity;
+    }
+
+    private static int getEmptySlotOutputCapacity(CustomItemStackHandler stackTransfer, int slot, ItemStack convertedStack) {
+        return getOutputStackLimit(stackTransfer, slot, convertedStack);
+    }
+
+    private static int getOutputStackLimit(CustomItemStackHandler stackTransfer, int slot, ItemStack stack) {
+        return Math.min(stackTransfer.getSlotLimit(slot), stack.getMaxStackSize());
+    }
+
+    private static int addCapacity(int capacity, int available) {
+        if (available <= 0) return capacity;
+        return capacity > Integer.MAX_VALUE - available ? Integer.MAX_VALUE : capacity + available;
+    }
+
+    private static void insertConversionOutput(CustomItemStackHandler stackTransfer, ItemStack convertedStack, int count) {
+        int remaining = count;
+        for (int slot = 0; slot < stackTransfer.getSlots(); slot++) {
+            ItemStack slotStack = stackTransfer.getStackInSlot(slot);
+            if (slotStack.isEmpty() || !ItemStack.isSameItemSameTags(slotStack, convertedStack)) continue;
+            int stackLimit = getOutputStackLimit(stackTransfer, slot, slotStack);
+            int toInsert = Math.min(remaining, stackLimit - slotStack.getCount());
+            if (toInsert <= 0) continue;
+            stackTransfer.setStackInSlot(slot, slotStack.copyWithCount(slotStack.getCount() + toInsert));
+            remaining -= toInsert;
+            if (remaining <= 0) return;
+        }
+        for (int slot = 0; slot < stackTransfer.getSlots(); slot++) {
+            ItemStack slotStack = stackTransfer.getStackInSlot(slot);
+            if (!slotStack.isEmpty()) continue;
+            int toInsert = Math.min(remaining, getEmptySlotOutputCapacity(stackTransfer, slot, convertedStack));
+            if (toInsert <= 0) continue;
+            stackTransfer.setStackInSlot(slot, convertedStack.copyWithCount(toInsert));
+            remaining -= toInsert;
+            if (remaining <= 0) return;
+        }
     }
 
     public long getMaxCWUt() {
