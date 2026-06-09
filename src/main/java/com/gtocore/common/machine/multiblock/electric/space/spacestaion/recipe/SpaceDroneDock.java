@@ -11,6 +11,7 @@ import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.GTCapabilityHelper;
 import com.gregtechceu.gtceu.api.item.capability.ElectricItem;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
+import com.gregtechceu.gtceu.api.recipe.content.Content;
 import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
 import com.gregtechceu.gtceu.api.recipe.ingredient.ItemIngredient;
 import com.gregtechceu.gtceu.api.recipe.modifier.ParallelLogic;
@@ -76,8 +77,14 @@ public class SpaceDroneDock extends RecipeExtension {
         recipe.duration = (int) (recipe.duration * (0.1 + 6.384 / base / base));
         recipe = ParallelLogic.accurateParallel(this, unit, recipe, maxParallel);
         if (recipe == null) return null;
-        unit.inputItem(inputHolder.value);
-        outputItem(outputHolder.value);
+
+        newInput = new ArrayList<>(recipe.itemInputs);
+        newInput.add(new Content<>(ItemIngredient.of(inputHolder.value)));
+        recipe.itemInputs = newInput;
+
+        var newOutput = new ArrayList<>(recipe.itemOutputs);
+        newOutput.add(new Content<>(ItemIngredient.of(outputHolder.value)));
+        recipe.itemOutputs = newOutput;
 
         return recipe;
     }
