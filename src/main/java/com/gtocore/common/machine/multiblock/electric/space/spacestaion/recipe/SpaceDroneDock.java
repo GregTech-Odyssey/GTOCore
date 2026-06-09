@@ -11,7 +11,10 @@ import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.GTCapabilityHelper;
 import com.gregtechceu.gtceu.api.item.capability.ElectricItem;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
+import com.gregtechceu.gtceu.api.recipe.RecipeHelper;
 import com.gregtechceu.gtceu.api.recipe.content.Content;
+import com.gregtechceu.gtceu.api.recipe.handler.ActionResult;
+import com.gregtechceu.gtceu.api.recipe.handler.IO;
 import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
 import com.gregtechceu.gtceu.api.recipe.ingredient.ItemIngredient;
 import com.gregtechceu.gtceu.api.recipe.modifier.ParallelLogic;
@@ -52,6 +55,8 @@ public class SpaceDroneDock extends RecipeExtension {
                 var change = BigInteger.valueOf(electricItem.getCharge());
                 if (change.compareTo(BigInteger.ZERO) > 0) {
                     costEU.value = change;
+                    var tag = output.getTag();
+                    if (tag != null) tag.remove("Infinite");
                     electricItem.setCharge(0);
                     inputHolder.value = input;
                     outputHolder.value = output;
@@ -75,6 +80,10 @@ public class SpaceDroneDock extends RecipeExtension {
         double base = (1.632 + costEU.value.doubleValue() / 1_000_000_000);
         base = base * base;
         recipe.duration = (int) (recipe.duration * (0.1 + 6.384 / base / base));
+        var returnedDroneOutput = new Content<>(ItemIngredient.of(outputHolder.value));
+        maxParallel = getMaxParallelWithReturnedDrone(unit, recipe, returnedDroneOutput, maxParallel);
+        if (maxParallel <= 0) return null;
+
         recipe = ParallelLogic.accurateParallel(this, unit, recipe, maxParallel);
         if (recipe == null) return null;
 
@@ -83,10 +92,52 @@ public class SpaceDroneDock extends RecipeExtension {
         recipe.itemInputs = newInput;
 
         var newOutput = new ArrayList<>(recipe.itemOutputs);
-        newOutput.add(new Content<>(ItemIngredient.of(outputHolder.value)));
+        newOutput.add(returnedDroneOutput);
         recipe.itemOutputs = newOutput;
 
         return recipe;
+    }
+
+    private long getMaxParallelWithReturnedDrone(@NotNull RecipeHandlerUnit unit, @NotNull GTRecipe recipe, @NotNull Content<ItemIngredient> returnedDroneOutput, long maxParallel) {
+        maxParallel = ParallelLogic.getMaxParallelAmount(this, unit, recipe.copy(), maxParallel);
+        long result = 0;
+        long min = 1;
+        long max = maxParallel;
+        while (min <= max) {
+            long parallel = (min + max) >>> 1;
+            if (matchesOutputWithReturnedDrone(recipe, returnedDroneOutput, parallel)) {
+                result = parallel;
+                min = parallel + 1;
+            } else {
+                max = parallel - 1;
+            }
+        }
+        if (result == 0) setIdleReason(ActionResult.FAIL_INSUFFICIENT_OUT);
+        return result;
+    }
+
+    private boolean matchesOutputWithReturnedDrone(@NotNull GTRecipe recipe, @NotNull Content<ItemIngredient> returnedDroneOutput, long parallel) {
+        GTRecipe outputRecipe = recipe.copy();
+        outputRecipe.modifier(parallel, true);
+
+        var itemOutputs = new ArrayList<>(outputRecipe.itemOutputs);
+        itemOutputs.add(returnedDroneOutput);
+        outputRecipe.itemOutputs = itemOutputs;
+
+        return simulateRecipeOutput(outputRecipe);
+    }
+
+    private boolean simulateRecipeOutput(@NotNull GTRecipe recipe) {
+        for (var expander : recipe.definition.contentExpanders) {
+            if (!expander.handle(IO.OUT, this, null, recipe, true)) return false;
+        }
+        var itemOutputs = RecipeHelper.copyContents(recipe.itemOutputs, 1);
+        var fluidOutputs = RecipeHelper.copyContents(recipe.fluidOutputs, 1);
+        if (itemOutputs.isEmpty() && fluidOutputs.isEmpty()) return true;
+        for (var outputUnit : getOutputUnits(recipe)) {
+            if (outputUnit.handleRecipeItem(IO.OUT, recipe, itemOutputs, true) && outputUnit.handleRecipeFluid(IO.OUT, recipe, fluidOutputs, true)) return true;
+        }
+        return false;
     }
 
     @Override
