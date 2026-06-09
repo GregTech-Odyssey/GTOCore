@@ -19,6 +19,8 @@ import com.gto.datasynclib.annotations.SaveToDisk;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.concurrent.atomic.AtomicLong;
+
 public final class HeatExchangerMachine extends NoEnergyMultiblockMachine implements IExplosionMachine {
 
     private static final Fluid Steam = GTMaterials.Steam.getFluid();
@@ -52,14 +54,30 @@ public final class HeatExchangerMachine extends NoEnergyMultiblockMachine implem
 
     @Override
     public boolean handleRecipeInput(@NotNull RecipeHandlerUnit unit, @NotNull GTRecipe recipe) {
+        Fluid coolingFluid = water ? Fluids.WATER : DistilledWater;
+        long coolingAmount = hs / 40;
+        if (coolingAmount > 0 && !hasConsumableFluid(unit, coolingFluid, coolingAmount)) {
+            doExplosion(Math.min(10, hs / 10000));
+            return false;
+        }
         if (super.handleRecipeInput(unit, recipe)) {
-            if (!unit.inputFluid(water ? Fluids.WATER : DistilledWater, hs / 40)) {
+            if (coolingAmount > 0 && !unit.inputFluid(coolingFluid, coolingAmount)) {
                 doExplosion(Math.min(10, hs / 10000));
                 return false;
             }
             return true;
         }
         return false;
+    }
+
+    private static boolean hasConsumableFluid(@NotNull RecipeHandlerUnit unit, @NotNull Fluid fluid, long amount) {
+        AtomicLong remaining = new AtomicLong(amount);
+        unit.fastForEachFluids(true, (stack, storedAmount) -> {
+            if (remaining.get() > 0 && stack.getFluid() == fluid) {
+                remaining.addAndGet(-Math.min(remaining.get(), storedAmount));
+            }
+        });
+        return remaining.get() <= 0;
     }
 
     @Override
