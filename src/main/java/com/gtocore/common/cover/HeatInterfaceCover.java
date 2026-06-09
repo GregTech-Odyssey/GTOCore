@@ -32,7 +32,7 @@ public final class HeatInterfaceCover extends CoverBehavior {
         var tier = coverHolder.holder() instanceof MetaMachineBlockEntity blockEntity ? blockEntity.definition.getTier() + 1 : 1;
         handler = new HeatHandler(coverHolder.holder(), 800L * tier, tier, tier, 0.01);
         handler.addChangedListener(() -> {
-            if (machine instanceof IRecipeLogicMachine recipeLogicMachine) {
+            if (getMachine() instanceof IRecipeLogicMachine recipeLogicMachine) {
                 recipeLogicMachine.getRecipeLogic().updateTickSubscription();
             }
         });
@@ -54,6 +54,7 @@ public final class HeatInterfaceCover extends CoverBehavior {
     @Override
     public void onLoad() {
         super.onLoad();
+        machine = MetaMachine.getMachine(coverHolder.holder());
         handler.onLoad();
     }
 
@@ -61,5 +62,13 @@ public final class HeatInterfaceCover extends CoverBehavior {
     public void onRemoved() {
         super.onRemoved();
         handler.onUnLoad();
+    }
+
+    @Nullable
+    private MetaMachine getMachine() {
+        if (machine == null) {
+            machine = MetaMachine.getMachine(coverHolder.holder());
+        }
+        return machine;
     }
 }
