@@ -41,6 +41,8 @@ import static com.gregtechceu.gtceu.api.GTValues.VA;
 @DataGeneratorScanned
 public class VirtualCoinMiner extends ElectricMultiblockMachine implements ICustomElectricMachine, ICustomRecipeLogicHolder {
 
+    private static final long EU_PER_CWU = VA[EV];
+
     @SaveToDisk
     @Getter
     private long cwuLimitConfig = 256L;
@@ -57,13 +59,30 @@ public class VirtualCoinMiner extends ElectricMultiblockMachine implements ICust
     @Override
     public boolean handleTickRecipe(@Nullable GTRecipe recipe) {
         if (recipe != null) {
-            var cwuAvailable = requestCWU(cwuLimitConfig, true);
-            eut = cwuAvailable * VA[EV];
-            if (useEnergy(eut, false)) {
-                cwuBuffer += requestCWU(cwuAvailable, false);
+            long cwuLimit = safeCwuForEuConversion(cwuLimitConfig);
+            long cwuAvailable = safeCwuForEuConversion(requestCWU(cwuLimit, true));
+            eut = cwuToEu(cwuAvailable);
+            if (cwuAvailable > 0 && useEnergy(eut, false)) {
+                cwuBuffer = saturatingAddNonNegative(cwuBuffer, requestCWU(cwuAvailable, false));
             }
         }
         return true;
+    }
+
+    private static long safeCwuForEuConversion(long cwu) {
+        if (cwu <= 0 || EU_PER_CWU <= 0) return 0;
+        return Math.min(cwu, Long.MAX_VALUE / EU_PER_CWU);
+    }
+
+    private static long cwuToEu(long cwu) {
+        return safeCwuForEuConversion(cwu) * EU_PER_CWU;
+    }
+
+    private static long saturatingAddNonNegative(long current, long addition) {
+        current = Math.max(0, current);
+        if (addition <= 0) return current;
+        long result = current + addition;
+        return result < current ? Long.MAX_VALUE : result;
     }
 
     @Override
