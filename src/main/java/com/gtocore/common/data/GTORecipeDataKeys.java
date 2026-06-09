@@ -13,12 +13,15 @@ import net.minecraft.nbt.CompoundTag;
 import com.gto.datasynclib.DataSyncCodec;
 import com.gto.datasynclib.datasream.DataComponentKey;
 
+import java.math.BigInteger;
+
 public final class GTORecipeDataKeys {
 
     public static final DataComponentKey<Boolean> IS_CUSTOM = register("isCustom", DataSyncCodec.BOOLEAN_CODEC);
     public static final DataComponentKey<Boolean> SPECIAL = register("special", DataSyncCodec.BOOLEAN_CODEC);
     public static final DataComponentKey<Integer> TIER = register("tier", DataSyncCodec.INT_CODEC);
     public static final DataComponentKey<Long> EU = register("eu", DataSyncCodec.LONG_CODEC);
+    public static final DataComponentKey<BigInteger> ENERGY_INJECTOR_EU = register("energy_injector_eu", DataSyncCodec.BIG_INTEGER_CODEC);
     public static final DataComponentKey<Integer> TEMPERATURE = register("temperature", DataSyncCodec.INT_CODEC);
 
     public static final DataComponentKey<Long> CONVERTED_ENERGY = register("convertedEnergy", DataSyncCodec.LONG_CODEC);

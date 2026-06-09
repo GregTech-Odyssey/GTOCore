@@ -1,5 +1,7 @@
 package com.gtocore.common.machine.multiblock.electric;
 
+import com.gtocore.common.data.GTORecipeDataKeys;
+
 import com.gtolib.api.machine.impl.part.WirelessEnergyInterfacePartMachine;
 import com.gtolib.api.machine.multiblock.ElectricMultiblockMachine;
 import com.gtolib.api.recipe.IdleReason;
@@ -11,6 +13,7 @@ import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.GTCapabilityHelper;
 import com.gregtechceu.gtceu.api.item.capability.ElectricItem;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
+import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeDefinition;
 import com.gregtechceu.gtceu.api.recipe.handler.ICustomRecipeLogicHolder;
 import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
@@ -62,10 +65,10 @@ public final class EnergyInjectorMachine extends ElectricMultiblockMachine imple
 
     @Override
     public GTRecipeDefinition createCustomRecipe(RecipeHandlerUnit unit) {
-        ExtendWirelessEnergyContainer container = null;
-        BigInteger storage = null;
-        if (energyInterfacePartMachine != null) {
-            container = energyInterfacePartMachine.getWirelessEnergyContainer();
+        boolean useWirelessEnergy = energyInterfacePartMachine != null;
+        BigInteger storage = BigInteger.ZERO;
+        if (useWirelessEnergy) {
+            ExtendWirelessEnergyContainer container = getWirelessEnergyContainer();
             if (container == null) return null;
             storage = container.getStorage();
             if (storage.signum() < 1) return null;
@@ -113,13 +116,12 @@ public final class EnergyInjectorMachine extends ElectricMultiblockMachine imple
         });
         if (eu.value.compareTo(BigInteger.ZERO) > 0) {
 
-            if (container != null) {
+            if (useWirelessEnergy) {
                 if (storage.compareTo(eu.value) < 0) {
                     setIdleReason(IdleReason.NO_EU);
                     return null;
                 }
-                container.setStorage(storage.subtract(eu.value));
-                return builder.duration(1).build();
+                return builder.addData(GTORecipeDataKeys.ENERGY_INJECTOR_EU, eu.value).duration(1).build();
             } else {
                 var voltage = getOverclockVoltage();
                 if (voltage <= 0) {
@@ -130,5 +132,35 @@ public final class EnergyInjectorMachine extends ElectricMultiblockMachine imple
             }
         }
         return null;
+    }
+
+    @Override
+    public boolean handleRecipeInput(RecipeHandlerUnit unit, GTRecipe recipe) {
+        BigInteger wirelessEu = recipe.data.getData(GTORecipeDataKeys.ENERGY_INJECTOR_EU);
+        if (wirelessEu == null) return super.handleRecipeInput(unit, recipe);
+        if (wirelessEu.signum() <= 0) {
+            setIdleReason(IdleReason.NO_EU);
+            return false;
+        }
+
+        ExtendWirelessEnergyContainer container = getWirelessEnergyContainer();
+        if (container == null || container.getStorage().compareTo(wirelessEu) < 0) {
+            setIdleReason(IdleReason.NO_EU);
+            return false;
+        }
+        if (!container.unrestrictedRemoveEnergy(wirelessEu).equals(wirelessEu)) {
+            setIdleReason(IdleReason.NO_EU);
+            return false;
+        }
+        if (!super.handleRecipeInput(unit, recipe)) {
+            container.unrestrictedAddEnergy(wirelessEu);
+            return false;
+        }
+        return true;
+    }
+
+    private ExtendWirelessEnergyContainer getWirelessEnergyContainer() {
+        if (energyInterfacePartMachine == null) return null;
+        return energyInterfacePartMachine.getWirelessEnergyContainer();
     }
 }
