@@ -64,6 +64,9 @@ public final class DissolvingTankMachine extends ElectricMultiblockMachine imple
             return GTORecipeModifiers.UPGRADE_PARALLELIZABLE_OVERCLOCK.applyModifier(this, unit, recipe);
         }
         var fluidList = recipe.fluidInputs;
+        if (fluidList.size() < 2) {
+            return null;
+        }
         var fluidStack1 = fluidList.get(0);
         var fluidStack2 = fluidList.get(1);
         long[] a = unit.getFluidAmount(true, fluidStack1.inner.getFluid(), fluidStack2.inner.getFluid());
