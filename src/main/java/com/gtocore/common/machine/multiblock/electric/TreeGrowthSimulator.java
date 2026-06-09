@@ -49,48 +49,113 @@ public final class TreeGrowthSimulator extends StorageMultiblockMachine {
     @Nullable
     @Override
     public GTRecipe getRealRecipe(@NotNull RecipeHandlerUnit unit, @NotNull GTRecipe recipe) {
-        ItemStack stack = getStorageStack();
-        if (stack.getItem() instanceof IGTTool item) {
-            boolean isElectric = item.isElectric();
-            if (isElectric) {
-                IElectricItem electricStack = GTCapabilityHelper.getElectricItem(stack);
-                if (electricStack == null) {
-                    setIdleReason(IdleReason.FELLING_TOOL);
-                    return null;
-                }
-                int eu = 256 * (1 << tier);
-                if (electricStack.getCharge() < eu) {
-                    setIdleReason(IdleReason.CHARGE);
-                    return null;
-                } else {
-                    electricStack.discharge(eu * (1L << tier), electricStack.getTier(), true, false, false);
-                }
+        if (!canMatchFellingTool(getStorageStack())) return null;
+        recipe.duration = (int) (recipe.duration / speed);
+        if (output > 1) {
+            var contents = recipe.itemOutputs;
+            var content = contents.get(0).copy(2);
+            if (contents.size() > 1) {
+                recipe.itemOutputs = List.of(content, contents.get(1));
+            } else {
+                recipe.itemOutputs = List.of(content);
             }
-            if (!isElectric || GTValues.RNG.nextInt(10) == 0) {
-                int damage = stack.getDamageValue();
-                if (damage >= stack.getMaxDamage()) {
-                    machineStorage.setStackInSlot(0, ItemStack.EMPTY);
-                    setIdleReason(IdleReason.FELLING_TOOL);
-                    return null;
-                }
-                var level = EnchantmentHelper.getItemEnchantmentLevel(Enchantments.UNBREAKING, stack) + 1;
-                if (GTValues.RNG.nextInt() % level == 0) stack.setDamageValue(damage + 1);
-            }
-            recipe.duration = (int) (recipe.duration / speed);
-            if (output > 1) {
-                var contents = recipe.itemOutputs;
-                var content = contents.get(0).copy(2);
-                if (contents.size() > 1) {
-                    recipe.itemOutputs = List.of(content, contents.get(1));
-                } else {
-                    recipe.itemOutputs = List.of(content);
-                }
-            }
-            return RecipeModifier.overclocking(this, unit, recipe);
         }
-        setIdleReason(IdleReason.FELLING_TOOL);
-        return null;
+        return RecipeModifier.overclocking(this, unit, recipe);
     }
+
+    @Override
+    public boolean handleRecipeInput(@NotNull RecipeHandlerUnit unit, @NotNull GTRecipe recipe) {
+        ToolUsePlan toolUsePlan = getToolUsePlan();
+        if (toolUsePlan == null) return false;
+        if (!super.handleRecipeInput(unit, recipe)) return false;
+        applyToolUse(toolUsePlan);
+        return true;
+    }
+
+    private boolean canMatchFellingTool(ItemStack stack) {
+        if (!(stack.getItem() instanceof IGTTool item)) {
+            setIdleReason(IdleReason.FELLING_TOOL);
+            return false;
+        }
+        if (item.isElectric()) {
+            IElectricItem electricStack = GTCapabilityHelper.getElectricItem(stack);
+            if (electricStack == null) {
+                setIdleReason(IdleReason.FELLING_TOOL);
+                return false;
+            }
+            if (electricStack.getCharge() < getFellingToolChargeCheck()) {
+                setIdleReason(IdleReason.CHARGE);
+                return false;
+            }
+        } else if (stack.getDamageValue() >= stack.getMaxDamage()) {
+            setIdleReason(IdleReason.FELLING_TOOL);
+            return false;
+        }
+        return true;
+    }
+
+    @Nullable
+    private ToolUsePlan getToolUsePlan() {
+        ItemStack stack = getStorageStack();
+        if (!(stack.getItem() instanceof IGTTool item)) {
+            setIdleReason(IdleReason.FELLING_TOOL);
+            return null;
+        }
+
+        boolean isElectric = item.isElectric();
+        IElectricItem electricStack = null;
+        if (isElectric) {
+            electricStack = GTCapabilityHelper.getElectricItem(stack);
+            if (electricStack == null) {
+                setIdleReason(IdleReason.FELLING_TOOL);
+                return null;
+            }
+            if (electricStack.getCharge() < getFellingToolChargeCheck()) {
+                setIdleReason(IdleReason.CHARGE);
+                return null;
+            }
+        }
+
+        boolean damageTool = !isElectric || GTValues.RNG.nextInt(10) == 0;
+        boolean applyDamage = false;
+        if (damageTool) {
+            if (stack.getDamageValue() >= stack.getMaxDamage()) {
+                machineStorage.setStackInSlot(0, ItemStack.EMPTY);
+                setIdleReason(IdleReason.FELLING_TOOL);
+                return null;
+            }
+            int unbreakingLevel = EnchantmentHelper.getItemEnchantmentLevel(Enchantments.UNBREAKING, stack) + 1;
+            applyDamage = GTValues.RNG.nextInt() % unbreakingLevel == 0;
+        }
+
+        return new ToolUsePlan(stack, electricStack, isElectric, applyDamage);
+    }
+
+    private void applyToolUse(ToolUsePlan toolUsePlan) {
+        if (toolUsePlan.isElectric()) {
+            toolUsePlan.electricStack()
+                    .discharge(getFellingToolDischarge(), toolUsePlan.electricStack().getTier(), true, false, false);
+        }
+        if (toolUsePlan.applyDamage()) {
+            int damage = toolUsePlan.stack().getDamageValue() + 1;
+            if (damage >= toolUsePlan.stack().getMaxDamage()) {
+                machineStorage.setStackInSlot(0, ItemStack.EMPTY);
+            } else {
+                toolUsePlan.stack().setDamageValue(damage);
+            }
+        }
+    }
+
+    private int getFellingToolChargeCheck() {
+        return 256 * (1 << tier);
+    }
+
+    private long getFellingToolDischarge() {
+        return getFellingToolChargeCheck() * (1L << tier);
+    }
+
+    private record ToolUsePlan(ItemStack stack, @Nullable IElectricItem electricStack, boolean isElectric,
+                               boolean applyDamage) {}
 
     @Override
     public void onStructureFormed() {
