@@ -87,7 +87,7 @@ public final class SupercomputingCenterMachine extends StorageMultiblockMachine 
     private int maxCWUtModification;
     private boolean incompatible;
     private boolean canBridge;
-    private int maxCWUt;
+    private long maxCWUt;
     private int coolingAmountRequired;
     private int coolingAmountProvided;
     private int coolantAmount;
@@ -160,7 +160,7 @@ public final class SupercomputingCenterMachine extends StorageMultiblockMachine 
                     switch (exPart) {
                         case ExResearchBridgePartMachine b -> canBridge = true;
                         case ExResearchComputationPartMachine c when !c.isDamaged() -> {
-                            maxCWUt += c.getCWUPerTick();
+                            maxCWUt = saturatingAddNonNegative(maxCWUt, c.getCWUPerTick());
                             coolingAmountRequired += c.getCoolingPerTick();
                         }
                         case ExResearchCoolerPartMachine c -> {
@@ -182,7 +182,7 @@ public final class SupercomputingCenterMachine extends StorageMultiblockMachine 
                     switch (hpcaPart) {
                         case HPCABridgePartMachine b -> canBridge = true;
                         case HPCAComputationPartMachine c when !c.isDamaged() -> {
-                            maxCWUt += c.getCWUPerTick();
+                            maxCWUt = saturatingAddNonNegative(maxCWUt, c.getCWUPerTick());
                             coolingAmountRequired += c.getCoolingPerTick();
                         }
                         case HPCACoolerPartMachine c -> {
@@ -336,7 +336,10 @@ public final class SupercomputingCenterMachine extends StorageMultiblockMachine 
             cacheCWUt = allocatedCWUt;
             allocatedCWUt = 0;
         }
-        long toAllocate = Math.min(cwu, getAdjustedMaxCWU() - allocatedCWUt);
+        long request = Math.max(0, cwu);
+        long adjustedMaxCWU = getAdjustedMaxCWU();
+        long remainingCWU = allocatedCWUt >= adjustedMaxCWU ? 0 : adjustedMaxCWU - allocatedCWUt;
+        long toAllocate = Math.min(request, remainingCWU);
         if (!simulate) {
             this.allocatedCWUt += toAllocate;
         }
@@ -362,7 +365,19 @@ public final class SupercomputingCenterMachine extends StorageMultiblockMachine 
     }
 
     private long getAdjustedMaxCWU() {
-        return (getMaxCWUt() * maxCWUtModification / 10000);
+        return saturatingMultiplyDivideNonNegative(getMaxCWUt(), Math.max(0, maxCWUtModification), 10000);
+    }
+
+    private static long saturatingAddNonNegative(long current, long increment) {
+        if (increment <= 0) return current;
+        if (Long.MAX_VALUE - current < increment) return Long.MAX_VALUE;
+        return current + increment;
+    }
+
+    private static long saturatingMultiplyDivideNonNegative(long value, long multiplier, long divisor) {
+        if (value <= 0 || multiplier <= 0) return 0;
+        if (value > Long.MAX_VALUE / multiplier) return Long.MAX_VALUE;
+        return (value * multiplier) / divisor;
     }
 
     private void maxCWUtModificationUpdate() {
