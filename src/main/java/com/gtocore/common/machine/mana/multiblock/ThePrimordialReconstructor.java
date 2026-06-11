@@ -13,6 +13,7 @@ import com.gregtechceu.gtceu.api.recipe.handler.ICustomRecipeLogicHolder;
 import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
 import com.gregtechceu.gtceu.common.data.GTItems;
 
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
@@ -55,6 +56,13 @@ import static com.gtocore.data.record.EnchantmentRecord.ENCHANTMENT_ITEM_MAP;
 public class ThePrimordialReconstructor extends ManaMultiblockMachine implements ICustomRecipeLogicHolder {
 
     private static final String DEFAULT_RARITY = "apotheosis:common";
+    private static final List<ResourceLocation> APOTHEOSIS_RARITY_IDS = List.of(
+            ResourceLocation.fromNamespaceAndPath("apotheosis", "common"),
+            ResourceLocation.fromNamespaceAndPath("apotheosis", "uncommon"),
+            ResourceLocation.fromNamespaceAndPath("apotheosis", "rare"),
+            ResourceLocation.fromNamespaceAndPath("apotheosis", "epic"),
+            ResourceLocation.fromNamespaceAndPath("apotheosis", "mythic"),
+            ResourceLocation.fromNamespaceAndPath("apotheosis", "ancient"));
 
     private record GemKey(ResourceLocation gem, ResourceLocation rarity) {}
 
@@ -879,18 +887,33 @@ public class ThePrimordialReconstructor extends ManaMultiblockMachine implements
         return gemStack;
     }
 
+    private static ItemStack createUnboundGemStack(ResourceLocation gemId, ResourceLocation rarityId, int count) {
+        ItemStack gemStack = new ItemStack(Adventure.Items.GEM.get(), count);
+        gemStack.getOrCreateTag().putString(GemItem.GEM, gemId.toString());
+        CompoundTag affixData = gemStack.getOrCreateTagElement(AffixHelper.AFFIX_DATA);
+        affixData.putString(AffixHelper.RARITY, rarityId.toString());
+        return gemStack;
+    }
+
+    private static ResourceLocation getRarityIdByOrdinal(int rarity) {
+        if (rarity < 0 || rarity >= APOTHEOSIS_RARITY_IDS.size()) return APOTHEOSIS_RARITY_IDS.getFirst();
+        return APOTHEOSIS_RARITY_IDS.get(rarity);
+    }
+
     /**
      * 通过字符串获取宝石
      */
     public static ItemStack getGem(int rarity, String gem) {
         ResourceLocation gemId = ResourceLocation.tryParse(gem);
-        if (gemId == null) return ItemStack.EMPTY;
+        if (gemId == null) throw new IllegalArgumentException("Invalid Apotheosis gem id: " + gem);
 
-        List<DynamicHolder<LootRarity>> orderedRarities = RarityRegistry.INSTANCE.getOrderedRarities();
-        if (orderedRarities.isEmpty()) return ItemStack.EMPTY;
-        if (rarity < 0 || rarity >= orderedRarities.size()) rarity = 0;
+        ResourceLocation rarityId = getRarityIdByOrdinal(rarity);
+        DynamicHolder<Gem> gemHolder = GemRegistry.INSTANCE.holder(gemId);
+        DynamicHolder<LootRarity> rarityHolder = RarityRegistry.INSTANCE.holder(rarityId);
+        if (gemHolder.isBound() && rarityHolder.isBound())
+            return GemRegistry.createGemStack(gemHolder.get(), rarityHolder.get());
 
-        return createGemStack(GemRegistry.INSTANCE.holder(gemId), orderedRarities.get(rarity), 1);
+        return createUnboundGemStack(gemId, rarityId, 1);
     }
 
     @Override
