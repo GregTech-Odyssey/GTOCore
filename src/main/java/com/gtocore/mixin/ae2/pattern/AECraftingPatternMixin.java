@@ -41,7 +41,7 @@ public abstract class AECraftingPatternMixin implements IDetails {
     @Final
     private CraftingContainer testFrame;
 
-    @Shadow
+    @Shadow(remap = false)
     public abstract @Nullable GenericStack getValidFluid(int slot);
 
     @Unique
