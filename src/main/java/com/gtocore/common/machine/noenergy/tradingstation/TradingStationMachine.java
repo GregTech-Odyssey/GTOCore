@@ -188,7 +188,7 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
         mainGroup.addWidget(new DraggableScrollableWidgetGroup(4, 34, width - 90, height - 34)
                 .setYScrollBarWidth(2)
                 .setYBarStyle(null, ColorPattern.T_WHITE.rectTexture().setRadius(1))
-                .addWidget(new ComponentPanelWidget(0, 0, GTOMachineTooltips.INSTANCE.getPanGalaxyGregTechTradingStationIntroduction().get()).setMaxWidthLimit(width - 90)));
+                .addWidget(new ComponentPanelWidget(0, 0, GTOMachineTooltips.PanGalaxyGregTechTradingStationIntroduction.get()).setMaxWidthLimit(width - 90)));
 
         Level level = getLevel();
         ServerLevel serverLevel = getLevel() instanceof ServerLevel ? (ServerLevel) getLevel() : null;
