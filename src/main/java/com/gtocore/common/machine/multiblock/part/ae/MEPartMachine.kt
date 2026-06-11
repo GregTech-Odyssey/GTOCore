@@ -18,9 +18,7 @@ import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.context.UseOnContext
-import net.minecraft.world.level.block.Block
 import net.minecraft.world.level.block.state.BlockState
-import net.minecraftforge.items.IItemHandlerModifiable
 
 import appeng.api.networking.IManagedGridNode
 import appeng.api.networking.security.IActionSource
@@ -41,7 +39,6 @@ import com.gto.datasynclib.listener.IntNotifiableHolder
 import com.gto.datasynclib.listener.ObjNotifiableHolder
 import com.gtolib.api.machine.feature.IMEPartMachine
 import com.lowdragmc.lowdraglib.gui.modular.ModularUI
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted
 import com.mojang.datafixers.util.Pair
 
 import java.util.*

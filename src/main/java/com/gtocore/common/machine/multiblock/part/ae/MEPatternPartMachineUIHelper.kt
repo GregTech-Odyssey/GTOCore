@@ -2,8 +2,8 @@ package com.gtocore.common.machine.multiblock.part.ae
 
 import com.gtocore.api.gui.ktflexible.multiPageAdvanced
 import com.gtocore.api.gui.ktflexible.textBlock
-import com.gtocore.common.machine.multiblock.part.ae.MEPatternBufferPartMachineKt.Companion.circuit_special
-import com.gtocore.common.machine.multiblock.part.ae.MEPatternBufferPartMachineKt.Companion.fluid_special
+import com.gtocore.common.machine.multiblock.part.ae.MEPatternBufferPartMachineKt.Companion.CIRCUIT_SPECIAL
+import com.gtocore.common.machine.multiblock.part.ae.MEPatternBufferPartMachineKt.Companion.FLUID_SPECIAL
 import com.gtocore.eio_travel.logic.TravelUtils
 
 import net.minecraft.client.gui.GuiGraphics
@@ -85,7 +85,7 @@ fun createPatternPageWidget(container: VBoxBuilder, machine: MEPatternPartMachin
 
 fun buildFluidSection(container: VBoxBuilder, width: Int, fluidHandler: Array<CustomFluidTank>) {
     with(container) {
-        textBlock(maxWidth = width, textSupplier = { Component.translatable(fluid_special) })
+        textBlock(maxWidth = width, textSupplier = { Component.translatable(FLUID_SPECIAL) })
         fluidHandler.indices.chunked(9).forEach { indices ->
             hBox(height = 18) {
                 indices.forEach { index ->
@@ -108,7 +108,7 @@ fun buildFluidSection(container: VBoxBuilder, width: Int, fluidHandler: Array<Cu
 
 fun buildCircuitSection(container: VBoxBuilder, width: Int, circuitSlot: Widget, getter: () -> String, setter: (String) -> Unit) {
     with(container) {
-        textBlock(maxWidth = width, textSupplier = { Component.translatable(circuit_special) })
+        textBlock(maxWidth = width, textSupplier = { Component.translatable(CIRCUIT_SPECIAL) })
         hBox(height = 18, style = { spacing = 4 }) {
             widget(circuitSlot)
             field(

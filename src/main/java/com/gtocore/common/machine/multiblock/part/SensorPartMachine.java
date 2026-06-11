@@ -80,7 +80,7 @@ public final class SensorPartMachine extends MultiblockPartMachine {
             return isInverted ? 0 : 15;
         }
         float normalized = isInverted ? (upper - value) / (upper - lower) : (value - lower) / (upper - lower);
-        return Math.max(0, Math.min(15, (int) Math.ceil(15 * normalized)));
+        return Math.clamp((int) Math.ceil(15 * normalized), 0, 15);
     }
 
     @Override

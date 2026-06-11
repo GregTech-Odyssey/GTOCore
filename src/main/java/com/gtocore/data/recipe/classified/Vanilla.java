@@ -81,13 +81,11 @@ final class Vanilla {
                         "ABA",
                         'A', new MaterialEntry(TagPrefix.pipeNormalFluid, GTMaterials.Bronze), 'B', GTOItems.PRECISION_STEAM_MECHANISM.asItem(), 'C', new MaterialEntry(TagPrefix.frameGt, GTMaterials.Bronze), 'D', new MaterialEntry(TagPrefix.plate, GTMaterials.Bronze));
             }
-            case 3 -> {
-                VanillaRecipeHelper.addShapedRecipe(true, GTOCore.id("steam_assembly_block"), GTOBlocks.STEAM_ASSEMBLY_BLOCK.asItem(),
-                        "ABA",
-                        "BCB",
-                        "ABA",
-                        'A', new MaterialEntry(TagPrefix.pipeNormalFluid, GTMaterials.Bronze), 'B', GTOItems.PRECISION_STEAM_MECHANISM.asItem(), 'C', new MaterialEntry(TagPrefix.frameGt, GTMaterials.Bronze));
-            }
+            case 3 -> VanillaRecipeHelper.addShapedRecipe(true, GTOCore.id("steam_assembly_block"), GTOBlocks.STEAM_ASSEMBLY_BLOCK.asItem(),
+                    "ABA",
+                    "BCB",
+                    "ABA",
+                    'A', new MaterialEntry(TagPrefix.pipeNormalFluid, GTMaterials.Bronze), 'B', GTOItems.PRECISION_STEAM_MECHANISM.asItem(), 'C', new MaterialEntry(TagPrefix.frameGt, GTMaterials.Bronze));
         }
         VanillaRecipeHelper.addShapedRecipe(GTOCore.id("me_wireless_connection_machine"), GTOMachines.ME_WIRELESS_CONNECTION_MACHINE.asItem(),
                 "ABA",

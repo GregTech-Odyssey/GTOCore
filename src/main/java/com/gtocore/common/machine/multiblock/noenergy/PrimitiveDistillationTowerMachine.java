@@ -326,7 +326,7 @@ public final class PrimitiveDistillationTowerMachine extends NoEnergyMultiblockM
      * @return 当前设备持续时间的倍数
      */
     private double getDurationMultiplier() {
-        return heat > 400 ? 800.0 / (heat * Math.min(2, Math.max(1, getRecipeLogic().getTotalContinuousRunningTime() / 1000))) : 1;
+        return heat > 400 ? 800.0 / (heat * Math.clamp(getRecipeLogic().getTotalContinuousRunningTime() / 1000, 1, 2)) : 1;
     }
 
     private final MagicProgressBarProWidget progressBarPro = new MagicProgressBarProWidget(4, 113, IDEAL_HEAT, 930).addStartColor(-16711936).addMilestone(HEAT_THRESHOLD, -16640, Component.translatable("gtocore.bar.distillation.1")).addMilestone(EXPLOSION, -65536, Component.translatable("gtocore.bar.exploration")).setLeftLabel(Component.translatable("gtocore.bar.heat"));

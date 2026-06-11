@@ -189,9 +189,7 @@ public class AEFluidConfigSlotWidget extends AEConfigSlotWidget implements IGhos
         super.readUpdateInfo(id, buffer);
         IConfigurableSlot slot = this.parentWidget.getDisplay(this.index);
         switch (id) {
-            case REMOVE_ID -> {
-                slot.setConfig(null);
-            }
+            case REMOVE_ID -> slot.setConfig(null);
             case UPDATE_ID -> {
                 FluidStack fluid = new FluidStack(BuiltInRegistries.FLUID.get(buffer.readResourceLocation()),
                         buffer.readVarInt());

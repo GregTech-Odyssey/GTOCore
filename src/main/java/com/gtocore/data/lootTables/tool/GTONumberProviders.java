@@ -1,4 +1,4 @@
-package com.gtocore.data.lootTables.GTOLootTool;
+package com.gtocore.data.lootTables.tool;
 
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;

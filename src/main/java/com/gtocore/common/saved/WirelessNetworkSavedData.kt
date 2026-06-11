@@ -70,11 +70,11 @@ class WirelessNetworkSavedData : SavedData() {
         ) { _: Player?, buf: FriendlyByteBuf ->
             CLIENT_INSTANCE.load(buf.readNbt() ?: CompoundTag())
             val mapSize = buf.readInt()
-            for (i in 0 until mapSize) {
+            repeat(mapSize) {
                 val networkName = buf.readUtf()
                 val nodeInfoSize = buf.readInt()
                 val network = CLIENT_INSTANCE.networkPool[networkName]
-                for (j in 0 until nodeInfoSize) {
+                repeat(nodeInfoSize) {
                     network?.clientPutNode(NodeInfo.decodeFromNbt(buf.readNbt() ?: CompoundTag()))
                 }
             }
@@ -232,8 +232,10 @@ class WirelessNetworkSavedData : SavedData() {
         }
 
         fun cancelDefault(networkId: String, requester: UUID) {
-            INSTANCE.defaultMap.remove(requester)
-            INSTANCE.setDirty()
+            if (INSTANCE.defaultMap[requester] == networkId) {
+                INSTANCE.defaultMap.remove(requester)
+                INSTANCE.setDirty()
+            }
         }
 
         fun isDefault(networkId: String, requester: UUID): Boolean = get().defaultMap[requester] == networkId

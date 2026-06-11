@@ -53,11 +53,9 @@ object AdvMathExpParser {
         ;
 
         companion object {
-            private val map = entries.associateBy(Op::symbol)
             private val charMap = entries
                 .mapNotNull { if (it.symbol != null && it.symbol.length == 1) it.symbol[0] to it else null }
                 .toMap()
-            fun fromSymbol(symbol: String): Op? = map[symbol]
             fun fromSymbol(c: Char): Op? = charMap[c]
         }
     }

@@ -161,7 +161,7 @@ public class NeutronActivatorMachine extends NoEnergyMultiblockMachine implement
             for (int i = 0; i < inv.getSlots(); i++) {
                 var stack = inv.getStackInSlot(i);
                 if (stack.is(dustBeryllium) || stack.is(dustGraphite)) {
-                    int consume = Math.min(Math.max(eV / (10 * 1000000), 1), stack.getCount());
+                    int consume = Math.clamp(eV / (10 * 1000000), 1, stack.getCount());
                     inv.extractItemInternal(i, consume, false);
                     eV -= 10 * 1000000 * consume;
                 }

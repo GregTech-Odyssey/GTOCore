@@ -364,13 +364,11 @@ public abstract class MEPatternBufferPartMachine extends MEPatternPartMachineKt<
         if (!isRemote()) return;
         if (configuratorField.get() == index) {
             configuratorField.set(-1);
-            configuratorField.markAsChanged();
-            syncToServer();
         } else {
             configuratorField.set(index);
-            configuratorField.markAsChanged();
-            syncToServer();
         }
+        configuratorField.markAsChanged();
+        syncToServer();
     }
 
     @Override
@@ -617,14 +615,6 @@ public abstract class MEPatternBufferPartMachine extends MEPatternPartMachineKt<
 
         public boolean isEmpty() {
             return itemInventory.isEmpty() && fluidInventory.isEmpty();
-        }
-
-        public boolean isItemEmpty() {
-            return itemInventory.isEmpty();
-        }
-
-        public boolean isFluidEmpty() {
-            return fluidInventory.isEmpty();
         }
 
         private void refund() {

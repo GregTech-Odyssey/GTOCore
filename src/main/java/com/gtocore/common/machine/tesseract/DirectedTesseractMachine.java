@@ -182,9 +182,7 @@ public class DirectedTesseractMachine extends MetaMachine implements
         }
 
         remainingStacks.forEach(unfinishedPushLists::addTask);
-        readyToPushStacks.forEach((toPush, stack) -> {
-            toPush.insert(stack.what(), stack.amount(), Actionable.MODULATE);
-        });
+        readyToPushStacks.forEach((toPush, stack) -> toPush.insert(stack.what(), stack.amount(), Actionable.MODULATE));
         unfinishedPushLists.push();
         return pushPatternSuccess.get();
     }

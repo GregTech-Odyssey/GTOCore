@@ -408,7 +408,7 @@ public class VillageTradingStationMachine extends MetaMachine implements IAutoOu
                 .setBackground(GuiTextures.DISPLAY);
 
         groupTitle.addWidget(new ComponentPanelWidget(4, 5,
-                textList -> GTOMachineTooltips.VillageTradingStationIntroduction.apply(textList))
+                GTOMachineTooltips.VillageTradingStationIntroduction::apply)
                 .setMaxWidthLimit(width - 8));
 
         group.addWidget(groupTitle);

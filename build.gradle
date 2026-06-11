@@ -119,7 +119,7 @@ afterEvaluate {
                     storepass: System.getenv('GTO_STOREPASS'),
                     keypass: System.getenv('GTO_KEYPASS'),
                     preservelastmodified: "true",
-                    tsaurl: "http://timestamp.sectigo.com?td=sha256",
+                    tsaurl: "https://timestamp.sectigo.com?td=sha256",
             )
         }
         outputs.upToDateWhen {

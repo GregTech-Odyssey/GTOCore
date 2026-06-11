@@ -67,10 +67,10 @@ public abstract class NumberEntryWidgetMixin {
     protected abstract void setValueInternal(BigDecimal value);
 
     @Shadow
-    protected abstract Component makeLabel(Component operator, long step);
+    protected abstract Component makeLabel(Component prefix, long amount);
 
     @Shadow
-    protected abstract void addQty(long qty);
+    protected abstract void addQty(long delta);
 
     @Shadow
     public abstract void setTextFieldBounds(Rect2i bounds);

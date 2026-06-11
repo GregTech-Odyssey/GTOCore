@@ -1,4 +1,4 @@
-package com.gtocore.data.lootTables.GTOLootTool;
+package com.gtocore.data.lootTables.tool;
 
 import com.gtolib.utils.RegistriesUtils;
 

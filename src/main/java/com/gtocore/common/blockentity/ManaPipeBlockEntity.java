@@ -1,6 +1,5 @@
 package com.gtocore.common.blockentity;
 
-import com.gtocore.common.pipe.heat.*;
 import com.gtocore.common.pipe.mana.*;
 
 import com.gregtechceu.gtceu.api.blockentity.PipeBlockEntity;

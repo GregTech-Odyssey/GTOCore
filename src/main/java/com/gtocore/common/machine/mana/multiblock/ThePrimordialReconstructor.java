@@ -484,6 +484,26 @@ public class ThePrimordialReconstructor extends ManaMultiblockMachine implements
         } while (changed); // 如果有合并发生，继续遍历直到无法再合并
 
         // 后续输出逻辑保持不变
+        List<ItemStack> outputBooks = getItemStacks(allEnchantments);
+
+        for (ItemStack outputBookItem : outputBooks) {
+            mergeRecipeBuilder.outputItems(outputBookItem);
+        }
+
+        int remainingBooks = totalBooks.value - outputBooks.size();
+        if (remainingBooks > 0) {
+            mergeRecipeBuilder.outputItems(Items.BOOK, remainingBooks);
+        } else if (remainingBooks < 0) {
+            mergeRecipeBuilder.inputItems(Items.BOOK, -remainingBooks);
+        }
+
+        mergeRecipeBuilder.duration(20);
+        mergeRecipeBuilder.MANAt(512);
+
+        return mergeRecipeBuilder.build();
+    }
+
+    private static @NotNull List<ItemStack> getItemStacks(List<Object2IntMap.Entry<String>> allEnchantments) {
         List<ItemStack> outputBooks = new ArrayList<>();
         List<Object2IntMap.Entry<String>> remainingEnchantments = new ArrayList<>(allEnchantments);
 
@@ -511,22 +531,7 @@ public class ThePrimordialReconstructor extends ManaMultiblockMachine implements
             outputBook.setTag(bookTag);
             outputBooks.add(outputBook);
         }
-
-        for (ItemStack outputBookItem : outputBooks) {
-            mergeRecipeBuilder.outputItems(outputBookItem);
-        }
-
-        int remainingBooks = totalBooks.value - outputBooks.size();
-        if (remainingBooks > 0) {
-            mergeRecipeBuilder.outputItems(Items.BOOK, remainingBooks);
-        } else if (remainingBooks < 0) {
-            mergeRecipeBuilder.inputItems(Items.BOOK, -remainingBooks);
-        }
-
-        mergeRecipeBuilder.duration(20);
-        mergeRecipeBuilder.MANAt(512);
-
-        return mergeRecipeBuilder.build();
+        return outputBooks;
     }
 
     /**

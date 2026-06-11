@@ -211,10 +211,10 @@ final class OreByProductWrapper {
         // electromagnetic separator
         if (hasSeparator) {
             // noinspection DataFlowIssue
-            TagPrefix prefix = (separatedInto.get(separatedInto.size() - 1).getBlastTemperature() == 0 && separatedInto.get(separatedInto.size() - 1).hasProperty(PropertyKey.INGOT)) ? TagPrefix.nugget : TagPrefix.dust;
-            ItemStack separatedStack2 = ChemicalHelper.get(prefix, separatedInto.get(separatedInto.size() - 1), prefix == TagPrefix.nugget ? 2 : 1);
+            TagPrefix prefix = (separatedInto.getLast().getBlastTemperature() == 0 && separatedInto.getLast().hasProperty(PropertyKey.INGOT)) ? TagPrefix.nugget : TagPrefix.dust;
+            ItemStack separatedStack2 = ChemicalHelper.get(prefix, separatedInto.getLast(), prefix == TagPrefix.nugget ? 2 : 1);
             addToOutputsPatched(material);
-            addToOutputs(separatedInto.get(0), TagPrefix.dust, 1);
+            addToOutputs(separatedInto.getFirst(), TagPrefix.dust, 1);
             addChance(1000, 250);
             addToOutputs(separatedStack2);
             addChance(prefix == TagPrefix.dust ? 500 : 2000, prefix == TagPrefix.dust ? 150 : 600);

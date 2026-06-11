@@ -791,16 +791,16 @@ public final class GTOOreRecipeHandler {
 
         if (property.getSeparatedInto() != null && !property.getSeparatedInto().isEmpty()) {
             List<Material> separatedMaterial = property.getSeparatedInto();
-            TagPrefix prefix = (separatedMaterial.get(separatedMaterial.size() - 1).getBlastTemperature() == 0 &&
-                    separatedMaterial.get(separatedMaterial.size() - 1).hasProperty(PropertyKey.INGOT)) ? nugget : dust;
+            TagPrefix prefix = (separatedMaterial.getLast().getBlastTemperature() == 0 &&
+                    separatedMaterial.getLast().hasProperty(PropertyKey.INGOT)) ? nugget : dust;
 
-            ItemStack separatedStack2 = ChemicalHelper.get(prefix, separatedMaterial.get(separatedMaterial.size() - 1),
+            ItemStack separatedStack2 = ChemicalHelper.get(prefix, separatedMaterial.getLast(),
                     prefix == nugget ? 2 : 1);
 
             ELECTROMAGNETIC_SEPARATOR_RECIPES.recipeBuilder(material.getName() + "_pure_dust_to_dust")
                     .inputItems(stack)
                     .outputItems(dustStack)
-                    .chancedOutput(TagPrefix.dust, separatedMaterial.get(0), 1000, 250)
+                    .chancedOutput(TagPrefix.dust, separatedMaterial.getFirst(), 1000, 250)
                     .chancedOutput(separatedStack2, prefix == TagPrefix.dust ? 500 : 2000,
                             prefix == TagPrefix.dust ? 150 : 600)
                     .duration(200).EUt(24)

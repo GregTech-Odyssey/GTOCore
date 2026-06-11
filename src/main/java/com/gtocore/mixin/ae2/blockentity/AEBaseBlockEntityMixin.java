@@ -41,7 +41,7 @@ public class AEBaseBlockEntityMixin extends BlockEntity implements IDirectionCac
     }
 
     @Inject(method = "<init>", at = @At("TAIL"), remap = false)
-    private void gtolib$init(BlockEntityType blockEntityType, BlockPos pos, BlockState blockState, CallbackInfo ci) {
+    private void gtolib$init(BlockEntityType<?> blockEntityType, BlockPos pos, BlockState blockState, CallbackInfo ci) {
         gtolib$directionCache = BlockEntityDirectionCache.create();
     }
 

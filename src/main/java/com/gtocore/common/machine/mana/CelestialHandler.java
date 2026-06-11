@@ -58,9 +58,7 @@ public record CelestialHandler(long maxCapacity) {
         if (world == null) return new Resource(solaris, lunara, voidflux, stellarm);
 
         switch (mode) {
-            case SPACE -> {
-                stellarm = clampToMaxCapacity(stellarm + 40L * multiple);
-            }
+            case SPACE -> stellarm = clampToMaxCapacity(stellarm + 40L * multiple);
             case VOID -> {
                 solaris = clampToMaxCapacity(solaris + 5L * multiple);
                 lunara = clampToMaxCapacity(lunara + 5L * multiple);
@@ -72,12 +70,8 @@ public record CelestialHandler(long maxCapacity) {
                     lunara = clampToMaxCapacity(lunara + 20L * multiple);
                 }
             }
-            case OTHERSIDE -> {
-                voidflux = clampToMaxCapacity(voidflux + 50L * multiple);
-            }
-            case END -> {
-                voidflux = clampToMaxCapacity(voidflux + 10L * multiple);
-            }
+            case OTHERSIDE -> voidflux = clampToMaxCapacity(voidflux + 50L * multiple);
+            case END -> voidflux = clampToMaxCapacity(voidflux + 10L * multiple);
             case OVERWORLD -> {
                 if (world.isDay()) {
                     solaris = clampToMaxCapacity(solaris + 10L * multiple);

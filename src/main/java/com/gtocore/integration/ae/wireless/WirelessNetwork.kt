@@ -56,7 +56,7 @@ class WirelessNetwork(val id: String, val owner: UUID, var nickname: String = id
                 Codec.STRING.optionalFieldOf("nickname").forGetter { Optional.ofNullable(it.nickname) },
                 Codec.INT.optionalFieldOf("maxOutputsPerInput").forGetter { Optional.of(it.maxOutputsPerInput) },
             ).apply(b) { id, owner, nicknameOpt, maxOpt ->
-                WirelessNetwork(id, owner, nicknameOpt.orElse(id), maxOpt.orElse(defaultMaxOutputs()))
+                WirelessNetwork(id, owner, nicknameOpt.orElse(id) ?: id, maxOpt.orElse(defaultMaxOutputs()) ?: defaultMaxOutputs())
             }
         }
 

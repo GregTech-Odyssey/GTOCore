@@ -748,11 +748,11 @@ public class LootTableExporter {
             double baseProb = item.weight / totalWeight;
             double conditionalProb = baseProb * item.conditionFactor;
             // 确保概率在0-1范围内
-            conditionalProb = Math.max(0, Math.min(1, conditionalProb));
+            conditionalProb = Math.clamp(conditionalProb, 0, 1);
 
             item.probability = 1 - Math.pow(1 - conditionalProb, lootPool.totalRollsAverage);
             // 确保概率在0-1范围内
-            item.probability = Math.max(0, Math.min(1, item.probability));
+            item.probability = Math.clamp(item.probability, 0, 1);
 
             item.expectedValue = item.probability * item.count;
             lootPool.totalExpectedValue += item.expectedValue;

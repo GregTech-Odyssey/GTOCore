@@ -5,7 +5,6 @@ import com.gtocore.common.pipe.heat.*;
 import com.gtolib.api.capability.IHeatContainer;
 
 import com.gregtechceu.gtceu.api.blockentity.PipeBlockEntity;
-import com.gregtechceu.gtceu.common.pipelike.optical.*;
 import com.gregtechceu.gtceu.utils.GTUtil;
 
 import net.minecraft.core.BlockPos;

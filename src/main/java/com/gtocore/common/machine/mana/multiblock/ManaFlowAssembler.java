@@ -241,7 +241,7 @@ public class ManaFlowAssembler extends ManaMultiblockMachine {
                         var ingredient = leftConsuming.next();
                         if (ingredient.inner.testItem(itemStack.getItem())) {
                             var toExtract = (int) Math.min(ingredient.amount, itemStack.getCount());
-                            ingredient.shrink(toExtract);;
+                            ingredient.shrink(toExtract);
                             itemStack.shrink(toExtract);
                             if (ingredient.amount <= 0) {
                                 leftConsuming.remove();

@@ -191,7 +191,7 @@ sealed class ProgressBarColorStyle : CodecAbleTyped<ProgressBarColorStyle, Progr
             override fun getCodec(): Codec<Segmented> = RecordCodecBuilder.create { instance ->
                 instance.group(
                     Codec.list(
-                        RecordCodecBuilder.create<Pair<Float, Int>> { pairInstance ->
+                        RecordCodecBuilder.create { pairInstance ->
                             pairInstance.group(
                                 Codec.FLOAT.fieldOf("threshold").forGetter(Pair<Float, Int>::first),
                                 Codec.INT.fieldOf("color").forGetter(Pair<Float, Int>::second),
@@ -222,7 +222,7 @@ sealed class ProgressBarColorStyle : CodecAbleTyped<ProgressBarColorStyle, Progr
             override fun getCodec(): Codec<MultiGradient> = RecordCodecBuilder.create { instance ->
                 instance.group(
                     Codec.list(
-                        RecordCodecBuilder.create<Pair<Float, Int>> { pairInstance ->
+                        RecordCodecBuilder.create { pairInstance ->
                             pairInstance.group(
                                 Codec.FLOAT.fieldOf("position").forGetter(Pair<Float, Int>::first),
                                 Codec.INT.fieldOf("color").forGetter(Pair<Float, Int>::second),

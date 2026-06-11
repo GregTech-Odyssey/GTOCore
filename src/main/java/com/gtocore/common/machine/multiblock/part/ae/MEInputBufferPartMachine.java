@@ -401,14 +401,6 @@ public class MEInputBufferPartMachine extends MEPatternPartMachineKt<MEInputBuff
             return exportOnlyItemList.isEmpty() && exportOnlyFluidList.isEmpty();
         }
 
-        public boolean isItemEmpty() {
-            return exportOnlyItemList.isEmpty();
-        }
-
-        public boolean isFluidEmpty() {
-            return exportOnlyFluidList.isEmpty();
-        }
-
         private void refund() {
             var network = machine.getMainNode().getGrid();
             if (network != null) {

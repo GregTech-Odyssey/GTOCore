@@ -35,7 +35,7 @@ public abstract class GuiGraphicsMixin {
 
     // --- Shadow 方法 ---
     @Shadow
-    protected abstract void renderItem(@Nullable LivingEntity entity, @Nullable Level level, ItemStack stack, int x, int y, int seed, int GuiOffset);
+    protected abstract void renderItem(@Nullable LivingEntity entity, @Nullable Level level, ItemStack stack, int x, int y, int seed, int guiOffset);
 
     @Shadow
     public abstract void renderItemDecorations(Font font, ItemStack stack, int x, int y, @Nullable String text);
@@ -79,9 +79,9 @@ public abstract class GuiGraphicsMixin {
             cancellable = true)
     private void onRenderGuiItem(
                                  @Nullable LivingEntity entity, @Nullable Level level, ItemStack stack,
-                                 int x, int y, int seed, int GuiOffset,
+                                 int x, int y, int seed, int guiOffset,
                                  CallbackInfo ci) {
-        var target = GuiGraphicsMixin.gtocore$getPlaceholderTarget(entity, level, stack, x, y, seed, GuiOffset);
+        var target = GuiGraphicsMixin.gtocore$getPlaceholderTarget(entity, level, stack, x, y, seed, guiOffset);
 
         if (target != null) {
             // 用 *源* 物品堆设置守卫，以防止递归。
@@ -90,7 +90,7 @@ public abstract class GuiGraphicsMixin {
                 // 我们现在在受保护的代码块中。
                 if (target instanceof ItemStack itemTarget) {
                     // 如果是 Item，使用原始方法渲染它。
-                    this.renderItem(entity, level, itemTarget, x, y, seed, GuiOffset);
+                    this.renderItem(entity, level, itemTarget, x, y, seed, guiOffset);
                 } else if (target instanceof FluidStack fluidTarget) {
                     EmiStack.of(fluidTarget.getFluid()).render((GuiGraphics) (Object) this, x, y, Minecraft.getInstance().getFrameTime());
                 }

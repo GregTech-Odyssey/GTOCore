@@ -356,14 +356,12 @@ public final class HugeBusPartMachine extends WorkableTieredIOPartMachine implem
             var count = MathUtil.saturatedCast(this.count);
             if (amount == 0 || count < 1 || this.stack.isEmpty()) return 0;
             if (amount >= count) {
-                if (simulate) {
-                    return count;
-                } else {
+                if (!simulate) {
                     this.count = 0;
                     this.stack = ItemStack.EMPTY;
                     onContentsChanged(0);
-                    return count;
                 }
+                return count;
             } else {
                 if (!simulate) {
                     this.count -= amount;

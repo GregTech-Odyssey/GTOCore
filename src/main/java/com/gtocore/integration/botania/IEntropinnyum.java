@@ -12,7 +12,6 @@ import java.util.Optional;
 
 public interface IEntropinnyum {
 
-    /// {@link EntropinnyumBlockEntity#RANGE}
     int RANGE = 12;
     int EXPLODE_EFFECT_EVENT = 0;
     int ANGRY_EFFECT_EVENT = 1;

@@ -1,3 +1,5 @@
+@file:Suppress("DEPRECATION")
+
 package com.gtocore.integration.ae.wireless
 
 import com.gtocore.common.item.MEWirelessMachineConfigurator
@@ -36,16 +38,14 @@ private const val INNER_W = W - 8
 // ============================================================================================
 
 object WirelessUIDesign {
-    val COLOR_BG = 0xFF121212.toInt()
-    val COLOR_SURFACE = 0xFF1E1E1E.toInt()
-    val COLOR_ACCENT_SOURCE = 0xFF00E5FF.toInt() // Cyan
-    val COLOR_ACCENT_CHILD = 0xFFFFAB40.toInt() // Orange
-    val COLOR_SUCCESS = 0xFF00E676.toInt() // Green
-    val COLOR_ERROR = 0xFFFF1744.toInt() // Red
-    val COLOR_TEXT_DIM = 0xFF9E9E9E.toInt()
-    val COLOR_TEXT_BRIGHT = 0xFFF5F5F5.toInt()
+    const val COLOR_ACCENT_SOURCE = -16718337 // Cyan
+    const val COLOR_ACCENT_CHILD = -21696 // Orange
+    const val COLOR_SUCCESS = -16718218 // Green
+    const val COLOR_ERROR = -59580 // Red
+    const val COLOR_TEXT_DIM = -6381922
+    const val COLOR_TEXT_BRIGHT = -657931
 
-    fun cardTexture(borderColor: Int = 0x44FFFFFF.toInt()): IGuiTexture = GuiTextureGroup(
+    fun cardTexture(borderColor: Int = 0x44FFFFFF): IGuiTexture = GuiTextureGroup(
         ColorRectTexture(0xFF000000.toInt()),
         ResourceBorderTexture.BUTTON_COMMON.copy().setColor(borderColor),
     )
@@ -235,7 +235,7 @@ private fun headerWidget(y: Int, title: String, color: Int, rightText: String? =
 private fun machineStatusWidget(y: Int, machine: WirelessMachine): WidgetGroup {
     val connected = machine.networkListCache.get()?.firstOrNull { it.isConnected }
     val text = connected?.nickname?.takeIf { it.isNotEmpty() } ?: Component.translatable(WirelessMachine.KEY_STANDALONE).string
-    val status = statusCardWidget(y, Component.translatable(WirelessMachine.KEY_STATUS).string, text, if (connected != null) WirelessUIDesign.COLOR_SUCCESS else WirelessUIDesign.COLOR_ERROR, if (connected != null) 0x6600FF00.toInt() else 0x33FFFFFF.toInt())
+    val status = statusCardWidget(y, Component.translatable(WirelessMachine.KEY_STATUS).string, text, if (connected != null) WirelessUIDesign.COLOR_SUCCESS else WirelessUIDesign.COLOR_ERROR, if (connected != null) 0x6600FF00 else 0x33FFFFFF)
     if (machine.supportsNodeTypeSwitching()) {
         status.addWidget(
             ButtonWidget(INNER_W - 68, 6, 60, 16, GuiTextureGroup(ResourceBorderTexture.BUTTON_COMMON, TextTexture(Component.translatable(WirelessMachine.KEY_TOGGLE_TYPE).string))) { clickData ->
@@ -248,7 +248,7 @@ private fun machineStatusWidget(y: Int, machine: WirelessMachine): WidgetGroup {
 
 private fun configuratorStatusWidget(y: Int, connected: NetworkSummary?): WidgetGroup {
     val text = connected?.nickname?.takeIf { it.isNotEmpty() } ?: Component.translatable(WirelessMachine.KEY_NO_TARGET).string
-    return statusCardWidget(y, Component.translatable(WirelessMachine.KEY_TARGET_FREQ).string, text, if (connected != null) WirelessUIDesign.COLOR_SUCCESS else WirelessUIDesign.COLOR_TEXT_DIM, if (connected != null) 0x6600FF00.toInt() else 0x22FFFFFF.toInt())
+    return statusCardWidget(y, Component.translatable(WirelessMachine.KEY_TARGET_FREQ).string, text, if (connected != null) WirelessUIDesign.COLOR_SUCCESS else WirelessUIDesign.COLOR_TEXT_DIM, if (connected != null) 0x6600FF00 else 0x22FFFFFF)
 }
 
 private fun statusCardWidget(y: Int, label: String, value: String, valueColor: Int, borderColor: Int): WidgetGroup {
@@ -261,8 +261,8 @@ private fun statusCardWidget(y: Int, label: String, value: String, valueColor: I
 
 private fun unassignedWarningWidget(y: Int, unassigned: Int): WidgetGroup {
     val warnBox = WidgetGroup(2, y, INNER_W - 4, 14)
-    warnBox.setBackground(ColorRectTexture(0x28FFFF00.toInt()))
-    warnBox.addWidget(LabelWidget(6, 2, Component.translatable(WirelessMachine.KEY_UNASSIGNED_WARNING, unassigned).string).setTextColor(0xFFFBC02D.toInt()).setDropShadow(true))
+    warnBox.setBackground(ColorRectTexture(0x28FFFF00))
+    warnBox.addWidget(LabelWidget(6, 2, Component.translatable(WirelessMachine.KEY_UNASSIGNED_WARNING, unassigned).string).setTextColor(-278483).setDropShadow(true))
     return warnBox
 }
 
@@ -291,7 +291,7 @@ private fun createNetworkRowWidget(y: Int, state: NetworkPageState, inputW: Int,
 private fun networkListWidget(y: Int, title: String, networks: List<NetworkSummary>, state: NetworkPageState, isConnected: (NetworkSummary) -> Boolean, subtitle: (NetworkSummary) -> String, onSelect: (NetworkSummary) -> Unit, onDefault: (NetworkSummary) -> Unit, onDelete: (NetworkSummary) -> Unit): WidgetGroup {
     val group = WidgetGroup(0, y, INNER_W, H - 8 - y)
     group.addWidget(LabelWidget(4, 0, title).setTextColor(WirelessUIDesign.COLOR_TEXT_DIM))
-    val scroll = scrollWidget(2, 12, INNER_W - 4, H - 8 - y - 16)
+    val scroll = scrollWidget(12, H - 8 - y - 16)
     group.addWidget(scroll)
 
     var ly = 2
@@ -305,7 +305,7 @@ private fun networkListWidget(y: Int, title: String, networks: List<NetworkSumma
 private fun networkEntryWidget(summary: NetworkSummary, y: Int, connected: Boolean, subtitle: String, state: NetworkPageState, onSelect: (NetworkSummary) -> Unit, onDefault: (NetworkSummary) -> Unit, onDelete: (NetworkSummary) -> Unit): WidgetGroup {
     val pending = state.pendingDelete.contains(summary.id)
     val card = WidgetGroup(2, y, INNER_W - 12, 26)
-    card.setBackground(WirelessUIDesign.cardTexture(if (connected) WirelessUIDesign.COLOR_SUCCESS else 0x22FFFFFF.toInt()))
+    card.setBackground(WirelessUIDesign.cardTexture(if (connected) WirelessUIDesign.COLOR_SUCCESS else 0x22FFFFFF))
     card.addWidget(
         ButtonWidget(0, 0, INNER_W - 48, 26, ColorRectTexture(0)) { clickData ->
             if (!clickData.isRemote && !connected) onSelect(summary)
@@ -314,12 +314,12 @@ private fun networkEntryWidget(summary: NetworkSummary, y: Int, connected: Boole
     card.addWidget(LabelWidget(6, 4, (if (summary.isDefault) "★ " else "") + summary.nickname).setTextColor(if (connected) WirelessUIDesign.COLOR_SUCCESS else WirelessUIDesign.COLOR_TEXT_BRIGHT).setDropShadow(true))
     card.addWidget(LabelWidget(6, 15, subtitle).setTextColor(WirelessUIDesign.COLOR_TEXT_DIM))
     card.addWidget(
-        ButtonWidget(INNER_W - 46, 6, 14, 14, GuiTextureGroup(ColorRectTexture(0), TextTexture("★").setColor(if (summary.isDefault) 0xFFFFD600.toInt() else 0x44FFFFFF.toInt()))) { clickData ->
+        ButtonWidget(INNER_W - 46, 6, 14, 14, GuiTextureGroup(ColorRectTexture(0), TextTexture("★").setColor(if (summary.isDefault) -10752 else 0x44FFFFFF))) { clickData ->
             if (!clickData.isRemote) onDefault(summary)
         },
     )
     card.addWidget(
-        ButtonWidget(INNER_W - 28, 6, 14, 14, GuiTextureGroup(ColorRectTexture(0), TextTexture("✖").setColor(if (pending) WirelessUIDesign.COLOR_ERROR else 0x44FFFFFF.toInt()))) { clickData ->
+        ButtonWidget(INNER_W - 28, 6, 14, 14, GuiTextureGroup(ColorRectTexture(0), TextTexture("✖").setColor(if (pending) WirelessUIDesign.COLOR_ERROR else 0x44FFFFFF))) { clickData ->
             if (state.pendingDelete.contains(summary.id)) {
                 state.pendingDelete.remove(summary.id)
                 if (!clickData.isRemote) onDelete(summary)
@@ -378,7 +378,7 @@ private class TopologyPageState {
 
 private fun topologyManageCardWidget(y: Int, machine: WirelessMachine, topo: TopologySummary, state: TopologyPageState): WidgetGroup {
     val card = WidgetGroup(2, y, INNER_W - 4, 64)
-    card.setBackground(WirelessUIDesign.cardTexture(0x33FFFFFF.toInt()))
+    card.setBackground(WirelessUIDesign.cardTexture(0x33FFFFFF))
     if (state.renameInput.isEmpty() || state.renameInput == topo.networkNickname) state.renameInput = topo.networkNickname
     if (state.maxConnInput.isEmpty()) state.maxConnInput = topo.maxOutputsPerInput.toString()
 
@@ -408,7 +408,7 @@ private fun topologyManageCardWidget(y: Int, machine: WirelessMachine, topo: Top
 }
 
 private fun topologyTreeWidget(y: Int, data: List<TopologySummary>?): WidgetGroup {
-    val scroll = scrollWidget(2, y, INNER_W - 4, H - 8 - y - 2)
+    val scroll = scrollWidget(y, H - 8 - y - 2)
     if (data.isNullOrEmpty()) {
         scroll.addWidget(LabelWidget(INNER_W / 2 - 40, 20, Component.translatable(WirelessMachine.KEY_NO_NETWORK_ACTIVE).string).setTextColor(WirelessUIDesign.COLOR_TEXT_DIM).setDropShadow(true))
         return scroll
@@ -437,7 +437,7 @@ private fun topologySourceWidget(parent: WidgetGroup, y: Int, source: TopologySo
     parent.addWidget(TeleportSupportLabelWidget(6, ly, "  ▼ ${Component.translatable(WirelessMachine.KEY_SOURCE_TITLE).string}", source.source).setTextColor(WirelessUIDesign.COLOR_ACCENT_SOURCE))
     ly += 12
     if (source.children.isEmpty()) {
-        parent.addWidget(LabelWidget(18, ly, WirelessMachine.NO_CLIENT).setTextColor(0x66FFFFFF.toInt()))
+        parent.addWidget(LabelWidget(18, ly, WirelessMachine.NO_CLIENT).setTextColor(0x66FFFFFF))
         ly += 10
     } else {
         for ((i, child) in source.children.withIndex()) {
@@ -465,7 +465,7 @@ private fun rootWidget(): WidgetGroup = WidgetGroup(0, 0, W, H).apply { setBackg
 
 private fun contentWidget(root: WidgetGroup): WidgetGroup = WidgetGroup(4, 4, INNER_W, H - 8).also(root::addWidget)
 
-private fun scrollWidget(x: Int, y: Int, width: Int, height: Int): DraggableScrollableWidgetGroup = DraggableScrollableWidgetGroup(x, y, width, height)
+private fun scrollWidget(y: Int, height: Int): DraggableScrollableWidgetGroup = DraggableScrollableWidgetGroup(2, y, INNER_W - 4, height)
     .setBackground(ColorRectTexture(0x64000000))
     .setYBarStyle(null, ColorRectTexture(0x44FFFFFF))
     .setYScrollBarWidth(2)
@@ -506,7 +506,7 @@ private fun configuratorNetworkHash(player: Player): Int {
     return h
 }
 
-/** Format: "x, y, z [dim]" */
+// Format: "x, y, z [dim]"
 private fun formatNodeShort(node: TopologyNodeEntry): String {
     val dimShort = node.dim.substringAfterLast(':').uppercase().take(6)
     return "${node.x},${node.y},${node.z} §7$dimShort"
@@ -519,7 +519,7 @@ class TeleportSupportLabelWidget(x: Int, y: Int, text: String, val node: Topolog
         val tpCommand = "/execute in ${node.dim} run tp @s ${node.x} ${node.y} ${node.z}"
         Proxy.INSTANCE.clientPlayer?.displayClientMessage(
             PlayerMessages.ClickToTeleport.text().setStyle(
-                Style.EMPTY.withColor(0xFF00E5FF.toInt()).withUnderlined(true).withClickEvent(
+                Style.EMPTY.withColor(WirelessUIDesign.COLOR_ACCENT_SOURCE).withUnderlined(true).withClickEvent(
                     ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, tpCommand),
                 ),
             ),

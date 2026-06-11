@@ -167,7 +167,7 @@ public final class RecipeLogicProvider implements IBlockComponentProvider, IServ
                     compoundTag.putString("reason", Component.Serializer.toJson(capability.getIdleReason()));
                 } else if (capability.isWaiting()) {
                     if (!capability.getFancyTooltip().isEmpty()) {
-                        compoundTag.putString("reason", Component.Serializer.toJson(capability.getFancyTooltip().get(0)));
+                        compoundTag.putString("reason", Component.Serializer.toJson(capability.getFancyTooltip().getFirst()));
                     } else if (capability.getIdleReason() != null) {
                         compoundTag.putString("reason", Component.Serializer.toJson(capability.getIdleReason()));
                     }

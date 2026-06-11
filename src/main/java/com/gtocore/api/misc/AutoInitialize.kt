@@ -27,7 +27,7 @@ open class AutoInitialize<T> {
                 try {
                     @Suppress("UNCHECKED_CAST")
                     property.get(this as T)
-                } catch (ignore: Exception) {
+                } catch (_: Exception) {
                 }
             }
     }

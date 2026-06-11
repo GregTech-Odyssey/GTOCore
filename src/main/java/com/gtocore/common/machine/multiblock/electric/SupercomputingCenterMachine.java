@@ -92,7 +92,7 @@ public final class SupercomputingCenterMachine extends StorageMultiblockMachine 
     private int coolingAmountProvided;
     private int coolantAmount;
     private final Reference2IntOpenHashMap<IItem> componentsMap = new Reference2IntOpenHashMap<>();
-    private int lastTimeStamp;;
+    private int lastTimeStamp;
     private long allocatedCWUt;
     private long cacheCWUt;
     private long maxEUt;

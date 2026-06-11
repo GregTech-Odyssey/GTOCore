@@ -49,6 +49,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexSorting;
 import dev.emi.emi.api.EmiApi;
 import dev.emi.emi.api.stack.EmiStack;
+import org.jetbrains.annotations.NotNull;
 import org.joml.Matrix4f;
 
 import java.awt.image.BufferedImage;
@@ -703,7 +704,7 @@ public class ItemIconReport {
      * - Multi-layer model rendering (base + overlay)
      * - ItemColors tinting (GT material colors, dye colors, etc.)
      * - All visual overlays
-     *
+     * <p>
      * This is the same pipeline EMI uses to display items in its GUI.
      * Must be called on the render thread.
      */
@@ -1685,31 +1686,7 @@ public class ItemIconReport {
         envJson.addProperty("generated_at", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
 
         // Cleanroom types
-        JsonArray cleanroomTypes = new JsonArray();
-
-        JsonObject cleanroom = new JsonObject();
-        cleanroom.addProperty("id", "cleanroom");
-        cleanroom.addProperty("name", "Cleanroom");
-        cleanroom.addProperty("tier", 1);
-        cleanroom.addProperty("description", "Basic clean environment for chip manufacturing and precision processing");
-        cleanroomTypes.add(cleanroom);
-
-        JsonObject sterileCleanroom = new JsonObject();
-        sterileCleanroom.addProperty("id", "sterile_cleanroom");
-        sterileCleanroom.addProperty("name", "Sterile Cleanroom");
-        sterileCleanroom.addProperty("tier", 2);
-        sterileCleanroom.addProperty("description", "Advanced clean environment for bioengineering and advanced circuit manufacturing");
-        sterileCleanroom.addProperty("includes_cleanroom", true);
-        cleanroomTypes.add(sterileCleanroom);
-
-        JsonObject lawCleanroom = new JsonObject();
-        lawCleanroom.addProperty("id", "law_cleanroom");
-        lawCleanroom.addProperty("name", "LAW Cleanroom");
-        lawCleanroom.addProperty("tier", 3);
-        lawCleanroom.addProperty("description", "Highest-tier clean environment for the most precise manufacturing");
-        lawCleanroom.addProperty("includes_sterile_cleanroom", true);
-        lawCleanroom.addProperty("includes_cleanroom", true);
-        cleanroomTypes.add(lawCleanroom);
+        JsonArray cleanroomTypes = getJsonElements();
 
         envJson.add("cleanroom_types", cleanroomTypes);
 
@@ -1816,6 +1793,35 @@ public class ItemIconReport {
 
         // Export recipe type → machine mapping
         exportRecipeTypeMachines(miscDir);
+    }
+
+    private static @NotNull JsonArray getJsonElements() {
+        JsonArray cleanroomTypes = new JsonArray();
+
+        JsonObject cleanroom = new JsonObject();
+        cleanroom.addProperty("id", "cleanroom");
+        cleanroom.addProperty("name", "Cleanroom");
+        cleanroom.addProperty("tier", 1);
+        cleanroom.addProperty("description", "Basic clean environment for chip manufacturing and precision processing");
+        cleanroomTypes.add(cleanroom);
+
+        JsonObject sterileCleanroom = new JsonObject();
+        sterileCleanroom.addProperty("id", "sterile_cleanroom");
+        sterileCleanroom.addProperty("name", "Sterile Cleanroom");
+        sterileCleanroom.addProperty("tier", 2);
+        sterileCleanroom.addProperty("description", "Advanced clean environment for bioengineering and advanced circuit manufacturing");
+        sterileCleanroom.addProperty("includes_cleanroom", true);
+        cleanroomTypes.add(sterileCleanroom);
+
+        JsonObject lawCleanroom = new JsonObject();
+        lawCleanroom.addProperty("id", "law_cleanroom");
+        lawCleanroom.addProperty("name", "LAW Cleanroom");
+        lawCleanroom.addProperty("tier", 3);
+        lawCleanroom.addProperty("description", "Highest-tier clean environment for the most precise manufacturing");
+        lawCleanroom.addProperty("includes_sterile_cleanroom", true);
+        lawCleanroom.addProperty("includes_cleanroom", true);
+        cleanroomTypes.add(lawCleanroom);
+        return cleanroomTypes;
     }
 
     private static void addDimension(JsonArray arr, String id, String name, boolean isSpace, boolean hasOxygen) {

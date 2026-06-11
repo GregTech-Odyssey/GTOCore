@@ -137,7 +137,7 @@ public abstract class PatternProviderLogicMixin implements IPatternProviderLogic
         }
 
         if (groups.size() == 1) {
-            var group = groups.iterator().next();
+            var group = groups.getFirst();
             cir.setReturnValue(new PatternContainerGroup(group.icon(), group.name().copy().append(suffix), group.tooltip()));
             return;
         }
