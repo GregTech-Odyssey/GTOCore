@@ -19,7 +19,6 @@ import net.minecraft.world.phys.Vec3;
 
 import com.gto.datasynclib.annotations.SaveToDisk;
 import com.mojang.blaze3d.MethodsReturnNonnullByDefault;
-import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
@@ -45,7 +44,7 @@ public final class MagicEnergyMachine extends TieredEnergyMachine implements IMa
     }
 
     @Override
-    public @NotNull IManaContainer getManaContainer() {
+    public IManaContainer getManaContainer() {
         return manaContainer;
     }
 

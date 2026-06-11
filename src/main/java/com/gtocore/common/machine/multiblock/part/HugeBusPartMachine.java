@@ -378,10 +378,10 @@ public final class HugeBusPartMachine extends WorkableTieredIOPartMachine implem
         }
 
         @Override
-        public void writeBuf(LogicalSide side, @NotNull FriendlyByteBuf data) {}
+        public void writeBuf(LogicalSide side, FriendlyByteBuf data) {}
 
         @Override
-        public void readBuf(LogicalSide side, @NotNull FriendlyByteBuf data) {}
+        public void readBuf(LogicalSide side, FriendlyByteBuf data) {}
 
         @Override
         public Data writeData() {

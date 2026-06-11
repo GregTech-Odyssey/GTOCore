@@ -73,7 +73,7 @@ public class LootTableExporter {
     public static List<String> getAllLootTableLocations() {
         MinecraftServer server = ServerLifecycleHooks.getCurrentServer();
         if (server == null) {
-            GTOCore.LOGGER.error("无法获取服务器实例 - 可能不在服务端环境或服务器未启动");
+            GTOCore.LOGGER.error("获取战利品表位置失败：无法获取服务器实例，可能不在服务端环境或服务器未启动");
             return Collections.emptyList();
         }
 
@@ -97,7 +97,7 @@ public class LootTableExporter {
     private static void exportAllLootTablesToMarkdown(List<String> lootTables) {
         MinecraftServer server = ServerLifecycleHooks.getCurrentServer();
         if (server == null) {
-            GTOCore.LOGGER.error("无法获取服务器实例 - 可能不在服务端环境或服务器未启动");
+            GTOCore.LOGGER.error("导出战利品表Markdown失败：无法获取服务器实例，可能不在服务端环境或服务器未启动");
             return;
         }
 

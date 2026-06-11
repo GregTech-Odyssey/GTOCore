@@ -24,7 +24,6 @@ import com.mojang.serialization.codecs.RecordCodecBuilder
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap
 import it.unimi.dsi.fastutil.objects.Reference2IntMap
 import it.unimi.dsi.fastutil.objects.Reference2IntOpenHashMap
-import it.unimi.dsi.fastutil.objects.Reference2ObjectMap
 import it.unimi.dsi.fastutil.objects.Reference2ReferenceOpenHashMap
 import it.unimi.dsi.fastutil.objects.ReferenceOpenHashSet
 
@@ -63,8 +62,6 @@ class WirelessNetwork(val id: String, val owner: UUID, var nickname: String = id
         var profiledLoadTime: Long = 0L
         var totalLoadedConns: Int = 0
         var refreshTimesCalled: Int = 0
-
-        fun getProfileSummary(): String = "WirelessNetwork Profile: totalLoadedConns=$totalLoadedConns, refreshTimesCalled=$refreshTimesCalled, averageLoadTime=${if (refreshTimesCalled > 0) profiledLoadTime / refreshTimesCalled else 0}ms"
     }
 
     var needsRefresh: Boolean = false

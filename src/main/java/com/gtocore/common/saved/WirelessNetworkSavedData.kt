@@ -186,7 +186,6 @@ class WirelessNetworkSavedData : SavedData() {
             // Nodes in unloaded chunks will self-correct via linkNetwork() → NOT_FOUND_GRID on reload.
             val allNodes = net.inputNodes + net.outputNodes
             for (node in allNodes) {
-                node.removedFromNetwork(net.id)
                 node.setConnectedNetworkId("")
             }
             net.nodeInfoTable.clear()
@@ -214,14 +213,12 @@ class WirelessNetworkSavedData : SavedData() {
             leaveNetwork(node)
 
             net.addNode(node)
-            node.addedToNetwork(networkId)
             INSTANCE.setDirty()
             return STATUS.SUCCESS
         }
 
         fun leaveNetwork(node: WirelessMachine) {
             findNetworkById(node.connectedNetworkId)?.let { net ->
-                node.removedFromNetwork(net.id)
                 net.removeNode(node)
             }
         }
@@ -237,8 +234,6 @@ class WirelessNetworkSavedData : SavedData() {
                 INSTANCE.setDirty()
             }
         }
-
-        fun isDefault(networkId: String, requester: UUID): Boolean = get().defaultMap[requester] == networkId
 
         /**
          * 获取指定玩家的收藏（默认）网络ID，如果没有收藏则返回null。

@@ -107,8 +107,7 @@ public class TravelHandler {
         if (height.isEmpty()) {
             return false;
         }
-        BlockPos blockPos = pos;
-        Vec3 teleportPosition = new Vec3(blockPos.getX() + 0.5f, blockPos.getY() + height.get() + 1, blockPos.getZ() + 0.5f);
+        Vec3 teleportPosition = new Vec3(pos.getX() + 0.5f, pos.getY() + height.get() + 1, pos.getZ() + 0.5f);
         teleportPosition = teleportEvent(player, teleportPosition).orElse(null);
         if (teleportPosition != null) {
             if (player instanceof ServerPlayer serverPlayer) {

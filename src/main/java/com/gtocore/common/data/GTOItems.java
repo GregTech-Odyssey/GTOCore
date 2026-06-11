@@ -988,8 +988,7 @@ public final class GTOItems {
     public static final ItemEntry<Item> CRUDELY_HARMONIZED_SOUL_JADE_CRYSTAL_ORE = register("crudely_harmonized_soul_jade_crystal_ore", "粗劣调和魂玉晶矿石");
     public static final ItemEntry<Item> CRUDELY_SHAPED_REMNANT_SPIRIT_STONE_ORE = register("crudely_shaped_remnant_spirit_stone_ore", "粗劣塑形骸灵石矿石");
 
-    @SuppressWarnings("rawtypes")
-    public static final ItemEntry[] TAROT_ARCANUM = registerTarotArcanum();
+    public static final ItemEntry<TarotArcanum>[] TAROT_ARCANUM = registerTarotArcanum();
 
     public static final ItemEntry<AffixCanvas> AFFIX_CANVAS = item("affix_canvas", "铭刻之布", AffixCanvas::new).register();
     public static final Map<String, ItemEntry<ApothItem>> ENCHANTMENT_ESSENCE = registerEnchantmentEssence();
@@ -1002,8 +1001,9 @@ public final class GTOItems {
     private static final String[] ComponentSizes2 = { "小", "中", "大" };
     public static final ItemEntry<ColoringItems>[][] INDUSTRIAL_COMPONENTS = registerIndustrialComponents();
 
+    @SuppressWarnings("unchecked")
     public static ItemEntry<ColoringItems>[][] registerIndustrialComponents() {
-        ItemEntry<ColoringItems>[][] entries = new ItemEntry[IndustrialComponents.length][ComponentSizes.length];
+        ItemEntry<ColoringItems>[][] entries = (ItemEntry<ColoringItems>[][]) new ItemEntry<?>[IndustrialComponents.length][ComponentSizes.length];
         for (int i = 0; i < IndustrialComponents.length; i++) {
             for (int k = 0; k < ComponentSizes.length; k++) {
                 int finalI = i;

@@ -239,10 +239,6 @@ public interface WirelessMachine extends IGridConnectedMachine, ISync, IBindable
 
     // ==================== Callbacks ====================
 
-    default void addedToNetwork(String networkId) {}
-
-    default void removedFromNetwork(String networkId) {}
-
     default boolean allowWirelessConnection() {
         return true;
     }

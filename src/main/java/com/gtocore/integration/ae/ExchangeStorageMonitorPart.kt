@@ -444,9 +444,6 @@ class ExchangeStorageMonitorPart(partItem: IPartItem<*>) :
         }
     }
     companion object {
-        val positiveColor = AEColor.GREEN.mediumVariant
-        val negativeColor = AEColor.RED.mediumVariant
-
         @PartModels
         @JvmStatic
         val MODEL_OFF: ResourceLocation = RLUtils.ae("part/storage_monitor_off")

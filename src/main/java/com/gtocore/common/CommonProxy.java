@@ -153,7 +153,9 @@ public class CommonProxy {
         }
 
         if (GTCEu.isClientSide()) {
-            Supplier<Component>[] tooltips = new Supplier[] { () -> Component.translatable(GTOTagPrefix.PIPE_TOOLTIP) };
+            Supplier<Component> tooltip = () -> Component.translatable(GTOTagPrefix.PIPE_TOOLTIP);
+            @SuppressWarnings("unchecked")
+            Supplier<Component>[] tooltips = (Supplier<Component>[]) new Supplier<?>[] { tooltip };
             GTMaterialBlocks.ITEM_PIPE_BLOCKS.values().forEach(e -> ((IItem) e.get().asItem()).gtolib$setToolTips(tooltips));
             GTMaterialBlocks.FLUID_PIPE_BLOCKS.values().forEach(e -> ((IItem) e.get().asItem()).gtolib$setToolTips(tooltips));
         } else {

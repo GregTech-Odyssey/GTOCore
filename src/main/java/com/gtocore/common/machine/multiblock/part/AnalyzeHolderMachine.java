@@ -48,12 +48,6 @@ public class AnalyzeHolderMachine extends MultiblockPartMachine implements IMach
         heldItems = new AnalyzeHolder(this);
     }
 
-    public boolean isWorkingEnabled() {
-        return false;
-    }
-
-    public void setWorkingEnabled(boolean workingEnabled) {}
-
     @Override
     public void onMachineRemoved() {
         clearInventory(this.heldItems.storage);

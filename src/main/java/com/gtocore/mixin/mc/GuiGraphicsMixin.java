@@ -40,6 +40,13 @@ public abstract class GuiGraphicsMixin {
     @Shadow
     public abstract void renderItemDecorations(Font font, ItemStack stack, int x, int y, @Nullable String text);
 
+    @Unique
+    @SuppressWarnings("unchecked")
+    @Nullable
+    private static Object gtocore$getCurrentTarget(IPlaceholder<?, ?, ?> placeholder, ItemStack placeholderStack) {
+        return ((IPlaceholder<?, ItemStack, ?>) placeholder).getCurrentTarget(placeholderStack, null);
+    }
+
     /**
      * 获取替换目标（物品或流体）的核心逻辑方法。
      *
@@ -50,11 +57,11 @@ public abstract class GuiGraphicsMixin {
     @Nullable
     private static Object gtocore$getPlaceholderTarget(@Nullable LivingEntity entity, @Nullable Level level, ItemStack placeholderStack, int x, int y, int seed, int GuiOffset) {
         // 1. 检查物品是否为占位符，并且不在递归守卫中。
-        if (!(placeholderStack.getItem() instanceof IPlaceholder placeholder) || gtocore$RENDERING_GUARD.get() == placeholderStack) {
+        if (!(placeholderStack.getItem() instanceof IPlaceholder<?, ?, ?> placeholder) || gtocore$RENDERING_GUARD.get() == placeholderStack) {
             return null;
         }
         if (Screen.hasShiftDown()) {
-            var target = placeholder.getCurrentTarget(placeholderStack, null);
+            var target = gtocore$getCurrentTarget(placeholder, placeholderStack);
 
             // 4. 验证目标以确保其不为空。
             if (target != null) {

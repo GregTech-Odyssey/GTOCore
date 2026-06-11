@@ -202,7 +202,7 @@ public final class RecipeEditorBehavior implements IItemUIFactory, IFancyUIProvi
         GTRecipeTypeUI recipeUI = new GTRecipeTypeUI(machine.recipeType) {
 
             @Override
-            protected WidgetGroup addInventorySlotGroup(boolean isOutputs, boolean isSteam, boolean isHighPressure, BiPredicate predicate) {
+            protected WidgetGroup addInventorySlotGroup(boolean isOutputs, boolean isSteam, boolean isHighPressure, BiPredicate<Boolean, RecipeInfo> predicate) {
                 int maxCount = 0;
                 int totalR = 0;
                 TreeMap<RecipeInfo, Integer> map = new TreeMap<>(RecipeInfo.COMPARATOR);
@@ -232,7 +232,7 @@ public final class RecipeEditorBehavior implements IItemUIFactory, IFancyUIProvi
                 WidgetGroup group = new WidgetGroup(0, 0, maxCount * 18 + 8, totalR * 18 + 8);
                 int index = 0;
                 for (var entry : map.entrySet()) {
-                    if (entry.getKey() instanceof ContentRecipeInfo cap) {
+                    if (entry.getKey() instanceof ContentRecipeInfo<?> cap) {
                         boolean i = cap == ItemRecipeInfo.INSTANCE;
                         if (i || isGT) {
                             if (cap.getWidgetClass() == null) {
@@ -416,7 +416,8 @@ public final class RecipeEditorBehavior implements IItemUIFactory, IFancyUIProvi
                 stringBuilder.append(".save();\n");
             } else {
                 String id = machine.id;
-                if (id.isEmpty()) id = ItemUtils.getIdLocation(machine.exportItems.getStackInSlot(0).getItem()).getPath();
+                if (id.isEmpty())
+                    id = ItemUtils.getIdLocation(machine.exportItems.getStackInSlot(0).getItem()).getPath();
                 stringBuilder.append("\nVanillaRecipeHelper.addShapedRecipe(");
                 stringBuilder.append("GTOCore.id(\"").append(id).append("\"), ");
                 stringBuilder.append(StringConverter.fromItem(ItemIngredient.of(machine.exportItems.getStackInSlot(0)), 0)).append(",\n\"");

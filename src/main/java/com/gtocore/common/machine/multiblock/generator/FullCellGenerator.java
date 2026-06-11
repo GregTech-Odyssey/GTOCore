@@ -134,11 +134,6 @@ public class FullCellGenerator extends ElectricMultiblockMachine {
         return null;
     }
 
-    @Override
-    public long getOverclockVoltage() {
-        return super.getOverclockVoltage();
-    }
-
     private GTRecipe getAbsorptionRecipe(RecipeHandlerUnit unit, GTRecipe recipe) {
         var fuelEnergyPerUnit = recipe.data.getLong(GTORecipeDataKeys.CONVERTED_ENERGY);
         // membrane bonus

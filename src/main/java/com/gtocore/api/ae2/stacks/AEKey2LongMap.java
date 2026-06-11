@@ -6,6 +6,7 @@ import appeng.api.stacks.AEKey;
 
 import it.unimi.dsi.fastutil.objects.Object2LongAVLTreeMap;
 import it.unimi.dsi.fastutil.objects.Object2LongMap;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Comparator;
 import java.util.Iterator;
@@ -32,7 +33,7 @@ interface AEKey2LongMap extends Object2LongMap<AEKey>, Iterable<Object2LongMap.E
         }
 
         @Override
-        public Iterator<Entry<AEKey>> iterator() {
+        public @NotNull Iterator<Entry<AEKey>> iterator() {
             return object2LongEntrySet().iterator();
         }
 

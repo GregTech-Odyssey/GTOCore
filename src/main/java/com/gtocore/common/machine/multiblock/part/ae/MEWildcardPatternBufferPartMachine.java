@@ -180,11 +180,6 @@ public class MEWildcardPatternBufferPartMachine extends MEPatternBufferPartMachi
         requestPatternUpdate();
     }
 
-    @Override
-    public void onChanged() {
-        super.onChanged();
-    }
-
     private void requestPatternUpdate() {
         if (lock) return;
         lock = true;

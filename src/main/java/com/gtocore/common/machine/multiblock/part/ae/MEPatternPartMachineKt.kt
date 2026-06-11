@@ -188,8 +188,6 @@ abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.AbstractInterna
     open fun appendHoverTooltips(index: Int): Component? = null
     open fun onMouseClicked(index: Int) {}
     open fun getApplyIndex(): IntSupplier = IntSupplier { -1 }
-    open fun onPageNext() {}
-    open fun onPagePrev() {}
     open fun runOnUpdate() {}
     open fun addWidget(group: WidgetGroup) {}
     open fun onDetailsPostInit() {}
@@ -368,7 +366,6 @@ abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.AbstractInterna
                             width = 30,
                             height = 13,
                             onClick = { _ ->
-                                onPagePrev()
                                 if (!isRemote) {
                                     newPageField.set((newPageField.get() - 1).coerceAtLeast(0))
                                     newPageField.markAsChanged()
@@ -382,7 +379,6 @@ abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.AbstractInterna
                             height = 13,
                             width = 30,
                             onClick = { _ ->
-                                onPageNext()
                                 if (!isRemote) {
                                     newPageField.set((newPageField.get() + 1).coerceAtMost(pageWidget.getMaxPageSize() - 1))
                                     newPageField.markAsChanged()

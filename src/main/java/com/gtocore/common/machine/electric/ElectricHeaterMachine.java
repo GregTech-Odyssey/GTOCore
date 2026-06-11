@@ -48,7 +48,7 @@ public final class ElectricHeaterMachine extends WorkableTieredMachine implement
     }
 
     @Override
-    public @Nullable <T> T getGTCapability(Class<T> cap, @Nullable Direction side) {
+    public @Nullable <T> T getGTCapability(@NotNull Class<T> cap, @Nullable Direction side) {
         if (cap == IHeatContainer.class && testHeatCapability(side)) {
             return cap.cast(heatContainer);
         }

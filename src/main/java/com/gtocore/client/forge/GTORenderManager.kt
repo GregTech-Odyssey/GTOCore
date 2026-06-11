@@ -46,8 +46,6 @@ object GTORenderManager {
             ),
         )
     }
-
-    fun presetCircle(center: Vec3, level: ResourceKey<Level>, radius: Double, width: Float = 0.03f, color: Int = 0xFFFF0000.toInt(), durationTick: Int = 40, flickerCycle: Int = Int.MAX_VALUE, segments: Int = 64): GTORenderType.PolylineThick = presetRegularPolygon(center, level, segments, radius, width, color, durationTick, flickerCycle, true)
 }
 
 // 公用：3D加粗线段渲染器（基于相机视向的四边形条带，内部实心，QUADS）
@@ -181,65 +179,11 @@ sealed class GTORenderType<T : GTORenderData>(val renderData: T) {
             }
         }
     }
-
-    class BlockLine(data: GTORenderData.BlockLineData) : GTORenderType<GTORenderData.BlockLineData>(data) {
-        override fun render(event: RenderLevelStageEvent) {
-            super.render(event)
-            if (event.renderTick - self.renderData.startTick!! > self.renderData.durationTick) {
-                self.renderData.willBeCalled = false
-                self.renderData.willBeDelete = true
-                return
-            }
-            if ((event.renderTick % self.renderData.flickerCycle) < self.renderData.flickerCycle / 2) return
-            if (event.stage != RenderLevelStageEvent.Stage.AFTER_TRANSLUCENT_BLOCKS) return
-            with(PlayerRenderContext.create(event) ?: return) {
-                if (self.renderData.level != player.level().dimension()) return
-
-                val c = Vec3(self.renderData.pos.x + 0.5, self.renderData.pos.y + 0.5, self.renderData.pos.z + 0.5)
-                val h = 0.5
-                val v = arrayOf(
-                    Vec3(c.x - h, c.y + h, c.z + h), // 0: top -x +z
-                    Vec3(c.x + h, c.y + h, c.z + h), // 1
-                    Vec3(c.x + h, c.y + h, c.z - h), // 2
-                    Vec3(c.x - h, c.y + h, c.z - h), // 3
-                    Vec3(c.x - h, c.y - h, c.z + h), // 4
-                    Vec3(c.x + h, c.y - h, c.z + h), // 5
-                    Vec3(c.x + h, c.y - h, c.z - h), // 6
-                    Vec3(c.x - h, c.y - h, c.z - h), // 7
-                )
-                val segs = ArrayList<Pair<Vec3, Vec3>>(12)
-                // 顶面四条
-                segs.add(v[0] to v[1])
-                segs.add(v[1] to v[2])
-                segs.add(v[2] to v[3])
-                segs.add(v[3] to v[0])
-                // 底面四条
-                segs.add(v[4] to v[5])
-                segs.add(v[5] to v[6])
-                segs.add(v[6] to v[7])
-                segs.add(v[7] to v[4])
-                // 立面四条
-                segs.add(v[0] to v[4])
-                segs.add(v[1] to v[5])
-                segs.add(v[2] to v[6])
-                segs.add(v[3] to v[7])
-
-                ThickPolylineRenderer.drawSegments(
-                    poseStack,
-                    camera,
-                    self.renderData.color,
-                    self.renderData.lineWidth.coerceAtLeast(0.001f),
-                    segs,
-                )
-            }
-        }
-    }
 }
 sealed class GTORenderData(val description: String) {
     var willBeDelete = false
     var willBeCalled = true
     var startTick: Int? = null
-    var endTick: Int? = null
 
     /*
      * pos: 渲染位置

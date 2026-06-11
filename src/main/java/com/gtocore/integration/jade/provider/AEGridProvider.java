@@ -51,13 +51,11 @@ public final class AEGridProvider extends CapabilityBlockProvider<IExpandedGrid>
         } else {
             cap = blockEntity.getCapability(Capabilities.IN_WORLD_GRID_NODE_HOST).orElse(null);
         }
-        if (cap != null) {
-            for (var s : Direction.values()) {
-                var node = cap.getGridNode(s);
-                if (node != null && node.getGrid() instanceof IExpandedGrid grid) {
-                    grid.observe();
-                    return grid;
-                }
+        for (var s : Direction.values()) {
+            var node = cap.getGridNode(s);
+            if (node != null && node.getGrid() instanceof IExpandedGrid grid) {
+                grid.observe();
+                return grid;
             }
         }
         return null;

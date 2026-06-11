@@ -114,7 +114,7 @@ public final class GTOFluids {
     }
 
     private static DynamicFluidContainerModelBuilder<ItemModelBuilder> bucketModel(DataGenContext<Item, BucketItem> ctx, RegistrateItemModelProvider prov) {
-        return prov.withExistingParent(ctx.getName(), new ResourceLocation(ForgeVersion.MOD_ID, "item/bucket"))
+        return prov.withExistingParent(ctx.getName(), ResourceLocation.fromNamespaceAndPath(ForgeVersion.MOD_ID, "item/bucket"))
                 .customLoader(DynamicFluidContainerModelBuilder::begin)
                 .fluid(ctx.get().getFluid());
     }

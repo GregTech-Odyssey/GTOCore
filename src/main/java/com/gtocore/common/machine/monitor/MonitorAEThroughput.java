@@ -127,7 +127,7 @@ public class MonitorAEThroughput extends AbstractAEInfoMonitor {
             // displayingName[i] = current.getDisplayName();
             displayingEntry.put(String.valueOf(i), current.toTagGeneric());
         }
-        state = hasConfig ? State.NORMAL : State.NO_CONFIG;
+        state = State.NO_CONFIG;
     }
 
     private static final ImmutableList<DisplayRegistry> ID_MAP = ImmutableList.of(

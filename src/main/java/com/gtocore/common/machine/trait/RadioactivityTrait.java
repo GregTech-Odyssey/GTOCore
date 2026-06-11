@@ -50,7 +50,7 @@ public class RadioactivityTrait extends MultiblockTrait {
     }
 
     @Override
-    public GTRecipe modifyRecipe(RecipeHandlerUnit unit, @NotNull GTRecipe recipe) {
+    public GTRecipe modifyRecipe(@NotNull RecipeHandlerUnit unit, @NotNull GTRecipe recipe) {
         recipeRadioactivity = recipe.data.getInt(GTORecipeDataKeys.RADIOACTIVITY);
         if (recipeRadioactivity > 0 && outside()) {
             IdleReason.RADIATION.setReason(machine);

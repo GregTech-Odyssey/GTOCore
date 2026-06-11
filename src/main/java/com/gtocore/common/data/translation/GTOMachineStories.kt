@@ -1474,26 +1474,6 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
         highlight("与宇宙基本法则的危险博弈" translatedTo "Chairman's stern warning: This is a dangerous game with the universe's fundamental laws")
     }
 
-    // 创造之门
-    val DoorOfCreateTooltips = ComponentListSupplier {
-        setTranslationPrefix("door_of_create")
-        add("GTO寰宇最深处的环形结构" translatedTo "GTO Universe's innermost ring structure") { aqua() }
-        add("MAX级电压激活时龙息粒子开始舞动，在空间中撕裂出创造维度的通道" translatedTo "MAX voltage activates dragon's breath particles dancing tearing open pathways to the creation dimension") { blue() }
-        add("环形门户以非欧几里得几何旋转，连接着现实与创造的边界" translatedTo "Rotating in non-Euclidean geometry the ring portal connects the boundaries of reality and creation") { lightPurple() }
-        add("穿越者归来后对所见保持沉默，仿佛承载了无法言说的宇宙奥秘" translatedTo "Returned travelers remain silent about what they saw as if bearing unspeakable cosmic mysteries") { green() }
-        add("董事长亲自监督的终极项目，代表着格雷科技探索的最高成就" translatedTo "The ultimate project personally supervised by the chairman representing GregTech's pinnacle of exploration") { yellow() }
-        highlight("重新定义存在的可能性" translatedTo "Redefine the possibilities of existence")
-    }
-
-    // 创造聚合仪
-    val CreateAggregationTooltips = ComponentListSupplier {
-        setTranslationPrefix("create_aggregation")
-        add("量子现实编织器以MAX电压运转，在维度间隙中撕开裂口" translatedTo "Quantum reality weaver operates at MAX voltage tearing openings in dimensional gaps") { aqua() }
-        add("超导算力矩阵同步计算无限可能性，筛选出稳定的创造维度坐标" translatedTo "Supercomputing matrix synchronously calculates infinite possibilities filtering stable creation dimension coordinates") { blue() }
-        add("现实结构在仪器周围扭曲变形，物理常数开始出现可观测波动" translatedTo "Reality structure distorts around the device physical constants begin observable fluctuations") { lightPurple() }
-        highlight("对宇宙本质的最终探索" translatedTo "Ultimate exploration of cosmic essence")
-    }
-
     // 地幔粉碎者
     @JvmField
     val MantleCrusherTooltips = ComponentListSupplier {

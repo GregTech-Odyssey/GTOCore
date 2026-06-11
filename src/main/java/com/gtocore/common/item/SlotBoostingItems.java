@@ -5,12 +5,14 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 
+import com.google.common.collect.HashMultimap;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import top.theillusivec4.curios.api.CuriosApi;
@@ -19,11 +21,13 @@ import top.theillusivec4.curios.api.type.inventory.ICurioStacksHandler;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 public class SlotBoostingItems extends Item {
 
     private static final String[] AVAILABLE_SLOTS = { "charm", "necklace", "ring", "bands" };
     private static final String SELECTED_SLOT_KEY = "SelectedSlotIndex";
+    private static final String SLOT_BOOST_MODIFIER_NAME = "gtocore:slot_boost";
 
     public SlotBoostingItems(Properties properties) {
         super(properties.stacksTo(1));
@@ -78,6 +82,13 @@ public class SlotBoostingItems extends Item {
         return getCurrentSlots(player, slot) * 2000;
     }
 
+    private void addPermanentSlotBoost(ICuriosItemHandler curiosInventory, String slot) {
+        var modifiers = HashMultimap.<String, AttributeModifier>create();
+        modifiers.put(slot, new AttributeModifier(UUID.randomUUID(), SLOT_BOOST_MODIFIER_NAME, 1, AttributeModifier.Operation.ADDITION));
+        curiosInventory.addPermanentSlotModifiers(modifiers);
+        curiosInventory.getStacksHandler(slot).ifPresent(ICurioStacksHandler::update);
+    }
+
     @Override
     public @NotNull InteractionResultHolder<ItemStack> use(@NotNull Level level, Player player, @NotNull InteractionHand hand) {
         ItemStack stack = player.getItemInHand(hand);
@@ -116,7 +127,7 @@ public class SlotBoostingItems extends Item {
         }
 
         serverPlayer.giveExperiencePoints(-requiredXp);
-        curiosInventory.get().growSlotType(selectedSlot, 1);
+        addPermanentSlotBoost(curiosInventory.get(), selectedSlot);
 
         serverPlayer.sendSystemMessage(Component.translatable("item.slot_boost.success", selectedSlot, getCurrentSlots(serverPlayer, selectedSlot)));
         return InteractionResultHolder.success(stack);

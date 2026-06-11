@@ -9,6 +9,8 @@ import com.gregtechceu.gtceu.api.pipenet.IPipeType;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.StringRepresentable;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.Locale;
 
 public enum ManaPipeType implements IPipeType<ManaPipeProperties>, StringRepresentable {
@@ -41,7 +43,7 @@ public enum ManaPipeType implements IPipeType<ManaPipeProperties>, StringReprese
     }
 
     @Override
-    public String getSerializedName() {
+    public @NotNull String getSerializedName() {
         return name().toLowerCase(Locale.ROOT);
     }
 }

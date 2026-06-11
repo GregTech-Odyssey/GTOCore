@@ -58,7 +58,7 @@ public final class HeaterMachine extends SimpleNoEnergyMachine implements IHeatC
     }
 
     @Override
-    public void onNeighborChanged(Block block, BlockPos fromPos, boolean isMoving) {
+    public void onNeighborChanged(@NotNull Block block, @NotNull BlockPos fromPos, boolean isMoving) {
         super.onNeighborChanged(block, fromPos, isMoving);
         Level level = getLevel();
         if (level == null) return;

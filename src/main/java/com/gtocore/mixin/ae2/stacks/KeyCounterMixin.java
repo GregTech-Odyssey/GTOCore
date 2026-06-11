@@ -16,6 +16,7 @@ import it.unimi.dsi.fastutil.objects.Object2LongMap;
 import it.unimi.dsi.fastutil.objects.Object2LongOpenHashMap;
 import it.unimi.dsi.fastutil.objects.Reference2LongMap;
 import it.unimi.dsi.fastutil.objects.ReferenceOpenHashSet;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
@@ -238,7 +239,7 @@ public abstract class KeyCounterMixin implements Iterable<Reference2LongMap.Entr
      * @reason .
      */
     @Overwrite(remap = false)
-    public Iterator<Reference2LongMap.Entry<AEKey>> iterator() {
+    public @NotNull Iterator<Reference2LongMap.Entry<AEKey>> iterator() {
         if (gtolib$map == null) return Collections.emptyIterator();
         return gtolib$map.iterator();
     }

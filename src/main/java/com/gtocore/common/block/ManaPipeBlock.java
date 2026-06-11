@@ -24,6 +24,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 import lombok.Getter;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import vazkii.botania.api.BotaniaForgeCapabilities;
 
@@ -47,27 +48,27 @@ public class ManaPipeBlock extends PipeBlock<ManaPipeType, ManaPipeProperties, L
     }
 
     @Override
-    public LevelManaPipeNet getWorldPipeNet(ServerLevel level) {
+    public @NotNull LevelManaPipeNet getWorldPipeNet(ServerLevel level) {
         return LevelManaPipeNet.getOrCreate(level);
     }
 
     @Override
-    public BlockEntityType<? extends PipeBlockEntity<ManaPipeType, ManaPipeProperties>> getBlockEntityType() {
+    public @NotNull BlockEntityType<? extends PipeBlockEntity<ManaPipeType, ManaPipeProperties>> getBlockEntityType() {
         return GTOBlockEntities.MANA_PIPE.get();
     }
 
     @Override
-    public ManaPipeProperties createRawData(BlockState pState, @Nullable ItemStack pStack) {
+    public @NotNull ManaPipeProperties createRawData(BlockState pState, @Nullable ItemStack pStack) {
         return ManaPipeProperties.INSTANCE;
     }
 
     @Override
-    public ManaPipeProperties createProperties(PipeBlockEntity<ManaPipeType, ManaPipeProperties> pipeTile) {
+    public @NotNull ManaPipeProperties createProperties(PipeBlockEntity<ManaPipeType, ManaPipeProperties> pipeTile) {
         return this.pipeType.modifyProperties(properties);
     }
 
     @Override
-    public ManaPipeProperties getFallbackType() {
+    public @NotNull ManaPipeProperties getFallbackType() {
         return ManaPipeProperties.INSTANCE;
     }
 

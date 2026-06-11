@@ -209,7 +209,7 @@ final class PlatformStructurePlacer {
         private final int offsetX, offsetY, offsetZ;
 
         BlockIterator(InputStream input, BlockPos startPos, Char2ReferenceOpenHashMap<BlockState> blockMapping,
-                      boolean zMirror, boolean xMirror, int rotation) throws IOException {
+                      boolean zMirror, boolean xMirror, int rotation) {
             this.startPos = startPos;
             this.blockMapping = blockMapping;
             this.zMirror = zMirror;

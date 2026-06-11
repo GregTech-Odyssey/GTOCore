@@ -35,8 +35,10 @@ import static com.gtolib.utils.register.BlockRegisterUtils.*;
 
 public final class GTOBlocks {
 
-    public static final BlockEntry<HeatPipeBlock>[] HEAT_PIPES = new BlockEntry[HeatPipeType.values().length];
-    public static final BlockEntry<ManaPipeBlock>[] MANA_PIPES = new BlockEntry[HeatPipeType.values().length];
+    @SuppressWarnings("unchecked")
+    public static final BlockEntry<HeatPipeBlock>[] HEAT_PIPES = (BlockEntry<HeatPipeBlock>[]) new BlockEntry<?>[HeatPipeType.values().length];
+    @SuppressWarnings("unchecked")
+    public static final BlockEntry<ManaPipeBlock>[] MANA_PIPES = (BlockEntry<ManaPipeBlock>[]) new BlockEntry<?>[HeatPipeType.values().length];
 
     public static void init() {
         GTO.removeDefaultCreativeTab();

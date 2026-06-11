@@ -21,14 +21,14 @@ import org.spongepowered.asm.mixin.injection.ModifyVariable;
 public abstract class MaterialPipeBlockItemMixin extends PipeBlockItem {
 
     @Shadow(remap = false)
-    public abstract @NotNull MaterialPipeBlock getBlock();
+    public abstract @NotNull MaterialPipeBlock<?, ?, ?> getBlock();
 
-    protected MaterialPipeBlockItemMixin(PipeBlock block, Properties properties) {
+    protected MaterialPipeBlockItemMixin(PipeBlock<?, ?, ?> block, Properties properties) {
         super(block, properties);
     }
 
     @ModifyVariable(method = "<init>", at = @At("HEAD"), index = 2, argsOnly = true, remap = false)
-    private static Properties init(Properties value, @Local(argsOnly = true) MaterialPipeBlock block) {
+    private static Properties init(Properties value, @Local(argsOnly = true) MaterialPipeBlock<?, ?, ?> block) {
         if (block.material instanceof GTOMaterial material) {
             Rarity rarity = material.gtolib$rarity();
             if (rarity != null) value.rarity(rarity);

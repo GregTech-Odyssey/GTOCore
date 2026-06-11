@@ -87,6 +87,11 @@ public class DirectedTesseractMachine extends MetaMachine implements
     private WeakReference<BlockEntity>[] blockEntityReference;
     private final ConditionalSubscriptionHandler task;
 
+    @SuppressWarnings("unchecked")
+    private static WeakReference<BlockEntity>[] createBlockEntityReferences(int size) {
+        return (WeakReference<BlockEntity>[]) new WeakReference<?>[size];
+    }
+
     public DirectedTesseractMachine(MetaMachineBlockEntity holder) {
         super(holder);
         this.unfinishedPushLists = new UnfinishedPushList(this);
@@ -103,7 +108,7 @@ public class DirectedTesseractMachine extends MetaMachine implements
         targets.clear();
         targets.addAll(newTargets);
         targets.sort(TesseractDirectedTarget.SORTER);
-        blockEntityReference = new WeakReference[targets.size()];
+        blockEntityReference = createBlockEntityReferences(targets.size());
     }
 
     @Override
@@ -124,7 +129,7 @@ public class DirectedTesseractMachine extends MetaMachine implements
             if (targets.isEmpty()) {
                 return null;
             }
-            blockEntityReference = new WeakReference[targets.size()];
+            blockEntityReference = createBlockEntityReferences(targets.size());
         }
         if (blockEntityReference[index] != null) {
             var be = blockEntityReference[index].get();
@@ -147,7 +152,8 @@ public class DirectedTesseractMachine extends MetaMachine implements
 
     @Override
     public IPatternProviderLogic.PushResult pushPattern(IPatternProviderLogic logic, IActionSource actionSource, BooleanHolder success, Operate operate, Set<AEKey> patternInputs, IPatternDetails patternDetails, ObjHolder<KeyCounter[]> inputHolder, Supplier<IPatternProviderLogic.PushResult> pushPatternSuccess, BooleanSupplier canPush, Direction direction, Direction adjBeSide) {
-        if (!(patternDetails instanceof AEProcessingPattern processingPattern)) return IPatternProviderLogic.PushResult.REJECTED;
+        if (!(patternDetails instanceof AEProcessingPattern processingPattern))
+            return IPatternProviderLogic.PushResult.REJECTED;
         var sparseInputs = processingPattern.getSparseInputs();
 
         if (unfinishedPushLists.hasWorkToDo() ||

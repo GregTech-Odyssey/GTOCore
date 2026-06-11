@@ -891,7 +891,8 @@ public final class GTOOres {
                     .surfaceRock(RemnantSpiritStone)
                     .placement(SurfaceIndicatorGenerator.IndicatorPlacement.ABOVE)));
 
-    private static Set<ResourceKey<Level>> dimensions(ResourceKey... dimensions) {
+    @SafeVarargs
+    private static Set<ResourceKey<Level>> dimensions(ResourceKey<Level>... dimensions) {
         return new ReferenceOpenHashSet<>(dimensions);
     }
 

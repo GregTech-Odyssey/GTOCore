@@ -100,7 +100,7 @@ public record CelestialHandler(long maxCapacity) {
             stellarm = Math.max(0L, stellarm - totalCost);
         } else if (type == ANY) {
             long remainingCost = totalCost;
-            if (remainingCost > 0 && solaris > 0) {
+            if (solaris > 0) {
                 long deduct = Math.min(solaris, remainingCost);
                 solaris = Math.max(0, solaris - deduct);
                 remainingCost -= deduct;

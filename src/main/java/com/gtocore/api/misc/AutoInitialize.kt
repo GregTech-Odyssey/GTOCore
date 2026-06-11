@@ -11,7 +11,6 @@ open class AutoInitialize<T> {
         OrganTranslation.init()
         GTOMachineStories.init()
         ComponentSlang.init()
-        EnumTranslation.init()
         MachineSlang.init()
         MultiblockSlang.init()
         GTOTarotArcanumTooltips.init()

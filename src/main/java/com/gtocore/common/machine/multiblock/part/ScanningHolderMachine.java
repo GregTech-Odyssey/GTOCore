@@ -31,7 +31,6 @@ import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
 import com.lowdragmc.lowdraglib.utils.Position;
 import lombok.Getter;
 import lombok.Setter;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.Collections;
 import java.util.List;
@@ -64,35 +63,34 @@ public class ScanningHolderMachine extends MultiblockPartMachine implements IMac
         catalystFluidTank = new NotifiableFluidTank(this, 1, FLUID_TANK_CAPACITY, IO.IN, IO.BOTH);
     }
 
-    public @NotNull ItemStack getHeldItem(boolean remove) {
+    public ItemStack getHeldItem(boolean remove) {
         return getHeldItem(SCAN_SLOT, remove);
     }
 
-    public void setHeldItem(@NotNull ItemStack heldItem) {
+    public void setHeldItem(ItemStack heldItem) {
         heldItems.setStackInSlot(SCAN_SLOT, heldItem);
     }
 
-    public @NotNull ItemStack getDataItem(boolean remove) {
+    public ItemStack getDataItem(boolean remove) {
         return getHeldItem(DATA_SLOT, remove);
     }
 
-    public void setDataItem(@NotNull ItemStack dataItem) {
+    public void setDataItem(ItemStack dataItem) {
         heldItems.setStackInSlot(DATA_SLOT, dataItem);
     }
 
-    public @NotNull ItemStack getCatalystItem(boolean remove) {
+    public ItemStack getCatalystItem(boolean remove) {
         return getHeldItem(CATALYST_SLOT, remove);
     }
 
-    public void setCatalystItem(@NotNull ItemStack catalystItem) {
+    public void setCatalystItem(ItemStack catalystItem) {
         heldItems.setStackInSlot(CATALYST_SLOT, catalystItem);
     }
 
-    public @NotNull NotifiableItemStackHandler getAsHandler() {
+    public NotifiableItemStackHandler getAsHandler() {
         return heldItems;
     }
 
-    @NotNull
     private ItemStack getHeldItem(int slot, boolean remove) {
         ItemStack stackInSlot = heldItems.getStackInSlot(slot);
         if (remove && !stackInSlot.isEmpty()) heldItems.setStackInSlot(slot, ItemStack.EMPTY);
@@ -152,7 +150,6 @@ public class ScanningHolderMachine extends MultiblockPartMachine implements IMac
         }
 
         // 防止在锁定状态下提取物品
-        @NotNull
         @Override
         public ItemStack extractItem(int slot, int amount, boolean simulate) {
             if (!machine.isLocked()) return super.extractItem(slot, amount, simulate);
@@ -161,7 +158,7 @@ public class ScanningHolderMachine extends MultiblockPartMachine implements IMac
 
         // 槽位物品验证
         @Override
-        public boolean isItemValid(int slot, @NotNull ItemStack stack) {
+        public boolean isItemValid(int slot, ItemStack stack) {
             if (stack.isEmpty()) return true;
 
             boolean isDataItem = stack.getItem() instanceof DataCrystalItem;

@@ -1,7 +1,6 @@
 package com.gtocore.api.misc;
 
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.goal.Goal;
@@ -67,8 +66,7 @@ public class AnimalsRevengeAttackGoal extends Goal {
     }
 
     private void performAttack(LivingEntity target) {
-        Entity self = this.mob;
-        if (!(self.level() instanceof ServerLevel serverLevel)) return;
+        if (!(this.mob.level() instanceof ServerLevel serverLevel)) return;
         this.mob.swing(this.mob.getUsedItemHand());
         target.hurt(serverLevel.damageSources().mobAttack(this.mob), damage);
     }

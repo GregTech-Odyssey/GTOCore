@@ -137,11 +137,11 @@ public class ModularHatchPartMachine extends ACMHatchPartMachine implements IMod
     @Override
     public @NotNull Widget createUIWidget() {
         WidgetGroup group;
-        int y = 0;
+        int y = 1;
         group = new DraggableScrollableWidgetGroup(0, 0, 200, 100);
         group.addWidget(new WidgetGroup(4, 4, 192, 190)
                 // Duration Multiplier
-                .addWidget(getConfigPanel(xlabel, ylabel + y++ * rowHeight,
+                .addWidget(getConfigPanel(xlabel, ylabel,
                         () -> getTextWidgetText(this::getDurationMultiplier),
                         () -> Component.translatable("gtceu.maintenance.configurable_duration.modify"),
                         this::incInternalMultiplier, this::decInternalMultiplier, () -> true, getMIN_DURATION_MULTIPLIER(), getMAX_DURATION_MULTIPLIER()))
@@ -272,13 +272,13 @@ public class ModularHatchPartMachine extends ACMHatchPartMachine implements IMod
     }
 
     @Override
-    public void addedToController(IMultiController controller) {
+    public void addedToController(@NotNull IMultiController controller) {
         super.addedToController(controller);
         onConditionChange();
     }
 
     @Override
-    public void removedFromController(IMultiController controller) {
+    public void removedFromController(@NotNull IMultiController controller) {
         super.removedFromController(controller);
         if (controller instanceof ICleanroomReceiver receiver) {
             receiver.setCleanroom(null);
@@ -303,11 +303,6 @@ public class ModularHatchPartMachine extends ACMHatchPartMachine implements IMod
 
     private void setCurrentGravity(int gravity) {
         currentGravity = Mth.clamp(gravity, MIN_GRAVITY, MAX_GRAVITY);
-    }
-
-    @Override
-    public boolean showFancyTooltip() {
-        return super.showFancyTooltip();
     }
 
     private static class Wrapper {

@@ -27,6 +27,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 import lombok.Getter;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -49,27 +50,27 @@ public class HeatPipeBlock extends PipeBlock<HeatPipeType, HeatPipeProperties, L
     }
 
     @Override
-    public LevelHeatPipeNet getWorldPipeNet(ServerLevel level) {
+    public @NotNull LevelHeatPipeNet getWorldPipeNet(ServerLevel level) {
         return LevelHeatPipeNet.getOrCreate(level);
     }
 
     @Override
-    public BlockEntityType<? extends PipeBlockEntity<HeatPipeType, HeatPipeProperties>> getBlockEntityType() {
+    public @NotNull BlockEntityType<? extends PipeBlockEntity<HeatPipeType, HeatPipeProperties>> getBlockEntityType() {
         return GTOBlockEntities.HEAT_PIPE.get();
     }
 
     @Override
-    public HeatPipeProperties createRawData(BlockState pState, @Nullable ItemStack pStack) {
+    public @NotNull HeatPipeProperties createRawData(BlockState pState, @Nullable ItemStack pStack) {
         return HeatPipeProperties.INSTANCE;
     }
 
     @Override
-    public HeatPipeProperties createProperties(PipeBlockEntity<HeatPipeType, HeatPipeProperties> pipeTile) {
+    public @NotNull HeatPipeProperties createProperties(PipeBlockEntity<HeatPipeType, HeatPipeProperties> pipeTile) {
         return this.pipeType.modifyProperties(properties);
     }
 
     @Override
-    public HeatPipeProperties getFallbackType() {
+    public @NotNull HeatPipeProperties getFallbackType() {
         return HeatPipeProperties.INSTANCE;
     }
 
