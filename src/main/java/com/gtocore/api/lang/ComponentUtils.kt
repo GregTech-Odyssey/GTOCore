@@ -6,14 +6,14 @@ import net.minecraft.ChatFormatting
 import net.minecraft.network.chat.Component
 import net.minecraft.network.chat.MutableComponent
 
-import com.google.common.base.Supplier
+import java.util.function.Supplier
 import com.gregtechceu.gtceu.client.util.TooltipHelper
 import com.gtolib.api.annotation.NewDataAttributes
 import com.gtolib.api.annotation.component_builder.TranslationKeyProvider
 import com.gtolib.utils.StringUtils
 import dev.shadowsoffire.placebo.color.GradientColor
 
-class ComponentListSupplier(var list: MutableList<ComponentSupplier> = mutableListOf()) : Supplier<List<Component>> {
+class ComponentListSupplier(var list: MutableList<ComponentSupplier> = mutableListOf()) : Supplier<@JvmSuppressWildcards List<Component>> {
     var translationPrefix: String = ""
         private set
     var line: Int = 0
