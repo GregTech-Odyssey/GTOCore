@@ -141,6 +141,7 @@
     "corgilib.CorgiLibForgeClientEventsMixin",
     "deeperdarker.DDItemsMixin",
     "endremastered.EREnderEyeMixin",
+    "extrabotany.GaiaArenaMixin",
     "farmersdelight.CuttingBoardBlockEntityMixin",
     "ftbq.FTBQuestsCommandsMixin",
     "ftbq.ItemRewardMixin",
