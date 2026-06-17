@@ -18,6 +18,7 @@ import appeng.api.stacks.AEKey;
 import appeng.api.stacks.GenericStack;
 import appeng.helpers.IConfigInvHost;
 import appeng.helpers.externalstorage.GenericStackInv;
+import appeng.hooks.ticking.TickHandler;
 import appeng.items.parts.PartModels;
 import appeng.menu.MenuOpener;
 import appeng.menu.locator.MenuLocators;
@@ -44,6 +45,7 @@ public class PatternContentAccessTerminalPart extends AbstractDisplayPart implem
     private final ConfigInventory config;
 
     private volatile AEKeySubstitutionMap substitutionMap = AEKeySubstitutionMap.EMPTY;
+    private boolean refreshQueued;
 
     public PatternContentAccessTerminalPart(IPartItem<?> partItem) {
         super(partItem, false);
@@ -79,11 +81,21 @@ public class PatternContentAccessTerminalPart extends AbstractDisplayPart implem
     }
 
     public void refreshPatterns() {
-        if (getMainNode() == null || !getMainNode().isOnline()) return;
-        var grid = getMainNode().getGrid();
-        if (grid != null) {
-            AEPatternRefresher.refresh(grid);
-        }
+        if (refreshQueued || isClientSide()) return;
+        refreshQueued = true;
+        TickHandler.instance().addCallable(getLevel(), () -> {
+            refreshQueued = false;
+            var node = getMainNode();
+            if (node == null || !node.isOnline()) return;
+            if (!node.hasGridBooted()) {
+                refreshPatterns();
+                return;
+            }
+            var grid = node.getGrid();
+            if (grid != null) {
+                AEPatternRefresher.refresh(grid);
+            }
+        });
     }
 
     @Override
@@ -102,6 +114,12 @@ public class PatternContentAccessTerminalPart extends AbstractDisplayPart implem
     @Override
     public GenericStackInv getConfig() {
         return this.config;
+    }
+
+    @Override
+    public void addToWorld() {
+        super.addToWorld();
+        refreshPatterns();
     }
 
     @Override
