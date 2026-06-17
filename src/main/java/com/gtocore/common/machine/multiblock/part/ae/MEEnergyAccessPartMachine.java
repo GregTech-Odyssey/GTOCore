@@ -10,12 +10,17 @@ import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiController;
 import com.gregtechceu.gtceu.api.recipe.handler.IO;
 import com.gregtechceu.gtceu.config.ConfigHolder;
 
+import net.minecraft.nbt.CompoundTag;
+
 import appeng.api.config.AccessRestriction;
 import appeng.api.config.Actionable;
 import appeng.api.config.PowerMultiplier;
 import appeng.api.config.PowerUnits;
+import appeng.api.networking.IGrid;
+import appeng.api.networking.IGridNode;
 import appeng.api.networking.energy.IAEPowerStorage;
 import appeng.api.networking.events.GridPowerStorageStateChanged;
+import appeng.me.service.EnergyService;
 
 import com.lowdragmc.lowdraglib.gui.widget.LabelWidget;
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
@@ -58,24 +63,47 @@ public class MEEnergyAccessPartMachine extends MEPartMachine implements IAEPower
         if (controller == null) {
             return;
         }
-        this.ratio = ConfigHolder.INSTANCE.compat.energy.euToFeRatio;
-        this.ratio *= 1 + 0.3 * controller.getCasingTier(GTORecipeDataKeys.GLASS_TIER);
-        this.ratio *= controller.getSubFormedAmount() + 1;
+        updateRatio();
         if (this.getMainNode().getGrid() != null) {
             this.getMainNode().getGrid().postEvent(new GridPowerStorageStateChanged(this, GridPowerStorageStateChanged.PowerEventType.PROVIDE_POWER));
+        }
+    }
+
+    private void updateRatio() {
+        this.ratio = ConfigHolder.INSTANCE.compat.energy.euToFeRatio;
+        if (controller != null) {
+            this.ratio *= 1 + 0.3 * controller.getCasingTier(GTORecipeDataKeys.GLASS_TIER);
+            this.ratio *= controller.getSubFormedAmount() + 1;
+        }
+    }
+
+    private void refreshEnergyService(Runnable change) {
+        IGridNode node = this.getMainNode().getNode();
+        IGrid grid = this.getMainNode().getGrid();
+        if (node != null && grid != null && grid.getEnergyService() instanceof EnergyService energyService) {
+            CompoundTag savedData = new CompoundTag();
+            energyService.saveNodeData(node, savedData);
+            energyService.removeNode(node);
+            change.run();
+            updateRatio();
+            energyService.addNode(node, savedData);
+        } else {
+            change.run();
+            updateRatio();
         }
     }
 
     @Override
     public void removedFromController(@NotNull IMultiController controller) {
         super.removedFromController(controller);
-        this.controller = null;
+        refreshEnergyService(() -> this.controller = null);
     }
 
     @Override
     public void addedToController(@NotNull IMultiController controller) {
         super.addedToController(controller);
-        this.controller = (TierCasingMultiblockMachine) controller;
+        TierCasingMultiblockMachine newController = (TierCasingMultiblockMachine) controller;
+        refreshEnergyService(() -> this.controller = newController);
         postEnergyEvent();
     }
 
