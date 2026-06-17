@@ -190,6 +190,7 @@ public class FullCellGenerator extends ElectricMultiblockMachine {
 
         // electrolyte consumption adjustment
         long actuallyConsumedmB = result.parallels * fuelEnergyPerUnit / euPermB;
+        if (actuallyConsumedmB == 0) return null;
         var input = new ArrayList<>(result.fluidInputs);
         input.add(new Content<>(FluidIngredient.of(electrolytesExisting.getFluid(GTOFluidStorageKey.ENERGY_RELEASE_ANODE), actuallyConsumedmB), 10000, 0));
         input.add(new Content<>(FluidIngredient.of(electrolytesExisting.getFluid(GTOFluidStorageKey.ENERGY_RELEASE_CATHODE), actuallyConsumedmB), 10000, 0));
