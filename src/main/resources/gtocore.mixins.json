@@ -197,6 +197,7 @@
     "gtm.registry.GTOresMixin",
     "gtm.registry.GTRecipeTypesMixin",
     "gtm.registry.GTRegistrationMixin",
+    "gtolib.ICrossRecipeMachineMixin",
     "guideme.GuideMEMixin",
     "jade.CommonProxyMixin",
     "jade.JadeForgeUtilsMixin",
