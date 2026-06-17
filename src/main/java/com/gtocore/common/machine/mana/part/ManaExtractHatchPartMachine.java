@@ -1,10 +1,12 @@
 package com.gtocore.common.machine.mana.part;
 
+import com.gtocore.utils.ManaUnification;
+
 import com.gtolib.api.machine.mana.feature.IManaMachine;
 import com.gtolib.utils.MathUtil;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
-import com.gregtechceu.gtceu.api.capability.recipe.IO;
+import com.gregtechceu.gtceu.api.recipe.handler.IO;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
@@ -31,21 +33,23 @@ public final class ManaExtractHatchPartMachine extends ManaHatchPartMachine {
 
     @Override
     void tickUpdate() {
-        BlockPos frontPos = getPos().relative(getFrontFacing());
-        Level level = getLevel();
-        if (!isFull()) {
-            ManaReceiver receiver = XplatAbstractions.INSTANCE.findManaReceiver(level, frontPos, null);
-            if (receiver instanceof ManaPool || receiver instanceof IManaMachine) {
-                int change = MathUtil.saturatedCast(getManaContainer().addMana(receiver.getCurrentMana(), 20, false));
-                if (change <= 0) return;
-                receiver.receiveMana(-change);
-            }
+        if (isWorkingEnabled()) {
+            BlockPos frontPos = getPos().relative(getFrontFacing());
+            Level level = getLevel();
+            if (!isFull()) {
+                ManaReceiver receiver = XplatAbstractions.INSTANCE.findManaReceiver(level, frontPos, null);
+                if (receiver instanceof ManaPool || receiver instanceof IManaMachine) {
+                    int change = MathUtil.saturatedCast(getManaContainer().addMana(receiver.getCurrentMana(), 20, false));
+                    if (change <= 0) return;
+                    receiver.receiveMana(-change);
+                }
 
-            if (level != null && level.getBlockEntity(frontPos) instanceof SourceJarTile jarTile) {
-                int sourceAmount = jarTile.getSource();
-                int change = Math.toIntExact(getManaContainer().addMana(sourceAmount / 4, 20, false) * 4);
-                if (change <= 0) return;
-                SourceUtil.takeSource(frontPos, level, 0, change);
+                if (level != null && level.getBlockEntity(frontPos) instanceof SourceJarTile jarTile) {
+                    int sourceAmount = jarTile.getSource();
+                    int change = Math.toIntExact(getManaContainer().addMana(ManaUnification.sourceToMana(sourceAmount), 20, false) * 4);
+                    if (change <= 0) return;
+                    SourceUtil.takeSource(frontPos, level, 0, change);
+                }
             }
         }
     }

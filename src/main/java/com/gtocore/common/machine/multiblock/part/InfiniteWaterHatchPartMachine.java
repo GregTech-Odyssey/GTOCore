@@ -2,37 +2,31 @@ package com.gtocore.common.machine.multiblock.part;
 
 import com.gtocore.common.data.GTORecipeTypes;
 
-import com.gtolib.api.recipe.ingredient.FastFluidIngredient;
-
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
-import com.gregtechceu.gtceu.api.capability.recipe.FluidRecipeCapability;
-import com.gregtechceu.gtceu.api.capability.recipe.IO;
-import com.gregtechceu.gtceu.api.capability.recipe.RecipeCapability;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
-import com.gregtechceu.gtceu.api.machine.multiblock.part.TieredIOPartMachine;
+import com.gregtechceu.gtceu.api.machine.multiblock.part.WorkableTieredIOPartMachine;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableRecipeHandlerTrait;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
+import com.gregtechceu.gtceu.api.recipe.content.Content;
+import com.gregtechceu.gtceu.api.recipe.handler.IO;
 import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
-import com.gregtechceu.gtceu.api.recipe.lookup.IntIngredientMap;
-import com.gregtechceu.gtceu.utils.function.ObjectLongConsumer;
-import com.gregtechceu.gtceu.utils.function.ObjectLongPredicate;
+import com.gregtechceu.gtceu.utils.function.ObjLongPredicate;
 
-import net.minecraft.core.Direction;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraftforge.fluids.FluidStack;
 
-import it.unimi.dsi.fastutil.objects.ObjectArrayList;
+import com.fast.recipesearch.IntLongMap;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+import java.util.function.ObjLongConsumer;
 
-public final class InfiniteWaterHatchPartMachine extends TieredIOPartMachine {
+public final class InfiniteWaterHatchPartMachine extends WorkableTieredIOPartMachine {
 
     public InfiniteWaterHatchPartMachine(MetaMachineBlockEntity holder) {
         super(holder, GTValues.IV, IO.IN);
@@ -41,7 +35,7 @@ public final class InfiniteWaterHatchPartMachine extends TieredIOPartMachine {
 
     @Override
     public void onPaintingColorChanged(int color) {
-        getHandlerList().setColor(color, true);
+        getHandlerUnit().setColor(color, true);
     }
 
     @Override
@@ -49,7 +43,7 @@ public final class InfiniteWaterHatchPartMachine extends TieredIOPartMachine {
         return false;
     }
 
-    private static final class FluidTank extends NotifiableRecipeHandlerTrait<FluidIngredient> {
+    private static final class FluidTank extends NotifiableRecipeHandlerTrait {
 
         private static final FluidStack WATER = new FluidStack(Fluids.WATER, Integer.MAX_VALUE);
 
@@ -58,37 +52,16 @@ public final class InfiniteWaterHatchPartMachine extends TieredIOPartMachine {
         }
 
         @Override
-        public boolean hasCapability(@Nullable Direction side) {
-            return false;
-        }
-
-        @Override
-        public int getSize() {
-            return 1;
-        }
-
-        @Override
-        public List<FluidIngredient> handleRecipeInner(IO io, GTRecipe recipe, List<FluidIngredient> left, boolean simulate) {
+        public boolean handleRecipeFluid(IO io, GTRecipe recipe, List<Content<FluidIngredient>> fluids, boolean simulate) {
             if (io == IO.IN) {
-                for (var it = left.listIterator(0); it.hasNext();) {
-                    var f = FastFluidIngredient.getFluid(it.next());
-                    if (f == Fluids.WATER) {
+                for (var it = fluids.iterator(); it.hasNext();) {
+                    if (it.next().inner.getFluid() == Fluids.WATER) {
                         it.remove();
                         break;
                     }
                 }
             }
-            return left.isEmpty() ? null : left;
-        }
-
-        @Override
-        public RecipeCapability<FluidIngredient> getCapability() {
-            return FluidRecipeCapability.CAP;
-        }
-
-        @Override
-        public List<FluidIngredient> handleRecipe(IO io, GTRecipe recipe, List<?> list, boolean simulate) {
-            return handleRecipeInner(io, recipe, new ObjectArrayList(list), simulate);
+            return fluids.isEmpty();
         }
 
         @Override
@@ -96,25 +69,30 @@ public final class InfiniteWaterHatchPartMachine extends TieredIOPartMachine {
             return IO.IN;
         }
 
-        private static final IntIngredientMap MAP = new IntIngredientMap();
+        private static final IntLongMap MAP = new IntLongMap();
 
         static {
             GTORecipeTypes.DUMMY_RECIPES.convertFluid(WATER, Long.MAX_VALUE, MAP);
         }
 
         @Override
-        public boolean forEachFluids(ObjectLongPredicate<FluidStack> function) {
+        public boolean forEachFluids(ObjLongPredicate<FluidStack> function) {
             return function.test(WATER, Long.MAX_VALUE);
         }
 
         @Override
-        public void fastForEachFluids(ObjectLongConsumer<FluidStack> function) {
+        public void fastForEachFluids(ObjLongConsumer<FluidStack> function) {
             function.accept(WATER, Long.MAX_VALUE);
         }
 
         @Override
-        public IntIngredientMap getIngredientMap(@NotNull GTRecipeType type) {
+        public IntLongMap getSearchMap(@NotNull GTRecipeType type) {
             return MAP;
+        }
+
+        @Override
+        public boolean canHandleFluid() {
+            return true;
         }
     }
 }

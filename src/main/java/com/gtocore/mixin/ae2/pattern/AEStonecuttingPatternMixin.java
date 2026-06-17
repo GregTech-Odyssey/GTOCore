@@ -4,6 +4,7 @@ import com.gtolib.api.ae2.pattern.IDetails;
 
 import appeng.api.stacks.KeyCounter;
 import appeng.crafting.pattern.AEStonecuttingPattern;
+
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 

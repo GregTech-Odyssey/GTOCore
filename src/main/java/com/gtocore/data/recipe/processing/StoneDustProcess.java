@@ -15,50 +15,50 @@ public final class StoneDustProcess {
     public static void init() {
         MIXER_RECIPES.recipeBuilder("dirty_hexafluorosilicic_acid_output")
                 .inputItems(dust, Stone, 24)
-                .inputFluids(HydrofluoricAcid.getFluid(6000))
+                .inputFluids(HydrofluoricAcid, 6000)
                 .outputFluids(DirtyHexafluorosilicicAcid.getFluid(3000))
                 .duration(40).EUt(VA[LV])
                 .save();
 
         CENTRIFUGE_RECIPES.recipeBuilder("stone_dust_residue_output")
-                .inputFluids(DirtyHexafluorosilicicAcid.getFluid(3000))
+                .inputFluids(DirtyHexafluorosilicicAcid, 3000)
                 .outputFluids(DiluteHexafluorosilicicAcid.getFluid(3000))
                 .outputItems(dust, StoneDustResidue, 12)
                 .duration(40).EUt(VA[LV])
                 .save();
 
         DISTILLATION_RECIPES.recipeBuilder("dilute_hexafluorosilicic_acid")
-                .inputFluids(DiluteHexafluorosilicicAcid.getFluid(3000))
+                .inputFluids(DiluteHexafluorosilicicAcid, 3000)
                 .outputFluids(Water.getFluid(2000))
                 .outputFluids(FluorosilicicAcid.getFluid(1000))
                 .duration(160).EUt(VA[MV])
                 .save();
 
         CHEMICAL_RECIPES.recipeBuilder("ammonium_fluoride_output")
-                .inputFluids(Water.getFluid(2000))
-                .inputFluids(Ammonia.getFluid(6000))
-                .inputFluids(FluorosilicicAcid.getFluid(1000))
+                .inputFluids(Water, 2000)
+                .inputFluids(Ammonia, 6000)
+                .inputFluids(FluorosilicicAcid, 1000)
                 .outputItems(dust, SiliconDioxide, 3)
                 .outputFluids(AmmoniumFluoride.getFluid(6000))
                 .duration(320).EUt(VA[HV])
                 .save();
 
         CENTRIFUGE_RECIPES.recipeBuilder("ammonium_bifluoride_output")
-                .inputFluids(AmmoniumFluoride.getFluid(2000))
+                .inputFluids(AmmoniumFluoride, 2000)
                 .outputItems(dust, AmmoniumBifluoride, 8)
                 .outputFluids(Ammonia.getFluid(1000))
                 .duration(340).EUt(VA[MV])
                 .save();
 
         MIXER_RECIPES.recipeBuilder("ammonium_bifluoride_soluition_output")
-                .inputFluids(Water.getFluid(1000))
+                .inputFluids(Water, 1000)
                 .inputItems(dust, AmmoniumBifluoride, 8)
                 .outputFluids(AmmoniumBifluorideSolution.getFluid(2000))
                 .duration(140).EUt(VA[LV])
                 .save();
 
         CENTRIFUGE_RECIPES.recipeBuilder("ammonium_bifluoride_solution")
-                .inputFluids(AmmoniumBifluorideSolution.getFluid(2000))
+                .inputFluids(AmmoniumBifluorideSolution, 2000)
                 .outputFluids(Ammonia.getFluid(1000))
                 .outputFluids(HydrofluoricAcid.getFluid(2000))
                 .outputFluids(Water.getFluid(1000))
@@ -66,7 +66,7 @@ public final class StoneDustProcess {
                 .save();
 
         CHEMICAL_RECIPES.recipeBuilder("uncommon_residues_output")
-                .inputFluids(SodiumHydroxideSolution.getFluid(1000))
+                .inputFluids(SodiumHydroxideSolution, 1000)
                 .inputItems(dust, StoneDustResidue, 24)
                 .outputItems(dust, UncommonResidues, 1)
                 .outputItems(dust, Magnetite, 1)
@@ -78,27 +78,27 @@ public final class StoneDustProcess {
         MIXER_RECIPES.recipeBuilder("sodium_hydroxide_solution_output")
                 .circuitMeta(2)
                 .inputItems(dust, SodiumHydroxide, 3)
-                .inputFluids(Water.getFluid(1000))
+                .inputFluids(Water, 1000)
                 .outputFluids(SodiumHydroxideSolution.getFluid(1000))
                 .duration(60).EUt(VA[LV])
                 .save();
 
         CHEMICAL_RECIPES.recipeBuilder("partially_oxidized_residues_output")
                 .inputItems(dust, UncommonResidues, 1)
-                .inputFluids(DioxygenDifluoride.getFluid(1000))
+                .inputFluids(DioxygenDifluoride, 1000)
                 .outputItems(dust, PartiallyOxidizedResidues, 1)
                 .duration(80).EUt(VA[MV])
                 .save();
 
         MIXER_RECIPES.recipeBuilder("neutralised_red_mud_output")
-                .inputFluids(RedMud.getFluid(1000))
-                .inputFluids(HydrochloricAcid.getFluid(4000))
+                .inputFluids(RedMud, 1000)
+                .inputFluids(HydrochloricAcid, 4000)
                 .outputFluids(NeutralisedRedMud.getFluid(2000))
                 .duration(100).EUt(VA[MV])
                 .save();
 
         CENTRIFUGE_RECIPES.recipeBuilder("red_slurry_output")
-                .inputFluids(NeutralisedRedMud.getFluid(2000))
+                .inputFluids(NeutralisedRedMud, 2000)
                 .outputFluids(RedSlurry.getFluid(500))
                 .outputFluids(FerricReeChloride.getFluid(500))
                 .outputFluids(Hydrogen.getFluid(4000))
@@ -106,23 +106,23 @@ public final class StoneDustProcess {
                 .save();
 
         CHEMICAL_RECIPES.recipeBuilder("titanyl_sulfate_output")
-                .inputFluids(SulfuricAcid.getFluid(1000))
-                .inputFluids(RedSlurry.getFluid(2000))
+                .inputFluids(SulfuricAcid, 1000)
+                .inputFluids(RedSlurry, 2000)
                 .outputFluids(TitanylSulfate.getFluid(1000))
                 .outputFluids(Water.getFluid(2000))
                 .duration(160).EUt(VA[MV])
                 .save();
 
         CHEMICAL_RECIPES.recipeBuilder("titanyl_sulfate")
-                .inputFluids(HydrochloricAcid.getFluid(4000))
-                .inputFluids(TitanylSulfate.getFluid(1000))
+                .inputFluids(HydrochloricAcid, 4000)
+                .inputFluids(TitanylSulfate, 1000)
                 .outputFluids(TitaniumTetrachloride.getFluid(1000))
                 .outputFluids(SulfuricAcid.getFluid(1000))
                 .duration(160).EUt(960)
                 .save();
 
         CENTRIFUGE_RECIPES.recipeBuilder("ferric_ree_chloride")
-                .inputFluids(FerricReeChloride.getFluid(2000))
+                .inputFluids(FerricReeChloride, 2000)
                 .outputFluids(RareEarthChlorides.getFluid(1000))
                 .outputFluids(Iron3Chloride.getFluid(1000))
                 .outputFluids(Water.getFluid(3000))
@@ -131,14 +131,14 @@ public final class StoneDustProcess {
 
         CHEMICAL_RECIPES.recipeBuilder("dioxygen_difluoride_output")
                 .notConsumable(GTOItems.MICROFOCUS_X_RAY_TUBE)
-                .inputFluids(Oxygen.getFluid(2000))
-                .inputFluids(Fluorine.getFluid(2000))
+                .inputFluids(Oxygen, 2000)
+                .inputFluids(Fluorine, 2000)
                 .outputFluids(DioxygenDifluoride.getFluid(1000))
                 .duration(80).EUt(200)
                 .save();
 
         DEHYDRATOR_RECIPES.recipeBuilder("oxidized_residues_output")
-                .inputFluids(OxidizedResidualSolution.getFluid(2000))
+                .inputFluids(OxidizedResidualSolution, 2000)
                 .outputItems(dust, OxidizedResidues, 1)
                 .outputItems(dust, HeavyOxidizedResidues, 1)
                 .duration(80).EUt(3000)
@@ -146,7 +146,7 @@ public final class StoneDustProcess {
 
         REACTION_FURNACE_RECIPES.recipeBuilder("metallic_residues_output")
                 .inputItems(dust, OxidizedResidues, 10)
-                .inputFluids(Hydrogen.getFluid(60000))
+                .inputFluids(Hydrogen, 60000)
                 .outputItems(dust, MetallicResidues, 1)
                 .outputFluids(DiluteHydrofluoricAcid.getFluid(40000))
                 .duration(1600).EUt(VA[EV])
@@ -155,7 +155,7 @@ public final class StoneDustProcess {
 
         REACTION_FURNACE_RECIPES.recipeBuilder("heavy_metallic_residues_output")
                 .inputItems(dust, HeavyOxidizedResidues, 10)
-                .inputFluids(Hydrogen.getFluid(60000))
+                .inputFluids(Hydrogen, 60000)
                 .outputItems(dust, HeavyMetallicResidues, 1)
                 .outputFluids(DiluteHydrofluoricAcid.getFluid(40000))
                 .duration(1600).EUt(VA[EV])
@@ -163,37 +163,37 @@ public final class StoneDustProcess {
                 .save();
 
         MIXER_RECIPES.recipeBuilder("ultraacidic_residue_solution_output")
-                .inputFluids(HeliumIIIHydride.getFluid(1000))
+                .inputFluids(HeliumIIIHydride, 1000)
                 .inputItems(dust, CleanInertResidues, 1)
                 .outputFluids(UltraacidicResidueSolution.getFluid(1000))
                 .duration(160).EUt(VA[EV])
                 .save();
 
         DISTILLATION_RECIPES.recipeBuilder("helium_iii_hydride_output")
-                .inputFluids(TritiumHydride.getFluid(10000))
+                .inputFluids(TritiumHydride, 10000)
                 .outputFluids(HeliumIIIHydride.getFluid(100))
                 .outputFluids(TritiumHydride.getFluid(9900))
                 .duration(800).EUt(200)
                 .save();
 
         CHEMICAL_RECIPES.recipeBuilder("tritium_hydride_output")
-                .inputFluids(Hydrogen.getFluid(1000))
-                .inputFluids(Tritium.getFluid(1000))
+                .inputFluids(Hydrogen, 1000)
+                .inputFluids(Tritium, 1000)
                 .outputFluids(TritiumHydride.getFluid(1000))
                 .duration(160).EUt(VA[EV])
                 .save();
 
         LARGE_CHEMICAL_RECIPES.recipeBuilder("xenic_acid_output")
-                .inputFluids(Xenon.getFluid(1000))
+                .inputFluids(Xenon, 1000)
                 .inputFluids(Oxygen.getFluid(FluidStorageKeys.LIQUID, 4000))
-                .inputFluids(UltraacidicResidueSolution.getFluid(2000))
+                .inputFluids(UltraacidicResidueSolution, 2000)
                 .outputFluids(XenicAcid.getFluid(1000))
                 .outputFluids(DustyLiquidHeliumIII.getFluid(2000))
                 .duration(120).EUt(VA[EV])
                 .save();
 
         ELECTROLYZER_RECIPES.recipeBuilder("ozone_output_1")
-                .inputFluids(XenicAcid.getFluid(2000))
+                .inputFluids(XenicAcid, 2000)
                 .outputFluids(Xenon.getFluid(2000))
                 .outputFluids(Water.getFluid(1000))
                 .outputFluids(Ozone.getFluid(1000))
@@ -203,7 +203,7 @@ public final class StoneDustProcess {
                 .save();
 
         DISTILLATION_RECIPES.recipeBuilder("hydrofluoric_acid_output")
-                .inputFluids(DiluteHydrofluoricAcid.getFluid(2000))
+                .inputFluids(DiluteHydrofluoricAcid, 2000)
                 .outputFluids(Water.getFluid(1000))
                 .outputFluids(HydrofluoricAcid.getFluid(1000))
                 .duration(80).EUt(200)
@@ -291,7 +291,7 @@ public final class StoneDustProcess {
                 .inputItems(dust, ExoticHeavyResidues, 16)
                 .inputItems(dust, SodiumHydroxide, 3)
                 .inputItems(GTOItems.PROTONATED_FULLERENE_SIEVING_MATRIX)
-                .inputFluids(Water.getFluid(2000))
+                .inputFluids(Water, 2000)
                 .outputItems(GTOItems.SATURATED_FULLERENE_SIEVING_MATRIX)
                 .outputFluids(SodiumHydroxideSolution.getFluid(1000))
                 .duration(40).EUt(VA[UHV])
@@ -299,7 +299,7 @@ public final class StoneDustProcess {
 
         ARC_GENERATOR_RECIPES.recipeBuilder("nitrogen_pentoxide")
                 .circuitMeta(6)
-                .inputFluids(Oxygen.getFluid(6000))
+                .inputFluids(Oxygen, 6000)
                 .outputFluids(Ozone.getFluid(2000))
                 .duration(120).EUt(VA[HV])
                 .save();

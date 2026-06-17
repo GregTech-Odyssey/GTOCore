@@ -1,5 +1,6 @@
 package com.gtocore.mixin.adastra;
 
+import com.gtocore.client.hud.AdAstraHUD;
 import com.gtocore.common.item.armor.SpaceArmorComponentItem;
 
 import net.minecraft.client.Minecraft;
@@ -10,9 +11,11 @@ import earth.terrarium.adastra.api.systems.PlanetData;
 import earth.terrarium.adastra.client.config.AdAstraConfigClient;
 import earth.terrarium.adastra.client.screens.player.OverlayScreen;
 import earth.terrarium.adastra.client.utils.ClientData;
+import org.objectweb.asm.Opcodes;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import static earth.terrarium.adastra.client.screens.player.OverlayScreen.OXYGEN_TANK;
@@ -22,7 +25,7 @@ import static earth.terrarium.adastra.client.screens.player.OverlayScreen.OXYGEN
 public abstract class AdAstraOverlayScreenMixin {
 
     @Inject(method = "render", at = @At("TAIL"), remap = false)
-    private static void render(GuiGraphics graphics, float partialTick, CallbackInfo ci) {
+    private static void hookRender(GuiGraphics graphics, float partialTick, CallbackInfo ci) {
         var player = Minecraft.getInstance().player;
         if (player == null || player.isSpectator()) return;
 
@@ -39,6 +42,10 @@ public abstract class AdAstraOverlayScreenMixin {
 
             int x = AdAstraConfigClient.oxygenBarX;
             int y = AdAstraConfigClient.oxygenBarY;
+            if (AdAstraHUD.gto$INSTANCE.isGto$containerScreenEnv()) {
+                x += AdAstraHUD.gto$INSTANCE.getGto$pendingMovedX();
+                y += AdAstraHUD.gto$INSTANCE.getGto$pendingMovedY();
+            }
             float scale = AdAstraConfigClient.oxygenBarScale;
 
             poseStack.pushPose();
@@ -56,5 +63,29 @@ public abstract class AdAstraOverlayScreenMixin {
             graphics.drawString(font, text, (int) (x + (62 - textWidth) / 2f), y + 52 + 3, color);
             poseStack.popPose();
         }
+    }
+
+    @Redirect(method = "render", at = @At(value = "FIELD", target = "Lnet/minecraft/client/Options;renderDebug:Z", opcode = Opcodes.GETFIELD))
+    private static boolean redirectRenderDebugField(net.minecraft.client.Options options) {
+        if (AdAstraHUD.gto$INSTANCE.isGto$containerScreenEnv()) {
+            return false;
+        }
+        return options.renderDebug;
+    }
+
+    @Redirect(method = "render", at = @At(value = "FIELD", target = "Learth/terrarium/adastra/client/config/AdAstraConfigClient;oxygenBarX:I", opcode = Opcodes.GETSTATIC, remap = false), remap = false)
+    private static int redirectOxygenBarX() {
+        if (AdAstraHUD.gto$INSTANCE.isGto$containerScreenEnv()) {
+            return AdAstraConfigClient.oxygenBarX + AdAstraHUD.gto$INSTANCE.getGto$pendingMovedX();
+        }
+        return AdAstraConfigClient.oxygenBarX;
+    }
+
+    @Redirect(method = "render", at = @At(value = "FIELD", target = "Learth/terrarium/adastra/client/config/AdAstraConfigClient;oxygenBarY:I", opcode = Opcodes.GETSTATIC, remap = false), remap = false)
+    private static int redirectOxygenBarY() {
+        if (AdAstraHUD.gto$INSTANCE.isGto$containerScreenEnv()) {
+            return AdAstraConfigClient.oxygenBarY + AdAstraHUD.gto$INSTANCE.getGto$pendingMovedY();
+        }
+        return AdAstraConfigClient.oxygenBarY;
     }
 }

@@ -1,6 +1,7 @@
 package com.gtocore.common.machine.multiblock.generator;
 
 import com.gtocore.api.gui.GTOGuiTextures;
+import com.gtocore.common.data.GTORecipeDataKeys;
 
 import com.gtolib.GTOCore;
 import com.gtolib.api.annotation.Scanned;
@@ -9,16 +10,14 @@ import com.gtolib.api.annotation.dynamic.DynamicInitialValueTypes;
 import com.gtolib.api.annotation.language.RegisterLanguage;
 import com.gtolib.api.machine.feature.multiblock.ITierCasingMachine;
 import com.gtolib.api.machine.multiblock.ElectricMultiblockMachine;
-import com.gtolib.api.machine.part.ItemHatchPartMachine;
+import com.gtolib.api.machine.part.ItemPartMachine;
 import com.gtolib.api.machine.trait.CoilTrait;
 import com.gtolib.api.machine.trait.TierCasingTrait;
-import com.gtolib.api.recipe.Recipe;
-import com.gtolib.api.recipe.modifier.ParallelLogic;
+import com.gtolib.api.recipe.TierDataKey;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.block.ICoilType;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
-import com.gregtechceu.gtceu.api.capability.recipe.RecipeCapability;
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
 import com.gregtechceu.gtceu.api.gui.fancy.ConfiguratorPanel;
 import com.gregtechceu.gtceu.api.gui.fancy.IFancyConfigurator;
@@ -27,6 +26,11 @@ import com.gregtechceu.gtceu.api.machine.ConditionalSubscriptionHandler;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.ICoilMachine;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMaintenanceMachine;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
+import com.gregtechceu.gtceu.api.machine.feature.multiblock.IWorkableMultiPart;
+import com.gregtechceu.gtceu.api.recipe.GTRecipe;
+import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
+import com.gregtechceu.gtceu.api.recipe.info.RecipeInfo;
+import com.gregtechceu.gtceu.api.recipe.modifier.ParallelLogic;
 import com.gregtechceu.gtceu.common.item.TurbineRotorBehaviour;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.RotorHolderPartMachine;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
@@ -41,23 +45,21 @@ import net.minecraft.network.chat.Style;
 import net.minecraft.world.item.ItemStack;
 
 import com.fast.fastcollection.OpenCacheHashSet;
+import com.gto.datasynclib.annotations.SaveToDisk;
 import com.hepdd.gtmthings.utils.FormatUtil;
 import com.lowdragmc.lowdraglib.gui.texture.IGuiTexture;
 import com.lowdragmc.lowdraglib.gui.widget.ComponentPanelWidget;
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import it.unimi.dsi.fastutil.objects.Object2IntMap;
-import it.unimi.dsi.fastutil.objects.ObjectArrayList;
+import it.unimi.dsi.fastutil.objects.Reference2IntMap;
 import org.jetbrains.annotations.Nullable;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
 import javax.annotation.ParametersAreNonnullByDefault;
-
-import static com.gtolib.api.GTOValues.GLASS_TIER;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
@@ -75,12 +77,12 @@ public class TurbineMachine extends ElectricMultiblockMachine {
     private final int tier;
     private final boolean mega;
     private long energyPerTick;
-    @Persisted
+    @SaveToDisk
     private boolean highSpeedMode;
-    @Persisted
+    @SaveToDisk
     private float highSpeedFactor = 1.0f;
-    final List<RotorHolderPartMachine> rotorHolderMachines = new ObjectArrayList<>();
-    private ItemHatchPartMachine rotorHatchPartMachine;
+    final List<RotorHolderPartMachine> rotorHolderMachines = new ArrayList<>();
+    private ItemPartMachine rotorHatchPartMachine;
     private final ConditionalSubscriptionHandler rotorSubs;
 
     private double extraOutput = 1;
@@ -117,11 +119,11 @@ public class TurbineMachine extends ElectricMultiblockMachine {
     }
 
     @Override
-    public boolean matchRecipe(Recipe recipe) {
+    public boolean matchRecipeInput(RecipeHandlerUnit unit, GTRecipe recipe) {
         for (RotorHolderPartMachine part : rotorHolderMachines) {
             if (part.getRotorStack().isEmpty()) return false;
         }
-        return super.matchRecipe(recipe);
+        return super.matchRecipeInput(unit, recipe);
     }
 
     @Override
@@ -130,7 +132,7 @@ public class TurbineMachine extends ElectricMultiblockMachine {
         if (part instanceof RotorHolderPartMachine rotorHolderMachine) {
             rotorHolderMachines.add(rotorHolderMachine);
             traitSubscriptions.add(rotorHolderMachine.inventory.addChangedListener(rotorSubs::updateSubscription));
-        } else if (rotorHatchPartMachine == null && part instanceof ItemHatchPartMachine rotorHatchPart) {
+        } else if (rotorHatchPartMachine == null && part instanceof ItemPartMachine rotorHatchPart) {
             rotorHatchPartMachine = rotorHatchPart;
             traitSubscriptions.add(rotorHatchPartMachine.getInventory().addChangedListener(rotorSubs::updateSubscription));
         }
@@ -143,7 +145,7 @@ public class TurbineMachine extends ElectricMultiblockMachine {
         if (mega) {
             rotorSubs.initialize(getLevel());
             if (GTOCore.isExpert() && this instanceof MegaTurbine) {
-                damageBase = Math.max(2.2 - 0.08 * ((MegaTurbine) this).getCasingTier(GLASS_TIER), 1.2);
+                damageBase = Math.max(2.2 - 0.08 * ((MegaTurbine) this).getCasingTier(GTORecipeDataKeys.GLASS_TIER), 1.2);
             }
         }
         if (formedAmount > 0) {
@@ -171,7 +173,7 @@ public class TurbineMachine extends ElectricMultiblockMachine {
     }
 
     @Override
-    public boolean onWorking() {
+    public void onWorking() {
         if (highSpeedMode && getOffsetTimer() % 20 == 0) {
             accumulatedDamage += getHighSpeedModeDamageMultiplier();
             if (accumulatedDamage >= 1) {
@@ -182,7 +184,7 @@ public class TurbineMachine extends ElectricMultiblockMachine {
                 }
             }
         }
-        return super.onWorking();
+        super.onWorking();
     }
 
     @Override
@@ -194,7 +196,7 @@ public class TurbineMachine extends ElectricMultiblockMachine {
                 maintenanceMachine.calculateMaintenance(maintenanceMachine, (int) (highSpeedModeMachineFault * recipe.duration * extraDamage));
                 continue;
             }
-            part.afterWorking(this);
+            if (part instanceof IWorkableMultiPart workableMultiPart) workableMultiPart.afterWorking(this);
         }
     }
 
@@ -239,25 +241,25 @@ public class TurbineMachine extends ElectricMultiblockMachine {
     //////////////////////////////////////
     @Nullable
     @Override
-    protected Recipe getRealRecipe(Recipe recipe) {
+    protected GTRecipe getRealRecipe(RecipeHandlerUnit unit, GTRecipe recipe) {
         RotorHolderPartMachine rotorHolder = getRotorHolder();
         long EUt = recipe.getOutputEUt();
         if (rotorHolder == null || EUt <= 0) return null;
         int rotorSpeed = getRotorSpeed();
         if (rotorSpeed < 0) return null;
         int maxSpeed = rotorHolder.getMaxRotorHolderSpeed();
-        long turbineMaxVoltage = (long) (getVoltage() * Math.pow((double) Math.min(maxSpeed, rotorSpeed) / maxSpeed, 2));
-        recipe = ParallelLogic.accurateContentParallel(this, recipe, turbineMaxVoltage / EUt);
+        long turbineMaxVoltage = Math.min(getOverclockVoltage(), (long) (getVoltage() * Math.pow((double) Math.min(maxSpeed, rotorSpeed) / maxSpeed, 2)));
+        recipe = ParallelLogic.accurateContentParallel(this, unit, recipe, turbineMaxVoltage / EUt);
         if (recipe == null) return null;
         long eut = Math.min(turbineMaxVoltage, recipe.parallels * EUt);
         energyPerTick = eut;
         recipe.duration = (int) (recipe.duration * rotorHolder.getTotalEfficiency() * extraEfficiency / 100);
-        recipe.setOutputEUt(eut);
+        recipe.setEUt(-eut);
         return recipe;
     }
 
     @Override
-    public boolean canVoidRecipeOutputs(RecipeCapability<?> capability) {
+    public boolean canVoidRecipeOutputs(RecipeInfo capability) {
         return true;
     }
 
@@ -408,11 +410,11 @@ public class TurbineMachine extends ElectricMultiblockMachine {
         public MegaTurbine(MetaMachineBlockEntity holder, int tier, boolean special) {
             super(holder, tier, special, true);
             coilTrait = new CoilTrait(this, false, false);
-            this.tierCasingTrait = new TierCasingTrait(this, GLASS_TIER);
+            this.tierCasingTrait = new TierCasingTrait(this, GTORecipeDataKeys.GLASS_TIER);
         }
 
         @Override
-        public boolean onWorking() {
+        public void onWorking() {
             if (getCoilTier() > 0) {
                 this.workAccumulation += getCoilTier() * 1.25f + 4;
                 int addition = (int) Math.floor(this.workAccumulation);
@@ -421,7 +423,7 @@ public class TurbineMachine extends ElectricMultiblockMachine {
                     part.setRotorSpeed(Math.min(part.getRotorSpeed() + addition, part.getMaxRotorHolderSpeed()));
                 }
             }
-            return super.onWorking();
+            super.onWorking();
         }
 
         @Override
@@ -434,11 +436,11 @@ public class TurbineMachine extends ElectricMultiblockMachine {
             super.customText(textList);
             textList.add(Component.translatable(COIL_BONUS, getCoilTier(), getCoilTier() * 20));
             if (GTOCore.isExpert())
-                textList.add(Component.translatable(GLASS_BONUS, getCasingTier(GLASS_TIER), FormattingUtil.formatNumber2Places(damageBase)));
+                textList.add(Component.translatable(GLASS_BONUS, getCasingTier(GTORecipeDataKeys.GLASS_TIER), FormattingUtil.formatNumber2Places(damageBase)));
         }
 
         @Override
-        public Object2IntMap<String> getCasingTiers() {
+        public Reference2IntMap<TierDataKey> getCasingTiers() {
             return tierCasingTrait.getCasingTiers();
         }
     }
@@ -463,7 +465,7 @@ public class TurbineMachine extends ElectricMultiblockMachine {
     public static final String DESC3 = "gtocore.machine.mega_turbine.expert.desc.3";
     @RegisterLanguage(cn = "公式：输出倍率 = 基础倍率 x 调节倍率", en = "Formula: Output Multiplier = Base Multiplier x Adjustment Multiplier")
     public static final String DESC4 = "gtocore.machine.mega_turbine.expert.desc.4";
-    @RegisterLanguage(cn = "转子损坏倍率 = 基础倍率 x max(2.2 - 0.08 * 玻璃等级, 1.2) ^ (调节倍率 - 1)", en = "Rotor Damage Multiplier = Base Multiplier x max(2.2 - 0.08 * Coil Tier, 1.2) ^ (Adjustment Multiplier - 1)")
+    @RegisterLanguage(cn = "转子损坏倍率 = 基础倍率 x max(2.2 - 0.08 * 玻璃等级, 1.2) ^ (调节倍率 - 1)", en = "Rotor Damage Multiplier = Base Multiplier x max(2.2 - 0.08 * Glass Tier, 1.2) ^ (Adjustment Multiplier - 1)")
     public static final String DESC5 = "gtocore.machine.mega_turbine.expert.desc.5";
     @RegisterLanguage(cn = "调节：", en = "Adjustment: ")
     public static final String ADJUST = "gtocore.machine.mega_turbine.expert.adjust";

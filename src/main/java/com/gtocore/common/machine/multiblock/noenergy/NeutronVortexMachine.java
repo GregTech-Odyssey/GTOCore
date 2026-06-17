@@ -1,32 +1,34 @@
 package com.gtocore.common.machine.multiblock.noenergy;
 
 import com.gtocore.api.machine.part.GTOPartAbility;
+import com.gtocore.api.pattern.GTOPredicates;
 import com.gtocore.common.data.GTOBlocks;
 import com.gtocore.common.data.GTOMachines;
 import com.gtocore.common.data.GTOMaterials;
+import com.gtocore.common.data.GTORecipeDataKeys;
 
-import com.gtolib.api.machine.feature.IElectricMachine;
 import com.gtolib.api.machine.feature.multiblock.IMultiStructureMachine;
 import com.gtolib.api.machine.trait.ElectricTrait;
-import com.gtolib.api.recipe.Recipe;
-import com.gtolib.api.recipe.modifier.RecipeModifierFunction;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.IEnergyContainer;
-import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
-import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.gui.fancy.ConfiguratorPanel;
 import com.gregtechceu.gtceu.api.gui.fancy.IFancyConfiguratorButton;
 import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
+import com.gregtechceu.gtceu.api.machine.feature.IElectricMachine;
 import com.gregtechceu.gtceu.api.pattern.BlockPattern;
 import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
 import com.gregtechceu.gtceu.api.pattern.util.RelativeDirection;
+import com.gregtechceu.gtceu.api.recipe.GTRecipe;
+import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
+import com.gregtechceu.gtceu.api.recipe.modifier.RecipeModifier;
 import com.gregtechceu.gtceu.common.data.GTBlocks;
 
 import net.minecraft.network.chat.Component;
 
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
+import com.gto.datasynclib.annotations.SaveToDisk;
+import com.gto.datasynclib.annotations.SyncToClient;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -40,7 +42,8 @@ public final class NeutronVortexMachine extends NeutronActivatorMachine implemen
 
     private static final Int2ObjectOpenHashMap<BlockPattern> PATTERNS = new Int2ObjectOpenHashMap<>(3, 0.9F);
 
-    @Persisted
+    @SaveToDisk
+    @SyncToClient
     private boolean energy;
 
     private final ElectricTrait electricTrait;
@@ -52,15 +55,15 @@ public final class NeutronVortexMachine extends NeutronActivatorMachine implemen
 
     @Nullable
     @Override
-    protected Recipe getRealRecipe(@NotNull Recipe recipe) {
+    public GTRecipe getRealRecipe(@NotNull RecipeHandlerUnit unit, @NotNull GTRecipe recipe) {
         if (energy) {
-            int ev = (recipe.data.getInt("ev_max") + recipe.data.getInt("ev_min")) * 5;
+            int ev = (recipe.data.getInt(GTORecipeDataKeys.EV_MAX) + recipe.data.getInt(GTORecipeDataKeys.EV_MIN)) * 5;
             eV = ev * 100000;
             recipe.duration = recipe.duration / 5;
-            recipe.setEut(ev);
-            return RecipeModifierFunction.hatchParallel(this, recipe);
+            recipe.eut = ev;
+            return RecipeModifier.hatchParallel(this, unit, recipe);
         }
-        return super.getRealRecipe(recipe);
+        return super.getRealRecipe(unit, recipe);
     }
 
     @Override
@@ -76,7 +79,7 @@ public final class NeutronVortexMachine extends NeutronActivatorMachine implemen
     }
 
     @Override
-    protected boolean working() {
+    public boolean handleTickRecipe(@NotNull GTRecipe recipe) {
         return true;
     }
 
@@ -139,8 +142,8 @@ public final class NeutronVortexMachine extends NeutronActivatorMachine implemen
                         .where('H', blocks(GTBlocks.HIGH_POWER_CASING.get()))
                         .where('I', blocks(GTOBlocks.TITANIUM_BOROSILICATE_GLASS.get()))
                         .where('J', blocks(GTOBlocks.NAQUADAH_REINFORCED_PLANT_CASING.get()))
-                        .where('K', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTOMaterials.Quantanium)))
-                        .where('L', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTOMaterials.Vibranium)))
+                        .where('K', GTOPredicates.frame(GTOMaterials.Quantanium))
+                        .where('L', GTOPredicates.frame(GTOMaterials.Vibranium))
                         .where('M', blocks(GTOBlocks.STRONTIUM_CARBONATE_CERAMIC_RAY_ABSORBING_MECHANICAL_CUBE.get()))
                         .where('N', blocks(GTBlocks.FUSION_GLASS.get()))
                         .where('O', blocks(GTOBlocks.SPEEDING_PIPE.get()))
@@ -153,7 +156,7 @@ public final class NeutronVortexMachine extends NeutronActivatorMachine implemen
                                 .or(abilities(MAINTENANCE).setExactLimit(1)))
                         .where('Q', blocks(GTOBlocks.ENDERIUM_BOROSILICATE_GLASS.get()))
                         .where('R', blocks(GTOBlocks.AMPROSIUM_ACTIVE_CASING.get()))
-                        .where('S', controller(blocks(definition.get())))
+                        .where('S', controller(definition))
                         .build();
             } else {
                 return builder.aisle("    AHHHHHA    ", "    AHHHHHA    ", "    A     A    ", "    A     A    ", "    A     A    ", "    A     A    ", "    A     A    ", "    A     A    ", "    A     A    ", "    A     A    ", "    A     A    ", "    A     A    ", "    A     A    ", "    A     A    ", "    A     A    ", "    A     A    ", "    A     A    ", "    A     A    ", "    A     A    ", "    A     A    ", "    A     A    ", "    A     A    ", "    A     A    ", "    A     A    ", "    A     A    ", "    A     A    ", "    A     A    ", "    A     A    ", "    A     A    ", "    A     A    ", "    A     A    ", "    A     A    ", "    A     A    ", "    A     A    ", "    A     A    ", "    A     A    ", "    A     A    ", "    A     A    ", "    AAAAAAA    ", "    AAAAAAA    ")
@@ -179,8 +182,8 @@ public final class NeutronVortexMachine extends NeutronActivatorMachine implemen
                         .aisle("    AHHHHHA    ", "    AHHHHHA    ", "    A     A    ", "    A     A    ", "    A     A    ", "    A     A    ", "    A     A    ", "    A     A    ", "    A     A    ", "    A     A    ", "    A     A    ", "    A     A    ", "    A     A    ", "    A     A    ", "    A     A    ", "    A     A    ", "    A     A    ", "    A     A    ", "    A     A    ", "    A     A    ", "    A     A    ", "    A     A    ", "    A     A    ", "    A     A    ", "    A     A    ", "    A     A    ", "    A     A    ", "    A     A    ", "    A     A    ", "    A     A    ", "    A     A    ", "    A     A    ", "    A     A    ", "    A     A    ", "    A     A    ", "    A     A    ", "    A     A    ", "    A     A    ", "    AAAAAAA    ", "    AAAAAAA    ")
                         .where('A', blocks(GTOBlocks.NAQUADAH_REINFORCED_PLANT_CASING.get()))
                         .where('B', blocks(GTOBlocks.DIMENSIONALLY_TRANSCENDENT_CASING.get()))
-                        .where('C', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTOMaterials.Quantanium)))
-                        .where('D', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTOMaterials.Vibranium)))
+                        .where('C', GTOPredicates.frame(GTOMaterials.Quantanium))
+                        .where('D', GTOPredicates.frame(GTOMaterials.Vibranium))
                         .where('E', blocks(GTOBlocks.STRONTIUM_CARBONATE_CERAMIC_RAY_ABSORBING_MECHANICAL_CUBE.get()))
                         .where('F', blocks(GTBlocks.FUSION_GLASS.get()))
                         .where('G', blocks(GTOBlocks.SPEEDING_PIPE.get()))
@@ -193,7 +196,7 @@ public final class NeutronVortexMachine extends NeutronActivatorMachine implemen
                                 .or(abilities(MAINTENANCE).setExactLimit(1)))
                         .where('I', blocks(GTOBlocks.ENDERIUM_BOROSILICATE_GLASS.get()))
                         .where('J', blocks(GTOBlocks.AMPROSIUM_ACTIVE_CASING.get()))
-                        .where('K', controller(blocks(definition.get())))
+                        .where('K', controller(definition))
                         .build();
             }
         });
@@ -210,7 +213,7 @@ public final class NeutronVortexMachine extends NeutronActivatorMachine implemen
     }
 
     @Override
-    public @NotNull IEnergyContainer gtolib$getEnergyContainer() {
+    public @NotNull IEnergyContainer getEnergyContainer() {
         return electricTrait.getEnergyContainer();
     }
 }

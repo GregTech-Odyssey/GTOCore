@@ -9,7 +9,6 @@ import com.gregtechceu.gtceu.api.data.chemical.material.Material;
 import net.minecraft.util.Mth;
 
 import com.google.common.collect.ImmutableMap;
-import committee.nova.mods.avaritia.client.AvaritiaModClient;
 import vazkii.botania.client.core.handler.ClientTickHandler;
 
 import java.util.function.IntSupplier;
@@ -38,14 +37,62 @@ public final class MaterialsColorMap {
         MaterialBuilder.put(GTOMaterials.Shimmerrock, shimmer);
         MaterialBuilder.put(GTOMaterials.BifrostPerm, shimmer);
         MaterialBuilder.put(GTOMaterials.StarStone, () -> ColorUtils.getInterpolatedColor(0xb5d9ce, 0xFFFFFF, Math.abs(1 - (System.currentTimeMillis() % 10000) / 5000.0F)));
-        MaterialBuilder.put(GTOMaterials.ChromaticGlass, AvaritiaModClient::getCurrentRainbowColor);
+        MaterialBuilder.put(GTOMaterials.ChromaticGlass, MaterialsColorMap::getCurrentRainbowColor);
         MaterialBuilder.put(GTOMaterials.Hypogen, () -> ColorUtils.getInterpolatedColor(0xFF3D00, 0xDA9100, Math.abs(1 - (System.currentTimeMillis() % 6000) / 3000.0F)));
         MaterialBuilder.put(GTOMaterials.HexaphaseCopper, () -> {
             float spot = (System.currentTimeMillis() % 4000) / 4000.0F;
             return ColorUtils.getInterpolatedColor(0xEC7916, 0x00FF15, (spot > 0.1 && spot < 0.15 || spot > 0.18 && spot < 0.22) ? 1 : 0);
         });
+        MaterialBuilder.put(GTOMaterials.PhotonicKristallite, () -> {
+            var alpha = (float) (Math.sin(System.currentTimeMillis() / 10f) * 128 + 128);
+            return ColorUtils.createARGBColor(0xfcfcfd, (int) alpha);
+        });
+        MaterialBuilder.put(GTOMaterials.Astrium, () -> com.lowdragmc.lowdraglib.utils.ColorUtils.blendColor(
+                0xe1ee595a,
+                0xe131bad5,
+                (float) (Math.sin(System.currentTimeMillis() * 0.005) * 0.3F + 0.5F)));
         MaterialBuilder.put(GTOMaterials.HeavyQuarkDegenerateMatter, quantumColor);
         MaterialBuilder.put(GTOMaterials.QuantumChromoDynamicallyConfinedMatter, quantumColor);
         MaterialColors = MaterialBuilder.build();
+    }
+
+    public static int getCurrentRainbowColor() {
+        return HSBToRGB((System.currentTimeMillis() % 18000) / 18000F);
+    }
+
+    private static int HSBToRGB(float hue) {
+        int r = 0, g = 0, b = 0;
+        float h = (hue - (float) Math.floor(hue)) * 6.0f;
+        float f = h - (float) Math.floor(h);
+        float q = 1.0f - f;
+        float t = 1.0f - (1.0f - f);
+        switch ((int) h) {
+            case 0 -> {
+                r = (int) (255.0f + 0.5f);
+                g = (int) (t * 255.0f + 0.5f);
+            }
+            case 1 -> {
+                r = (int) (q * 255.0f + 0.5f);
+                g = (int) (255.0f + 0.5f);
+            }
+            case 2 -> {
+                g = (int) (255.0f + 0.5f);
+                b = (int) (t * 255.0f + 0.5f);
+            }
+            case 3 -> {
+                g = (int) (q * 255.0f + 0.5f);
+                b = (int) (255.0f + 0.5f);
+            }
+            case 4 -> {
+                r = (int) (t * 255.0f + 0.5f);
+                b = (int) (255.0f + 0.5f);
+            }
+            case 5 -> {
+                r = (int) (255.0f + 0.5f);
+                b = (int) (q * 255.0f + 0.5f);
+            }
+        }
+
+        return 0xff000000 | (r << 16) | (g << 8) | b;
     }
 }

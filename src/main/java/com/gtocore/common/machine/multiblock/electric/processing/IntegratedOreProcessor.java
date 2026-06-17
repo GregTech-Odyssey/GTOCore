@@ -7,16 +7,16 @@ import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 
 import net.minecraft.network.chat.Component;
 
+import com.gto.datasynclib.annotations.SaveToDisk;
 import com.lowdragmc.lowdraglib.gui.util.ClickData;
 import com.lowdragmc.lowdraglib.gui.widget.ComponentPanelWidget;
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
 public final class IntegratedOreProcessor extends CrossRecipeMultiblockMachine {
 
-    @Persisted
+    @SaveToDisk
     private boolean repeatedRecipes = true;
 
     public IntegratedOreProcessor(MetaMachineBlockEntity holder) {

@@ -2,18 +2,19 @@ package com.gtocore.common.machine.multiblock.part;
 
 import com.gtocore.common.data.GTOItems;
 
-import com.gtolib.api.machine.part.ItemHatchPartMachine;
+import com.gtolib.api.machine.part.WorkableItemPartMachine;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.feature.IInteractedMachine;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IWorkableMultiController;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
+import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.world.item.Item;
 
 import com.google.common.collect.ImmutableMap;
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
+import com.gto.datasynclib.annotations.SaveToDisk;
 
 import java.util.Map;
 
@@ -21,7 +22,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public final class SpoolHatchPartMachine extends ItemHatchPartMachine implements IInteractedMachine {
+public final class SpoolHatchPartMachine extends WorkableItemPartMachine implements IInteractedMachine {
 
     public static final Map<Item, Integer> SPOOL;
 
@@ -35,7 +36,7 @@ public final class SpoolHatchPartMachine extends ItemHatchPartMachine implements
         SPOOL = spoolBuilder.build();
     }
 
-    @Persisted
+    @SaveToDisk
     private boolean isWorking;
 
     public SpoolHatchPartMachine(MetaMachineBlockEntity holder) {
@@ -43,9 +44,8 @@ public final class SpoolHatchPartMachine extends ItemHatchPartMachine implements
     }
 
     @Override
-    public boolean beforeWorking(IWorkableMultiController controller, GTRecipe recipe) {
+    public void beforeWorking(IWorkableMultiController controller, RecipeHandlerUnit unit, GTRecipe recipe) {
         isWorking = true;
-        return true;
     }
 
     @Override

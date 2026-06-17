@@ -9,24 +9,23 @@ import com.gtolib.api.annotation.dynamic.DynamicInitialValueTypes;
 import com.gtolib.api.annotation.language.RegisterLanguage;
 import com.gtolib.api.machine.feature.IGTOMufflerMachine;
 import com.gtolib.api.machine.trait.InaccessibleInfiniteHandler;
-import com.gtolib.api.misc.AsyncTask;
-import com.gtolib.api.misc.IAsyncTaskHolder;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
-import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.gui.fancy.ConfiguratorPanel;
 import com.gregtechceu.gtceu.api.gui.widget.SlotWidget;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiController;
 import com.gregtechceu.gtceu.api.machine.multiblock.MultiblockControllerMachine;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
-import com.gregtechceu.gtceu.api.machine.trait.RecipeHandlerList;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
+import com.gregtechceu.gtceu.api.recipe.handler.IO;
+import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
 import com.gregtechceu.gtceu.api.transfer.item.SingleCustomItemStackHandler;
 import com.gregtechceu.gtceu.common.data.GTMachines;
 import com.gregtechceu.gtceu.integration.ae2.gui.widget.list.AEListGridWidget;
 import com.gregtechceu.gtceu.integration.ae2.utils.KeyStorage;
+import com.gregtechceu.gtceu.utils.TaskHandler;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;
@@ -34,12 +33,13 @@ import net.minecraft.world.item.ItemStack;
 
 import appeng.api.config.Actionable;
 import appeng.api.networking.IGridNodeListener;
+
+import com.gto.datasynclib.annotations.SaveToDisk;
+import com.gto.datasynclib.annotations.SyncToClient;
 import com.lowdragmc.lowdraglib.gui.widget.ComponentPanelWidget;
 import com.lowdragmc.lowdraglib.gui.widget.LabelWidget;
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
-import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
@@ -47,20 +47,18 @@ import java.util.Map;
 import java.util.Objects;
 
 @Scanned
-public class MEMufflerHatchPartMachine extends MEPartMachine implements IGTOMufflerMachine, IAsyncTaskHolder {
+public class MEMufflerHatchPartMachine extends StatusTrackedMEPartMachine implements IGTOMufflerMachine {
 
-    @Persisted
+    @SaveToDisk
     private final KeyStorage internalBuffer;
-    @Persisted
+    @SaveToDisk
     private final NotifiableItemStackHandler mufflerHatchInv;
-    @Persisted
+    @SaveToDisk
     private final NotifiableItemStackHandler amplifierInv;
     private final InaccessibleInfiniteHandler handler;
 
-    @DescSynced
+    @SyncToClient
     private int recoveryChance = 0;
-
-    private AsyncTask asyncTask;
 
     private int muffler_tier = 0;
     @DynamicInitialValue(typeKey = DynamicInitialValueTypes.KEY_AMOUNT,
@@ -120,23 +118,13 @@ public class MEMufflerHatchPartMachine extends MEPartMachine implements IGTOMuff
     }
 
     @Override
-    protected @NotNull RecipeHandlerList getHandlerList() {
-        return RecipeHandlerList.NO_DATA;
-    }
-
-    @Override
-    public AsyncTask getAsyncTask() {
-        return asyncTask;
-    }
-
-    @Override
-    public void setAsyncTask(AsyncTask task) {
-        asyncTask = task;
+    public @NotNull RecipeHandlerUnit getHandlerUnit() {
+        return RecipeHandlerUnit.NO_DATA;
     }
 
     @Override
     public void gtolib$insertAsh(MultiblockControllerMachine controller, GTRecipe lastRecipe) {
-        AsyncTask.addAsyncTask(this, () -> IGTOMufflerMachine.super.gtolib$insertAsh(controller, lastRecipe));
+        TaskHandler.enqueueAsyncTask(getLevel(), () -> IGTOMufflerMachine.super.gtolib$insertAsh(controller, lastRecipe), 0);
     }
 
     @Override
@@ -205,7 +193,7 @@ public class MEMufflerHatchPartMachine extends MEPartMachine implements IGTOMuff
     @Override
     public void recoverItemsTable(ItemStack recoveryItems) {
         if (!workingEnabled) return;
-        handler.insertInternal(recoveryItems, recoveryItems.getCount());
+        handler.insertItem(0, recoveryItems, false);
     }
 
     @Override

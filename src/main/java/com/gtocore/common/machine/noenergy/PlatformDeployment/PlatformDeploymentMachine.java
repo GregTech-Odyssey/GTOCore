@@ -7,16 +7,15 @@ import com.gtocore.common.data.translation.GTOMachineTooltips;
 import com.gtolib.GTOCore;
 import com.gtolib.api.network.NetworkPack;
 import com.gtolib.utils.ServerUtils;
-import com.gtolib.utils.holder.IntObjectHolder;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
-import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.gui.widget.SlotWidget;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.feature.IFancyUIMachine;
 import com.gregtechceu.gtceu.api.machine.feature.IMachineLife;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
+import com.gregtechceu.gtceu.api.recipe.handler.IO;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
@@ -27,24 +26,21 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
-import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
 
+import com.gto.datasynclib.annotations.SaveToDisk;
+import com.gto.datasynclib.util.holder.IntObjectHolder;
 import com.lowdragmc.lowdraglib.gui.texture.IGuiTexture;
 import com.lowdragmc.lowdraglib.gui.texture.ResourceTexture;
 import com.lowdragmc.lowdraglib.gui.util.ClickData;
 import com.lowdragmc.lowdraglib.gui.widget.*;
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
@@ -55,7 +51,7 @@ import static com.gtocore.common.machine.noenergy.PlatformDeployment.PlatformCre
 @MethodsReturnNonnullByDefault
 public class PlatformDeploymentMachine extends MetaMachine implements IFancyUIMachine, IMachineLife {
 
-    private static final NetworkPack HIGHLIGHT_REGION = NetworkPack.registerS2C(9, (p, b) -> {
+    private static final NetworkPack HIGHLIGHT_REGION = NetworkPack.registerS2C("platformDeploymentMachineHighlight", (p, b) -> {
         var dimension = b.readResourceKey(Registries.DIMENSION);
         var start = b.readBlockPos();
         var end = b.readBlockPos();
@@ -64,7 +60,7 @@ public class PlatformDeploymentMachine extends MetaMachine implements IFancyUIMa
         ForgeClientEvent.highlightRegion(dimension, start, end, color, durationTicks);
     });
 
-    private static final NetworkPack STOP_HIGHLIGHT = NetworkPack.registerS2C(10, (p, b) -> {
+    private static final NetworkPack STOP_HIGHLIGHT = NetworkPack.registerS2C("platformDeploymentMachineStopHighlight", (p, b) -> {
         var start = b.readBlockPos();
         var end = b.readBlockPos();
         ForgeClientEvent.stopHighlight(start, end);
@@ -87,17 +83,13 @@ public class PlatformDeploymentMachine extends MetaMachine implements IFancyUIMa
         }, ServerUtils.getServer());
     }
 
-    @Persisted
+    @SaveToDisk
     private final NotifiableItemStackHandler inventory;
-
-    private final List<PlatformBlockType.PlatformPreset> presets = PlatformTemplateStorage.initializePresets();
-    private final int maxGroup;
 
     public PlatformDeploymentMachine(MetaMachineBlockEntity holder) {
         super(holder);
         inventory = new NotifiableItemStackHandler(this, 27, IO.NONE, IO.BOTH);
         inventory.addChangedListener(this::examineMaterial);
-        maxGroup = presets.size();
     }
 
     @Override
@@ -136,59 +128,59 @@ public class PlatformDeploymentMachine extends MetaMachine implements IFancyUIMa
 
     // ------------------- 第一步：选择预设 -------------------
     // 是否已完成预设选择
-    @Persisted
+    @SaveToDisk
     private boolean presetConfirm = false;
     // 当前查看的预设组索引
-    @Persisted
+    @SaveToDisk
     private int checkGroup = 0;
     // 显示的预设编号
-    @Persisted
+    @SaveToDisk
     private int checkId = 0;
     // 保存的预设组编号
-    @Persisted
+    @SaveToDisk
     private int saveGroup = 0;
     // 保存的预设编号
-    @Persisted
+    @SaveToDisk
     private int saveId = 0;
     // 是否显示预览
-    @Persisted
+    @SaveToDisk
     private boolean preview = false;
     // 是否高亮
-    @Persisted
+    @SaveToDisk
     private boolean highlight = false;
 
     // ------------------- 第二步：选择偏移 -------------------
     // X方向区块偏移
-    @Persisted
+    @SaveToDisk
     private int offsetX = 0;
     // Z方向区块偏移
-    @Persisted
+    @SaveToDisk
     private int offsetZ = 0;
     // Y方向高度偏移
-    @Persisted
+    @SaveToDisk
     private int offsetY = -1;
 
     // X方向区块偏移修改大小
-    @Persisted
+    @SaveToDisk
     private int adjustX = 0;
     // Z方向区块偏移修改大小
-    @Persisted
+    @SaveToDisk
     private int adjustZ = 0;
     // Y方向偏移修改大小
-    @Persisted
+    @SaveToDisk
     private int adjustY = 0;
     // 坐标点
-    @Persisted
+    @SaveToDisk
     private BlockPos pos1 = new BlockPos(0, 0, 0);
-    @Persisted
+    @SaveToDisk
     private BlockPos pos2 = new BlockPos(0, 0, 0);
 
     // ------------------- 第三步：确认放置 -------------------
     // 库存的原料量
-    @Persisted
+    @SaveToDisk
     private final int[] materialInventory = new int[] { 0, 0, 0 };
     // 库存是否充足
-    @Persisted
+    @SaveToDisk
     private boolean insufficient = false;
     // 原料物品
     private static final List<List<IntObjectHolder<Item>>> ITEM_VALUE_HOLDERS = List.of(
@@ -207,28 +199,28 @@ public class PlatformDeploymentMachine extends MetaMachine implements IFancyUIMa
 
     // ------------------- 第四步：运行中 -------------------
     // 任务是否完成
-    @Persisted
+    @SaveToDisk
     private boolean taskCompleted = true;
     // 跳过空气
-    @Persisted
+    @SaveToDisk
     private boolean skipAir = true;
     // 光照更新
-    @Persisted
+    @SaveToDisk
     private boolean updateLight = true;
     // 速度
-    @Persisted
+    @SaveToDisk
     private int speed = 50;
     // X轴对称
-    @Persisted
+    @SaveToDisk
     private boolean xMirror = false;
     // Z轴对称
-    @Persisted
+    @SaveToDisk
     private boolean zMirror = false;
     // Y轴旋转
-    @Persisted
+    @SaveToDisk
     private int rotation = 0;
     // 可导出
-    @Persisted
+    @SaveToDisk
     private boolean canExport = false;
 
     private int progress = 0;
@@ -291,7 +283,7 @@ public class PlatformDeploymentMachine extends MetaMachine implements IFancyUIMa
         // 启动区
         WidgetGroup group_start = new DraggableScrollableWidgetGroup(width - 49, 4, 54, 105)
                 .setBackground(GuiTextures.CLIPBOARD_PAPER_BACKGROUND);
-        group_start.addWidget(new ComponentPanelWidget(13, 4, this::addDisplayTextStep)
+        group_start.addWidget(new ComponentPanelWidget(8, 4, this::addDisplayTextStep)
                 .clickHandler((a, b) -> handleDisplayClickStep(a, mainContentGroup)));
         group_start.addWidget(new ComponentPanelWidget(8, 20, this::addDisplayTextStart)
                 .clickHandler(this::handleDisplayClickStart)
@@ -349,8 +341,8 @@ public class PlatformDeploymentMachine extends MetaMachine implements IFancyUIMa
 
                 Component leftBtn1 = ComponentPanelWidget.withButton(Component.literal(" [ ← ] "), "previous_group_plas");
                 Component leftBtn2 = ComponentPanelWidget.withButton(Component.literal(" [ ← ] "), "previous_group");
-                Component empty1 = Component.literal(" ".repeat(15 - ((checkGroup + 1) / 10 + maxGroup / 10 + 5) / 2));
-                textList.add(Component.empty().append(leftBtn1).append(leftBtn2).append(empty1).append(Component.literal("<" + (checkGroup + 1) + "/" + maxGroup + ">")));
+                Component empty1 = Component.literal(" ".repeat(15 - ((checkGroup + 1) / 10 + PlatformTemplateStorage.preset.size() / 10 + 5) / 2));
+                textList.add(Component.empty().append(leftBtn1).append(leftBtn2).append(empty1).append(Component.literal("<" + (checkGroup + 1) + "/" + PlatformTemplateStorage.preset.size() + ">")));
 
                 int totalIds = getPlatformPreset(checkGroup).structures().size();
                 Component leftBtn3 = ComponentPanelWidget.withButton(Component.literal(" [ ← ] "), "previous_id_plas");
@@ -608,19 +600,19 @@ public class PlatformDeploymentMachine extends MetaMachine implements IFancyUIMa
                 int maxId = getPlatformPreset(checkGroup).structures().size() - 1;
                 switch (componentData) {
                     case "next_group" -> {
-                        checkGroup = Mth.clamp(checkGroup + 1, 0, maxGroup - 1);
+                        checkGroup = Mth.clamp(checkGroup + 1, 0, PlatformTemplateStorage.preset.size() - 1);
                         checkId = 0;
                     }
                     case "previous_group" -> {
-                        checkGroup = Mth.clamp(checkGroup - 1, 0, maxGroup - 1);
+                        checkGroup = Mth.clamp(checkGroup - 1, 0, PlatformTemplateStorage.preset.size() - 1);
                         checkId = 0;
                     }
                     case "next_group_plas" -> {
-                        checkGroup = Mth.clamp(checkGroup + 10, 0, maxGroup - 1);
+                        checkGroup = Mth.clamp(checkGroup + 10, 0, PlatformTemplateStorage.preset.size() - 1);
                         checkId = 0;
                     }
                     case "previous_group_plas" -> {
-                        checkGroup = Mth.clamp(checkGroup - 10, 0, maxGroup - 1);
+                        checkGroup = Mth.clamp(checkGroup - 10, 0, PlatformTemplateStorage.preset.size() - 1);
                         checkId = 0;
                     }
 
@@ -818,11 +810,11 @@ public class PlatformDeploymentMachine extends MetaMachine implements IFancyUIMa
 
     private PlatformBlockType.PlatformPreset getPlatformPreset(int group) {
         try {
-            return presets.get(group);
+            return PlatformTemplateStorage.preset.get(group);
         } catch (IndexOutOfBoundsException | NullPointerException e) {
             checkGroup = 0;
             saveGroup = 0;
-            return presets.getFirst();
+            return PlatformTemplateStorage.preset.getFirst();
         }
     }
 
@@ -919,7 +911,7 @@ public class PlatformDeploymentMachine extends MetaMachine implements IFancyUIMa
         List<IntObjectHolder<ItemStack>> extraMaterials = structure.extraMaterials();
         Map<Item, Integer> inventoryCount = new HashMap<>();
         int coordinateCards = 0;
-        for (int i = 0; i < inventory.getSize(); i++) {
+        for (int i = 0; i < inventory.getSlots(); i++) {
             ItemStack stack = inventory.getStackInSlot(i);
             if (stack.isEmpty()) continue;
             inventoryCount.put(stack.getItem(), inventoryCount.getOrDefault(stack.getItem(), 0) + stack.getCount());
@@ -951,7 +943,7 @@ public class PlatformDeploymentMachine extends MetaMachine implements IFancyUIMa
         for (IntObjectHolder<ItemStack> holder : extraMaterials) {
             Item item = holder.obj.getItem();
             int remaining = holder.number;
-            for (int i = 0; i < inventory.getSize() && remaining > 0; i++) {
+            for (int i = 0; i < inventory.getSlots() && remaining > 0; i++) {
                 ItemStack stack = inventory.getStackInSlot(i);
                 if (stack.getItem() == item) {
                     int take = Math.min(stack.getCount(), remaining);
@@ -967,34 +959,95 @@ public class PlatformDeploymentMachine extends MetaMachine implements IFancyUIMa
         return true;
     }
 
+    private static int[] transform(int lx, int ly, int lz, int sx, int sz, int rot, boolean zMir, boolean xMir) {
+        int rx = lx, rz = lz;
+        switch (rot) {
+            case 90 -> {
+                int t = rx;
+                rx = sz - 1 - rz;
+                rz = t;
+            }
+            case 180 -> {
+                rx = sx - 1 - rx;
+                rz = sz - 1 - rz;
+            }
+            case 270 -> {
+                int t = rx;
+                rx = rz;
+                rz = sx - 1 - t;
+            }
+        }
+        if (xMir) rx = sx - 1 - rx;
+        if (zMir) rz = sz - 1 - rz;
+        return new int[] { rx, ly, rz };
+    }
+
+    private static int[] calcOffsetsBy8Points(int sx, int sy, int sz, int rot, boolean zMir, boolean xMir) {
+        int[][] corners = { { 0, 0, 0 }, { sx - 1, 0, 0 }, { 0, sy - 1, 0 }, { sx - 1, sy - 1, 0 }, { 0, 0, sz - 1 }, { sx - 1, 0, sz - 1 }, { 0, sy - 1, sz - 1 }, { sx - 1, sy - 1, sz - 1 } };
+        int minX = Integer.MAX_VALUE, minY = Integer.MAX_VALUE, minZ = Integer.MAX_VALUE;
+        for (int[] c : corners) {
+            int[] t = transform(c[0], c[1], c[2], sx, sz, rot, zMir, xMir);
+            minX = Math.min(minX, t[0]);
+            minY = Math.min(minY, t[1]);
+            minZ = Math.min(minZ, t[2]);
+        }
+        return new int[] { -minX, -minY, -minZ };
+    }
+
     private void highlightArea(boolean light) {
         if (!(getLevel() instanceof ServerLevel)) return;
-        ResourceKey<Level> dimension = Objects.requireNonNull(getLevel()).dimension();
+        ResourceKey<Level> dimension = getLevel().dimension();
+
         if (canExport) {
-            BlockPos pos1 = null;
-            BlockPos pos2 = null;
-            for (int i = 0; i < inventory.getSize(); i++) {
+            BlockPos p1 = null, p2 = null;
+            for (int i = 0; i < inventory.getSlots() && (p1 == null || p2 == null); i++) {
                 ItemStack stack = inventory.getStackInSlot(i);
-                if (stack.getItem() == GTOItems.COORDINATE_CARD.asItem()) {
-                    if (pos1 == null) pos1 = getStoredCoordinates(stack);
-                    else pos2 = getStoredCoordinates(stack);
+                if (stack.is(GTOItems.COORDINATE_CARD.asItem())) {
+                    if (p1 == null) p1 = getStoredCoordinates(stack);
+                    else p2 = getStoredCoordinates(stack);
                 }
             }
-            if (pos1 != null && pos2 != null) {
-                if (light) {
-                    highlightRegion(dimension,
-                            new BlockPos(Math.min(pos1.getX(), pos2.getX()), Math.min(pos1.getY(), pos2.getY()), Math.min(pos1.getZ(), pos2.getZ())),
-                            new BlockPos(Math.max(pos1.getX(), pos2.getX()), Math.max(pos1.getY(), pos2.getY()), Math.max(pos1.getZ(), pos2.getZ())),
-                            0x660099CC, 1200);
-                } else
-                    stopHighlight(new BlockPos(Math.min(pos1.getX(), pos2.getX()), Math.min(pos1.getY(), pos2.getY()), Math.min(pos1.getZ(), pos2.getZ())),
-                            new BlockPos(Math.max(pos1.getX(), pos2.getX()), Math.max(pos1.getY(), pos2.getY()), Math.max(pos1.getZ(), pos2.getZ())));
+            if (p1 != null && p2 != null) {
+                BlockPos min = new BlockPos(Math.min(p1.getX(), p2.getX()), Math.min(p1.getY(), p2.getY()), Math.min(p1.getZ(), p2.getZ()));
+                BlockPos max = new BlockPos(Math.max(p1.getX(), p2.getX()), Math.max(p1.getY(), p2.getY()), Math.max(p1.getZ(), p2.getZ()));
+                if (light) highlightRegion(dimension, min, max, 0x660099CC, 1200);
+                else stopHighlight(min, max);
             }
-        } else if (presetConfirm) {
-            if (light) {
-                highlightRegion(dimension, pos1, pos2, 0x2277FF77, 600);
-            } else stopHighlight(pos1, pos2);
+            return;
         }
+
+        if (!presetConfirm) return;
+        PlatformBlockType.PlatformBlockStructure struct = getPlatformBlockStructure(saveGroup, saveId);
+        int sx = struct.xSize(), sy = struct.ySize(), sz = struct.zSize();
+        BlockPos start = pos1;
+
+        boolean zMir = this.xMirror, xMir = this.zMirror;
+        int rot = this.rotation;
+
+        int[] offsets = calcOffsetsBy8Points(sx, sy, sz, rot, zMir, xMir);
+        int ox = offsets[0], oy = offsets[1], oz = offsets[2];
+
+        int[][] corners = { { 0, 0, 0 }, { sx - 1, 0, 0 }, { 0, sy - 1, 0 }, { sx - 1, sy - 1, 0 }, { 0, 0, sz - 1 }, { sx - 1, 0, sz - 1 }, { 0, sy - 1, sz - 1 }, { sx - 1, sy - 1, sz - 1 } };
+
+        int minWX = Integer.MAX_VALUE, minWY = Integer.MAX_VALUE, minWZ = Integer.MAX_VALUE;
+        int maxWX = Integer.MIN_VALUE, maxWY = Integer.MIN_VALUE, maxWZ = Integer.MIN_VALUE;
+        for (int[] c : corners) {
+            int[] t = transform(c[0], c[1], c[2], sx, sz, rot, zMir, xMir);
+            int wx = start.getX() + t[0] + ox;
+            int wy = start.getY() + t[1] + oy;
+            int wz = start.getZ() + t[2] + oz;
+            minWX = Math.min(minWX, wx);
+            maxWX = Math.max(maxWX, wx);
+            minWY = Math.min(minWY, wy);
+            maxWY = Math.max(maxWY, wy);
+            minWZ = Math.min(minWZ, wz);
+            maxWZ = Math.max(maxWZ, wz);
+        }
+
+        BlockPos minPos = new BlockPos(minWX, minWY, minWZ);
+        BlockPos maxPos = new BlockPos(maxWX, maxWY, maxWZ);
+        if (light) highlightRegion(dimension, minPos, maxPos, 0x2277FF77, 600);
+        else stopHighlight(minPos, maxPos);
     }
 
     private void start() {
@@ -1035,21 +1088,15 @@ public class PlatformDeploymentMachine extends MetaMachine implements IFancyUIMa
         if (!(getLevel() instanceof ServerLevel serverLevel)) return;
         BlockPos pos1 = null;
         BlockPos pos2 = null;
-        Block chamberBlock = Blocks.BEDROCK;
-        boolean laserMode = false;
-        for (int i = 0; i < inventory.getSize(); i++) {
+        for (int i = 0; i < inventory.getSlots(); i++) {
             ItemStack stack = inventory.getStackInSlot(i);
             if (stack.getItem() == GTOItems.COORDINATE_CARD.asItem()) {
                 if (pos1 == null) pos1 = getStoredCoordinates(stack);
                 else pos2 = getStoredCoordinates(stack);
-            } else if (stack.getItem().equals(GTOItems.X_RAY_LASER.asItem())) {
-                laserMode = true;
-            } else if (stack.getItem() instanceof BlockItem blockItem) {
-                chamberBlock = blockItem.getBlock();
             }
         }
         if (pos1 != null && pos2 != null) {
-            PlatformCreationAsync(serverLevel, pos1, pos2, xMirror, zMirror, rotation, chamberBlock, laserMode);
+            PlatformCreationAsync(serverLevel, pos1, pos2, xMirror, zMirror, rotation);
         }
     }
 }

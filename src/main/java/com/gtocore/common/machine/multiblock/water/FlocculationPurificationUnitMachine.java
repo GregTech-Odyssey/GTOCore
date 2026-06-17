@@ -2,15 +2,14 @@ package com.gtocore.common.machine.multiblock.water;
 
 import com.gtocore.common.data.GTOMaterials;
 
-import com.gtolib.api.recipe.RecipeRunner;
-
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
+import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.material.Fluid;
 
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
+import com.gto.datasynclib.annotations.SaveToDisk;
 
 import java.util.List;
 
@@ -23,13 +22,13 @@ public final class FlocculationPurificationUnitMachine extends WaterPurification
     private static final Fluid PolyAluminiumChloride = GTOMaterials.PolyAluminiumChloride.getFluid();
     private static final Fluid FlocculationWasteSolution = GTOMaterials.FlocculationWasteSolution.getFluid();
 
-    @Persisted
+    @SaveToDisk
     private long chance;
 
-    @Persisted
+    @SaveToDisk
     private long inputCount;
 
-    @Persisted
+    @SaveToDisk
     private long outputCount;
 
     public FlocculationPurificationUnitMachine(MetaMachineBlockEntity holder) {
@@ -40,15 +39,15 @@ public final class FlocculationPurificationUnitMachine extends WaterPurification
     public void customText(List<Component> textList) {
         super.customText(textList);
         if (getRecipeLogic().isWorking()) {
-            textList.add(Component.translatable("gui.enderio.sag_mill_chance", chance));
+            textList.add(Component.translatable("gtceu.jei.ore_vein_diagram.chance", Math.min(chance, 100)));
         }
     }
 
     @Override
-    public boolean onWorking() {
-        if (!super.onWorking()) return false;
+    public void onWorking() {
+        super.onWorking();
         if (getOffsetTimer() % 20 == 0) {
-            long amount = getFluidAmount(PolyAluminiumChloride)[0];
+            long amount = getFluidAmount(true, PolyAluminiumChloride)[0];
             if (inputFluid(PolyAluminiumChloride, amount)) {
                 outputCount += amount;
                 if (amount % 100000 == 0) {
@@ -58,12 +57,11 @@ public final class FlocculationPurificationUnitMachine extends WaterPurification
                 }
             }
         }
-        return true;
     }
 
     @Override
-    public void onRecipeFinish() {
-        super.onRecipeFinish();
+    public void afterWorking() {
+        super.afterWorking();
         outputFluid(FlocculationWasteSolution, outputCount);
         long outputCount = inputCount * 9 / 10;
         if (Math.random() * 100 <= chance) outputFluid(WaterPurificationPlantMachine.GradePurifiedWater3, outputCount);
@@ -71,14 +69,14 @@ public final class FlocculationPurificationUnitMachine extends WaterPurification
     }
 
     @Override
-    long before() {
+    long prepareRecipe(RecipeHandlerUnit unit) {
         eut = 0;
         chance = 0;
         outputCount = 0;
-        inputCount = Math.min(parallel(), getFluidAmount(WaterPurificationPlantMachine.GradePurifiedWater2)[0]);
+        inputCount = Math.min(parallel(), unit.getFluidAmount(true, WaterPurificationPlantMachine.GradePurifiedWater2)[0]);
         if (inputCount > 0) {
             recipe = getRecipeBuilder().duration(WaterPurificationPlantMachine.DURATION).inputFluids(WaterPurificationPlantMachine.GradePurifiedWater2, inputCount).buildRawRecipe();
-            if (RecipeRunner.matchRecipe(this, recipe)) {
+            if (matchRecipe(unit, recipe)) {
                 calculateVoltage(inputCount);
             }
         }

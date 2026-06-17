@@ -100,7 +100,7 @@ public final class DataCrystalConstruction {
         if (!recipe) {
             if (itemStack == null) throw new IllegalStateException("The scanned recipe can only use item");
             SCANNER_RECIPES.recipeBuilder(recipeId)
-                    .inputItems(EmptyDataCrystalMap.get(dataCrystal))
+                    .inputItems(EmptyDataCrystalList.get(dataCrystal))
                     .inputItems(itemStack)
                     .outputItems(dataStack)
                     .duration(duration)
@@ -111,7 +111,7 @@ public final class DataCrystalConstruction {
             if (catalyst == null) throw new IllegalStateException("Catalyst input required");
             var builder = CRYSTAL_SCAN_RECIPES.recipeBuilder(recipeId)
                     .notConsumable(catalyst)
-                    .inputItems(EmptyDataCrystalMap.get(dataCrystal));
+                    .inputItems(EmptyDataCrystalList.get(dataCrystal));
             if (itemStack != null) builder.inputItems(itemStack);
             else builder.inputFluids(fluidStack);
             builder.outputItems(dataStack)

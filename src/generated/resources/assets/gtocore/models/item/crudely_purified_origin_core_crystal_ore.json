@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "gtocore:item/crudely_purified_origin_core_crystal_ore"
+  }
+}

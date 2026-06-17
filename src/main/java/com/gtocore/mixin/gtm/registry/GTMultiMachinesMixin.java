@@ -22,13 +22,14 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 import java.util.function.Function;
 
 import static com.gtocore.api.machine.part.GTOPartAbility.ACCELERATE_HATCH;
+import static com.gtocore.api.machine.part.GTOPartAbility.EXTRA_ENERGY_HATCH;
 
 @Mixin(GTMultiMachines.class)
 public class GTMultiMachinesMixin {
 
     @Redirect(method = "<clinit>", at = @At(value = "INVOKE", target = "Lcom/gregtechceu/gtceu/api/registry/registrate/GTRegistrate;multiblock(Ljava/lang/String;Ljava/util/function/Function;)Lcom/gregtechceu/gtceu/api/registry/registrate/MultiblockMachineBuilder;", ordinal = 2), remap = false)
     private static MultiblockMachineBuilder electric_blast_furnace(GTRegistrate instance, String name, Function<MetaMachineBlockEntity, ? extends MultiblockControllerMachine> metaMachine) {
-        return GTORegistration.GTM.multiblock(name, CoilMultiblockMachine.createCoilMachine(true, false)).moduleTooltips(ACCELERATE_HATCH).upgradable();
+        return GTORegistration.GTM.multiblock(name, CoilMultiblockMachine.createCoilMachine(true, false)).moduleTooltips(ACCELERATE_HATCH, EXTRA_ENERGY_HATCH).upgradable();
     }
 
     @Redirect(method = "<clinit>", at = @At(value = "INVOKE", target = "Lcom/gregtechceu/gtceu/api/registry/registrate/GTRegistrate;multiblock(Ljava/lang/String;Ljava/util/function/Function;)Lcom/gregtechceu/gtceu/api/registry/registrate/MultiblockMachineBuilder;", ordinal = 3), remap = false)

@@ -22,8 +22,8 @@ final class ChemicalVaporDepositio {
                 .notConsumable(TagPrefix.plate, GTMaterials.Nickel)
                 .inputItems(TagPrefix.dust, GTOMaterials.GrapheneOxide, 3)
                 .outputItems(TagPrefix.foil, GTMaterials.Graphene, 8)
-                .inputFluids(GTMaterials.Methane.getFluid(1000))
-                .outputFluids(GTMaterials.Water.getFluid(2000))
+                .inputFluids(GTMaterials.Methane, 1000)
+                .outputFluids(GTMaterials.Water, 2000)
                 .EUt(7680)
                 .duration(120)
                 .save();
@@ -31,7 +31,7 @@ final class ChemicalVaporDepositio {
         CHEMICAL_VAPOR_DEPOSITION_RECIPES.recipeBuilder("nano_cpu_wafer")
                 .inputItems(CENTRAL_PROCESSING_UNIT_WAFER)
                 .inputItems(CARBON_FIBERS, 16)
-                .inputFluids(Glowstone.getFluid(576))
+                .inputFluids(Glowstone, 576)
                 .outputItems(NANO_CENTRAL_PROCESSING_UNIT_WAFER)
                 .cleanroom(CleanroomType.CLEANROOM)
                 .duration(1200).EUt(VA[EV]).save();
@@ -39,7 +39,7 @@ final class ChemicalVaporDepositio {
         CHEMICAL_VAPOR_DEPOSITION_RECIPES.recipeBuilder("qbit_cpu_wafer_quantum_eye")
                 .inputItems(NANO_CENTRAL_PROCESSING_UNIT_WAFER)
                 .inputItems(QUANTUM_EYE, 2)
-                .inputFluids(GalliumArsenide.getFluid(288))
+                .inputFluids(GalliumArsenide, 288)
                 .outputItems(QUBIT_CENTRAL_PROCESSING_UNIT_WAFER)
                 .cleanroom(CleanroomType.CLEANROOM)
                 .duration(900).EUt(VA[EV]).save();
@@ -47,7 +47,7 @@ final class ChemicalVaporDepositio {
         CHEMICAL_VAPOR_DEPOSITION_RECIPES.recipeBuilder("qbit_cpu_wafer_radon")
                 .inputItems(NANO_CENTRAL_PROCESSING_UNIT_WAFER)
                 .inputItems(dust, IndiumGalliumPhosphide)
-                .inputFluids(Radon.getFluid(50))
+                .inputFluids(Radon, 50)
                 .outputItems(QUBIT_CENTRAL_PROCESSING_UNIT_WAFER)
                 .cleanroom(CleanroomType.CLEANROOM)
                 .duration(1200).EUt(VA[EV]).save();

@@ -1,10 +1,8 @@
 package com.gtocore.mixin.ae2.stacks;
 
-import com.gtolib.IFluid;
 import com.gtolib.api.ae2.stacks.IAEFluidKey;
+import com.gtolib.api.fluid.IFluid;
 import com.gtolib.api.misc.IMapValueCache;
-
-import com.gregtechceu.gtceu.api.recipe.lookup.IntIngredientMap;
 
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
@@ -14,6 +12,8 @@ import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 
 import appeng.api.stacks.AEFluidKey;
+
+import com.fast.recipesearch.IntLongMap;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -39,7 +39,7 @@ public class AEFluidKeyMixin implements IAEFluidKey {
         if (tag == null || tag.isEmpty()) {
             return ((IFluid) fluid).gtolib$getAEKey();
         }
-        return IMapValueCache.FLUID_KEY_CACHE.get(new FluidStack(fluid, 1, tag));
+        return IMapValueCache.FLUID_KEY_CACHE.getCache(new FluidStack(fluid, 1, tag));
     }
 
     /**
@@ -65,7 +65,7 @@ public class AEFluidKeyMixin implements IAEFluidKey {
         if (tag == null || tag.isEmpty()) {
             return ((IFluid) fluid).gtolib$getAEKey();
         }
-        return IMapValueCache.FLUID_KEY_CACHE.get(fluidVariant);
+        return IMapValueCache.FLUID_KEY_CACHE.getCache(fluidVariant);
     }
 
     /**
@@ -79,7 +79,7 @@ public class AEFluidKeyMixin implements IAEFluidKey {
         if (tag == null || tag.isEmpty()) {
             return ((IFluid) fluid).gtolib$getAEKey();
         }
-        return IMapValueCache.FLUID_KEY_CACHE.get(new FluidStack(fluid, 1, tag));
+        return IMapValueCache.FLUID_KEY_CACHE.getCache(new FluidStack(fluid, 1, tag));
     }
 
     /**
@@ -97,7 +97,7 @@ public class AEFluidKeyMixin implements IAEFluidKey {
     }
 
     @Override
-    public void gtolib$convert(long amount, IntIngredientMap map) {
+    public void gtolib$convert(long amount, IntLongMap map) {
         map.add(((IFluid) fluid).gtolib$getMapFluid(), amount);
     }
 }

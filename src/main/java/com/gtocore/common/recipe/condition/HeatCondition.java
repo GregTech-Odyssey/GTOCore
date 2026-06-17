@@ -2,21 +2,20 @@ package com.gtocore.common.recipe.condition;
 
 import com.gtolib.api.machine.feature.IHeaterMachine;
 import com.gtolib.api.machine.feature.ITemperatureMachine;
-import com.gtolib.api.recipe.Recipe;
 
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.ICoilMachine;
 import com.gregtechceu.gtceu.api.machine.multiblock.MultiblockControllerMachine;
-import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
-import com.gregtechceu.gtceu.api.recipe.condition.RecipeConditionType;
+import com.gregtechceu.gtceu.api.recipe.GTRecipeDefinition;
+import com.gregtechceu.gtceu.api.recipe.RecipeCondition;
+import com.gregtechceu.gtceu.api.recipe.handler.IRecipeHandlerHolder;
+import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
 import com.gregtechceu.gtceu.utils.GTUtil;
 
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 
-import org.jetbrains.annotations.NotNull;
-
-public final class HeatCondition extends AbstractRecipeCondition {
+public final class HeatCondition extends RecipeCondition {
 
     private final int temperature;
 
@@ -25,20 +24,14 @@ public final class HeatCondition extends AbstractRecipeCondition {
     }
 
     @Override
-    public RecipeConditionType<?> getType() {
-        return HEAT;
-    }
-
-    @Override
     public Component getTooltips() {
         return Component.translatable("gtocore.recipe.heat.temperature", temperature);
     }
 
     @Override
-    public boolean test(@NotNull Recipe recipe, @NotNull RecipeLogic recipeLogic) {
-        MetaMachine machine = recipeLogic.getMachine();
-        if (machine instanceof MultiblockControllerMachine controllerMachine) {
-            if (machine instanceof ICoilMachine coilMachine && coilMachine.getTemperature() >= temperature) {
+    public boolean testCondition(IRecipeHandlerHolder holder, RecipeHandlerUnit unit, GTRecipeDefinition recipe) {
+        if (holder instanceof MultiblockControllerMachine controllerMachine) {
+            if (holder instanceof ICoilMachine coilMachine && coilMachine.getTemperature() >= temperature) {
                 return true;
             }
             for (var p : controllerMachine.getParts()) {
@@ -46,7 +39,7 @@ public final class HeatCondition extends AbstractRecipeCondition {
             }
         }
         for (Direction side : GTUtil.DIRECTIONS) {
-            if (checkNeighborHeat(machine, side)) {
+            if (checkNeighborHeat(holder.self(), side)) {
                 return true;
             }
         }

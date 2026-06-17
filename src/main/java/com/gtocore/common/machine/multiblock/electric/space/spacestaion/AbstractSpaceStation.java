@@ -13,8 +13,8 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 
-import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
+import com.gto.datasynclib.annotations.SaveToDisk;
+import com.gto.datasynclib.annotations.SyncToClient;
 import earth.terrarium.adastra.api.systems.OxygenApi;
 import earth.terrarium.adastra.api.systems.TemperatureApi;
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
@@ -30,11 +30,11 @@ public abstract class AbstractSpaceStation extends ElectricMultiblockMachine imp
 
     @Nullable
     private Collection<IWorkInSpaceMachine> spaceMachines;
-    @DescSynced
+    @SyncToClient
     private final Set<BlockPos> lastDistributedBlocks = new ObjectOpenHashSet<>();
     private final @Nullable Function<AbstractSpaceStation, Set<BlockPos>> positionFunction;
 
-    @Persisted
+    @SaveToDisk
     protected int ready;
     @Nullable
     private TickableSubscription tickSubscription = null;

@@ -24,7 +24,7 @@ class FaceCulledRenderBlocks extends ItemRenderer {
 
     private List<Direction> directions = new ArrayList<>();
 
-    public FaceCulledRenderBlocks(Minecraft minecraft, TextureManager textureManager, ModelManager modelManager, ItemColors itemColors, BlockEntityWithoutLevelRenderer blockEntityRenderer) {
+    FaceCulledRenderBlocks(Minecraft minecraft, TextureManager textureManager, ModelManager modelManager, ItemColors itemColors, BlockEntityWithoutLevelRenderer blockEntityRenderer) {
         super(minecraft, textureManager, modelManager, itemColors, blockEntityRenderer);
     }
 

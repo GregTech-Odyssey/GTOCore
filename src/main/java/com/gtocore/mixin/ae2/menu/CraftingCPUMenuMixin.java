@@ -15,14 +15,15 @@ import appeng.api.stacks.AEKey;
 import appeng.api.stacks.GenericStack;
 import appeng.me.cluster.implementations.CraftingCPUCluster;
 import appeng.menu.AEBaseMenu;
+import appeng.menu.guisync.GuiSync;
 import appeng.menu.me.crafting.CraftingCPUMenu;
+
 import com.glodblock.github.extendedae.network.EPPNetworkHandler;
 import com.glodblock.github.glodium.network.packet.SGenericPacket;
 import com.glodblock.github.glodium.network.packet.sync.IActionHolder;
 import com.glodblock.github.glodium.network.packet.sync.Paras;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
-import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -31,21 +32,32 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import java.util.List;
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.function.Consumer;
 
 @Mixin(CraftingCPUMenu.class)
 public class CraftingCPUMenuMixin extends AEBaseMenu implements IActionHolder, IPushResultsHandler {
 
+    @Unique
+    @GuiSync(947)
+    public boolean gto$paused;
+
     @Shadow(remap = false)
     private CraftingCPUCluster cpu;
+    @Unique
+    private static final String gto$actionPauseId = "pauseCraftingCPU";
 
     @Unique
     private HashMultimap<AEKey, IPatternProviderLogic.PushResult> gto$lastCraftingResults;
 
     public CraftingCPUMenuMixin(MenuType<?> menuType, int id, Inventory playerInventory, Object host) {
         super(menuType, id, playerInventory, host);
+    }
+
+    @Inject(method = "<init>", at = @At("TAIL"), remap = false)
+    private void gto$onInit(MenuType<?> menuType, int id, Inventory ip, Object te, CallbackInfo ci) {
+        registerClientAction(gto$actionPauseId, Boolean.class, this::gto$setPaused);
     }
 
     @Override
@@ -59,7 +71,7 @@ public class CraftingCPUMenuMixin extends AEBaseMenu implements IActionHolder, I
             var gStack = GenericStack.fromItemStack(stack);
             if (gStack != null) {
                 var aeKey = gStack.what();
-                List<Object> toSend = new ObjectArrayList<>();
+                var toSend = new ArrayList<>();
                 ((OptimizedCraftingCpuLogic) cpu.craftingLogic).getPendingRequests(aeKey).forEach(gpos -> {
                     toSend.add(gpos.pos().asLong());
                     toSend.add(gpos.dimension().location().toString());
@@ -88,6 +100,13 @@ public class CraftingCPUMenuMixin extends AEBaseMenu implements IActionHolder, I
         }, player);
     }
 
+    @Inject(method = "broadcastChanges", at = @At("HEAD"), remap = false)
+    private void gto$onBroadcastChangesFirst(CallbackInfo ci) {
+        if (isServerSide()) {
+            gto$paused = cpu != null && gto$isPaused();
+        }
+    }
+
     @Override
     public void gtocore$syncCraftingResults(FriendlyByteBuf buf) {
         var newMap = HashMultimap.<AEKey, IPatternProviderLogic.PushResult>create();
@@ -106,5 +125,24 @@ public class CraftingCPUMenuMixin extends AEBaseMenu implements IActionHolder, I
     @Override
     public Multimap<AEKey, IPatternProviderLogic.PushResult> gto$getLastCraftingResults() {
         return gto$lastCraftingResults;
+    }
+
+    @Override
+    public boolean gto$isPaused() {
+        if (isClientSide()) {
+            return gto$paused;
+        }
+        if (cpu == null) return false;
+        return ((OptimizedCraftingCpuLogic) cpu.craftingLogic).isPaused();
+    }
+
+    @Override
+    public void gto$setPaused(boolean paused) {
+        if (isClientSide()) {
+            sendClientAction(gto$actionPauseId, paused);
+            return;
+        }
+        if (cpu == null) return;
+        ((OptimizedCraftingCpuLogic) cpu.craftingLogic).setPaused(paused);
     }
 }

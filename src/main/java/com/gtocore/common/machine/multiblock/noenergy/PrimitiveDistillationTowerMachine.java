@@ -1,41 +1,37 @@
 package com.gtocore.common.machine.multiblock.noenergy;
 
-import com.gtocore.common.data.GTORecipeTypes;
 import com.gtocore.common.machine.multiblock.part.SensorPartMachine;
 
 import com.gtolib.GTOCore;
 import com.gtolib.api.gui.MagicProgressBarProWidget;
-import com.gtolib.api.machine.feature.DummyEnergyMachine;
 import com.gtolib.api.machine.multiblock.NoEnergyMultiblockMachine;
 import com.gtolib.api.recipe.IdleReason;
-import com.gtolib.api.recipe.Recipe;
-import com.gtolib.api.recipe.RecipeBuilder;
-import com.gtolib.api.recipe.RecipeRunner;
 
-import com.gregtechceu.gtceu.GTCEu;
+import com.gregtechceu.gtceu.api.blockentity.ITickSubscription;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.IEnergyContainer;
-import com.gregtechceu.gtceu.api.capability.recipe.FluidRecipeCapability;
-import com.gregtechceu.gtceu.api.capability.recipe.IO;
-import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
-import com.gregtechceu.gtceu.api.capability.recipe.RecipeCapability;
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.machine.ConditionalSubscriptionHandler;
+import com.gregtechceu.gtceu.api.machine.TickableSubscription;
+import com.gregtechceu.gtceu.api.machine.feature.IDummyEnergyMachine;
 import com.gregtechceu.gtceu.api.machine.feature.IExplosionMachine;
-import com.gregtechceu.gtceu.api.machine.feature.IRecipeLogicMachine;
+import com.gregtechceu.gtceu.api.machine.feature.multiblock.IDistillationTower;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
-import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility;
-import com.gregtechceu.gtceu.api.machine.trait.NotifiableFluidTank;
-import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
+import com.gregtechceu.gtceu.api.machine.multiblock.part.MultiblockPartMachine;
+import com.gregtechceu.gtceu.api.pattern.TraceabilityPredicate;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
-import com.gregtechceu.gtceu.api.recipe.RecipeHelper;
-import com.gregtechceu.gtceu.api.recipe.content.Content;
+import com.gregtechceu.gtceu.api.recipe.handler.IO;
+import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
+import com.gregtechceu.gtceu.common.data.GTBlocks;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
+import com.gregtechceu.gtceu.utils.memoization.GTMemoizer;
+import com.gregtechceu.gtceu.utils.memoization.MemoizedSupplier;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
+import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
@@ -44,13 +40,13 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraftforge.fluids.capability.IFluidHandler;
-import net.minecraftforge.fluids.capability.templates.VoidFluidHandler;
 
+import com.fast.fastcollection.OpenCacheHashSet;
+import com.gto.datasynclib.annotations.SaveToDisk;
+import com.gto.datasynclib.annotations.SyncToClient;
+import com.gto.datasynclib.datasream.DataComponentKey;
 import com.lowdragmc.lowdraglib.gui.widget.*;
-import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import com.lowdragmc.lowdraglib.syncdata.annotation.RequireRerender;
-import it.unimi.dsi.fastutil.objects.ObjectArrayList;
+import com.lowdragmc.lowdraglib.utils.BlockInfo;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -59,44 +55,43 @@ import java.util.*;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import static com.gregtechceu.gtceu.api.machine.multiblock.PartAbility.IMPORT_FLUIDS;
+import static com.gregtechceu.gtceu.api.pattern.Predicates.abilities;
+
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public final class PrimitiveDistillationTowerMachine extends NoEnergyMultiblockMachine implements IExplosionMachine, DummyEnergyMachine {
+public final class PrimitiveDistillationTowerMachine extends NoEnergyMultiblockMachine implements IExplosionMachine, IDummyEnergyMachine, IDistillationTower {
 
+    private static final DataComponentKey<Set<BlockPos>> WATER = DataComponentKey.createNoCodec("water");
+
+    @Nullable
+    private Set<BlockPos> waterSources = null;
+    @Nullable
+    private RecipeHandlerUnit waterInputs = null;
     private static final DummyContainer CONTAINER = new DummyContainer(120);
 
     @NotNull
-    private List<IFluidHandler> fluidOutputs = Collections.emptyList();
-
-    @Override
-    public Widget createUIWidget() {
-        var group = new WidgetGroup(0, 0, 190, 125);
-        group.addWidget(new DraggableScrollableWidgetGroup(4, 4, 182, 106).setBackground(getScreenTexture()).addWidget(new LabelWidget(4, 5, self().getBlockState().getBlock().getDescriptionId())).addWidget(new ComponentPanelWidget(4, 17, this::addDisplayText).textSupplier(Objects.requireNonNull(getLevel()).isClientSide ? null : this::addDisplayText).setMaxWidthLimit(200).clickHandler(this::handleDisplayClick)));
-        group.addWidget(progressBarPro);
-        group.setBackground(GuiTextures.BACKGROUND_INVERSE);
-        return group;
-    }
+    @Getter
+    private final List<IFluidHandler> fluidOutputs = new ArrayList<>();
 
     private static final Item COAL_DUST = ChemicalHelper.getItem(TagPrefix.dust, GTMaterials.Coal);
     @Getter
-    @Persisted
-    @DescSynced
-    @RequireRerender
+    @SaveToDisk
+    @SyncToClient(notifyUpdate = true)
     private int heat = 298;
     @Getter
-    @DescSynced
-    @RequireRerender
+    @SyncToClient(notifyUpdate = true)
     private WaterState waterState = WaterState.NO_WATER;
     @Getter
-    @DescSynced
-    @RequireRerender
+    @SyncToClient(notifyUpdate = true)
     private int waterLevel = 0; // Used for rendering water level in the machine
-    @Persisted
+    @SaveToDisk
     private int tier;
-    @Persisted
+    @SaveToDisk
     private long time;
     private final ConditionalSubscriptionHandler tickSubs;
     private SensorPartMachine sensorMachine;
+    private TickableSubscription clientSubscription;
 
     public PrimitiveDistillationTowerMachine(MetaMachineBlockEntity holder) {
         super(holder);
@@ -105,14 +100,6 @@ public final class PrimitiveDistillationTowerMachine extends NoEnergyMultiblockM
 
     private boolean shouldTick() {
         return isFormed || heat > 298 || time > 0;
-    }
-
-    @Override
-    public void clientTick() {
-        super.clientTick();
-        if (getOffsetTimer() % 10 == 0) {
-            scheduleRenderUpdate();
-        }
     }
 
     /**
@@ -153,7 +140,7 @@ public final class PrimitiveDistillationTowerMachine extends NoEnergyMultiblockM
     private void tickUpdate() {
         long offsetTimer = getOffsetTimer();
         if (offsetTimer % 20 == 0) {
-            var water = (int) Math.min(MAX_WATER_USAGE, getFluidAmount(Fluids.WATER)[0]);
+            var water = (int) Math.min(MAX_WATER_USAGE, getWaterAmount());
             updateWaterState(water);
             handleHeatAndWater(water);
         }
@@ -169,13 +156,28 @@ public final class PrimitiveDistillationTowerMachine extends NoEnergyMultiblockM
         tickSubs.updateSubscription();
     }
 
+    private long getWaterAmount() {
+        if (waterInputs != null) {
+            return waterInputs.getFluidAmount(true, Fluids.WATER)[0];
+        } else {
+            return getFluidAmount(true, Fluids.WATER)[0];
+        }
+    }
+
+    private void consumeWater(int amount) {
+        if (waterInputs != null) {
+            waterInputs.inputFluid(Fluids.WATER, amount);
+        } else {
+            inputFluid(Fluids.WATER, amount);
+        }
+    }
+
     /**
      * 激活机器的方法。
      * 如果机器当前未激活，将其状态设为激活并更新激活的区块。
      */
     private void activateMachine() {
         activated = true;
-        this.requestSync();
     }
 
     /**
@@ -230,7 +232,7 @@ public final class PrimitiveDistillationTowerMachine extends NoEnergyMultiblockM
                 time -= water;
             }
             playCoolingSound();
-            inputFluid(Fluids.WATER, water);
+            consumeWater(water);
         }
     }
 
@@ -250,7 +252,6 @@ public final class PrimitiveDistillationTowerMachine extends NoEnergyMultiblockM
      */
     private void deactivateMachine() {
         activated = false;
-        this.requestSync();
     }
 
     /**
@@ -302,7 +303,7 @@ public final class PrimitiveDistillationTowerMachine extends NoEnergyMultiblockM
 
     @Nullable
     @Override
-    protected Recipe getRealRecipe(Recipe recipe) {
+    protected GTRecipe getRealRecipe(RecipeHandlerUnit unit, GTRecipe recipe) {
         if (heat > 400) {
             recipe.duration = (int) (recipe.duration * getDurationMultiplier());
             return recipe;
@@ -326,6 +327,15 @@ public final class PrimitiveDistillationTowerMachine extends NoEnergyMultiblockM
     private final MagicProgressBarProWidget progressBarPro = new MagicProgressBarProWidget(4, 113, IDEAL_HEAT, 930).addStartColor(-16711936).addMilestone(HEAT_THRESHOLD, -16640, Component.translatable("gtocore.bar.distillation.1")).addMilestone(EXPLOSION, -65536, Component.translatable("gtocore.bar.exploration")).setLeftLabel(Component.translatable("gtocore.bar.heat"));
 
     @Override
+    public Widget createUIWidget() {
+        var group = new WidgetGroup(0, 0, 190, 125);
+        group.addWidget(new DraggableScrollableWidgetGroup(4, 4, 182, 106).setBackground(getScreenTexture()).addWidget(new LabelWidget(4, 5, self().getBlockState().getBlock().getDescriptionId())).addWidget(new ComponentPanelWidget(4, 17, this::addDisplayText).textSupplier(Objects.requireNonNull(getLevel()).isClientSide ? null : this::addDisplayText).setMaxWidthLimit(200).clickHandler(this::handleDisplayClick)));
+        group.addWidget(progressBarPro);
+        group.setBackground(GuiTextures.BACKGROUND_INVERSE);
+        return group;
+    }
+
+    @Override
     public void customText(List<Component> textList) {
         super.customText(textList);
         textList.add(Component.translatable("gtocore.machine.rest_burn_time", time));
@@ -333,6 +343,15 @@ public final class PrimitiveDistillationTowerMachine extends NoEnergyMultiblockM
         textList.add(Component.translatable("gtocore.machine.total_time", getRecipeLogic().getTotalContinuousRunningTime()));
         textList.add(Component.translatable("gtocore.machine.duration_multiplier.tooltip", FormattingUtil.formatNumbers(getDurationMultiplier())));
         progressBarPro.setProgressSupplier(() -> heat);
+    }
+
+    @Override
+    public void addHandlerList(RecipeHandlerUnit handler) {
+        if (waterInputs == null && waterSources != null && waterSources.contains(handler.part.self().getPos())) {
+            waterInputs = RecipeHandlerUnit.of(IO.IN, handler.allHandlers);
+            return;
+        }
+        super.addHandlerList(handler);
     }
 
     @Override
@@ -349,51 +368,39 @@ public final class PrimitiveDistillationTowerMachine extends NoEnergyMultiblockM
     }
 
     @Override
+    public void onStructureFormedClient() {
+        clientSubscription = subscribeClientTick(clientSubscription, this::scheduleRenderUpdate, 20);
+    }
+
+    @Override
     public void onStructureFormed() {
-        super.onStructureFormed();
-        int startY = getPos().getY() + 1;
-        List<IMultiPart> parts = Arrays.stream(getParts()).filter(part -> PartAbility.EXPORT_FLUIDS.isApplicable(part.self().getBlockState().getBlock())).filter(part -> part.self().getPos().getY() >= startY).toList();
-        if (!parts.isEmpty()) {
-            int maxY = parts.get(parts.size() - 1).self().getPos().getY();
-            fluidOutputs = new ObjectArrayList<>(maxY - startY);
-            int outputIndex = 0;
-            for (int y = startY; y <= maxY; ++y) {
-                if (parts.size() <= outputIndex) {
-                    fluidOutputs.add(VoidFluidHandler.INSTANCE);
-                    continue;
-                }
-                var part = parts.get(outputIndex);
-                if (part.self().getPos().getY() == y) {
-                    var handler = part.getRecipeHandlers().get(0).getCapability(FluidRecipeCapability.CAP).stream().filter(IFluidHandler.class::isInstance).findFirst().map(IFluidHandler.class::cast).orElse(VoidFluidHandler.INSTANCE);
-                    addOutput(handler);
-                    outputIndex++;
-                } else if (part.self().getPos().getY() > y) {
-                    fluidOutputs.add(VoidFluidHandler.INSTANCE);
-                }
+        if (getSubFormedAmount() > 0) {
+            var subForm0 = getSubMultiblockState()[0];
+            if (subForm0 != null) {
+                this.waterSources = subForm0.getMatchContext().getOrDefault(WATER, Collections.emptySet());
             }
         }
+        super.onStructureFormed();
+        addOutputs();
         tickSubs.initialize(getLevel());
+    }
+
+    @Override
+    public void onStructureInvalidClient() {
+        clientSubscription = ITickSubscription.unsubscribe(clientSubscription);
     }
 
     @Override
     public void onStructureInvalid() {
         super.onStructureInvalid();
         sensorMachine = null;
-        fluidOutputs = Collections.emptyList();
+        fluidOutputs.clear();
+        waterSources = null;
+        waterInputs = null;
     }
 
     @Override
-    public RecipeLogic createRecipeLogic(Object... args) {
-        return new DistillationTowerLogic(this);
-    }
-
-    private void addOutput(IFluidHandler handler) {
-        fluidOutputs.add(handler);
-    }
-
-    @Override
-    @NotNull
-    public IEnergyContainer gtolib$getEnergyContainer() {
+    public IEnergyContainer getEnergyContainer() {
         return CONTAINER;
     }
 
@@ -410,109 +417,9 @@ public final class PrimitiveDistillationTowerMachine extends NoEnergyMultiblockM
         return MAX_WATER_USAGE;
     }
 
-    private static final class DistillationTowerLogic extends RecipeLogic {
-
-        private static final ResourceLocation ID = RecipeBuilder.getTypeID(GTCEu.id("distill_water_large"), GTORecipeTypes.DISTILLATION_RECIPES);
-
-        @Nullable
-        @Persisted
-        @DescSynced
-        private GTRecipe workingRecipe = null;
-
-        private DistillationTowerLogic(IRecipeLogicMachine machine) {
-            super(machine);
-        }
-
-        @NotNull
-        @Override
-        public PrimitiveDistillationTowerMachine getMachine() {
-            return (PrimitiveDistillationTowerMachine) super.getMachine();
-        }
-
-        @Override
-        @Nullable
-        public GTRecipe getLastRecipe() {
-            return workingRecipe;
-        }
-
-        @Override
-        protected boolean matchRecipe(GTRecipe recipe) {
-            if (recipe.id.equals(ID)) return false;
-            if (RecipeHelper.getRecipeEUtTier(recipe) > 2) {
-                getMachine().setIdleReason(IdleReason.VOLTAGE_TIER_NOT_SATISFIES);
-                return false;
-            }
-            return matchDTRecipe((Recipe) recipe);
-        }
-
-        @Override
-        public void findAndHandleRecipe() {
-            workingRecipe = null;
-            super.findAndHandleRecipe();
-        }
-
-        private boolean matchDTRecipe(Recipe recipe) {
-            if (!RecipeRunner.matchRecipeInput(machine, recipe)) return false;
-            var items = recipe.getOutputContents(ItemRecipeCapability.CAP);
-            if ((!items.isEmpty() && !RecipeRunner.handleRecipe(machine, recipe, IO.OUT, Map.of(ItemRecipeCapability.CAP, items), Collections.emptyMap(), true)) || !applyFluidOutputs(recipe, IFluidHandler.FluidAction.SIMULATE)) {
-                getMachine().setIdleReason(IdleReason.OUTPUT_FULL);
-                return false;
-            }
-            return true;
-        }
-
-        private void updateWorkingRecipe(GTRecipe recipe) {
-            this.workingRecipe = recipe.copy();
-            var contents = recipe.getOutputContents(FluidRecipeCapability.CAP);
-            var outputs = getMachine().getFluidOutputs();
-            List<Content> trimmed = new ArrayList<>(12);
-            for (int i = 0; i < Math.min(contents.size(), outputs.size()); ++i) {
-                if (!(outputs.get(i) instanceof VoidFluidHandler)) trimmed.add(contents.get(i));
-            }
-            this.workingRecipe.outputs.put(FluidRecipeCapability.CAP, trimmed);
-        }
-
-        @Override
-        protected boolean handleRecipeIO(GTRecipe recipe, IO io) {
-            if (io != IO.OUT) {
-                var handleIO = super.handleRecipeIO(recipe, io);
-                if (handleIO) {
-                    updateWorkingRecipe(recipe);
-                } else {
-                    this.workingRecipe = null;
-                }
-                return handleIO;
-            }
-            var items = recipe.getOutputContents(ItemRecipeCapability.CAP);
-            if (!items.isEmpty()) {
-                Map<RecipeCapability<?>, List<Content>> out = Map.of(ItemRecipeCapability.CAP, items);
-                RecipeRunner.handleRecipe(this.machine, (Recipe) recipe, io, out, chanceCaches, false);
-            }
-            if (applyFluidOutputs(recipe, IFluidHandler.FluidAction.EXECUTE)) {
-                workingRecipe = null;
-                return true;
-            }
-            return false;
-        }
-
-        private boolean applyFluidOutputs(GTRecipe recipe, IFluidHandler.FluidAction action) {
-            var fluids = recipe.getOutputContents(FluidRecipeCapability.CAP).stream().map(Content::getContent).map(FluidRecipeCapability.CAP::of).toList();
-            boolean valid = true;
-            var outputs = getMachine().getFluidOutputs();
-            for (int i = 0; i < Math.min(fluids.size(), outputs.size()); ++i) {
-                var handler = outputs.get(i);
-                var fluid = fluids.get(i).getStacks()[0];
-                int filled = (handler instanceof NotifiableFluidTank nft) ? nft.fillInternal(fluid, action) : handler.fill(fluid, action);
-                if (filled != fluid.getAmount()) valid = false;
-                if (action.simulate() && !valid) break;
-            }
-            return valid;
-        }
-    }
-
-    @NotNull
-    private List<IFluidHandler> getFluidOutputs() {
-        return this.fluidOutputs;
+    @Override
+    public int getYOffset() {
+        return 1;
     }
 
     public enum WaterState {
@@ -530,4 +437,30 @@ public final class PrimitiveDistillationTowerMachine extends NoEnergyMultiblockM
                     .orElse(null);
         }
     }
+
+    public static final MemoizedSupplier<TraceabilityPredicate> WaterSupplyingPredicate = GTMemoizer.memoize(() -> new TraceabilityPredicate(blockWorldState -> {
+        if (abilities(IMPORT_FLUIDS).test(blockWorldState)) {
+            if (blockWorldState.getTileEntity() instanceof MetaMachineBlockEntity mbe && mbe.getMetaMachine() instanceof MultiblockPartMachine part) {
+                blockWorldState.getMatchContext().getOrCreate(WATER, OpenCacheHashSet::new).add(part.getPos());
+            }
+            return true;
+        }
+        return false;
+    }, () -> BlockInfo.fromBlock(GTBlocks.STEEL_HULL.get()), abilities(IMPORT_FLUIDS).common.getFirst().candidates) {
+
+        @Override
+        public boolean testOnly() {
+            return true;
+        }
+
+        @Override
+        public boolean isAny() {
+            return false;
+        }
+
+        @Override
+        public boolean isAir() {
+            return false;
+        }
+    });
 }

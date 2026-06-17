@@ -29,8 +29,6 @@ public final class GTOLoots {
 
     public static boolean modifyLoot = true;
 
-    public static Set<Object> BLOCKS = new OpenCacheHashSet<>();
-
     public static boolean cache;
 
     public static ImmutableMap<LootDataId<?>, ?> ELEMENTS_CACHE;

@@ -322,6 +322,13 @@ public final class MaterialC {
                 .iconSet(DULL)
                 .buildAndRegister();
 
+        HyperthermophilicArchaeon = material("hyperthermophilic_archaeon", "超嗜热古菌")
+                .dust()
+                .color(0xef281f)
+                .secondaryColor(0x2d3c2e)
+                .iconSet(DULL)
+                .buildAndRegister();
+
         Yeast = material("yeast", "酵母")
                 .dust()
                 .color(0xAE9C00)
@@ -740,7 +747,7 @@ public final class MaterialC {
                 .iconSet(DULL)
                 .buildAndRegister();
 
-        SodiumPolystyreneSulfonate = material("Sodium_polystyrene_sulfonate", "聚苯乙烯磺酸钠")
+        SodiumPolystyreneSulfonate = material("sodium_polystyrene_sulfonate", "聚苯乙烯磺酸钠")
                 .fluid()
                 .components(Carbon, 22, Hydrogen, 12, Nitrogen, 2, Oxygen, 6)
                 .iconSet(DULL)

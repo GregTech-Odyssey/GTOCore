@@ -3,12 +3,10 @@ package com.gtocore.common.machine.multiblock.electric.nano;
 import com.gtocore.common.data.GTORecipeTypes;
 
 import com.gtolib.api.machine.multiblock.CrossRecipeMultiblockMachine;
-import com.gtolib.api.recipe.RecipeType;
 import com.gtolib.utils.MachineUtils;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
-
-import org.jetbrains.annotations.NotNull;
+import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 
 public final class NanoPhagocytosisPlantMachine extends CrossRecipeMultiblockMachine {
 
@@ -16,8 +14,8 @@ public final class NanoPhagocytosisPlantMachine extends CrossRecipeMultiblockMac
         super(holder, false, true, MachineUtils::getHatchParallel);
     }
 
-    @NotNull
-    public RecipeType getRecipeType() {
-        return formedAmount > 0 ? super.getRecipeType() : GTORecipeTypes.MACERATOR_RECIPES;
+    @Override
+    public boolean recipeTypeAvailable(GTRecipeType type) {
+        return formedAmount > 0 || type == GTORecipeTypes.MACERATOR_RECIPES;
     }
 }

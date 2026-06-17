@@ -20,8 +20,8 @@ import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 import net.minecraft.world.level.material.MapColor;
 
-import com.tterrag.registrate.util.entry.BlockEntry;
-import com.tterrag.registrate.util.nullness.NonNullBiConsumer;
+import com.gto.registrate.util.entry.BlockEntry;
+import com.gto.registrate.util.nullness.NonNullBiConsumer;
 
 import static com.gtocore.common.block.BlockMap.*;
 import static com.gtocore.common.block.GlowingBlock.createStarStone;
@@ -30,7 +30,7 @@ import static com.gtolib.utils.register.BlockRegisterUtils.*;
 public final class GTOBlocks {
 
     public static void init() {
-        GTORegistration.GTO.creativeModeTab(() -> null);
+        GTORegistration.GTO.removeDefaultCreativeTab();
         REACTOR_CORE = createStoneBlock("reactor_core", "远古反应核", GTOCore.id("block/multiblock/ancient_reactor_core/overlay_front"));
     }
 
@@ -78,6 +78,20 @@ public final class GTOBlocks {
             .blockstate((ctx, prov) -> prov.simpleBlock(ctx.getEntry(), prov.models().cubeAll("create_aggregatione_core", GTOCore.id("block/create_aggregatione_core"))))
             .tag(BlockTags.MINEABLE_WITH_PICKAXE)
             .item(BlockItem::new)
+            .build()
+            .register();
+
+    public static final BlockEntry<Block> REINFORCED_OBSIDIAN = block("reinforced_obsidian", "强化黑曜石", Block::new)
+            .properties(props -> props
+                    .sound(SoundType.STONE)
+                    .strength(50, 2000)
+                    .requiresCorrectToolForDrops()
+                    .mapColor(MapColor.COLOR_BLACK)
+                    .instrument(NoteBlockInstrument.BASEDRUM))
+            .tag(BlockTags.WITHER_IMMUNE)
+            .tag(BlockTags.NEEDS_DIAMOND_TOOL)
+            .tag(BlockTags.MINEABLE_WITH_PICKAXE)
+            .item()
             .build()
             .register();
 
@@ -209,29 +223,29 @@ public final class GTOBlocks {
     public static final BlockEntry<MEStorageCoreBlock> T4_CRAFTING_STORAGE_CORE = createCraftingStorageCore(4);
     public static final BlockEntry<MEStorageCoreBlock> T5_CRAFTING_STORAGE_CORE = createCraftingStorageCore(5);
 
-    public static final BlockEntry<Block> ENERGY_CONTROL_CASING_MK1 = createCasingBlock("energy_control_casing_mk1", "能量控制方块 MK-I", NonNullBiConsumer.noop(), Block::new, () -> Blocks.IRON_BLOCK,
+    public static final BlockEntry<Block> ENERGY_CONTROL_CASING_MK1 = createCasingBlock("energy_control_casing_mk1", "Energy Control Casing MK I", "能量控制方块 MK I", NonNullBiConsumer.noop(), Block::new, () -> Blocks.IRON_BLOCK,
             () -> RenderType::cutoutMipped);
-    public static final BlockEntry<Block> ENERGY_CONTROL_CASING_MK2 = createCasingBlock("energy_control_casing_mk2", "能量控制方块 MK-II", NonNullBiConsumer.noop(), Block::new, () -> Blocks.IRON_BLOCK,
+    public static final BlockEntry<Block> ENERGY_CONTROL_CASING_MK2 = createCasingBlock("energy_control_casing_mk2", "Energy Control Casing MK II", "能量控制方块 MK II", NonNullBiConsumer.noop(), Block::new, () -> Blocks.IRON_BLOCK,
             () -> RenderType::cutoutMipped);
-    public static final BlockEntry<Block> ENERGY_CONTROL_CASING_MK3 = createCasingBlock("energy_control_casing_mk3", "能量控制方块 MK-III", NonNullBiConsumer.noop(), Block::new, () -> Blocks.IRON_BLOCK,
+    public static final BlockEntry<Block> ENERGY_CONTROL_CASING_MK3 = createCasingBlock("energy_control_casing_mk3", "Energy Control Casing MK III", "能量控制方块 MK III", NonNullBiConsumer.noop(), Block::new, () -> Blocks.IRON_BLOCK,
             () -> RenderType::cutoutMipped);
-    public static final BlockEntry<Block> MACHINING_CONTROL_CASING_MK1 = createCasingBlock("machining_control_casing_mk1", "运行控制方块 MK-I", NonNullBiConsumer.noop(), Block::new, () -> Blocks.IRON_BLOCK,
+    public static final BlockEntry<Block> MACHINING_CONTROL_CASING_MK1 = createCasingBlock("machining_control_casing_mk1", "Machining Control Casing MK I", "运行控制方块 MK I", NonNullBiConsumer.noop(), Block::new, () -> Blocks.IRON_BLOCK,
             () -> RenderType::cutoutMipped);
-    public static final BlockEntry<Block> MACHINING_CONTROL_CASING_MK2 = createCasingBlock("machining_control_casing_mk2", "运行控制方块 MK-II", NonNullBiConsumer.noop(), Block::new, () -> Blocks.IRON_BLOCK,
+    public static final BlockEntry<Block> MACHINING_CONTROL_CASING_MK2 = createCasingBlock("machining_control_casing_mk2", "Machining Control Casing MK II", "运行控制方块 MK II", NonNullBiConsumer.noop(), Block::new, () -> Blocks.IRON_BLOCK,
             () -> RenderType::cutoutMipped);
-    public static final BlockEntry<Block> MACHINING_CONTROL_CASING_MK3 = createCasingBlock("machining_control_casing_mk3", "运行控制方块 MK-III", NonNullBiConsumer.noop(), Block::new, () -> Blocks.IRON_BLOCK,
+    public static final BlockEntry<Block> MACHINING_CONTROL_CASING_MK3 = createCasingBlock("machining_control_casing_mk3", "Machining Control Casing MK III", "运行控制方块 MK III", NonNullBiConsumer.noop(), Block::new, () -> Blocks.IRON_BLOCK,
             () -> RenderType::cutoutMipped);
 
-    public static final BlockEntry<Block> FUSION_CASING_MK4 = createCasingBlock("fusion_casing_mk4", "聚变机械方块 MK-IV", GTOCore.id("block/casings/fusion/fusion_casing_mk4"));
-    public static final BlockEntry<Block> FUSION_CASING_MK5 = createCasingBlock("fusion_casing_mk5", "聚变机械方块 MK-V", GTOCore.id("block/casings/fusion/fusion_casing_mk5"));
+    public static final BlockEntry<Block> FUSION_CASING_MK4 = createCasingBlock("fusion_casing_mk4", "Fusion Casing MK IV", "聚变机械方块 MK IV", GTOCore.id("block/casings/fusion/fusion_casing_mk4"));
+    public static final BlockEntry<Block> FUSION_CASING_MK5 = createCasingBlock("fusion_casing_mk5", "Fusion Casing MK V", "聚变机械方块 MK V", GTOCore.id("block/casings/fusion/fusion_casing_mk5"));
 
     public static final BlockEntry<ActiveBlock> ADVANCED_FUSION_COIL = createActiveCasing("advanced_fusion_coil", "进阶聚变线圈方块", "block/variant/advanced_fusion_coil");
-    public static final BlockEntry<ActiveBlock> FUSION_COIL_MK2 = createActiveCasing("fusion_coil_mk2", "聚变线圈方块MK-II", "block/variant/fusion_coil_mk2");
+    public static final BlockEntry<ActiveBlock> FUSION_COIL_MK2 = createActiveCasing("fusion_coil_mk2", "Fusion Coil MK II", "聚变线圈方块 MK II", "block/variant/fusion_coil_mk2");
     public static final BlockEntry<ActiveBlock> IMPROVED_SUPERCONDUCTOR_COIL = createActiveCasing("improved_superconductor_coil", "改良型超导线圈方块", "block/variant/improved_superconductor_coil");
     public static final BlockEntry<ActiveBlock> COMPRESSED_FUSION_COIL = createActiveCasing("compressed_fusion_coil", "压缩聚变线圈方块", "block/variant/compressed_fusion_coil");
     public static final BlockEntry<ActiveBlock> ADVANCED_COMPRESSED_FUSION_COIL = createActiveCasing("advanced_compressed_fusion_coil", "进阶压缩聚变线圈方块", "block/variant/advanced_compressed_fusion_coil");
-    public static final BlockEntry<ActiveBlock> COMPRESSED_FUSION_COIL_MK2_PROTOTYPE = createActiveCasing("compressed_fusion_coil_mk2_prototype", "压缩聚变线圈方块MK-II原型", "block/variant/compressed_fusion_coil_mk2_prototype");
-    public static final BlockEntry<ActiveBlock> COMPRESSED_FUSION_COIL_MK2 = createActiveCasing("compressed_fusion_coil_mk2", "压缩聚变线圈方块MK-II", "block/variant/compressed_fusion_coil_mk2");
+    public static final BlockEntry<ActiveBlock> COMPRESSED_FUSION_COIL_MK2_PROTOTYPE = createActiveCasing("compressed_fusion_coil_mk2_prototype", "Compressed Fusion Coil MK II Prototype", "压缩聚变线圈方块 MK II 原型", "block/variant/compressed_fusion_coil_mk2_prototype");
+    public static final BlockEntry<ActiveBlock> COMPRESSED_FUSION_COIL_MK2 = createActiveCasing("compressed_fusion_coil_mk2", "Compressed Fusion Coil MK II", "压缩聚变线圈方块 MK II", "block/variant/compressed_fusion_coil_mk2");
 
     public static final BlockEntry<ActiveBlock> SPACE_ELEVATOR_SUPPORT = createActiveCasing("space_elevator_support", "太空电梯支撑结构", "block/variant/space_elevator_support");
     public static final BlockEntry<ActiveBlock> SPACE_ELEVATOR_POWER_CORE = createActiveCasing("space_elevator_power_core", "太空电梯动力核心", "block/variant/space_elevator_power_core");
@@ -244,9 +258,9 @@ public final class GTOBlocks {
     public static final BlockEntry<ActiveBlock> ADVANCED_ASSEMBLY_LINE_UNIT = createActiveCasing("advanced_assembly_line_unit", "进阶装配线控制外壳", "block/variant/advanced_assembly_line_unit");
     public static final BlockEntry<ActiveBlock> MAGIC_CORE = createActiveCasing("magic_core", "魔法核心", "block/variant/magic_core");
 
-    public static final BlockEntry<Block> ENERGETIC_PHOTOVOLTAIC_BLOCK = createCustomModelCasingBlock("energetic_photovoltaic_block", "充能光伏方块");
-    public static final BlockEntry<Block> PULSATING_PHOTOVOLTAIC_BLOCK = createCustomModelCasingBlock("pulsating_photovoltaic_block", "脉冲光伏方块");
-    public static final BlockEntry<Block> VIBRANT_PHOTOVOLTAIC_BLOCK = createCustomModelCasingBlock("vibrant_photovoltaic_block", "振动光伏方块");
+    public static final BlockEntry<Block> ENERGETIC_PHOTOVOLTAIC_BLOCK = createCasingBlock("energetic_photovoltaic_block", "充能光伏方块", GTOCore.id("block/energetic_photovoltaic_block"));
+    public static final BlockEntry<Block> PULSATING_PHOTOVOLTAIC_BLOCK = createCasingBlock("pulsating_photovoltaic_block", "脉冲光伏方块", GTOCore.id("block/pulsating_photovoltaic_block"));
+    public static final BlockEntry<Block> VIBRANT_PHOTOVOLTAIC_BLOCK = createCasingBlock("vibrant_photovoltaic_block", "振动光伏方块", GTOCore.id("block/vibrant_photovoltaic_block"));
 
     public static final BlockEntry<Block> STELLAR_CONTAINMENT_CASING = createTierCasings("stellar_containment_casing", "基础恒星热力容器", GTOCore.id("block/stellar_containment_casing"), SCMAP, 1);
     public static final BlockEntry<Block> ADVANCED_STELLAR_CONTAINMENT_CASING = createTierCasings("advanced_stellar_containment_casing", "高级恒星热力容器", GTOCore.id("block/stellar_containment_casing"), SCMAP, 2);
@@ -287,11 +301,11 @@ public final class GTOBlocks {
     public static final BlockEntry<Block> MEDIAL_GRAVITON_FLOW_MODULATOR = createTierCasings("medial_graviton_flow_modulator", "中介引力流调节器", GTOCore.id("block/medial_graviton_flow_modulator"), GRAVITONFLOWMAP, 2);
     public static final BlockEntry<Block> CENTRAL_GRAVITON_FLOW_MODULATOR = createTierCasings("central_graviton_flow_modulator", "中心引力流调节器", GTOCore.id("block/central_graviton_flow_modulator"), GRAVITONFLOWMAP, 3);
 
-    public static final BlockEntry<ActiveBlock> SPACE_ELEVATOR_POWER_MODULE_1 = createActiveTierCasing("space_elevator_power_module_1", "太空电梯动力模块MK1", "block/variant/space_elevator_power_module_1", SEPMMAP, 1);
-    public static final BlockEntry<ActiveBlock> SPACE_ELEVATOR_POWER_MODULE_2 = createActiveTierCasing("space_elevator_power_module_2", "太空电梯动力模块MK2", "block/variant/space_elevator_power_module_2", SEPMMAP, 2);
-    public static final BlockEntry<ActiveBlock> SPACE_ELEVATOR_POWER_MODULE_3 = createActiveTierCasing("space_elevator_power_module_3", "太空电梯动力模块MK3", "block/variant/space_elevator_power_module_3", SEPMMAP, 3);
-    public static final BlockEntry<ActiveBlock> SPACE_ELEVATOR_POWER_MODULE_4 = createActiveTierCasing("space_elevator_power_module_4", "太空电梯动力模块MK4", "block/variant/space_elevator_power_module_4", SEPMMAP, 4);
-    public static final BlockEntry<ActiveBlock> SPACE_ELEVATOR_POWER_MODULE_5 = createActiveTierCasing("space_elevator_power_module_5", "太空电梯动力模块MK5", "block/variant/space_elevator_power_module_5", SEPMMAP, 5);
+    public static final BlockEntry<ActiveBlock> SPACE_ELEVATOR_POWER_MODULE_1 = createActiveTierCasing("space_elevator_power_module_1", "Space Elevator Power Module MK I", "太空电梯动力模块 MK I", "block/variant/space_elevator_power_module_1", SEPMMAP, 1);
+    public static final BlockEntry<ActiveBlock> SPACE_ELEVATOR_POWER_MODULE_2 = createActiveTierCasing("space_elevator_power_module_2", "Space Elevator Power Module MK II", "太空电梯动力模块 MK II", "block/variant/space_elevator_power_module_2", SEPMMAP, 2);
+    public static final BlockEntry<ActiveBlock> SPACE_ELEVATOR_POWER_MODULE_3 = createActiveTierCasing("space_elevator_power_module_3", "Space Elevator Power Module MK III", "太空电梯动力模块 MK III", "block/variant/space_elevator_power_module_3", SEPMMAP, 3);
+    public static final BlockEntry<ActiveBlock> SPACE_ELEVATOR_POWER_MODULE_4 = createActiveTierCasing("space_elevator_power_module_4", "Space Elevator Power Module MK IV", "太空电梯动力模块 MK IV", "block/variant/space_elevator_power_module_4", SEPMMAP, 4);
+    public static final BlockEntry<ActiveBlock> SPACE_ELEVATOR_POWER_MODULE_5 = createActiveTierCasing("space_elevator_power_module_5", "Space Elevator Power Module MK V", "太空电梯动力模块 MK V", "block/variant/space_elevator_power_module_5", SEPMMAP, 5);
 
     public static final BlockEntry<Block> BOROSILICATE_GLASS = createTierGlassCasings("borosilicate_glass", "硼硅玻璃", GTOCore.id("block/casings/borosilicate_glass"), GTValues.HV);
     public static final BlockEntry<Block> TITANIUM_BOROSILICATE_GLASS = createTierGlassCasings("titanium_borosilicate_glass", "钛强化硼玻璃", GTOCore.id("block/casings/titanium_borosilicate_glass"), GTValues.EV);
@@ -554,7 +568,7 @@ public final class GTOBlocks {
     // 耐压壳机械方块
     public static final BlockEntry<Block> PRESSURE_RESISTANT_HOUSING_MECHANICAL_BLOCK = createCasingBlock("pressure_resistant_housing_mechanical_block", "耐压壳机械方块", GTOCore.id("block/casings/pressure_resistant_housing_mechanical_block"));
     // 钛合金内部框架
-    public static final BlockEntry<Block> TITANIUM_ALLOY_INTERNAL_FRAME = createCasingBlock("titanium_alloy_frame_internal", "钛合金内部框架", GTOCore.id("block/casings/titanium_alloy_internal_frame"));
+    public static final BlockEntry<Block> TITANIUM_ALLOY_FRAME_INTERNAL = createCasingBlock("titanium_alloy_internal", "钛合金内部框架", GTOCore.id("block/casings/titanium_alloy_internal_frame"));
     // 航天器密封机械方块
     public static final BlockEntry<Block> SPACECRAFT_SEALING_MECHANICAL_BLOCK = createCasingBlock("spacecraft_sealing_casing", "航天器密封机械方块", GTOCore.id("block/casings/spacecraft_sealing_casing"));
     // 钨合金抗冲击机械方块
@@ -605,4 +619,6 @@ public final class GTOBlocks {
     public static final BlockEntry<Block> THE_END_CASING = createCasingBlock("the_end_casing", "终末之铭符", GTOCore.id("block/casings/the_end_casing"));
     // 混沌之铭符 the_chaos_casing
     public static final BlockEntry<Block> THE_CHAOS_CASING = createCasingBlock("the_chaos_casing", "混沌之铭符", GTOCore.id("block/casings/the_chaos_casing"));
+    // 天辉凝聚之镜 the_solaris_lens
+    public static final BlockEntry<Block> THE_SOLARIS_LENS = createGlassCasingBlock("the_solaris_lens", "天辉凝聚之镜", GTOCore.id("block/casings/the_solaris_lens"));
 }

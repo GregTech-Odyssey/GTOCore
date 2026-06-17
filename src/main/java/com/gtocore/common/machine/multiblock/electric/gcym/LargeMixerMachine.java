@@ -1,28 +1,27 @@
 package com.gtocore.common.machine.multiblock.electric.gcym;
 
 import com.gtolib.api.machine.feature.multiblock.IFluidRendererMachine;
-import com.gtolib.api.recipe.Recipe;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.pattern.util.RelativeDirection;
+import com.gregtechceu.gtceu.api.recipe.GTRecipe;
+import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.material.Fluid;
 
 import com.fast.fastcollection.OpenCacheHashSet;
-import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
-import com.lowdragmc.lowdraglib.syncdata.annotation.RequireRerender;
-import org.jetbrains.annotations.Nullable;
+import com.gto.datasynclib.annotations.SyncToClient;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Set;
 
 public final class LargeMixerMachine extends GCYMMultiblockMachine implements IFluidRendererMachine {
 
-    @DescSynced
-    @RequireRerender
+    @SyncToClient(notifyUpdate = true)
     private final Set<BlockPos> fluidBlockOffsets = new OpenCacheHashSet<>();
-    @DescSynced
+    @SyncToClient
     private Fluid cachedFluid;
 
     public LargeMixerMachine(MetaMachineBlockEntity holder) {
@@ -30,9 +29,9 @@ public final class LargeMixerMachine extends GCYMMultiblockMachine implements IF
     }
 
     @Override
-    protected boolean beforeWorking(@Nullable Recipe recipe) {
+    public void beforeWorking(@NotNull RecipeHandlerUnit unit, @NotNull GTRecipe recipe) {
         cachedFluid = IFluidRendererMachine.getFluid(recipe);
-        return super.beforeWorking(recipe);
+        super.beforeWorking(unit, recipe);
     }
 
     @Override

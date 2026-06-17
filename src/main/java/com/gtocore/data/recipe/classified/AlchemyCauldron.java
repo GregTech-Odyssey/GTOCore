@@ -12,8 +12,8 @@ final class AlchemyCauldron {
     public static void init() {
         ALCHEMY_CAULDRON_RECIPES.recipeBuilder("coal_slurry")
                 .inputItems(TagPrefix.dust, GTMaterials.Coal, 2)
-                .inputFluids(GTMaterials.Water.getFluid(1000))
-                .outputFluids(GTOMaterials.CoalSlurry.getFluid(1000))
+                .inputFluids(GTMaterials.Water, 1000)
+                .outputFluids(GTOMaterials.CoalSlurry, 1000)
                 .duration(240)
                 .temperature(340)
                 .save();

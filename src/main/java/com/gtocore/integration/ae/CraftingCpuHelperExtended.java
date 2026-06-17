@@ -6,6 +6,7 @@ import appeng.api.networking.crafting.ICraftingPlan;
 import appeng.api.networking.security.IActionSource;
 import appeng.api.stacks.KeyCounter;
 import appeng.crafting.inv.ListCraftingInventory;
+
 import org.jetbrains.annotations.NotNull;
 
 public class CraftingCpuHelperExtended {

@@ -1,18 +1,19 @@
 package com.gtocore.common.machine.mana;
 
+import com.gtocore.common.data.GTORecipeDataKeys;
+
 import com.gtolib.api.machine.feature.IReceiveHeatMachine;
 import com.gtolib.api.recipe.IdleReason;
-import com.gtolib.api.recipe.Recipe;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
-import com.gregtechceu.gtceu.api.capability.recipe.FluidRecipeCapability;
-import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
 import com.gregtechceu.gtceu.api.machine.TickableSubscription;
+import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.content.Content;
+import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
 
 import net.minecraft.util.Mth;
 
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
+import com.gto.datasynclib.annotations.SaveToDisk;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -20,28 +21,28 @@ import static com.lowdragmc.lowdraglib.LDLib.random;
 
 public class AlchemyCauldron extends SimpleManaMachine implements IReceiveHeatMachine {
 
-    @Persisted
+    @SaveToDisk
     private int temperature = 293;
     private TickableSubscription tickSubs;
-    @Persisted
+    @SaveToDisk
     private final int[] probabilityParams = { 10000, 10000, 10000 };
     private final int[] currentRecipeParams = new int[3];
 
     public AlchemyCauldron(MetaMachineBlockEntity holder) {
-        super(holder, 1, t -> 16000);
+        super(holder, 3, t -> 16000);
     }
 
     @Nullable
     @Override
-    public Recipe doModifyRecipe(@NotNull Recipe recipe) {
-        int temperature = recipe.data.getInt("temperature");
+    public GTRecipe doModifyRecipe(RecipeHandlerUnit unit, @NotNull GTRecipe recipe) {
+        int temperature = recipe.data.getInt(GTORecipeDataKeys.TEMPERATURE);
         if (temperature > 0 && temperature > this.temperature) {
             setIdleReason(IdleReason.INSUFFICIENT_TEMPERATURE);
             return null;
         }
         boolean param = false;
         for (int i = 0; i < 3; i++) {
-            String key = "param" + (i + 1);
+            var key = GTORecipeDataKeys.PARAM[i];
             param = param || recipe.data.contains(key);
             currentRecipeParams[i] = recipe.data.contains(key) ? recipe.data.getInt(key) * 100 : 10000;
         }
@@ -49,12 +50,12 @@ public class AlchemyCauldron extends SimpleManaMachine implements IReceiveHeatMa
             adjustParameters(currentRecipeParams);
             return enhanceRecipe(recipe, currentRecipeParams);
         }
-        return super.doModifyRecipe(recipe);
+        return super.doModifyRecipe(unit, recipe);
     }
 
     @Override
-    public boolean onWorking() {
-        if (super.onWorking()) {
+    public boolean handleTickRecipe(GTRecipe recipe) {
+        if (super.handleTickRecipe(recipe)) {
             if (getOffsetTimer() % 20 == 0) return reduceTemperature(1) == 1;
             return true;
         }
@@ -91,16 +92,19 @@ public class AlchemyCauldron extends SimpleManaMachine implements IReceiveHeatMa
     /**
      * 增强配方：添加概率输出项
      */
-    private Recipe enhanceRecipe(Recipe recipe, int[] recipeParams) {
+    private GTRecipe enhanceRecipe(GTRecipe recipe, int[] recipeParams) {
         int matchRate = calculateMatchRate(recipeParams);
-        recipe.outputs.put(ItemRecipeCapability.CAP, recipe.getOutputContents(ItemRecipeCapability.CAP).stream().map(content -> {
-            if (content.chance < 11) return new Content(content.content, matchRate, 0);
+
+        recipe.itemOutputs = recipe.itemOutputs.stream().map(content -> {
+            if (content.chance < 11) return new Content<>(content.inner, matchRate, 0);
             else return content;
-        }).toList());
-        recipe.outputs.put(FluidRecipeCapability.CAP, recipe.getOutputContents(FluidRecipeCapability.CAP).stream().map(content -> {
-            if (content.chance < 11) return new Content(content.content, matchRate, 0);
+        }).toList();
+
+        recipe.fluidOutputs = recipe.fluidOutputs.stream().map(content -> {
+            if (content.chance < 11) return new Content<>(content.inner, matchRate, 0);
             else return content;
-        }).toList());
+        }).toList();
+
         return recipe;
     }
 

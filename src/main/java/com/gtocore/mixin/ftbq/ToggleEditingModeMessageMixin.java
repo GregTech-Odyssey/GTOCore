@@ -14,7 +14,7 @@ import org.spongepowered.asm.mixin.injection.ModifyArg;
 public class ToggleEditingModeMessageMixin {
 
     @ModifyArg(method = "handle", at = @At(value = "INVOKE", target = "Ldev/ftb/mods/ftbquests/quest/TeamData;setCanEdit(Lnet/minecraft/world/entity/player/Player;Z)Z"), index = 1, remap = false)
-    private boolean setCanEdit(boolean newCanEdit, @Local ServerPlayer player) {
+    private boolean setCanEdit(boolean newCanEdit, @Local(name = "player") ServerPlayer player) {
         return newCanEdit && EMIRecipeModHelper.canEdit();
     }
 }

@@ -1,22 +1,20 @@
 package com.gtocore.common.machine.multiblock.electric.voidseries;
 
-import com.gtolib.api.data.GTODimensions;
 import com.gtolib.api.machine.multiblock.ElectricMultiblockMachine;
-import com.gtolib.api.machine.trait.CustomRecipeLogic;
 import com.gtolib.api.machine.trait.EnergyContainerTrait;
-import com.gtolib.api.recipe.Recipe;
-import com.gtolib.api.recipe.RecipeRunner;
 import com.gtolib.utils.GTOUtils;
 import com.gtolib.utils.ServerUtils;
 import com.gtolib.utils.register.BlockRegisterUtils;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
-import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
+import com.gregtechceu.gtceu.api.recipe.GTRecipeDefinition;
+import com.gregtechceu.gtceu.api.recipe.handler.ICustomRecipeLogicHolder;
+import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
@@ -25,15 +23,13 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.phys.BlockHitResult;
 
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import org.jetbrains.annotations.NotNull;
+import com.gto.datasynclib.annotations.SaveToDisk;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Objects;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 
-public final class VoidTransporterMachine extends ElectricMultiblockMachine {
+public final class VoidTransporterMachine extends ElectricMultiblockMachine implements ICustomRecipeLogicHolder {
 
     public static boolean checkTransporter(BlockPos pos, Level level, int id) {
         return !(MetaMachine.getMachine(level, pos.offset(0, -1, 0)) instanceof VoidTransporterMachine machine) || !machine.isFormed() || machine.id != id || !machine.check();
@@ -47,13 +43,13 @@ public final class VoidTransporterMachine extends ElectricMultiblockMachine {
         return create(id, eu, null);
     }
 
-    public static BiConsumer<VoidTransporterMachine, Player> teleportToDimension(ResourceLocation dim, BlockPos pos) {
+    public static BiConsumer<VoidTransporterMachine, Player> teleportToDimension(ResourceKey<Level> dim, BlockPos pos) {
         return (m, player) -> {
             Level level = m.getLevel();
             if (level == null) return;
             MinecraftServer server = level.getServer();
             if (server == null) return;
-            ServerLevel serverLevel = server.getLevel(GTODimensions.getDimensionKey(dim));
+            ServerLevel serverLevel = server.getLevel(dim);
             if (serverLevel == null) return;
             CompoundTag data = player.getPersistentData();
             data.putDouble("pos_x_" + m.id, player.getX());
@@ -92,10 +88,10 @@ public final class VoidTransporterMachine extends ElectricMultiblockMachine {
     private final int id;
     private final int eu;
 
-    @Persisted
+    @SaveToDisk
     private final EnergyContainerTrait energyContainer;
 
-    @Persisted
+    @SaveToDisk
     private boolean setup = false;
     private final BiConsumer<VoidTransporterMachine, Player> consumer;
 
@@ -109,9 +105,7 @@ public final class VoidTransporterMachine extends ElectricMultiblockMachine {
     }
 
     private EnergyContainerTrait createEnergyContainer() {
-        var container = eu == 0 ? new EnergyContainerTrait(this, 0) : new EnergyContainerTrait(this, 409600);
-        container.setCapabilityValidator(Objects::isNull);
-        return container;
+        return eu == 0 ? new EnergyContainerTrait(this, 0) : new EnergyContainerTrait(this, 409600);
     }
 
     private boolean check() {
@@ -120,13 +114,9 @@ public final class VoidTransporterMachine extends ElectricMultiblockMachine {
     }
 
     @Override
-    public boolean onWorking() {
-        if (super.onWorking()) {
-            if (energyContainer.getEnergyStored() >= 409600) return false;
-            energyContainer.addEnergy(getOverclockVoltage());
-            return true;
-        }
-        return false;
+    public void onWorking() {
+        super.onWorking();
+        energyContainer.addEnergy(getOverclockVoltage());
     }
 
     @Override
@@ -144,17 +134,16 @@ public final class VoidTransporterMachine extends ElectricMultiblockMachine {
         return false;
     }
 
-    @Nullable
-    private Recipe getRecipe() {
+    @Override
+    public GTRecipeDefinition createCustomRecipe(RecipeHandlerUnit unit) {
         if (eu < getOverclockVoltage() && energyContainer.getEnergyStored() < 409600) {
-            Recipe recipe = getRecipeBuilder().EUt(getOverclockVoltage()).duration(200).buildRawRecipe();
-            if (RecipeRunner.matchTickRecipe(this, recipe)) return recipe;
+            return getRecipeBuilder().EUt(getOverclockVoltage()).duration((int) Math.max(1, (409600 - energyContainer.getEnergyStored()) / getOverclockVoltage())).build();
         }
         return null;
     }
 
     @Override
-    public RecipeLogic createRecipeLogic(Object @NotNull... args) {
-        return new CustomRecipeLogic(this, this::getRecipe);
+    public boolean alwaysSearchRecipe() {
+        return true;
     }
 }

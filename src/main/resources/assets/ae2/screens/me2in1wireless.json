@@ -1,0 +1,15 @@
+{
+  "$schema": "schema.json",
+  "includes": ["me2in1.json"],
+  "text": {
+    "dialog_title": {
+      "text": {
+        "translate": "gtocore.ae.appeng.me2in1.wireless"
+      },
+      "position": {
+        "left": 21,
+        "top": 11
+      }
+    }
+  }
+}

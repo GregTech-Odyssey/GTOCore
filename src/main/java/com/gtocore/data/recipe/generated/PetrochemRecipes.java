@@ -19,7 +19,7 @@ public final class PetrochemRecipes {
     private static void crack(Material... cracked) {
         STEAM_CRACKING_RECIPES.recipeBuilder("severely_steam_crack_" + cracked[0].getName())
                 .circuitMeta(1)
-                .inputFluids(cracked[0].getFluid(1000))
+                .inputFluids(cracked[0], 1000)
                 .outputFluids(cracked[1].getFluid(400))
                 .duration(200)
                 .EUt(VA[LV])
@@ -27,7 +27,7 @@ public final class PetrochemRecipes {
 
         STEAM_CRACKING_RECIPES.recipeBuilder("steam_crack_" + cracked[0].getName())
                 .circuitMeta(2)
-                .inputFluids(cracked[0].getFluid(1000))
+                .inputFluids(cracked[0], 1000)
                 .outputFluids(cracked[2].getFluid(400))
                 .duration(200)
                 .EUt(VA[LV])

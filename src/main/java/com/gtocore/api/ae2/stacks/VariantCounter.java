@@ -2,6 +2,7 @@ package com.gtocore.api.ae2.stacks;
 
 import appeng.api.config.FuzzyMode;
 import appeng.api.stacks.AEKey;
+
 import it.unimi.dsi.fastutil.objects.Object2LongMap;
 import it.unimi.dsi.fastutil.objects.Object2LongSortedMap;
 import org.jetbrains.annotations.NotNull;
@@ -200,7 +201,7 @@ abstract class VariantCounter implements Iterable<Object2LongMap.Entry<AEKey>> {
             return records.iterator();
         }
 
-        @SuppressWarnings({ "unchecked" })
+        @SuppressWarnings("unchecked")
         private static <T extends SortedMap<K, V>, K, V> T findFuzzy(T map, AEKey key, FuzzyMode fuzzy) {
             return (T) map.subMap((K) makeLowerBound(key, fuzzy), (K) makeUpperBound(key, fuzzy));
         }

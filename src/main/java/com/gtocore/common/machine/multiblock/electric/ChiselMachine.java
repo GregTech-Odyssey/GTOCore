@@ -1,38 +1,34 @@
 package com.gtocore.common.machine.multiblock.electric;
 
 import com.gtolib.api.machine.multiblock.CustomParallelMultiblockMachine;
-import com.gtolib.api.machine.trait.CustomRecipeLogic;
-import com.gtolib.api.recipe.Recipe;
 import com.gtolib.api.recipe.RecipeBuilder;
-import com.gtolib.api.recipe.RecipeRunner;
-import com.gtolib.api.recipe.modifier.ParallelLogic;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
-import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
+import com.gregtechceu.gtceu.api.recipe.GTRecipeDefinition;
+import com.gregtechceu.gtceu.api.recipe.handler.ICustomRecipeLogicHolder;
+import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
 import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.item.IntCircuitBehaviour;
 
 import net.minecraft.world.item.Item;
 
+import com.gto.datasynclib.util.holder.ObjHolder;
 import com.periut.chisel.block.ChiselGroupLookup;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.concurrent.atomic.AtomicReference;
 
-public final class ChiselMachine extends CustomParallelMultiblockMachine {
+public final class ChiselMachine extends CustomParallelMultiblockMachine implements ICustomRecipeLogicHolder {
 
     public ChiselMachine(MetaMachineBlockEntity holder) {
-        super(holder, false, m -> 1L << (2 * (m.getTier() - 1)));
+        super(holder, true, m -> 1L << (2 * (m.getTier() - 1)));
     }
 
-    @Nullable
-    private Recipe getRecipe() {
+    @Override
+    public GTRecipeDefinition createCustomRecipe(RecipeHandlerUnit unit) {
         AtomicInteger c = new AtomicInteger();
-        AtomicReference<Item> item = new AtomicReference<>();
-        fastForEachInputItems((stack, amount) -> {
+        ObjHolder<Item> item = new ObjHolder<>();
+        unit.fastForEachItems(false, (stack, amount) -> {
             if (stack.is(GTItems.PROGRAMMED_CIRCUIT.get())) {
                 c.addAndGet(IntCircuitBehaviour.getCircuitConfiguration(stack));
             } else {
@@ -47,17 +43,8 @@ public final class ChiselMachine extends CustomParallelMultiblockMachine {
             RecipeBuilder builder = getRecipeBuilder().duration(20).EUt(30);
             builder.inputItems(item.get());
             builder.outputItems(output);
-            Recipe recipe = builder.buildRawRecipe();
-            recipe = ParallelLogic.accurateParallel(this, recipe, getParallel());
-            if (recipe != null && RecipeRunner.matchRecipe(this, recipe) && RecipeRunner.matchTickRecipe(this, recipe)) {
-                return recipe;
-            }
+            return builder.build();
         }
         return null;
-    }
-
-    @Override
-    public RecipeLogic createRecipeLogic(Object @NotNull... args) {
-        return new CustomRecipeLogic(this, this::getRecipe);
     }
 }

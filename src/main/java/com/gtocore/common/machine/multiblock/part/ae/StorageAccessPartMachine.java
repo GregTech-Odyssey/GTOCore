@@ -7,7 +7,7 @@ import com.gtolib.api.ae2.storage.BigCellDataStorage;
 import com.gtolib.api.ae2.storage.CellDataStorage;
 import com.gtolib.api.annotation.DataGeneratorScanned;
 import com.gtolib.api.annotation.language.RegisterLanguage;
-import com.gtolib.api.machine.part.AmountConfigurationHatchPartMachine;
+import com.gtolib.api.machine.part.AmountConfigurationPartMachine;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
@@ -21,9 +21,6 @@ import com.gregtechceu.gtceu.api.machine.feature.IMachineLife;
 import com.gregtechceu.gtceu.integration.ae2.machine.feature.IGridConnectedMachine;
 import com.gregtechceu.gtceu.integration.ae2.machine.trait.GridNodeHolder;
 
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
-import net.minecraft.nbt.StringTag;
 import net.minecraft.network.chat.Component;
 
 import appeng.api.config.Actionable;
@@ -38,18 +35,17 @@ import appeng.api.storage.IStorageMounts;
 import appeng.api.storage.IStorageProvider;
 import appeng.api.storage.MEStorage;
 import appeng.api.storage.StorageHelper;
+
+import com.gto.datasynclib.annotations.SaveToDisk;
+import com.gto.datasynclib.annotations.SyncToClient;
 import com.hepdd.gtmthings.utils.BigIntegerUtils;
 import com.lowdragmc.lowdraglib.gui.texture.GuiTextureGroup;
 import com.lowdragmc.lowdraglib.gui.widget.LabelWidget;
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
-import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import it.unimi.dsi.fastutil.longs.LongArrayList;
 import it.unimi.dsi.fastutil.objects.Reference2ReferenceOpenHashMap;
 import lombok.Getter;
 import lombok.Setter;
-import org.jetbrains.annotations.NotNull;
 
 import java.math.BigInteger;
 import java.util.Arrays;
@@ -57,7 +53,7 @@ import java.util.Collections;
 import java.util.UUID;
 
 @DataGeneratorScanned
-public abstract class StorageAccessPartMachine extends AmountConfigurationHatchPartMachine implements IMachineLife, MEStorage, IGridConnectedMachine, IStorageProvider {
+public abstract class StorageAccessPartMachine extends AmountConfigurationPartMachine implements IMachineLife, MEStorage, IGridConnectedMachine, IStorageProvider {
 
     public static StorageAccessPartMachine create(MetaMachineBlockEntity holder) {
         return new StorageAccessPartMachine.LONG(holder);
@@ -85,18 +81,18 @@ public abstract class StorageAccessPartMachine extends AmountConfigurationHatchP
 
     @Setter
     @Getter
-    @Persisted
+    @SaveToDisk
     double capacity;
     @Setter
     @Getter
-    @Persisted
+    @SaveToDisk
     boolean isInfinite;
-    @DescSynced
+    @SyncToClient
     boolean isOnline;
-    @Persisted
+    @SaveToDisk
     public UUID uuid;
 
-    @Persisted
+    @SaveToDisk
     private final GridNodeHolder nodeHolder;
     private final ConditionalSubscriptionHandler tickSubs;
 
@@ -171,7 +167,7 @@ public abstract class StorageAccessPartMachine extends AmountConfigurationHatchP
 
     private static class LONG extends StorageAccessPartMachine {
 
-        protected CellDataStorage dataStorage;
+        private CellDataStorage dataStorage;
 
         private LONG(MetaMachineBlockEntity holder) {
             super(holder);
@@ -186,8 +182,8 @@ public abstract class StorageAccessPartMachine extends AmountConfigurationHatchP
 
         @Override
         public int getTypes() {
-            if (dataStorage == null) return 0;
-            return dataStorage.getKeys().size();
+            if (dataStorage == null || dataStorage.getStoredMap() == null) return 0;
+            return dataStorage.getStoredMap().size();
         }
 
         @Override
@@ -199,9 +195,7 @@ public abstract class StorageAccessPartMachine extends AmountConfigurationHatchP
         void tickUpdate() {
             if (dirty) {
                 dirty = false;
-                getCellStorage().setPersisted(false);
-                onChanged();
-                CellDataStorage.setDirty();
+                getCellStorage().setDirty();
             }
             if (uuid == null || capacity == 0 || !isOnline) return;
             if (!check) {
@@ -217,9 +211,10 @@ public abstract class StorageAccessPartMachine extends AmountConfigurationHatchP
                 observe = false;
                 CellDataStorage storage = getCellStorage();
                 double totalAmount = 0;
-                for (var it = getCellStoredMap().reference2LongEntrySet().fastIterator(); it.hasNext();) {
-                    var entry = it.next();
-                    totalAmount += (double) entry.getLongValue() / entry.getKey().getType().getAmountPerByte();
+                if (storage.getStoredMap() != null) {
+                    for (var entry : storage.getStoredMap()) {
+                        totalAmount += (double) entry.getLongValue() / entry.getKey().getType().getAmountPerByte();
+                    }
                 }
                 storage.setBytes(totalAmount);
             } else if (!isInfinite && getOffsetTimer() % 20 == 7) {
@@ -227,71 +222,11 @@ public abstract class StorageAccessPartMachine extends AmountConfigurationHatchP
             }
         }
 
-        protected CellDataStorage getCellStorage() {
+        private CellDataStorage getCellStorage() {
             if (dataStorage != null) return dataStorage;
             if (uuid == null || isRemote()) return CellDataStorage.EMPTY;
             dataStorage = CellDataStorage.get(uuid);
             return dataStorage;
-        }
-
-        private AEKeyMap<AEKey> getCellStoredMap() {
-            var data = getCellStorage();
-            var map = data.getStoredMap();
-            if (map == null) {
-                map = new AEKeyMap<>();
-                data.setStoredMap(map);
-            }
-            return map;
-        }
-
-        @Override
-        public void saveCustomPersistedData(@NotNull CompoundTag tag, boolean forDrop) {
-            super.saveCustomPersistedData(tag, forDrop);
-            CellDataStorage storage = getCellStorage();
-            if (storage.isPersisted()) return;
-            if (getCellStoredMap().isEmpty()) {
-                if (uuid != null) {
-                    CellDataStorage.remove(uuid);
-                    dataStorage = null;
-                }
-                return;
-            }
-            double totalAmount = 0;
-            LongArrayList amounts = new LongArrayList(getCellStoredMap().size());
-            ListTag keys = new ListTag();
-            for (var it = getCellStoredMap().reference2LongEntrySet().fastIterator(); it.hasNext();) {
-                var entry = it.next();
-                long amount = entry.getLongValue();
-                if (amount > 0) {
-                    var key = entry.getKey();
-                    totalAmount += (double) amount / key.getType().getAmountPerByte();
-                    keys.add(key.toTagGeneric());
-                    amounts.add(amount);
-                }
-            }
-            storage.setPersisted(true);
-            storage.setAmounts(amounts.toArray(new long[0]));
-            storage.setKeys(keys);
-            storage.setBytes(totalAmount);
-            CellDataStorage.setDirty();
-        }
-
-        @Override
-        public void loadCustomPersistedData(@NotNull CompoundTag tag) {
-            super.loadCustomPersistedData(tag);
-            if (uuid == null) return;
-            CellDataStorage storage = getCellStorage();
-            var map = getCellStoredMap();
-            long[] amounts = storage.getAmounts();
-            double totalAmount = 0;
-            for (int i = 0; i < amounts.length; i++) {
-                long amount = amounts[i];
-                AEKey key = AEKey.fromTagGeneric(storage.getKeys().getCompound(i));
-                if (amount <= 0 || key == null) continue;
-                totalAmount += (double) amount / key.getType().getAmountPerByte();
-                map.put(key, amount);
-            }
-            storage.setBytes(totalAmount);
         }
 
         @Override
@@ -309,7 +244,12 @@ public abstract class StorageAccessPartMachine extends AmountConfigurationHatchP
             }
             if (amount < 1) return 0;
             if (mode == Actionable.MODULATE) {
-                getCellStoredMap().addTo(what, amount);
+                var map = data.getStoredMap();
+                if (map == null) {
+                    map = new AEKeyMap<>();
+                    data.setStoredMap(map);
+                }
+                map.insert(what, amount);
                 dirty = true;
             }
             return amount;
@@ -317,24 +257,17 @@ public abstract class StorageAccessPartMachine extends AmountConfigurationHatchP
 
         @Override
         public long extract(AEKey what, long amount, Actionable mode, IActionSource source) {
-            var map = getCellStoredMap();
-            long currentAmount = map.getLong(what);
-            if (currentAmount > 0) {
-                if (amount >= currentAmount) {
-                    if (mode == Actionable.MODULATE) {
-                        map.remove(what, currentAmount);
-                        dirty = true;
-                    }
-                    return currentAmount;
-                } else {
-                    if (mode == Actionable.MODULATE) {
-                        map.put(what, currentAmount - amount);
-                        dirty = true;
-                    }
-                    return amount;
-                }
+            var data = getCellStorage();
+            if (data == CellDataStorage.EMPTY) return 0;
+            var map = data.getStoredMap();
+            if (map == null) return 0;
+            if (mode == Actionable.MODULATE) {
+                var extract = map.extract(what, amount);
+                if (extract > 0) dirty = true;
+                return extract;
+            } else {
+                return Math.min(amount, map.getAmount(what));
             }
-            return 0;
         }
 
         @Override
@@ -343,7 +276,7 @@ public abstract class StorageAccessPartMachine extends AmountConfigurationHatchP
             if (data == CellDataStorage.EMPTY) return;
             var map = data.getStoredMap();
             if (map == null) return;
-            IKeyCounter.addAll(out, map.size(), m -> map.reference2LongEntrySet().fastForEach(e -> m.addTo(e.getKey(), e.getLongValue())));
+            IKeyCounter.addAll(out, map.size(), m -> map.fastForEach(m::addTo));
         }
 
         @Override
@@ -364,11 +297,11 @@ public abstract class StorageAccessPartMachine extends AmountConfigurationHatchP
 
     private static class IO extends LONG implements IControllable {
 
-        @Persisted
+        @SaveToDisk
         private boolean isWorkingEnabled;
-        @Persisted
+        @SaveToDisk
         private boolean export;
-        @Persisted
+        @SaveToDisk
         private long rate = 33554432L;
 
         private final IActionSource mySrc;
@@ -420,32 +353,32 @@ public abstract class StorageAccessPartMachine extends AmountConfigurationHatchP
         /// do not allow insertion when exporting and working enabled
         @Override
         public long insert(AEKey what, long amount, Actionable mode, IActionSource source) {
-            return (export && isWorkingEnabled()) ? 0 : super.insert(what, amount, mode, source);
+            return (export && isWorkingEnabled) ? 0 : super.insert(what, amount, mode, source);
         }
 
         /// do not allow extraction when importing and working enabled
         @Override
         public long extract(AEKey what, long amount, Actionable mode, IActionSource source) {
-            return (!export && isWorkingEnabled()) ? 0 : super.extract(what, amount, mode, source);
+            return (!export && isWorkingEnabled) ? 0 : super.extract(what, amount, mode, source);
         }
 
         @Override
         void tickUpdate() {
             super.tickUpdate();
-            if (!this.getMainNode().isActive() || !isWorkingEnabled()) {
+            if (!this.getMainNode().isActive() || !isWorkingEnabled) {
                 return;
             }
 
             // check if the controller has any other storage parts than this one
-            if (this.controllers.isEmpty() || Arrays.stream(this.controllers.first().getParts()).anyMatch(
+            if (this.controllers.isEmpty() || Arrays.stream(getController().getParts()).anyMatch(
                     p -> p instanceof StorageAccessPartMachine && p != this)) {
-                setWorkingEnabled(false);
+                isWorkingEnabled = false;
                 return;
             }
 
             var grid = getMainNode().getGrid();
             if (grid == null) {
-                setWorkingEnabled(false);
+                isWorkingEnabled = false;
                 return;
             }
 
@@ -502,7 +435,7 @@ public abstract class StorageAccessPartMachine extends AmountConfigurationHatchP
                     }
                 }
             } while (itemsToMove > 0 && didStuff);
-            setWorkingEnabled(didStuff);
+            isWorkingEnabled = didStuff;
         }
     }
 
@@ -523,8 +456,8 @@ public abstract class StorageAccessPartMachine extends AmountConfigurationHatchP
 
         @Override
         public int getTypes() {
-            if (dataStorage == null) return 0;
-            return dataStorage.getKeys().size();
+            if (dataStorage == null || dataStorage.getStoredMap() == null) return 0;
+            return dataStorage.getStoredMap().size();
         }
 
         @Override
@@ -536,9 +469,7 @@ public abstract class StorageAccessPartMachine extends AmountConfigurationHatchP
         void tickUpdate() {
             if (dirty) {
                 dirty = false;
-                getCellStorage().setPersisted(false);
-                onChanged();
-                CellDataStorage.setDirty();
+                getCellStorage().setDirty();
             }
             if (uuid == null || capacity == 0 || !isOnline) return;
             if (!check) {
@@ -582,61 +513,6 @@ public abstract class StorageAccessPartMachine extends AmountConfigurationHatchP
                 data.setStoredMap(map);
             }
             return map;
-        }
-
-        @Override
-        public void saveCustomPersistedData(@NotNull CompoundTag tag, boolean forDrop) {
-            super.saveCustomPersistedData(tag, forDrop);
-            var storage = getCellStorage();
-            if (storage.isPersisted()) return;
-            if (storage == BigCellDataStorage.EMPTY) return;
-            var map = storage.getStoredMap();
-            if (map == null) return;
-            if (map.isEmpty()) {
-                if (uuid != null) {
-                    BigCellDataStorage.remove(uuid);
-                    dataStorage = null;
-                }
-                return;
-            }
-            double totalAmount = 0;
-            ListTag amounts = new ListTag();
-            ListTag keys = new ListTag();
-            for (var it = map.reference2ReferenceEntrySet().fastIterator(); it.hasNext();) {
-                var entry = it.next();
-                var amount = entry.getValue();
-                if (amount.signum() > 0) {
-                    var key = entry.getKey();
-                    totalAmount += amount.doubleValue() / key.getType().getAmountPerByte();
-                    keys.add(key.toTagGeneric());
-                    amounts.add(StringTag.valueOf(amount.toString()));
-                }
-            }
-            storage.setPersisted(true);
-            storage.setAmounts(amounts);
-            storage.setKeys(keys);
-            storage.setBytes(totalAmount);
-            CellDataStorage.setDirty();
-        }
-
-        @Override
-        public void loadCustomPersistedData(@NotNull CompoundTag tag) {
-            super.loadCustomPersistedData(tag);
-            if (uuid == null) return;
-            var storage = getCellStorage();
-            var map = getCellStoredMap();
-            ListTag amounts = storage.getAmounts();
-            double totalAmount = 0;
-            var size = amounts.size();
-            for (int i = 0; i < size; i++) {
-                String amount = amounts.getString(i);
-                AEKey key = AEKey.fromTagGeneric(storage.getKeys().getCompound(i));
-                if (key == null || amount.isEmpty()) continue;
-                var a = new BigInteger(amount);
-                totalAmount += a.doubleValue() / key.getType().getAmountPerByte();
-                map.put(key, a);
-            }
-            storage.setBytes(totalAmount);
         }
 
         @Override
@@ -738,9 +614,9 @@ public abstract class StorageAccessPartMachine extends AmountConfigurationHatchP
     }
 
     @RegisterLanguage(cn = "从ME存储器导出", en = "Export from ME Storage")
-    public static final String LANG_EXPORT = "gtocore.machine.part.ae.storage_access.export";
+    private static final String LANG_EXPORT = "gtocore.machine.part.ae.storage_access.export";
     @RegisterLanguage(cn = "导入到ME存储器", en = "Import to ME Storage")
-    public static final String LANG_IMPORT = "gtocore.machine.part.ae.storage_access.import";
+    private static final String LANG_IMPORT = "gtocore.machine.part.ae.storage_access.import";
     @RegisterLanguage(cn = "导入/导出速率设置", en = "Import/Export Rate Setting")
-    public static final String LANG_RATE_SETTING = "gtocore.machine.part.ae.storage_access.rate_setting";
+    private static final String LANG_RATE_SETTING = "gtocore.machine.part.ae.storage_access.rate_setting";
 }

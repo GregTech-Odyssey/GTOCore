@@ -1,36 +1,38 @@
 package com.gtocore.common.machine.multiblock.part.ae.slots;
 
 import com.gtolib.api.ae2.stacks.IAEItemKey;
-import com.gtolib.api.recipe.ingredient.FastSizedIngredient;
+import com.gtolib.api.recipe.RecipeType;
 
-import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
-import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
+import com.gregtechceu.gtceu.api.machine.trait.NotifiableContentHandler;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
-import com.gregtechceu.gtceu.api.recipe.lookup.IntIngredientMap;
-import com.gregtechceu.gtceu.api.transfer.item.CustomItemStackHandler;
+import com.gregtechceu.gtceu.api.recipe.content.Content;
+import com.gregtechceu.gtceu.api.recipe.handler.IO;
+import com.gregtechceu.gtceu.api.recipe.ingredient.ItemIngredient;
+import com.gregtechceu.gtceu.api.transfer.item.ICustomItemStackHandler;
 import com.gregtechceu.gtceu.integration.ae2.slot.IConfigurableSlot;
 import com.gregtechceu.gtceu.integration.ae2.slot.IConfigurableSlotList;
-import com.gregtechceu.gtceu.utils.function.ObjectLongConsumer;
-import com.gregtechceu.gtceu.utils.function.ObjectLongPredicate;
+import com.gregtechceu.gtceu.utils.function.ObjLongPredicate;
 
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.Ingredient;
 
 import appeng.api.stacks.AEItemKey;
 import appeng.api.stacks.GenericStack;
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
+
+import com.fast.recipesearch.IntLongMap;
+import com.gto.datasynclib.annotations.SaveToDisk;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
+import java.util.function.ObjLongConsumer;
 import java.util.function.Supplier;
 
 @Getter
-public class ExportOnlyAEItemList extends NotifiableItemStackHandler implements IConfigurableSlotList {
+public class ExportOnlyAEItemList extends NotifiableContentHandler implements ICustomItemStackHandler, IConfigurableSlotList {
 
-    @Persisted
+    @SaveToDisk
     final ExportOnlyAEItemSlot[] inventory;
 
     public ExportOnlyAEItemList(MetaMachine holder, int slots) {
@@ -38,39 +40,33 @@ public class ExportOnlyAEItemList extends NotifiableItemStackHandler implements 
     }
 
     ExportOnlyAEItemList(MetaMachine holder, int slots, Supplier<ExportOnlyAEItemSlot> slotFactory) {
-        super(holder, 0, IO.IN, IO.NONE, i -> new ItemStackHandlerDelegate());
-        ((ItemStackHandlerDelegate) storage).list = this;
+        super(holder, IO.IN);
         this.inventory = new ExportOnlyAEItemSlot[slots];
         for (int i = 0; i < slots; i++) {
             this.inventory[i] = slotFactory.get();
-            this.inventory[i].setOnContentsChanged(this::onContentsChanged);
+            this.inventory[i].setHandler(this);
         }
     }
 
     @Override
-    public void onContentsChanged() {
-        super.onContentsChanged();
-        changed = true;
-    }
-
-    @Override
-    public boolean isEmpty() {
-        if (isEmpty == null) {
-            isEmpty = true;
-            for (var i : inventory) {
-                if (i.config == null) continue;
-                var stock = i.stock;
-                if (stock == null || stock.amount() == 0) continue;
-                isEmpty = false;
-                break;
-            }
+    public boolean updateEmpty() {
+        for (var i : inventory) {
+            if (i.config == null) continue;
+            var stock = i.stock;
+            if (stock == null || stock.amount() == 0) continue;
+            return false;
         }
-        return isEmpty;
+        return true;
     }
 
     @Override
     public int getSlotLimit(int slot) {
         return Integer.MAX_VALUE;
+    }
+
+    @Override
+    public boolean isItemValid(int i, @NotNull ItemStack itemStack) {
+        return false;
     }
 
     @Override
@@ -93,26 +89,23 @@ public class ExportOnlyAEItemList extends NotifiableItemStackHandler implements 
         return stack;
     }
 
-    @NotNull
     @Override
-    public ItemStack extractItemInternal(int slot, int amount, boolean simulate) {
-        return this.inventory[slot].extractItem(0, amount, simulate);
+    public @NotNull ItemStack extractItem(int i, int i1, boolean b) {
+        return ItemStack.EMPTY;
     }
 
     @Override
-    public List<Ingredient> handleRecipeInner(IO io, GTRecipe recipe, List<Ingredient> left, boolean simulate) {
+    public boolean canHandleItem() {
+        return true;
+    }
+
+    @Override
+    public boolean handleRecipeItem(IO io, GTRecipe recipe, List<Content<ItemIngredient>> items, boolean simulate) {
         if (io == IO.IN) {
             boolean changed = false;
-            for (var it = left.listIterator(0); it.hasNext();) {
+            for (var it = items.iterator(); it.hasNext();) {
                 var ingredient = it.next();
                 if (ingredient.isEmpty()) {
-                    it.remove();
-                    continue;
-                }
-                long amount;
-                if (ingredient instanceof FastSizedIngredient si) amount = si.getAmount();
-                else amount = 1;
-                if (amount < 1) {
                     it.remove();
                     continue;
                 }
@@ -121,21 +114,16 @@ public class ExportOnlyAEItemList extends NotifiableItemStackHandler implements 
                     if (stored == null) continue;
                     long count = stored.amount();
                     if (count == 0) continue;
-                    if (ingredient.test(i.getReadOnlyStack())) {
-                        var extracted = i.extractItem(Math.min(count, amount), simulate, false);
+                    if (stored.what() instanceof AEItemKey itemKey && ingredient.inner.testAeKay(itemKey)) {
+                        var extracted = i.extract(ingredient.amount, simulate, false);
                         if (extracted > 0) {
                             changed = true;
-                            amount -= extracted;
+                            ingredient.shrink(extracted);
+                            if (ingredient.amount <= 0) {
+                                it.remove();
+                                break;
+                            }
                         }
-                    }
-                    if (amount <= 0) {
-                        it.remove();
-                        break;
-                    }
-                }
-                if (amount > 0) {
-                    if (ingredient instanceof FastSizedIngredient si) {
-                        si.setAmount(amount);
                     }
                 }
             }
@@ -143,11 +131,11 @@ public class ExportOnlyAEItemList extends NotifiableItemStackHandler implements 
                 onContentsChanged();
             }
         }
-        return left.isEmpty() ? null : left;
+        return items.isEmpty();
     }
 
     @Override
-    public boolean forEachItems(ObjectLongPredicate<ItemStack> function) {
+    public boolean forEachItems(ObjLongPredicate<ItemStack> function) {
         for (var i : inventory) {
             if (i.config == null) continue;
             var stock = i.stock;
@@ -158,7 +146,7 @@ public class ExportOnlyAEItemList extends NotifiableItemStackHandler implements 
     }
 
     @Override
-    public void fastForEachItems(ObjectLongConsumer<ItemStack> function) {
+    public void fastForEachItems(ObjLongConsumer<ItemStack> function) {
         for (var i : inventory) {
             if (i.config == null) continue;
             var stock = i.stock;
@@ -168,20 +156,20 @@ public class ExportOnlyAEItemList extends NotifiableItemStackHandler implements 
     }
 
     @Override
-    public IntIngredientMap getIngredientMap(@NotNull GTRecipeType type) {
-        if (changed) {
-            changed = false;
-            intIngredientMap.clear();
-            for (var i : inventory) {
-                if (i.config == null) continue;
-                var stock = i.stock;
-                if (stock == null || stock.amount() == 0) continue;
-                if (stock.what() instanceof AEItemKey itemKey) {
-                    ((IAEItemKey) (Object) itemKey).gtolib$convert(stock.amount(), intIngredientMap);
+    public void fillSearchMap(@NotNull GTRecipeType type, @NotNull IntLongMap map) {
+        boolean specialConverter = ((RecipeType) type).specialConverter;
+        for (var i : inventory) {
+            if (i.config == null) continue;
+            var stock = i.stock;
+            if (stock == null || stock.amount() == 0) continue;
+            if (stock.what() instanceof AEItemKey itemKey) {
+                if (specialConverter) {
+                    type.convertItem(i.getReadOnlyStack(), stock.amount(), map);
+                } else {
+                    ((IAEItemKey) (Object) itemKey).gtolib$convert(stock.amount(), map);
                 }
             }
         }
-        return intIngredientMap;
     }
 
     @Override
@@ -200,51 +188,5 @@ public class ExportOnlyAEItemList extends NotifiableItemStackHandler implements 
 
     public boolean isStocking() {
         return false;
-    }
-
-    private static final class ItemStackHandlerDelegate extends CustomItemStackHandler {
-
-        private ExportOnlyAEItemList list;
-
-        private ItemStackHandlerDelegate() {
-            super();
-        }
-
-        @Override
-        public int getSlots() {
-            return list.inventory.length;
-        }
-
-        @Override
-        @NotNull
-        public ItemStack getStackInSlot(int slot) {
-            return list.inventory[slot].getStack();
-        }
-
-        @Override
-        public void setStackInSlot(int slot, @NotNull ItemStack stack) {}
-
-        @Override
-        @NotNull
-        public ItemStack insertItem(int slot, @NotNull ItemStack stack, boolean simulate) {
-            return stack;
-        }
-
-        @Override
-        @NotNull
-        public ItemStack extractItem(int slot, int amount, boolean simulate) {
-            if (amount == 0) return ItemStack.EMPTY;
-            return list.inventory[slot].extractItem(0, amount, simulate);
-        }
-
-        @Override
-        public int getSlotLimit(int slot) {
-            return Integer.MAX_VALUE;
-        }
-
-        @Override
-        public boolean isItemValid(int slot, @NotNull ItemStack stack) {
-            return false;
-        }
     }
 }

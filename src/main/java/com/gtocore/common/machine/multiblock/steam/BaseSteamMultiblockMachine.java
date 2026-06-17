@@ -2,21 +2,20 @@ package com.gtocore.common.machine.multiblock.steam;
 
 import com.gtocore.common.machine.multiblock.part.LargeSteamHatchPartMachine;
 
-import com.gtolib.api.machine.feature.DummyEnergyMachine;
-import com.gtolib.api.recipe.Recipe;
-import com.gtolib.api.recipe.modifier.ParallelLogic;
 import com.gtolib.utils.MathUtil;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
-import com.gregtechceu.gtceu.api.capability.IEnergyContainer;
 import com.gregtechceu.gtceu.api.machine.feature.ICleanroomProvider;
-import com.gregtechceu.gtceu.api.machine.steam.SteamEnergyRecipeHandler;
+import com.gregtechceu.gtceu.api.machine.steam.SteamEnergyContainer;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableFluidTank;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
+import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
+import com.gregtechceu.gtceu.api.recipe.modifier.ParallelLogic;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.common.machine.multiblock.electric.CleanroomMachine;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.SteamHatchPartMachine;
 import com.gregtechceu.gtceu.common.machine.multiblock.steam.SteamParallelMultiblockMachine;
+import com.gregtechceu.gtceu.utils.GTUtil;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.network.chat.Component;
@@ -26,10 +25,9 @@ import net.minecraft.util.Mth;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 
+import com.gto.datasynclib.annotations.SaveToDisk;
 import com.lowdragmc.lowdraglib.gui.util.ClickData;
 import com.lowdragmc.lowdraglib.gui.widget.ComponentPanelWidget;
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -38,16 +36,14 @@ import javax.annotation.ParametersAreNonnullByDefault;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public class BaseSteamMultiblockMachine extends SteamParallelMultiblockMachine implements DummyEnergyMachine {
+public class BaseSteamMultiblockMachine extends SteamParallelMultiblockMachine {
 
-    private int maxOCamount;
+    protected int maxOCamount;
     private int euMultiplier;
+    private double conversionRate;
 
-    @Persisted
+    @SaveToDisk
     private int amountOC;
-
-    @NotNull
-    private IEnergyContainer container = IEnergyContainer.DEFAULT;
 
     private final long eut;
     private final double durationMultiplier;
@@ -67,15 +63,17 @@ public class BaseSteamMultiblockMachine extends SteamParallelMultiblockMachine i
     }
 
     @Override
-    public void onStructureFormed() {
-        steamEnergy = new SteamEnergyRecipeHandler(null, 0);
-        super.onStructureFormed();
-        container = IEnergyContainer.DEFAULT;
+    public int getRecipeTier() {
+        return GTUtil.getTierByVoltage(this.eut << euMultiplier);
+    }
+
+    @Override
+    protected void addSteamEnergy() {
         maxOCamount = 0;
         euMultiplier = 0;
+        conversionRate = 2D;
         for (var part : getParts()) {
             if (part instanceof SteamHatchPartMachine machine) {
-                var conversionRate = 2D;
                 var fluid = GTMaterials.Steam.getFluid(1);
                 if (machine instanceof LargeSteamHatchPartMachine partMachine) {
                     conversionRate = partMachine.c;
@@ -83,40 +81,28 @@ public class BaseSteamMultiblockMachine extends SteamParallelMultiblockMachine i
                     euMultiplier = partMachine.o;
                     if (oc()) maxOCamount = partMachine.o;
                 }
-                steamEnergy = new SteamEnergyRecipeHandler(machine.tank, getConversionRate());
-                container = new EnergyContainer(fluid, conversionRate, machine.tank);
+                energyContainer = new EnergyContainer(fluid, conversionRate, machine.tank);
                 return;
             }
         }
     }
 
     @Override
-    protected void addSteamEnergy() {}
-
-    @Override
-    public void onStructureInvalid() {
-        super.onStructureInvalid();
-        steamEnergy = null;
-        container = IEnergyContainer.DEFAULT;
-    }
-
-    @Override
-    public @NotNull IEnergyContainer gtolib$getEnergyContainer() {
-        return container;
+    public double getConversionRate() {
+        return conversionRate;
     }
 
     @Nullable
     @Override
-    protected GTRecipe getRealRecipe(GTRecipe r) {
-        Recipe recipe = (Recipe) r;
+    protected GTRecipe getRealRecipe(RecipeHandlerUnit unit, GTRecipe recipe) {
         long eut = recipe.getInputEUt();
         if (eut <= (this.eut << euMultiplier)) {
-            recipe = ParallelLogic.accurateParallel(this, recipe, getMaxParallels());
+            recipe = ParallelLogic.accurateParallel(this, unit, recipe, maxParallels);
             if (recipe == null) return null;
             recipe.duration = (int) (recipe.duration * durationMultiplier);
             if (maxOCamount > 0) {
                 eut *= recipe.parallels;
-                recipe.setEut(eut << (amountOC << 1));
+                recipe.eut = eut << (amountOC << 1);
                 recipe.duration = Math.max(1, recipe.duration / (1 << amountOC));
             }
             return recipe;
@@ -151,7 +137,7 @@ public class BaseSteamMultiblockMachine extends SteamParallelMultiblockMachine i
         super.setCleanroom(provider);
     }
 
-    private static class EnergyContainer extends DummyEnergyMachine.DummyContainer {
+    private static class EnergyContainer extends SteamEnergyContainer {
 
         private final FluidStack steam;
 
@@ -159,7 +145,7 @@ public class BaseSteamMultiblockMachine extends SteamParallelMultiblockMachine i
         private final NotifiableFluidTank steamTank;
 
         private EnergyContainer(FluidStack steam, double conversionRate, NotifiableFluidTank steamTank) {
-            super(Integer.MAX_VALUE);
+            super(conversionRate, steamTank);
             this.steam = steam;
             this.conversionRate = conversionRate;
             this.steamTank = steamTank;
@@ -175,11 +161,6 @@ public class BaseSteamMultiblockMachine extends SteamParallelMultiblockMachine i
             if (leftSteam == totalSteam) return -differenceAmount;
             differenceAmount = (long) (leftSteam / conversionRate);
             return -differenceAmount;
-        }
-
-        @Override
-        public long getEnergyStored() {
-            return (long) (steamTank.getFluidInTank(0).getAmount() / conversionRate);
         }
     }
 }

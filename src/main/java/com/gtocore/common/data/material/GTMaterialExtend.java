@@ -43,7 +43,6 @@ public final class GTMaterialExtend {
                 .liquid((new FluidBuilder()).temperature(1000))
                 .color(16777215)
                 .iconSet(GTOMaterialIconSet.AMPROSIUM)
-                .secondaryColor(0)
                 .appendFlags(GTMaterials.EXT_METAL, MaterialFlags.GENERATE_BOLT_SCREW, MaterialFlags.GENERATE_FRAME, MaterialFlags.GENERATE_GEAR, MaterialFlags.GENERATE_LONG_ROD, GTOMaterialFlags.GENERATE_COIN)
                 .element(GTElements.Nq2)
                 .toolStats(ToolProperty.Builder.of(160.0F, 80.0F, 65535, 6).attackSpeed(0.5F).enchantability(33).magnetic().build()).rotorStats(400, 250, 12.0F, 655360)
@@ -52,6 +51,9 @@ public final class GTMaterialExtend {
                 .setFormula("Ap", false);
 
         Amprosium = Neutronium;
+
+        RutheniumTriniumAmericiumNeutronate
+                .setFormula("RuTr2AmAp2O8");
 
         PlatinumMetal = material("platinum_metal", "铂金属")
                 .dust()
@@ -94,6 +96,7 @@ public final class GTMaterialExtend {
         Obsidian.addFlags(GTOMaterialFlags.GENERATE_TINY_DUST);
         Stone.addFlags(GTOMaterialFlags.GENERATE_SMALL_DUST);
         Silicon.addFlags(GTOMaterialFlags.GENERATE_CRYSTAL_SEED);
+        EnderPearl.addFlags(GTOMaterialFlags.GENERATE_CRYSTAL_SEED);
         Diamond.addFlags(GTOMaterialFlags.GENERATE_ARTIFICIAL_GEM);
         Sapphire.addFlags(GTOMaterialFlags.GENERATE_ARTIFICIAL_GEM);
         Ruby.addFlags(GTOMaterialFlags.GENERATE_ARTIFICIAL_GEM);
@@ -308,14 +311,14 @@ public final class GTMaterialExtend {
         Tungsten.getProperty(ORE).setOreByProducts(Lithium, Calcium);
         Indium.setProperty(ORE, new OreProperty());
         Indium.getProperty(ORE).setOreByProducts(Aluminium, Zinc);
-        Borax.setProperty(PropertyKey.ORE, new OreProperty(2, 1, false));
+        Borax.setProperty(ORE, new OreProperty(2, 1, false));
         Borax.getProperty(ORE).setOreByProducts(Lithium, Boron);
         NaquadahEnriched.setProperty(ORE, new OreProperty());
         NaquadahEnriched.getProperty(ORE).setOreByProducts(Naquadah, Sulfur);
         Naquadah.getProperty(ORE).setOreByProducts(List.of(NaquadahOxideMixture));
         Palladium.getProperty(ORE).setOreByProducts(List.of(PalladiumMetal));
-        Cooperite.getProperty(PropertyKey.ORE).setOreByProducts(Nickel, Nickel, Cobalt, PalladiumMetal);
-        Nickel.getProperty(PropertyKey.ORE).setOreByProducts(Cobalt, Iron, PlatinumMetal);
+        Cooperite.getProperty(ORE).setOreByProducts(Nickel, Nickel, Cobalt, PalladiumMetal);
+        Nickel.getProperty(ORE).setOreByProducts(Cobalt, Iron, PlatinumMetal);
         EchoShard.setProperty(FLUID, new FluidProperty(FluidStorageKeys.LIQUID, new FluidBuilder()));
         Graphite.setProperty(INGOT, new IngotProperty());
         VanadiumSteel.addFlags(GENERATE_FRAME);

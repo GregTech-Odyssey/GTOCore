@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "gtocore:item/crudely_harmonized_soul_jade_crystal_ore"
+  }
+}

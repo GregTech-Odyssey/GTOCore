@@ -15,8 +15,8 @@ import com.lowdragmc.lowdraglib.gui.widget.ButtonWidget;
 import com.lowdragmc.lowdraglib.gui.widget.ImageWidget;
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
-import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public abstract class CustomModeFancyConfigurator implements IFancyUIProvider {
@@ -53,8 +53,8 @@ public abstract class CustomModeFancyConfigurator implements IFancyUIProvider {
     }
 
     public List<Component> getTabTooltips() {
-        List<Component> tooltip = new ObjectArrayList<>();
-        tooltip.add(Component.literal("Change active Machine Mode"));
+        List<Component> tooltip = new ArrayList<>();
+        tooltip.add(Component.translatable("gtceu.gui.machinemode.tab_tooltip"));
         return tooltip;
     }
 

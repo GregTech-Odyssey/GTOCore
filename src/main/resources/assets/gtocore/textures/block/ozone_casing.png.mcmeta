@@ -1,5 +1,5 @@
 {
-    "ldlib": {
-        "connection": "gtocore:block/ozone_casing_ctm"
-    }
+  "ldlib": {
+    "connection": "gtocore:block/ozone_casing_ctm"
+  }
 }

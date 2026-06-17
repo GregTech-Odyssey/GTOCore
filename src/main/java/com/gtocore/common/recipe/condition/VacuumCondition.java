@@ -1,13 +1,14 @@
 package com.gtocore.common.recipe.condition;
 
 import com.gtolib.api.machine.feature.IVacuumMachine;
-import com.gtolib.api.recipe.Recipe;
 
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
 import com.gregtechceu.gtceu.api.machine.multiblock.MultiblockControllerMachine;
-import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
-import com.gregtechceu.gtceu.api.recipe.condition.RecipeConditionType;
+import com.gregtechceu.gtceu.api.recipe.GTRecipeDefinition;
+import com.gregtechceu.gtceu.api.recipe.RecipeCondition;
+import com.gregtechceu.gtceu.api.recipe.handler.IRecipeHandlerHolder;
+import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
 import com.gregtechceu.gtceu.utils.GTUtil;
 
 import net.minecraft.core.Direction;
@@ -16,9 +17,8 @@ import net.minecraft.world.level.Level;
 
 import earth.terrarium.adastra.api.planets.PlanetApi;
 import earth.terrarium.adastra.api.systems.OxygenApi;
-import org.jetbrains.annotations.NotNull;
 
-public final class VacuumCondition extends AbstractRecipeCondition {
+public final class VacuumCondition extends RecipeCondition {
 
     private final int tier;
 
@@ -27,18 +27,13 @@ public final class VacuumCondition extends AbstractRecipeCondition {
     }
 
     @Override
-    public RecipeConditionType<?> getType() {
-        return VACUUM;
-    }
-
-    @Override
     public Component getTooltips() {
         return Component.translatable("gtocore.recipe.vacuum.tier", tier);
     }
 
     @Override
-    public boolean test(@NotNull Recipe recipe, @NotNull RecipeLogic recipeLogic) {
-        MetaMachine machine = recipeLogic.getMachine();
+    public boolean testCondition(IRecipeHandlerHolder holder, RecipeHandlerUnit unit, GTRecipeDefinition recipe) {
+        MetaMachine machine = holder.self();
 
         if (machine instanceof MultiblockControllerMachine controllerMachine) {
             if (checkVacuumTier(controllerMachine.getParts())) {

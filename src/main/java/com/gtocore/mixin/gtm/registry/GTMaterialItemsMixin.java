@@ -19,7 +19,7 @@ import net.minecraft.world.item.Item;
 
 import com.google.common.collect.ImmutableTable;
 import com.google.common.collect.Table;
-import com.tterrag.registrate.util.entry.ItemEntry;
+import com.gto.registrate.util.entry.ItemEntry;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
@@ -39,9 +39,9 @@ public final class GTMaterialItemsMixin {
     @Shadow(remap = false)
     public static Table<TagPrefix, Material, ItemEntry<Item>> MATERIAL_ITEMS;
 
-    @Inject(method = "generateTools", at = @At(value = "INVOKE", target = "Lcom/gregtechceu/gtceu/api/registry/registrate/GTRegistrate;creativeModeTab(Ljava/util/function/Supplier;)V"), remap = false)
+    @Inject(method = "generateTools", at = @At(value = "INVOKE", target = "Lcom/gregtechceu/gtceu/api/registry/registrate/GTRegistrate;defaultCreativeTab(Lcom/gto/registrate/util/entry/RegistryEntry;)Lcom/gto/registrate/AbstractRegistrate;"), remap = false)
     private static void setToolCreativeModeTab(CallbackInfo ci) {
-        GTORegistration.GTO.creativeModeTab(() -> GTOCreativeModeTabs.GTO_ITEM);
+        GTORegistration.GTO.defaultCreativeTab(GTOCreativeModeTabs.GTO_ITEM);
     }
 
     /**
@@ -50,8 +50,8 @@ public final class GTMaterialItemsMixin {
      */
     @Overwrite(remap = false)
     public static void generateMaterialItems() {
-        GTM.creativeModeTab(() -> MATERIAL_ITEM);
-        GTORegistration.GTO.creativeModeTab(() -> GTOCreativeModeTabs.GTO_MATERIAL_ITEM);
+        GTM.defaultCreativeTab(MATERIAL_ITEM);
+        GTORegistration.GTO.defaultCreativeTab(GTOCreativeModeTabs.GTO_MATERIAL_ITEM);
         for (var tagPrefix : TagPrefix.values()) {
             if (tagPrefix.doGenerateItem()) {
                 for (MaterialRegistry registry : GTCEuAPI.materialManager.getRegistries()) {

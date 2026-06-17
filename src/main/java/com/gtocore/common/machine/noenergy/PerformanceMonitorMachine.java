@@ -21,6 +21,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 
 import appeng.parts.AEBasePart;
+
 import com.glodblock.github.extendedae.client.render.EAEHighlightHandler;
 import com.lowdragmc.lowdraglib.gui.util.ClickData;
 import com.lowdragmc.lowdraglib.gui.widget.*;
@@ -32,7 +33,7 @@ import java.util.regex.Pattern;
 @DataGeneratorScanned
 public final class PerformanceMonitorMachine extends MetaMachine implements IFancyUIMachine {
 
-    @RegisterLanguage(cn = "AE网络", en = "AE Grid")
+    @RegisterLanguage(cn = "ME网络", en = "ME Grid")
     private static final String GRID = "gtocore.performance_monitor.grid";
 
     private static final Pattern PATTERN = Pattern.compile(", ");
@@ -70,7 +71,7 @@ public final class PerformanceMonitorMachine extends MetaMachine implements IFan
 
     private void addDisplayText(@NotNull List<Component> textList) {
         if (isRemote()) return;
-        textList.add(Component.translatable("gui.enderio.range.show").append(ComponentPanelWidget.withButton(Component.translatable(grid ? GRID : "config.gtceu.option.machines"), "grid")));
+        textList.add(Component.translatable("gtocore.digital_miner.show_range").append(ComponentPanelWidget.withButton(Component.translatable(grid ? GRID : "config.gtceu.option.machines"), "grid")));
         if (grid) {
             AEGridProvider.OBSERVE = true;
             if (textListCache == null || holder.getOffsetTimer() % 80 == 0) {

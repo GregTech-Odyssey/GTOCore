@@ -1,5 +1,7 @@
 package com.gtocore.mixin.ftbu;
 
+import com.gtocore.integration.apotheosis.FTBUltimineAffix;
+
 import com.gtolib.GTOCore;
 
 import com.gregtechceu.gtceu.api.block.OreBlock;
@@ -14,10 +16,13 @@ import net.minecraft.world.level.block.state.BlockState;
 
 import com.hollingsworth.arsnouveau.common.items.SpellBook;
 import dev.ftb.mods.ftbultimine.shape.ShapeContext;
+import dev.shadowsoffire.apotheosis.adventure.affix.AffixHelper;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
+
+import java.util.concurrent.atomic.AtomicReference;
 
 @Mixin(ShapeContext.class)
 public class ShapeContextMixin {
@@ -47,20 +52,29 @@ public class ShapeContextMixin {
         ItemStack stack = player.getMainHandItem();
         Item item = stack.getItem();
         int base = 128 >> GTOCore.difficulty;
-        if (item instanceof SpellBook spellBook) {
-            base <<= spellBook.tier.value;
-            ret = Math.min(base, maxBlocks);
-        } else if (item instanceof IGTTool gtTool) {
-            String type = gtTool.getToolType().name;
-            if (type.contains("_vajra") || (original.getBlock() instanceof OreBlock && ("mining_hammer".equals(type) || type.contains("_drill"))) || (original.getSoundType() == SoundType.WOOD && "lv_chainsaw".equals(type)))
-                base <<= 2;
-            if (gtTool.isElectric()) base *= 1 << (gtTool.getElectricTier());
-            ret = Math.min(base, maxBlocks);
-        } else if (item instanceof DiggerItem) {
-            ret = Math.min(64 >> GTOCore.difficulty, maxBlocks);
-        } else {
-            ret = 1;
+        switch (item) {
+            case SpellBook spellBook -> {
+                base <<= spellBook.tier.value;
+                ret = Math.min(base, maxBlocks);
+            }
+            case IGTTool gtTool -> {
+                String type = gtTool.getToolType().name;
+                if (type.contains("_vajra") || (original.getBlock() instanceof OreBlock && ("mining_hammer".equals(type) || type.contains("_drill"))) || (original.getSoundType() == SoundType.WOOD && "lv_chainsaw".equals(type)))
+                    base <<= 2;
+                if (gtTool.isElectric()) base *= 1 << (gtTool.getElectricTier());
+                ret = Math.min(base, maxBlocks);
+            }
+            case DiggerItem ignored -> ret = Math.min(64 >> GTOCore.difficulty, maxBlocks);
+            default -> ret = 1;
         }
+
+        AtomicReference<Float> affixBonus = new AtomicReference<>(1.0f);
+        AffixHelper.streamAffixes(stack).filter(afx -> afx.affix().get() instanceof FTBUltimineAffix).findFirst().ifPresent(afx -> {
+            float extra = ((FTBUltimineAffix) afx.affix().get()).getBuff(afx.rarity().get(), afx.level());
+            affixBonus.set(affixBonus.get() + extra);
+        });
+        ret = Math.min((int) (ret * affixBonus.get()), maxBlocks);
+
         return ret;
     }
 }

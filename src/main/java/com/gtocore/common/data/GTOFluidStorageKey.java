@@ -14,7 +14,9 @@ import java.util.Map;
 
 import static com.gtocore.data.lang.LangHandler.addCNEN;
 
-public class GTOFluidStorageKey {
+public class GTOFluidStorageKey
+
+{
 
     public static final Map<String, CNEN> LANG = GTCEu.isDataGen() ? new O2OOpenCacheHashMap<>() : null;
 

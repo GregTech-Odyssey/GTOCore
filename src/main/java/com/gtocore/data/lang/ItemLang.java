@@ -75,6 +75,16 @@ final class ItemLang {
         addCNEN("tagprefix.carbon_fiber", "%s纤维", "%s Fiber");
         addCNEN("tagprefix.carbon_fibres", "%s纤维原丝", "%s Fiber Tow");
         addCNEN("tagprefix.carbon_fiber_mesh", "%s纤维网", "%s Fiber Mesh");
+        addCNEN("tagprefix.nano", "纳米质%s", "Nano %s");
+        addCNEN("gtocore.any.liquid", "任何液体物质", "Any Liquid Material");
+        addCNEN("gtocore.any.gas", "任何气体物质", "Any Gas Material");
+        addCNEN("gtocore.any.gem", "任何宝石", "Any Gem");
+        addCNEN("gtocore.any.turbine_rotor_coated", "任何镀膜涡轮转子", "Any Coated Turbine Rotor");
+        addCNEN("gtocore.any.artificial_gem", "任何人造宝石", "Any Artificial Gem");
+        addCNEN("item.gtocore.astrium_dust", "晶质宇尘", "Astrium Dust");
+        addCNEN("fluid.gtocore.liquid_glacio_air", "液态霜原星空气", "Liquid Glacio Air");
+        addCNEN("fluid.gtocore.liquid_jupiter_air", "液态木星空气", "Liquid Jupiter Air");
+        addCNEN("fluid.gtocore.liquid_aether", "液态以太", "Liquid Aether");
 
         addCNEN("metaitem.tool.tooltip.rotor.coating_durability", "镀层耐久：%s / %s", "Coating Durability: %s / %s");
         addCNEN("metaitem.tool.tooltip.rotor.coating_efficiency", "镀层效率：%s%%", "Coating Efficiency: %s%%");
@@ -86,12 +96,12 @@ final class ItemLang {
         addCNEN("metaitem.tool.tooltip.rotor.coating.tooltip.2", "§b每次转子损坏时95%概率优先消耗镀层耐久，镀层耐久耗尽后再消耗本体耐久",
                 "§bThere is a 95% chance of consuming the coating durability first when the rotor is damaged. After the coating durability is exhausted, the body durability is consumed");
         addCNEN("metaitem.tool.tooltip.rotor.coating.tooltip.0.magic", "§d魔法§6镀层机制：", "§dMagical§6 Coating Mechanism:");
-        addCNEN("metaitem.tool.tooltip.rotor.coating.tooltip.1.magic", "§d魔法§b镀层将不再提供耐久度屏障，而是会提供魔法材料属性×30%的转子效率与涡轮产能",
-                "§dMagical§b Coating will no longer provide a durability barrier, but will provide rotor efficiency and turbine power generation of magical material properties ×30%");
+        addCNEN("metaitem.tool.tooltip.rotor.coating.tooltip.1.magic", "§d魔法§b镀层将不再提供耐久度屏障，而是会提供魔法材料额外属性×30%的转子效率与涡轮产能",
+                "§dMagical§b Coating will no longer provide a durability barrier, but will provide rotor efficiency and turbine power generation of magical material bonus properties ×30%");
         addCNEN("metaitem.tool.tooltip.rotor.coating.tooltip.2.magic", "§b本体消耗耐久时，§d魔法§b镀层将同时损耗耐久，镀层耐久耗尽后转子效率与涡轮产能将回落至原始值。",
                 "When the body consumes durability, the §dmagical§b coating will also consume durability. After the coating durability is exhausted, the rotor efficiency and turbine power generation will fall back to the original value. ");
-        addCNEN("metaitem.tool.tooltip.rotor.coating.tooltip.3.magic", "当转子A有镀层B，镀层B的耐久为§dmax(B/10, min(B-A, B/2))",
-                "When rotor A has coating B, the durability of coating B is §dmax(B/10, min(B-A, B/2))");
+        addCNEN("metaitem.tool.tooltip.rotor.coating.tooltip.3.magic", "当转子A有镀层B，镀层B的耐久为§d4 * max(B/10, min(B-A, B/2))",
+                "When rotor A has coating B, the durability of coating B is §d4 * max(B/10, min(B-A, B/2))");
         addCNEN("gtocore.turbine_rotor.coated", "%s镀层", "%s Coated");
         addCNEN("gtocore.tooltip.artificial_gem", "比自然的更好", "Better than nature");
         addCNEN("gtocore.tooltip.unknown", "未知", "Unknown");
@@ -99,12 +109,17 @@ final class ItemLang {
         addCNEN("item.gtceu.tool.hv_vajra", "%s 基础金刚杵", "%s Basic Vajra");
         addCNEN("item.gtceu.tool.ev_vajra", "%s 高级金刚杵", "%s Advanced Vajra");
         addCNEN("item.gtceu.tool.iv_vajra", "%s 终极金刚杵", "%s Ultimate Vajra");
+        addCNEN("block.ad_astra.gto_flag", "GTO旗帜", "GTO Flag");
+
         addCNEN("item.gtceu.tool.vajra.tooltip", "手持工具时按[%s]调整挖掘速度", "Hold [%s] to adjust mining speed when holding the tool");
         addCNEN("item.gtceu.tool.vajra.tooltip.shift", "手持工具时按[Shift + %s]启用/禁用矿工热忱", "Hold [Shift + %s] to enable/disable Miner Fervor when holding the tool");
-        addCNEN("item.gtceu.tool.vajra.tooltip.max_speed", "当前挖掘速度: §a%s§r (最大§a%s%%§r)", "Current mining speed: §a%s§r (Max §a%s%%§r)");
+        addCNEN("item.gtceu.tool.vajra.tooltip.max_speed", "当前挖掘速度: §a%s§r (最大§a%s§r)", "Current mining speed: §a%s§r (Max §a%s§r)");
         addCNEN("gtocore.tooltip.item.kinetic_rotor.max", "最大风力: %s", "Max Wind Speed: %s");
         addCNEN("gtocore.tooltip.item.kinetic_rotor.min", "最小风力: %s", "Min Wind Speed: %s");
         addCNEN("gtocore.tooltip.item.virtual_item_provider", "为机器的虚拟电路槽提供物品", "Provide items for the machine's virtual circuit slot.");
+        addCNEN("gtocore.tooltip.item.catalyst.1", "§7位于非催化剂舱或总成时，配方过程将§c完全消耗催化剂§r", "§7When not in the catalyst hatch or pattern buffer, §cthe recipe process will completely consume the catalyst§r");
+        addCNEN("gtocore.tooltip.item.catalyst.2", "§7位于催化剂舱时，配方过程将消耗催化剂§b1点耐久/次§r", "§7When in the catalyst hatch, §bthe recipe process will consume 1 durability point per use§r");
+        addCNEN("gtocore.tooltip.item.catalyst.3", "§7位于催化剂总成时，配方过程§a不会消耗催化剂§r", "§7When in the catalyst pattern buffer, §athe recipe process will not consume the catalyst§r");
 
         addCNEN("gtocore.tooltip.item.really_max_battery", "填满它就能通关GregTechCEu Modern", "Filling it up can allow you to complete GregTechCEu Modern");
         addCNEN("gtocore.tooltip.item.transcendent_max_battery", "填满它就能通关GregTech Odyssey", "Filling it up can allow you to complete GregTech Odyssey");
@@ -116,13 +131,18 @@ final class ItemLang {
         addCNEN("gtocore.tooltip.item.magneto_resonatic_circuit", "利用磁共振仪器产生的强大磁场来运行", "Utilize the powerful magnetic field generated by magnetic resonance instruments to operate");
         addCNEN("gtocore.tooltip.item.universal_circuit", "一个通用的电路", "A universal circuit");
         addCNEN("gtocore.tooltip.item.craft_step", "合成步骤：%s", "Craft Step: %s");
+        addCNEN("gtocore.tooltip.item.activate_by", "可由%s激活", "Can be activated by %s");
+        addCNEN("gtocore.tooltip.item.charge_bomb.disabled", "服务器配置已禁用爆弹的爆炸效果", "The explosive effect of the charge bomb has been disabled by server configuration");
+        addCNEN("gtocore.tooltip.item.muffler.disabled", "消声仓已被服务器配置禁用，无法产生灰烬", "The muffler has been disabled by server configuration and cannot produce ash");
+        addCNEN("gtocore.tooltip.item.muffler.enabled", "使用机器GUI左下方按钮以暂停/恢复灰烬回收功能", "Use the button at the bottom left of the machine GUI to pause/resume ash recovery function");
 
-        addCNEN("item.gtocore.structure_detect.error.1", "在 [%s, %s, %s]:", "At [%s, %s, %s]:");
         addCNEN("item.gtocore.structure_detect.tooltip.0", "潜行右键主方块以检测多方块结构", "Sneak right-click the main block to detect multiblock structure.");
         addCNEN("item.gtocore.structure_detect.tooltip.1", "检测大型结构时可能会有延迟", "There may be lag when detecting large structures.");
         addCNEN("item.gtocore.disc.data", "光盘数据：%s", "Disc data: %s");
 
         addCNEN("item.gtocore.order.config", "订单配置", "Order Config");
+
+        addCNEN("item.gtocore.pattern.wildcard", "含通配符处理样板", "With Wildcard Processing Pattern");
 
         addCNEN("item.gtocore.data_item.type.title", "§n%s配方数据：", "§n%s Recipes Data:");
         addCNEN("gtocore.tooltip.item.empty_data", "§n空数据：", "§nEmpty Data:");

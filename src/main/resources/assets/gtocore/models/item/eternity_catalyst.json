@@ -2,9 +2,9 @@
   "parent": "item/generated",
   "textures": {
     "layer0": "gtocore:item/eternity_catalyst",
-    "halo": "avaritia:misc/halo"
+    "halo": "renderblender:misc/halo"
   },
-  "loader": "avaritia:halo",
+  "loader": "renderblender:halo",
   "halo": {
     "texture": "#halo",
     "color": -16777216,

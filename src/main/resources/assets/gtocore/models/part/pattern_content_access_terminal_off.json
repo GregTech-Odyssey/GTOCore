@@ -1,0 +1,8 @@
+{
+  "parent": "ae2:part/display_off",
+  "textures": {
+    "lightsBright": "gtocore:part/pattern_content_access_terminal_bright",
+    "lightsMedium": "gtocore:part/pattern_content_access_terminal_medium",
+    "lightsDark": "gtocore:part/pattern_content_access_terminal_dark"
+  }
+}

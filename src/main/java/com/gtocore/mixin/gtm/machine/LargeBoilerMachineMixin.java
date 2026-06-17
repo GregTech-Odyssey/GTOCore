@@ -1,52 +1,29 @@
 package com.gtocore.mixin.gtm.machine;
 
-import com.gtolib.api.machine.feature.multiblock.IEnhancedMultiblockMachine;
+import com.gtocore.common.data.GTORecipeDataKeys;
+import com.gtocore.data.IdleReason;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
-import com.gregtechceu.gtceu.api.machine.feature.IExplosionMachine;
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableMultiblockMachine;
-import com.gregtechceu.gtceu.common.data.GTMaterials;
+import com.gregtechceu.gtceu.api.recipe.GTRecipe;
+import com.gregtechceu.gtceu.api.recipe.handler.IRecipeHandlerHolder;
+import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
+import com.gregtechceu.gtceu.api.recipe.modifier.ParallelLogic;
 import com.gregtechceu.gtceu.common.machine.multiblock.steam.LargeBoilerMachine;
 
-import net.minecraft.util.Mth;
-import net.minecraft.world.level.material.Fluid;
-import net.minecraft.world.level.material.Fluids;
-
-import org.spongepowered.asm.mixin.*;
+import org.jetbrains.annotations.Nullable;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Overwrite;
 
 @Mixin(LargeBoilerMachine.class)
-public abstract class LargeBoilerMachineMixin extends WorkableMultiblockMachine implements IExplosionMachine, IEnhancedMultiblockMachine {
+public abstract class LargeBoilerMachineMixin extends WorkableMultiblockMachine {
 
-    @Unique
-    private static final Fluid gtolib$STEAM = GTMaterials.Steam.getFluid();
-
-    @Shadow(remap = false)
-    private int currentTemperature;
-
-    @Shadow(remap = false)
-    @Final
-    public int maxTemperature;
-
-    @Shadow(remap = false)
-    @Final
-    public int heatSpeed;
-
-    @Shadow(remap = false)
-    private int throttle;
-
-    @Unique
-    private boolean gtolib$hasNoWater;
-
-    @Shadow(remap = false)
-    private int steamGenerated;
-
-    protected LargeBoilerMachineMixin(MetaMachineBlockEntity holder, Object... args) {
+    public LargeBoilerMachineMixin(MetaMachineBlockEntity holder, Object... args) {
         super(holder, args);
     }
 
     @Override
-    @SuppressWarnings("all")
-    public boolean alwaysSearchRecipe() {
+    public boolean usePrioritySearch() {
         return true;
     }
 
@@ -55,31 +32,23 @@ public abstract class LargeBoilerMachineMixin extends WorkableMultiblockMachine 
      * @reason .
      */
     @Overwrite(remap = false)
-    protected void updateCurrentTemperature() {
-        if (recipeLogic.isWorking()) {
-            if (getOffsetTimer() % 5 == 0) {
-                if (currentTemperature < maxTemperature) {
-                    currentTemperature = Mth.clamp(currentTemperature + heatSpeed, 0, maxTemperature);
-                }
+    public static @Nullable GTRecipe recipeModifier(IRecipeHandlerHolder machine, RecipeHandlerUnit unit, GTRecipe recipe) {
+        if (machine instanceof LargeBoilerMachine largeBoilerMachine) {
+            if (recipe.data.getInt(GTORecipeDataKeys.TEMPERATURE) > largeBoilerMachine.getCurrentTemperature()) {
+                largeBoilerMachine.setIdleReason(IdleReason.INSUFFICIENT_TEMPERATURE::reason);
+                return null;
             }
-        } else if (currentTemperature > 0) {
-            currentTemperature -= 1;
-        }
-        if (currentTemperature > 100 && isFormed() && getOffsetTimer() % 5 == 0) {
-            int water = currentTemperature * throttle * 5 / 16000;
-            if (water > 0) {
-                if (inputFluid(Fluids.WATER, water)) {
-                    steamGenerated = currentTemperature * throttle * 5 / 100;
-                    if (steamGenerated > 0) {
-                        outputFluid(gtolib$STEAM, steamGenerated);
-                    }
-                    if (gtolib$hasNoWater) {
-                        doExplosion(2.0F);
-                    }
-                } else {
-                    gtolib$hasNoWater = true;
-                }
+            double duration = recipe.duration * 1600.0D / largeBoilerMachine.maxTemperature;
+            if (duration < 1) {
+                recipe = ParallelLogic.accurateParallel(machine, unit, recipe, (long) (1 / duration));
+                if (recipe == null) return null;
             }
+            if (largeBoilerMachine.getThrottle() < 100) {
+                duration = duration * 100 / largeBoilerMachine.getThrottle();
+            }
+            recipe.duration = (int) duration;
+            return recipe;
         }
+        return null;
     }
 }

@@ -27,8 +27,8 @@ import net.minecraftforge.event.level.LevelEvent
 import net.minecraftforge.eventbus.api.SubscribeEvent
 
 import com.gregtechceu.gtceu.api.machine.TickableSubscription
-import com.gregtechceu.gtceu.utils.GTUtil
 import com.gregtechceu.gtceu.utils.TaskHandler
+import com.gto.datasynclib.util.holder.ObjHolder
 import com.gtolib.api.annotation.DataGeneratorScanned
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet
@@ -107,8 +107,8 @@ object AnimalsRevengeEvent {
     private fun triggerCannibalismEffect(serverLevel: ServerLevel, player: ServerPlayer, eaten: ItemStack) {
         if (!ensureLootCache(serverLevel)) return
 
-        val radius = max(1, GTOConfig.INSTANCE.cannibalismRadius)
-        val damage = max(0.0f, GTOConfig.INSTANCE.cannibalismDamage)
+        val radius = max(1, GTOConfig.INSTANCE.gamePlay.mobConfig.cannibalismRadius)
+        val damage = max(0.0f, GTOConfig.INSTANCE.gamePlay.mobConfig.cannibalismDamage)
         if (damage <= 0.0f) return
 
         val center: Vec3 = player.position().add(0.0, 0.1, 0.0)
@@ -126,15 +126,15 @@ object AnimalsRevengeEvent {
             if (!isFoodFromEntity(type, eaten.item, serverLevel)) continue
 
             val tick = intArrayOf(0)
-            val holder = arrayOfNulls<TickableSubscription>(1)
-            holder[0] = TaskHandler.enqueueServerTick(serverLevel, {
+            val holder = ObjHolder<TickableSubscription>()
+            holder.value = TaskHandler.enqueueTick(serverLevel, {
                 tick[0]++
                 if (tick[0] >= preTicks) {
                     if (mob.isAlive) {
                         val hurt = mob.hurt(serverLevel.damageSources().generic(), damage)
                         if (hurt) makeAnimalAggressive(mob, player)
                     }
-                    holder[0]?.unsubscribe()
+                    holder.value?.unsubscribe()
                 }
             }, 0, 1)
         }
@@ -158,7 +158,7 @@ object AnimalsRevengeEvent {
             tag.putBoolean("gtocore_temp_aggressive", true)
             pm.goalSelector.addGoal(
                 1,
-                AnimalsRevengeAttackGoal(pm, 1.2, 1.6, 20, max(1.0f, GTOConfig.INSTANCE.cannibalismDamage)),
+                AnimalsRevengeAttackGoal(pm, 1.2, 1.6, 20, max(1.0f, GTOConfig.INSTANCE.gamePlay.mobConfig.cannibalismDamage)),
             )
             pm.targetSelector.addGoal(1, NearestAttackableTargetGoal(pm, ServerPlayer::class.java, true))
         }
@@ -166,14 +166,15 @@ object AnimalsRevengeEvent {
         mob.setLastHurtByPlayer(target)
     }
 
+    @Suppress("DEPRECATION")
     @OptIn(ExperimentalCoroutinesApi::class)
     private suspend fun buildEntityLootCacheIncremental(level: ServerLevel) {
         if (lootCacheBuilt) return
         val types = BuiltInRegistries.ENTITY_TYPE.toList().iterator()
 
         return suspendCancellableCoroutine { cont ->
-            val subHolder = arrayOfNulls<TickableSubscription>(1)
-            subHolder[0] = TaskHandler.enqueueServerTick(level, {
+            val subHolder = ObjHolder<TickableSubscription>()
+            subHolder.value = TaskHandler.enqueueTick(level, {
                 var processed = 0
                 try {
                     while (processed < 12 && types.hasNext()) {
@@ -191,18 +192,18 @@ object AnimalsRevengeEvent {
                     }
 
                     if (!types.hasNext()) {
-                        subHolder[0]?.unsubscribe()
+                        subHolder.value?.unsubscribe()
                         lootCacheBuilt = true
                         if (cont.isActive) cont.resume(Unit) {}
                     }
                 } catch (_: Throwable) {
-                    subHolder[0]?.unsubscribe()
+                    subHolder.value?.unsubscribe()
                     lootCacheBuilt = true
                     if (cont.isActive) cont.resume(Unit) {}
                 }
             }, 0, 1)
 
-            cont.invokeOnCancellation { subHolder[0]?.unsubscribe() }
+            cont.invokeOnCancellation { subHolder.value?.unsubscribe() }
         }
     }
 

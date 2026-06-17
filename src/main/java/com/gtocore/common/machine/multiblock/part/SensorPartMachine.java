@@ -1,5 +1,7 @@
 package com.gtocore.common.machine.multiblock.part;
 
+import com.gtocore.common.data.GTOMachines;
+
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.gui.widget.FloatInputWidget;
@@ -9,11 +11,11 @@ import com.gregtechceu.gtceu.api.machine.multiblock.part.MultiblockPartMachine;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.Direction;
 
+import com.gto.datasynclib.annotations.SaveToDisk;
+import com.gto.datasynclib.annotations.SyncToClient;
 import com.lowdragmc.lowdraglib.gui.widget.TextBoxWidget;
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
-import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.utils.LocalizationUtils;
 import com.lowdragmc.lowdraglib.utils.Position;
 import com.lowdragmc.lowdraglib.utils.Size;
@@ -28,16 +30,16 @@ import javax.annotation.ParametersAreNonnullByDefault;
 @MethodsReturnNonnullByDefault
 public final class SensorPartMachine extends MultiblockPartMachine {
 
-    @Persisted
-    @DescSynced
+    @SaveToDisk
+    @SyncToClient
     private float min;
-    @Persisted
-    @DescSynced
+    @SaveToDisk
+    @SyncToClient
     private float max;
-    @Persisted
+    @SaveToDisk
     private boolean isInverted;
     @Getter
-    @Persisted
+    @SaveToDisk
     private int redstoneSignalOutput;
 
     public SensorPartMachine(MetaMachineBlockEntity holder) {
@@ -47,6 +49,8 @@ public final class SensorPartMachine extends MultiblockPartMachine {
     @Override
     public Widget createUIWidget() {
         WidgetGroup group = new WidgetGroup(Position.ORIGIN, new Size(176, 112));
+        boolean isNeutronSensor = getHolder().getBlockState().is(GTOMachines.NEUTRON_SENSOR.get());
+        if (isNeutronSensor) group.addWidget(new TextBoxWidget(105, 10, 45, List.of("MeV")));
         group.addWidget(new TextBoxWidget(35, 28, 65, List.of(LocalizationUtils.format("cover.advanced_energy_detector.min") + ":")));
         group.addWidget(new TextBoxWidget(35, 74, 65, List.of(LocalizationUtils.format("cover.advanced_energy_detector.max") + ":")));
         group.addWidget(new FloatInputWidget(80, 26, 85, 18, this::getMin, this::setMin));

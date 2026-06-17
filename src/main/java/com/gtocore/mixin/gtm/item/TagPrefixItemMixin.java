@@ -40,7 +40,7 @@ public class TagPrefixItemMixin extends Item implements IItemRendererProvider {
         super(properties);
     }
 
-    @Inject(method = "<init>(Lnet/minecraft/world/item/Item$Properties;Lcom/gregtechceu/gtceu/api/data/tag/TagPrefix;Lcom/gregtechceu/gtceu/api/data/chemical/material/Material;)V", at = @At(value = "RETURN"), remap = false)
+    @Inject(method = "<init>(Lnet/minecraft/world/item/Item$Properties;Lcom/gregtechceu/gtceu/api/data/tag/TagPrefix;Lcom/gregtechceu/gtceu/api/data/chemical/material/Material;)V", at = @At("RETURN"), remap = false)
     private void TagPrefixItem(Properties properties, TagPrefix tagPrefix, Material material, CallbackInfo ci) {
         if (GTCEu.isClientSide()) {
             if (material.getMaterialIconSet() instanceof GTOMaterialIconSet iconSet) {

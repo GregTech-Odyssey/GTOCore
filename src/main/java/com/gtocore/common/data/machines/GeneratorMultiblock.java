@@ -10,6 +10,7 @@ import com.gtocore.common.data.GTOMaterials;
 import com.gtocore.common.data.GTORecipeTypes;
 import com.gtocore.common.data.translation.GTOMachineStories;
 import com.gtocore.common.data.translation.GTOMachineTooltips;
+import com.gtocore.common.data.translation.GTOMachineTooltipsA;
 import com.gtocore.common.machine.multiblock.electric.space.DysonSphereLaunchSiloMachine;
 import com.gtocore.common.machine.multiblock.electric.space.DysonSphereReceivingStationMcahine;
 import com.gtocore.common.machine.multiblock.generator.*;
@@ -17,9 +18,6 @@ import com.gtocore.common.machine.multiblock.generator.*;
 import com.gtolib.GTOCore;
 import com.gtolib.api.annotation.NewDataAttributes;
 import com.gtolib.api.machine.multiblock.ElectricMultiblockMachine;
-import com.gtolib.api.recipe.modifier.ParallelLogic;
-import com.gtolib.api.recipe.modifier.RecipeModifierFunction;
-import com.gtolib.utils.MachineUtils;
 import com.gtolib.utils.MultiBlockFileReader;
 import com.gtolib.utils.RegistriesUtils;
 
@@ -32,6 +30,8 @@ import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility;
 import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
 import com.gregtechceu.gtceu.api.pattern.Predicates;
 import com.gregtechceu.gtceu.api.pattern.util.RelativeDirection;
+import com.gregtechceu.gtceu.api.recipe.modifier.ParallelLogic;
+import com.gregtechceu.gtceu.api.recipe.modifier.RecipeModifier;
 import com.gregtechceu.gtceu.common.data.*;
 
 import net.minecraft.network.chat.Component;
@@ -39,7 +39,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.phys.shapes.Shapes;
 
-import com.tterrag.registrate.util.entry.BlockEntry;
+import com.gto.registrate.util.entry.BlockEntry;
 
 import java.util.function.Supplier;
 
@@ -82,10 +82,8 @@ public final class GeneratorMultiblock {
     public static final MultiblockMachineDefinition MAGNETIC_FLUID_GENERATOR = multiblock("magnetic_fluid_generator", "磁流体发电机", MagneticFluidGeneratorMachine::new)
             .allRotation()
             .recipeTypes(GTRecipeTypes.PLASMA_GENERATOR_FUELS)
-            .tooltipsText("实际产出由等离子热值决定", "Actual output is determined by plasma heat value")
-            .tooltipsText("玻璃等级限制了能量输出仓等级", "The glass tier limits the energy output hatch tier")
-            .tooltipsText("如果使用激光仓，则提升发电量x(默认2，安装模块后4)^等级", "If a laser hatch is used, power generation is increased by x(Default 2, 4 after installing the module)^tier")
             .tooltipsText("等离子体洪流带着磅礴的能量奔涌", "A torrent of plasma rushes forward with majestic energy")
+            .tooltips(GTOMachineTooltipsA.INSTANCE.getMagneticFluidGeneratorTooltips().getSupplier())
             .laserTooltips()
             .generator()
             .moduleTooltips(new PartAbility[0])
@@ -98,7 +96,7 @@ public final class GeneratorMultiblock {
                     .aisle("CDDCBEEEEEEEBCCCC", "IJJFFGHGHGHGFFFFI", "KKKKKKKKKKKKKKKKI", "KKKKKKKKKKKKKKKKI", "KKKKKKKKKKKKKKKKI", "IJJFFGHGHGHGFFFFI", "CDDCBEEEEEEEBCCCC")
                     .aisle("CCCCBBBBBBBBBCCCC", "IFFFFGHGHGHGFFFFI", "IJJFFGHGHGHGFFFFI", "IJJFFGHGHGHGFFFFI", "IJJFFGHGHGHGFFFFI", "IFFFFGHGHGHGFFFFI", "CCCCBBBBBBBBBCCCC")
                     .aisle("AAAABBBBBBBBBAAAA", "CCCCBBBBBBBBBCCCC", "CDDCBEEEEEEEBCCCC", "CDDCBBBBBBBBBCCCC", "CDDCBEEEEEEEBCCCC", "CCCCBBBBBBBBBCCCC", "AAAABBBBBBBBBAAAA")
-                    .where('A', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTMaterials.Tungsten)))
+                    .where('A', GTOPredicates.frame(GTMaterials.Tungsten))
                     .where('B', blocks(GTBlocks.CASING_TUNGSTENSTEEL_TURBINE.get()))
                     .where('C', GTOPredicates.absBlocks())
                     .where('D', GTOPredicates.glass())
@@ -108,7 +106,7 @@ public final class GeneratorMultiblock {
                     .where('H', blocks(GTBlocks.SUPERCONDUCTING_COIL.get()))
                     .where('J', blocks(GCYMBlocks.HEAT_VENT.get()))
                     .where('K', blocks(GTOBlocks.BORON_CARBIDE_CERAMIC_RADIATION_RESISTANT_MECHANICAL_CUBE.get()))
-                    .where('L', controller(blocks(definition.get())))
+                    .where('L', controller(definition))
                     .where('I', blocks(GTBlocks.CASING_TUNGSTENSTEEL_ROBUST.get())
                             .or(blocks(GTMachines.CONTROL_HATCH.get()).setMaxGlobalLimited(1).setPreviewCount(0))
                             .or(abilities(OUTPUT_LASER).setExactLimit(1))
@@ -161,12 +159,12 @@ public final class GeneratorMultiblock {
                     .aisle("ACA       ACA", "             ", "             ", "             ", "             ", "A A       A A", "ACA       ACA", "             ", "             ", "             ")
                     .aisle("AAA       AAA", "A A       A A", "A A       A A", "A A   B   A A", "A A       A A", "A A       A A", "AAA       AAA", "             ", "             ", "             ")
                     .where('A', blocks(GTOBlocks.HYPER_MECHANICAL_CASING.get()))
-                    .where('B', controller(blocks(definition.get())))
+                    .where('B', controller(definition))
                     .where('C', blocks(GTOBlocks.MAGTECH_CASING.get()))
                     .where('D', blocks(GTBlocks.HIGH_POWER_CASING.get()))
                     .where('E', blocks(GTOBlocks.IRIDIUM_CASING.get()))
                     .where('F', blocks(GTOBlocks.BORON_CARBIDE_CERAMIC_RADIATION_RESISTANT_MECHANICAL_CUBE.get()))
-                    .where('G', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTMaterials.Naquadria)))
+                    .where('G', GTOPredicates.frame(GTMaterials.Naquadria))
                     .where('H', blocks(GCYMBlocks.ELECTROLYTIC_CELL.get()))
                     .where('I', blocks(GTBlocks.FUSION_CASING_MK3.get()))
                     .where('J', blocks(GTOBlocks.COBALT_OXIDE_CERAMIC_STRONG_THERMALLY_CONDUCTIVE_MECHANICAL_BLOCK.get()))
@@ -193,7 +191,7 @@ public final class GeneratorMultiblock {
                     .where('A', blocks(GTBlocks.CASING_TUNGSTENSTEEL_ROBUST.get()))
                     .where('B', blocks(GTBlocks.CASING_TUNGSTENSTEEL_TURBINE.get()))
                     .where('C', blocks(GTBlocks.MACHINE_CASING_LuV.get()))
-                    .where('D', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTMaterials.TungstenSteel)))
+                    .where('D', GTOPredicates.frame(GTMaterials.TungstenSteel))
                     .where('E', blocks(GTBlocks.CASING_STAINLESS_TURBINE.get()))
                     .where('F', blocks(GTBlocks.CASING_STAINLESS_STEEL_GEARBOX.get()))
                     .where('G', blocks(GCYMBlocks.HEAT_VENT.get()))
@@ -211,12 +209,12 @@ public final class GeneratorMultiblock {
                             .or(abilities(OUTPUT_ENERGY).setMaxGlobalLimited(4, 4)))
                     .where('O', blocks(GTOBlocks.OXIDATION_RESISTANT_HASTELLOY_N_MECHANICAL_CASING.get()))
                     .where('P', blocks(GTBlocks.CASING_STEEL_PIPE.get()))
-                    .where('Q', controller(blocks(definition.get())))
+                    .where('Q', controller(definition))
                     .where('R', blocks(GTBlocks.CASING_STEEL_TURBINE.get()))
                     .where('r', blocks(GTBlocks.CASING_STEEL_TURBINE.get())
                             .or(abilities(IMPORT_FLUIDS).setMaxGlobalLimited(4, 4)))
                     .where('S', blocks(GTBlocks.CASING_TUNGSTENSTEEL_GEARBOX.get()))
-                    .where('T', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTMaterials.StainlessSteel)))
+                    .where('T', GTOPredicates.frame(GTMaterials.StainlessSteel))
                     .where('U', blocks(GCYMBlocks.ELECTROLYTIC_CELL.get()))
                     .where('V', blocks(GTOBlocks.MAGNESIUM_OXIDE_CERAMIC_HIGH_TEMPERATURE_INSULATION_MECHANICAL_BLOCK.get()))
                     .where('W', abilities(MUFFLER))
@@ -294,12 +292,12 @@ public final class GeneratorMultiblock {
                             .or(abilities(PartAbility.OUTPUT_ENERGY).setMaxGlobalLimited(4)))
                     .where('D', blocks(GTOBlocks.CHEMICAL_CORROSION_RESISTANT_PIPE_CASING.get()))
                     .where('E', blocks(GTBlocks.CASING_ENGINE_INTAKE.get()))
-                    .where('F', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTMaterials.StainlessSteel)))
-                    .where('G', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTMaterials.BlackSteel)))
+                    .where('F', GTOPredicates.frame(GTMaterials.StainlessSteel))
+                    .where('G', GTOPredicates.frame(GTMaterials.BlackSteel))
                     .where('H', blocks(GTBlocks.FILTER_CASING.get()))
-                    .where('I', blocks(GTOBlocks.HSSS_BOROSILICATE_GLASS.get()))
+                    .where('I', blocks(GTBlocks.CASING_LAMINATED_GLASS.get()))
                     .where('J', blocks(GTBlocks.CASING_STAINLESS_STEEL_GEARBOX.get()))
-                    .where('K', controller(blocks(definition.get())))
+                    .where('K', controller(definition))
                     .where(' ', any())
                     .build());
     public static final MultiblockMachineDefinition GAS_MEGA_TURBINE = registerMegaTurbine("gas_mega_turbine", "特大燃气涡轮", IV, false, GTRecipeTypes.GAS_TURBINE_FUELS, GTBlocks.CASING_STAINLESS_TURBINE, GTBlocks.CASING_STAINLESS_STEEL_GEARBOX,
@@ -356,12 +354,12 @@ public final class GeneratorMultiblock {
                             .or(abilities(PartAbility.OUTPUT_ENERGY).setMaxGlobalLimited(4)))
                     .where('D', blocks(GTOBlocks.HIGH_PRESSURE_PIPE_CASING.get()))
                     .where('E', blocks(GTBlocks.CASING_ENGINE_INTAKE.get()))
-                    .where('F', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTMaterials.Titanium)))
-                    .where('G', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTMaterials.BlackSteel)))
+                    .where('F', GTOPredicates.frame(GTMaterials.Titanium))
+                    .where('G', GTOPredicates.frame(GTMaterials.BlackSteel))
                     .where('H', blocks(GTBlocks.FILTER_CASING.get()))
                     .where('I', blocks(GTBlocks.CASING_LAMINATED_GLASS.get()))
                     .where('J', blocks(GTBlocks.CASING_TITANIUM_GEARBOX.get()))
-                    .where('K', controller(blocks(definition.get())))
+                    .where('K', controller(definition))
                     .where(' ', any())
                     .build());
     public static final MultiblockMachineDefinition ROCKET_MEGA_TURBINE = registerMegaTurbine("rocket_mega_turbine", "特大火箭引擎涡轮", IV, true, ROCKET_ENGINE_FUELS, GTBlocks.CASING_TITANIUM_TURBINE, GTBlocks.CASING_TITANIUM_GEARBOX,
@@ -418,12 +416,12 @@ public final class GeneratorMultiblock {
                             .or(abilities(PartAbility.OUTPUT_ENERGY).setMaxGlobalLimited(4)))
                     .where('D', blocks(GTOBlocks.HIGH_PRESSURE_PIPE_CASING.get()))
                     .where('E', blocks(GTBlocks.CASING_EXTREME_ENGINE_INTAKE.get()))
-                    .where('F', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTMaterials.TungstenSteel)))
-                    .where('G', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTMaterials.BlackSteel)))
+                    .where('F', GTOPredicates.frame(GTMaterials.TungstenSteel))
+                    .where('G', GTOPredicates.frame(GTMaterials.BlackSteel))
                     .where('H', blocks(GTBlocks.FILTER_CASING.get()))
                     .where('I', blocks(GTBlocks.CASING_LAMINATED_GLASS.get()))
                     .where('J', blocks(GTBlocks.CASING_TUNGSTENSTEEL_GEARBOX.get()))
-                    .where('K', controller(blocks(definition.get())))
+                    .where('K', controller(definition))
                     .where(' ', any())
                     .build());
     public static final MultiblockMachineDefinition SUPERCRITICAL_MEGA_STEAM_TURBINE = registerMegaTurbine("supercritical_mega_steam_turbine", "特大超临界蒸汽涡轮", LuV, false, GTORecipeTypes.SUPERCRITICAL_STEAM_TURBINE_FUELS, GTOBlocks.SUPERCRITICAL_TURBINE_CASING, GTBlocks.CASING_TUNGSTENSTEEL_GEARBOX,
@@ -480,12 +478,12 @@ public final class GeneratorMultiblock {
                             .or(abilities(PartAbility.OUTPUT_ENERGY).setMaxGlobalLimited(4)))
                     .where('D', blocks(GCYMBlocks.ELECTROLYTIC_CELL.get()))
                     .where('E', blocks(GTBlocks.CASING_EXTREME_ENGINE_INTAKE.get()))
-                    .where('F', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTMaterials.Iridium)))
-                    .where('G', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTMaterials.BlackSteel)))
+                    .where('F', GTOPredicates.frame(GTMaterials.Iridium))
+                    .where('G', GTOPredicates.frame(GTMaterials.BlackSteel))
                     .where('H', blocks(GTBlocks.FILTER_CASING.get()))
                     .where('I', blocks(GTOBlocks.HSSS_BOROSILICATE_GLASS.get()))
                     .where('J', blocks(GTOBlocks.IRIDIUM_GEARBOX.get()))
-                    .where('K', controller(blocks(definition.get())))
+                    .where('K', controller(definition))
                     .where(' ', any())
                     .build());
 
@@ -493,8 +491,8 @@ public final class GeneratorMultiblock {
             .nonYAxisRotation()
             .recipeTypes(GTORecipeTypes.DYSON_SPHERE_RECIPES)
             .block(GTOBlocks.SPACE_ELEVATOR_MECHANICAL_CASING)
-            .pattern(definition -> MultiBlockFileReader.start(definition, RelativeDirection.RIGHT, RelativeDirection.UP, RelativeDirection.BACK)
-                    .where('~', controller(blocks(definition.get())))
+            .pattern(definition -> MultiBlockFileReader.start(definition)
+                    .where('~', controller(definition))
                     .where('A', blocks(GTOBlocks.HIGH_STRENGTH_CONCRETE.get()))
                     .where('B', blocks(GTOBlocks.SPACE_ELEVATOR_INTERNAL_SUPPORT.get()))
                     .where('C', blocks(GTOBlocks.MOLECULAR_CASING.get()))
@@ -507,10 +505,10 @@ public final class GeneratorMultiblock {
                     .where('J', blocks(GTOBlocks.ENHANCE_HYPER_MECHANICAL_CASING.get()))
                     .where('K', blocks(GTOBlocks.DIMENSION_INJECTION_CASING.get()))
                     .where('L', blocks(GTOBlocks.DYSON_DEPLOYMENT_CASING.get()))
-                    .where('M', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTOMaterials.Quantanium)))
+                    .where('M', GTOPredicates.frame(GTOMaterials.Quantanium))
                     .where('N', blocks(GTOBlocks.HOLLOW_CASING.get()))
-                    .where('O', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTOMaterials.Mithril)))
-                    .where('P', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTMaterials.NaquadahAlloy)))
+                    .where('O', GTOPredicates.frame(GTOMaterials.Mithril))
+                    .where('P', GTOPredicates.frame(GTMaterials.NaquadahAlloy))
                     .where('Q', blocks(GTOBlocks.CONTAINMENT_FIELD_GENERATOR.get()))
                     .where('R', blocks(GTOBlocks.FUSION_CASING_MK5.get()))
                     .where('S', blocks(GTOBlocks.DYSON_CONTROL_CASING.get()))
@@ -534,22 +532,16 @@ public final class GeneratorMultiblock {
             .workableInSpace()
             .generator()
             .recipeTypes(GTRecipeTypes.DUMMY_RECIPES)
-            .tooltipsText("发射戴森球模块后开始工作", "Starts working after launching Dyson Sphere modules")
-            .tooltipsText("每次运行都有(模块数量/128 + 1)%的概率损坏一次模块", "Each run has a (Module Count / 128 + 1)% chance to damage a module")
-            .tooltipsText("当损坏高于60%时，输出效率随损坏值由100%逐渐降低到20%，并输出随损坏值增强的红石信号", "When damage exceeds 60%, output efficiency gradually decreases from 100% to 20% with damage value, and outputs a redstone signal enhanced by the damage value")
-            .tooltipsText("当损坏达到100%时减少一次模块发射数量，并重制损坏值", "When damage reaches 100%, it reduces the number of module launches by one and resets the damage value")
-            .tooltipsText("在损坏值高于60%时发射不会增加发射次数，但会重制损坏值", "When damage value is above 60%, launching will not increase the launch count but will reset the damage value")
-            .tooltipsText("产能功率，和需求算力由发射的模块数量决定", "Power capacity and demand computing power are determined by the number of launched modules")
-            .tooltipsText("每次发射可使功率增加1A MAX", "Each launch can increase power by 1A MAX")
+            .tooltips(GTOMachineTooltipsA.INSTANCE.getDysonSphereReceivingStationTooltips().getSupplier())
             .block(GTBlocks.HIGH_POWER_CASING)
             .pattern(definition -> MultiBlockFileReader.start(definition)
-                    .where('~', controller(blocks(definition.get())))
+                    .where('~', controller(definition))
                     .where('A', blocks(GTOBlocks.ENHANCE_HYPER_MECHANICAL_CASING.get()))
                     .where('B', blocks(GTOBlocks.DYSON_CONTROL_TOROID.get()))
                     .where('C', blocks(GTOBlocks.RADIATION_ABSORBENT_CASING.get()))
                     .where('D', blocks(GTOBlocks.HIGH_STRENGTH_CONCRETE.get()))
                     .where('E', blocks(GTOBlocks.SPACE_ELEVATOR_INTERNAL_SUPPORT.get()))
-                    .where('F', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTMaterials.NaquadahAlloy)))
+                    .where('F', GTOPredicates.frame(GTMaterials.NaquadahAlloy))
                     .where('G', blocks(GTOBlocks.HYPER_CORE.get()))
                     .where('H', blocks(GTOBlocks.MOLECULAR_CASING.get()))
                     .where('I', blocks(GTBlocks.HIGH_POWER_CASING.get()))
@@ -572,7 +564,7 @@ public final class GeneratorMultiblock {
             .recipeTypes(GTORecipeTypes.LARGE_NAQUADAH_REACTOR_RECIPES)
             .generator()
             .block(GTOBlocks.HYPER_MECHANICAL_CASING)
-            .recipeModifier(RecipeModifierFunction.GENERATOR_OVERCLOCKING)
+            .recipeModifier(RecipeModifier.GENERATOR_OVERCLOCKING)
             .pattern(definition -> FactoryBlockPattern.start(definition, RelativeDirection.RIGHT, RelativeDirection.UP, RelativeDirection.BACK)
                     .aisle("                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "           a~a           ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ")
                     .aisle("                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "           AAA           ", "          aBBBa          ", "           AAA           ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ")
@@ -583,14 +575,14 @@ public final class GeneratorMultiblock {
                     .aisle("                         ", "          CCCCC          ", "        CC     CC        ", "      CC         CC      ", "    CC             CC    ", "    C               C    ", "   C                 C   ", "   C                 C   ", "  C                   C  ", "  C                   C  ", " C         AAA         C ", " C        A   A        C ", " C       aB   Ba       C ", " C        A   A        C ", " C         AAA         C ", "  C                   C  ", "  C                   C  ", "   C                 C   ", "   C                 C   ", "    C               C    ", "    CC             CC    ", "      CC         CC      ", "        CC     CC        ", "          CCCCC          ", "                         ")
                     .aisle("                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "           AAA           ", "          aBBBa          ", "           AAA           ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ")
                     .aisle("                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "           aaa           ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ")
-                    .where('~', controller(blocks(definition.get())))
+                    .where('~', controller(definition))
                     .where('A', blocks(GTOBlocks.HYPER_MECHANICAL_CASING.get()))
                     .where('B', blocks(GTOBlocks.AMPROSIUM_GEARBOX.get()))
                     .where('C', blocks(GTOBlocks.EXTREME_STRENGTH_TRITANIUM_CASING.get()))
                     .where('D', blocks(GTBlocks.HIGH_POWER_CASING.get()))
-                    .where('E', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTMaterials.Naquadria)))
+                    .where('E', GTOPredicates.frame(GTMaterials.Naquadria))
                     .where('F', blocks(GTOBlocks.AMPROSIUM_PIPE_CASING.get()))
-                    .where('G', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTMaterials.Trinium)))
+                    .where('G', GTOPredicates.frame(GTMaterials.Trinium))
                     .where('a', blocks(GTOBlocks.HYPER_MECHANICAL_CASING.get())
                             .or(blocks(GTMachines.CONTROL_HATCH.get()).setMaxGlobalLimited(1).setPreviewCount(0))
                             .or(abilities(IMPORT_FLUIDS).setMaxGlobalLimited(2))
@@ -607,24 +599,23 @@ public final class GeneratorMultiblock {
             .tooltipsText("星辉：8，致密中子：16", "Starmetal: 8, Dense Neutrons: 16")
             .recipeTypes(GTORecipeTypes.ADVANCED_HYPER_REACTOR_RECIPES)
             .generator()
-            .recipeModifier((machine, recipe) -> {
-                if (machine instanceof ElectricMultiblockMachine workableElectricMultiblockMachine) {
-                    int p = 1;
-                    if (MachineUtils.inputFluid(workableElectricMultiblockMachine, GTOMaterials.DenseNeutron.getFluid(FluidStorageKeys.PLASMA), 1)) {
-                        p = 16;
-                    } else if (MachineUtils.inputFluid(workableElectricMultiblockMachine, GTOMaterials.Starmetal.getFluid(FluidStorageKeys.PLASMA), 1)) {
-                        p = 8;
-                    }
-                    return RecipeModifierFunction.generatorOverclocking(workableElectricMultiblockMachine, ParallelLogic.accurateParallel(machine, recipe, p));
+            .recipeModifier((m, u, r) -> {
+                int p = 1;
+                if (u.inputFluid(GTOMaterials.DenseNeutron.getFluid(FluidStorageKeys.PLASMA), 1)) {
+                    p = 16;
+                } else if (u.inputFluid(GTOMaterials.Starmetal.getFluid(FluidStorageKeys.PLASMA), 1)) {
+                    p = 8;
                 }
-                return recipe;
+                r = ParallelLogic.accurateParallel(m, u, r, p);
+                if (r == null) return null;
+                return RecipeModifier.generatorOverclocking(m, u, r);
             })
             .block(GTOBlocks.ENHANCE_HYPER_MECHANICAL_CASING)
-            .pattern(definition -> MultiBlockFileReader.start(definition, RelativeDirection.RIGHT, RelativeDirection.UP, RelativeDirection.BACK)
-                    .where('~', controller(blocks(definition.get())))
+            .pattern(definition -> MultiBlockFileReader.start(definition)
+                    .where('~', controller(definition))
                     .where('A', blocks(GTOBlocks.DIMENSIONALLY_TRANSCENDENT_CASING.get()))
                     .where('B', blocks(GTOBlocks.ENHANCE_HYPER_MECHANICAL_CASING.get()))
-                    .where('C', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTMaterials.Naquadria)))
+                    .where('C', GTOPredicates.frame(GTMaterials.Naquadria))
                     .where('D', blocks(GTOBlocks.ECHO_CASING.get()))
                     .where('E', blocks(GTOBlocks.DEGENERATE_RHENIUM_CONSTRAINED_CASING.get()))
                     .where('F', blocks(GTOBlocks.DIMENSIONAL_BRIDGE_CASING.get()))
@@ -649,30 +640,29 @@ public final class GeneratorMultiblock {
             .tooltipsText("不同燃料所需的等离子体不同", "Different fuels required different plasmas")
             .tooltipsText("从1-4顺序为: 山铜, 末影素, 魔金, 亚稳态\ud872\udf76", "The order from 1-4 is: Orichalcum, Enderium, Infuscolium, Metastable Hassium")
             .generator()
-            .recipeModifier((machine, recipe) -> {
-                if (machine instanceof ElectricMultiblockMachine workableElectricMultiblockMachine) {
-                    int p = 1;
-                    long outputEUt = recipe.getOutputEUt();
-                    if (outputEUt == V[UEV]) {
-                        if (MachineUtils.inputFluid(workableElectricMultiblockMachine, GTOMaterials.Orichalcum.getFluid(FluidStorageKeys.PLASMA), 1)) {
-                            p = 16;
-                        }
-                    } else if (outputEUt == V[UXV]) {
-                        if (MachineUtils.inputFluid(workableElectricMultiblockMachine, GTOMaterials.Enderium.getFluid(FluidStorageKeys.PLASMA), 1)) {
-                            p = 16;
-                        }
-                    } else if (outputEUt == V[OpV]) {
-                        if (MachineUtils.inputFluid(workableElectricMultiblockMachine, GTOMaterials.Infuscolium.getFluid(FluidStorageKeys.PLASMA), 1)) {
-                            p = 16;
-                        }
-                    } else if (outputEUt == V[MAX]) {
-                        if (MachineUtils.inputFluid(workableElectricMultiblockMachine, GTOMaterials.MetastableHassium.getFluid(FluidStorageKeys.PLASMA), 1)) {
-                            p = 16;
-                        }
+            .recipeModifier((m, u, r) -> {
+                int p = 1;
+                long outputEUt = r.getOutputEUt();
+                if (outputEUt == V[UEV]) {
+                    if (u.inputFluid(GTOMaterials.Orichalcum.getFluid(FluidStorageKeys.PLASMA), 1)) {
+                        p = 16;
                     }
-                    return RecipeModifierFunction.generatorOverclocking(workableElectricMultiblockMachine, ParallelLogic.accurateParallel(machine, recipe, p));
+                } else if (outputEUt == V[UXV]) {
+                    if (u.inputFluid(GTOMaterials.Enderium.getFluid(FluidStorageKeys.PLASMA), 1)) {
+                        p = 16;
+                    }
+                } else if (outputEUt == V[OpV]) {
+                    if (u.inputFluid(GTOMaterials.Infuscolium.getFluid(FluidStorageKeys.PLASMA), 1)) {
+                        p = 16;
+                    }
+                } else if (outputEUt == V[MAX]) {
+                    if (u.inputFluid(GTOMaterials.MetastableHassium.getFluid(FluidStorageKeys.PLASMA), 1)) {
+                        p = 16;
+                    }
                 }
-                return recipe;
+                r = ParallelLogic.accurateParallel(m, u, r, p);
+                if (r == null) return null;
+                return RecipeModifier.generatorOverclocking(m, u, r);
             })
             .block(GTOBlocks.ENHANCE_HYPER_MECHANICAL_CASING)
             .pattern(definition -> FactoryBlockPattern.start(definition, RelativeDirection.RIGHT, RelativeDirection.UP, RelativeDirection.BACK)
@@ -697,7 +687,7 @@ public final class GeneratorMultiblock {
                     .aisle("                           ", "                           ", "                           ", "                           ", "A                         A", "A                         A", "ABB                     BBA", "ABB                     BBA", "A  BB                 BB  A", "A  BB                 BB  A", "A  BB                 BB  A", "A  BB                 BB  A", "A  BB                 BB  A", "ABB                     BBA", "ABB                     BBA", "A                         A", "A                         A", "                           ", "                           ", "                           ", "                           ")
                     .aisle("                           ", "                           ", "                           ", "                           ", "                           ", "                           ", "A                         A", "A                         A", "ABB                     BBA", "ABB                     BBA", "ABB                     BBA", "ABB                     BBA", "ABB                     BBA", "A                         A", "A                         A", "                           ", "                           ", "                           ", "                           ", "                           ", "                           ")
                     .aisle("                           ", "                           ", "                           ", "                           ", "                           ", "                           ", "                           ", "                           ", "A                         A", "A                         A", "A                         A", "A                         A", "A                         A", "                           ", "                           ", "                           ", "                           ", "                           ", "                           ", "                           ", "                           ")
-                    .where('~', controller(blocks(definition.get())))
+                    .where('~', controller(definition))
                     .where('A', blocks(GTOBlocks.MOLECULAR_CASING.get()))
                     .where('B', blocks(GTOBlocks.PIKYONIUM_MACHINE_CASING.get()))
                     .where('C', blocks(GTOBlocks.ENHANCE_HYPER_MECHANICAL_CASING.get()))
@@ -737,7 +727,7 @@ public final class GeneratorMultiblock {
                     .aisle("XXX", "CCC", "XXX")
                     .aisle("XXX", "C#C", "XXX")
                     .aisle("XSX", "CCC", "XXX")
-                    .where('S', controller(blocks(definition.get())))
+                    .where('S', controller(definition))
                     .where('X', blocks(GTBlocks.CASING_STEEL_SOLID.get())
                             .or(Predicates.blocks(GTMachines.CONTROL_HATCH.get()).setMaxGlobalLimited(1).setPreviewCount(0))
                             .or(abilities(IMPORT_FLUIDS).setMaxGlobalLimited(4))
@@ -756,24 +746,25 @@ public final class GeneratorMultiblock {
             .generator()
             .block(GTBlocks.HIGH_POWER_CASING)
             .pattern(definition -> MultiBlockFileReader.start(definition)
-                    .where('~', controller(blocks(definition.get())))
-                    .where('A', blocks(GTOBlocks.GRAVITON_FIELD_CONSTRAINT_CASING.get()))
-                    .where('B', blocks(GTOBlocks.ANNIHILATE_CORE.get()))
-                    .where('C', blocks(GTOBlocks.HYPER_MECHANICAL_CASING.get()))
-                    .where('D', blocks(GTOBlocks.HOLLOW_CASING.get()))
-                    .where('E', blocks(GTOBlocks.NAQUADAH_ALLOY_CASING.get()))
-                    .where('F', blocks(GTOBlocks.ANTIMATTER_CONTAINMENT_CASING.get()))
+                    .where('A', blocks(GTOBlocks.NAQUADAH_ALLOY_CASING.get()))
+                    .where('B', blocks(GTOBlocks.GRAVITON_FIELD_CONSTRAINT_CASING.get()))
+                    .where('C', blocks(GTOBlocks.ANNIHILATE_CORE.get()))
+                    .where('D', blocks(GTOBlocks.ANTIMATTER_CONTAINMENT_CASING.get()))
+                    .where('E', blocks(GTOBlocks.HYPER_MECHANICAL_CASING.get()))
+                    .where('F', blocks(GTOBlocks.HOLLOW_CASING.get()))
                     .where('G', blocks(GTOBlocks.DYSON_CONTROL_TOROID.get()))
                     .where('H', blocks(GTOBlocks.RHENIUM_REINFORCED_ENERGY_GLASS.get()))
-                    .where('P', blocks(GTOBlocks.DYSON_CONTROL_CASING.get()))
-                    .where('S', blocks(GTBlocks.HIGH_POWER_CASING.get())
+                    .where('I', blocks(GTOBlocks.DYSON_CONTROL_CASING.get()))
+                    .where('J', blocks(GTOBlocks.DYSON_RECEIVER_CASING.get()))
+                    .where('K', blocks(GTBlocks.HIGH_POWER_CASING.get())
                             .or(blocks(GTMachines.CONTROL_HATCH.get()).setMaxGlobalLimited(1).setPreviewCount(0))
                             .or(blocks(GTOMachines.WIRELESS_ENERGY_INTERFACE_HATCH.get()).setMaxGlobalLimited(1))
                             .or(abilities(OUTPUT_LASER))
                             .or(abilities(IMPORT_ITEMS))
                             .or(abilities(EXPORT_ITEMS)))
-                    .where('T', blocks(GTOBlocks.DEGENERATE_RHENIUM_CONSTRAINED_CASING.get()))
-                    .where('R', blocks(GTOBlocks.DYSON_RECEIVER_CASING.get()))
+                    .where('L', blocks(GTBlocks.HIGH_POWER_CASING.get()))
+                    .where('M', blocks(GTOBlocks.DEGENERATE_RHENIUM_CONSTRAINED_CASING.get()))
+                    .where('N', controller(definition))
                     .where(' ', any())
                     .build())
             .renderer(AnnihilateGeneratorRenderer::new)
@@ -782,7 +773,6 @@ public final class GeneratorMultiblock {
 
     public static final MultiblockMachineDefinition FUEL_CELL_GENERATOR = multiblock("fuel_cell_generator", "燃料电池发电机", FullCellGenerator::new)
             .nonYAxisRotation()
-            .disabledCombined()
             .recipeTypes(GTORecipeTypes.FUEL_CELL_ENERGY_ABSORPTION_RECIPES)
             .recipeTypes(GTORecipeTypes.FUEL_CELL_ENERGY_TRANSFER_RECIPES)
             .recipeTypes(GTORecipeTypes.FUEL_CELL_ENERGY_RELEASE_RECIPES)
@@ -790,10 +780,10 @@ public final class GeneratorMultiblock {
             .addTooltipsFromClass(FullCellGenerator.class)
             .tooltipsSupplier(GTOMachineTooltips.INSTANCE.getFuelCellGeneratorTooltips().getSupplier())
             .block(GTOBlocks.IRIDIUM_CASING)
-            .recipeModifier((machine, recipe) -> {
-                if (machine instanceof FullCellGenerator f && f.isGenerator())
-                    return RecipeModifierFunction.GENERATOR_OVERCLOCKING.apply(machine, recipe);
-                else return recipe;
+            .recipeModifier((m, u, r) -> {
+                if (m instanceof FullCellGenerator f && f.isGenerator())
+                    return RecipeModifier.GENERATOR_OVERCLOCKING.applyModifier(m, u, r);
+                else return r;
             })
             .pattern(definition -> MultiBlockFileReader.start(definition)
                     .where('A', blocks(GTOBlocks.IRIDIUM_CASING.get())
@@ -802,14 +792,15 @@ public final class GeneratorMultiblock {
                             .or(abilities(IMPORT_FLUIDS))
                             .or(abilities(EXPORT_ITEMS))
                             .or(abilities(EXPORT_FLUIDS))
+                            .or(blocks(GTOMachines.ION_ACTIVITY_SENSOR.get()).setMaxGlobalLimited(1))
                             .or(blocks(GTMachines.CONTROL_HATCH.get())))
                     .where('B', blocks(GCYMBlocks.ELECTROLYTIC_CELL.get()))
-                    .where('C', controller(blocks(definition.get())))
+                    .where('C', controller(definition))
                     .where('D', blocks(GTOBlocks.FLOCCULATION_CASING.get()))
                     .where('E', blocks(GTOBlocks.IRIDIUM_CASING.get()))
                     .where('F', blocks(GCYMBlocks.MOLYBDENUM_DISILICIDE_COIL_BLOCK.get()))
                     .where('G', blocks(GTOBlocks.PRESSURE_CONTAINMENT_CASING.get()))
-                    .where('H', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTMaterials.HSSG)))
+                    .where('H', GTOPredicates.frame(GTMaterials.HSSG))
                     .where('I', blocks(GTOBlocks.IRIDIUM_PIPE_CASING.get()))
                     .where('J', blocks(GTOBlocks.CALCIUM_OXIDE_CERAMIC_ANTI_METAL_CORROSION_MECHANICAL_BLOCK.get()))
                     .where('K', blocks(GTBlocks.FILTER_CASING.get()))

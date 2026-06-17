@@ -20,7 +20,7 @@ import com.lowdragmc.lowdraglib.gui.texture.ResourceTexture;
 
 import static com.gtocore.data.transaction.data.TradeLang.addTradeLang;
 
-public class UnlockTrade {
+public final class UnlockTrade {
 
     public static final String SINGLE_TRANSACTION = "Single Transaction";
 
@@ -37,7 +37,7 @@ public class UnlockTrade {
             tradeGroup.addItem(GTMachines.HULL[i].asStack());
             UnlockManager.INSTANCE.addTradeToEntry(addTradeLang("格雷电压", "GT Values"),
                     tradeEntry(new ResourceTexture("gtocore:textures/item/circuit/" + GTValues.VN[i].toLowerCase() + ".png"),
-                            UNLOCK_SHOP, GTOValues.VNFR[i], tradeGroup));
+                            UNLOCK_TRADE, GTOValues.VNFR[i], tradeGroup));
         }
     }
 
@@ -57,16 +57,16 @@ public class UnlockTrade {
 
     // 前置检查逻辑：检查标签是否添加
     private static int checkUnlock(TradeData data, TradeEntry entry, String tagKey, String tagValue) {
-        Level level = data.getLevel();
+        Level level = data.level();
         ServerLevel serverLevel = level instanceof ServerLevel ? (ServerLevel) level : null;
-        if (!WalletUtils.containsTagValueInWallet(data.getUuid(), serverLevel, tagKey, tagValue)) return 1;
+        if (!WalletUtils.containsTagValueInWallet(data.uuid(), serverLevel, tagKey, tagValue)) return 1;
         return 0;
     }
 
     // 执行逻辑：添加标签
     private static void performUnlock(TradeData data, TradeEntry entry, int multiplier, String tagKey, String tagValue) {
-        Level level = data.getLevel();
+        Level level = data.level();
         ServerLevel serverLevel = level instanceof ServerLevel ? (ServerLevel) level : null;
-        WalletUtils.addTagToWallet(data.getUuid(), serverLevel, tagKey, tagValue);
+        WalletUtils.addTagToWallet(data.uuid(), serverLevel, tagKey, tagValue);
     }
 }

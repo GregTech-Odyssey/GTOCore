@@ -8,13 +8,15 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 
+import appeng.api.util.AEColor;
 import appeng.client.gui.AEBaseScreen;
 import appeng.client.gui.me.crafting.AbstractTableRenderer;
 import appeng.client.gui.me.crafting.CraftingStatusTableRenderer;
 import appeng.core.localization.GuiText;
 import appeng.menu.me.crafting.CraftingStatusEntry;
+
 import com.llamalad7.mixinextras.sugar.Local;
-import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
+import it.unimi.dsi.fastutil.objects.ReferenceOpenHashSet;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -52,10 +54,24 @@ public abstract class CraftingStatusTableRendererMixin extends AbstractTableRend
             var lastResults = handler.gto$getLastCraftingResults();
             if (lastResults != null &&
                     lastResults.containsKey(entry.getWhat())) {
-                Set<IPatternProviderLogic.PushResult> results = new ObjectOpenHashSet<>(lastResults.get(entry.getWhat()));
+                Set<IPatternProviderLogic.PushResult> results = new ReferenceOpenHashSet<>(lastResults.get(entry.getWhat()));
                 var v = cir.getReturnValue();
                 v.addAll(results.stream().filter(Objects::nonNull).map(r -> Component.translatable(r.getTranslationKey()).withStyle(r.success() ? ChatFormatting.GREEN : ChatFormatting.GOLD)).toList());
                 cir.setReturnValue(v);
+            }
+        }
+    }
+
+    @Inject(remap = false,
+            method = "getEntryBackgroundColor(Lappeng/menu/me/crafting/CraftingStatusEntry;)I",
+            at = @At("HEAD"),
+            cancellable = true)
+    protected void entryBackgroundColor(CraftingStatusEntry entry, CallbackInfoReturnable<Integer> cir) {
+        if (screen.getMenu() instanceof IPushResultsHandler handler) {
+            if (entry.getActiveAmount() > 0) {
+                cir.setReturnValue(AEColor.GREEN.blackVariant | 0x5A000000);
+            } else if (handler.gto$isPaused()) {
+                cir.setReturnValue(0xFF55FF | 0x5A000000);
             }
         }
     }

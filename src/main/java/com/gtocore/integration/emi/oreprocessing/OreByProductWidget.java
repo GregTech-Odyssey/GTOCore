@@ -3,6 +3,7 @@ package com.gtocore.integration.emi.oreprocessing;
 import com.gtocore.common.data.machines.MultiBlockC;
 import com.gtocore.data.recipe.generated.GTOOreRecipeHandler;
 
+import com.gtolib.GTOCore;
 import com.gtolib.api.recipe.ContentBuilder;
 
 import com.gregtechceu.gtceu.api.GTValues;
@@ -15,6 +16,7 @@ import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.gui.widget.SlotWidget;
 import com.gregtechceu.gtceu.api.gui.widget.TankWidget;
 import com.gregtechceu.gtceu.api.recipe.content.Content;
+import com.gregtechceu.gtceu.api.recipe.ingredient.ItemIngredient;
 import com.gregtechceu.gtceu.api.transfer.fluid.CustomFluidTank;
 import com.gregtechceu.gtceu.api.transfer.item.CustomItemStackHandler;
 import com.gregtechceu.gtceu.common.data.GTMachines;
@@ -74,10 +76,11 @@ final class OreByProductWrapper {
         return ChemicalHelper.get(TagPrefix.dust, transformed, 1);
     }
 
-    public OreByProductWrapper(Material material) {
+    OreByProductWrapper(Material material) {
         var property = material.getProperty(PropertyKey.ORE);
         int oreMultiplier = property.getOreMultiplier();
         int byproductMultiplier = property.getByProductMultiplier();
+        int rawOreCrushedAmount = Math.max(1, oreMultiplier * (GTOCore.isExpert() ? 4 : 6) / 2);
         currentSlot = 0;
         Material[] byproducts = (new Material[] { property.getOreByProduct(0, material), property.getOreByProduct(1, material), property.getOreByProduct(2, material), property.getOreByProduct(3, material) });
         // "INPUTS"
@@ -148,7 +151,7 @@ final class OreByProductWrapper {
             addEmptyOutputs(1);
         }
         // macerate ore -> crushed
-        addToOutputs(material, TagPrefix.crushed, 2 * oreMultiplier);
+        addToOutputs(material, TagPrefix.crushed, rawOreCrushedAmount);
         if (!ChemicalHelper.get(TagPrefix.gem, byproducts[0]).isEmpty()) {
             addToOutputs(byproducts[0], TagPrefix.gem, 1);
         } else {
@@ -304,7 +307,7 @@ final class OreByProductWrapper {
     private void addChance(int base, int tier) {
         // this is solely for the chance overlay and tooltip, neither of which care
         // about the ItemStack
-        chances.put(currentSlot - 1, new Content(ItemStack.EMPTY, base, tier));
+        chances.put(currentSlot - 1, new Content<>(ItemIngredient.EMPTY, base, tier));
     }
 
     // make the code less :weary:

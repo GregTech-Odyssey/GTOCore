@@ -3,6 +3,7 @@ package com.gtocore.mixin.ae2.pattern;
 import net.minecraft.nbt.ListTag;
 
 import appeng.api.stacks.GenericStack;
+
 import com.google.common.base.Preconditions;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;

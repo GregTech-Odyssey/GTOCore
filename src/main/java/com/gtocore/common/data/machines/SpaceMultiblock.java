@@ -1,8 +1,10 @@
 package com.gtocore.common.data.machines;
 
-import com.gtocore.api.machine.part.ILargeSpaceStationMachine;
+import com.gtocore.api.machine.ILargeSpaceStationMachine;
 import com.gtocore.api.pattern.GTOPredicates;
+import com.gtocore.client.renderer.machine.SpaceElevatorConnectorModuleRenderer;
 import com.gtocore.common.data.GTOBlocks;
+import com.gtocore.common.data.GTOMachines;
 import com.gtocore.common.data.GTOMaterials;
 import com.gtocore.common.data.GTORecipeTypes;
 import com.gtocore.common.data.translation.GTOMachineStories;
@@ -10,16 +12,15 @@ import com.gtocore.common.data.translation.GTOMachineTooltips;
 import com.gtocore.common.data.translation.GTOMachineTooltipsA;
 import com.gtocore.common.machine.multiblock.electric.space.spacestaion.*;
 import com.gtocore.common.machine.multiblock.electric.space.spacestaion.recipe.OrbitalSmeltingFacility;
+import com.gtocore.common.machine.multiblock.electric.space.spacestaion.recipe.SpaceBioResearchModule;
 import com.gtocore.common.machine.multiblock.electric.space.spacestaion.recipe.SpaceDroneDock;
 
 import com.gtolib.GTOCore;
 import com.gtolib.api.annotation.NewDataAttributes;
-import com.gtolib.api.recipe.modifier.RecipeModifierFunction;
+import com.gtolib.utils.MultiBlockFileReader;
 
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.block.MetaMachineBlock;
-import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
-import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
 import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
 import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
@@ -32,6 +33,7 @@ import com.gregtechceu.gtceu.common.data.GTMachines;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.block.Blocks;
 
 import com.google.common.collect.ImmutableSet;
 
@@ -40,8 +42,8 @@ import java.util.stream.Stream;
 
 import static com.gregtechceu.gtceu.api.machine.multiblock.PartAbility.*;
 import static com.gregtechceu.gtceu.api.pattern.Predicates.*;
+import static com.gtocore.api.machine.ILargeSpaceStationMachine.ConnectType.*;
 import static com.gtocore.api.machine.part.GTOPartAbility.DRONE_HATCH;
-import static com.gtocore.api.machine.part.ILargeSpaceStationMachine.ConnectType.*;
 import static com.gtocore.api.pattern.GTOPredicates.autoSpaceMachineAbilities;
 import static com.gtocore.api.pattern.GTOPredicates.light;
 import static com.gtocore.utils.register.MachineRegisterUtils.multiblock;
@@ -104,7 +106,7 @@ public class SpaceMultiblock {
                     .aisle("       ", "  A A  ", " ACCCA ", "  C C  ", " ACCCA ", "  A A  ", "       ")
                     .where('A', blocks(GTBlocks.CASING_STAINLESS_CLEAN.get()))
                     .where('B', blocks(GTOBlocks.ALUMINUM_ALLOY_8090_SKIN_MECHANICAL_BLOCK.get()))
-                    .where('C', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTOMaterials.StainlessSteelGC4)))
+                    .where('C', GTOPredicates.frame(GTOMaterials.StainlessSteelGC4))
                     .where('D', blocks(Stream.of(GTMachines.HULL).map(MachineDefinition::get).toArray(MetaMachineBlock[]::new)).or(abilities(IMPORT_FLUIDS, EXPORT_FLUIDS, INPUT_ENERGY)))
                     .where('e', ISpacePredicateMachine.photovoltaicPlantSupplyingPredicate.get())
                     .where('E', blocks(GTBlocks.CASING_TEMPERED_GLASS.get()))
@@ -121,7 +123,7 @@ public class SpaceMultiblock {
                     .where('L', blocks(GTOBlocks.PRESSURE_CONTAINMENT_CASING.get()))
                     .where('l', light())
                     .where('M', blocks(GTBlocks.CASING_TITANIUM_PIPE.get()))
-                    .where('N', controller(blocks(definition.get())))
+                    .where('N', controller(definition))
                     .where('p', ISpacePredicateMachine.innerBlockPredicate.get())
                     .where(' ', any())
                     .build())
@@ -196,10 +198,10 @@ public class SpaceMultiblock {
                     .aisle("                   ", "                   ", "                   ", "                   ", "                   ", "         A         ", "                   ", "                   ", "                   ", "     A       A     ", "                   ", "                   ", "                   ", "         A         ", "                   ", "                   ", "                   ", "                   ", "                   ")
                     .where('A', blocks(GTOBlocks.ALUMINUM_ALLOY_7050_SUPPORT_MECHANICAL_BLOCK.get()))
                     .where('B', blocks(GTOBlocks.ALUMINUM_ALLOY_2090_SKIN_MECHANICAL_BLOCK.get()))
-                    .where('C', blocks(GTOBlocks.TITANIUM_ALLOY_INTERNAL_FRAME.get()))
+                    .where('C', blocks(GTOBlocks.TITANIUM_ALLOY_FRAME_INTERNAL.get()))
                     .where('c', CORE.traceabilityPredicate.get())
                     .where('D', blocks(GTOBlocks.SPACECRAFT_DOCKING_CASING.get()))
-                    .where('E', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTOMaterials.StainlessSteel316)))
+                    .where('E', GTOPredicates.frame(GTOMaterials.StainlessSteel316))
                     .where('F', blocks(GTOBlocks.PRESSURE_RESISTANT_HOUSING_MECHANICAL_BLOCK.get()))
                     .where('G', blocks(GTOBlocks.SPACECRAFT_SEALING_MECHANICAL_BLOCK.get()))
                     .where('H', GTOPredicates.light())
@@ -207,7 +209,7 @@ public class SpaceMultiblock {
                     .where('J', blocks(GTOBlocks.TITANIUM_ALLOY_PROTECTIVE_MECHANICAL_BLOCK.get()))
                     .where('K', blocks(GTOBlocks.SPACE_ENGINE_NOZZLE.get()))
                     .where('L', blocks(GTOBlocks.LOAD_BEARING_STRUCTURAL_STEEL_MECHANICAL_BLOCK.get()))
-                    .where('M', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTOMaterials.AluminumAlloy7050)))
+                    .where('M', GTOPredicates.frame(GTOMaterials.AluminumAlloy7050))
                     .where('N', blocks(Stream.of(GTMachines.HULL).map(MachineDefinition::get).toArray(MetaMachineBlock[]::new)))
                     .where('O', blocks(GTOBlocks.STAINLESS_STEEL_CORROSION_RESISTANT_CASING.get()))
                     .where('P', blocks(GTOBlocks.INSULATION_TILE_MECHANICAL_BLOCK.get()))
@@ -215,7 +217,7 @@ public class SpaceMultiblock {
                     .where('R', blocks(GTOBlocks.SPACE_STATION_CONTROL_CASING.get())
                             .or(abilities(INPUT_ENERGY, IMPORT_FLUIDS, EXPORT_FLUIDS))
                             .or(abilities(MAINTENANCE).setExactLimit(1)))
-                    .where('S', controller(blocks(definition.get())))
+                    .where('S', controller(definition))
                     .where('T', blocks(GTOBlocks.SPACE_STATION_CONTROL_CASING.get()))
                     .where('U', blocks(GCYMBlocks.CASING_NONCONDUCTING.get()))
                     .where('V', blocks(GCYMBlocks.ELECTROLYTIC_CELL.get()))
@@ -224,7 +226,7 @@ public class SpaceMultiblock {
                     .where('Y', blocks(GTOBlocks.TUNGSTEN_ALLOY_RADIATION_SHIELDING_MECHANICAL_BLOCK.get()))
                     .where('Z', blocks(GTOBlocks.ELECTRIC_POWER_TRANSMISSION_CASING.get()))
                     .where('[', GTOPredicates.integralFramework())
-                    .where('a', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTOMaterials.PlatinumRhodiumAlloy)))
+                    .where('a', GTOPredicates.frame(GTOMaterials.PlatinumRhodiumAlloy))
                     .where(']', blocks(GTOBlocks.SENSOR_PROTECTIVE_COVER_CASING.get()))
                     .where('p', ISpacePredicateMachine.innerBlockPredicate.get())
                     .where(' ', any())
@@ -285,6 +287,7 @@ public class SpaceMultiblock {
             }
             return builder.build();
         }
+        machine.requestCheck();
         return Set.of();
     }))
             .allRotation()
@@ -295,7 +298,7 @@ public class SpaceMultiblock {
             .block(GTBlocks.CASING_STAINLESS_CLEAN)
             .pattern(definition -> FactoryBlockPattern.start(definition)
                     .aisle("M")
-                    .where('M', controller(blocks(definition.get())))
+                    .where('M', controller(definition))
                     .build())
             .addSubPattern(definition -> FactoryBlockPattern.start(definition)
                     .aisle("                      ", "                      ", "                      ", "           ABA        ", "          ACDCA       ", "         ACpppCA      ", "         BDpppDB      ", "         ACpppCA      ", "          ACDCA       ", "           ABA        ", "                      ", "                      ", "                      ")
@@ -313,14 +316,14 @@ public class SpaceMultiblock {
                     .aisle("                      ", "                      ", "                      ", "           ABA        ", "          ACDCA       ", "         ACpppCA      ", "         BDpppDB      ", "         ACpppCA      ", "          ACDCA       ", "           ABA        ", "                      ", "                      ", "                      ")
                     .where('A', blocks(GTOBlocks.ALUMINUM_ALLOY_2090_SKIN_MECHANICAL_BLOCK.get()))
                     .where('B', blocks(GTOBlocks.ALUMINUM_ALLOY_7050_SUPPORT_MECHANICAL_BLOCK.get()))
-                    .where('C', blocks(GTOBlocks.TITANIUM_ALLOY_INTERNAL_FRAME.get()))
+                    .where('C', blocks(GTOBlocks.TITANIUM_ALLOY_FRAME_INTERNAL.get()))
                     .where('c', CONJUNCTION.traceabilityPredicate.get())
                     .where('D', blocks(GTOBlocks.SPACECRAFT_DOCKING_CASING.get()))
                     .where('E', blocks(GTOBlocks.TITANIUM_ALLOY_PROTECTIVE_MECHANICAL_BLOCK.get()))
                     .where('F', blocks(GTOBlocks.SPACE_STATION_CONTROL_CASING.get()))
                     .where('G', blocks(GTBlocks.CASING_STAINLESS_CLEAN.get()))
                     .where('H', GTOPredicates.light())
-                    .where('I', controller(blocks(definition.get())))
+                    .where('I', controller(definition))
                     .where('p', ISpacePredicateMachine.innerBlockPredicate.get())
                     .where(' ', any())
                     .build())
@@ -342,7 +345,7 @@ public class SpaceMultiblock {
                     .aisle("                   ", "                   ", "                   ", "                   ", "                   ", "                   ", "       I           ", "                   ", "                   ", "                   ", "                   ", "                   ", "                   ")
                     .where('A', blocks(GTOBlocks.ALUMINUM_ALLOY_2090_SKIN_MECHANICAL_BLOCK.get()))
                     .where('B', blocks(GTOBlocks.ALUMINUM_ALLOY_7050_SUPPORT_MECHANICAL_BLOCK.get()))
-                    .where('C', blocks(GTOBlocks.TITANIUM_ALLOY_INTERNAL_FRAME.get()))
+                    .where('C', blocks(GTOBlocks.TITANIUM_ALLOY_FRAME_INTERNAL.get()))
                     .where('c', CONJUNCTION.traceabilityPredicate.get())
                     .where('D', blocks(GTOBlocks.SPACECRAFT_DOCKING_CASING.get()))
                     .where('E', blocks(GTOBlocks.TITANIUM_ALLOY_PROTECTIVE_MECHANICAL_BLOCK.get()))
@@ -350,7 +353,7 @@ public class SpaceMultiblock {
                     .where('G', blocks(GTBlocks.CASING_STAINLESS_CLEAN.get()))
                     .where('H', GTOPredicates.light())
                     .where('p', ISpacePredicateMachine.innerBlockPredicate.get())
-                    .where('I', controller(blocks(definition.get())))
+                    .where('I', controller(definition))
                     .where(' ', any())
                     .build())
             .workableCasingRenderer(GTCEu.id("block/casings/solid/machine_casing_clean_stainless_steel"), GTCEu.id("block/multiblock/fusion_reactor"))
@@ -374,18 +377,18 @@ public class SpaceMultiblock {
                     .aisle("           A         ", "         BDDDB       ", "      DDDDEEEDDDD    ", "     DFFFDFFFDFFFD   ", "  GGDEHHHHHHHHHHHEDGG", "  BBDEHHHHHHHHHHHEDBB", "  GGDEHHHHHHHHHHHEDGG", "     DFFFDFFFDFFFD   ", "      DDDDEEEDDDD    ", "         BDDDB       ", "           A         ")
                     .aisle("                     ", "           A         ", "         BDDDB       ", "      DDDDEEEDDDD    ", "     DCCCCCCCCCCCD   ", "     DCCCCCCCCCCCD   ", "     DCCCCCCCCCCCD   ", "      DDDDEEEDDDD    ", "         BDDDB       ", "           A         ", "                     ")
                     .aisle("                     ", "                     ", "           A         ", "         BAAAB       ", "         BCCCB       ", "         BCCCB       ", "         BCCCB       ", "         BAAAB       ", "           A         ", "                     ", "                     ")
-                    .where('A', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTOMaterials.StainlessSteel316)))
+                    .where('A', GTOPredicates.frame(GTOMaterials.StainlessSteel316))
                     .where('B', blocks(GTOBlocks.ALUMINUM_ALLOY_7050_SUPPORT_MECHANICAL_BLOCK.get()))
                     .where('C', blocks(GTBlocks.CLEANROOM_GLASS.get()))
                     .where('c', CONJUNCTION.traceabilityPredicate.get())
                     .where('D', blocks(GTOBlocks.TITANIUM_ALLOY_PROTECTIVE_MECHANICAL_BLOCK.get()))
-                    .where('E', blocks(GTOBlocks.TITANIUM_ALLOY_INTERNAL_FRAME.get()))
+                    .where('E', blocks(GTOBlocks.TITANIUM_ALLOY_FRAME_INTERNAL.get()))
                     .where('F', GTOPredicates.light())
                     .where('G', blocks(GTOBlocks.ALUMINUM_ALLOY_2090_SKIN_MECHANICAL_BLOCK.get()))
                     .where('H', ISpacePredicateMachine.innerBlockPredicate.get())
                     .where('I', blocks(GTOBlocks.SPACE_STATION_CONTROL_CASING.get()))
                     .where('J', blocks(GTOBlocks.SPACECRAFT_DOCKING_CASING.get()))
-                    .where('K', controller(blocks(definition.get())))
+                    .where('K', controller(definition))
                     .where(' ', any())
                     .build())
             .workableCasingRenderer(GTCEu.id("block/casings/solid/machine_casing_clean_stainless_steel"), GTCEu.id("block/multiblock/fusion_reactor"))
@@ -414,13 +417,13 @@ public class SpaceMultiblock {
                     .aisle("                                             ", "                                             ", "             QQ                 QQ           ", "             QQ                 QQ           ", "             QQ      QQQQQ      QQ           ", "     FG  JJ  PP  JJ  QRQRQ  JJ  PP  JJ  GF   ", "     FG              QRQRQ              GF   ", "     FGJJJJJJ  JJJJJJQQQQQJJJJJJ  JJJJJJGF   ", "     FG              QRQRQ              GF   ", "     FG  JJ  PP  JJ  QRQRQ  JJ  PP  JJ  GF   ", "             QQ      QQQQQ      QQ           ", "             QQ                 QQ           ", "             QQ                 QQ           ", "                                             ", "                                             ")
                     .aisle("                                             ", "                                             ", "                                             ", "             QQ                 QQ           ", "        IIIIIIIIIIII       IIIIIIIIIIII      ", "       IIJJIIPPIIJJII     IIJJIIPPIIJJII     ", "       IIIIIIIIIIIIII     IIIIIIIIIIIIII     ", "       IIIIIIIIIIIIIIFFFFFIIIIIIIIIIIIII     ", "       IIIIIIIIIIIIII     IIIIIIIIIIIIII     ", "       IIJJIIPPIIJJII     IIJJIIPPIIJJII     ", "        IIIIIIIIIIII       IIIIIIIIIIII      ", "             QQ                 QQ           ", "                                             ", "                                             ", "                                             ")
                     .aisle("                                             ", "                                             ", "                                             ", "                                             ", "                                             ", "         IIIIPPIIII         IIIIPPIIII       ", "        IIIIIPPIIIII       IIIIIPPIIIII      ", "        IIIIIPPIIIII       IIIIIPPIIIII      ", "        IIIIIPPIIIII       IIIIIPPIIIII      ", "         IIIIPPIIII         IIIIPPIIII       ", "                                             ", "                                             ", "                                             ", "                                             ", "                                             ")
-                    .where('A', blocks(GTOBlocks.TITANIUM_ALLOY_INTERNAL_FRAME.get()))
+                    .where('A', blocks(GTOBlocks.TITANIUM_ALLOY_FRAME_INTERNAL.get()))
                     .where('a', MODULE.traceabilityPredicate.get())
-                    .where('B', controller(blocks(definition.get())))
+                    .where('B', controller(definition))
                     .where('C', blocks(GTOBlocks.ALUMINUM_ALLOY_7050_SUPPORT_MECHANICAL_BLOCK.get()))
                     .where('D', blocks(GTOBlocks.SPACECRAFT_DOCKING_CASING.get()))
                     .where('E', blocks(GTOBlocks.ALUMINUM_ALLOY_2090_SKIN_MECHANICAL_BLOCK.get()))
-                    .where('F', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTOMaterials.StainlessSteel316)))
+                    .where('F', GTOPredicates.frame(GTOMaterials.StainlessSteel316))
                     .where('G', blocks(GTOBlocks.TITANIUM_ALLOY_PROTECTIVE_MECHANICAL_BLOCK.get()))
                     .where('H', blocks(GTOBlocks.SPACECRAFT_SEALING_MECHANICAL_BLOCK.get())
                             .or(abilities(EXPORT_ITEMS)))
@@ -446,12 +449,14 @@ public class SpaceMultiblock {
             .allRotation()
             .workableInSpace()
             .parallelizableTooltips()
+            .eutMultiplierTooltips(0.8)
+            .durationMultiplierTooltips(0.6)
             .tooltips(GTOMachineTooltips.INSTANCE.getRecipeExtensionTooltips().getSupplier())
             .tooltips(GTOMachineTooltips.INSTANCE.getFunctionSpaceStationModuleTooltips().getSupplier())
             .recipeTypes(GTORecipeTypes.SPACE_SMELTING_RECIPES)
             .recipeTypes(GTORecipeTypes.ALLOY_BLAST_RECIPES)
+            .recipeTypes(GTORecipeTypes.BLAST_RECIPES)
             .block(GTOBlocks.SMELTING_CONTROL_CASING)
-            .recipeModifier(RecipeModifierFunction.GCYM_OVERCLOCKING)
             .pattern(definition -> FactoryBlockPattern.start(definition)
                     .aisle("                                             ", "                                             ", "                                             ", "                                             ", "                                             ", "                                             ", "                 M M       M M               ", "                 M M       M M               ", "                 M M       M M               ", "                 M M       M M               ", "                 M M       M M               ", "                                             ", "                                             ", "                                             ", "                                             ", "                                             ", "                                             ")
                     .aisle("                                             ", "                                             ", "                                             ", "                                             ", "                 M M       M M               ", "                 M M       M M               ", "                 O OI K K IO O               ", "             IIIIO OI K K IO OIIII           ", "                 O OI K K IO O               ", "             IIIIO OI K K IO OIIII           ", "                 O OI K K IO O               ", "                 M M       M M               ", "                 M M       M M               ", "                                             ", "                                             ", "                                             ", "                                             ")
@@ -470,17 +475,17 @@ public class SpaceMultiblock {
                     .aisle("                                             ", "                                             ", "                 M M       M M               ", "                 M M       M M               ", "                 ONOINKNKNIONO               ", "                 ONOINKNKNIONO               ", "                    PPPPPPP                  ", "          IIIIIIIIIII P P IIIIIIIIIII        ", "             KKKKL LPPPPPPPL LKKKK           ", "          IIIIIIIIIII P P IIIIIIIIIII        ", "                    PPPPPPP                  ", "                 O OI K K IO O               ", "                 O OI K K IO O               ", "                 M M       M M               ", "                 M M       M M               ", "                                             ", "                                             ")
                     .aisle("                                             ", "                                             ", "                                             ", "                                             ", "                 M M       M M               ", "                 M M       M M               ", "                 O OI K K IO O               ", "             IIIIO OI K K IO OIIII           ", "                 O OI K K IO O               ", "             IIIIO OI K K IO OIIII           ", "                 O OI K K IO O               ", "                 M M       M M               ", "                 M M       M M               ", "                                             ", "                                             ", "                                             ", "                                             ")
                     .aisle("                                             ", "                                             ", "                                             ", "                                             ", "                                             ", "                                             ", "                 M M       M M               ", "                 M M       M M               ", "                 M M       M M               ", "                 M M       M M               ", "                 M M       M M               ", "                                             ", "                                             ", "                                             ", "                                             ", "                                             ", "                                             ")
-                    .where('A', blocks(GTOBlocks.TITANIUM_ALLOY_INTERNAL_FRAME.get()))
+                    .where('A', blocks(GTOBlocks.TITANIUM_ALLOY_FRAME_INTERNAL.get()))
                     .where('a', MODULE.traceabilityPredicate.get())
-                    .where('B', controller(blocks(definition.get())))
+                    .where('B', controller(definition))
                     .where('C', blocks(GTOBlocks.ALUMINUM_ALLOY_7050_SUPPORT_MECHANICAL_BLOCK.get()))
                     .where('D', blocks(GTOBlocks.SPACECRAFT_DOCKING_CASING.get()))
                     .where('E', blocks(GTOBlocks.ALUMINUM_ALLOY_2090_SKIN_MECHANICAL_BLOCK.get()))
-                    .where('F', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTOMaterials.StainlessSteel316)))
+                    .where('F', GTOPredicates.frame(GTOMaterials.StainlessSteel316))
                     .where('G', blocks(GTOBlocks.PRESSURE_RESISTANT_HOUSING_MECHANICAL_BLOCK.get()))
                     .where('H', blocks(GTOBlocks.SMELTING_CONTROL_CASING.get())
                             .or(autoSpaceMachineAbilities(definition.getRecipeTypes()))
-                            .or(abilities(PARALLEL_HATCH)))
+                            .or(abilities(PARALLEL_HATCH).setMaxGlobalLimited(1)))
                     .where('I', blocks(GTOBlocks.CREEP_RESISTANT_SMELTING_CASING.get()))
                     .where('J', blocks(GTOBlocks.TITANIUM_ALLOY_PROTECTIVE_MECHANICAL_BLOCK.get()))
                     .where('K', blocks(GTOBlocks.SMELTING_CONTROL_CASING.get()))
@@ -523,16 +528,16 @@ public class SpaceMultiblock {
                     .aisle("                                             ", "                                             ", "           OOOSOOOSOOOS SOOOSOOOSOOO         ", "           OOOSOOOSOOOS SOOOSOOOSOOO         ", "          IOOOSOOOSOOOS SOOOSOOOSOOOI        ", "         FIKFFFFFFFFFFK KFFFFFFFFFFKIF       ", "         EEOOOSOOOSOOOS SOOOSOOOSOOOEE       ", "         EE   P   P         P   P   EE       ", "         EEQQQ QQQ QQQSTSQQQ QQQ QQQEE       ", "         FIKNK KNK KNK A KNK KNK KNKIF       ", "          IKNK KNK KNK A KNK KNK KNKI        ", "           QQQ QQQ QQQSTSQQQ QQQ QQQ         ", "           QQQ QQQ QQQSTSQQQ QQQ QQQ         ", "                                             ", "                                             ")
                     .aisle("                                             ", "                                             ", "                                             ", "                                             ", "           OOOSOOOSOOOS SOOOSOOOSOOO         ", "          FOOOSTTTSTTTS STTTSTTTSOOOF        ", "           OOOSOOOSOOOS SOOOSOOOSOOO         ", "                                             ", "           QQQ QQQ QQQSTSQQQ QQQ QQQ         ", "          FQKQ QKQ QKQSTSQKQ QKQ QKQF        ", "           QKQ QKQ QKQSTSQKQ QKQ QKQ         ", "           QQQ QQQ QQQSTSQQQ QQQ QQQ         ", "                                             ", "                                             ", "                                             ")
                     .aisle("                                             ", "                                             ", "                                             ", "                                             ", "                                             ", "           FFFFFFFFFFFFFFFFFFFFFFFFF         ", "                                             ", "                                             ", "                                             ", "           FFFFFFFFFFFFFFFFFFFFFFFFF         ", "                                             ", "                                             ", "                                             ", "                                             ", "                                             ")
-                    .where('A', blocks(GTOBlocks.TITANIUM_ALLOY_INTERNAL_FRAME.get()))
+                    .where('A', blocks(GTOBlocks.TITANIUM_ALLOY_FRAME_INTERNAL.get()))
                     .where('a', MODULE.traceabilityPredicate.get())
-                    .where('B', controller(blocks(definition.get())))
+                    .where('B', controller(definition))
                     .where('C', blocks(GTOBlocks.ALUMINUM_ALLOY_7050_SUPPORT_MECHANICAL_BLOCK.get()))
                     .where('D', blocks(GTOBlocks.SPACECRAFT_DOCKING_CASING.get()))
                     .where('E', blocks(GTOBlocks.ALUMINUM_ALLOY_2090_SKIN_MECHANICAL_BLOCK.get()))
-                    .where('F', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTOMaterials.StainlessSteel316)))
+                    .where('F', GTOPredicates.frame(GTOMaterials.StainlessSteel316))
                     .where('G', blocks(GTOBlocks.SPACE_STATION_CONTROL_CASING.get())
                             .or(autoSpaceMachineAbilities(definition.getRecipeTypes()))
-                            .or(abilities(PARALLEL_HATCH)))
+                            .or(abilities(PARALLEL_HATCH).setMaxGlobalLimited(1)))
                     .where('H', blocks(GTOBlocks.LOAD_BEARING_STRUCTURAL_STEEL_MECHANICAL_BLOCK.get()))
                     .where('I', blocks(GTOBlocks.TITANIUM_ALLOY_PROTECTIVE_MECHANICAL_BLOCK.get()))
                     .where('J', blocks(GTOBlocks.SPACE_STATION_CONTROL_CASING.get()))
@@ -541,7 +546,7 @@ public class SpaceMultiblock {
                     .where('M', blocks(GTOBlocks.PRECISION_PROCESSING_MECHANICAL_CASING.get()))
                     .where('N', blocks(GTOBlocks.IRIDIUM_PIPE_CASING.get()))
                     .where('O', blocks(GTOBlocks.PIKYONIUM_MACHINE_CASING.get()))
-                    .where('P', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTOMaterials.StainlessSteelGC4)))
+                    .where('P', GTOPredicates.frame(GTOMaterials.StainlessSteelGC4))
                     .where('p', ISpacePredicateMachine.innerBlockPredicate.get())
                     .where('Q', blocks(GTOBlocks.OXIDATION_RESISTANT_HASTELLOY_N_MECHANICAL_CASING.get()))
                     .where('R', blocks(GTOBlocks.HIGH_PRESSURE_PIPE_CASING.get()))
@@ -574,22 +579,22 @@ public class SpaceMultiblock {
                     .aisle("                                             ", "          G         G     G         G        ", "         GG         GG   GG         GG       ", "         GGGG     GGGGFFFGGGG     GGGG       ", "     GGGGLIIIG K GIIILIIILIIIG K GIIILGGGG   ", "     GIIKGIIIGKKKGIIIGKNKGIIIGKKKGIIIGKIIG   ", "  CCFGIIIGIIIGKKKGIIIGINIGIIIGKKKGIIIGIIIGFCC", "     GIIKGIIIGKKKGIIIGKNKGIIIGKKKGIIIGKIIG   ", "     GGGGLIIIG K GIIILIIIL   G K GIIILGGGG   ", "         GGGG     GGGGFFFGGGG     GGGG       ", "         GG         GG   GG         GG       ", "          G         G     G         G        ", "                                             ")
                     .aisle("                                             ", "                                             ", "          G         G     G         G        ", "         GG         GG   GG         GG       ", "         LGGG     GGGL   LGGG     GGGL       ", "        KGJGGKIIIKGGJGK KGJGGKIIIKGGJGK      ", "     FIIIGJGGIIIIIGGJG   GJGGIIIIIGGJGIIIF   ", "        KGJGGKIIIKGGJGK KGJGGKIIIKGGJGK      ", "         LGGG     GGGL   LGGG     GGGL       ", "         GG         GG   GG         GG       ", "          G         G     G         G        ", "                                             ", "                                             ")
                     .aisle("                                             ", "                                             ", "                                             ", "          G         G     G         G        ", "         GG         GG   GG         GG       ", "        KKKKK     KKKKK KKKKK     KKKKK      ", "         GG         GG   GG         GG       ", "        KKKKK     KKKKK KKKKK     KKKKK      ", "         GG         GG   GG         GG       ", "          G         G     G         G        ", "                                             ", "                                             ", "                                             ")
-                    .where('A', blocks(GTOBlocks.TITANIUM_ALLOY_INTERNAL_FRAME.get()))
+                    .where('A', blocks(GTOBlocks.TITANIUM_ALLOY_FRAME_INTERNAL.get()))
                     .where('a', MODULE.traceabilityPredicate.get())
-                    .where('B', controller(blocks(definition.get())))
+                    .where('B', controller(definition))
                     .where('C', blocks(GTOBlocks.ALUMINUM_ALLOY_7050_SUPPORT_MECHANICAL_BLOCK.get()))
                     .where('D', blocks(GTOBlocks.SPACECRAFT_DOCKING_CASING.get()))
                     .where('E', blocks(GTOBlocks.ALUMINUM_ALLOY_2090_SKIN_MECHANICAL_BLOCK.get()))
-                    .where('F', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTOMaterials.StainlessSteel316)))
+                    .where('F', GTOPredicates.frame(GTOMaterials.StainlessSteel316))
                     .where('G', blocks(GTOBlocks.TITANIUM_ALLOY_PROTECTIVE_MECHANICAL_BLOCK.get()))
                     .where('H', blocks(GTOBlocks.PRECISION_MACHINING_CONTROL_CASING.get())
                             .or(autoSpaceMachineAbilities(definition.getRecipeTypes()))
-                            .or(abilities(PARALLEL_HATCH)))
+                            .or(abilities(PARALLEL_HATCH).setMaxGlobalLimited(1)))
                     .where('I', blocks(GTOBlocks.TUNGSTEN_ALLOY_RADIATION_SHIELDING_MECHANICAL_BLOCK.get()))
                     .where('J', blocks(GTOBlocks.PRECISION_MACHINING_CONTROL_CASING.get()))
                     .where('K', blocks(GTOBlocks.HYPER_MECHANICAL_CASING.get()))
                     .where('L', blocks(GCYMBlocks.ELECTROLYTIC_CELL.get()))
-                    .where('M', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTMaterials.Naquadria)))
+                    .where('M', GTOPredicates.frame(GTMaterials.Naquadria))
                     .where('N', blocks(GTOBlocks.NAQUADAH_BOROSILICATE_GLASS.get()))
                     .where('p', ISpacePredicateMachine.innerBlockPredicate.get())
                     .where(' ', any())
@@ -601,10 +606,9 @@ public class SpaceMultiblock {
     public static final MachineDefinition SPACE_DRONE_DOCK = multiblock("space_drone_dock", "太空无人机船坞", SpaceDroneDock::new)
             .allRotation()
             .workableInSpace()
-            .specialParallelizableTooltips()
             .tooltips(GTOMachineTooltips.INSTANCE.getSpaceDroneDockTooltips().getSupplier())
             .tooltips(NewDataAttributes.TIME_COST_MULTIPLY.create(h -> h.addLines("0.1 + 6.384 / (1.632 + (消耗的电量(单位：GEU))) ^ 4", "0.1 + 6.384 / (1.632 + (Energy consumption in GEU)) ^ 4")))
-            .tooltips(GTOMachineTooltips.INSTANCE.getRecipeExtensionTooltips().getSupplier())
+            .specialParallelizableTooltips()
             .tooltips(GTOMachineTooltips.INSTANCE.getFunctionSpaceStationModuleTooltips().getSupplier())
             .recipeTypes(GTORecipeTypes.SPACE_DEBRIS_COLLECTION_RECIPES)
             .block(GTOBlocks.SPACE_STATION_CONTROL_CASING)
@@ -626,13 +630,13 @@ public class SpaceMultiblock {
                     .aisle("                                             ", "                                             ", "                                             ", "        CQC      CQC       CQC      CQC      ", "        MRM      MRM       MRM      MRM      ", "       M   MGGGGM   MGGGGGM   MGGGGM   M     ", "        MRM G  G MRM G   G MRM G  G MRM      ", "        CQC G  G CQC G   G CQC G  G CQC      ", "            G  G     G   G     G  G          ", "        CQC G  G CQC G   G CQC G  G CQC      ", "        MRM G  G MRM G   G MRM G  G MRM      ", "       M   MGGGGM   MGGGGGM   MGGGGM   M     ", "        MRM      MRM       MRM      MRM      ", "        CQC      CQC       CQC      CQC      ", "                                             ", "                                             ", "                                             ")
                     .aisle("                                             ", "                                             ", "                                             ", "        CQC      CQC       CQC      CQC      ", "        MRM      MRM       MRM      MRM      ", "       M   M    M   M GGG M   M    M   M     ", "        MRM GGGG MRM GGGGG MRM GGGG MRM      ", "        CQC GGGG CQC GGGGG CQC GGGG CQC      ", "            GGGG     GGGGG     GGGG          ", "        CQC GGGG CQC GGGGG CQC GGGG CQC      ", "        MRM GGGG MRM GGGGG MRM GGGG MRM      ", "       M   M    M   M GGG M   M    M   M     ", "        MRM      MRM       MRM      MRM      ", "        CQC      CQC       CQC      CQC      ", "                                             ", "                                             ", "                                             ")
                     .aisle("                                             ", "                                             ", "                                             ", "                                             ", "        MMM      MMM       MMM      MMM      ", "       M   M    M   M     M   M    M   M     ", "        MMM      MMM       MMM      MMM      ", "                                             ", "                                             ", "                                             ", "        MMM      MMM       MMM      MMM      ", "       M   M    M   M     M   M    M   M     ", "        MMM      MMM       MMM      MMM      ", "                                             ", "                                             ", "                                             ", "                                             ")
-                    .where('A', blocks(GTOBlocks.TITANIUM_ALLOY_INTERNAL_FRAME.get()))
+                    .where('A', blocks(GTOBlocks.TITANIUM_ALLOY_FRAME_INTERNAL.get()))
                     .where('a', MODULE.traceabilityPredicate.get())
-                    .where('B', controller(blocks(definition.get())))
+                    .where('B', controller(definition))
                     .where('C', blocks(GTOBlocks.ALUMINUM_ALLOY_7050_SUPPORT_MECHANICAL_BLOCK.get()))
                     .where('D', blocks(GTOBlocks.SPACECRAFT_DOCKING_CASING.get()))
                     .where('E', blocks(GTOBlocks.ALUMINUM_ALLOY_2090_SKIN_MECHANICAL_BLOCK.get()))
-                    .where('F', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTOMaterials.StainlessSteel316)))
+                    .where('F', GTOPredicates.frame(GTOMaterials.StainlessSteel316))
                     .where('G', blocks(GTOBlocks.TITANIUM_ALLOY_PROTECTIVE_MECHANICAL_BLOCK.get()))
                     .where('H', blocks(GTOBlocks.SPACE_STATION_CONTROL_CASING.get())
                             .or(autoAbilities(definition.getRecipeTypes()))
@@ -640,10 +644,10 @@ public class SpaceMultiblock {
                     .where('I', blocks(GTOBlocks.PRESSURE_RESISTANT_HOUSING_MECHANICAL_BLOCK.get()))
                     .where('J', blocks(GTOBlocks.LOW_TEMPERATURE_FUEL_TANK_CASING.get()))
                     .where('K', blocks(GTOBlocks.LOW_TEMPERATURE_FUEL_PIPE_CASING.get()))
-                    .where('L', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTOMaterials.StainlessSteelJbk75)))
+                    .where('L', GTOPredicates.frame(GTOMaterials.StainlessSteelJbk75))
                     .where('M', blocks(GTOBlocks.TUNGSTEN_ALLOY_IMPACT_RESISTANT_MECHANICAL_BLOCK.get()))
                     .where('N', blocks(GTOBlocks.IRIDIUM_PIPE_CASING.get()))
-                    .where('O', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTOMaterials.BerylliumAluminumF)))
+                    .where('O', GTOPredicates.frame(GTOMaterials.BerylliumAluminumF))
                     .where('P', blocks(GTOBlocks.HASTELLOY_N_75_GEARBOX.get()))
                     .where('Q', blocks(GTOBlocks.HSSS_BOROSILICATE_GLASS.get()))
                     .where('R', blocks(GTOBlocks.MAGTECH_CASING.get()))
@@ -682,9 +686,9 @@ public class SpaceMultiblock {
                     .aisle("                                ", "                                ", "                                ", "             CCCCCCCCCppppCC    ", "             CCHHHHHCCppppCC    ", "            HHHHOOOHHHH         ", "          BBHHHHOOOHHHHBBB      ", "            HHHHOOOHHHH         ", "             CCHHHHHCCppppCC    ", "             CCCCCCCCCppppCC    ", "                                ", "                                ", "                                ")
                     .aisle("                                ", "                                ", "                                ", "                                ", "              CBBBBBC           ", "              CpppppC           ", "            BBCpppppCBB         ", "              CpppppC           ", "              CBBBBBC           ", "                                ", "                                ", "                                ", "                                ")
                     .where('A', blocks(GTOBlocks.SENSOR_PROTECTIVE_COVER_CASING.get()))
-                    .where('B', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTOMaterials.UltraLightweightCompositeSteel)))
+                    .where('B', GTOPredicates.frame(GTOMaterials.UltraLightweightCompositeSteel))
                     .where('C', blocks(GTOBlocks.TITANIUM_ALLOY_PROTECTIVE_MECHANICAL_BLOCK.get()))
-                    .where('D', blocks(GTOBlocks.TITANIUM_ALLOY_INTERNAL_FRAME.get()))
+                    .where('D', blocks(GTOBlocks.TITANIUM_ALLOY_FRAME_INTERNAL.get()))
                     .where('E', blocks(GTOBlocks.SPACE_STATION_CONTROL_CASING.get()))
                     .where('F', blocks(GTOBlocks.INSULATION_TILE_MECHANICAL_BLOCK.get()))
                     .where('G', blocks(GTOBlocks.COBALT_OXIDE_CERAMIC_STRONG_THERMALLY_CONDUCTIVE_MECHANICAL_BLOCK.get()))
@@ -698,14 +702,171 @@ public class SpaceMultiblock {
                     .where('O', blocks(GTOBlocks.OPTICAL_DYNAMIC_COATING_INSTRUMENT_PROTECTIVE_SHIELD_GLASS.get()))
                     .where('P', blocks(GTOBlocks.THREE_PROOF_COMPUTER_CASING.get()))
                     .where('Q', blocks(GTOBlocks.SPACE_STATION_CONTROL_CASING.get()))
-                    .where('R', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTOMaterials.StainlessSteel316)))
+                    .where('R', GTOPredicates.frame(GTOMaterials.StainlessSteel316))
                     .where('S', blocks(GTOBlocks.ALUMINUM_ALLOY_2090_SKIN_MECHANICAL_BLOCK.get()))
                     .where('T', blocks(GTOBlocks.ALUMINUM_ALLOY_7050_SUPPORT_MECHANICAL_BLOCK.get()))
                     .where('U', blocks(GTOBlocks.SPACECRAFT_DOCKING_CASING.get()))
-                    .where('V', controller(blocks(definition.get())))
+                    .where('V', controller(definition))
                     .where('p', ISpacePredicateMachine.innerBlockPredicate.get())
                     .where(' ', any())
                     .build())
             .workableCasingRenderer(GTOCore.id("block/casings/space_station_control_casing"), GTCEu.id("block/multiblock/fusion_reactor"))
+            .register();
+
+    public static final MachineDefinition SPACE_ELEVATOR_CONNECTOR_MODULE = multiblock("space_elevator_connector_module", "太空电梯连接舱", SpaceElevatorConnectorModule::new)
+            .langValue("Space Elevator Connector Module")
+            .nonYAxisRotation()
+            .workableInSpace()
+            .tooltips(GTOMachineTooltipsA.INSTANCE.getSpaceElevatorConnectorModuleTooltips().getSupplier())
+            .tooltips(GTOMachineTooltips.INSTANCE.getFunctionSpaceStationModuleTooltips().getSupplier())
+            .recipeTypes(GTORecipeTypes.DUMMY_RECIPES)
+            .block(GTOBlocks.SPACECRAFT_DYNAMIC_PROTECTIVE_MECHANICAL_CASING)
+            .pattern(definition -> MultiBlockFileReader.start(definition)
+                    .where('A', GTOPredicates.frame(GTOMaterials.StainlessSteel316))
+                    .where('B', GTOPredicates.frame(GTOMaterials.StainlessSteelJbk75))
+                    .where('C', blocks(GTOBlocks.TUNGSTEN_ALLOY_IMPACT_RESISTANT_MECHANICAL_BLOCK.get()))
+                    .where('D', blocks(GTBlocks.HIGH_POWER_CASING.get()))
+                    .where('E', blocks(GTOBlocks.THREE_PROOF_COMPUTER_CASING.get()))
+                    .where('F', blocks(GTBlocks.CLEANROOM_GLASS.get()))
+                    .where('G', blocks(GTOBlocks.PRESSURE_RESISTANT_HOUSING_MECHANICAL_BLOCK.get()))
+                    .where('H', ISpacePredicateMachine.innerBlockPredicate.get())
+                    .where('I', blocks(GTOBlocks.CREEP_RESISTANT_SMELTING_CASING.get()))
+                    .where('J', blocks(GTOBlocks.TITANIUM_ALLOY_PROTECTIVE_MECHANICAL_BLOCK.get()))
+                    .where('K', GTOPredicates.light())
+                    .where('L', GTOPredicates.frame(GTOMaterials.Etrium))
+                    .where('M', blocks(GCYMBlocks.CASING_HIGH_TEMPERATURE_SMELTING.get()))
+                    .where('N', blocks(GTOBlocks.SPACE_ENGINE_NOZZLE.get()))
+                    .where('O', GTOPredicates.frame(GTOMaterials.ScalmAlloyS))
+                    .where('P', blocks(GTOBlocks.COOLANT_PIPE_CASING.get()))
+                    .where('Q', blocks(GTOBlocks.OPTICAL_DYNAMIC_COATING_INSTRUMENT_PROTECTIVE_SHIELD_GLASS.get()))
+                    .where('R', blocks(GTOBlocks.SPACECRAFT_DYNAMIC_PROTECTIVE_MECHANICAL_CASING.get()))
+                    .where('S', blocks(GTOBlocks.PRECISION_PROCESSING_MECHANICAL_CASING.get()))
+                    .where('T', blocks(GTOBlocks.SPACE_STATION_CONTROL_CASING.get()))
+                    .where('U', blocks(GTOBlocks.IRIDIUM_PIPE_CASING.get()))
+                    .where('V', blocks(GTOBlocks.ALUMINUM_ALLOY_2090_SKIN_MECHANICAL_BLOCK.get()))
+                    .where('W', blocks(GTOBlocks.ALUMINUM_ALLOY_7050_SUPPORT_MECHANICAL_BLOCK.get()))
+                    .where('X', blocks(GTOBlocks.TITANIUM_ALLOY_FRAME_INTERNAL.get()))
+                    .where('Y', blocks(GTOBlocks.SPACECRAFT_DOCKING_CASING.get()))
+                    .where('Z', MODULE.traceabilityPredicate.get())
+                    .where('[', controller(definition))
+                    .where(' ', any())
+                    .build())
+            .renderer(SpaceElevatorConnectorModuleRenderer::new)
+            .hasTESR(true)
+            .register();
+
+    // 太空生物研究舱
+    public static final MachineDefinition SPACE_BIO_RESEARCH_MODULE = multiblock("space_bio_research_module", "太空生物研究舱", SpaceBioResearchModule::new)
+            .langValue("Space Bio Research Module")
+            .allRotation()
+            .workableInSpace()
+            .tooltips(GTOMachineTooltipsA.INSTANCE.getSpaceBioResearchModuleTooltips().getSupplier())
+            .tooltips(GTOMachineTooltips.INSTANCE.getRecipeExtensionTooltips().getSupplier())
+            .tooltips(GTOMachineTooltips.INSTANCE.getFunctionSpaceStationModuleTooltips().getSupplier())
+            .recipeTypes(GTORecipeTypes.BIOCHEMICAL_REACTION_RECIPES, GTORecipeTypes.INCUBATOR_RECIPES, GTORecipeTypes.BIO_RESEARCH_RECIPES)
+            .block(GTOBlocks.BIOLOGICAL_MECHANICAL_CASING)
+            .pattern(definition -> MultiBlockFileReader.start(definition)
+                    .where('C', blocks(GTOBlocks.TITANIUM_ALLOY_FRAME_INTERNAL.get()))
+                    .where('E', ISpacePredicateMachine.innerBlockPredicate.get())
+                    .where('H', MODULE.traceabilityPredicate.get())
+                    .where('A', blocks(GTOBlocks.ALUMINUM_ALLOY_2090_SKIN_MECHANICAL_BLOCK.get()))
+                    .where('B', blocks(GTOBlocks.ALUMINUM_ALLOY_7050_SUPPORT_MECHANICAL_BLOCK.get()))
+                    .where('D', blocks(GTOBlocks.SPACECRAFT_DOCKING_CASING.get()))
+                    .where('F', GTOPredicates.frame(GTOMaterials.StainlessSteel316))
+                    .where('G', blocks(GTOBlocks.PRESSURE_RESISTANT_HOUSING_MECHANICAL_BLOCK.get()))
+                    .where('I', blocks(GTOBlocks.TITANIUM_ALLOY_PROTECTIVE_MECHANICAL_BLOCK.get()))
+                    .where('J', blocks(GTOBlocks.CHEMICAL_CORROSION_RESISTANT_PIPE_CASING.get()))
+                    .where('K', blocks(GTOBlocks.LOAD_BEARING_STRUCTURAL_STEEL_MECHANICAL_BLOCK.get()))
+                    .where('L', blocks(GTOBlocks.SENSOR_PROTECTIVE_COVER_CASING.get()))
+                    .where('M', GTOPredicates.frame(GTOMaterials.BorosilicateFiberReinforcedAluminumMatrixComposite))
+                    .where('N', blocks(GTOBlocks.BIOLOGICAL_MECHANICAL_CASING.get()))
+                    .where('O', blocks(GTBlocks.CASING_STAINLESS_CLEAN.get()))
+                    .where('P', blocks(GTBlocks.CLEANROOM_GLASS.get()))
+                    .where('Q', blocks(GTOBlocks.BIOLOGICAL_MECHANICAL_CASING.get())
+                            .or(autoSpaceMachineAbilities(definition.getRecipeTypes()))
+                            .or(abilities(PARALLEL_HATCH).setMaxGlobalLimited(1))
+                            .or(blocks(GTOMachines.RADIATION_HATCH.get()).setMaxGlobalLimited(2)))
+                    .where('R', blocks(GTOBlocks.SPACECRAFT_SEALING_MECHANICAL_BLOCK.get()))
+                    .where('S', blocks(GTOBlocks.STRONTIUM_CARBONATE_CERAMIC_RAY_ABSORBING_MECHANICAL_CUBE.get()))
+                    .where('T', blocks(GTBlocks.PLASTCRETE.get()))
+                    .where('U', blocks(GTOBlocks.ENERGY_CONTROL_CASING_MK1.get()))
+                    .where('V', GTOPredicates.light())
+                    .where('W', blocks(GTBlocks.FILTER_CASING.get()))
+                    .where('X', blocks(Blocks.SPONGE))
+                    .where('Y', blocks(GTOBlocks.SPACE_ENGINE_NOZZLE.get()))
+                    .where('Z', blocks(GTOBlocks.HSSS_BOROSILICATE_GLASS.get()))
+                    .where('[', blocks(GTOBlocks.HIGH_ENERGY_ULTRAVIOLET_EMITTER_CASING.get()))
+                    .where('\\', blocks(GTOBlocks.MACHINING_CONTROL_CASING_MK1.get()))
+                    .where(']', blocks(GTOBlocks.HIGH_PRESSURE_GAS_STORAGE_TANKS_CASING.get()))
+                    .where('^', blocks(GTOBlocks.SPACE_STATION_CONTROL_CASING.get()))
+                    .where('_', blocks(GTBlocks.CASING_POLYTETRAFLUOROETHYLENE_PIPE.get()))
+                    .where('`', controller(definition))
+                    .where(' ', any())
+                    .build())
+            .workableCasingRenderer(GTOCore.id("block/casings/biological_mechanical_casing"), GTCEu.id("block/multiblock/fusion_reactor"))
+            .register();
+
+    // 行星气体采集装置
+    public static final MachineDefinition PLANETARY_GAS_COLLECTOR = multiblock("planetary_gas_collector", "行星气体采集装置", d -> new RecipeExtension(d, m -> {
+
+        var pos = m.getPos();
+        var fFacing = m.getFrontFacing();
+        var uFacing = m.getUpwardsFacing();
+        boolean isFlipped = m.isFlipped();
+        var hallwayCenter = pos.relative(fFacing, 2).relative(RelativeDirection.RIGHT.getRelative(fFacing, uFacing, isFlipped), 30);
+        ImmutableSet.Builder<BlockPos> builder = ImmutableSet.builder();
+        for (RelativeDirection dir : RelativeDirection.values()) {
+            if (dir == RelativeDirection.LEFT || dir == RelativeDirection.UP || dir == RelativeDirection.DOWN) continue;
+            var newFFacing = dir.getRelative(fFacing, uFacing, isFlipped);
+            var newUFacing = RelativeDirection.UP.getRelative(newFFacing, uFacing, isFlipped);
+            var shiftedPos = hallwayCenter.relative(newFFacing, 27);
+            builder.add(shiftedPos.relative(RelativeDirection.UP.getRelative(newFFacing, newUFacing, isFlipped), 2));
+            builder.add(shiftedPos.relative(RelativeDirection.DOWN.getRelative(newFFacing, newUFacing, isFlipped), 2));
+            builder.add(shiftedPos.relative(RelativeDirection.LEFT.getRelative(newFFacing, newUFacing, isFlipped), 2));
+            builder.add(shiftedPos.relative(RelativeDirection.RIGHT.getRelative(newFFacing, newUFacing, isFlipped), 2));
+        }
+        return builder.build();
+    }))
+            .langValue("Planetary Gas Collector")
+            .nonYAxisRotation()
+            .workableInSpace()
+            .parallelizableTooltips()
+            .tooltips(GTOMachineTooltipsA.INSTANCE.getPlanetaryGasCollectorTooltips().getSupplier())
+            .tooltips(GTOMachineTooltips.INSTANCE.getRecipeExtensionTooltips().getSupplier())
+            .tooltips(GTOMachineTooltips.INSTANCE.getFunctionSpaceStationModuleTooltips().getSupplier())
+            .recipeTypes(GTORecipeTypes.SPACE_GAS_COLLECTOR_RECIPES)
+            .block(GTOBlocks.PRESSURE_RESISTANT_HOUSING_MECHANICAL_BLOCK)
+            .pattern(definition -> MultiBlockFileReader.start(definition)
+                    .where('C', blocks(GTOBlocks.ALUMINUM_ALLOY_2090_SKIN_MECHANICAL_BLOCK.get()))
+                    .where('D', blocks(GTOBlocks.ALUMINUM_ALLOY_7050_SUPPORT_MECHANICAL_BLOCK.get()))
+                    .where('E', blocks(GTOBlocks.TITANIUM_ALLOY_FRAME_INTERNAL.get()))
+                    .where('B', blocks(GTOBlocks.SPACECRAFT_DOCKING_CASING.get()))
+                    .where('F', ISpacePredicateMachine.innerBlockPredicate.get())
+                    .where('A', controller(definition))
+                    .where('G', blocks(GTOBlocks.SPACECRAFT_SEALING_MECHANICAL_BLOCK.get()))
+                    .where('H', blocks(GTOBlocks.PRESSURE_RESISTANT_HOUSING_MECHANICAL_BLOCK.get()))
+                    .where('I', GTOPredicates.light())
+                    .where('J', blocks(GTOBlocks.ENERGY_CONTROL_CASING_MK1.get()))
+                    .where('K', blocks(GTOBlocks.LOAD_BEARING_STRUCTURAL_STEEL_MECHANICAL_BLOCK.get()))
+                    .where('L', blocks(GTBlocks.CLEANROOM_GLASS.get()))
+                    .where('M', blocks(GTOBlocks.SPACE_STATION_CONTROL_CASING.get()))
+                    .where('N', blocks(GTOBlocks.TITANIUM_ALLOY_PROTECTIVE_MECHANICAL_BLOCK.get()))
+                    .where('O', GTOPredicates.frame(GTOMaterials.HighEntropyShapeMemoryAlloy))
+                    .where('P', blocks(GTOBlocks.PRESSURE_RESISTANT_HOUSING_MECHANICAL_BLOCK.get())
+                            .or(autoSpaceMachineAbilities(definition.getRecipeTypes()))
+                            .or(abilities(PARALLEL_HATCH).setMaxGlobalLimited(1)))
+                    .where('Q', blocks(GTOBlocks.MOLECULAR_CASING.get()))
+                    .where('R', blocks(GTOBlocks.HIGH_PRESSURE_RESISTANT_CASING.get()))
+                    .where('S', blocks(GTOBlocks.HOLLOW_CASING.get()))
+                    .where('T', blocks(GTBlocks.HIGH_POWER_CASING.get()))
+                    .where('U', blocks(GTOBlocks.CHEMICAL_GRADE_GLASS.get()))
+                    .where('V', blocks(GTOBlocks.MACHINING_CONTROL_CASING_MK2.get()))
+                    .where('W', MODULE.traceabilityPredicate.get())
+                    .where('X', blocks(GTBlocks.CASING_GRATE.get()))
+                    .where('Y', blocks(GTOBlocks.AMPROSIUM_BOROSILICATE_GLASS.get()))
+                    .where('Z', blocks(GTOBlocks.HIGH_PRESSURE_PIPE_CASING.get()))
+                    .where(' ', any())
+                    .build())
+            .workableCasingRenderer(GTOCore.id("block/casings/pressure_resistant_housing_mechanical_block"), GTCEu.id("block/multiblock/fusion_reactor"))
             .register();
 }

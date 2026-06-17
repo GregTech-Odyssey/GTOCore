@@ -25,24 +25,14 @@
   "features": [
     [],
     [],
-    [
-      "minecraft:large_dripstone"
-    ],
-    [
-      "minecraft:fossil_upper",
-      "minecraft:fossil_lower"
-    ],
+    ["minecraft:large_dripstone"],
+    ["minecraft:fossil_upper", "minecraft:fossil_lower"],
     [],
     [],
     [],
     [],
     [],
-    [
-      "gtocore:barnarda_c_biome_tree",
-      "minecraft:patch_dead_bush_2"
-    ],
-    [
-      "minecraft:freeze_top_layer"
-    ]
+    ["gtocore:barnarda_c_biome_tree", "minecraft:patch_dead_bush_2"],
+    ["minecraft:freeze_top_layer"]
   ]
 }

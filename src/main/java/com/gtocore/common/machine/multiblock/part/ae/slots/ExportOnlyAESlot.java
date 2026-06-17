@@ -1,21 +1,31 @@
 package com.gtocore.common.machine.multiblock.part.ae.slots;
 
+import com.gregtechceu.gtceu.api.machine.trait.NotifiableContentHandler;
 import com.gregtechceu.gtceu.integration.ae2.slot.IConfigurableSlot;
 
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.FriendlyByteBuf;
 
 import appeng.api.stacks.GenericStack;
-import com.lowdragmc.lowdraglib.syncdata.IContentChangeAware;
-import com.lowdragmc.lowdraglib.syncdata.ITagSerializable;
+
+import com.gto.datasynclib.AbstractDataSerializable;
+import com.gto.datasynclib.LogicalSide;
+import com.gto.datasynclib.datasream.data.Data;
+import com.gto.datasynclib.util.DataCodecs;
+import lombok.Setter;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public abstract class ExportOnlyAESlot implements IConfigurableSlot, ITagSerializable<CompoundTag>, IContentChangeAware {
+public abstract class ExportOnlyAESlot extends AbstractDataSerializable implements IConfigurableSlot {
 
     private static final String CONFIG_TAG = "config";
     private static final String STOCK_TAG = "stock";
-    private Runnable onContentsChanged = () -> {};
+    @Nullable
+    @Setter
+    private NotifiableContentHandler handler;
     @Nullable
     GenericStack config;
+    /** 槽位的当前库存，可为空。 */
     @Nullable
     GenericStack stock;
 
@@ -64,15 +74,12 @@ public abstract class ExportOnlyAESlot implements IConfigurableSlot, ITagSeriali
         return null;
     }
 
-    void onContentsChanged() {
-        if (onContentsChanged != null) {
-            onContentsChanged.run();
-        }
+    final void onContentsChanged() {
+        if (handler != null) handler.onContentsChanged();
     }
 
     protected abstract void addStack(GenericStack stack);
 
-    @Override
     public CompoundTag serializeNBT() {
         CompoundTag tag = new CompoundTag();
         if (this.config != null) {
@@ -86,7 +93,6 @@ public abstract class ExportOnlyAESlot implements IConfigurableSlot, ITagSeriali
         return tag;
     }
 
-    @Override
     public void deserializeNBT(CompoundTag tag) {
         if (tag.contains(CONFIG_TAG)) {
             this.config = GenericStack.readTag(tag.getCompound(CONFIG_TAG));
@@ -122,12 +128,24 @@ public abstract class ExportOnlyAESlot implements IConfigurableSlot, ITagSeriali
     }
 
     @Override
-    public void setOnContentsChanged(final Runnable onContentsChanged) {
-        this.onContentsChanged = onContentsChanged;
+    public void writeBuf(LogicalSide side, @NotNull FriendlyByteBuf data) {
+        GenericStack.writeBuffer(this.config, data);
+        GenericStack.writeBuffer(this.stock, data);
     }
 
     @Override
-    public Runnable getOnContentsChanged() {
-        return this.onContentsChanged;
+    public void readBuf(LogicalSide side, @NotNull FriendlyByteBuf data) {
+        this.config = GenericStack.readBuffer(data);
+        this.stock = GenericStack.readBuffer(data);
+    }
+
+    @Override
+    public Data writeData() {
+        return DataCodecs.COMPOUND_TAG_CODEC.encode(serializeNBT());
+    }
+
+    @Override
+    public void readData(@NotNull Data data, int dataVersion) {
+        deserializeNBT(DataCodecs.COMPOUND_TAG_CODEC.decode(data, dataVersion));
     }
 }

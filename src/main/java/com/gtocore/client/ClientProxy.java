@@ -4,28 +4,48 @@ import com.gtocore.client.forge.ForgeClientEvent;
 import com.gtocore.client.forge.GTOComponentHandler;
 import com.gtocore.client.forge.GTOComponentRegistry;
 import com.gtocore.client.forge.GTORender;
+import com.gtocore.client.hud.AdAstraHUD;
+import com.gtocore.client.hud.WirelessEnergyHUD;
+import com.gtocore.client.hud.attribute.PlayerAttrHUD;
 import com.gtocore.client.renderer.item.MonitorItemDecorations;
 import com.gtocore.common.CommonProxy;
+import com.gtocore.common.data.GTOAEParts;
 import com.gtocore.common.data.GTOFluids;
 import com.gtocore.common.forge.ClientForge;
 import com.gtocore.common.machine.monitor.MonitorBlockItem;
+import com.gtocore.eio_travel.client.travel.TravelAnchorHud;
+import com.gtocore.integration.ae.PatternContentAccessTerminalMenu;
+import com.gtocore.integration.ae.PatternContentAccessTerminalPart;
+import com.gtocore.integration.ae.PatternContentAccessTerminalScreen;
+import com.gtocore.integration.ae.wtlib.WFTMenu;
+import com.gtocore.integration.ae.wtlib.WRTMenu;
 
 import com.gtolib.GTOCore;
+import com.gtolib.api.ae2.gui.GTOButtonAppearance;
 import com.gtolib.api.ae2.me2in1.Me2in1Menu;
 import com.gtolib.api.ae2.me2in1.Me2in1Screen;
 import com.gtolib.api.ae2.me2in1.Me2in1TerminalPart;
 import com.gtolib.api.ae2.me2in1.Wireless;
 import com.gtolib.api.ae2.me2in1.emi.CategoryMappingSubMenu;
 import com.gtolib.api.ae2.me2in1.emi.CategoryMappingSubScreen;
+import com.gtolib.api.ae2.stacks.TagPrefixKey;
+import com.gtolib.api.ae2.stacks.TagPrefixKeyType;
+import com.gtolib.api.emi.stack.TagPrefixRenderer;
 
 import com.gregtechceu.gtceu.GTCEu;
+import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
+import com.gregtechceu.gtceu.data.pack.GTDynamicResourcePack;
 
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.data.models.model.DelegatedModel;
 import net.minecraft.world.item.BlockItem;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.client.event.ModelEvent;
+import net.minecraftforge.client.event.RegisterColorHandlersEvent;
+import net.minecraftforge.client.event.RegisterGuiOverlaysEvent;
 import net.minecraftforge.client.event.RegisterItemDecorationsEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -33,13 +53,21 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.ForgeRegistries;
 
+import appeng.api.client.AEKeyRendering;
 import appeng.api.parts.PartModels;
+import appeng.api.util.AEColor;
+import appeng.client.gui.widgets.SettingToggleButton;
+import appeng.client.render.StaticItemColor;
 import appeng.init.client.InitScreens;
+
+import com.almostreliable.merequester.MERequester;
 import com.lowdragmc.shimmer.client.light.ColorPointLight;
 import com.lowdragmc.shimmer.client.light.LightManager;
 import com.lowdragmc.shimmer.event.ShimmerReloadEvent.ReloadType;
 import com.lowdragmc.shimmer.forge.event.ForgeShimmerReloadEvent;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
+
+import static com.gtocore.client.hud.IMoveableHUD.registerHUD;
 
 @OnlyIn(Dist.CLIENT)
 public final class ClientProxy extends CommonProxy {
@@ -50,19 +78,35 @@ public final class ClientProxy extends CommonProxy {
         IEventBus eventBus = FMLJavaModLoadingContext.get().getModEventBus();
         eventBus.addListener(ClientProxy::clientSetup);
         eventBus.addListener(ClientProxy::registerItemDeco);
+        eventBus.addListener(ClientProxy::registerGuiOverlays);
+        eventBus.addListener(ClientProxy::registerAdditionalModels);
         eventBus.addListener(ClientProxy::registerMenuScreen);
+        eventBus.addListener(ClientProxy::registerItemColors);
         eventBus.register(GTOComponentRegistry.class);
         MinecraftForge.EVENT_BUS.register(ForgeClientEvent.class);
         MinecraftForge.EVENT_BUS.register(GTOComponentHandler.class);
         MinecraftForge.EVENT_BUS.register(GTORender.class);
         MinecraftForge.EVENT_BUS.register(ClientForge.class);
         registerAEModels();
+        AEKeyRendering.register(TagPrefixKeyType.TYPE, TagPrefixKey.class, new TagPrefixRenderer.AEKeyHandler());
         if (GTCEu.Mods.isShimmerLoaded()) eventBus.addListener(ClientProxy::registerLights);
+        SettingToggleButton.deferAppearanceRegistration(GTOButtonAppearance::registerButtons);
     }
 
     private static void init() {
         KeyBind.init();
         ClientForge.INSTANCE.getMESSAGE_DEFINITIONS().forEach(ClientForge.MessageDefinition::getContentHash);
+        GTDynamicResourcePack.EVENT.addListener(ClientProxy.class, () -> {
+            for (var tagPrefix : TagPrefix.values()) {
+                var iconType = tagPrefix.materialIconType();
+                if (iconType == null || (!tagPrefix.doGenerateItem() && !tagPrefix.doGenerateBlock())) continue;
+                if (tagPrefix.doGenerateBlock()) {
+                    GTDynamicResourcePack.addItemModel(GTOCore.id(tagPrefix.getLowerCaseName()), new DelegatedModel(GTCEu.id(String.format("block/material_sets/dull/%s", iconType))));
+                } else {
+                    GTDynamicResourcePack.addItemModel(GTOCore.id(tagPrefix.getLowerCaseName()), new DelegatedModel(GTCEu.id(String.format("item/material_sets/dull/%s", iconType))));
+                }
+            }
+        });
     }
 
     @SuppressWarnings("all")
@@ -95,24 +139,55 @@ public final class ClientProxy extends CommonProxy {
         });
     }
 
+    private static void registerGuiOverlays(RegisterGuiOverlaysEvent event) {
+        registerHUD(event, "wireless_energy_hud", WirelessEnergyHUD.INSTANCE);
+        registerHUD(event, "adastra_hud", AdAstraHUD.gto$INSTANCE);
+        registerHUD(event, "client_property_hud", PlayerAttrHUD.INSTANCE);
+        event.registerAboveAll("eio_travel_anchor_hud", TravelAnchorHud.INSTANCE);
+    }
+
     private static void registerMenuScreen(FMLClientSetupEvent event) {
         event.enqueueWork(() -> {
             InitScreens.register(
                     Me2in1Menu.TYPE,
                     Me2in1Screen<Me2in1Menu>::new,
-                    "/screens/ex_pattern_access_terminal.json");
+                    "/screens/me2in1.json");
             InitScreens.register(
                     Wireless.TYPE,
                     Wireless.Screen::new,
-                    "/screens/ex_pattern_access_terminal.json");
+                    "/screens/me2in1wireless.json");
             InitScreens.register(
                     CategoryMappingSubMenu.TYPE,
                     CategoryMappingSubScreen::new,
                     "/screens/categoru_mapping_config.json");
+            InitScreens.register(
+                    PatternContentAccessTerminalMenu.TYPE,
+                    PatternContentAccessTerminalScreen::new,
+                    "/screens/terminals/pattern_content_access_terminal.json");
+
+            InitScreens.register(
+                    WRTMenu.TYPE,
+                    WRTMenu.WRTScreen::new,
+                    "/screens/" + MERequester.TERMINAL_ID + ".json");
+            InitScreens.register(
+                    WFTMenu.TYPE,
+                    WFTMenu.WFTScreen::new,
+                    "/screens/terminals/facility_management_terminal.json");
         });
+    }
+
+    private static void registerItemColors(RegisterColorHandlersEvent.Item event) {
+        event.register(new StaticItemColor(AEColor.TRANSPARENT), GTOAEParts.INSTANCE.getEXCHANGE_STORAGE_MONITOR().get(), GTOAEParts.INSTANCE.getME_2IN1_TERMINAL().get(), GTOAEParts.INSTANCE.getPattern_Content_Access_Terminal().get());
+    }
+
+    private static void registerAdditionalModels(ModelEvent.RegisterAdditional evt) {
+        for (TagPrefix tagPrefix : TagPrefix.values()) {
+            evt.register(GTOCore.id("item/" + tagPrefix.getLowerCaseName()));
+        }
     }
 
     private static void registerAEModels() {
         PartModels.registerModels(Me2in1TerminalPart.MODELS);
+        PartModels.registerModels(PatternContentAccessTerminalPart.MODEL_OFF, PatternContentAccessTerminalPart.MODEL_ON);
     }
 }

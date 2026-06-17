@@ -1,5 +1,5 @@
 {
-    "ldlib": {
-        "connection": "gtocore:block/pbi_radiation_resistant_mechanical_enclosure_ctm"
-    }
+  "ldlib": {
+    "connection": "gtocore:block/pbi_radiation_resistant_mechanical_enclosure_ctm"
+  }
 }

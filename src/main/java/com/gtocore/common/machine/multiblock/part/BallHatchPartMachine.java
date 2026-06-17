@@ -2,13 +2,14 @@ package com.gtocore.common.machine.multiblock.part;
 
 import com.gtocore.common.data.GTOItems;
 
-import com.gtolib.api.machine.part.ItemHatchPartMachine;
+import com.gtolib.api.machine.part.WorkableItemPartMachine;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.feature.IInteractedMachine;
 import com.gregtechceu.gtceu.api.machine.feature.IRecipeLogicMachine;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IWorkableMultiController;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
+import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
 import com.gregtechceu.gtceu.common.data.GTDamageTypes;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
@@ -22,9 +23,8 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 
 import com.google.common.collect.ImmutableMap;
-import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import com.lowdragmc.lowdraglib.syncdata.annotation.RequireRerender;
+import com.gto.datasynclib.annotations.SaveToDisk;
+import com.gto.datasynclib.annotations.SyncToClient;
 import lombok.Getter;
 
 import java.util.Map;
@@ -34,7 +34,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 @Getter
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public final class BallHatchPartMachine extends ItemHatchPartMachine implements IInteractedMachine {
+public final class BallHatchPartMachine extends WorkableItemPartMachine implements IInteractedMachine {
 
     public static final Map<Item, Integer> GRINDBALL;
 
@@ -45,9 +45,8 @@ public final class BallHatchPartMachine extends ItemHatchPartMachine implements 
         GRINDBALL = grindball.build();
     }
 
-    @Persisted
-    @DescSynced
-    @RequireRerender
+    @SaveToDisk
+    @SyncToClient(notifyUpdate = true)
     private boolean isWorking;
 
     public BallHatchPartMachine(MetaMachineBlockEntity holder) {
@@ -64,9 +63,8 @@ public final class BallHatchPartMachine extends ItemHatchPartMachine implements 
     }
 
     @Override
-    public boolean beforeWorking(IWorkableMultiController controller, GTRecipe recipe) {
+    public void beforeWorking(IWorkableMultiController controller, RecipeHandlerUnit unit, GTRecipe recipe) {
         isWorking = true;
-        return true;
     }
 
     @Override

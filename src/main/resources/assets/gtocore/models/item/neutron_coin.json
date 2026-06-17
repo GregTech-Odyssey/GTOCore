@@ -2,9 +2,9 @@
   "parent": "minecraft:item/generated",
   "textures": {
     "layer0": "gtocore:item/neutron_coin",
-    "halo": "avaritia:misc/halo_noise"
+    "halo": "renderblender:misc/halo_noise"
   },
-  "loader": "avaritia:halo",
+  "loader": "renderblender:halo",
   "halo": {
     "texture": "#halo",
     "color": -1711276033,

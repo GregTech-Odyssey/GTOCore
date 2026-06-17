@@ -5,15 +5,15 @@ import com.gtocore.common.data.GTOItems;
 import com.gtocore.common.machine.multiblock.part.BlockBusPartMachine;
 
 import com.gtolib.api.machine.multiblock.StorageMultiblockMachine;
-import com.gtolib.api.machine.trait.CustomRecipeLogic;
-import com.gtolib.api.recipe.Recipe;
-import com.gtolib.api.recipe.RecipeRunner;
 
+import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
-import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
+import com.gregtechceu.gtceu.api.recipe.GTRecipeDefinition;
+import com.gregtechceu.gtceu.api.recipe.handler.ICustomRecipeLogicHolder;
+import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
 import com.gregtechceu.gtceu.api.transfer.item.CustomItemStackHandler;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
@@ -27,7 +27,6 @@ import net.minecraft.world.level.block.Blocks;
 
 import com.google.common.collect.ImmutableMap;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import vectorwing.farmersdelight.common.registry.ModBlocks;
 
 import java.util.ArrayList;
@@ -35,7 +34,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-public final class BlockConversionRoomMachine extends StorageMultiblockMachine {
+public final class BlockConversionRoomMachine extends StorageMultiblockMachine implements ICustomRecipeLogicHolder {
 
     private static final List<int[]> poses1 = new ArrayList<>();
     private static final List<int[]> poses2 = new ArrayList<>();
@@ -71,7 +70,8 @@ public final class BlockConversionRoomMachine extends StorageMultiblockMachine {
     private final int am;
     private final List<int[]> poses;
 
-    private BlockBusPartMachine blockBusPartMachine;
+    // 用来冒充巨构的代码，有了记得改回1个顺带把define那里limit也改回1
+    private final List<BlockBusPartMachine> blockBusPartMachines = new ArrayList<>();
 
     public BlockConversionRoomMachine(MetaMachineBlockEntity holder, boolean isLarge) {
         super(holder, 1, i -> i.getItem() == GTOItems.CONVERSION_SIMULATE_CARD.get());
@@ -82,32 +82,28 @@ public final class BlockConversionRoomMachine extends StorageMultiblockMachine {
     @Override
     public void onPartScan(@NotNull IMultiPart part) {
         super.onPartScan(part);
-        if (part instanceof BlockBusPartMachine busPartMachine) {
-            blockBusPartMachine = busPartMachine;
+        if (part instanceof BlockBusPartMachine busPartMachine && !blockBusPartMachines.contains(busPartMachine)) {
+            blockBusPartMachines.add(busPartMachine);
         }
     }
 
     @Override
     public void onStructureInvalid() {
         super.onStructureInvalid();
-        blockBusPartMachine = null;
+        blockBusPartMachines.clear();
     }
 
     @Override
-    public boolean onWorking() {
-        if (!super.onWorking()) return false;
+    public void onWorking() {
+        super.onWorking();
         if (getOffsetTimer() % 20 == 0) {
-            int amount = getTier() * am - 7;
-            if (blockBusPartMachine != null && getStorageStack().getItem() == GTOItems.CONVERSION_SIMULATE_CARD.get()) {
-                CustomItemStackHandler stackTransfer = blockBusPartMachine.getInventory().storage;
-                int a = amount;
-                var slots = stackTransfer.getSlots();
-                for (int i = 0; a > 0 && i < slots; i++) {
-                    ItemStack itemStack = stackTransfer.getStackInSlot(i);
-                    if (itemStack.getItem() instanceof BlockItem blockItem && COV_RECIPE.containsKey(blockItem.getBlock())) {
-                        int count = itemStack.getCount();
-                        a -= count;
-                        stackTransfer.setStackInSlot(i, new ItemStack(COV_RECIPE.get(blockItem.getBlock()).asItem(), count));
+            int amount = getConversionAmount();
+            if (!blockBusPartMachines.isEmpty() && getStorageStack().getItem() == GTOItems.CONVERSION_SIMULATE_CARD.get()) {
+                int leftAmount = amount;
+                for (BlockBusPartMachine blockBusPartMachine : blockBusPartMachines) {
+                    leftAmount = convertBlockBusContents(blockBusPartMachine, leftAmount);
+                    if (leftAmount <= 0) {
+                        break;
                     }
                 }
             } else {
@@ -130,24 +126,43 @@ public final class BlockConversionRoomMachine extends StorageMultiblockMachine {
                 }
             }
         }
-        return true;
+    }
+
+    // 用来冒充巨构的代码，有了巨构记得改
+    private int convertBlockBusContents(BlockBusPartMachine blockBusPartMachine, int leftAmount) {
+        CustomItemStackHandler stackTransfer = blockBusPartMachine.getInventory().storage;
+        var slots = stackTransfer.getSlots();
+        for (int i = 0; leftAmount > 0 && i < slots; i++) {
+            ItemStack itemStack = stackTransfer.getStackInSlot(i);
+            if (itemStack.getItem() instanceof BlockItem blockItem && COV_RECIPE.containsKey(blockItem.getBlock())) {
+                int count = itemStack.getCount();
+                leftAmount -= count;
+                stackTransfer.setStackInSlot(i, new ItemStack(COV_RECIPE.get(blockItem.getBlock()).asItem(), count));
+            }
+        }
+        return leftAmount;
     }
 
     @Override
     public void customText(@NotNull List<Component> textList) {
         super.customText(textList);
-        textList.add(Component.translatable("gtocore.machine.block_conversion_room.am", (getTier() * am - 7)));
+        textList.add(Component.translatable("gtocore.machine.block_conversion_room.am", getConversionAmount()));
     }
 
-    @Nullable
-    private Recipe getRecipe() {
-        Recipe recipe = getRecipeBuilder().duration(400).EUt(getOverclockVoltage()).buildRawRecipe();
-        if (RecipeRunner.matchTickRecipe(this, recipe)) return recipe;
-        return null;
+    // 用来冒充巨构的代码，有了巨构记得改
+    private int getConversionAmount() {
+        int tier = getTier();
+        boolean isLargeMachine = am == 64;
+        int baseAmount = tier * am - (isLargeMachine ? 64 : 7);
+        if (!isLargeMachine || tier <= GTValues.UHV) {
+            return baseAmount;
+        }
+        int amountAtUhv = GTValues.UHV * am - 64;
+        return amountAtUhv << (tier - GTValues.UHV);
     }
 
     @Override
-    public RecipeLogic createRecipeLogic(Object @NotNull... args) {
-        return new CustomRecipeLogic(this, this::getRecipe, true);
+    public GTRecipeDefinition createCustomRecipe(RecipeHandlerUnit unit) {
+        return getRecipeBuilder().duration(400).EUt(GTValues.V[getTier()]).build();
     }
 }

@@ -7,7 +7,6 @@ import com.gtolib.api.machine.feature.multiblock.IParallelMachine;
 import com.gtolib.utils.SortUtils;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
-import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.gui.UITemplate;
 import com.gregtechceu.gtceu.api.gui.widget.SlotWidget;
@@ -15,6 +14,7 @@ import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.feature.IDropSaveMachine;
 import com.gregtechceu.gtceu.api.machine.feature.IUIMachine;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
+import com.gregtechceu.gtceu.api.recipe.handler.IO;
 import com.gregtechceu.gtceu.integration.ae2.machine.feature.IGridConnectedMachine;
 import com.gregtechceu.gtceu.integration.ae2.machine.trait.GridNodeHolder;
 
@@ -35,6 +35,10 @@ import appeng.api.stacks.KeyCounter;
 import appeng.api.storage.IStorageMounts;
 import appeng.api.storage.IStorageProvider;
 import appeng.api.storage.MEStorage;
+
+import com.gto.datasynclib.annotations.SaveToDisk;
+import com.gto.datasynclib.annotations.SyncToClient;
+import com.gto.datasynclib.util.DataCodecs;
 import com.hepdd.gtmthings.common.item.VirtualItemProviderBehavior;
 import com.hepdd.gtmthings.data.CustomItems;
 import com.lowdragmc.lowdraglib.gui.modular.ModularUI;
@@ -43,8 +47,6 @@ import com.lowdragmc.lowdraglib.gui.widget.ButtonWidget;
 import com.lowdragmc.lowdraglib.gui.widget.DraggableScrollableWidgetGroup;
 import com.lowdragmc.lowdraglib.gui.widget.LabelWidget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
-import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 
 import java.util.stream.Stream;
 
@@ -61,11 +63,11 @@ public final class VirtualItemProviderMachine extends MetaMachine implements IUI
     }
 
     private final CellDataStorage storage = new CellDataStorage();
-    @Persisted
+    @SaveToDisk
     private final NotifiableItemStackHandler inventory;
-    @Persisted
+    @SaveToDisk
     private final GridNodeHolder nodeHolder;
-    @DescSynced
+    @SyncToClient
     private boolean isOnline;
     private boolean change = true;
 
@@ -142,12 +144,12 @@ public final class VirtualItemProviderMachine extends MetaMachine implements IUI
 
     @Override
     public void loadFromItem(CompoundTag tag) {
-        inventory.storage.deserializeNBT(tag.getCompound("inventory"));
+        inventory.storage.readData(DataCodecs.COMPOUND_TAG_CODEC.encode(tag.getCompound("inventory")), 0);
     }
 
     @Override
     public void saveToItem(CompoundTag tag) {
-        tag.put("inventory", inventory.storage.serializeNBT());
+        tag.put("inventory", DataCodecs.COMPOUND_TAG_CODEC.decode(inventory.storage.writeData()));
     }
 
     @Override

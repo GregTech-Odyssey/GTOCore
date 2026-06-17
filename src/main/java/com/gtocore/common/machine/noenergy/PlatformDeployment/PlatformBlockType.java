@@ -1,8 +1,8 @@
 package com.gtocore.common.machine.noenergy.PlatformDeployment;
 
 import com.gtolib.GTOCore;
+import com.gtolib.utils.MultiBlockFileReader;
 import com.gtolib.utils.RegistriesUtils;
-import com.gtolib.utils.holder.IntObjectHolder;
 
 import com.gregtechceu.gtceu.GTCEu;
 
@@ -11,11 +11,9 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
 import com.google.common.collect.ImmutableList;
+import com.gto.datasynclib.util.holder.IntObjectHolder;
 import org.jetbrains.annotations.Nullable;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -106,6 +104,16 @@ public final class PlatformBlockType {
 
             public Builder resource(ResourceLocation resource) {
                 this.resource = resource;
+                // String resourcePath = "assets/" + resource.toString().replace(":", "/");
+                // try (InputStream input =
+                // PlatformStructurePlacer.class.getClassLoader().getResourceAsStream(resourcePath)) {
+                // if (input == null) {
+                // throw new FileNotFoundException("Structure file not found: " + resource);
+                // }
+                // var aisles = PlatformStructurePlacer.parseAllAisles(input);
+                // MultiBlockFileReader.save(new File(GTOCore.getFile(), resource.getNamespace() + "/" +
+                // resource.getPath() + ".mbs"), aisles);
+                // } catch (IOException ignored) {}
                 return this;
             }
 
@@ -151,19 +159,13 @@ public final class PlatformBlockType {
                     return null;
                 }
 
-                int[] sizes;
+                int[] sizes = new int[3];
                 try {
-                    try (BufferedReader reader = new BufferedReader(new InputStreamReader(Objects.requireNonNull(PlatformBlockType.class.getClassLoader()
-                            .getResourceAsStream("assets/" + resource.toString().replace(":", "/")))))) {
-
-                        String line = reader.readLine().trim();
-                        if (line.startsWith(".size(") && line.endsWith(")")) {
-                            String[] parts = line.substring(6, line.length() - 1).split(",");
-                            sizes = new int[] { Integer.parseInt(parts[0].trim()), Integer.parseInt(parts[1].trim()), Integer.parseInt(parts[2].trim()) };
-                        } else {
-                            throw new IOException("Missing .size(...) definition in: " + resource);
-                        }
-                    }
+                    var data = MultiBlockFileReader.load(PlatformBlockType.class.getClassLoader()
+                            .getResourceAsStream("platforms/" + resource.toString().replace(":", "/") + ".mbs"));
+                    sizes[0] = data.pattern()[0][0].length();
+                    sizes[1] = data.pattern()[0].length;
+                    sizes[2] = data.pattern().length;
                 } catch (Exception e) {
                     GTOCore.LOGGER.error("Failed to read structure size for {}: {}", resource, e.getMessage());
                     return null;

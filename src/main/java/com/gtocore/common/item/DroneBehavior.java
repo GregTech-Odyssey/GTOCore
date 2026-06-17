@@ -1,5 +1,7 @@
 package com.gtocore.common.item;
 
+import com.gtolib.api.machine.impl.DroneControlCenterMachine;
+
 import com.gregtechceu.gtceu.api.item.ComponentItem;
 import com.gregtechceu.gtceu.api.item.component.ElectricStats;
 import com.gregtechceu.gtceu.api.item.component.IItemComponent;
@@ -34,6 +36,7 @@ public final class DroneBehavior extends ElectricStats {
             case 3 -> 32;
             case 4 -> 96;
             case 5 -> 288;
+            case 14 -> 2048;
             default -> 0;
         };
     }
@@ -52,6 +55,10 @@ public final class DroneBehavior extends ElectricStats {
         tooltipComponents.add(Component.translatable("gui.ae2.WirelessRange", range));
         if (stack.getOrCreateTag().getInt("work") > 0) {
             tooltipComponents.add(Component.translatable("gtceu.multiblock.large_miner.working"));
+        }
+        int time = stack.getOrCreateTag().getInt("times");
+        if (time > 0) {
+            tooltipComponents.add(Component.translatable(DroneControlCenterMachine.TIMES).append(String.valueOf(time)));
         }
     }
 

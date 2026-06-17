@@ -27,8 +27,8 @@ import com.gregtechceu.gtceu.data.recipe.VanillaRecipeHelper;
 
 import net.minecraft.world.item.Item;
 
+import com.gto.registrate.util.entry.ItemEntry;
 import com.hepdd.gtmthings.data.CustomItems;
-import com.tterrag.registrate.util.entry.ItemEntry;
 
 import java.util.List;
 
@@ -70,7 +70,7 @@ final class HatchRecipe {
                 new MaterialEntry(TagPrefix.gearSmall, GTOMaterials.TranscendentMetal));
         VanillaRecipeHelper.addShapedRecipe(GTOCore.id("primitive_blast_furnace_hatch"), GTOMachines.PRIMITIVE_BLAST_FURNACE_HATCH.asItem(),
                 "ABA",
-                'B', GTBlocks.CASING_PRIMITIVE_BRICKS.asItem(), 'A', TagUtils.createTag(RLUtils.forge("chests")));
+                'B', GTBlocks.CASING_PRIMITIVE_BRICKS.asItem(), 'A', TagUtils.createItemTag(RLUtils.forge("chests")));
 
         VanillaRecipeHelper.addShapedRecipe(GTOCore.id("steam_fluid_input_hatch"), GTOMachines.STEAM_FLUID_INPUT_HATCH.asItem(),
                 " A ",
@@ -84,33 +84,63 @@ final class HatchRecipe {
                 " B ",
                 'A', GTBlocks.BRONZE_HULL.asItem(), 'B', RegistriesUtils.getItemStack("gtceu:wood_drum"));
 
-        for (int tier : tiersBetween(LV, MAX)) {
-            ASSEMBLER_RECIPES.recipeBuilder("dual_import_bus_" + VN[tier].toLowerCase())
-                    .inputItems(FRAME.get(tier))
-                    .inputItems(ITEM_IMPORT_BUS[tier].asItem())
-                    .inputItems(FLUID_IMPORT_HATCH[tier].asItem())
-                    .inputItems(CraftingComponents.BUFFER.get(tier))
-                    .inputItems(PIPE_NONUPLE.get(tier))
-                    .inputItems(FIELD_GENERATOR.get(tier), 4 << (GTOCore.difficulty - 1))
-                    .inputItems(GLASS.get(tier))
-                    .inputFluids(GTMaterials.SolderingAlloy.getFluid(144))
-                    .outputItems(DUAL_IMPORT_HATCH[tier].asItem())
-                    .duration(300)
-                    .EUt(VA[tier])
-                    .save();
+        if (GTOCore.isEasy()) {
+            for (int tier : tiersBetween(LV, MAX)) {
+                ASSEMBLER_RECIPES.recipeBuilder("dual_import_bus_" + VN[tier].toLowerCase())
+                        .inputItems(FRAME.get(tier))
+                        .inputItems(ITEM_IMPORT_BUS[tier].asItem())
+                        .inputItems(FLUID_IMPORT_HATCH[tier].asItem())
+                        .inputItems(CraftingComponents.BUFFER.get(tier))
+                        .inputItems(PIPE_NONUPLE.get(tier))
+                        .inputItems(GLASS.get(tier))
+                        .inputFluids(GTMaterials.SolderingAlloy, 144)
+                        .outputItems(DUAL_IMPORT_HATCH[tier].asItem())
+                        .duration(100)
+                        .EUt(VA[tier])
+                        .save();
+                ASSEMBLER_RECIPES.recipeBuilder("dual_export_bus_" + VN[tier].toLowerCase())
+                        .inputItems(FRAME.get(tier))
+                        .inputItems(ITEM_EXPORT_BUS[tier].asItem())
+                        .inputItems(FLUID_EXPORT_HATCH[tier].asItem())
+                        .inputItems(CraftingComponents.BUFFER.get(tier))
+                        .inputItems(PIPE_NONUPLE.get(tier))
+                        .inputItems(GLASS.get(tier))
+                        .inputFluids(GTMaterials.SolderingAlloy, 144)
+                        .outputItems(DUAL_EXPORT_HATCH[tier].asItem())
+                        .duration(100)
+                        .EUt(VA[tier])
+                        .save();
+            }
+        } else {
+            for (int tier : tiersBetween(LV, MAX)) {
+                ASSEMBLER_RECIPES.recipeBuilder("dual_import_bus_" + VN[tier].toLowerCase())
+                        .inputItems(FRAME.get(tier))
+                        .inputItems(ITEM_IMPORT_BUS[tier].asItem())
+                        .inputItems(FLUID_IMPORT_HATCH[tier].asItem())
+                        .inputItems(CraftingComponents.BUFFER.get(tier))
+                        .inputItems(PIPE_NONUPLE.get(tier))
+                        .inputItems(FIELD_GENERATOR.get(tier), 1)
+                        .inputItems(GLASS.get(tier))
+                        .inputFluids(GTMaterials.SolderingAlloy, 144)
+                        .outputItems(DUAL_IMPORT_HATCH[tier].asItem())
+                        .duration(300)
+                        .EUt(VA[tier])
+                        .save();
 
-            ASSEMBLER_RECIPES.recipeBuilder("dual_export_bus_" + VN[tier].toLowerCase())
-                    .inputItems(FRAME.get(tier))
-                    .inputItems(ITEM_EXPORT_BUS[tier].asItem())
-                    .inputItems(FLUID_EXPORT_HATCH[tier].asItem())
-                    .inputItems(CraftingComponents.BUFFER.get(tier))
-                    .inputItems(PIPE_NONUPLE.get(tier))
-                    .inputItems(GLASS.get(tier))
-                    .inputFluids(GTMaterials.SolderingAlloy.getFluid(144))
-                    .outputItems(DUAL_EXPORT_HATCH[tier].asItem())
-                    .duration(300)
-                    .EUt(VA[tier])
-                    .save();
+                ASSEMBLER_RECIPES.recipeBuilder("dual_export_bus_" + VN[tier].toLowerCase())
+                        .inputItems(FRAME.get(tier))
+                        .inputItems(ITEM_EXPORT_BUS[tier].asItem())
+                        .inputItems(FLUID_EXPORT_HATCH[tier].asItem())
+                        .inputItems(CraftingComponents.BUFFER.get(tier))
+                        .inputItems(PIPE_NONUPLE.get(tier))
+                        .inputItems(FIELD_GENERATOR.get(tier), 1)
+                        .inputItems(GLASS.get(tier))
+                        .inputFluids(GTMaterials.SolderingAlloy, 144)
+                        .outputItems(DUAL_EXPORT_HATCH[tier].asItem())
+                        .duration(300)
+                        .EUt(VA[tier])
+                        .save();
+            }
         }
 
         Material[] multiHatchMaterials = {
@@ -241,7 +271,7 @@ final class HatchRecipe {
                     .inputItems(ROBOT_ARM.get(tier))
                     .inputItems(CONVEYOR.get(tier))
                     .inputItems(CustomTags.CIRCUITS_ARRAY[tier], 4)
-                    .inputFluids(GTMaterials.SolderingAlloy.getFluid(144))
+                    .inputFluids(GTMaterials.SolderingAlloy, 144)
                     .outputItems(GTOMachines.PROGRAMMABLEC_HATCH[tier].asItem())
                     .duration(400)
                     .EUt(GTValues.VA[tier])

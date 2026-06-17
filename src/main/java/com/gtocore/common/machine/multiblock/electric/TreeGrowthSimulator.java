@@ -2,20 +2,20 @@ package com.gtocore.common.machine.multiblock.electric;
 
 import com.gtocore.data.IdleReason;
 
+import com.gtolib.api.annotation.DataGeneratorScanned;
+import com.gtolib.api.annotation.language.RegisterLanguage;
 import com.gtolib.api.machine.multiblock.StorageMultiblockMachine;
-import com.gtolib.api.recipe.Recipe;
-import com.gtolib.api.recipe.modifier.RecipeModifierFunction;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.GTCapabilityHelper;
 import com.gregtechceu.gtceu.api.capability.IElectricItem;
-import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
 import com.gregtechceu.gtceu.api.data.chemical.material.properties.PropertyKey;
 import com.gregtechceu.gtceu.api.item.IGTTool;
 import com.gregtechceu.gtceu.api.item.tool.GTToolType;
-import com.gregtechceu.gtceu.api.recipe.content.Content;
-import com.gregtechceu.gtceu.api.recipe.content.ContentModifier;
+import com.gregtechceu.gtceu.api.recipe.GTRecipe;
+import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
+import com.gregtechceu.gtceu.api.recipe.modifier.RecipeModifier;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 
 import net.minecraft.network.chat.Component;
@@ -28,7 +28,11 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
+@DataGeneratorScanned
 public final class TreeGrowthSimulator extends StorageMultiblockMachine {
+
+    @RegisterLanguage(cn = "主产物产出%s%%", en = "Main Output %s%%")
+    private static final String MAIN = "gtocore.machine.main_output";
 
     private int output = 1;
     private float speed = 1;
@@ -44,7 +48,7 @@ public final class TreeGrowthSimulator extends StorageMultiblockMachine {
 
     @Nullable
     @Override
-    protected Recipe getRealRecipe(@NotNull Recipe recipe) {
+    public GTRecipe getRealRecipe(@NotNull RecipeHandlerUnit unit, @NotNull GTRecipe recipe) {
         ItemStack stack = getStorageStack();
         if (stack.getItem() instanceof IGTTool item) {
             boolean isElectric = item.isElectric();
@@ -74,15 +78,15 @@ public final class TreeGrowthSimulator extends StorageMultiblockMachine {
             }
             recipe.duration = (int) (recipe.duration / speed);
             if (output > 1) {
-                List<Content> contents = recipe.outputs.get(ItemRecipeCapability.CAP);
-                Content content = contents.get(0).copy(ItemRecipeCapability.CAP, ContentModifier.multiplier(2));
+                var contents = recipe.itemOutputs;
+                var content = contents.get(0).copy(2);
                 if (contents.size() > 1) {
-                    recipe.outputs.put(ItemRecipeCapability.CAP, List.of(content, contents.get(1)));
+                    recipe.itemOutputs = List.of(content, contents.get(1));
                 } else {
-                    recipe.outputs.put(ItemRecipeCapability.CAP, List.of(content));
+                    recipe.itemOutputs = List.of(content);
                 }
             }
-            return RecipeModifierFunction.overclocking(this, recipe);
+            return RecipeModifier.overclocking(this, unit, recipe);
         }
         setIdleReason(IdleReason.FELLING_TOOL);
         return null;
@@ -111,7 +115,7 @@ public final class TreeGrowthSimulator extends StorageMultiblockMachine {
     @Override
     public void customText(@NotNull List<Component> textList) {
         super.customText(textList);
-        textList.add(Component.translatable("tooltip.enderio.grinding_ball_main_output", output * 100));
+        textList.add(Component.translatable(MAIN, output * 100));
         textList.add(Component.translatable("jade.horseStat.speed", "x " + FormattingUtil.formatNumbers(speed)));
     }
 }

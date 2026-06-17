@@ -11,7 +11,7 @@ import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 import net.minecraft.world.level.material.MapColor;
 
-import com.tterrag.registrate.util.entry.BlockEntry;
+import com.gto.registrate.util.entry.BlockEntry;
 
 import static com.gtolib.utils.register.BlockRegisterUtils.block;
 
@@ -43,7 +43,7 @@ public class GlowingBlock extends Block {
         return level;
     }
 
-    static String[] num = { "Ⅰ", "Ⅱ", "Ⅲ", "Ⅳ", "Ⅴ", "Ⅵ", "Ⅶ", "Ⅷ", "Ⅸ", "Ⅹ", "Ⅺ", "Ⅻ" };
+    static String[] num = { "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X", "XI", "XII" };
 
     public static BlockEntry<GlowingBlock>[] createStarStone() {
         BlockEntry<GlowingBlock>[] StarStone = new BlockEntry[num.length];

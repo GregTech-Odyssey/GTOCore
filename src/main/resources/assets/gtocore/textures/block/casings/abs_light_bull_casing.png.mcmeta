@@ -1,5 +1,5 @@
 {
-    "ldlib": {
-        "connection": "gtocore:block/casings/abs_light_bull_casing_ctm"
-    }
+  "ldlib": {
+    "connection": "gtocore:block/casings/abs_light_bull_casing_ctm"
+  }
 }

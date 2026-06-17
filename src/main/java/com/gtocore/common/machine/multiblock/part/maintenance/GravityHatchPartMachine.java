@@ -8,9 +8,9 @@ import com.gregtechceu.gtceu.common.machine.multiblock.part.AutoMaintenanceHatch
 
 import net.minecraft.util.Mth;
 
+import com.gto.datasynclib.annotations.SaveToDisk;
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 
 public final class GravityHatchPartMachine extends AutoMaintenanceHatchPartMachine implements IGravityPartMachine {
 
@@ -18,7 +18,7 @@ public final class GravityHatchPartMachine extends AutoMaintenanceHatchPartMachi
         super(blockEntity);
     }
 
-    @Persisted
+    @SaveToDisk
     private int currentGravity;
 
     @Override

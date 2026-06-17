@@ -1,12 +1,11 @@
 package com.gtocore.common.machine.multiblock.part;
 
-import com.gtolib.api.machine.trait.IEnhancedRecipeLogic;
-
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.feature.IExhaustVentMachine;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IWorkableMultiController;
-import com.gregtechceu.gtceu.api.machine.multiblock.part.MultiblockPartMachine;
+import com.gregtechceu.gtceu.api.machine.multiblock.part.WorkableMultiblockPartMachine;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
+import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
@@ -19,7 +18,7 @@ import net.minecraft.world.level.block.CarpetBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
+import com.gto.datasynclib.annotations.SaveToDisk;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -27,9 +26,9 @@ import javax.annotation.ParametersAreNonnullByDefault;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public class SteamVentHatchMachine extends MultiblockPartMachine implements IExhaustVentMachine {
+public class SteamVentHatchMachine extends WorkableMultiblockPartMachine implements IExhaustVentMachine {
 
-    @Persisted
+    @SaveToDisk
     private boolean needsVenting;
 
     public SteamVentHatchMachine(MetaMachineBlockEntity holder) {
@@ -72,9 +71,9 @@ public class SteamVentHatchMachine extends MultiblockPartMachine implements IExh
 
     @Override
     @Nullable
-    public GTRecipe modifyRecipe(IWorkableMultiController controller, GTRecipe recipe) {
+    public GTRecipe modifyRecipe(IWorkableMultiController controller, RecipeHandlerUnit unit, GTRecipe recipe) {
         if (needsVenting && isVentingBlocked()) {
-            ((IEnhancedRecipeLogic) controller.getRecipeLogic()).gtolib$setIdleReason(Component.translatable("gtceu.recipe_logic.condition_fails").append(": ").append(Component.translatable("recipe.condition.steam_vent.tooltip")));
+            controller.setIdleReason(Component.translatable("gtceu.recipe_logic.condition_fails").append(": ").append(Component.translatable("recipe.condition.steam_vent.tooltip")));
             return null;
         }
         return recipe;

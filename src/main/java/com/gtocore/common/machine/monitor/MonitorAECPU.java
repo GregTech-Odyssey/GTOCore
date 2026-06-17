@@ -1,7 +1,5 @@
 package com.gtocore.common.machine.monitor;
 
-import com.gtocore.mixin.ae2.menu.CraftingStatusMenuAccessor;
-
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
 
@@ -21,11 +19,12 @@ import appeng.core.localization.Tooltips;
 import appeng.crafting.execution.ElapsedTimeTracker;
 import appeng.me.cluster.implementations.CraftingCPUCluster;
 import appeng.menu.me.crafting.CraftingStatusMenu;
+
 import com.google.common.collect.ImmutableSet;
+import com.gto.datasynclib.annotations.SaveToDisk;
+import com.gto.datasynclib.annotations.SyncToClient;
 import com.hepdd.gtmthings.utils.FormatUtil;
 import com.lowdragmc.lowdraglib.gui.widget.*;
-import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import org.apache.commons.lang3.time.DurationFormatUtils;
 import org.jetbrains.annotations.Nullable;
@@ -36,7 +35,7 @@ import java.util.concurrent.TimeUnit;
 public class MonitorAECPU extends AbstractAEInfoMonitor {
 
     private static final CraftingStatusMenu.CraftingCpuList EMPTY_CPU_LIST = new CraftingStatusMenu.CraftingCpuList(Collections.emptyList());
-    private static final Comparator<CraftingStatusMenu.CraftingCpuListEntry> CPU_COMPARATOR = CraftingStatusMenuAccessor.getCPU_COMPARATOR();
+    private static final Comparator<CraftingStatusMenu.CraftingCpuListEntry> CPU_COMPARATOR = CraftingStatusMenu.CPU_COMPARATOR;
     private static final Comparator<ICraftingCPU> RAW_CPU_COMPARATOR = Comparator
             .comparing((ICraftingCPU cpu) -> cpu.getName() == null)
             .thenComparing(cpu -> cpu.getName() == null ? "" : cpu.getName().getString())
@@ -48,8 +47,8 @@ public class MonitorAECPU extends AbstractAEInfoMonitor {
     private ICraftingCPU selectedCpu = null;
 
     private CraftingStatusMenu.CraftingCpuList cpuList = EMPTY_CPU_LIST;
-    @DescSynced
-    @Persisted
+    @SyncToClient
+    @SaveToDisk
     private int selectedCpuSerial = -1;
 
     public MonitorAECPU(MetaMachineBlockEntity holder) {
@@ -60,9 +59,9 @@ public class MonitorAECPU extends AbstractAEInfoMonitor {
         this((MetaMachineBlockEntity) o);
     }
 
-    @DescSynced
+    @SyncToClient
     private CompoundTag cpuInfo = new CompoundTag();
-    @DescSynced
+    @SyncToClient
     private Component cpuName = Component.empty();
 
     private ImmutableSet<ICraftingCPU> lastCpuSet = ImmutableSet.of();

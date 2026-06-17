@@ -4,7 +4,9 @@
 0=com.gtolib
 1=com.gregtechceu
 1=net
-2=
-3=java
-4=javax
-5=\#
+2=appeng
+2=gto_ae
+3=
+4=java
+5=javax
+6=\#

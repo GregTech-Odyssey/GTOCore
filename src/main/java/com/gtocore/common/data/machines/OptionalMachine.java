@@ -1,5 +1,7 @@
 package com.gtocore.common.data.machines;
 
+import com.gtocore.api.machine.part.GTOPartAbility;
+import com.gtocore.api.pattern.GTOPredicates;
 import com.gtocore.common.data.translation.GTOMachineTooltips;
 import com.gtocore.common.machine.multiblock.electric.ChiselMachine;
 import com.gtocore.common.machine.multiblock.part.ae.MESimplePatternBufferPartMachine;
@@ -9,8 +11,6 @@ import com.gtolib.GTOCore;
 import com.gtolib.utils.MultiBlockFileReader;
 
 import com.gregtechceu.gtceu.GTCEu;
-import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
-import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
 import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
 import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility;
@@ -35,11 +35,10 @@ public final class OptionalMachine {
 
             machine("me_simple_pattern_buffer", "ME简单样板总成", MESimplePatternBufferPartMachine::new)
                     .langValue("ME Simple Pattern Buffer")
-                    .addTooltipsFromClass(MESimplePatternBufferPartMachine.class)
+                    .tooltips(GTOMachineTooltips.INSTANCE.getMePatternHatchTooltips().invoke(9).getSupplier())
                     .tier(MV)
                     .allRotation()
-                    .abilities(PartAbility.IMPORT_ITEMS, PartAbility.IMPORT_FLUIDS)
-                    .tooltipsKey("gtceu.part_sharing.enabled")
+                    .abilities(PartAbility.IMPORT_ITEMS, PartAbility.IMPORT_FLUIDS, GTOPartAbility.DUAL_INPUT)
                     .renderer(() -> new OverlayTieredMachineRenderer(MV, GTCEu.id("block/machine/part/me_pattern_buffer")))
                     .register() :
             null;
@@ -55,12 +54,12 @@ public final class OptionalMachine {
                             .or(abilities(EXPORT_ITEMS).setMaxGlobalLimited(1))
                             .or(abilities(INPUT_ENERGY).setMaxGlobalLimited(2))
                             .or(abilities(MAINTENANCE).setExactLimit(1)))
-                    .where('B', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTMaterials.Steel)))
+                    .where('B', GTOPredicates.frame(GTMaterials.Steel))
                     .where('C', blocks(GTBlocks.CASING_STEEL_SOLID.get()))
                     .where('D', blocks(GTBlocks.STEEL_HULL.get()))
                     .where('E', blocks(GTBlocks.CASING_STEEL_GEARBOX.get()))
                     .where('F', blocks(Blocks.IRON_BARS))
-                    .where('G', controller(blocks(definition.get())))
+                    .where('G', controller(definition))
                     .where('H', blocks(GTBlocks.CASING_TEMPERED_GLASS.get()))
                     .where(' ', any())
                     .build())

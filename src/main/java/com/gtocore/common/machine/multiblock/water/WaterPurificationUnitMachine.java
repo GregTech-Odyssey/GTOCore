@@ -3,37 +3,37 @@ package com.gtocore.common.machine.multiblock.water;
 import com.gtolib.api.capability.IIWirelessInteractor;
 import com.gtolib.api.machine.feature.multiblock.IParallelMachine;
 import com.gtolib.api.machine.multiblock.NoEnergyCustomParallelMultiblockMachine;
-import com.gtolib.api.machine.trait.CustomRecipeLogic;
-import com.gtolib.api.recipe.Recipe;
 import com.gtolib.utils.GTOUtils;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.ConditionalSubscriptionHandler;
-import com.gregtechceu.gtceu.api.machine.trait.RecipeHandlerList;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
+import com.gregtechceu.gtceu.api.recipe.GTRecipe;
+import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
 import com.gregtechceu.gtceu.api.sound.SoundEntry;
 import com.gregtechceu.gtceu.common.data.GTSoundEntries;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.world.level.Level;
 
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
+import com.gto.datasynclib.annotations.SaveToDisk;
 import org.jetbrains.annotations.NotNull;
 
 @MethodsReturnNonnullByDefault
 abstract class WaterPurificationUnitMachine extends NoEnergyCustomParallelMultiblockMachine implements IIWirelessInteractor<WaterPurificationPlantMachine> {
 
-    abstract long before();
+    abstract long prepareRecipe(RecipeHandlerUnit unit);
 
     private WaterPurificationPlantMachine netMachineCache;
-    Recipe recipe;
-    @Persisted
+    GTRecipe recipe;
+    RecipeHandlerUnit unit;
+    @SaveToDisk
     long eut;
     public final long multiple;
     private final ConditionalSubscriptionHandler tickSubs;
 
     WaterPurificationUnitMachine(MetaMachineBlockEntity holder, long multiple) {
-        super(holder, false, m -> IParallelMachine.MAX_PARALLEL);
+        super(holder, false, m -> IParallelMachine.MAX_PARALLEL, m -> 1000L);
         this.multiple = multiple;
         tickSubs = new ConditionalSubscriptionHandler(this, this::tickUpdate, 80, this::isFormed);
         customParallelTrait.setDefaultMax(false);
@@ -51,16 +51,10 @@ abstract class WaterPurificationUnitMachine extends NoEnergyCustomParallelMultib
 
     long parallel() {
         WaterPurificationPlantMachine machine = getNetMachine();
-        if (machine != null) {
-            var p = super.getParallel();
-            if (p < 1000) {
-                p = 1000;
-                super.setParallel(p);
-            }
-            p = Math.min(p, (machine.availableEu << 1) / multiple);
-            return p >= 1000 ? p : 0;
+        if (machine == null) {
+            return 0;
         }
-        return 0;
+        return Math.min(super.getParallel(), (machine.availableEu << 1) / multiple);
     }
 
     void setWorking(boolean isWorkingAllowed) {
@@ -68,7 +62,7 @@ abstract class WaterPurificationUnitMachine extends NoEnergyCustomParallelMultib
     }
 
     @Override
-    public void onContentChanges(RecipeHandlerList handlerList) {
+    public void onContentChanges(RecipeHandlerUnit handlerList) {
         if (getRecipeLogic().isIdle()) {
             WaterPurificationPlantMachine machine = getNetMachine();
             if (machine != null && machine.getRecipeLogic().isIdle()) {
@@ -107,6 +101,7 @@ abstract class WaterPurificationUnitMachine extends NoEnergyCustomParallelMultib
 
     @Override
     public void onStructureFormed() {
+        unit = null;
         super.onStructureFormed();
         if (!isRemote()) {
             getNetMachine();
@@ -118,6 +113,7 @@ abstract class WaterPurificationUnitMachine extends NoEnergyCustomParallelMultib
     public void onStructureInvalid() {
         super.onStructureInvalid();
         removeNetMachineCache();
+        unit = null;
     }
 
     @Override
@@ -136,16 +132,18 @@ abstract class WaterPurificationUnitMachine extends NoEnergyCustomParallelMultib
     public void setWorkingEnabled(boolean isWorkingAllowed) {}
 
     @Override
-    @NotNull
     public RecipeLogic createRecipeLogic(Object @NotNull... args) {
         return new CustomLogic(this);
     }
 
-    private static final class CustomLogic extends CustomRecipeLogic {
+    private static final class CustomLogic extends RecipeLogic {
 
         private CustomLogic(WaterPurificationUnitMachine machine) {
-            super(machine, () -> null);
+            super(machine);
         }
+
+        @Override
+        public void findAndHandleRecipe() {}
 
         @Override
         public void updateTickSubscription() {}
@@ -155,8 +153,20 @@ abstract class WaterPurificationUnitMachine extends NoEnergyCustomParallelMultib
 
         @Override
         public void onRecipeFinish() {
-            super.onRecipeFinish();
-            lastRecipe = null;
+            machine.afterWorking();
+            if (lastRecipe != null) {
+                machine.handleRecipeOutput(lastRecipe);
+                lastRecipe = null;
+            }
+            if (suspendAfterFinish) {
+                setStatus(SUSPEND);
+                suspendAfterFinish = false;
+            } else {
+                setStatus(IDLE);
+            }
+            progress = 0;
+            duration = 0;
+            isActive = false;
         }
     }
 

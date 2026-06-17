@@ -5,16 +5,16 @@ import com.gtolib.utils.MathUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.state.BlockState;
 
-import appbot.ae2.ManaKey;
-import appbot.block.FluixPoolBlockEntity;
-import appbot.mixins.ManaPoolBlockEntityAccessor;
 import appeng.api.config.Actionable;
 import appeng.api.networking.IGrid;
-import appeng.api.networking.IInWorldGridNodeHost;
 import appeng.api.networking.IManagedGridNode;
 import appeng.api.networking.security.IActionSource;
 import appeng.api.storage.MEStorage;
 import appeng.me.helpers.IGridConnectedBlockEntity;
+
+import appbot.ae2.ManaKey;
+import appbot.block.FluixPoolBlockEntity;
+import appbot.mixins.ManaPoolBlockEntityAccessor;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
@@ -22,7 +22,7 @@ import org.spongepowered.asm.mixin.Shadow;
 import vazkii.botania.common.block.block_entity.mana.ManaPoolBlockEntity;
 
 @Mixin(value = FluixPoolBlockEntity.class, remap = false)
-public abstract class FluixPoolBlockEntityMixin extends ManaPoolBlockEntity implements IInWorldGridNodeHost, IGridConnectedBlockEntity {
+public abstract class FluixPoolBlockEntityMixin extends ManaPoolBlockEntity implements IGridConnectedBlockEntity {
 
     public FluixPoolBlockEntityMixin(BlockPos pos, BlockState state) {
         super(pos, state);

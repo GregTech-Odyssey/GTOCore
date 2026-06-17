@@ -2,7 +2,7 @@ package com.gtocore.common.machine.multiblock.part;
 
 import com.gtocore.common.machine.multiblock.electric.processing.ProcessingArrayMachine;
 
-import com.gtolib.api.machine.part.ItemHatchPartMachine;
+import com.gtolib.api.machine.part.ItemPartMachine;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
@@ -11,7 +11,7 @@ import net.minecraft.world.item.ItemStack;
 
 import org.jetbrains.annotations.NotNull;
 
-public final class MachineAccessInterfacePartMachine extends ItemHatchPartMachine {
+public final class MachineAccessInterfacePartMachine extends ItemPartMachine {
 
     public MachineAccessInterfacePartMachine(MetaMachineBlockEntity holder) {
         super(holder, 64, null);
@@ -19,7 +19,7 @@ public final class MachineAccessInterfacePartMachine extends ItemHatchPartMachin
 
     @Override
     public @NotNull NotifiableItemStackHandler getInventory() {
-        if (!getControllers().isEmpty() && getControllers().first() instanceof ProcessingArrayMachine arrayMachine) {
+        if (!getControllers().isEmpty() && getController() instanceof ProcessingArrayMachine arrayMachine) {
             return arrayMachine.getInventory();
         }
         return inventory;

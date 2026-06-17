@@ -1,31 +1,32 @@
 package com.gtocore.common.machine.multiblock.electric.bioengineering;
 
+import com.gtocore.common.data.GTOFluids;
+
 import com.gtolib.api.machine.multiblock.CrossRecipeMultiblockMachine;
-import com.gtolib.api.recipe.Recipe;
 import com.gtolib.utils.MachineUtils;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
-import com.gregtechceu.gtceu.api.capability.recipe.FluidRecipeCapability;
-import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
+import com.gregtechceu.gtceu.api.recipe.GTRecipe;
+import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
 
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 
-import com.enderio.base.common.init.EIOFluids;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public final class BiologicalExtractionMachine extends CrossRecipeMultiblockMachine {
 
-    private static final FluidStack CLOUD_SEED_CONCENTRATED = new FluidStack(EIOFluids.CLOUD_SEED_CONCENTRATED.getSource(), 1000);
-    private static final FluidStack FIRE_WATER = new FluidStack(EIOFluids.FIRE_WATER.getSource(), 1000);
-    private static final FluidStack VAPOR_OF_LEVITY = new FluidStack(EIOFluids.VAPOR_OF_LEVITY.getSource(), 1000);
+    private static final FluidStack CLOUD_SEED_CONCENTRATED = new FluidStack(GTOFluids.CLOUD_SEED_CONCENTRATED.getSource(), 1000);
+    private static final FluidStack FIRE_WATER = new FluidStack(GTOFluids.FIRE_WATER.getSource(), 1000);
+    private static final FluidStack VAPOR_OF_LEVITY = new FluidStack(GTOFluids.VAPOR_OF_LEVITY.getSource(), 1000);
 
     private static final Set<Fluid> FLUIDS = Set.of(CLOUD_SEED_CONCENTRATED.getFluid(), FIRE_WATER.getFluid(), VAPOR_OF_LEVITY.getFluid());
 
@@ -41,19 +42,19 @@ public final class BiologicalExtractionMachine extends CrossRecipeMultiblockMach
     }
 
     @Override
-    public Recipe getRealRecipe(@NotNull Recipe recipe) {
+    public GTRecipe getRealRecipe(@NotNull RecipeHandlerUnit unit, @NotNull GTRecipe recipe) {
         if (getRecipeLogic().getTotalContinuousRunningTime() < 400) {
-            recipe.outputs.remove(ItemRecipeCapability.CAP);
-            recipe.outputs.remove(FluidRecipeCapability.CAP);
+            recipe.itemOutputs = Collections.emptyList();
+            recipe.fluidOutputs = Collections.emptyList();
             return recipe;
         } else {
-            return super.getRealRecipe(recipe);
+            return super.getRealRecipe(unit, recipe);
         }
     }
 
     @Override
-    public boolean onWorking() {
-        if (super.onWorking()) {
+    public boolean handleTickRecipe(GTRecipe recipe) {
+        if (super.handleTickRecipe(recipe)) {
             if (redstoneSignalOutput > 9) {
                 redstoneSignalOutput--;
                 if (redstoneSignalOutput == 9) {
@@ -62,7 +63,7 @@ public final class BiologicalExtractionMachine extends CrossRecipeMultiblockMach
                 }
             }
             if (getRecipeLogic().getProgress() % 20 == 0) {
-                if (inputFluid(EIOFluids.NUTRIENT_DISTILLATION.getSource(), 1000)) {
+                if (inputFluid(GTOFluids.NUTRIENT_DISTILLATION.getSource(), 1000)) {
                     redstoneSignalOutput = 15;
                     updateSignal();
                 } else {
@@ -82,7 +83,7 @@ public final class BiologicalExtractionMachine extends CrossRecipeMultiblockMach
     private boolean input(FluidStack stack) {
         AtomicBoolean success = new AtomicBoolean(false);
         AtomicBoolean failed = new AtomicBoolean(false);
-        forEachInputFluids((fluidStack, amount) -> {
+        forEachFluids(true, (fluidStack, amount) -> {
             var fluid = fluidStack.getFluid();
             if (FLUIDS.contains(fluid)) {
                 if (fluid == stack.getFluid()) {

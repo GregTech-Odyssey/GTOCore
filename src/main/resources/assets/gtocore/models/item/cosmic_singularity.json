@@ -4,7 +4,7 @@
     "layer0": "gtocore:item/singularity/eternity_singularity",
     "layer1": "gtocore:item/singularity/eternity_singularity_overlay"
   },
-  "loader": "avaritia:cosmic",
+  "loader": "renderblender:cosmic",
   "cosmic": {
     "mask": "gtocore:mask/eternal_singularity"
   }

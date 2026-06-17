@@ -7,6 +7,7 @@ import com.gtolib.api.ae2.IExpandedGrid;
 import appeng.api.networking.IGridNode;
 import appeng.hooks.ticking.TickHandler;
 import appeng.me.Grid;
+
 import com.google.common.collect.SetMultimap;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;

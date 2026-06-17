@@ -2,19 +2,18 @@ package com.gtocore.common.machine.multiblock.water;
 
 import com.gtocore.common.machine.multiblock.part.IndicatorHatchPartMachine;
 
-import com.gtolib.api.recipe.RecipeRunner;
-import com.gtolib.utils.holder.IntHolder;
-
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
+import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.network.chat.Component;
 import net.minecraftforge.fluids.FluidStack;
 
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
+import com.gto.datasynclib.annotations.SaveToDisk;
+import com.gto.datasynclib.util.holder.IntHolder;
 
 import java.util.List;
 
@@ -38,16 +37,16 @@ public final class ResidualDecontaminantDegasserPurificationUnitMachine extends 
             GTMaterials.RutheniumTriniumAmericiumNeutronate.getFluid(1000),
             GTMaterials.Neutronium.getFluid(2000));
 
-    @Persisted
+    @SaveToDisk
     private long inputCount;
 
-    @Persisted
+    @SaveToDisk
     private boolean successful;
 
-    @Persisted
+    @SaveToDisk
     private boolean failed;
 
-    @Persisted
+    @SaveToDisk
     private FluidStack fluidStack;
 
     private IndicatorHatchPartMachine indicatorHatchPartMachine;
@@ -61,7 +60,7 @@ public final class ResidualDecontaminantDegasserPurificationUnitMachine extends 
         super.customText(textList);
         if (getRecipeLogic().isWorking()) {
             textList.add(Component.translatable("gtocore.machine.residual_decontaminant_degasser_purification_unit.fluids", fluidStack.getDisplayName()));
-            textList.add(Component.translatable("gui.enderio.sag_mill_chance", (successful && !failed) ? 100 : 0));
+            textList.add(Component.translatable("gtceu.jei.ore_vein_diagram.chance", (successful && !failed) ? 100 : 0));
         }
     }
 
@@ -80,11 +79,11 @@ public final class ResidualDecontaminantDegasserPurificationUnitMachine extends 
     }
 
     @Override
-    public boolean onWorking() {
-        if (!super.onWorking()) return false;
+    public void onWorking() {
+        super.onWorking();
         if (!failed && getOffsetTimer() % 20 == 0) {
-            IntHolder nonEmpty = new IntHolder(0);
-            fastForEachInputFluids((stack, amount) -> {
+            IntHolder nonEmpty = new IntHolder();
+            fastForEachFluids(true, (stack, amount) -> {
                 if (stack.getFluid() == WaterPurificationPlantMachine.GradePurifiedWater6) return;
                 nonEmpty.value++;
                 if (!fluidStack.isEmpty() && fluidStack.getFluid() == stack.getFluid() && fluidStack.getAmount() <= amount) {
@@ -96,30 +95,24 @@ public final class ResidualDecontaminantDegasserPurificationUnitMachine extends 
             });
             if (fluidStack.isEmpty() && nonEmpty.value == 0) successful = true;
         }
-        return true;
     }
 
     @Override
     public void afterWorking() {
         super.afterWorking();
         indicatorHatchPartMachine.setRedstoneSignalOutput(0);
-    }
-
-    @Override
-    public void onRecipeFinish() {
-        super.onRecipeFinish();
         if (successful && !failed) outputFluid(WaterPurificationPlantMachine.GradePurifiedWater7, inputCount * 9 / 10);
     }
 
     @Override
-    long before() {
+    long prepareRecipe(RecipeHandlerUnit unit) {
         eut = 0;
         successful = false;
         failed = false;
-        inputCount = Math.min(parallel(), getFluidAmount(WaterPurificationPlantMachine.GradePurifiedWater6)[0]);
+        inputCount = Math.min(parallel(), unit.getFluidAmount(true, WaterPurificationPlantMachine.GradePurifiedWater6)[0]);
         if (inputCount > 0) {
             recipe = getRecipeBuilder().duration(WaterPurificationPlantMachine.DURATION).inputFluids(WaterPurificationPlantMachine.GradePurifiedWater6, inputCount).buildRawRecipe();
-            if (RecipeRunner.matchRecipe(this, recipe)) {
+            if (matchRecipe(unit, recipe)) {
                 indicatorHatchPartMachine.setRedstoneSignalOutput((int) (Math.random() * 15));
                 if (indicatorHatchPartMachine.getRedstoneSignalOutput() == 13 || indicatorHatchPartMachine.getRedstoneSignalOutput() == 15) {
                     fluidStack = FLUIDS.get(11);

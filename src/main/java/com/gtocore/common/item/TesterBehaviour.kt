@@ -24,14 +24,14 @@ class TesterBehaviour :
         return ModularUI(176, 166, p0, p1)
             .widget(FancyMachineUIWidget(this, 176, 166))
     }
-    override fun createMainPage(p0: FancyMachineUIWidget?): Widget? = root(176, 166) {
+    override fun createMainPage(p0: FancyMachineUIWidget?): Widget = root(176, 166) {
     }
 
     override fun attachSideTabs(configuratorPanel: TabsWidget?) {
         configuratorPanel?.mainTab = this@TesterBehaviour
     }
 
-    override fun getTabIcon(): IGuiTexture? = ItemStackTexture(Items.IRON_AXE)
+    override fun getTabIcon(): IGuiTexture = ItemStackTexture(Items.IRON_AXE)
 
     override fun getTitle(): Component? = Component.literal("UI测试器")
 }

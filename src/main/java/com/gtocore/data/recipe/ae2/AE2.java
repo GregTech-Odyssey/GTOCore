@@ -2,7 +2,6 @@ package com.gtocore.data.recipe.ae2;
 
 import com.gtocore.api.data.tag.GTOTagPrefix;
 import com.gtocore.common.data.GTOBlocks;
-import com.gtocore.common.data.GTOItems;
 import com.gtocore.common.data.GTOMaterials;
 
 import com.gtolib.GTOCore;
@@ -28,6 +27,8 @@ import net.minecraft.world.item.Items;
 import appeng.core.AppEng;
 import appeng.core.definitions.AEBlocks;
 import appeng.core.definitions.AEItems;
+import appeng.datagen.providers.tags.ConventionTags;
+
 import com.glodblock.github.extendedae.ExtendedAE;
 import com.glodblock.github.extendedae.common.EPPItemAndBlock;
 
@@ -42,7 +43,12 @@ public final class AE2 {
         Ae2wtlibRecipes.init();
         GTOInfCells.init();
         VanillaRecipeHelper.addShapelessRecipe(GTOCore.id("aesilicon"), EPPItemAndBlock.SILICON_BLOCK,
-                TagUtils.createForgeTag("silicon"), TagUtils.createForgeTag("silicon"), TagUtils.createForgeTag("silicon"), TagUtils.createForgeTag("silicon"), TagUtils.createForgeTag("silicon"), TagUtils.createForgeTag("silicon"), TagUtils.createForgeTag("silicon"), TagUtils.createForgeTag("silicon"), TagUtils.createForgeTag("silicon"));
+                TagUtils.createForgeItemTag("silicon"), TagUtils.createForgeItemTag("silicon"), TagUtils.createForgeItemTag("silicon"), TagUtils.createForgeItemTag("silicon"), TagUtils.createForgeItemTag("silicon"), TagUtils.createForgeItemTag("silicon"), TagUtils.createForgeItemTag("silicon"), TagUtils.createForgeItemTag("silicon"), TagUtils.createForgeItemTag("silicon"));
+        VanillaRecipeHelper.addShapedRecipe(true, GTOCore.id("matter_condenser"), new ItemStack(AEBlocks.CONDENSER.asItem()),
+                "ABA",
+                "B B",
+                "ABA",
+                'A', ConventionTags.IRON_INGOT, 'B', ConventionTags.GLASS);
         if (GTOCore.isEasy()) return;
         VanillaRecipeHelper.addShapedRecipe(GTOCore.id("import_bus"), RegistriesUtils.getItemStack("ae2:import_bus"),
                 "ABC",
@@ -231,7 +237,7 @@ public final class AE2 {
                 .inputItems("ae2:fluix_glass_cable", 4)
                 .inputItems(CustomTags.MV_CIRCUITS)
                 .inputItems(TagPrefix.rotor, GTMaterials.Aluminium)
-                .inputItems(GTItems.ELECTRIC_MOTOR_MV.asItem())
+                .inputItems(GTItems.ELECTRIC_MOTOR_MV)
                 .inputItems(TagPrefix.gem, GTMaterials.CertusQuartz, 4)
                 .outputItems(AEBlocks.DRIVE.block().asItem())
                 .inputFluids(GTMaterials.SolderingAlloy, 288)
@@ -243,8 +249,8 @@ public final class AE2 {
                 .inputItems(TagPrefix.frameGt, GTMaterials.Steel)
                 .inputItems(AEItems.FORMATION_CORE.asItem(), 2)
                 .inputItems(AEItems.ANNIHILATION_CORE.asItem(), 2)
-                .inputItems(GTItems.ROBOT_ARM_LV.asItem())
-                .inputItems(GTItems.CONVEYOR_MODULE_LV.asItem())
+                .inputItems(GTItems.ROBOT_ARM_LV)
+                .inputItems(GTItems.CONVEYOR_MODULE_LV)
                 .inputItems(TagPrefix.plate, GTMaterials.Invar, 6)
                 .outputItems(AEBlocks.MOLECULAR_ASSEMBLER.block().asItem())
                 .inputFluids(GTMaterials.Glass, 288)
@@ -269,7 +275,7 @@ public final class AE2 {
                 .inputItems("gtocore:lv_mana_machine_hull")
                 .inputItems(AEItems.FORMATION_CORE.asItem())
                 .inputItems(AEItems.ANNIHILATION_CORE.asItem())
-                .inputItems(GTItems.CONVEYOR_MODULE_LV.asItem())
+                .inputItems(GTItems.CONVEYOR_MODULE_LV)
                 .inputItems(CustomTags.LV_CIRCUITS, 2)
                 .inputItems(TagPrefix.plateDouble, GTMaterials.Steel, 2)
                 .inputItems(GTBlocks.CASING_TEMPERED_GLASS.asItem(), 2)
@@ -283,7 +289,7 @@ public final class AE2 {
                 .inputItems(GTMachines.HULL[GTValues.MV].asItem())
                 .inputItems(AEItems.FORMATION_CORE.asItem())
                 .inputItems(AEItems.ANNIHILATION_CORE.asItem())
-                .inputItems(GTItems.CONVEYOR_MODULE_MV.asItem())
+                .inputItems(GTItems.CONVEYOR_MODULE_MV)
                 .inputItems(CustomTags.MV_CIRCUITS, 2)
                 .inputItems(TagPrefix.plateDouble, GTMaterials.Aluminium, 4)
                 .inputItems(GTOBlocks.BOROSILICATE_GLASS.asItem(), 2)
@@ -353,7 +359,7 @@ public final class AE2 {
                 .save();
 
         ASSEMBLER_RECIPES.builder("requester")
-                .inputItems(GTItems.TOOL_DATA_STICK.asItem(), 8)
+                .inputItems(GTItems.TOOL_DATA_STICK, 8)
                 .inputItems(TagPrefix.frameGt, GTMaterials.Titanium)
                 .inputItems(AEItems.ENGINEERING_PROCESSOR.asItem(), 4)
                 .inputItems("ae2:cable_interface")
@@ -375,7 +381,7 @@ public final class AE2 {
                 .inputItems(TagPrefix.plate, GTMaterials.Redstone, 2)
                 .inputItems(AEItems.SKY_DUST.asItem(), 2)
                 .inputItems(TagPrefix.plate, GTMaterials.CertusQuartz, 2)
-                .inputFluids(GTMaterials.Tin.getFluid(72))
+                .inputFluids(GTMaterials.Tin, 72)
                 .outputItems(AEItems.CELL_COMPONENT_1K.asItem())
                 .EUt(7)
                 .duration(200)
@@ -388,7 +394,7 @@ public final class AE2 {
                 .inputItems(TagPrefix.plate, GTMaterials.Redstone)
                 .inputItems(AEItems.CALCULATION_PROCESSOR.asItem())
                 .inputItems(TagPrefix.plate, GTMaterials.Quartzite)
-                .inputFluids(GTMaterials.SolderingAlloy.getFluid(72))
+                .inputFluids(GTMaterials.SolderingAlloy, 72)
                 .outputItems(AEItems.CELL_COMPONENT_4K.asItem())
                 .EUt(30)
                 .duration(200)
@@ -401,7 +407,7 @@ public final class AE2 {
                 .inputItems(TagPrefix.plate, GTMaterials.Redstone)
                 .inputItems(AEItems.CALCULATION_PROCESSOR.asItem())
                 .inputItems(TagPrefix.plate, GTMaterials.Quartzite)
-                .inputFluids(GTMaterials.SolderingAlloy.getFluid(72))
+                .inputFluids(GTMaterials.SolderingAlloy, 72)
                 .outputItems(AEItems.CELL_COMPONENT_16K.asItem())
                 .EUt(30)
                 .duration(300)
@@ -414,7 +420,7 @@ public final class AE2 {
                 .inputItems(TagPrefix.plate, GTMaterials.Redstone)
                 .inputItems(AEItems.CALCULATION_PROCESSOR.asItem())
                 .inputItems(TagPrefix.plate, GTMaterials.Quartzite)
-                .inputFluids(GTMaterials.SolderingAlloy.getFluid(72))
+                .inputFluids(GTMaterials.SolderingAlloy, 72)
                 .outputItems(AEItems.CELL_COMPONENT_64K.asItem())
                 .EUt(120)
                 .duration(200)
@@ -427,34 +433,17 @@ public final class AE2 {
                 .inputItems(TagPrefix.plate, GTMaterials.Redstone)
                 .inputItems(AEItems.CALCULATION_PROCESSOR.asItem())
                 .inputItems(TagPrefix.plate, GTMaterials.Quartzite)
-                .inputFluids(GTMaterials.SolderingAlloy.getFluid(72))
+                .inputFluids(GTMaterials.SolderingAlloy, 72)
                 .outputItems(AEItems.CELL_COMPONENT_256K.asItem())
                 .EUt(120)
                 .duration(300)
                 .save();
-
-        VanillaRecipeHelper.addShapedRecipe(GTOCore.id("water_infinity_cell"), RegistriesUtils.getItemStack("expatternprovider:infinity_cell"),
-                "ABA",
-                "BCB",
-                "ABA",
-                'A', RegistriesUtils.getItemStack("botania:rune_water"), 'B', GTItems.COVER_INFINITE_WATER.asItem(), 'C', new ItemStack(GTOItems.CELL_COMPONENT_1M.asItem()));
 
         VanillaRecipeHelper.addShapedRecipe(GTOCore.id("me_packing_tape"), RegistriesUtils.getItemStack("expatternprovider:me_packing_tape"),
                 "ABC",
                 "BDB",
                 "CBA",
                 'A', new MaterialEntry(TagPrefix.dust, GTOMaterials.Fluix), 'B', GTItems.DUCT_TAPE.asItem(), 'C', new ItemStack(Items.SLIME_BALL.asItem()), 'D', new MaterialEntry(TagPrefix.dust, GTMaterials.EnderPearl));
-
-        var cell = RegistriesUtils.getItemStack("expatternprovider:infinity_cell", 1, "{record:{\"#c\":\"ae2:i\",id:\"minecraft:cobblestone\"}}");
-        VanillaRecipeHelper.addShapedRecipe(GTOCore.id("infinity_cell"), cell,
-                "ABA",
-                "CDE",
-                "ABA",
-                'A', RegistriesUtils.getItemStack("botania:rune_earth"),
-                'B', GTMachines.ROCK_CRUSHER[GTValues.EV].asItem(),
-                'C', new ItemStack(Items.WATER_BUCKET.asItem()),
-                'D', new ItemStack(GTOItems.CELL_COMPONENT_1M.asItem()),
-                'E', new ItemStack(Items.LAVA_BUCKET.asItem()));
 
         VanillaRecipeHelper.addShapelessRecipe(GTOCore.id("ex_pattern_provider_up"), EPPItemAndBlock.PATTERN_PROVIDER_UPGRADE.getDefaultInstance(),
                 new ItemStack(RegistriesUtils.getItemStack("expatternprovider:ex_pattern_provider").getItem()),
@@ -474,7 +463,7 @@ public final class AE2 {
                     .inputItems("expatternprovider:assembler_matrix_wall")
                     .inputItems(AEItems.SPEED_CARD.asItem(), 2)
                     .inputItems("ae2:red_lumen_paint_ball", 6)
-                    .inputItems(GTItems.FIELD_GENERATOR_MV.asItem(), 4)
+                    .inputItems(GTItems.FIELD_GENERATOR_MV, 4)
                     .inputItems(CustomTags.IV_CIRCUITS)
                     .inputItems(AEItems.ENGINEERING_PROCESSOR.asItem(), 8)
                     .outputItems("expatternprovider:assembler_matrix_speed")
@@ -487,7 +476,7 @@ public final class AE2 {
                     .inputItems(TagPrefix.plate, GTMaterials.StainlessSteel, 8)
                     .inputItems(TagPrefix.plate, GTMaterials.PolyvinylChloride, 5)
                     .inputItems(TagPrefix.foil, GTMaterials.Aluminium, 16)
-                    .inputItems(GTItems.NAND_MEMORY_CHIP.asItem(), 1)
+                    .inputItems(GTItems.NAND_MEMORY_CHIP, 1)
                     .inputItems(CustomTags.HV_CIRCUITS)
                     .outputItems(AEItems.BLANK_PATTERN.asItem())
                     .EUt(GTValues.VA[GTValues.HV])
@@ -498,7 +487,7 @@ public final class AE2 {
                     .inputItems(TagPrefix.plate, GTOMaterials.Terrasteel, 8)
                     .inputItems(TagPrefix.plate, GTMaterials.PolyvinylChloride, 5)
                     .inputItems(TagPrefix.foil, GTMaterials.Aluminium, 32)
-                    .inputItems(GTItems.NAND_MEMORY_CHIP.asItem(), 4)
+                    .inputItems(GTItems.NAND_MEMORY_CHIP, 4)
                     .inputItems(CustomTags.EV_CIRCUITS)
                     .outputItems(AEItems.BLANK_PATTERN.asItem(), 4)
                     .EUt(GTValues.VA[GTValues.EV])
@@ -509,7 +498,7 @@ public final class AE2 {
                     .inputItems(TagPrefix.plate, GTMaterials.TungstenSteel, 8)
                     .inputItems(TagPrefix.plate, GTMaterials.Polytetrafluoroethylene, 5)
                     .inputItems(TagPrefix.foil, GTMaterials.Aluminium, 64)
-                    .inputItems(GTItems.NAND_MEMORY_CHIP.asItem(), 16)
+                    .inputItems(GTItems.NAND_MEMORY_CHIP, 16)
                     .inputItems(CustomTags.IV_CIRCUITS)
                     .outputItems(AEItems.BLANK_PATTERN.asItem(), 16)
                     .EUt(GTValues.VA[GTValues.IV])
@@ -521,7 +510,7 @@ public final class AE2 {
                     .inputItems(TagPrefix.plate, GTMaterials.Polybenzimidazole, 5)
                     .inputItems(TagPrefix.foil, GTMaterials.Aluminium, 64)
                     .inputItems(TagPrefix.foil, GTMaterials.Aluminium, 64)
-                    .inputItems(GTItems.NAND_MEMORY_CHIP.asItem(), 64)
+                    .inputItems(GTItems.NAND_MEMORY_CHIP, 64)
                     .inputItems(CustomTags.LuV_CIRCUITS)
                     .outputItems(AEItems.BLANK_PATTERN.asItem(), 64)
                     .EUt(GTValues.VA[GTValues.LuV])
@@ -532,8 +521,8 @@ public final class AE2 {
                     .inputItems("gtocore:ev_mana_machine_hull")
                     .inputItems(AEItems.FORMATION_CORE.asItem(), 2)
                     .inputItems(AEItems.ANNIHILATION_CORE.asItem(), 2)
-                    .inputItems(GTItems.ROBOT_ARM_HV.asItem(), 2)
-                    .inputItems(GTItems.CONVEYOR_MODULE_HV.asItem(), 2)
+                    .inputItems(GTItems.ROBOT_ARM_HV, 2)
+                    .inputItems(GTItems.CONVEYOR_MODULE_HV, 2)
                     .inputItems(AEItems.ENGINEERING_PROCESSOR.asItem(), 4)
                     .inputItems(CustomTags.EV_CIRCUITS)
                     .outputItems(AEBlocks.PATTERN_PROVIDER.asItem(), 1)
@@ -546,8 +535,8 @@ public final class AE2 {
                     .inputItems(GTMachines.HULL[GTValues.EV].asItem())
                     .inputItems(AEItems.FORMATION_CORE.asItem(), 2)
                     .inputItems(AEItems.ANNIHILATION_CORE.asItem(), 2)
-                    .inputItems(GTItems.ROBOT_ARM_HV.asItem(), 2)
-                    .inputItems(GTItems.CONVEYOR_MODULE_HV.asItem(), 2)
+                    .inputItems(GTItems.ROBOT_ARM_HV, 2)
+                    .inputItems(GTItems.CONVEYOR_MODULE_HV, 2)
                     .inputItems(AEItems.ENGINEERING_PROCESSOR.asItem(), 4)
                     .inputItems(CustomTags.EV_CIRCUITS)
                     .outputItems(AEBlocks.PATTERN_PROVIDER.asItem(), 1)
@@ -560,8 +549,8 @@ public final class AE2 {
                     .inputItems(GTMachines.HULL[GTValues.IV].asItem())
                     .inputItems(AEItems.FORMATION_CORE.asItem(), 4)
                     .inputItems(AEItems.ANNIHILATION_CORE.asItem(), 4)
-                    .inputItems(GTItems.ROBOT_ARM_EV.asItem(), 2)
-                    .inputItems(GTItems.CONVEYOR_MODULE_EV.asItem(), 2)
+                    .inputItems(GTItems.ROBOT_ARM_EV, 2)
+                    .inputItems(GTItems.CONVEYOR_MODULE_EV, 2)
                     .inputItems(AEItems.ENGINEERING_PROCESSOR.asItem(), 4)
                     .inputItems(CustomTags.IV_CIRCUITS, 1)
                     .outputItems(AEBlocks.PATTERN_PROVIDER.asItem(), 4)
@@ -574,8 +563,8 @@ public final class AE2 {
                     .inputItems("gtocore:iv_mana_machine_hull")
                     .inputItems(AEItems.FORMATION_CORE.asItem(), 4)
                     .inputItems(AEItems.ANNIHILATION_CORE.asItem(), 4)
-                    .inputItems(GTItems.ROBOT_ARM_EV.asItem(), 2)
-                    .inputItems(GTItems.CONVEYOR_MODULE_EV.asItem(), 2)
+                    .inputItems(GTItems.ROBOT_ARM_EV, 2)
+                    .inputItems(GTItems.CONVEYOR_MODULE_EV, 2)
                     .inputItems(AEItems.ENGINEERING_PROCESSOR.asItem(), 4)
                     .inputItems(CustomTags.IV_CIRCUITS, 1)
                     .outputItems(AEBlocks.PATTERN_PROVIDER.asItem(), 4)
@@ -644,7 +633,7 @@ public final class AE2 {
                     .inputItems(TagPrefix.plate, GTOMaterials.Manasteel, 3)
                     .inputItems(TagPrefix.plate, GTMaterials.Polyethylene, 2)
                     .inputItems(TagPrefix.foil, GTMaterials.Aluminium, 8)
-                    .inputItems(GTItems.NAND_MEMORY_CHIP.asItem(), 1)
+                    .inputItems(GTItems.NAND_MEMORY_CHIP, 1)
                     .inputItems(CustomTags.LV_CIRCUITS)
                     .outputItems(AEItems.BLANK_PATTERN.asItem())
                     .EUt(GTValues.VA[GTValues.HV])
@@ -655,7 +644,7 @@ public final class AE2 {
                     .inputItems(TagPrefix.plate, GTMaterials.StainlessSteel, 3)
                     .inputItems(TagPrefix.plate, GTMaterials.PolyvinylChloride, 2)
                     .inputItems(TagPrefix.foil, GTMaterials.Aluminium, 16)
-                    .inputItems(GTItems.NAND_MEMORY_CHIP.asItem(), 2)
+                    .inputItems(GTItems.NAND_MEMORY_CHIP, 2)
                     .inputItems(CustomTags.HV_CIRCUITS)
                     .outputItems(AEItems.BLANK_PATTERN.asItem(), 4)
                     .EUt(GTValues.VA[GTValues.EV])
@@ -666,7 +655,7 @@ public final class AE2 {
                     .inputItems(TagPrefix.plate, GTMaterials.TungstenSteel, 3)
                     .inputItems(TagPrefix.plate, GTMaterials.Polytetrafluoroethylene, 2)
                     .inputItems(TagPrefix.foil, GTMaterials.Aluminium, 32)
-                    .inputItems(GTItems.NAND_MEMORY_CHIP.asItem(), 4)
+                    .inputItems(GTItems.NAND_MEMORY_CHIP, 4)
                     .inputItems(CustomTags.IV_CIRCUITS)
                     .outputItems(AEItems.BLANK_PATTERN.asItem(), 16)
                     .EUt(GTValues.VA[GTValues.IV])
@@ -677,7 +666,7 @@ public final class AE2 {
                     .inputItems(TagPrefix.plate, GTMaterials.RhodiumPlatedPalladium, 3)
                     .inputItems(TagPrefix.plate, GTMaterials.Polybenzimidazole, 2)
                     .inputItems(TagPrefix.foil, GTMaterials.Aluminium, 64)
-                    .inputItems(GTItems.NAND_MEMORY_CHIP.asItem(), 8)
+                    .inputItems(GTItems.NAND_MEMORY_CHIP, 8)
                     .inputItems(CustomTags.LuV_CIRCUITS)
                     .outputItems(AEItems.BLANK_PATTERN.asItem(), 64)
                     .EUt(GTValues.VA[GTValues.LuV])
@@ -688,8 +677,8 @@ public final class AE2 {
                     .inputItems("gtocore:hv_mana_machine_hull")
                     .inputItems(AEItems.FORMATION_CORE.asItem(), 2)
                     .inputItems(AEItems.ANNIHILATION_CORE.asItem(), 2)
-                    .inputItems(GTItems.ROBOT_ARM_HV.asItem(), 2)
-                    .inputItems(GTItems.CONVEYOR_MODULE_HV.asItem(), 2)
+                    .inputItems(GTItems.ROBOT_ARM_HV, 2)
+                    .inputItems(GTItems.CONVEYOR_MODULE_HV, 2)
                     .inputItems(AEItems.ENGINEERING_PROCESSOR.asItem(), 4)
                     .inputItems(CustomTags.HV_CIRCUITS)
                     .outputItems(AEBlocks.PATTERN_PROVIDER.asItem(), 4)
@@ -702,8 +691,8 @@ public final class AE2 {
                     .inputItems(GTMachines.HULL[GTValues.HV].asItem())
                     .inputItems(AEItems.FORMATION_CORE.asItem(), 2)
                     .inputItems(AEItems.ANNIHILATION_CORE.asItem(), 2)
-                    .inputItems(GTItems.ROBOT_ARM_MV.asItem(), 2)
-                    .inputItems(GTItems.CONVEYOR_MODULE_MV.asItem(), 2)
+                    .inputItems(GTItems.ROBOT_ARM_MV, 2)
+                    .inputItems(GTItems.CONVEYOR_MODULE_MV, 2)
                     .inputItems(AEItems.ENGINEERING_PROCESSOR.asItem(), 4)
                     .inputItems(CustomTags.HV_CIRCUITS)
                     .outputItems(AEBlocks.PATTERN_PROVIDER.asItem(), 1)
@@ -716,10 +705,10 @@ public final class AE2 {
                     .inputItems(GTMachines.HULL[GTValues.EV].asItem())
                     .inputItems(AEItems.FORMATION_CORE.asItem(), 4)
                     .inputItems(AEItems.ANNIHILATION_CORE.asItem(), 4)
-                    .inputItems(GTItems.ROBOT_ARM_EV.asItem(), 2)
-                    .inputItems(GTItems.CONVEYOR_MODULE_EV.asItem(), 2)
+                    .inputItems(GTItems.ROBOT_ARM_EV, 2)
+                    .inputItems(GTItems.CONVEYOR_MODULE_EV, 2)
                     .inputItems(AEItems.ENGINEERING_PROCESSOR.asItem(), 4)
-                    .inputItems(CustomTags.EV_CIRCUITS, 4)
+                    .inputItems(CustomTags.EV_CIRCUITS)
                     .outputItems(AEBlocks.PATTERN_PROVIDER.asItem(), 8)
                     .inputFluids(GTMaterials.Polytetrafluoroethylene, 288)
                     .duration(600)
@@ -730,11 +719,11 @@ public final class AE2 {
                     .inputItems("gtocore:ev_mana_machine_hull")
                     .inputItems(AEItems.FORMATION_CORE.asItem(), 4)
                     .inputItems(AEItems.ANNIHILATION_CORE.asItem(), 4)
-                    .inputItems(GTItems.ROBOT_ARM_EV.asItem(), 2)
-                    .inputItems(GTItems.CONVEYOR_MODULE_EV.asItem(), 2)
+                    .inputItems(GTItems.ROBOT_ARM_EV, 2)
+                    .inputItems(GTItems.CONVEYOR_MODULE_EV, 2)
                     .inputItems(AEItems.ENGINEERING_PROCESSOR.asItem(), 4)
-                    .inputItems(CustomTags.EV_CIRCUITS, 4)
-                    .outputItems(AEBlocks.PATTERN_PROVIDER.asItem(), 8)
+                    .inputItems(CustomTags.EV_CIRCUITS)
+                    .outputItems(AEBlocks.PATTERN_PROVIDER.asItem(), 12)
                     .inputFluids(GTMaterials.Polytetrafluoroethylene, 288)
                     .duration(600)
                     .EUt(GTValues.VA[GTValues.EV])
@@ -762,6 +751,7 @@ public final class AE2 {
 
     public static void initJsonFilter(Set<ResourceLocation> filters) {
         filters.add(ExtendedAE.id("silicon_block"));
+        filters.add(AppEng.makeId("network/blocks/io_condenser"));
         if (GTOCore.isEasy()) return;
         filters.add(AppEng.makeId("network/cells/item_storage_components_cell_1k_part"));
         filters.add(AppEng.makeId("network/cells/item_storage_components_cell_4k_part"));
@@ -822,5 +812,13 @@ public final class AE2 {
         filters.add(AppEng.makeId("inscriber/engineering_processor_print"));
         filters.add(AppEng.makeId("inscriber/logic_processor_print"));
         filters.add(AppEng.makeId("inscriber/silicon_print"));
+
+        filters.add(ExtendedAE.id("cutter/calculation"));
+        filters.add(ExtendedAE.id("cutter/engineering"));
+        filters.add(ExtendedAE.id("cutter/logic"));
+        filters.add(ExtendedAE.id("cutter/silicon"));
+        filters.add(ExtendedAE.id("circuit_cutter"));
+        filters.add(ExtendedAE.id("silicon_block"));
+        filters.add(ExtendedAE.id("silicon_block_disassembler"));
     }
 }

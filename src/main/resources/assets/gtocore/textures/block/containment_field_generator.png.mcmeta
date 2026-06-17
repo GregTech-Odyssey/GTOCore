@@ -1,5 +1,9 @@
-{"animation":{
-    "interpolate": true,"frametime":2},
-    "ldlib": {
-        "connection": "gtocore:block/containment_field_generator_ctm"
-    }}
+{
+  "animation": {
+    "interpolate": true,
+    "frametime": 2
+  },
+  "ldlib": {
+    "connection": "gtocore:block/containment_field_generator_ctm"
+  }
+}

@@ -396,6 +396,8 @@ public final class GTOMaterials {
     public static Material SpecialCeramics;
     public static Material HydroiodicAcid;
     public static Material BarnardaAir;
+    public static Material JupiterAir;
+    public static Material GlacioAir;
     public static Material AlienAlgae;
     public static Material Bloodstone;
     public static Material PerditioCrystal;
@@ -967,6 +969,26 @@ public final class GTOMaterials {
     public static Material StellarMatterRemnantDust;
     public static Material MetalCompoundParticles;
 
+    public static Material Cruptix;
+    public static Material Uelibrium;
+    public static Material Astrium;
+    public static Material IceCrystalVolatiles;
+    public static Material IrradiatedIceCrystalVolatiles;
+    public static Material CosmicDustDispersant;
+    public static Material ScorchingCosmicDust;
+    public static Material ExcitedScorchingCosmicDust;
+    public static Material RearrangedCosmicDust;
+    public static Material PhotonicKristallite;
+    public static Material PrussianBlueCopperINanotubes;
+    public static Material BisCyclopentadienylHafniumOxide;
+    public static Material PolyVinylBpyRheniumCarbonylHexafluorophosphate;
+    public static Material Vinyl2Bipyridine;
+    public static Material RheniumPentacarbonylChloride;
+    public static Material Bipyridine;
+    public static Material CosmicCopperIKPBANanotubes;
+    public static Material PhototuningAgent;
+    public static Material HyperthermophilicArchaeon;
+
     public static Material SamariumRefinedPowder;
     public static Material SamariumRrareEearthTurbidLiquid;
     public static Material MonaziteRareEarthTurbidLiquid;
@@ -1206,6 +1228,7 @@ public final class GTOMaterials {
     public static Material Livingsteel;
     public static Material Alfsteel;
     public static Material Gaiasteel;
+    public static Material GaiaCore;
     public static Material Gaia;
     public static Material ManaDiamond;
     public static Material Dragonstone;
@@ -1230,17 +1253,16 @@ public final class GTOMaterials {
     public static Material Animium;
     public static Material TheWaterFromTheWellOfWisdom;
     public static Material FlowingCiphers;
+    public static Material NetherEmber;
     public static Material Photonium;
     public static Material Orichalcos;
     public static Material Shadowium;
     public static Material Aerialite;
     public static Material PhantomicElectrolyteBuffer;
-    /// 新1-4级水
     public static Material ReverseOsmosisWater;
     public static Material ElectrodeionizationWater;
     public static Material UltravioletWater;
     public static Material MixedBedPolishingWater;
-    /// 1-4级水新增
     public static Material Polyamide;
     public static Material Polypropylene;
     public static Material Divinylbenzene;
@@ -1250,6 +1272,33 @@ public final class GTOMaterials {
     public static Material CathodeResin;
     public static Material AnodeResin;
     public static Material PolymerBackbone;
+    public static Material OriginCoreCrystal;
+    public static Material StarBloodCrystal;
+    public static Material SoulJadeCrystal;
+    public static Material RemnantSpiritStone;
+    public static Material OriginCoreCrystalResidue;
+    public static Material StarBloodCrystalResidue;
+    public static Material SoulJadeCrystalResidue;
+    public static Material RemnantSpiritStoneResidue;
+    public static Material SourceEnergyExtract;
+    public static Material StarVeinFusion;
+    public static Material SoulThoughtHarmony;
+    public static Material RemnantErosionActivate;
+    public static Material FinalPurifier;
+    public static Material EnergySolidifier;
+    public static Material ExtractionResidue;
+    public static Material FusionResidue;
+    public static Material HarmonyResidue;
+    public static Material ErosionActivateResidue;
+    public static Material StarVeinBase;
+    public static Material StarVeinActive;
+    public static Material StarVeinCatalystPrecursor;
+    public static Material StarVeinCatalyst;
+    public static Material StarVeinCatalystWaste;
+    public static Material PurifiedStarVeinCatalystWaste;
+    public static Material RegeneratedStarVeinActive;
+    public static Material RemnantErosionCatalyst;
+    public static Material InactiveRemnantErosionCatalyst;
 
     public static void init() {
         GTMaterialExtend.init();

@@ -16,9 +16,9 @@ import com.gregtechceu.gtceu.api.item.ComponentItem
 import com.gregtechceu.gtceu.api.item.component.ElectricStats
 import com.gregtechceu.gtceu.common.data.GTItems.attach
 import com.gregtechceu.gtceu.common.item.TooltipBehavior
+import com.gto.registrate.util.entry.ItemEntry
 import com.gtolib.GTOCore
 import com.gtolib.utils.register.ItemRegisterUtils.item
-import com.tterrag.registrate.util.entry.ItemEntry
 
 import kotlin.time.Duration.Companion.hours
 import kotlin.time.Duration.Companion.minutes

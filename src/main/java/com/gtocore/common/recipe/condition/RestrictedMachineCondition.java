@@ -1,20 +1,19 @@
 package com.gtocore.common.recipe.condition;
 
 import com.gtolib.GTOCore;
-import com.gtolib.api.recipe.Recipe;
 
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
 import com.gregtechceu.gtceu.api.machine.multiblock.MultiblockControllerMachine;
-import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
-import com.gregtechceu.gtceu.api.recipe.condition.RecipeConditionType;
+import com.gregtechceu.gtceu.api.recipe.GTRecipeDefinition;
+import com.gregtechceu.gtceu.api.recipe.RecipeCondition;
+import com.gregtechceu.gtceu.api.recipe.handler.IRecipeHandlerHolder;
+import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
 import com.gregtechceu.gtceu.api.registry.GTRegistries;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 
-import org.jetbrains.annotations.NotNull;
-
-public final class RestrictedMachineCondition extends AbstractRecipeCondition {
+public final class RestrictedMachineCondition extends RecipeCondition {
 
     private static final RestrictedMachineCondition MULTIBLOCK = new RestrictedMachineCondition(GTOCore.id("multiblock"));
 
@@ -31,11 +30,6 @@ public final class RestrictedMachineCondition extends AbstractRecipeCondition {
     }
 
     @Override
-    public RecipeConditionType<?> getType() {
-        return RESTRICTED_MACHINE;
-    }
-
-    @Override
     public Component getTooltips() {
         if (id.equals(MULTIBLOCK.id)) {
             return Component.translatable("gtocore.recipe.restricted_machine", Component.translatable("gtceu.multiblock.title"));
@@ -48,10 +42,10 @@ public final class RestrictedMachineCondition extends AbstractRecipeCondition {
     }
 
     @Override
-    public boolean test(@NotNull Recipe recipe, @NotNull RecipeLogic recipeLogic) {
-        MachineDefinition machineDefinition = recipeLogic.getMachine().getDefinition();
+    public boolean testCondition(IRecipeHandlerHolder holder, RecipeHandlerUnit unit, GTRecipeDefinition recipe) {
+        MachineDefinition machineDefinition = holder.self().getDefinition();
         if (this.equals(MULTIBLOCK)) {
-            return recipeLogic.getMachine() instanceof MultiblockControllerMachine;
+            return holder instanceof MultiblockControllerMachine;
         }
         return machineDefinition.getId().equals(id);
     }

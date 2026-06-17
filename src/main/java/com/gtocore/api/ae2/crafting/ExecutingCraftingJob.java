@@ -1,7 +1,8 @@
 package com.gtocore.api.ae2.crafting;
 
+import com.gtocore.common.data.GTOItems;
+
 import com.gtolib.api.ae2.pattern.IParallelPatternDetails;
-import com.gtolib.utils.holder.LongHolder;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -17,10 +18,13 @@ import appeng.api.stacks.AEKey;
 import appeng.api.stacks.GenericStack;
 import appeng.api.stacks.KeyCounter;
 import appeng.crafting.CraftingLink;
+import appeng.crafting.CraftingPlan;
 import appeng.crafting.execution.ElapsedTimeTracker;
 import appeng.crafting.inv.ListCraftingInventory;
 import appeng.me.service.CraftingService;
+
 import com.fast.fastcollection.O2OOpenCacheHashMap;
+import com.gto.datasynclib.util.holder.LongHolder;
 import it.unimi.dsi.fastutil.objects.*;
 import org.jetbrains.annotations.Nullable;
 
@@ -34,6 +38,7 @@ class ExecutingCraftingJob {
     private static final String NBT_REMAINING_AMOUNT = "remainingAmount";
     private static final String NBT_TASKS = "tasks";
     private static final String NBT_CRAFTING_PROGRESS = "#craftingProgress";
+    private static final String NBT_PAUSED = "paused";
 
     final CraftingLink link;
     final ListCraftingInventory waitingFor;
@@ -41,8 +46,10 @@ class ExecutingCraftingJob {
     final ElapsedTimeTracker timeTracker;
     final IElapsedTimeTracker tt;
     GenericStack finalOutput;
+    boolean isOrder;
     long remainingAmount;
     Integer playerId;
+    boolean paused = false;
 
     final KeyCounter expectedOutputs = new KeyCounter();
     final ReferenceOpenHashSet<AEKey> defsToPurge = new ReferenceOpenHashSet<>();
@@ -63,10 +70,11 @@ class ExecutingCraftingJob {
 
     private ExecutingCraftingJob(ICraftingPlan plan, ListCraftingInventory.ChangeListener changeListener, CraftingLink link, @Nullable Integer playerId) {
         this.finalOutput = plan.finalOutput();
+        this.isOrder = isOrder(this.finalOutput);
         this.remainingAmount = this.finalOutput.amount();
         this.waitingFor = new ListCraftingInventory(changeListener);
 
-        if (plan instanceof ICraftingPlanAllocationAccessor accessor) {
+        if (plan instanceof CraftingPlan accessor) {
             var src = accessor.getGtocore$allocations();
             if (src != null && !src.isEmpty()) {
                 src.reference2ObjectEntrySet().fastForEach(e -> {
@@ -108,6 +116,7 @@ class ExecutingCraftingJob {
         }
 
         this.finalOutput = GenericStack.readTag(data.getCompound(NBT_FINAL_OUTPUT));
+        this.isOrder = isOrder(this.finalOutput);
         this.remainingAmount = data.getLong(NBT_REMAINING_AMOUNT);
         this.waitingFor = new ListCraftingInventory(changeListener);
         this.waitingFor.readFromNBT(data.getList(NBT_WAITING_FOR, Tag.TAG_COMPOUND));
@@ -118,6 +127,7 @@ class ExecutingCraftingJob {
         } else {
             this.playerId = null;
         }
+        this.paused = data.getBoolean(NBT_PAUSED);
 
         ListTag tasksTag = data.getList(NBT_TASKS, Tag.TAG_COMPOUND);
         for (int i = 0; i < tasksTag.size(); ++i) {
@@ -204,6 +214,15 @@ class ExecutingCraftingJob {
             data.putInt(NBT_PLAYER_ID, this.playerId);
         }
 
+        data.putBoolean(NBT_PAUSED, this.paused);
+
         return data;
+    }
+
+    private static boolean isOrder(GenericStack finalOutput) {
+        if (finalOutput == null) {
+            return false;
+        }
+        return finalOutput.what() instanceof AEItemKey itemKey && (itemKey.getItem() == GTOItems.ORDER.get() || itemKey.getItem() == GTOItems.TEMP_ORDER.get());
     }
 }

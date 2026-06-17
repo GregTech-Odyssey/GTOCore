@@ -11,7 +11,6 @@ import com.gtocore.data.transaction.manager.TradeEntry;
 
 import com.gtolib.GTOCore;
 import com.gtolib.utils.WalletUtils;
-import com.gtolib.utils.holder.IntObjectHolder;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.data.chemical.material.stack.MaterialEntry;
@@ -29,6 +28,7 @@ import net.minecraft.world.level.material.Fluids;
 import net.minecraftforge.fluids.FluidStack;
 
 import com.google.common.collect.ImmutableList;
+import com.gto.datasynclib.util.holder.IntObjectHolder;
 import com.lowdragmc.lowdraglib.gui.texture.ItemStackTexture;
 
 import java.util.ArrayList;
@@ -42,7 +42,7 @@ import static com.gtocore.data.transaction.data.trade.UnlockTrade.UNLOCK_BASE;
 /**
  * 交易实例注册示例：展示如何使用TradeEntry构建具体交易
  */
-public class GTOTrade {
+public final class GTOTrade {
 
     /**
      * 这里是交易注册的核心
@@ -88,7 +88,7 @@ public class GTOTrade {
                 " A ",
                 "ABA",
                 " A ",
-                'A', new MaterialEntry(GTOTagPrefix.COIN, GTMaterials.Copper), 'B', GTOItems.GRAY_MEMBERSHIP_CARD.asStack());
+                'A', new MaterialEntry(GTOTagPrefix.COIN, GTMaterials.Copper), 'B', GTOItems.GREG_MEMBERSHIP_CARD.asStack());
     }
 
     /**
@@ -106,6 +106,17 @@ public class GTOTrade {
         if (BuyingOrSelling) builder.inputCurrency(currency, amount).outputItem(stack);
         else builder.outputCurrency(currency, amount).inputItem(stack);
         return builder.build();
+    }
+
+    /**
+     * 免费物品领取的交易项目构建
+     *
+     * @param unlockCondition 解锁标签
+     * @param stack           物品堆
+     * @return 构建好的免费物品领取交易项目
+     */
+    public static TradeEntry freeItemTrading(String unlockCondition, ItemStack stack) {
+        return new TradeEntry.Builder().texture(new StackTexture(stack)).unlockCondition(unlockCondition).outputItem(stack).build();
     }
 
     /**
@@ -141,7 +152,7 @@ public class GTOTrade {
 
     // 执行逻辑：抽奖
     private static void performLottery(TradeData data, TradeEntry entry, int multiplier, List<IntObjectHolder<ItemStack>> rewards) {
-        if (!(data.getLevel() instanceof ServerLevel serverLevel)) return;
+        if (!(data.level() instanceof ServerLevel serverLevel)) return;
         int totalWeight = rewards.stream().mapToInt(i -> i.number).sum();
         List<ItemStack> stackList = new ArrayList<>();
         RandomSource random = serverLevel.getRandom();
@@ -157,7 +168,7 @@ public class GTOTrade {
                 }
             }
         }
-        addMultipliedItems(data.getOutputItem(), stackList, 1, data.getLevel(), data.getPos());
+        addMultipliedItems(data.outputItem(), stackList, 1, data.level(), data.pos());
     }
 
     /**
@@ -181,18 +192,18 @@ public class GTOTrade {
 
     // 前置检查逻辑：检查交易历史次数
     public static int checkMultiplier(TradeData data, TradeEntry entry, String record, int maxMultiplier) {
-        Level level = data.getLevel();
+        Level level = data.level();
         ServerLevel serverLevel = level instanceof ServerLevel ? (ServerLevel) level : null;
-        long amount = WalletUtils.getTransactionTotalAmount(data.getUuid(), serverLevel, record);
+        long amount = WalletUtils.getTransactionTotalAmount(data.uuid(), serverLevel, record);
         if (maxMultiplier > amount) return Math.toIntExact(maxMultiplier - amount);
         return 0;
     }
 
     // 执行逻辑：添加交易历史标记
     public static void performAddMultiplier(TradeData data, TradeEntry entry, int multiplier, String record, long time) {
-        Level level = data.getLevel();
+        Level level = data.level();
         ServerLevel serverLevel = level instanceof ServerLevel ? (ServerLevel) level : null;
-        WalletUtils.addScheduledDeletion(data.getUuid(), serverLevel, record, time, multiplier);
+        WalletUtils.addScheduledDeletion(data.uuid(), serverLevel, record, time, multiplier);
     }
 
     /**
@@ -214,17 +225,17 @@ public class GTOTrade {
 
     // 前置检查逻辑：检查交易是否交易过
     public static int checkTag(TradeData data, TradeEntry entry, String tag) {
-        Level level = data.getLevel();
+        Level level = data.level();
         ServerLevel serverLevel = level instanceof ServerLevel ? (ServerLevel) level : null;
-        if (!WalletUtils.containsTagValueInWallet(data.getUuid(), serverLevel, SINGLE_TRANSACTION, tag)) return 1;
+        if (!WalletUtils.containsTagValueInWallet(data.uuid(), serverLevel, SINGLE_TRANSACTION, tag)) return 1;
         return 0;
     }
 
     // 执行逻辑：添加交易历史标记
     public static void performTag(TradeData data, TradeEntry entry, int multiplier, String tag) {
-        Level level = data.getLevel();
+        Level level = data.level();
         ServerLevel serverLevel = level instanceof ServerLevel ? (ServerLevel) level : null;
-        WalletUtils.addTagToWallet(data.getUuid(), serverLevel, SINGLE_TRANSACTION, tag);
+        WalletUtils.addTagToWallet(data.uuid(), serverLevel, SINGLE_TRANSACTION, tag);
     }
 
     // 测试用交易

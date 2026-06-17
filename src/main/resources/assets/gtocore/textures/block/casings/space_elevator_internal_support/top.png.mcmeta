@@ -1,5 +1,5 @@
 {
-    "ldlib": {
-        "connection": "gtocore:block/casings/space_elevator_internal_support/top_ctm"
-    }
+  "ldlib": {
+    "connection": "gtocore:block/casings/space_elevator_internal_support/top_ctm"
+  }
 }

@@ -17,7 +17,6 @@ import net.minecraft.world.level.block.Blocks;
 
 import appeng.core.definitions.AEBlocks;
 import appeng.core.definitions.AEItems;
-import com.enderio.base.common.init.EIOItems;
 
 import static com.gtocore.common.data.GTORecipeTypes.MACERATOR_RECIPES;
 import static com.gtocore.common.data.GTORecipeTypes.ULTRA_FINE_GRINDING_RECIPES;
@@ -25,13 +24,6 @@ import static com.gtocore.common.data.GTORecipeTypes.ULTRA_FINE_GRINDING_RECIPES
 final class Macerator {
 
     public static void init() {
-        MACERATOR_RECIPES.recipeBuilder("prescient_powder")
-                .inputItems(EIOItems.PRESCIENT_CRYSTAL.asItem())
-                .outputItems(EIOItems.PRESCIENT_POWDER.asItem())
-                .EUt(30)
-                .duration(200)
-                .save();
-
         MACERATOR_RECIPES.recipeBuilder("spacetime_dust")
                 .inputItems(TagPrefix.ingot, GTOMaterials.SpaceTime)
                 .outputItems(TagPrefix.dust, GTOMaterials.SpaceTime)
@@ -41,7 +33,7 @@ final class Macerator {
 
         MACERATOR_RECIPES.recipeBuilder("essence")
                 .inputItems(GTOBlocks.ESSENCE_BLOCK.asItem())
-                .outputItems(GTOItems.ESSENCE.asItem())
+                .outputItems(GTOItems.ESSENCE)
                 .chancedOutput(GTOItems.ESSENCE.asItem(), 5000, 400)
                 .chancedOutput(GTOItems.ESSENCE.asItem(), 5000, 200)
                 .chancedOutput(GTOItems.ESSENCE.asItem(), 5000, 100)
@@ -56,16 +48,9 @@ final class Macerator {
                 .duration(200)
                 .save();
 
-        MACERATOR_RECIPES.recipeBuilder("vibrant_powder")
-                .inputItems(EIOItems.VIBRANT_CRYSTAL.asItem())
-                .outputItems(EIOItems.VIBRANT_POWDER.asItem())
-                .EUt(30)
-                .duration(200)
-                .save();
-
         MACERATOR_RECIPES.recipeBuilder("draconium_dust")
                 .inputItems(GTOBlocks.DRACONIUM_BLOCK_CHARGED.asItem())
-                .outputItems(GTOItems.DRACONIUM_DIRT.asItem(), 9)
+                .outputItems(GTOItems.DRACONIUM_DIRT, 9)
                 .outputItems(TagPrefix.dust, GTMaterials.Obsidian)
                 .outputItems(TagPrefix.dust, GTMaterials.EnderEye)
                 .outputItems(TagPrefix.dust, GTMaterials.Redstone)
@@ -87,25 +72,11 @@ final class Macerator {
                 .duration(100)
                 .save();
 
-        MACERATOR_RECIPES.recipeBuilder("pulsating_powder")
-                .inputItems(EIOItems.PULSATING_CRYSTAL.asItem())
-                .outputItems(EIOItems.PULSATING_POWDER.asItem())
-                .EUt(30)
-                .duration(200)
-                .save();
-
         MACERATOR_RECIPES.recipeBuilder("sculk_sensor")
                 .inputItems(Blocks.SCULK_SENSOR.asItem())
                 .outputItems(TagPrefix.dust, GTMaterials.EchoShard)
                 .EUt(7)
                 .duration(100)
-                .save();
-
-        MACERATOR_RECIPES.recipeBuilder("ender_crystal_powder")
-                .inputItems(EIOItems.ENDER_CRYSTAL.asItem())
-                .outputItems(EIOItems.ENDER_CRYSTAL_POWDER.asItem())
-                .EUt(30)
-                .duration(200)
                 .save();
 
         ULTRA_FINE_GRINDING_RECIPES.recipeBuilder("degenerate_rhenium_dust")
@@ -144,7 +115,7 @@ final class Macerator {
                 .save();
 
         MACERATOR_RECIPES.recipeBuilder("algae_paper")
-                .inputItems(TagUtils.createTag(GTOCore.id("algae_fiber")))
+                .inputItems(TagUtils.createItemTag(GTOCore.id("algae_fiber")))
                 .outputItems(TagPrefix.dust, GTMaterials.Paper)
                 .duration(320)
                 .EUt(2)

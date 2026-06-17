@@ -6,19 +6,11 @@ import com.gtocore.config.GTOConfig;
 
 import com.gtolib.GTOCore;
 import com.gtolib.api.machine.DummyMachine;
-import com.gtolib.api.recipe.Recipe;
-import com.gtolib.api.recipe.RecipeBuilder;
-import com.gtolib.api.recipe.ingredient.FastFluidIngredient;
-import com.gtolib.api.recipe.ingredient.FastSizedIngredient;
 import com.gtolib.utils.FluidUtils;
 import com.gtolib.utils.ItemUtils;
 import com.gtolib.utils.StringConverter;
 import com.gtolib.utils.StringIndex;
 
-import com.gregtechceu.gtceu.api.capability.recipe.FluidRecipeCapability;
-import com.gregtechceu.gtceu.api.capability.recipe.IO;
-import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
-import com.gregtechceu.gtceu.api.capability.recipe.RecipeCapability;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.gui.WidgetUtils;
 import com.gregtechceu.gtceu.api.gui.editor.EditableMachineUI;
@@ -33,10 +25,16 @@ import com.gregtechceu.gtceu.api.gui.widget.TankWidget;
 import com.gregtechceu.gtceu.api.item.component.IItemUIFactory;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.feature.IRecipeLogicMachine;
-import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
-import com.gregtechceu.gtceu.api.recipe.content.Content;
+import com.gregtechceu.gtceu.api.recipe.handler.IO;
+import com.gregtechceu.gtceu.api.recipe.info.ContentRecipeInfo;
+import com.gregtechceu.gtceu.api.recipe.info.FluidRecipeInfo;
+import com.gregtechceu.gtceu.api.recipe.info.ItemRecipeInfo;
+import com.gregtechceu.gtceu.api.recipe.info.RecipeInfo;
+import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
+import com.gregtechceu.gtceu.api.recipe.ingredient.ItemIngredient;
 import com.gregtechceu.gtceu.api.recipe.ui.GTRecipeTypeUI;
+import com.gregtechceu.gtceu.api.registry.GTRegistries;
 import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.data.GTMachines;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
@@ -44,9 +42,9 @@ import com.gregtechceu.gtceu.common.data.machines.GTMachineUtils;
 import com.gregtechceu.gtceu.common.item.IntCircuitBehaviour;
 import com.gregtechceu.gtceu.data.recipe.CustomTags;
 import com.gregtechceu.gtceu.integration.ae2.gui.widget.AETextInputButtonWidget;
+import com.gregtechceu.gtceu.integration.xei.widgets.GTRecipeWidget;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
@@ -68,6 +66,7 @@ import net.minecraftforge.fluids.FluidStack;
 import com.fast.fastcollection.O2OOpenCacheHashMap;
 import com.fast.fastcollection.OpenCacheHashSet;
 import com.google.common.collect.Tables;
+import com.gto.datasynclib.datasream.DataComponentMap;
 import com.lowdragmc.lowdraglib.gui.factory.HeldItemUIFactory;
 import com.lowdragmc.lowdraglib.gui.modular.ModularUI;
 import com.lowdragmc.lowdraglib.gui.texture.GuiTextureGroup;
@@ -97,28 +96,20 @@ public final class RecipeEditorBehavior implements IItemUIFactory, IFancyUIProvi
     @Override
     public InteractionResult onItemUseFirst(ItemStack itemStack, UseOnContext context) {
         if (Objects.requireNonNull(context.getPlayer()).isShiftKeyDown()) {
-            if (GTOConfig.INSTANCE.recipeCheck) {
-                var recipeMap = new Reference2ObjectOpenHashMap<GTRecipeType, Set<Recipe>>();
-                for (var recipe : RecipeBuilder.RECIPE_MAP.values()) {
-                    var recipeType = recipe.recipeType;
+            if (GTOConfig.INSTANCE.devMode.recipeCheck) {
+                Set<BiCache> cache = new OpenCacheHashSet<>();
+                for (GTRecipeType recipeType : GTRegistries.RECIPE_TYPES.values()) {
                     if (recipeType == GTRecipeTypes.BREWING_RECIPES) continue;
                     if (recipeType == GTRecipeTypes.SCANNER_RECIPES) continue;
                     if (recipeType == GTORecipeTypes.LARGE_GAS_COLLECTOR_RECIPES) continue;
-                    recipeMap.computeIfAbsent(recipeType, k -> new OpenCacheHashSet<>()).add(recipe);
-                }
-                Set<BiCache> cache = new OpenCacheHashSet<>();
-                for (Set<Recipe> recipes : recipeMap.values()) {
-                    var stringSetMap = new O2OOpenCacheHashMap<ResourceLocation, Set<String>>(recipeMap.size());
-                    for (GTRecipe recipe : recipes) {
+                    var stringSetMap = new O2OOpenCacheHashMap<ResourceLocation, Set<String>>(recipeType.recipes.size());
+                    for (var recipe : recipeType.recipes.values()) {
                         var id = recipe.id;
                         var input = new OpenCacheHashSet<String>();
-                        if (recipe.inputs.containsKey(ItemRecipeCapability.CAP)) {
-                            for (Content content : recipe.inputs.get(ItemRecipeCapability.CAP)) {
-                                Ingredient ingredient = ItemRecipeCapability.CAP.of(content.getContent());
-                                Ingredient inner = ingredient;
-                                if (ingredient instanceof FastSizedIngredient sizedIngredient) {
-                                    inner = sizedIngredient.getInner();
-                                }
+                        if (!recipe.itemInputs.isEmpty()) {
+                            for (var content : recipe.itemInputs) {
+                                var ingredient = content.inner;
+                                Ingredient inner = ingredient.inner;
                                 a:
                                 for (Ingredient.Value value : inner.values) {
                                     if (value instanceof Ingredient.ItemValue itemValue) {
@@ -147,9 +138,9 @@ public final class RecipeEditorBehavior implements IItemUIFactory, IFancyUIProvi
                                 }
                             }
                         }
-                        if (recipe.inputs.containsKey(FluidRecipeCapability.CAP)) {
-                            for (Content content : recipe.inputs.get(FluidRecipeCapability.CAP)) {
-                                FluidStack[] stacks = FluidRecipeCapability.CAP.of(content.getContent()).getStacks();
+                        if (!recipe.fluidInputs.isEmpty()) {
+                            for (var content : recipe.fluidInputs) {
+                                FluidStack[] stacks = content.inner.getStacks();
                                 if (stacks.length == 0) {
                                     GTOCore.LOGGER.error("配方 {} 存在空流体输入", id);
                                     continue;
@@ -213,7 +204,7 @@ public final class RecipeEditorBehavior implements IItemUIFactory, IFancyUIProvi
             protected WidgetGroup addInventorySlotGroup(boolean isOutputs, boolean isSteam, boolean isHighPressure) {
                 int maxCount = 0;
                 int totalR = 0;
-                TreeMap<RecipeCapability<?>, Integer> map = new TreeMap<>(RecipeCapability.COMPARATOR);
+                TreeMap<RecipeInfo, Integer> map = new TreeMap<>(RecipeInfo.COMPARATOR);
                 if (isOutputs) {
                     for (var value : machine.recipeType.maxOutputs.entrySet()) {
                         if (value.getKey().doRenderSlot) {
@@ -240,23 +231,24 @@ public final class RecipeEditorBehavior implements IItemUIFactory, IFancyUIProvi
                 WidgetGroup group = new WidgetGroup(0, 0, maxCount * 18 + 8, totalR * 18 + 8);
                 int index = 0;
                 for (var entry : map.entrySet()) {
-                    RecipeCapability<?> cap = entry.getKey();
-                    boolean i = cap instanceof ItemRecipeCapability;
-                    if (i || isGT) {
-                        if (cap.getWidgetClass() == null) {
-                            continue;
+                    if (entry.getKey() instanceof ContentRecipeInfo cap) {
+                        boolean i = cap == ItemRecipeInfo.INSTANCE;
+                        if (i || isGT) {
+                            if (cap.getWidgetClass() == null) {
+                                continue;
+                            }
+                            int capCount = entry.getValue();
+                            for (int slotIndex = 0; slotIndex < capCount; slotIndex++) {
+                                int finalSlotIndex = slotIndex;
+                                var slot = i ? new MyPhantomSlotWidget() : new ScrollablePhantomFluidWidget(null, 0, 0, 0, 18, 18, isOutputs ? () -> machine.exportFluids.getFluidInTank(finalSlotIndex) : () -> machine.importFluids.getFluidInTank(finalSlotIndex), isOutputs ? f -> machine.exportFluids.setFluidInTank(finalSlotIndex, f) : f -> machine.importFluids.setFluidInTank(finalSlotIndex, f));
+                                slot.setSelfPosition(new Position((index % 3) * 18 + 4, (index / 3) * 18 + 4));
+                                slot.setBackground(getOverlaysForSlot(isOutputs, cap, slotIndex == capCount - 1, isSteam, isHighPressure));
+                                slot.setId(cap.slotName(isOutputs ? IO.OUT : IO.IN, slotIndex));
+                                group.addWidget(slot);
+                                index++;
+                            }
+                            index += (3 - (index % 3)) % 3;
                         }
-                        int capCount = entry.getValue();
-                        for (int slotIndex = 0; slotIndex < capCount; slotIndex++) {
-                            int finalSlotIndex = slotIndex;
-                            var slot = i ? new MyPhantomSlotWidget() : new ScrollablePhantomFluidWidget(null, 0, 0, 0, 18, 18, isOutputs ? () -> machine.exportFluids.getFluidInTank(finalSlotIndex) : () -> machine.importFluids.getFluidInTank(finalSlotIndex), isOutputs ? f -> machine.exportFluids.setFluidInTank(finalSlotIndex, f) : f -> machine.importFluids.setFluidInTank(finalSlotIndex, f));
-                            slot.setSelfPosition(new Position((index % 3) * 18 + 4, (index / 3) * 18 + 4));
-                            slot.setBackground(getOverlaysForSlot(isOutputs, cap, slotIndex == capCount - 1, isSteam, isHighPressure));
-                            slot.setId(cap.slotName(isOutputs ? IO.OUT : IO.IN, slotIndex));
-                            group.addWidget(slot);
-                            index++;
-                        }
-                        index += (3 - (index % 3)) % 3;
                     }
                 }
                 return group;
@@ -283,17 +275,19 @@ public final class RecipeEditorBehavior implements IItemUIFactory, IFancyUIProvi
                     for (var capabilityEntry : recipeHolder.storages().rowMap().entrySet()) {
                         IO io = capabilityEntry.getKey();
                         for (var storagesEntry : capabilityEntry.getValue().entrySet()) {
-                            RecipeCapability<?> cap = storagesEntry.getKey();
-                            Object storage = storagesEntry.getValue();
-                            Class<? extends Widget> widgetClass = cap.getWidgetClass();
-                            if (widgetClass != null) {
-                                WidgetUtils.widgetByIdForEach(template, "^%s_[0-9]+$".formatted(cap.slotName(io)), widgetClass, widget -> {
-                                    var index = WidgetUtils.widgetIdIndex(widget);
-                                    cap.applyWidgetInfo(widget, index, false, io, recipeHolder, machine.recipeType, null, null, storage, 0, 0);
-                                    if (widget instanceof TankWidget tankWidget) {
-                                        tankWidget.setAllowClickDrained(true).setAllowClickFilled(true);
-                                    } else if (widget instanceof SlotWidget slotWidget) slotWidget.setCanTakeItems(true).setCanPutItems(true);
-                                });
+                            if (storagesEntry.getKey() instanceof ContentRecipeInfo<?> cap) {
+                                Object storage = storagesEntry.getValue();
+                                Class<? extends Widget> widgetClass = cap.getWidgetClass();
+                                if (widgetClass != null) {
+                                    WidgetUtils.widgetByIdForEach(template, "^%s_[0-9]+$".formatted(cap.slotName(io)), widgetClass, widget -> {
+                                        var index = WidgetUtils.widgetIdIndex(widget);
+                                        cap.applyWidgetInfo(widget, index, false, io, recipeHolder, machine.recipeType, null, null, storage, 0, 0);
+                                        if (widget instanceof TankWidget tankWidget) {
+                                            tankWidget.setAllowClickDrained(true).setAllowClickFilled(true);
+                                        } else if (widget instanceof SlotWidget slotWidget)
+                                            slotWidget.setCanTakeItems(true).setCanPutItems(true);
+                                    });
+                                }
                             }
                         }
                     }
@@ -308,21 +302,21 @@ public final class RecipeEditorBehavior implements IItemUIFactory, IFancyUIProvi
             group.addWidget(template);
             return group;
         }, (template, m) -> {
-            var storages = Tables.newCustomTable(new EnumMap<>(IO.class), LinkedHashMap<RecipeCapability<?>, Object>::new);
-            storages.put(IO.IN, ItemRecipeCapability.CAP, machine.importItems);
-            storages.put(IO.OUT, ItemRecipeCapability.CAP, machine.exportItems);
+            var storages = Tables.newCustomTable(new EnumMap<>(IO.class), LinkedHashMap<RecipeInfo, Object>::new);
+            storages.put(IO.IN, ItemRecipeInfo.INSTANCE, machine.importItems);
+            storages.put(IO.OUT, ItemRecipeInfo.INSTANCE, machine.exportItems);
             if (isGT) {
-                storages.put(IO.IN, FluidRecipeCapability.CAP, machine.importFluids);
-                storages.put(IO.OUT, FluidRecipeCapability.CAP, machine.exportFluids);
+                storages.put(IO.IN, FluidRecipeInfo.INSTANCE, machine.importFluids);
+                storages.put(IO.OUT, FluidRecipeInfo.INSTANCE, machine.exportFluids);
             }
-            recipeUI.createEditableUITemplate(false, false).setupUI(template, new GTRecipeTypeUI.RecipeHolder(() -> 0, storages, new CompoundTag(), Collections.emptyList(), false, false));
+            recipeUI.createEditableUITemplate(false, false).setupUI(template, new GTRecipeTypeUI.RecipeHolder(() -> 0, storages, new DataComponentMap(), Collections.emptyList(), false, false));
         });
         var template = editableUI.createCustomUI();
         if (template == null) {
             template = editableUI.createDefault();
         }
         editableUI.setupUI(template, machine);
-        int x = template.getSize().width - getXOffset(machine.recipeType) - 18;
+        int x = template.getSize().width - GTRecipeWidget.getXOffset(machine.recipeType.defaultDefinition) - 18;
         int y = template.getSize().height - 10;
         if (isGT) {
             template.addWidget(new AETextInputButtonWidget(x - 48, y - 70, 76, 12)
@@ -368,7 +362,7 @@ public final class RecipeEditorBehavior implements IItemUIFactory, IFancyUIProvi
                         if (stack.isEmpty()) continue;
                         id = ItemUtils.getIdLocation(stack.getItem()).getPath();
                     }
-                    for (int i = 0; i < machine.exportFluids.getSize(); i++) {
+                    for (int i = 0; i < machine.exportFluids.getTanks(); i++) {
                         if (!id.isEmpty()) break;
                         FluidStack stack = machine.exportFluids.getFluidInTank(i);
                         if (stack.isEmpty()) continue;
@@ -385,19 +379,19 @@ public final class RecipeEditorBehavior implements IItemUIFactory, IFancyUIProvi
                 for (int i = 0; i < machine.exportItems.getSlots(); i++) {
                     ItemStack stack = machine.exportItems.getStackInSlot(i);
                     if (stack.isEmpty()) continue;
-                    String stringItem = StringConverter.fromItem(Ingredient.of(stack), 1);
+                    String stringItem = StringConverter.fromItem(ItemIngredient.of(stack), 1);
                     stringBuilder.append(".outputItems(").append(stringItem).append(")").append("\n");
                 }
-                for (int i = 0; i < machine.importFluids.getSize(); i++) {
+                for (int i = 0; i < machine.importFluids.getTanks(); i++) {
                     FluidStack stack = machine.importFluids.getFluidInTank(i);
                     if (stack.isEmpty()) continue;
-                    String stringFluid = StringConverter.fromFluid(FastFluidIngredient.of(stack), true);
+                    String stringFluid = StringConverter.fromFluid(FluidIngredient.of(stack), true);
                     stringBuilder.append(".inputFluids(").append(stringFluid).append(")").append("\n");
                 }
-                for (int i = 0; i < machine.exportFluids.getSize(); i++) {
+                for (int i = 0; i < machine.exportFluids.getTanks(); i++) {
                     FluidStack stack = machine.exportFluids.getFluidInTank(i);
                     if (stack.isEmpty()) continue;
-                    String stringFluid = StringConverter.fromFluid(FastFluidIngredient.of(stack), true);
+                    String stringFluid = StringConverter.fromFluid(FluidIngredient.of(stack), true);
                     stringBuilder.append(".outputFluids(").append(stringFluid).append(")").append("\n");
                 }
                 if (machine.circuit > 0) {
@@ -424,7 +418,7 @@ public final class RecipeEditorBehavior implements IItemUIFactory, IFancyUIProvi
                 if (id.isEmpty()) id = ItemUtils.getIdLocation(machine.exportItems.getStackInSlot(0).getItem()).getPath();
                 stringBuilder.append("\nVanillaRecipeHelper.addShapedRecipe(");
                 stringBuilder.append("GTOCore.id(\"").append(id).append("\"), ");
-                stringBuilder.append(StringConverter.fromItem(Ingredient.of(machine.exportItems.getStackInSlot(0)), 0)).append(",\n\"");
+                stringBuilder.append(StringConverter.fromItem(ItemIngredient.of(machine.exportItems.getStackInSlot(0)), 0)).append(",\n\"");
                 char c = 'A';
                 Reference2CharLinkedOpenHashMap<Item> map = new Reference2CharLinkedOpenHashMap<>();
                 for (int i = 0, j = 0; i < machine.importItems.getSlots(); i++, j++) {
@@ -451,22 +445,15 @@ public final class RecipeEditorBehavior implements IItemUIFactory, IFancyUIProvi
         return template;
     }
 
-    private static Ingredient getItemIngredient(ItemStack stack) {
+    private static ItemIngredient getItemIngredient(ItemStack stack) {
         if (ItemMap.UNIVERSAL_CIRCUITS.contains(stack.getItem())) {
             for (int tier : GTMachineUtils.ALL_TIERS) {
                 if (GTOItems.UNIVERSAL_CIRCUIT[tier].is(stack.getItem())) {
-                    return FastSizedIngredient.create(CustomTags.CIRCUITS_ARRAY[tier], stack.getCount());
+                    return ItemIngredient.of(CustomTags.CIRCUITS_ARRAY[tier], stack.getCount());
                 }
             }
         }
-        return FastSizedIngredient.create(stack);
-    }
-
-    private static int getXOffset(GTRecipeType recipe) {
-        if (recipe.getRecipeUI().getOriginalWidth() != recipe.getRecipeUI().getJEISize().width) {
-            return (recipe.getRecipeUI().getJEISize().width - recipe.getRecipeUI().getOriginalWidth()) / 2;
-        }
-        return 0;
+        return ItemIngredient.of(stack);
     }
 
     @Override
@@ -497,9 +484,9 @@ public final class RecipeEditorBehavior implements IItemUIFactory, IFancyUIProvi
 
         @Override
         public boolean equals(Object o) {
-            if (o instanceof BiCache cache) {
-                if (a.equals(cache.a) && b.equals(cache.b)) return true;
-                return a.equals(cache.b) && b.equals(cache.a);
+            if (o instanceof BiCache(Object a1, Object b1)) {
+                if (a.equals(a1) && b.equals(b1)) return true;
+                return a.equals(b1) && b.equals(a1);
             }
             return false;
         }

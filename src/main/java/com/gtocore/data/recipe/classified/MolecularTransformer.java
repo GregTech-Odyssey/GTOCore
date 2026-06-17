@@ -8,7 +8,7 @@ import com.gregtechceu.gtceu.common.data.GTMaterials;
 
 import net.minecraft.world.level.block.Blocks;
 
-import com.enderio.base.common.init.EIOItems;
+import appeng.core.definitions.AEItems;
 
 import static com.gtocore.common.data.GTORecipeTypes.MOLECULAR_TRANSFORMER_RECIPES;
 
@@ -51,7 +51,7 @@ final class MolecularTransformer {
                 .save();
 
         MOLECULAR_TRANSFORMER_RECIPES.recipeBuilder("small_sunnarium_dust")
-                .inputItems(EIOItems.CLAYED_GLOWSTONE.asItem())
+                .inputItems(TagPrefix.dust, GTMaterials.Glowstone)
                 .outputItems(TagPrefix.dustSmall, GTOMaterials.Sunnarium)
                 .EUt(524288)
                 .duration(1600)
@@ -95,7 +95,7 @@ final class MolecularTransformer {
 
         MOLECULAR_TRANSFORMER_RECIPES.recipeBuilder("energy_crystal")
                 .inputItems(TagPrefix.gemExquisite, GTMaterials.Ruby)
-                .outputItems(GTItems.ENERGIUM_CRYSTAL.asItem(), 2)
+                .outputItems(GTItems.ENERGIUM_CRYSTAL, 2)
                 .EUt(524288)
                 .duration(200)
                 .save();
@@ -132,6 +132,12 @@ final class MolecularTransformer {
                 .outputItems(TagPrefix.dust, GTOMaterials.Etrium)
                 .EUt(524288)
                 .duration(180)
+                .save();
+        MOLECULAR_TRANSFORMER_RECIPES.builder("quantum_entangled_singularity")
+                .inputItems(AEItems.MATTER_BALL.asItem(), 250)
+                .outputItems(AEItems.SINGULARITY.asItem())
+                .EUt(1920)
+                .duration(18000)
                 .save();
     }
 }

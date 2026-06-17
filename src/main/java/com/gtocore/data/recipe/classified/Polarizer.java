@@ -28,8 +28,8 @@ final class Polarizer {
                 .save();
 
         POLARIZER_RECIPES.recipeBuilder("triplet_neutronium_sphere")
-                .inputItems(GTOItems.NEUTRONIUM_SPHERE.asItem())
-                .outputItems(GTOItems.TRIPLET_NEUTRONIUM_SPHERE.asItem())
+                .inputItems(GTOItems.NEUTRONIUM_SPHERE)
+                .outputItems(GTOItems.TRIPLET_NEUTRONIUM_SPHERE)
                 .EUt(5000000)
                 .duration(200)
                 .save();

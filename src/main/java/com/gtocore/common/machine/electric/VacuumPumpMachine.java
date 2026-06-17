@@ -1,5 +1,7 @@
 package com.gtocore.common.machine.electric;
 
+import com.gtocore.common.data.GTORecipeDataKeys;
+
 import com.gtolib.api.machine.feature.IVacuumMachine;
 
 import com.gregtechceu.gtceu.api.GTValues;
@@ -9,26 +11,26 @@ import com.gregtechceu.gtceu.api.gui.fancy.IFancyTooltip;
 import com.gregtechceu.gtceu.api.gui.fancy.TooltipsPanel;
 import com.gregtechceu.gtceu.api.machine.SimpleTieredMachine;
 import com.gregtechceu.gtceu.api.machine.TickableSubscription;
-import com.gregtechceu.gtceu.api.recipe.GTRecipe;
+import com.gregtechceu.gtceu.api.recipe.GTRecipeDefinition;
+import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
 import com.gregtechceu.gtceu.common.data.machines.GTMachineUtils;
 
 import net.minecraft.network.chat.Component;
 
-import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
+import com.gto.datasynclib.annotations.SaveToDisk;
+import com.gto.datasynclib.annotations.SyncToClient;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
 public final class VacuumPumpMachine extends SimpleTieredMachine implements IVacuumMachine {
 
-    @Persisted
-    @DescSynced
+    @SaveToDisk
+    @SyncToClient
     private int vacuumTier;
     @Getter
-    @Persisted
+    @SaveToDisk
     private int totalEU;
     @Getter
     private TickableSubscription tickSubs;
@@ -69,13 +71,9 @@ public final class VacuumPumpMachine extends SimpleTieredMachine implements IVac
         update();
     }
 
-    @Nullable
     @Override
-    public GTRecipe doModifyRecipe(@NotNull GTRecipe recipe) {
-        if (getTier() == recipe.data.getInt("tier")) {
-            return recipe;
-        }
-        return null;
+    public boolean checkConditions(RecipeHandlerUnit unit, @NotNull GTRecipeDefinition recipe) {
+        return getTier() == recipe.data.getInt(GTORecipeDataKeys.TIER) && super.checkConditions(unit, recipe);
     }
 
     @Override

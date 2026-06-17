@@ -1,15 +1,17 @@
 package com.gtocore.mixin.ae2.pattern;
 
 import com.gtolib.api.ae2.pattern.IDetails;
-import com.gtolib.api.recipe.Recipe;
 import com.gtolib.api.recipe.RecipeBuilder;
 import com.gtolib.utils.RLUtils;
+
+import com.gregtechceu.gtceu.api.recipe.GTRecipeDefinition;
 
 import net.minecraft.nbt.StringTag;
 
 import appeng.api.stacks.AEItemKey;
 import appeng.api.stacks.KeyCounter;
 import appeng.crafting.pattern.AEProcessingPattern;
+
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -23,12 +25,12 @@ public abstract class AEProcessingPatternMixin implements IDetails {
     private KeyCounter[] gtolib$inputHolder;
 
     @Unique
-    private Recipe gtolib$recipe;
+    private GTRecipeDefinition gtolib$recipe;
 
     @Inject(method = "<init>", at = @At("TAIL"), remap = false)
     private void gtolib$init(AEItemKey definition, CallbackInfo ci) {
         if (definition.getTag().tags.get("recipe") instanceof StringTag stringTag) {
-            gtolib$recipe = RecipeBuilder.RECIPE_MAP.get(RLUtils.parse(stringTag.getAsString()));
+            gtolib$recipe = RecipeBuilder.get(RLUtils.parse(stringTag.getAsString()));
         }
     }
 
@@ -45,7 +47,7 @@ public abstract class AEProcessingPatternMixin implements IDetails {
     }
 
     @Override
-    public Recipe getRecipe() {
+    public GTRecipeDefinition getRecipe() {
         return gtolib$recipe;
     }
 }

@@ -1,24 +1,83 @@
 package com.gtocore.mixin.ae2.gui;
 
+import com.gtocore.integration.ae.hooks.IExtendedPatternEncodingTerm;
+
+import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 
 import appeng.client.gui.widgets.ActionButton;
-import appeng.core.localization.ButtonToolTips;
+import appeng.client.gui.widgets.IconButton;
+import appeng.core.localization.LocalizationEnum;
+
+import gto_ae.hooks.gui.IActionItems;
+import gto_ae.hooks.gui.INoMouseRedirectionWidget;
+
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(ActionButton.class)
-public class ActionButtonMixin {
+public abstract class ActionButtonMixin extends IconButton implements INoMouseRedirectionWidget {
 
-    @Inject(method = "buildMessage", at = @At("RETURN"), remap = false, cancellable = true)
-    private void initHook(ButtonToolTips displayName, ButtonToolTips displayValue, CallbackInfoReturnable<Component> cir) {
-        if (displayValue == ButtonToolTips.EncodeDescription) {
-            MutableComponent component = (MutableComponent) cir.getReturnValue();
-            component.append("\n").append(Component.translatable("gtocore.gui.encoding_desc"));
-            cir.setReturnValue(component);
+    @Shadow(remap = false)
+    public abstract IActionItems getAction();
+
+    @Unique
+    boolean gtocore$useOtherButton = false;
+    @Unique
+    Component gtocore$message;
+
+    public ActionButtonMixin(OnPress onPress) {
+        super(onPress);
+    }
+
+    @SuppressWarnings("ConstantConditions")
+    @Inject(method = "buildMessage", at = @At("RETURN"), remap = false)
+    private void initHook(LocalizationEnum displayName, LocalizationEnum displayValue, CallbackInfoReturnable<Component> cir) {
+        Minecraft.getInstance().tell(() -> {
+            if (Minecraft.getInstance().screen instanceof IExtendedPatternEncodingTerm screen &&
+                    screen.gto$getEncodeButton() == (Object) this) {
+                gtocore$useOtherButton = true;
+                MutableComponent component = (MutableComponent) cir.getReturnValue();
+                component.append("\n")
+                        .append(Component.translatable("gtocore.ae.appeng.craft.encode_send"));
+                gtocore$message = component;
+            }
+        });
+    }
+
+    @Override
+    public Component getMessage() {
+        if (gtocore$useOtherButton && gtocore$message != null) {
+            return gtocore$message;
         }
+        return super.getMessage();
+    }
+
+    @Override
+    protected boolean isValidClickButton(int button) {
+        return button == 0 || button == 1;
+    }
+
+    @Override
+    public boolean shouldHandleRightClick() {
+        return gtocore$useOtherButton;
+    }
+
+    @Override
+    @SuppressWarnings("ConstantConditions")
+    public boolean mouseClicked(double mouseX, double mouseY, int button) {
+        var containerScreen = Minecraft.getInstance().screen;
+        if (containerScreen instanceof IExtendedPatternEncodingTerm screen &&
+                screen.gto$getEncodeButton() == (Object) this &&
+                button == 1 && this.isMouseOver(mouseX, mouseY)) {
+            screen.gto$getMenu().gtolib$sendEncodeRequest();
+            return true;
+        }
+        return super.mouseClicked(mouseX, mouseY, button);
     }
 }

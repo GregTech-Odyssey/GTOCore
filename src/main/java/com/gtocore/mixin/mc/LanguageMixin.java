@@ -31,7 +31,7 @@ public class LanguageMixin {
 
     @Inject(method = "getInstance", at = @At("HEAD"), cancellable = true)
     private static void getInstance(CallbackInfoReturnable<Language> cir) {
-        if (!gto$isDedicatedServer || GTOConfig.INSTANCE.serverLang.equals("en_us")) return;
+        if (!gto$isDedicatedServer || GTOConfig.INSTANCE.misc.serverLang.equals("en_us")) return;
         if (gto$serverLanguage != null) {
             cir.setReturnValue(gto$serverLanguage);
             return;
@@ -40,16 +40,19 @@ public class LanguageMixin {
 
             @Override
             public @NotNull String getOrDefault(@NotNull String key) {
+                if (langs == null) return instance.getOrDefault(key);
                 return langs.getOrDefault(key, instance.getOrDefault(key));
             }
 
             @Override
             public @NotNull String getOrDefault(@NotNull String s, @NotNull String s1) {
+                if (langs == null) return instance.getOrDefault(s, s1);
                 return langs.getOrDefault(s, instance.getOrDefault(s, s1));
             }
 
             @Override
             public boolean has(@NotNull String s) {
+                if (langs == null) return instance.has(s);
                 return langs.containsKey(s) || instance.has(s);
             }
 

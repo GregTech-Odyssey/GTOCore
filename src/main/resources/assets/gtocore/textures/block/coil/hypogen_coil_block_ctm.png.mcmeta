@@ -1,8 +1,8 @@
 {
-    "ldlib": {
-        "emissive": true
-    },
-    "animation": {
-        "frametime": 2
-    }
+  "ldlib": {
+    "emissive": true
+  },
+  "animation": {
+    "frametime": 2
+  }
 }

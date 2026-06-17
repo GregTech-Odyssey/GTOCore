@@ -15,7 +15,7 @@ import com.gregtechceu.gtceu.data.recipe.CustomTags;
 import com.gregtechceu.gtceu.data.recipe.GTCraftingComponents;
 import com.gregtechceu.gtceu.data.recipe.VanillaRecipeHelper;
 
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Item;
 
 import appeng.core.definitions.AEItems;
 import appeng.core.definitions.AEParts;
@@ -24,8 +24,6 @@ import java.util.Locale;
 
 import static com.gregtechceu.gtceu.api.GTValues.*;
 import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.*;
-import static com.gregtechceu.gtceu.common.data.GTBlocks.LD_FLUID_PIPE;
-import static com.gregtechceu.gtceu.common.data.GTBlocks.LD_ITEM_PIPE;
 import static com.gregtechceu.gtceu.common.data.GTItems.*;
 import static com.gregtechceu.gtceu.common.data.GTMachines.*;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
@@ -418,110 +416,73 @@ public final class MetaTileEntityMachineRecipeLoader {
                 .duration(400).EUt(VA[LuV])
                 .save();
 
-        // Long Distance Pipes
-        ASSEMBLER_RECIPES.recipeBuilder("long_distance_item_endpoint")
-                .inputItems(pipeLargeItem, Tin, 2)
-                .inputItems(plate, Steel, 8)
-                .inputItems(gear, Steel, 2)
-                .circuitMeta(1)
-                .inputFluids(SolderingAlloy, L / 2)
-                .outputItems(LONG_DIST_ITEM_ENDPOINT, 2)
-                .duration(400).EUt(16)
-                .save();
-
-        ASSEMBLER_RECIPES.recipeBuilder("long_distance_fluid_endpoint")
-                .inputItems(pipeLargeFluid, Bronze, 2)
-                .inputItems(plate, Steel, 8)
-                .inputItems(gear, Steel, 2)
-                .circuitMeta(1)
-                .inputFluids(SolderingAlloy, L / 2)
-                .outputItems(LONG_DIST_FLUID_ENDPOINT, 2)
-                .duration(400).EUt(16)
-                .save();
-
-        ASSEMBLER_RECIPES.recipeBuilder("long_distance_item_pipe")
-                .inputItems(pipeLargeItem, Tin, 2)
-                .inputItems(plate, Steel, 8)
-                .circuitMeta(2)
-                .inputFluids(SolderingAlloy, L / 2)
-                .outputItems(LD_ITEM_PIPE, 64)
-                .duration(600).EUt(24)
-                .save();
-
-        ASSEMBLER_RECIPES.recipeBuilder("long_distance_fluid_pipe")
-                .inputItems(pipeLargeFluid, Bronze, 2)
-                .inputItems(plate, Steel, 8)
-                .circuitMeta(2)
-                .inputFluids(SolderingAlloy, L / 2)
-                .outputItems(LD_FLUID_PIPE, 64)
-                .duration(600).EUt(24)
-                .save();
-
         // ME Parts
 
-        ItemStack meInterface = AEParts.INTERFACE.stack(1);
-        ItemStack accelerationCard = AEItems.SPEED_CARD.stack(2);
+        Item meInterface = AEParts.INTERFACE.asItem();
+        Item accelerationCard = AEItems.SPEED_CARD.asItem();
 
-        ASSEMBLER_RECIPES.recipeBuilder("me_export_hatch")
-                .inputItems(FLUID_EXPORT_HATCH[EV])
-                .inputItems(meInterface.copy())
-                .inputItems(accelerationCard.copy())
-                .outputItems(GTAEMachines.FLUID_EXPORT_HATCH_ME)
+        ASSEMBLER_RECIPES.recipeBuilder("me_import_bus")
+                .inputItems(ITEM_IMPORT_BUS[EV])
+                .inputItems(meInterface)
+                .inputItems(accelerationCard)
+                .outputItems(GTAEMachines.ITEM_IMPORT_BUS_ME)
                 .duration(300).EUt(VA[HV])
                 .save();
 
         ASSEMBLER_RECIPES.recipeBuilder("me_import_hatch")
                 .inputItems(FLUID_IMPORT_HATCH[EV])
-                .inputItems(meInterface.copy())
-                .inputItems(accelerationCard.copy())
+                .inputItems(meInterface)
+                .inputItems(accelerationCard)
                 .outputItems(GTAEMachines.FLUID_IMPORT_HATCH_ME)
                 .duration(300).EUt(VA[HV])
                 .save();
 
         ASSEMBLER_RECIPES.recipeBuilder("me_export_bus")
                 .inputItems(ITEM_EXPORT_BUS[EV])
-                .inputItems(meInterface.copy())
-                .inputItems(accelerationCard.copy())
+                .inputItems(meInterface)
+                .inputItems(accelerationCard)
                 .outputItems(GTAEMachines.ITEM_EXPORT_BUS_ME)
                 .duration(300).EUt(VA[HV])
                 .save();
 
-        ASSEMBLER_RECIPES.recipeBuilder("me_import_bus")
-                .inputItems(ITEM_IMPORT_BUS[EV])
-                .inputItems(meInterface.copy())
-                .inputItems(accelerationCard.copy())
-                .outputItems(GTAEMachines.ITEM_IMPORT_BUS_ME)
+        ASSEMBLER_RECIPES.recipeBuilder("me_export_hatch")
+                .inputItems(FLUID_EXPORT_HATCH[EV])
+                .inputItems(meInterface)
+                .inputItems(accelerationCard)
+                .outputItems(GTAEMachines.FLUID_EXPORT_HATCH_ME)
                 .duration(300).EUt(VA[HV])
                 .save();
 
         ASSEMBLER_RECIPES.recipeBuilder("me_stocking_import_bus")
-                .inputItems(ITEM_IMPORT_BUS[IV])
-                .inputItems(meInterface.copy())
-                .inputItems(CONVEYOR_MODULE_IV)
-                .inputItems(SENSOR_IV)
-                .inputItems(accelerationCard.copyWithCount(4))
+                .inputItems(ITEM_IMPORT_BUS[LuV])
+                .inputItems(GTAEMachines.ITEM_IMPORT_BUS_ME)
+                .inputItems(meInterface, 4)
+                .inputItems(CONVEYOR_MODULE_LuV)
+                .inputItems(SENSOR_LuV)
+                .inputItems(accelerationCard, 4)
                 .outputItems(GTAEMachines.STOCKING_IMPORT_BUS_ME)
-                .duration(300).EUt(VA[IV])
+                .duration(300).EUt(VA[LuV])
                 .save();
 
         ASSEMBLER_RECIPES.recipeBuilder("me_stocking_import_hatch")
-                .inputItems(FLUID_IMPORT_HATCH[IV])
-                .inputItems(meInterface.copy())
-                .inputItems(ELECTRIC_PUMP_IV)
-                .inputItems(SENSOR_IV)
-                .inputItems(accelerationCard.copyWithCount(4))
+                .inputItems(FLUID_IMPORT_HATCH[LuV])
+                .inputItems(GTAEMachines.FLUID_IMPORT_HATCH_ME)
+                .inputItems(meInterface, 4)
+                .inputItems(ELECTRIC_PUMP_LuV)
+                .inputItems(SENSOR_LuV)
+                .inputItems(accelerationCard, 4)
                 .outputItems(GTAEMachines.STOCKING_IMPORT_HATCH_ME)
-                .duration(300).EUt(VA[IV])
+                .duration(300).EUt(VA[LuV])
                 .save();
 
         ASSEMBLER_RECIPES.builder("me_muffler_hatch")
                 .inputItems(GTMachines.MUFFLER_HATCH[GTValues.LuV].asItem())
                 .inputItems(GTOBlocks.INTEGRAL_FRAMEWORK_LUV.asItem())
                 .inputItems("gtceu:me_output_bus")
-                .inputItems(GTItems.FIELD_GENERATOR_LuV.asItem(), 16)
-                .inputItems(GTItems.ROBOT_ARM_LuV.asItem(), 16)
+                .inputItems(GTItems.FIELD_GENERATOR_LuV, 16)
+                .inputItems(GTItems.ROBOT_ARM_LuV, 16)
                 .inputItems("ae2:annihilation_plane", 8)
-                .inputItems(GTOItems.IV_DRONE.asItem())
+                .inputItems(GTOItems.IV_DRONE)
                 .outputItems(MUFFLER_HATCH_ME)
                 .inputFluids(GTMaterials.SolderingAlloy, 9216)
                 .EUt(GTValues.VA[LuV])

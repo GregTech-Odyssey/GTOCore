@@ -1,11 +1,11 @@
 package com.gtocore.common.machine.multiblock.part.ae
 
-import com.gtocore.api.gui.ktflexible.multiPageAdvanced
-import com.gtocore.api.gui.ktflexible.textBlock
 import com.gtocore.common.data.machines.GTAEMachines
 import com.gtocore.common.machine.multiblock.part.ae.widget.slot.AEPatternViewSlotWidgetKt
-import com.gtocore.integration.ae.WirelessMachine
-import com.gtocore.integration.eio.ITravelHandlerHook
+import com.gtocore.eio_travel.logic.TravelSavedData
+import com.gtocore.eio_travel.logic.TravelUtils
+import com.gtocore.integration.ae.hooks.IExtendedPatternContainer
+import com.gtocore.integration.ae.wireless.WirelessMachine
 
 import net.minecraft.MethodsReturnNonnullByDefault
 import net.minecraft.core.BlockPos
@@ -17,7 +17,6 @@ import net.minecraft.network.chat.MutableComponent
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.world.InteractionHand
 import net.minecraft.world.InteractionResult
-import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.level.Level
@@ -25,6 +24,7 @@ import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.phys.BlockHitResult
 
 import appeng.api.crafting.IPatternDetails
+import appeng.api.crafting.PatternDetailsHelper
 import appeng.api.implementations.blockentities.PatternContainerGroup
 import appeng.api.inventories.InternalInventory
 import appeng.api.networking.IGrid
@@ -32,13 +32,9 @@ import appeng.api.networking.IGridNodeListener
 import appeng.api.networking.crafting.ICraftingProvider
 import appeng.api.stacks.AEItemKey
 import appeng.api.stacks.KeyCounter
-import appeng.crafting.pattern.EncodedPatternItem
-import appeng.helpers.patternprovider.PatternContainer
-import com.enderio.base.common.travel.TravelSavedData
 import com.google.common.collect.BiMap
 import com.google.common.collect.HashBiMap
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity
-import com.gregtechceu.gtceu.api.capability.recipe.IO
 import com.gregtechceu.gtceu.api.gui.GuiTextures
 import com.gregtechceu.gtceu.api.gui.fancy.ConfiguratorPanel
 import com.gregtechceu.gtceu.api.gui.fancy.FancyMachineUIWidget
@@ -47,18 +43,22 @@ import com.gregtechceu.gtceu.api.machine.TickableSubscription
 import com.gregtechceu.gtceu.api.machine.feature.IDropSaveMachine
 import com.gregtechceu.gtceu.api.machine.feature.IInteractedMachine
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiController
-import com.gregtechceu.gtceu.api.machine.trait.RecipeHandlerList
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType
+import com.gregtechceu.gtceu.api.recipe.handler.IO
+import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit
 import com.gregtechceu.gtceu.api.transfer.item.CustomItemStackHandler
 import com.gregtechceu.gtceu.utils.TaskHandler
+import com.gregtechceu.gtceu.utils.asm.EmptyMethodChecker
+import com.gto.datasynclib.annotations.SaveToDisk
+import com.gto.datasynclib.annotations.SyncToClient
+import com.gto.datasynclib.listener.IntNotifiableHolder
+import com.gto.datasynclib.util.DataCodecs
 import com.gtolib.api.ae2.MyPatternDetailsHelper
 import com.gtolib.api.ae2.pattern.IParallelPatternDetails
 import com.gtolib.api.annotation.DataGeneratorScanned
 import com.gtolib.api.annotation.language.RegisterLanguage
-import com.gtolib.api.capability.ISync
 import com.gtolib.api.gui.ktflexible.*
 import com.gtolib.api.machine.feature.IEnhancedRecipeLogicMachine
-import com.gtolib.api.network.SyncManagedFieldHolder
 import com.lowdragmc.lowdraglib.gui.texture.GuiTextureGroup
 import com.lowdragmc.lowdraglib.gui.util.ClickData
 import com.lowdragmc.lowdraglib.gui.widget.Widget
@@ -76,17 +76,18 @@ import javax.annotation.ParametersAreNonnullByDefault
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 @DataGeneratorScanned
-internal abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.AbstractInternalSlot>(holder: MetaMachineBlockEntity, val maxPatternCount: Int) :
+abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.AbstractInternalSlot>(holder: MetaMachineBlockEntity, val maxPatternCount: Int) :
     MEPartMachine(holder, IO.IN),
     ICraftingProvider,
     WirelessMachine,
     IInteractedMachine,
-    ISync,
-    PatternContainer,
+    IExtendedPatternContainer,
     IDropSaveMachine {
     override fun onUse(state: BlockState?, world: Level?, pos: BlockPos?, player: Player?, hand: InteractionHand?, hit: BlockHitResult?): InteractionResult? {
         if (!isRemote) {
-            newPageField.setAndSyncToClient(newPageField.get())
+            newPageField.set(newPageField.get())
+            newPageField.markAsChanged()
+            syncToClient()
         }
         return super.onUse(state, world, pos, player, hand, hit)
     }
@@ -94,9 +95,6 @@ internal abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.Abstra
     // ==================== 常量和静态成员 ====================
     @DataGeneratorScanned
     companion object {
-
-        @JvmStatic
-        val SYNC_MANAGED_FIELD_HOLDER = SyncManagedFieldHolder(MEPatternPartMachineKt::class.java, syncFieldHolder)
 
         @RegisterLanguage(cn = "AE显示名称:", en = "AE Name:")
         const val AE_NAME: String = "gtceu.ae.pattern_part_machine.ae_name"
@@ -109,44 +107,46 @@ internal abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.Abstra
 
         @RegisterLanguage(cn = "在旅行网络中显示", en = "Show in Travel Network")
         const val SHOW_IN_TRAVEL: String = "gtceu.ae.pattern_part_machine.show_in_travel"
+
+        @RegisterLanguage(cn = "重置缓存", en = "Clear Machine Recipe Cache")
+        const val CLEAR_MACHINE_RECIPE_CACHE: String = "gtceu.ae.pattern_part_machine.clear_machine_recipe_cache"
+
+        @RegisterLanguage(cn = "重置机器的所有配方缓存，不会改变样板的任何数据内容", en = "Clear all recipe cache of the machine, will not change any data content in pattern")
+        const val CLEAR_MACHINE_RECIPE_CACHE_TOOLTIP: String = "gtceu.ae.pattern_part_machine.clear_machine_recipe_cache_tooltip"
+
+        @RegisterLanguage(cn = "清除配方", en = "Clear Recipe in Pattern")
+        const val CLEAR_PATTERN_RECIPE_CACHE: String = "gtceu.ae.pattern_part_machine.clear_pattern_recipe_cache"
+
+        @RegisterLanguage(cn = "重置样板内的配方缓存，会清除样板内的编写的配方（不会改变原料与产物内容）", en = "Clear recipe cache in pattern, will clear the recipe written in pattern (will not change input and output)")
+        const val CLEAR_PATTERN_RECIPE_CACHE_TOOLTIP: String = "gtceu.ae.pattern_part_machine.clear_pattern_recipe_cache_tooltip"
     }
 
     // ==================== 持久化属性 ====================
-    @Persisted
-    @DescSynced
-    private var patternInventory: CustomItemStackHandler = CustomItemStackHandler(maxPatternCount)
+    @SaveToDisk
+    @SyncToClient
+    val patternInventory: CustomItemStackHandler = CustomItemStackHandler(maxPatternCount)
 
-    @Persisted
-    private var internalInventory: Array<AbstractInternalSlot> = createInternalSlotArray()
+    @SaveToDisk
+    private val internalInventory: Array<AbstractInternalSlot> = createInternalSlotArray()
 
-    @DescSynced
-    @Persisted
+    @SyncToClient
+    @SaveToDisk
     var customName: String = ""
 
-    @Persisted
+    @SaveToDisk
     var showInTravelNetwork: Boolean = defaultShowInTravel()
 
     // ==================== 运行时属性 ====================
     val detailsSlotMap: BiMap<IPatternDetails, T> = HashBiMap.create(maxPatternCount)
     var detailsInit = false
 
-    private var patterns: List<IPatternDetails> = emptyList()
+    var patterns: List<IPatternDetails> = emptyList()
     private var needPatternSync: Boolean = false
     private var updateSubs: TickableSubscription? = null
 
     // ==================== 委托属性 ====================
     val internalPatternInventory by lazy {
-        object : InternalInventory {
-            override fun size(): Int = maxPatternCount
-            override fun getStackInSlot(slotIndex: Int): ItemStack = patternInventory.getStackInSlot(slotIndex)
-            override fun setItemDirect(slotIndex: Int, stack: ItemStack) {
-                patternInventory.run {
-                    setStackInSlot(slotIndex, stack)
-                    onContentsChanged(slotIndex)
-                }
-                onPatternChange(slotIndex)
-            }
-        }
+        MEPartInv(this)
     }
 
     // ==================== 初始化 ====================
@@ -169,6 +169,7 @@ internal abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.Abstra
 
     open fun onPatternChange(index: Int) {
         if (isRemote) return
+        onChanged()
 
         val internalInv = getInternalInventory()[index]
         val newPattern = patternInventory.getStackInSlot(index)
@@ -177,7 +178,7 @@ internal abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.Abstra
 
         detailsSlotMap.forcePut(newPatternDetails, internalInv)
 
-        oldPatternDetails?.takeIf { it != newPatternDetails }?.let {
+        oldPatternDetails.takeIf { it != newPatternDetails }.let {
             internalInv.onPatternChange()
         }
 
@@ -194,18 +195,16 @@ internal abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.Abstra
     open fun onPagePrev() {}
     open fun runOnUpdate() {}
     open fun addWidget(group: WidgetGroup) {}
+    open fun onDetailsPostInit() {}
 
     // ==================== 生命周期方法 ====================
-    val newPageField = ISync.createIntField(this).set(0)
-
-    override fun onMachinePlaced(player: LivingEntity?, stack: ItemStack?) {
-        super<MEPartMachine>.onMachinePlaced(player, stack)
-    }
+    @SyncToClient
+    val newPageField = IntNotifiableHolder.create()
 
     override fun onLoad() {
         super.onLoad()
         detailsInit = false
-        level?.let { ITravelHandlerHook.removeAndReadd(it, this) }
+        level?.let { TravelUtils.removeAndReadd(it, this) }
     }
 
     override fun onUnload() {
@@ -214,13 +213,11 @@ internal abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.Abstra
         level?.let { TravelSavedData.getTravelData(it).removeTravelTargetAt(it, holder.blockPos) }
     }
 
-    override fun clientTick() {
-        super.clientTick()
-    }
+    override fun canShared(): Boolean = false
 
     override fun addedToController(controller: IMultiController) {
         super.addedToController(controller)
-        ITravelHandlerHook.requireResync(level!!)
+        TravelUtils.requireResync(level!!)
     }
 
     override fun onMainNodeStateChanged(reason: IGridNodeListener.State) {
@@ -229,7 +226,7 @@ internal abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.Abstra
             if (!detailsInit) {
                 when (val level = getLevel()) {
                     is ServerLevel -> {
-                        TaskHandler.enqueueServerTask(level, {
+                        TaskHandler.enqueueTask(level, {
                             (0 until patternInventory.slots).forEach { i ->
                                 val pattern = patternInventory.getStackInSlot(i)
                                 decodePattern(pattern, i)?.let { patternDetails ->
@@ -237,6 +234,7 @@ internal abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.Abstra
                                 }
                             }
                             updatePatterns()
+                            onDetailsPostInit()
                             detailsInit = true
                         }, 10)
                     }
@@ -246,8 +244,6 @@ internal abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.Abstra
             detailsInit = false
         }
     }
-
-    override fun getSyncHolder(): SyncManagedFieldHolder = SYNC_MANAGED_FIELD_HOLDER
 
     // ==================== ICraftingProvider 接口实现 ====================
     override fun getAvailablePatterns(): List<IPatternDetails> = patterns
@@ -264,7 +260,7 @@ internal abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.Abstra
     override fun getTerminalGroup(): PatternContainerGroup {
         val (itemKey, description) = when {
             isFormed -> {
-                val controller = getControllers().first()
+                val controller = getController()
                 val controllerDefinition = controller.self().definition
                 AEItemKey.of(controllerDefinition.asStack()) to
                     if (customName.isNotEmpty()) {
@@ -276,14 +272,14 @@ internal abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.Abstra
                                 (
                                     if (controller is IEnhancedRecipeLogicMachine) {
                                         Stream.of(
-                                            *controller.recipeTypes,
+                                            *controller.availableRecipeTypes,
                                         )
                                             .map { r: GTRecipeType? -> Component.translatable("gtceu." + r!!.registryName.path) }
                                             .collect(
                                                 { Component.empty() },
                                                 BiConsumer { c: MutableComponent?, t: MutableComponent? ->
                                                     c!!.append(
-                                                        if (c.string.isEmpty()) t else Component.literal("/").append(t),
+                                                        (if (c.string.isEmpty()) t else Component.literal("/").append(t as Component)) as Component,
                                                     )
                                                 },
                                                 { c1: MutableComponent?, c2: MutableComponent? ->
@@ -304,6 +300,7 @@ internal abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.Abstra
                             )
                     }
             }
+
             else -> {
                 AEItemKey.of(GTAEMachines.ME_PATTERN_BUFFER.asItem()) to
                     if (customName.isNotEmpty()) {
@@ -320,14 +317,13 @@ internal abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.Abstra
     // ==================== 其他接口实现 ====================
     override fun getGrid(): IGrid? = mainNode.grid
 
-    override fun getRecipeHandlers(): List<RecipeHandlerList> = emptyList()
-    override fun getHandlerList(): RecipeHandlerList = RecipeHandlerList.NO_DATA
+    override fun getRecipeHandlers(): List<RecipeHandlerUnit> = emptyList()
+    override fun getHandlerUnit(): RecipeHandlerUnit = RecipeHandlerUnit.NO_DATA
     override fun isWorkingEnabled(): Boolean = true
     override fun setWorkingEnabled(ignored: Boolean) {}
     override fun isDistinct(): Boolean = true
     override fun setDistinct(isDistinct: Boolean) {}
     override fun attachConfigurators(configuratorPanel: ConfiguratorPanel) {
-        super.attachConfigurators(configuratorPanel)
         val configuratorToggle = IFancyConfiguratorButton.Toggle(
             GuiTextureGroup(
                 GuiTextures.BUTTON,
@@ -344,7 +340,7 @@ internal abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.Abstra
             { _: ClickData, b: Boolean ->
                 run {
                     showInTravelNetwork = b
-                    ITravelHandlerHook.requireResync(level!!)
+                    TravelUtils.requireResync(level!!)
                 }
             },
         ).setTooltipsSupplier { b ->
@@ -357,61 +353,30 @@ internal abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.Abstra
     lateinit var freshWidgetGroup: FreshWidgetGroupAbstract
     override fun createUIWidget(): Widget {
         freshWidgetGroup = rootFresh(176, 148) {
-            val chunked: List<List<List<Int>>> = (0 until maxPatternCount).chunked(9).chunked(6)
             vBox(width = availableWidth, style = { spacing = 3 }) {
-                hBox(height = 12, alwaysVerticalCenter = true) {
-                    blank(width = 7)
-                    textBlock(maxWidth = this@vBox.availableWidth, textSupplier = {
-                        when (onlineField) {
-                            true -> Component.translatable("gtceu.gui.me_network.online")
-                            false -> Component.translatable("gtceu.gui.me_network.offline")
-                        }
-                    })
-                    blank(width = 9)
-                    textBlock(maxWidth = this@vBox.availableWidth, textSupplier = {
-                        Component.translatable(AE_NAME)
-                    })
-                    field(height = 12, getter = { customName }, setter = {
-                        customName = it
-                        ITravelHandlerHook.requireResync(level!!)
-                    })
-                }
+                buildHeader(this, this@MEPatternPartMachineKt)
                 val height1 = this@rootFresh.availableHeight - 24 - 16
                 val pageWidget =
-                    multiPageAdvanced(width = this@vBox.availableWidth, runOnUpdate = ::runOnUpdate, height = height1, pageSelector = newPageField) {
-                        chunked.forEach { pageIndices ->
-                            page {
-                                vScroll(width = this@vBox.availableWidth, height = height1) {
-                                    vBox(width = this@vBox.availableWidth, alwaysHorizonCenter = true) {
-                                        buildToolBoxContent()
-                                        pageIndices.forEach { lineIndices ->
-                                            hBox(height = 18) {
-                                                lineIndices.forEach { index ->
-                                                    widget(createPatternSlot(index))
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                        if (chunked.isEmpty()) {
-                            page {
-                                textBlock(maxWidth = this.availableWidth, textSupplier = {
-                                    Component.translatable(NOT_simple)
-                                })
-                            }
-                        }
-                    }
+                    createPatternPageWidget(
+                        container = this,
+                        machine = this@MEPatternPartMachineKt,
+                        pageHeight = height1,
+                        buildToolBoxContent = { buildToolBoxContent() },
+                        emptyPageTextSupplier = { Component.translatable(NOT_simple) },
+                    )
+                val wid = this@vBox.availableWidth - 2 * 2
                 if (pageWidget.getMaxPageSize() > 1) {
                     hBox(height = 13, style = { spacing = 2 }) {
-                        val wid = this@vBox.availableWidth - 2 * 2
                         button(
                             width = 30,
                             height = 13,
-                            onClick = { ck ->
+                            onClick = { _ ->
                                 onPagePrev()
-                                if (!isRemote)newPageField.setAndSyncToClient((newPageField.get() - 1).coerceAtLeast(0))
+                                if (!isRemote) {
+                                    newPageField.set((newPageField.get() - 1).coerceAtLeast(0))
+                                    newPageField.markAsChanged()
+                                    syncToClient()
+                                }
                             },
                             text = { "<<" },
                         )
@@ -419,12 +384,37 @@ internal abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.Abstra
                         button(
                             height = 13,
                             width = 30,
-                            onClick = { ck ->
+                            onClick = { _ ->
                                 onPageNext()
-                                if (!isRemote)newPageField.setAndSyncToClient((newPageField.get() + 1).coerceAtMost(pageWidget.getMaxPageSize() - 1))
+                                if (!isRemote) {
+                                    newPageField.set((newPageField.get() + 1).coerceAtMost(pageWidget.getMaxPageSize() - 1))
+                                    newPageField.markAsChanged()
+                                    syncToClient()
+                                }
                             },
                             text = { ">>" },
                         )
+                    }
+                }
+                if (needAClearButton) {
+                    hBox(height = 13, style = { spacing = 2 }) {
+                        button(
+                            height = 13,
+                            width = 60,
+                            onClick = { _ ->
+                                clearMachineRecipeCache()
+                            },
+                            transKey = CLEAR_MACHINE_RECIPE_CACHE,
+                        ).setHoverTooltips(CLEAR_MACHINE_RECIPE_CACHE_TOOLTIP)
+                        blank(width = wid - 120)
+                        button(
+                            width = 60,
+                            height = 13,
+                            onClick = { _ ->
+                                clearPatternRecipeCache()
+                            },
+                            transKey = CLEAR_PATTERN_RECIPE_CACHE,
+                        ).setHoverTooltips(CLEAR_PATTERN_RECIPE_CACHE_TOOLTIP)
                     }
                 }
                 pageWidget.refresh()
@@ -441,6 +431,7 @@ internal abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.Abstra
             getMainNode().isOnline -> {
                 updateSubs = subscribeServerTick(updateSubs, ::update)
             }
+
             updateSubs != null -> {
                 updateSubs?.unsubscribe()
                 updateSubs = null
@@ -451,8 +442,7 @@ internal abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.Abstra
     open fun convertPattern(pattern: IPatternDetails, index: Int): IPatternDetails = pattern
 
     open fun decodePattern(stack: ItemStack, index: Int): IPatternDetails? {
-        val pattern = MyPatternDetailsHelper.decodePattern(stack, holder.self, getGrid())
-        if (pattern == null) return null
+        val pattern = MyPatternDetailsHelper.decodePattern(stack, holder, getGrid()) ?: return null
         return IParallelPatternDetails.of(convertPattern(pattern, index), level, 1)
     }
 
@@ -468,31 +458,22 @@ internal abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.Abstra
         }
     }
 
-    private fun createPatternSlot(index: Int): AEPatternViewSlotWidgetKt {
-        val slot = AEPatternViewSlotWidgetKt(
-            0,
-            0,
-            index,
-            getApplyIndex(),
-            patternInventory,
-        ) { onMouseClicked(index) }
+    open fun createPatternSlotWidget(index: Int): AEPatternViewSlotWidgetKt = AEPatternViewSlotWidgetKt(
+        0,
+        0,
+        index,
+        getApplyIndex(),
+        patternInventory,
+        { onMouseClicked(-1) },
+    ) { onMouseClicked(index) }
 
-        slot.inner.setOccupiedTexture(GuiTextures.SLOT)
-        slot.inner.setItemHook { stack ->
-            when (val item = stack.item) {
-                is EncodedPatternItem -> {
-                    val output = item.getOutput(stack)
-                    if (!output.isEmpty) output else stack
-                }
-                else -> stack
-            }
-        }
+    fun createPatternSlot(index: Int): AEPatternViewSlotWidgetKt {
+        val slot = createPatternSlotWidget(index)
+
         slot.inner.setChangeListener { onPatternChange(index) }
         slot.inner.setOnAddedTooltips { _, tooltips ->
             appendHoverTooltips(index)?.let { tooltips.add(it) }
         }
-        slot.inner.setBackground(GuiTextures.SLOT, GuiTextures.PATTERN_OVERLAY)
-
         return slot
     }
     open fun VBoxBuilder.buildToolBoxContent() {}
@@ -500,12 +481,21 @@ internal abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.Abstra
 
     override fun savePickClone(): Boolean = false
 
+    val needAClearButton: Boolean by lazy {
+        EmptyMethodChecker.hasMethodBody(javaClass.getMethod("clearMachineRecipeCache")) &&
+            EmptyMethodChecker.hasMethodBody(javaClass.getMethod("clearPatternRecipeCache"))
+    }
+
+    open fun clearPatternRecipeCache() {}
+
+    open fun clearMachineRecipeCache() {}
+
     override fun saveToItem(tag: CompoundTag) {
         tag.put("p", patternInventory.serializeNBT())
         tag.putString("n", customName)
         val list = ListTag()
-        for (i in 0 until internalInventory.size) {
-            list.add(internalInventory[i].serializeNBT())
+        for (element in internalInventory) {
+            list.add(element.serializeNBT())
         }
         tag.put("i", list)
     }
@@ -514,8 +504,8 @@ internal abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.Abstra
         patternInventory.deserializeNBT(tag.getCompound("p"))
         customName = tag.getString("n")
         val list = tag.getList("i", Tag.TAG_COMPOUND.toInt())
-        for (i in 0 until internalInventory.size) {
-            internalInventory[i].deserializeNBT(list.getCompound(i))
+        for ((i, element) in internalInventory.withIndex()) {
+            element.deserializeNBT(list.getCompound(i))
         }
     }
 
@@ -527,4 +517,25 @@ internal abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.Abstra
         abstract fun onPatternChange()
         override fun serializeNBT(): CompoundTag = CompoundTag()
     }
+}
+
+class MEPartInv(val machine: MEPatternPartMachineKt<*>) : InternalInventory {
+    override fun size(): Int = machine.maxPatternCount
+    override fun getStackInSlot(slotIndex: Int): ItemStack = machine.patternInventory.getStackInSlot(slotIndex)
+    override fun setItemDirect(slotIndex: Int, stack: ItemStack) {
+        machine.patternInventory.run {
+            setStackInSlot(slotIndex, stack)
+            onContentsChanged(slotIndex)
+        }
+        machine.onPatternChange(slotIndex)
+    }
+}
+
+fun checkDuplicatedPattern(machine: MEPatternPartMachineKt<*>, stack: ItemStack): Boolean = with(machine) {
+    val patternDetails = PatternDetailsHelper.decodePattern(stack, level) ?: return false
+    if (level?.isClientSide == true) return true
+    if (detailsSlotMap.isEmpty()) return true
+    val primaryOutput = patternDetails.primaryOutput.what()
+    return patterns
+        .none { details: IPatternDetails -> details.primaryOutput.what() == primaryOutput }
 }

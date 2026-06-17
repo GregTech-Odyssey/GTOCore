@@ -154,7 +154,7 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
         setTranslationPrefix("crystallization_chamber")
         story("你说工业生产的粗硅可以直接用电力高炉烧制成单晶硅？" translatedTo "You think crude silicon from industrial production can be directly smelted into monocrystalline silicon in an electric furnace?")
         story("醒醒！我们这里可是GTO重工集团！" translatedTo "Wake up! This is GTO Heavy Industries Group!")
-        story("和这些虫豸在一起，怎么能搞好芯片生产呢！" translatedTo "How can we produce proper chips when working with these vermin!")
+        story("如果继续停留在粗放的生产模式中，怎么能实现高精度的芯片制造呢？" translatedTo "How can we produce proper chips while persisting with such rough fabrication techniques?")
         story("通过电子级硅的缓慢结晶，最终培育出能胜任高精度加工的硅晶圆" translatedTo "Through slow crystallization of electronic-grade silicon, we finally cultivate silicon wafers capable of high-precision processing")
     }
 
@@ -175,7 +175,13 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
         setTranslationPrefix("void_fluid_drill")
         story("虚空流体钻机§r§b是格雷科技在虚空领域的又一力作" translatedTo "Void Fluid Drill§r is another masterpiece of GregTech in the void field")
         story("它可以在虚空中钻取流体" translatedTo "It can drill fluids in the void")
-        highlight("放入维度数据，设置电路后即可获取钻出对应世界流体矿床的流体" translatedTo "Insert dimension data and set the circuit to obtain fluids from corresponding world fluid deposits")
+    }
+
+    // 虚空采矿机
+    val VoidMinerTooltips = ComponentListSupplier {
+        setTranslationPrefix("void_miner")
+        story("虚空采矿机§r§b是格雷科技在虚空领域的又一力作" translatedTo "Void Miner§r is another masterpiece of GregTech in the void field")
+        story("它可以在虚空中开采矿石" translatedTo "It can mine ores in the void")
     }
 
     // 能量注入仪
@@ -201,7 +207,7 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
         setTranslationPrefix("fishing_farm")
         story("喜欢吃鱼？" translatedTo "Like eating fish?")
         story("AFFL-200智能大型渔场是舌尖上的格雷系列常客" translatedTo "AFFL-200 intelligent large fishing farm§r is a regular on GregTech cuisine series")
-        story("强大的§e智能养殖系统§t带来强大产能" translatedTo "Powerful §eintelligent breeding system§r brings powerful productivity")
+        story("强大的§e智能养殖系统§r带来强大产能" translatedTo "Powerful §eintelligent breeding system§r brings powerful productivity")
         story("能够满足整个分公司员工的水产食用需求" translatedTo "Can meet the entire branch office employees' §aaquatic food consumption needs")
     }
 
@@ -1369,6 +1375,9 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
         add("相传技艺来自景德镇，烧结一切材料于炉中" translatedTo "Legendary techniques from Jingdezhen, sintering all materials in the furnace") { gold() }
         add("用高温与压力将粉末烧结成坚固的块体" translatedTo "Using high temperature and pressure to sinter powders into solid blocks") { gray() }
         highlight("非遗技艺的工业化传承" translatedTo "Industrial inheritance of intangible cultural heritage")
+        section(ComponentSlang.EfficiencyBonus)
+        content("线圈温度越高，运行速度越快" translatedTo "Higher coil temperature → faster operation")
+        info("速度倍率: log(900) / log(温度)" translatedTo "Speed Multiplier: log(900) / log(Temperature)")
     }
 
     val giantElectrochemicalWorkstationTooltips = ComponentListSupplier {
@@ -1378,5 +1387,26 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
         story("它集成了多种先进的化学处理技术" translatedTo "It integrates multiple advanced chemical processing technologies")
         story("能够高效地进行复杂的化学反应和物质分离" translatedTo "Capable of efficiently performing complex chemical reactions and material separations")
         highlight("工业化学的未来已然到来" translatedTo "The future of industrial chemistry is here")
+    }
+    val travelAnchorTooltips: ComponentListSupplier = ComponentListSupplier {
+        setTranslationPrefix("travel_anchor")
+
+        story("几年前，末影接口集团因一场重大的管道事故被迫终止与格雷寰宇重工集团的合作" translatedTo "Several years ago, the Ender IO Group was forced to terminate its cooperation with GregTech Cosmic Heavy Industries due to a major pipeline accident")
+        story("但短距离的空间折跃传送技术一直是双方合作的重点之一" translatedTo "However, short-distance spatial warp teleportation technology has always been one of the focuses of cooperation between the two parties")
+        story("为了弥补这一空白，员工们夜以继日地开展逆向工程" translatedTo "To fill this gap, employees worked day and night on reverse engineering")
+        story("最终成功仿制出了这台旅行锚点装置" translatedTo "Finally successfully replicated this travel anchor device")
+    }
+
+    var electricCookingTooltips: ComponentListSupplier = ComponentListSupplier {
+        setTranslationPrefix("electric_cooking")
+
+        story("我就是电力烟熏炉" translatedTo "I am the Electric Smoker")
+        story("§e@§e§n电力高炉§r" translatedTo "§e@§e§nElectric Blast Furnace§r")
+    }
+
+    val virtualCoinMinerTooltips: ComponentListSupplier = ComponentListSupplier {
+        setTranslationPrefix("virtual_coin_miner")
+
+        story("这台机器弥补了GTO集团里面临的一个重要问题：员工们的零花钱不足了" translatedTo "This machine addresses an important issue faced by GTO Group: employees running low on pocket money")
     }
 }

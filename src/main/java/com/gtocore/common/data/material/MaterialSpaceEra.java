@@ -1,12 +1,16 @@
 package com.gtocore.common.data.material;
 
+import com.gtocore.common.data.GTOElements;
+
 import com.gregtechceu.gtceu.api.GTValues;
+import com.gregtechceu.gtceu.api.data.chemical.material.properties.ToolProperty;
 
 import static com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialFlags.*;
 import static com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialIconSet.*;
 import static com.gregtechceu.gtceu.api.data.chemical.material.properties.BlastProperty.GasTier.*;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
 import static com.gtocore.api.data.material.GTOMaterialFlags.*;
+import static com.gtocore.api.data.material.GTOMaterialIconSet.*;
 import static com.gtocore.common.data.GTOMaterials.*;
 import static com.gtolib.utils.register.MaterialsRegisterUtils.material;
 
@@ -138,6 +142,8 @@ public class MaterialSpaceEra {
                         GENERATE_SMALL_GEAR, GENERATE_LONG_ROD,
                         GENERATE_FRAME, GENERATE_FOIL,
                         GENERATE_BOLT_SCREW, GENERATE_RING, DECOMPOSITION_BY_CENTRIFUGING)
+                .toolStats(ToolProperty.Builder.of(60.0F, 24.0F, 2500, 4)
+                        .enchantability(21).build())
                 .fluidPipeProperties(3500, 3500, true, true, true)
                 .buildAndRegister();
 
@@ -198,7 +204,7 @@ public class MaterialSpaceEra {
                 .fluid()
                 .color(0xffe278)
                 .secondaryColor(0xc2a664)
-                .blastTemp(7111, HIGHER, GTValues.VA[GTValues.ZPM], 1400)
+                .blastTemp(7111, HIGHER, GTValues.VA[GTValues.ZPM], 700)
                 .components(Copper, 80, Silver, 20, Zirconium, 8, SterlingSilver, 5, Thulium, 3)
                 .iconSet(BRIGHT)
                 .flags(GENERATE_GEAR, GENERATE_CURVED_PLATE,
@@ -211,7 +217,7 @@ public class MaterialSpaceEra {
                 .fluid()
                 .color(0xc380c6)
                 .secondaryColor(0x8b5e8b)
-                .blastTemp(8660, HIGHER, GTValues.VA[GTValues.LuV], 900)
+                .blastTemp(8660, HIGHER, GTValues.VA[GTValues.LuV], 600)
                 .components(Titanium, 82, Aluminium, 5, Vanadium, 5, Molybdenum, 5, Chromium, 3, Niobium, 1)
                 .iconSet(METALLIC)
                 .flags(GENERATE_GEAR, GENERATE_CURVED_PLATE,
@@ -224,7 +230,7 @@ public class MaterialSpaceEra {
                 .fluid()
                 .color(0x8b8b8b)
                 .secondaryColor(0x4c4c4c)
-                .blastTemp(7100, HIGHER, GTValues.VA[GTValues.UV], 1600)
+                .blastTemp(7100, HIGHER, GTValues.VA[GTValues.UV], 600)
                 .components(Steel, 56 * 3, Aluminium, 12 * 3, Manganese, 29 * 3, Chromium, 5 * 3, Beryllium, 2, Naquadria, 1)
                 .iconSet(SHINY)
                 .flags(GENERATE_GEAR, GENERATE_CURVED_PLATE,
@@ -249,7 +255,7 @@ public class MaterialSpaceEra {
                 .fluid()
                 .color(0xd3b8d2)
                 .secondaryColor(0xa899a8)
-                .blastTemp(12345, HIGHER, GTValues.VA[GTValues.UHV], 1750)
+                .blastTemp(12345, HIGHER, GTValues.VA[GTValues.UHV], 875)
                 .components(Titanium, 64 * 4, Vanadium, 10 * 4, Aluminium, 5 * 4, Chromium, 5 * 4, Tin, 5 * 4, Etrium, 8 * 4, InfusedGold, 5, AstralSilver, 3)
                 .iconSet(METALLIC)
                 .flags(GENERATE_GEAR, GENERATE_CURVED_PLATE,
@@ -314,6 +320,8 @@ public class MaterialSpaceEra {
                 .components(Steel, 80, Chromium, 12, Nickel, 1)
                 .blastTemp(2410, LOW, GTValues.VA[GTValues.HV], 1100)
                 .iconSet(METALLIC)
+                .toolStats(ToolProperty.Builder.of(40.0F, 12.0F, 1400, 4)
+                        .enchantability(31).build())
                 .flags(GENERATE_GEAR, GENERATE_SMALL_GEAR, GENERATE_LONG_ROD,
                         GENERATE_FRAME, GENERATE_FOIL,
                         GENERATE_BOLT_SCREW, GENERATE_RING, CAN_BE_COOLED_DOWN_BY_BATHING, DECOMPOSITION_BY_CENTRIFUGING)
@@ -328,6 +336,8 @@ public class MaterialSpaceEra {
                 .flags(GENERATE_GEAR, GENERATE_SMALL_GEAR, GENERATE_LONG_ROD,
                         GENERATE_FRAME, GENERATE_FOIL,
                         GENERATE_BOLT_SCREW, GENERATE_RING, CAN_BE_COOLED_DOWN_BY_BATHING, DECOMPOSITION_BY_CENTRIFUGING)
+                .toolStats(ToolProperty.Builder.of(14.0F, 14.0F, 4500, 4)
+                        .enchantability(36).build())
                 .buildAndRegister();
         TitaniumTi64 = material("titanium_ti64", "钛合金-Ti64")
                 .ingot().fluid()
@@ -336,6 +346,8 @@ public class MaterialSpaceEra {
                 .components(Titanium, 45, Aluminium, 3, Vanadium, 2)
                 .blastTemp(2630, LOW, GTValues.VA[GTValues.HV], 1060)
                 .iconSet(METALLIC)
+                .toolStats(ToolProperty.Builder.of(12.0F, 12.0F, 2500, 4)
+                        .enchantability(31).build())
                 .flags(GENERATE_GEAR, GENERATE_SMALL_GEAR, GENERATE_LONG_ROD,
                         GENERATE_FRAME, GENERATE_FOIL,
                         GENERATE_BOLT_SCREW, GENERATE_RING, DECOMPOSITION_BY_CENTRIFUGING)
@@ -531,6 +543,145 @@ public class MaterialSpaceEra {
                 .flags(GENERATE_SMALL_DUST, GENERATE_TINY_DUST, DISABLE_DECOMPOSITION)
                 .buildAndRegister();
 
+        Cruptix = material("cruptix", "克鲁普提克斯")
+                .ingot().fluid()
+                .color(0x7a4c9a)
+                .secondaryColor(0xaa7aca)
+                .iconSet(DULL)
+                .element(GTOElements.CRUPTIX)
+                .blastTemp(3420, HIGH, GTValues.VA[GTValues.EV], 1200)
+                .flags(
+                        GENERATE_FRAME, GENERATE_FOIL,
+                        GENERATE_BOLT_SCREW, GENERATE_RING, DECOMPOSITION_BY_CENTRIFUGING)
+                .buildAndRegister();
+        Uelibrium = material("uelibrium", "尤利布里姆")
+                .ingot().fluid()
+                .color(0x4ca6c6)
+                .secondaryColor(0x78d4f2)
+                .iconSet(DULL)
+                .element(GTOElements.UELIBRIUM)
+                .blastTemp(7420, HIGH, GTValues.VA[GTValues.EV], 1200)
+                .flags(GENERATE_GEAR, GENERATE_SMALL_GEAR,
+                        GENERATE_FRAME, GENERATE_FOIL, DECOMPOSITION_BY_CENTRIFUGING)
+                .buildAndRegister();
+        Astrium = material("astrium", "宇晶质")
+                .ingot()
+                .color(0xe131bad5)
+                .secondaryColor(0xe1ee595a)
+                .iconSet(ASTRAL)
+                .element(GTOElements.ASTRIUM)
+                .blastTemp(10420, HIGH, GTValues.VA[GTValues.EV], 1200)
+                .flags(GENERATE_LONG_ROD, GENERATE_FOIL, DECOMPOSITION_BY_CENTRIFUGING)
+                .buildAndRegister();
+        IceCrystalVolatiles = material("ice_crystal_volatiles", "冰晶挥发物")
+                .fluid()
+                .color(0x07544d)
+                .secondaryColor(0x0d8980)
+                .iconSet(LIMPID)
+                .buildAndRegister();
+        IrradiatedIceCrystalVolatiles = material("irradiated_ice_crystal_volatiles", "辐照冰晶挥发物")
+                .fluid()
+                .color(0x2f7d61)
+                .secondaryColor(0x47b191)
+                .iconSet(LIMPID)
+                .flags(GENERATE_SMALL_DUST, GENERATE_TINY_DUST, DISABLE_DECOMPOSITION)
+                .buildAndRegister();
+        CosmicDustDispersant = material("cosmic_dust_dispersant", "宇尘分散剂")
+                .fluid()
+                .color(0xcc8430)
+                .secondaryColor(0xafa5a0)
+                .iconSet(DULL)
+                .flags(GENERATE_SMALL_DUST, GENERATE_TINY_DUST, DISABLE_DECOMPOSITION)
+                .buildAndRegister();
+        ScorchingCosmicDust = material("scorching_cosmic_dust", "炽热宇尘")
+                .dust()
+                .color(0xc65050)
+                .secondaryColor(0xf27878)
+                .iconSet(DULL)
+                .flags(GENERATE_SMALL_DUST, GENERATE_TINY_DUST, DISABLE_DECOMPOSITION)
+                .buildAndRegister();
+        ExcitedScorchingCosmicDust = material("excited_scorching_cosmic_dust", "激发炽热宇尘")
+                .dust()
+                .color(0xf2c6c6)
+                .secondaryColor(0xc65050)
+                .iconSet(DULL)
+                .flags(GENERATE_SMALL_DUST, GENERATE_TINY_DUST, DISABLE_DECOMPOSITION)
+                .buildAndRegister();
+        RearrangedCosmicDust = material("rearranged_cosmic_dust", "重排宇尘")
+                .dust()
+                .color(0xb1b1b1)
+                .secondaryColor(0xe2e2e2)
+                .iconSet(DULL)
+                .flags(GENERATE_SMALL_DUST, GENERATE_TINY_DUST, DISABLE_DECOMPOSITION)
+                .buildAndRegister();
+        PhotonicKristallite = material("photonic_kristallite", "光透域")
+                .ingot().fluid()
+                .color(0xfcfcfd)
+                .secondaryColor(0x1e1e1e)
+                .element(GTOElements.PHOTOKRYSTAL)
+                .iconSet(TRANSLUCENT)
+                .blastTemp(1790, HIGH, GTValues.VA[GTValues.UHV], 4000)
+                .flags(GENERATE_NANITES,
+                        GENERATE_FRAME, GENERATE_FOIL)
+                .buildAndRegister();
+        PrussianBlueCopperINanotubes = material("prussian_blue_copper_i_nanotubes", "普鲁士蓝氧化铜(I)纳米管")
+                .dust()
+                .color(0x3a373b)
+                .secondaryColor(0x59565a)
+                .iconSet(DULL)
+                .flags(GENERATE_SMALL_DUST, GENERATE_TINY_DUST, DISABLE_DECOMPOSITION)
+                .components(Copper, 2, Oxygen, 1, PrussianBlue, 1)
+                .buildAndRegister();
+        BisCyclopentadienylHafniumOxide = material("bis_cyclopentadienyl_hafnium_oxide", "双环戊二烯铪氧化物")
+                .dust()
+                .color(0x1f281f)
+                .secondaryColor(0x2d3c2e)
+                .iconSet(DULL)
+                .flags(GENERATE_SMALL_DUST, GENERATE_TINY_DUST, DISABLE_DECOMPOSITION)
+                .formula("(Cp2Hf)2O2")
+                .buildAndRegister();
+        PolyVinylBpyRheniumCarbonylHexafluorophosphate = material("poly_vinyl_bpy_rhenium_carbonyl_hexafluorophosphate", "聚[(乙烯基-联吡啶)三羰基铼]六氟磷酸盐")
+                .dust().polymer()
+                .color(0x262631)
+                .secondaryColor(0x3b3b46)
+                .iconSet(DULL)
+                .flags(GENERATE_FOIL)
+                .formula("[(vbpy)Re(CO)3]PF6")
+                .buildAndRegister();
+        Vinyl2Bipyridine = material("vinyl_2_bipyridine", "4-乙烯基-2,2'-联吡啶")
+                .fluid()
+                .color(0x1fc81f)
+                .secondaryColor(0x2d3c2e)
+                .iconSet(DULL)
+                .formula("C12H10N2")
+                .buildAndRegister();
+        RheniumPentacarbonylChloride = material("rhenium_pentacarbonyl_chloride", "五羰基氯化铼")
+                .dust()
+                .color(0x3a373b)
+                .secondaryColor(0x59565a)
+                .iconSet(DULL)
+                .formula("Re(CO)5Cl")
+                .buildAndRegister();
+        Bipyridine = material("bipyridine", "2,2'-联吡啶")
+                .fluid()
+                .color(0x3fa5bf)
+                .secondaryColor(0x2d3c2e)
+                .iconSet(DULL)
+                .formula("C10H8N2")
+                .buildAndRegister();
+        CosmicCopperIKPBANanotubes = material("cosmic_dust_copper_i_kpba_nanotubes", "宇尘分散铜@KPBA纳米管")
+                .dust()
+                .color(0x3a373b)
+                .secondaryColor(0x59565a)
+                .iconSet(DULL)
+                .buildAndRegister();
+        PhototuningAgent = material("phototuning_agent", "流体光发射源")
+                .fluid()
+                .color(0xefe8ef)
+                .secondaryColor(0x2d3c2e)
+                .iconSet(DULL)
+                .buildAndRegister();
+
         // 合金系列 电压 温度 ID 组成 配方类型
         // 镍钛诺-50记忆合金 LUV 7100 nitinol_50_shape_memory_alloy 5钛，5镍 合金冶炼炉
         // 镍钛锡霍伊斯勒合金 LUV 8600 nickel_titanium_tin_heusler_alloy 1镍，1钛，1锡 超纯合金冶炼
@@ -552,7 +703,7 @@ public class MaterialSpaceEra {
                 .color(0xff8080)
                 .secondaryColor(0xcc6060)
                 .components(Titanium, 5, Nickel, 5, Chromium, 1)
-                .blastTemp(7100, HIGHER, GTValues.VA[GTValues.LuV], 800)
+                .blastTemp(7100, HIGHER, GTValues.VA[GTValues.LuV], 600)
                 .iconSet(METALLIC)
                 .flags(GENERATE_GEAR, GENERATE_SMALL_GEAR, GENERATE_LONG_ROD,
                         GENERATE_FRAME, GENERATE_FOIL,
@@ -563,7 +714,7 @@ public class MaterialSpaceEra {
                 .color(0xffd2b8)
                 .secondaryColor(0xccaa88)
                 .components(Nickel, 1, Titanium, 1, Tin, 1)
-                .blastTemp(8600, HIGHER, GTValues.VA[GTValues.LuV], 800)
+                .blastTemp(8600, HIGHER, GTValues.VA[GTValues.LuV], 600)
                 .iconSet(METALLIC)
                 .flags(GENERATE_GEAR, GENERATE_SMALL_GEAR, GENERATE_LONG_ROD,
                         GENERATE_FRAME, GENERATE_FOIL,
@@ -574,7 +725,7 @@ public class MaterialSpaceEra {
                 .color(0xd2b8c6)
                 .secondaryColor(0x9a7a88)
                 .components(Titanium, 86, Aluminium, 5, Tin, 3, Zirconium, 3, Niobium, 1, Molybdenum, 1)
-                .blastTemp(9600, HIGHER, GTValues.VA[GTValues.ZPM], 900)
+                .blastTemp(9600, HIGHER, GTValues.VA[GTValues.ZPM], 675)
                 .iconSet(METALLIC)
                 .flags(GENERATE_GEAR, GENERATE_SMALL_GEAR, GENERATE_LONG_ROD,
                         GENERATE_FRAME, GENERATE_FOIL,
@@ -585,7 +736,7 @@ public class MaterialSpaceEra {
                 .color(0xc6a5b1)
                 .secondaryColor(0x8b6a7a)
                 .components(Titanium, 84, Aluminium, 6, Zirconium, 2, Tin, 2, Molybdenum, 3, Chromium, 1, Niobium, 2)
-                .blastTemp(9700, HIGHER, GTValues.VA[GTValues.ZPM], 1000)
+                .blastTemp(9700, HIGHER, GTValues.VA[GTValues.ZPM], 750)
                 .iconSet(METALLIC)
                 .flags(GENERATE_GEAR, GENERATE_SMALL_GEAR, GENERATE_LONG_ROD,
                         GENERATE_FRAME, GENERATE_FOIL,
@@ -596,7 +747,7 @@ public class MaterialSpaceEra {
                 .color(0xffd27a)
                 .secondaryColor(0xccaa5e)
                 .components(Cobalt, 2, Manganese, 1, Gallium, 1)
-                .blastTemp(11400, HIGHER, GTValues.VA[GTValues.IV], 1100)
+                .blastTemp(11400, HIGHER, GTValues.VA[GTValues.IV], 825)
                 .iconSet(METALLIC)
                 .flags(GENERATE_GEAR, GENERATE_SMALL_GEAR, GENERATE_LONG_ROD,
                         GENERATE_FRAME, GENERATE_FOIL,
@@ -607,7 +758,7 @@ public class MaterialSpaceEra {
                 .color(0xd2d2d2)
                 .secondaryColor(0x9a9a9a)
                 .components(Ruthenium, 2, Iron, 1, Silicon, 1)
-                .blastTemp(12000, HIGHER, GTValues.VA[GTValues.IV], 1200)
+                .blastTemp(12000, HIGHER, GTValues.VA[GTValues.IV], 900)
                 .iconSet(METALLIC)
                 .flags(GENERATE_GEAR, GENERATE_SMALL_GEAR, GENERATE_LONG_ROD,
                         GENERATE_FRAME, GENERATE_FOIL,
@@ -618,7 +769,7 @@ public class MaterialSpaceEra {
                 .color(0xff8080)
                 .secondaryColor(0xcc6060)
                 .components(Nickel, 1, Manganese, 1, Gallium, 1)
-                .blastTemp(12100, HIGHER, GTValues.VA[GTValues.IV], 1200)
+                .blastTemp(12100, HIGHER, GTValues.VA[GTValues.IV], 900)
                 .iconSet(METALLIC)
                 .flags(GENERATE_GEAR, GENERATE_SMALL_GEAR, GENERATE_LONG_ROD,
                         GENERATE_FRAME, GENERATE_FOIL,
@@ -629,7 +780,7 @@ public class MaterialSpaceEra {
                 .color(0xffe0b2)
                 .secondaryColor(0xc6aa88)
                 .components(Titanium, 17, Nickel, 10, Platinum, 4, Palladium, 2, Gold, 2)
-                .blastTemp(12500, HIGHER, GTValues.VA[GTValues.IV], 1300)
+                .blastTemp(12500, HIGHER, GTValues.VA[GTValues.IV], 975)
                 .iconSet(METALLIC)
                 .flags(GENERATE_GEAR, GENERATE_SMALL_GEAR, GENERATE_LONG_ROD,
                         GENERATE_FRAME, GENERATE_FOIL,
@@ -640,7 +791,7 @@ public class MaterialSpaceEra {
                 .color(0xe6e6e6)
                 .secondaryColor(0xb3b3b3)
                 .components(Platinum, 1, Manganese, 1, Antimony, 1)
-                .blastTemp(13000, HIGHER, GTValues.VA[GTValues.UHV], 1300)
+                .blastTemp(13000, HIGHER, GTValues.VA[GTValues.UHV], 975)
                 .iconSet(METALLIC)
                 .flags(GENERATE_GEAR, GENERATE_SMALL_GEAR, GENERATE_LONG_ROD,
                         GENERATE_FRAME, GENERATE_FOIL,
@@ -651,7 +802,7 @@ public class MaterialSpaceEra {
                 .color(0xd2d2d2)
                 .secondaryColor(0x9a9a9a)
                 .components(Steel, 68, Cobalt, 15, Nickel, 7, Chromium, 12, Manganese, 15, Scandium, 4, Yttrium, 4)
-                .blastTemp(13500, HIGHER, GTValues.VA[GTValues.UHV], 1100)
+                .blastTemp(13500, HIGHER, GTValues.VA[GTValues.UHV], 825)
                 .iconSet(METALLIC)
                 .flags(GENERATE_GEAR, GENERATE_SMALL_GEAR, GENERATE_LONG_ROD,
                         GENERATE_FRAME, GENERATE_FOIL,
@@ -662,7 +813,7 @@ public class MaterialSpaceEra {
                 .color(0xb2a6a0)
                 .secondaryColor(0x7a6e68)
                 .components(Titanium, 25, Zirconium, 4, Hafnium, 3, Nickel, 17, Copper, 6, Cobalt, 3)
-                .blastTemp(13700, HIGHER, GTValues.VA[GTValues.UHV], 1200)
+                .blastTemp(13700, HIGHER, GTValues.VA[GTValues.UHV], 900)
                 .iconSet(METALLIC)
                 .flags(GENERATE_GEAR, GENERATE_SMALL_GEAR, GENERATE_LONG_ROD,
                         GENERATE_FRAME, GENERATE_FOIL,
@@ -673,7 +824,7 @@ public class MaterialSpaceEra {
                 .color(0x7a7a8b)
                 .secondaryColor(0x4c4c5e)
                 .components(Tungsten, 58, Nickel, 9, Steel, 12, Rhenium, 4, Cobalt, 11)
-                .blastTemp(14100, HIGHER, GTValues.VA[GTValues.UHV], 1300)
+                .blastTemp(14100, HIGHER, GTValues.VA[GTValues.UHV], 975)
                 .iconSet(METALLIC)
                 .flags(GENERATE_GEAR, GENERATE_SMALL_GEAR, GENERATE_LONG_ROD,
                         GENERATE_FRAME, GENERATE_FOIL,
@@ -684,7 +835,7 @@ public class MaterialSpaceEra {
                 .color(0x4c7a6a)
                 .secondaryColor(0x2e4c3c)
                 .components(Trinium, 14, Naquadria, 8, Molybdenum, 17, NanoScaleYttria, 5, NanoScaleAlumina, 5)
-                .blastTemp(15000, HIGHER, GTValues.VA[GTValues.UEV], 1400)
+                .blastTemp(15000, HIGHER, GTValues.VA[GTValues.UEV], 1050)
                 .iconSet(METALLIC)
                 .flags(GENERATE_GEAR, GENERATE_SMALL_GEAR, GENERATE_LONG_ROD,
                         GENERATE_FRAME, GENERATE_FOIL, GENERATE_PLATE,
@@ -695,7 +846,7 @@ public class MaterialSpaceEra {
                 .color(0xff8080)
                 .secondaryColor(0xcc6060)
                 .components(Nickel, 25, Titanium, 25, NanoScaleNiobium, 3, NanoScaleZirconium, 2)
-                .blastTemp(15500, HIGHER, GTValues.VA[GTValues.UEV], 1300)
+                .blastTemp(15500, HIGHER, GTValues.VA[GTValues.UEV], 975)
                 .iconSet(METALLIC)
                 .flags(GENERATE_GEAR, GENERATE_SMALL_GEAR, GENERATE_LONG_ROD,
                         GENERATE_FRAME, GENERATE_FOIL,

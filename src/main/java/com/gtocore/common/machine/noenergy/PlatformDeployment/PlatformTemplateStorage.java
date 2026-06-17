@@ -11,6 +11,7 @@ import com.fast.fastcollection.O2OOpenCacheHashMap;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import static com.gtocore.common.machine.noenergy.PlatformDeployment.PlatformBlockType.PlatformBlockStructure.structure;
@@ -19,7 +20,7 @@ public final class PlatformTemplateStorage {
 
     public static final Map<String, CNEN> LANG = GTCEu.isDataGen() ? new O2OOpenCacheHashMap<>() : null;
 
-    private static final List<PlatformPreset> preset = new ArrayList<>();
+    static final List<PlatformPreset> preset = new ArrayList<>();
 
     private static final String platform = add("平台", "platform");
     private static final String platform_3_3 = add("平台(3*3)", "platform(3*3)");
@@ -33,30 +34,44 @@ public final class PlatformTemplateStorage {
     }
 
     private static String add(String cn, String en) {
-        String key = en.replace(' ', '_').toLowerCase();
-        return add(key, cn, en);
+        return add(toLangKey(en), cn, en);
+    }
+
+    private static String toLangKey(String en) {
+        String key = en.toLowerCase(Locale.ROOT)
+                .replace("×", "x")
+                .replace("·", "_")
+                .replace("*", "x")
+                .replaceAll("[^a-z0-9]+", "_")
+                .replaceAll("_+", "_")
+                .replaceAll("^_|_$", "");
+
+        if (key.isEmpty()) {
+            throw new IllegalArgumentException("Invalid platform lang key source: " + en);
+        }
+        return key;
     }
 
     private static String in(String path) {
-        return "platforms/" + path;
-    }
-
-    static List<PlatformPreset> initializePresets() {
-        return preset;
+        return path;
     }
 
     private static final String high_saturation_chessboard = add("高饱和棋盘", "High saturation chessboard");
     private static final String high_saturation_panel = add("高饱和嵌板", "High saturation panel");
     private static final String light_colored_road_floor = add("浅色带公路地板", "Light-colored road floor");
     private static final String gray_floor_with_lights = add("浅色带灯带地板", "Gray floor with lights");
+    private static final String Small_plot = add("小型地块", "Small plot");
+    private static final String medium_sized_plot = add("中型地块", "medium-sized plot");
+    private static final String large_plot = add("大型地块", "large plot");
+    private static final String mixed_use_plot = add("大型地块", "mixed_use plot");
 
     static {
         var presets = new ArrayList<PlatformPreset>();
-        // 平台标准预设库
+        // 平台标准预设库-α
         {
             presets.add(
-                    PlatformPreset.preset("platform_standard_library")
-                            .displayName(add("平台标准预设库", "Platform standard preset library"))
+                    PlatformPreset.preset("platform_standard_library_Alpha")
+                            .displayName(add("平台标准预设库-α", "Platform standard preset library-α"))
                             .addStructure(structure("high_saturation_chessboard_1_blue_pink")
                                     .type(platform)
                                     .displayName(high_saturation_chessboard)
@@ -155,6 +170,85 @@ public final class PlatformTemplateStorage {
                                     .resource(GTOCore.id(in("white_floor_with_greenery_and_orange_and_yellow_edges")))
                                     .symbolMap(GTOCore.id(in("white_floor_with_greenery_and_orange_and_yellow_edges.json")))
                                     .materials(0, 576)
+                                    .build())
+                            .build());
+        }
+        // 平台标准预设库-β
+        {
+            presets.add(
+                    PlatformPreset.preset("platform_standard_library_beta")
+                            .displayName(add("平台标准预设库-β", "Platform standard preset library-β"))
+                            .addStructure(structure("small_plot_stone_foundation")
+                                    .type(platform)
+                                    .displayName(Small_plot)
+                                    .description(add("3×3 小型地块-石质地基", "3×3 Small plot-stone foundation"))
+                                    .source("疏影")
+                                    .resource(GTOCore.id(in("small_plot_stone_foundation")))
+                                    .symbolMap(GTOCore.id(in("small_plot_stone_foundation.json")))
+                                    .materials(0, 1296)
+                                    .build())
+                            .addStructure(structure("small_plot_concrete_foundation")
+                                    .type(platform)
+                                    .displayName(Small_plot)
+                                    .description(add("3×3 小型地块-混凝土地基", "3×3 Small plot-concrete foundation"))
+                                    .source("疏影")
+                                    .resource(GTOCore.id(in("small_plot_concrete_foundation")))
+                                    .symbolMap(GTOCore.id(in("small_plot_concrete_foundation.json")))
+                                    .materials(0, 1296)
+                                    .build())
+                            .addStructure(structure("medium_sized_plot_stone_foundation")
+                                    .type(platform)
+                                    .displayName(medium_sized_plot)
+                                    .description(add("5×5 中型地块-石质地基", "5×5 Medium-sized plot-stone foundation"))
+                                    .source("疏影")
+                                    .resource(GTOCore.id(in("medium_sized_plot_stone_foundation")))
+                                    .symbolMap(GTOCore.id(in("medium_sized_plot_stone_foundation.json")))
+                                    .materials(0, 3600)
+                                    .build())
+                            .addStructure(structure("medium_sized_plot_concrete_foundation")
+                                    .type(platform)
+                                    .displayName(medium_sized_plot)
+                                    .description(add("5×5 中型地块-混凝土地基", "5×5 Medium-sized plot-concrete foundation"))
+                                    .source("疏影")
+                                    .resource(GTOCore.id(in("medium_sized_plot_concrete_foundation")))
+                                    .symbolMap(GTOCore.id(in("medium_sized_plot_concrete_foundation.json")))
+                                    .materials(0, 3600)
+                                    .build())
+                            .addStructure(structure("large_plot_stone_foundation")
+                                    .type(platform)
+                                    .displayName(large_plot)
+                                    .description(add("7×7 大型地块-石质地基", "7×7 Large plot-stone foundation"))
+                                    .source("疏影")
+                                    .resource(GTOCore.id(in("large_plot_stone_foundation")))
+                                    .symbolMap(GTOCore.id(in("large_plot_stone_foundation.json")))
+                                    .materials(0, 7056)
+                                    .build())
+                            .addStructure(structure("large_plot_concrete_foundation")
+                                    .type(platform)
+                                    .displayName(large_plot)
+                                    .description(add("7×7 大型地块-混凝土地基", "7×7 Large plot-concrete foundation"))
+                                    .source("疏影")
+                                    .resource(GTOCore.id(in("large_plot_concrete_foundation")))
+                                    .symbolMap(GTOCore.id(in("large_plot_concrete_foundation.json")))
+                                    .materials(0, 7056)
+                                    .build())
+                            .addStructure(structure("mixed_use_plot_stone_foundation")
+                                    .type(platform)
+                                    .displayName(mixed_use_plot)
+                                    .description(add("9|2×2 多用途地块-石质地基", "9|2×2 Mixed-use plot-stone foundation"))
+                                    .source("疏影")
+                                    .resource(GTOCore.id(in("mixed_use_plot_stone_foundation")))
+                                    .symbolMap(GTOCore.id(in("mixed_use_plot_stone_foundation.json")))
+                                    .materials(0, 5184)
+                                    .build())
+                            .addStructure(structure("mixed_use_plot_concrete_foundation")
+                                    .type(platform)
+                                    .displayName(mixed_use_plot)
+                                    .description(add("9|2×2 多用途地块-混凝土地基", "9|2×2 Mixed-use plot-concrete foundation"))
+                                    .source("疏影")
+                                    .resource(GTOCore.id(in("mixed_use_plot_concrete_foundation")))
+                                    .symbolMap(GTOCore.id(in("mixed_use_plot_concrete_foundation.json")))
+                                    .materials(0, 5184)
                                     .build())
                             .build());
         }

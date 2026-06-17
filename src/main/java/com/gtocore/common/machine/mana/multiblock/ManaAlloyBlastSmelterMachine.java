@@ -4,16 +4,17 @@ import com.gtolib.api.machine.mana.feature.IManaMultiblock;
 import com.gtolib.api.machine.mana.trait.ManaTrait;
 import com.gtolib.api.machine.multiblock.CoilCustomParallelMultiblockMachine;
 import com.gtolib.api.misc.ManaContainerList;
-import com.gtolib.api.recipe.Recipe;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
+import com.gregtechceu.gtceu.api.recipe.GTRecipe;
+import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
 
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;
 
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
+import com.gto.datasynclib.annotations.SaveToDisk;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import vazkii.botania.common.item.BotaniaItems;
@@ -42,13 +43,13 @@ public final class ManaAlloyBlastSmelterMachine extends CoilCustomParallelMultib
             7, BotaniaItems.runeAutumn,
             8, BotaniaItems.runeWinter);
 
-    @Persisted
+    @SaveToDisk
     private int tick;
 
-    @Persisted
+    @SaveToDisk
     private int time;
 
-    @Persisted
+    @SaveToDisk
     private int signal;
 
     private int mana;
@@ -72,15 +73,15 @@ public final class ManaAlloyBlastSmelterMachine extends CoilCustomParallelMultib
     }
 
     @Override
-    public boolean onWorking() {
-        if (super.onWorking()) {
+    public boolean handleTickRecipe(GTRecipe recipe) {
+        if (super.handleTickRecipe(recipe)) {
             tick++;
             if (time > 1) {
                 time--;
                 if (signal > 0) {
                     Item item = RUNES.get(signal);
                     AtomicBoolean success = new AtomicBoolean(false);
-                    forEachInputItems((stack, amount) -> {
+                    forEachItems(true, (stack, amount) -> {
                         if (stack.is(item) && inputItem(item, 1)) {
                             success.set(true);
                             return true;
@@ -110,8 +111,8 @@ public final class ManaAlloyBlastSmelterMachine extends CoilCustomParallelMultib
     }
 
     @Override
-    protected boolean beforeWorking(@Nullable Recipe recipe) {
-        return super.beforeWorking(recipe) && removeMana(mana, 1, false) == mana;
+    public boolean handleRecipeInput(RecipeHandlerUnit unit, @NotNull GTRecipe recipe) {
+        return removeMana(mana, 1, false) == mana && super.handleRecipeInput(unit, recipe);
     }
 
     @Override

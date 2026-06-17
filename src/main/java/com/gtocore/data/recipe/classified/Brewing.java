@@ -13,9 +13,9 @@ final class Brewing {
 
     public static void init() {
         BREWING_RECIPES.recipeBuilder("dragon_blood")
-                .inputItems(GTOItems.DRAGON_CELLS.asItem())
-                .inputFluids(GTMaterials.SterileGrowthMedium.getFluid(1000))
-                .outputFluids(GTOMaterials.DragonBlood.getFluid(1000))
+                .inputItems(GTOItems.DRAGON_CELLS)
+                .inputFluids(GTMaterials.SterileGrowthMedium, 1000)
+                .outputFluids(GTOMaterials.DragonBlood, 1000)
                 .EUt(480)
                 .duration(6000)
                 .cleanroom(GTOCleanroomType.LAW_CLEANROOM)

@@ -3,18 +3,20 @@ package com.gtocore.common.machine.multiblock.generator;
 import com.gtocore.common.machine.multiblock.part.InfiniteIntakeHatchPartMachine;
 
 import com.gtolib.api.machine.multiblock.ElectricMultiblockMachine;
-import com.gtolib.api.recipe.Recipe;
-import com.gtolib.api.recipe.modifier.ParallelLogic;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
-import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.gui.fancy.TooltipsPanel;
 import com.gregtechceu.gtceu.api.machine.ConditionalSubscriptionHandler;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableFluidTank;
-import com.gregtechceu.gtceu.api.transfer.fluid.IFluidHandlerModifiable;
+import com.gregtechceu.gtceu.api.recipe.GTRecipe;
+import com.gregtechceu.gtceu.api.recipe.handler.IO;
+import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
+import com.gregtechceu.gtceu.api.recipe.modifier.ParallelLogic;
+import com.gregtechceu.gtceu.api.transfer.fluid.ICustomFluidStackHandler;
+import com.gregtechceu.gtceu.api.transfer.item.ICustomItemStackHandler;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
 import net.minecraft.ChatFormatting;
@@ -24,9 +26,8 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.IFluidHandler;
-import net.minecraftforge.items.IItemHandlerModifiable;
 
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
+import com.gto.datasynclib.annotations.SaveToDisk;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -43,7 +44,7 @@ public final class CombustionEngineMachine extends ElectricMultiblockMachine {
     private final int tier;
     // runtime
     private boolean isOxygenBoosted;
-    @Persisted
+    @SaveToDisk
     private final NotifiableFluidTank tank;
     private final ConditionalSubscriptionHandler tankSubs;
 
@@ -56,23 +57,23 @@ public final class CombustionEngineMachine extends ElectricMultiblockMachine {
 
     @Override
     @Nullable
-    public IItemHandlerModifiable getItemHandlerCap(@Nullable Direction side, boolean useCoverCapability) {
+    public ICustomItemStackHandler getItemHandlerCap(@Nullable Direction side, boolean useCoverCapability) {
         return null;
     }
 
     @Override
     @Nullable
-    public IFluidHandlerModifiable getFluidHandlerCap(@Nullable Direction side, boolean useCoverCapability) {
+    public ICustomFluidStackHandler getFluidHandlerCap(@Nullable Direction side, boolean useCoverCapability) {
         return null;
     }
 
     private void intake() {
-        var fluid = InfiniteIntakeHatchPartMachine.AIR_MAP.get(getLevel().dimension().location());
+        var fluid = InfiniteIntakeHatchPartMachine.AIR_MAP.get(getLevel().dimension());
         if (fluid == null) {
             tankSubs.unsubscribe();
             return;
         }
-        tank.fillInternal(new FluidStack(fluid, (formedAmount * 8000) + 8000), IFluidHandler.FluidAction.EXECUTE);
+        tank.fillInternal(new FluidStack(fluid, (formedAmount * 8000 * 2) + 8000), IFluidHandler.FluidAction.EXECUTE);
         tankSubs.updateSubscription();
     }
 
@@ -114,19 +115,19 @@ public final class CombustionEngineMachine extends ElectricMultiblockMachine {
     //////////////////////////////////////
     @Override
     public long getOverclockVoltage() {
-        if (isOxygenBoosted) return GTValues.V[tier] << (2 + formedAmount);
-        else return GTValues.V[tier] << (1 + formedAmount);
+        if (isOxygenBoosted) return GTValues.V[tier] << (2 + formedAmount * 2);
+        else return GTValues.V[tier] << (1 + formedAmount * 2);
     }
 
     @Nullable
     @Override
-    protected Recipe getRealRecipe(Recipe recipe) {
+    protected GTRecipe getRealRecipe(RecipeHandlerUnit unit, GTRecipe recipe) {
         long EUt = recipe.getOutputEUt();
-        if (EUt > 0 && notConsumableFluid(LUBRICANT_STACK) && !isIntakesObstructed()) {
-            recipe = ParallelLogic.accurateContentParallel(this, recipe, getOverclockVoltage() / EUt);
+        if (EUt > 0 && unit.matchFluid(LUBRICANT_STACK) && !isIntakesObstructed()) {
+            recipe = ParallelLogic.accurateContentParallel(this, unit, recipe, getOverclockVoltage() / EUt);
             if (recipe == null) return null;
             if (isOxygenBoosted) {
-                recipe.setOutputEUt((long) (recipe.getOutputEUt() * (isExtreme() ? 2 : 1.5)));
+                recipe.setEUt(-((long) (recipe.getOutputEUt() * (isExtreme() ? 2 : 1.5))));
             }
             return recipe;
         }
@@ -134,8 +135,8 @@ public final class CombustionEngineMachine extends ElectricMultiblockMachine {
     }
 
     @Override
-    public boolean onWorking() {
-        if (!super.onWorking()) return false;
+    public boolean handleTickRecipe(GTRecipe recipe) {
+        if (!super.handleTickRecipe(recipe)) return false;
         long totalContinuousRunningTime = recipeLogic.getTotalContinuousRunningTime();
         if ((totalContinuousRunningTime == 1 || totalContinuousRunningTime % 72 == 0)) {
             if (!inputFluid(LUBRICANT_STACK)) {

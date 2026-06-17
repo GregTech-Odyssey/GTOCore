@@ -8,8 +8,8 @@ import com.gtolib.GTOCore;
 import com.gtolib.api.machine.MultiblockDefinition;
 import com.gtolib.utils.FileUtils;
 import com.gtolib.utils.ItemUtils;
-import com.gtolib.utils.RLUtils;
-import com.gtolib.utils.RegistriesUtils;
+import com.gtolib.utils.iostream.IOStreamDecoder;
+import com.gtolib.utils.iostream.IOStreamEncoder;
 
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
@@ -20,6 +20,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
+import net.minecraftforge.fml.loading.FMLLoader;
 
 import com.lowdragmc.lowdraglib.emi.ModularEmiRecipe;
 import com.lowdragmc.lowdraglib.emi.ModularForegroundRenderWidget;
@@ -28,7 +29,6 @@ import com.lowdragmc.lowdraglib.jei.ModularWrapper;
 import dev.emi.emi.api.recipe.EmiRecipeCategory;
 import dev.emi.emi.api.stack.EmiIngredient;
 import dev.emi.emi.api.stack.EmiStack;
-import dev.emi.emi.api.stack.ListEmiIngredient;
 import dev.emi.emi.api.widget.SlotWidget;
 import dev.emi.emi.api.widget.WidgetHolder;
 import it.unimi.dsi.fastutil.objects.ReferenceOpenHashSet;
@@ -58,10 +58,10 @@ public final class MultiblockInfoEmiRecipe extends ModularEmiRecipe<Widget> {
         super(() -> MULTIBLOCK);
         this.definition = definition;
         widget = () -> PatternPreview.getPatternWidget(this, definition);
-        Consumer<Collection<Item>> action = p -> inputs.add(new ListEmiIngredient(p.stream().map(EmiStack::of).toList(), 1));
+        Consumer<Collection<Item>> action = p -> inputs.add(EmiIngredient.of(p.stream().filter(Objects::nonNull).map(EmiStack::of).toList(), 1));
         var file = new File(GTOCore.getFile(), "cache/multiblock/" + definition.getName() + "_parts");
-        if (file.exists() && file.canRead()) {
-            FileUtils.loadFromFile(file, FileUtils.Deserialize.list(FileUtils.Deserialize.list(dis -> RegistriesUtils.getItem(RLUtils.SERIALIZER.deserialize(dis))))).forEach(action);
+        if (FMLLoader.isProduction() && file.exists() && file.canRead()) {
+            FileUtils.loadFromFile(file, IOStreamDecoder.list(IOStreamDecoder.list(ItemUtils.IO_CODEC))).forEach(action);
         } else {
             var pattern = definition.getPatternFactory().get();
             if (pattern != null && pattern.predicates != null) {
@@ -74,13 +74,13 @@ public final class MultiblockInfoEmiRecipe extends ModularEmiRecipe<Widget> {
                         Set<Item> items = new ReferenceOpenHashSet<>();
                         for (var itemStack : simplePredicate.getCandidates()) {
                             var item = itemStack.getItem();
-                            if (item == Items.AIR) continue;
+                            if (item == Items.AIR || item == Items.BARRIER) continue;
                             items.add(item);
                         }
                         if (items.size() > 1) parts.add(items);
                     }
                 }
-                FileUtils.saveToFile(parts, file, FileUtils.Serialize.collection(FileUtils.Serialize.collection((dos, obj) -> RLUtils.SERIALIZER.serialize(dos, ItemUtils.getIdLocation(obj)))));
+                if (FMLLoader.isProduction()) FileUtils.saveToFile(parts, file, IOStreamEncoder.collection(IOStreamEncoder.collection(ItemUtils.IO_CODEC)));
                 parts.forEach(action);
             }
         }
@@ -89,7 +89,9 @@ public final class MultiblockInfoEmiRecipe extends ModularEmiRecipe<Widget> {
 
     public List<EmiIngredient> getInputs(int i) {
         if (patterns != null && i >= 0 && patterns.length > i) {
-            return patterns[i].parts.stream().map(EmiStack::of).map(s -> (EmiIngredient) s).toList();
+            return patterns[i].parts.stream()
+                    .map(stack -> (EmiIngredient) EmiStack.of(stack))
+                    .toList();
         } else {
             return super.getInputs();
         }

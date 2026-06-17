@@ -24,6 +24,7 @@ import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 
+import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -31,6 +32,7 @@ import java.util.List;
 
 public class RewardBagItem extends Item {
 
+    @Getter
     private final ResourceLocation defaultLootTable;
 
     public RewardBagItem(Properties properties, ResourceLocation defaultLootTable) {

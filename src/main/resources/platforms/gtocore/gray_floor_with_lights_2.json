@@ -1,0 +1,23 @@
+{
+  " ": {
+    "id": "minecraft:air",
+    "properties": {}
+  },
+  "A": {
+    "id": "factory_blocks:hazard",
+    "properties": {}
+  },
+  "B": {
+    "id": "gtocore:abs_black_casing",
+    "properties": {}
+  },
+  "C": {
+    "id": "gtceu:gray_lamp",
+    "properties": {
+      "bloom": "true",
+      "inverted": "false",
+      "lit": "true",
+      "powered": "false"
+    }
+  }
+}

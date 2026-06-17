@@ -14,7 +14,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 
-import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
+import com.gto.datasynclib.annotations.SyncToClient;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -23,14 +23,12 @@ import java.util.List;
 
 public class MonitorCWU extends AbstractInfoProviderMonitor implements IOpticalComputationHatch {
 
-    @DescSynced
-    private long cwtTotal = 0;
-    @DescSynced
+    @SyncToClient
     private long cwtRequestable = 0;
-    @DescSynced
+    @SyncToClient
     boolean hasContainer = false;
     private long requestedCWUPerSec;
-    @DescSynced
+    @SyncToClient
     private long lastRequestedCWUt;
 
     protected final NotifiableComputationContainer computationContainer;
@@ -51,11 +49,6 @@ public class MonitorCWU extends AbstractInfoProviderMonitor implements IOpticalC
             this.requestedCWUPerSec += requestedCWUt;
         }
         return requestedCWUt;
-    }
-
-    @Override
-    public long getMaxCWU() {
-        return computationContainer.getMaxCWU();
     }
 
     @Override
@@ -80,8 +73,7 @@ public class MonitorCWU extends AbstractInfoProviderMonitor implements IOpticalC
         var infoList = super.provideInformation();
         infoList.addIfAbsent(
                 DisplayRegistry.COMPUTATION_WORK.id(),
-                Component.translatable("gtocore.machine.monitor.cwu.capacity",
-                        NumberFormat.getInstance().format(cwtTotal), NumberFormat.getInstance().format(cwtRequestable)).withStyle(ChatFormatting.GREEN).getVisualOrderText());
+                Component.translatable("gtocore.machine.monitor.cwu.capacity", NumberFormat.getInstance().format(cwtRequestable)).withStyle(ChatFormatting.GREEN).getVisualOrderText());
         infoList.addIfAbsent(
                 DisplayRegistry.COMPUTATION_WORK_USED.id(),
                 Component.translatable("gtocore.machine.monitor.cwu.used",
@@ -91,7 +83,6 @@ public class MonitorCWU extends AbstractInfoProviderMonitor implements IOpticalC
 
     @Override
     public void syncInfoFromServer() {
-        cwtTotal = getMaxCWU();
         cwtRequestable = requestCWU(Long.MAX_VALUE, true);
         hasContainer = true;
         this.lastRequestedCWUt = requestedCWUPerSec / 10;
@@ -108,7 +99,7 @@ public class MonitorCWU extends AbstractInfoProviderMonitor implements IOpticalC
 
     private class InnerComputationContainer extends NotifiableComputationContainer {
 
-        public InnerComputationContainer() {
+        InnerComputationContainer() {
             super(MonitorCWU.this, false);
         }
 

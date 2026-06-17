@@ -2,6 +2,7 @@ package com.gtocore.data;
 
 import com.gtocore.common.data.GTOLoots;
 import com.gtocore.common.data.GTOOres;
+import com.gtocore.common.data.GTORecipeDataKeys;
 import com.gtocore.common.data.GTORecipeTypes;
 import com.gtocore.data.recipe.*;
 import com.gtocore.data.recipe.ae2.AE2;
@@ -19,28 +20,25 @@ import com.gtocore.data.recipe.misc.ComponentRecipes;
 import com.gtocore.data.recipe.misc.SpaceStationRecipes;
 import com.gtocore.data.recipe.mod.*;
 import com.gtocore.data.recipe.processing.*;
-import com.gtocore.data.recipe.research.*;
+import com.gtocore.data.recipe.research.ResearchRecipes;
 import com.gtocore.data.transaction.data.GTOTrade;
 import com.gtocore.integration.emi.GTEMIRecipe;
+import com.gtocore.integration.emi.NanitesIntegratedProcessingEmiCategory;
 import com.gtocore.integration.emi.multipage.MultiblockInfoEmiRecipe;
 
 import com.gtolib.GTOCore;
 import com.gtolib.api.machine.MultiblockDefinition;
-import com.gtolib.api.recipe.Recipe;
 import com.gtolib.api.recipe.RecipeBuilder;
-import com.gtolib.api.recipe.ingredient.FastFluidIngredient;
 import com.gtolib.utils.GTOUtils;
 import com.gtolib.utils.RegistriesUtils;
 
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.data.chemical.material.ItemMaterialData;
-import com.gregtechceu.gtceu.api.data.chemical.material.properties.BlastProperty;
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
 import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.api.recipe.category.GTRecipeCategory;
 import com.gregtechceu.gtceu.api.registry.GTRegistries;
-import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import com.gregtechceu.gtceu.core.MixinHelpers;
 import com.gregtechceu.gtceu.data.recipe.MaterialInfoLoader;
@@ -49,17 +47,17 @@ import com.gregtechceu.gtceu.data.recipe.misc.StoneMachineRecipes;
 import com.gregtechceu.gtceu.data.recipe.misc.WoodMachineRecipes;
 import com.gregtechceu.gtceu.integration.emi.recipe.GTRecipeEMICategory;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.storage.loot.BuiltInLootTables;
 
 import com.google.common.collect.ImmutableSet;
+import com.gto.registrate.builders.BlockBuilder;
 import dev.emi.emi.api.recipe.EmiRecipe;
 import dev.emi.emi.api.recipe.EmiRecipeCategory;
 import dev.emi.emi.config.EmiConfig;
 import dev.emi.emi.config.SidebarSide;
 import dev.emi.emi.recipe.special.EmiRepairItemRecipe;
 import dev.shadowsoffire.placebo.loot.LootSystem;
-import me.jellysquid.mods.sodium.mixin.core.render.MinecraftAccessor;
+import lombok.Getter;
 
 import java.util.Collections;
 
@@ -67,9 +65,12 @@ import static com.gtocore.common.data.GTORecipes.EMI_RECIPES;
 
 public final class Data {
 
+    @Getter
+    private static Throwable throwable;
+
     public static void init() {
         if (GTCEu.isClientSide()) {
-            GTOUtils.startThread(Data::clientInit);
+            GTOUtils.asyncExecute(Data::clientInit);
         } else {
             commonInit();
         }
@@ -77,6 +78,8 @@ public final class Data {
 
     private static void commonInit() {
         long time = System.currentTimeMillis();
+        GTRegistries.ORE_VEINS.unfreeze();
+        GTRegistries.BEDROCK_ORE_DEFINITIONS.unfreeze();
         GTOOres.init();
         MeteoriteRecipe.init();
 
@@ -86,12 +89,6 @@ public final class Data {
         MaterialInfo.init();
         RecipeBuilder.initialization();
         RecipeFilter.init();
-
-        BlastProperty.GasTier.LOW.setFluid(() -> FastFluidIngredient.of(GTMaterials.Nitrogen.getFluid(1000)));
-        BlastProperty.GasTier.MID.setFluid(() -> FastFluidIngredient.of(GTMaterials.Helium.getFluid(100)));
-        BlastProperty.GasTier.HIGH.setFluid(() -> FastFluidIngredient.of(GTMaterials.Argon.getFluid(100)));
-        BlastProperty.GasTier.HIGHER.setFluid(() -> FastFluidIngredient.of(GTMaterials.Neon.getFluid(100)));
-        BlastProperty.GasTier.HIGHEST.setFluid(() -> FastFluidIngredient.of(GTMaterials.Krypton.getFluid(100)));
 
         ResearchRecipes.init();
 
@@ -152,7 +149,8 @@ public final class Data {
         ComputerCraft.init();
         ModularRouters.init();
         SuperFactoryManager.init();
-        Sophisticated.init();
+        Pipez.init();
+        Sophisticated.backpack();
         $ClassifiedRecipe.init();
         Temporary.init();
         if (GTCEu.isDev() || GTOCore.isEasy()) {
@@ -162,11 +160,15 @@ public final class Data {
         GenerateDisassembly.DISASSEMBLY_RECORD.clear();
         GenerateDisassembly.DISASSEMBLY_BLACKLIST.clear();
         RecyclingRecipes.init();
+
         ItemMaterialData.ITEM_MATERIAL_INFO.clear();
-        RecipeBuilder.clean();
+        RecipeBuilder.finish();
         LootSystem.defaultBlockTable(RegistriesUtils.getBlock("farmersrespite:kettle"));
-        GTOLoots.BLOCKS.forEach(b -> LootSystem.defaultBlockTable((Block) b));
-        GTOLoots.BLOCKS = null;
+        BlockBuilder.DEFAULT_LOOTS.forEach(b -> {
+            if (!b.getLootTable().equals(BuiltInLootTables.EMPTY)) {
+                LootSystem.defaultBlockTable(b);
+            }
+        });
         GTOLoots.init();
         MixinHelpers.registryGTDynamicTags();
 
@@ -176,8 +178,12 @@ public final class Data {
     }
 
     private static void clientInit() {
-        commonInit();
-        RecipeBuilder.RECIPE_MAP.values().forEach(recipe -> recipe.recipeCategory.addRecipe(recipe));
+        try {
+            commonInit();
+        } catch (Throwable t) {
+            throwable = t;
+        }
+        GTRegistries.RECIPE_TYPES.values().forEach(t -> t.recipes.values().forEach(recipe -> recipe.recipeCategory.addRecipe(recipe)));
         if (GTCEu.Mods.isEMILoaded()) {
             MultiblockDefinition.init();
             long time = System.currentTimeMillis();
@@ -189,8 +195,12 @@ public final class Data {
                 if (!category.shouldRegisterDisplays()) continue;
                 var type = category.getRecipeType();
                 if (category == type.getCategory()) type.buildRepresentativeRecipes();
+                if (type == GTORecipeTypes.NANITES_INTEGRATED_PROCESSING_CENTER_RECIPES) {
+                    addNanitesEmiRecipes(type, category, recipes);
+                    continue;
+                }
                 EmiRecipeCategory emiCategory = GTRecipeEMICategory.CATEGORIES.apply(category);
-                type.getRecipesInCategory(category).stream().map(recipe -> new GTEMIRecipe((Recipe) recipe, emiCategory)).forEach(recipes::add);
+                type.getRecipesInCategory(category).stream().map(recipe -> new GTEMIRecipe(recipe, emiCategory)).forEach(recipes::add);
             }
             for (MachineDefinition machine : GTRegistries.MACHINES.values()) {
                 if (machine instanceof MultiblockMachineDefinition definition && definition.isRenderXEIPreview()) {
@@ -209,10 +219,12 @@ public final class Data {
         }
     }
 
-    private static class Client {
-
-        private static void interrupt() {
-            ((MinecraftAccessor) Minecraft.getInstance()).embeddium$getGameThread().interrupt();
-        }
+    private static void addNanitesEmiRecipes(GTRecipeType type, GTRecipeCategory category, ImmutableSet.Builder<EmiRecipe> recipes) {
+        type.getRecipesInCategory(category).forEach(recipe -> {
+            var emiCategory = NanitesIntegratedProcessingEmiCategory.getCategory(recipe.data.getInt(GTORecipeDataKeys.MODULE));
+            if (emiCategory != null) {
+                recipes.add(new GTEMIRecipe(recipe, emiCategory));
+            }
+        });
     }
 }

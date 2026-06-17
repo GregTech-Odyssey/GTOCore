@@ -12,7 +12,7 @@ final class ElectromagneticSeparator {
 
     public static void init() {
         ELECTROMAGNETIC_SEPARATOR_RECIPES.recipeBuilder("graphene_oxide_dust")
-                .inputItems(GTOItems.GRAPHENE_IRON_PLATE.asItem())
+                .inputItems(GTOItems.GRAPHENE_IRON_PLATE)
                 .outputItems(TagPrefix.dust, GTOMaterials.GrapheneOxide, 9)
                 .outputItems(TagPrefix.dust, GTMaterials.Iron)
                 .EUt(30)

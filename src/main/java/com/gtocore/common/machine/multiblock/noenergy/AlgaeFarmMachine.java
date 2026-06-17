@@ -3,14 +3,13 @@ package com.gtocore.common.machine.multiblock.noenergy;
 import com.gtocore.common.data.GTOItems;
 
 import com.gtolib.api.machine.multiblock.NoEnergyMultiblockMachine;
-import com.gtolib.api.machine.trait.CustomRecipeLogic;
-import com.gtolib.api.recipe.Recipe;
 import com.gtolib.api.recipe.RecipeBuilder;
-import com.gtolib.api.recipe.RecipeRunner;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
-import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
+import com.gregtechceu.gtceu.api.recipe.GTRecipeDefinition;
+import com.gregtechceu.gtceu.api.recipe.handler.ICustomRecipeLogicHolder;
+import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
 import net.minecraft.world.item.Item;
@@ -19,13 +18,11 @@ import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraftforge.fluids.FluidStack;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import com.gto.datasynclib.util.holder.ObjHolder;
 
 import java.util.List;
-import java.util.concurrent.atomic.AtomicReference;
 
-public final class AlgaeFarmMachine extends NoEnergyMultiblockMachine {
+public final class AlgaeFarmMachine extends NoEnergyMultiblockMachine implements ICustomRecipeLogicHolder {
 
     private static final Fluid FERMENTEDBIOMASS = GTMaterials.FermentedBiomass.getFluid();
 
@@ -40,38 +37,35 @@ public final class AlgaeFarmMachine extends NoEnergyMultiblockMachine {
         super(holder);
     }
 
-    private Recipe getRecipe(ItemStack stack) {
+    private GTRecipeDefinition getRecipe(boolean raise, ItemStack stack) {
         RecipeBuilder builder = getRecipeBuilder().inputFluids(new FluidStack(Fluids.WATER, 100 * GTValues.RNG.nextInt(50) + 5000)).duration(200);
         builder.outputItems(stack);
-        Recipe recipe = builder.buildRawRecipe();
-        if (RecipeRunner.matchRecipe(this, recipe)) {
-            return recipe;
-        }
-        return null;
+        if (raise) builder.inputFluids(FERMENTEDBIOMASS, 10000);
+        return builder.build();
     }
 
-    @Nullable
-    private Recipe getRecipe() {
-        boolean raise = inputFluid(FERMENTEDBIOMASS, 10000);
+    @Override
+    public GTRecipeDefinition createCustomRecipe(RecipeHandlerUnit unit) {
+        boolean raise = unit.matchFluid(FERMENTEDBIOMASS, 10000);
         int amount = raise ? 10 : 1;
         amount = amount + GTValues.RNG.nextInt(9 * amount);
-        AtomicReference<Recipe> recipe = new AtomicReference<>();
+        ObjHolder<GTRecipeDefinition> recipe = new ObjHolder<>();
         int finalAmount = amount;
-        forEachInputItems((stack, a) -> {
+        unit.forEachItems(true, (stack, a) -> {
             if (ALGAES.contains(stack.getItem())) {
-                recipe.set(getRecipe(stack.copyWithCount((int) (finalAmount * Math.max(1, a / 4)))));
+                recipe.set(getRecipe(raise, stack.copyWithCount((int) (finalAmount * Math.max(1, a / 4)))));
                 return true;
             }
             return false;
         });
         if (recipe.get() == null) {
-            recipe.set(getRecipe(new ItemStack(ALGAES.get(GTValues.RNG.nextInt(5)), amount)));
+            recipe.set(getRecipe(raise, new ItemStack(ALGAES.get(GTValues.RNG.nextInt(5)), amount)));
         }
         return recipe.get();
     }
 
     @Override
-    public RecipeLogic createRecipeLogic(Object @NotNull... args) {
-        return new CustomRecipeLogic(this, this::getRecipe);
+    public boolean alwaysSearchRecipe() {
+        return true;
     }
 }

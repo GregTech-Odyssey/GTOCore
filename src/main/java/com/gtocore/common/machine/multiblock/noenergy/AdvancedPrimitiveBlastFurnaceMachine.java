@@ -1,16 +1,19 @@
 package com.gtocore.common.machine.multiblock.noenergy;
 
+import com.gtocore.api.pattern.GTOPredicates;
 import com.gtocore.common.data.GTODamageTypes;
 
 import com.gtolib.api.machine.multiblock.NoEnergyCustomParallelMultiblockMachine;
-import com.gtolib.api.recipe.Recipe;
-import com.gtolib.api.recipe.modifier.ParallelLogic;
-import com.gtolib.utils.FunctionContainer;
 import com.gtolib.utils.MachineUtils;
 
 import com.gregtechceu.gtceu.api.GTValues;
+import com.gregtechceu.gtceu.api.blockentity.ITickSubscription;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.ConditionalSubscriptionHandler;
+import com.gregtechceu.gtceu.api.machine.TickableSubscription;
+import com.gregtechceu.gtceu.api.recipe.GTRecipe;
+import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
+import com.gregtechceu.gtceu.api.recipe.modifier.ParallelLogic;
 import com.gregtechceu.gtceu.config.ConfigHolder;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 
@@ -27,8 +30,8 @@ import net.minecraft.world.phys.AABB;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
-import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
+import com.gto.datasynclib.annotations.SaveToDisk;
+import com.gto.datasynclib.annotations.SyncToClient;
 
 import java.util.List;
 
@@ -39,17 +42,18 @@ import javax.annotation.ParametersAreNonnullByDefault;
 @MethodsReturnNonnullByDefault
 public final class AdvancedPrimitiveBlastFurnaceMachine extends NoEnergyCustomParallelMultiblockMachine {
 
-    @DescSynced
+    @SyncToClient
     private BlockPos pos;
-    @DescSynced
+    @SyncToClient
     private int height;
-    @Persisted
+    @SaveToDisk
     private double duration = 1;
 
-    @Persisted
+    @SaveToDisk
     private int temperature = 298;
 
     private final ConditionalSubscriptionHandler tickSubs;
+    private TickableSubscription particleSubscription;
 
     public AdvancedPrimitiveBlastFurnaceMachine(MetaMachineBlockEntity holder) {
         super(holder, false, m -> (long) ((AdvancedPrimitiveBlastFurnaceMachine) m).height << 1);
@@ -57,12 +61,24 @@ public final class AdvancedPrimitiveBlastFurnaceMachine extends NoEnergyCustomPa
     }
 
     @Override
+    public void onStructureFormedClient() {
+        super.onStructureFormedClient();
+        particleSubscription = subscribeClientTick(particleSubscription, this::particleTick);
+    }
+
+    @Override
+    public void onStructureInvalidClient() {
+        super.onStructureInvalidClient();
+        particleSubscription = ITickSubscription.unsubscribe(particleSubscription);
+    }
+
+    @Override
     public void onStructureFormed() {
         super.onStructureFormed();
         height = 0;
-        FunctionContainer<Integer, ?> container = getMultiblockState().getMatchContext().get("SteelFrame");
+        var container = getMultiblockState().getMatchContext().get(GTOPredicates.DataKeys.STEEL_FRAME);
         if (container != null) {
-            height = container.getValue();
+            height = container;
         }
         pos = MachineUtils.getOffsetPos(7, getFrontFacing(), getPos());
         tickSubs.initialize(getLevel());
@@ -78,7 +94,7 @@ public final class AdvancedPrimitiveBlastFurnaceMachine extends NoEnergyCustomPa
     }
 
     @Override
-    public boolean onWorking() {
+    public void onWorking() {
         if (getOffsetTimer() % 40 == 0 && getLevel() != null) {
             var recipe = getRecipeLogic().getLastRecipe();
             if (recipe != null) {
@@ -98,15 +114,15 @@ public final class AdvancedPrimitiveBlastFurnaceMachine extends NoEnergyCustomPa
                 }
             }
         }
-        return super.onWorking();
+        super.onWorking();
     }
 
     @Override
     @Nullable
-    protected Recipe getRealRecipe(Recipe recipe) {
+    protected GTRecipe getRealRecipe(RecipeHandlerUnit unit, GTRecipe recipe) {
         double dm = Math.min(1, 400D / temperature);
         duration = dm;
-        recipe = ParallelLogic.accurateParallel(this, recipe, getParallel());
+        recipe = ParallelLogic.accurateParallel(this, unit, recipe, getParallel());
         if (recipe == null) return null;
         recipe.duration = (int) (recipe.duration * dm);
         return recipe;
@@ -126,10 +142,8 @@ public final class AdvancedPrimitiveBlastFurnaceMachine extends NoEnergyCustomPa
         textList.add(Component.translatable("gtocore.machine.total_time.duration", FormattingUtil.formatNumbers(duration)));
     }
 
-    @Override
     @OnlyIn(Dist.CLIENT)
-    public void clientTick() {
-        super.clientTick();
+    private void particleTick() {
         if (getRecipeLogic().isWorking() && pos != null && getLevel() != null) {
             BlockPos pos1 = MachineUtils.getOffsetPos(-1, 7 + height, getFrontFacing(), pos);
             var facing = getFrontFacing().getOpposite();

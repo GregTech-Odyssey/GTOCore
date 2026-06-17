@@ -14,7 +14,6 @@ import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.material.Fluid;
@@ -34,7 +33,7 @@ final class CosmosSimulation {
     public static void init() {
         COSMOS_SIMULATION_RECIPES.recipeBuilder("cosmos_simulation1")
                 .inputItems(GTOBlocks.QUANTUM_CHROMODYNAMIC_CHARGE.asItem(), 64)
-                .inputFluids(GTOMaterials.CosmicElement.getFluid(1024000))
+                .inputFluids(GTOMaterials.CosmicElement, 1024000)
                 .outputItems(TagPrefix.dust, GTMaterials.Carbon, 2147483)
                 .outputItems(TagPrefix.dust, GTMaterials.Phosphorus, 2147483)
                 .outputItems(TagPrefix.dust, GTMaterials.Sulfur, 2147483)
@@ -155,48 +154,48 @@ final class CosmosSimulation {
                 .outputItems(TagPrefix.dust, GTOMaterials.Taranium, 2147483)
                 .outputItems(TagPrefix.dust, GTOMaterials.Draconium, 2147483)
                 .outputItems(TagPrefix.dust, GTOMaterials.Starmetal, 2147483)
-                .outputFluids(GTOMaterials.SpaceTime.getFluid(256))
-                .outputFluids(GTOMaterials.StableBaryonicMatter.getFluid(21474836))
+                .outputFluids(GTOMaterials.SpaceTime, 256)
+                .outputFluids(GTOMaterials.StableBaryonicMatter, 21474836)
                 .outputFluids(GTOMaterials.QuarkGluon.getFluid(FluidStorageKeys.PLASMA, 21474836))
                 .outputFluids(GTOMaterials.HeavyQuarkDegenerateMatter.getFluid(FluidStorageKeys.PLASMA, 21474836))
-                .outputFluids(GTOMaterials.Neutron.getFluid(214748364))
-                .outputFluids(GTOMaterials.HeavyLeptonMixture.getFluid(214748364))
-                .outputFluids(GTMaterials.Hydrogen.getFluid(2147483647))
-                .outputFluids(GTMaterials.Nitrogen.getFluid(2147483647))
-                .outputFluids(GTMaterials.Oxygen.getFluid(2147483647))
-                .outputFluids(GTMaterials.Fluorine.getFluid(2147483647))
-                .outputFluids(GTMaterials.Chlorine.getFluid(2147483647))
-                .outputFluids(GTMaterials.Bromine.getFluid(2147483647))
-                .outputFluids(GTMaterials.Helium.getFluid(2147483647))
-                .outputFluids(GTMaterials.Neon.getFluid(2147483647))
-                .outputFluids(GTMaterials.Argon.getFluid(2147483647))
-                .outputFluids(GTMaterials.Krypton.getFluid(2147483647))
-                .outputFluids(GTMaterials.Xenon.getFluid(2147483647))
-                .outputFluids(GTMaterials.Radon.getFluid(2147483647))
-                .outputFluids(GTMaterials.Mercury.getFluid(2147483647))
-                .outputFluids(GTMaterials.Deuterium.getFluid(2147483647))
-                .outputFluids(GTMaterials.Tritium.getFluid(2147483647))
-                .outputFluids(GTMaterials.Helium3.getFluid(2147483647))
-                .outputFluids(GTOMaterials.UnknowWater.getFluid(2147483647))
-                .outputFluids(GTMaterials.UUMatter.getFluid(2147483647))
+                .outputFluids(GTOMaterials.Neutron, 214748364)
+                .outputFluids(GTOMaterials.HeavyLeptonMixture, 214748364)
+                .outputFluids(GTMaterials.Hydrogen, 2147483647)
+                .outputFluids(GTMaterials.Nitrogen, 2147483647)
+                .outputFluids(GTMaterials.Oxygen, 2147483647)
+                .outputFluids(GTMaterials.Fluorine, 2147483647)
+                .outputFluids(GTMaterials.Chlorine, 2147483647)
+                .outputFluids(GTMaterials.Bromine, 2147483647)
+                .outputFluids(GTMaterials.Helium, 2147483647)
+                .outputFluids(GTMaterials.Neon, 2147483647)
+                .outputFluids(GTMaterials.Argon, 2147483647)
+                .outputFluids(GTMaterials.Krypton, 2147483647)
+                .outputFluids(GTMaterials.Xenon, 2147483647)
+                .outputFluids(GTMaterials.Radon, 2147483647)
+                .outputFluids(GTMaterials.Mercury, 2147483647)
+                .outputFluids(GTMaterials.Deuterium, 2147483647)
+                .outputFluids(GTMaterials.Tritium, 2147483647)
+                .outputFluids(GTMaterials.Helium3, 2147483647)
+                .outputFluids(GTOMaterials.UnknowWater, 2147483647)
+                .outputFluids(GTMaterials.UUMatter, 2147483647)
                 .duration(12000)
-                .addData("tier", 10)
+                .addData(GTORecipeDataKeys.TIER, 10)
                 .save();
 
         Int2ObjectOpenHashMap<Reference2IntOpenHashMap<Material>> dustContent = new Int2ObjectOpenHashMap<>();
         Int2ObjectOpenHashMap<Reference2IntOpenHashMap<Fluid>> fluidContent = new Int2ObjectOpenHashMap<>();
 
         for (var entry : GTOOres.ALL_ORES.entrySet()) {
-            ResourceLocation dimension = entry.getKey();
-            if (dimension.equals(GTODimensions.THE_NETHER)) continue;
+            var dimension = entry.getKey();
+            if (dimension == GTODimensions.THE_NETHER) continue;
             int tier = GTODimensions.getTier(dimension);
             if (tier == 0) tier = 1;
             if (tier > 9) tier = 9;
             Reference2IntOpenHashMap<Material> materialMap = new Reference2IntOpenHashMap<>();
             Reference2IntOpenHashMap<Fluid> fluid = new Reference2IntOpenHashMap<>();
-            RecipeBuilder builder = COSMOS_SIMULATION_RECIPES.recipeBuilder(dimension.getPath())
-                    .addData("tier", tier)
-                    .inputFluids(GTOMaterials.CosmicElement.getFluid(1024000))
+            RecipeBuilder builder = COSMOS_SIMULATION_RECIPES.recipeBuilder(dimension.location().getPath())
+                    .addData(GTORecipeDataKeys.TIER, tier)
+                    .inputFluids(GTOMaterials.CosmicElement, 1024000)
                     .notConsumable(GTOItems.DIMENSION_DATA.get().getDimensionData(dimension));
 
             if (tier > 2) {
@@ -214,7 +213,7 @@ final class CosmosSimulation {
                     materialMap.merge(material.getKey(), (int) (Math.sqrt(material.getIntValue() << 20)) << 8, (a, b) -> (int) (a + b / 1.5));
                 }
             }
-            for (FluidStack fluidStack : GTOBedrockFluids.ALL_BEDROCK_FLUID.getOrDefault(GTODimensions.getDimensionKey(entry.getKey()), Collections.emptyList())) {
+            for (FluidStack fluidStack : GTOBedrockFluids.ALL_BEDROCK_FLUID.getOrDefault(entry.getKey(), Collections.emptyList())) {
                 fluid.merge(fluidStack.getFluid(), (int) Math.sqrt(fluidStack.getAmount() << 16) << 8, Integer::sum);
             }
             materialMap.putAll(dustContent.getOrDefault(tier, new Reference2IntOpenHashMap<>()));
@@ -225,9 +224,9 @@ final class CosmosSimulation {
                     dust.mergeInt(item, material.getIntValue(), Integer::sum);
                 }
             }
-            dust.reference2IntEntrySet().stream().sorted(Map.Entry.comparingByValue()).toList().forEach(e -> builder.outputItems(e.getKey(), e.getIntValue()));
+            dust.reference2IntEntrySet().stream().filter(e -> e.getIntValue() > 0).sorted(Map.Entry.comparingByValue()).toList().forEach(e -> builder.outputItems(e.getKey(), e.getIntValue()));
             fluid.putAll(fluidContent.getOrDefault(tier, new Reference2IntOpenHashMap<>()));
-            for (var content : fluid.reference2IntEntrySet().stream().sorted(Map.Entry.comparingByValue()).toList()) {
+            for (var content : fluid.reference2IntEntrySet().stream().filter(e -> e.getIntValue() > 0).sorted(Map.Entry.comparingByValue()).toList()) {
                 builder.outputFluids(new FluidStack(content.getKey(), content.getIntValue()));
             }
             builder.duration((int) Math.sqrt(tier * dust.size() << 16)).save();

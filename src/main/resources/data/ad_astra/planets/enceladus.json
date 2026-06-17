@@ -1,6 +1,6 @@
 {
   "dimension": "gtocore:enceladus",
-  "gravity":  4.214,
+  "gravity": 4.214,
   "orbit": "gtocore:enceladus_orbit",
   "oxygen": false,
   "solar_power": 11,

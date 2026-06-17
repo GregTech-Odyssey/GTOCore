@@ -253,7 +253,7 @@ public final class GCYMRecipes {
                 .inputItems(TagPrefix.dust, GTMaterials.Zinc)
                 .inputItems(TagPrefix.dust, GTMaterials.Iron, 4)
                 .circuitMeta(6)
-                .inputFluids(GTMaterials.Oxygen.getFluid(8000))
+                .inputFluids(GTMaterials.Oxygen, 8000)
                 .outputFluids(GTMaterials.NickelZincFerrite.getFluid(GTValues.L * 6))
                 .duration(2400 * 3 / 4)
                 .EUt(GTValues.VA[GTValues.MV])

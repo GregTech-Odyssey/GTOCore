@@ -12,11 +12,11 @@ import com.gtolib.utils.MultiBlockFileReader;
 
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
-import com.gregtechceu.gtceu.api.pattern.util.RelativeDirection;
 import com.gregtechceu.gtceu.common.data.GCYMBlocks;
 import com.gregtechceu.gtceu.common.data.GTBlocks;
 
-import static com.gregtechceu.gtceu.api.machine.multiblock.PartAbility.*;
+import static com.gregtechceu.gtceu.api.machine.multiblock.PartAbility.MAINTENANCE;
+import static com.gregtechceu.gtceu.api.machine.multiblock.PartAbility.OPTICAL_DATA_RECEPTION;
 import static com.gregtechceu.gtceu.api.pattern.Predicates.*;
 import static com.gtocore.utils.register.MachineRegisterUtils.multiblock;
 
@@ -32,8 +32,8 @@ public final class MultiBlockE {
             .laserTooltips()
             .multipleRecipesTooltips()
             .block(GCYMBlocks.CASING_LASER_SAFE_ENGRAVING)
-            .pattern(definition -> MultiBlockFileReader.start(definition, RelativeDirection.BACK, RelativeDirection.UP, RelativeDirection.RIGHT)
-                    .where('I', controller(blocks(definition.get())))
+            .pattern(definition -> MultiBlockFileReader.start(definition)
+                    .where('I', controller(definition))
                     .where('A', blocks(GTOBlocks.DIMENSIONALLY_TRANSCENDENT_CASING.get()))
                     .where('B', blocks(GTBlocks.FUSION_GLASS.get()))
                     .where('C', blocks(GTOBlocks.DIMENSION_INJECTION_CASING.get()))
@@ -44,8 +44,7 @@ public final class MultiBlockE {
                     .where('a', blocks(GCYMBlocks.CASING_LASER_SAFE_ENGRAVING.get())
                             .or(GTOPredicates.autoThreadLaserAbilities(definition.getRecipeTypes()))
                             .or(abilities(MAINTENANCE).setExactLimit(1))
-                            .or(abilities(OPTICAL_DATA_RECEPTION).setExactLimit(1))
-                            .or(abilities(COMPUTATION_DATA_RECEPTION).setExactLimit(1)))
+                            .or(abilities(OPTICAL_DATA_RECEPTION).setExactLimit(1)))
                     .where('H', heatingCoils())
                     .where(' ', any())
                     .build())
@@ -61,7 +60,7 @@ public final class MultiBlockE {
             .multipleRecipesTooltips()
             .block(GTOBlocks.MOLECULAR_CASING)
             .pattern(definition -> MultiBlockFileReader.start(definition)
-                    .where('~', controller(blocks(definition.get())))
+                    .where('~', controller(definition))
                     .where('A', blocks(GTOBlocks.MOLECULAR_CASING.get()))
                     .where('I', blocks(GTOBlocks.MOLECULAR_CASING.get())
                             .or(GTOPredicates.autoThreadLaserAbilities(definition.getRecipeTypes())))

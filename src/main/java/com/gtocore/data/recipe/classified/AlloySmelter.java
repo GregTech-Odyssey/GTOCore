@@ -11,35 +11,21 @@ import com.gregtechceu.gtceu.common.data.GTRecipeCategories;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Blocks;
 
-import com.enderio.base.common.init.EIOItems;
-
+import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.*;
+import static com.gregtechceu.gtceu.common.data.GTMaterials.EnderPearl;
+import static com.gregtechceu.gtceu.common.data.GTMaterials.Iron;
+import static com.gtocore.common.data.GTOMaterials.PulsatingAlloy;
 import static com.gtocore.common.data.GTORecipeTypes.ALLOY_SMELTER_RECIPES;
 
 final class AlloySmelter {
 
     public static void init() {
         ALLOY_SMELTER_RECIPES.builder("mica_insulator_sheet")
-                .inputItems(GTOItems.MICA_BASED_SHEET.asItem(), 5)
+                .inputItems(GTOItems.MICA_BASED_SHEET, 5)
                 .inputItems(TagPrefix.dust, GTMaterials.SiliconDioxide, 3)
-                .outputItems(GTOItems.MICA_INSULATOR_SHEET.asItem(), 5)
+                .outputItems(GTOItems.MICA_INSULATOR_SHEET, 5)
                 .EUt(30)
                 .duration(400)
-                .save();
-
-        ALLOY_SMELTER_RECIPES.recipeBuilder("vibrant_gear")
-                .inputItems(EIOItems.GEAR_ENERGIZED.asItem())
-                .inputItems(TagPrefix.ingot, GTOMaterials.VibrantAlloy, 4)
-                .outputItems(EIOItems.GEAR_VIBRANT.asItem())
-                .EUt(16)
-                .duration(160)
-                .save();
-
-        ALLOY_SMELTER_RECIPES.recipeBuilder("infinity_gear")
-                .inputItems(TagPrefix.gear, GTMaterials.Iron)
-                .inputItems(EIOItems.GRAINS_OF_INFINITY.asItem(), 2)
-                .outputItems(EIOItems.GEAR_IRON.asItem())
-                .EUt(16)
-                .duration(80)
                 .save();
 
         ALLOY_SMELTER_RECIPES.recipeBuilder("soularium_ingot")
@@ -48,14 +34,6 @@ final class AlloySmelter {
                 .outputItems(TagPrefix.ingot, GTOMaterials.Soularium)
                 .EUt(16)
                 .duration(200)
-                .save();
-
-        ALLOY_SMELTER_RECIPES.recipeBuilder("dark_bimetal_gear")
-                .inputItems(EIOItems.GEAR_IRON.asItem())
-                .inputItems(TagPrefix.ingot, GTOMaterials.DarkSteel, 4)
-                .outputItems(EIOItems.GEAR_DARK_STEEL.asItem())
-                .EUt(16)
-                .duration(160)
                 .save();
 
         ALLOY_SMELTER_RECIPES.recipeBuilder("netherite_ingot")
@@ -67,28 +45,28 @@ final class AlloySmelter {
                 .category(GTRecipeCategories.INGOT_MOLDING)
                 .save();
 
-        ALLOY_SMELTER_RECIPES.recipeBuilder("energetic_gear")
-                .inputItems(EIOItems.GEAR_IRON.asItem())
-                .inputItems(TagPrefix.ingot, GTOMaterials.EnergeticAlloy, 4)
-                .outputItems(EIOItems.GEAR_ENERGIZED.asItem())
-                .EUt(16)
-                .duration(120)
-                .save();
-
         ALLOY_SMELTER_RECIPES.builder("slime_ball")
-                .inputItems(GTItems.STICKY_RESIN.asItem())
+                .inputItems(GTItems.STICKY_RESIN)
                 .inputItems(Items.CACTUS.asItem())
                 .outputItems(Items.SLIME_BALL.asItem())
                 .EUt(16)
                 .duration(100)
                 .save();
 
-        ALLOY_SMELTER_RECIPES.builder("clayed_glowstone")
-                .inputItems(TagPrefix.dust, GTMaterials.Clay)
-                .inputItems(TagPrefix.dust, GTMaterials.Glowstone)
-                .outputItems("enderio:clayed_glowstone", 2)
-                .EUt(480)
-                .duration(200)
+        ALLOY_SMELTER_RECIPES.builder("pulsating_alloy_ingot")
+                .inputItems(dust, Iron)
+                .inputItems(gem, EnderPearl)
+                .outputItems(ingot, PulsatingAlloy)
+                .EUt(7)
+                .duration(100)
+                .save();
+
+        ALLOY_SMELTER_RECIPES.builder("pulsating_alloy_ingot1")
+                .inputItems(ingot, Iron)
+                .inputItems(gem, EnderPearl)
+                .outputItems(ingot, PulsatingAlloy)
+                .EUt(7)
+                .duration(100)
                 .save();
     }
 }

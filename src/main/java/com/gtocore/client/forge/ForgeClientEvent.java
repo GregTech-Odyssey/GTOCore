@@ -2,14 +2,19 @@ package com.gtocore.client.forge;
 
 import com.gtocore.client.ClientCache;
 import com.gtocore.client.GTOClientCommands;
+import com.gtocore.client.KeyBind;
 import com.gtocore.client.Tooltips;
+import com.gtocore.client.hud.HUDScreen;
 import com.gtocore.client.renderer.RenderHelper;
 import com.gtocore.common.data.GTOItems;
 import com.gtocore.common.item.StructureDetectBehavior;
 import com.gtocore.common.item.StructureWriteBehavior;
+import com.gtocore.common.machine.multiblock.part.ae.widget.slot.AEPatternViewSlotWidgetKt;
+import com.gtocore.common.saved.WirelessNetworkSavedData;
+import com.gtocore.integration.ae.wireless.WirelessClientHandler;
 
 import com.gtolib.GTOCore;
-import com.gtolib.IItem;
+import com.gtolib.api.item.IItem;
 import com.gtolib.api.player.IEnhancedPlayer;
 import com.gtolib.api.player.PlayerData;
 import com.gtolib.utils.ItemUtils;
@@ -34,8 +39,10 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.client.event.ClientPlayerNetworkEvent;
 import net.minecraftforge.client.event.RegisterClientCommandsEvent;
 import net.minecraftforge.client.event.RenderLevelStageEvent;
+import net.minecraftforge.client.event.ScreenEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -43,9 +50,14 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import com.fast.fastcollection.O2IOpenCacheHashMap;
 import com.hepdd.gtmthings.common.block.machine.electric.WirelessEnergyMonitor;
 import com.hepdd.gtmthings.data.CustomItems;
+import com.lowdragmc.lowdraglib.gui.modular.ModularUIGuiContainer;
+import com.mojang.blaze3d.platform.InputConstants;
 import com.mojang.blaze3d.vertex.PoseStack;
+import dev.emi.emi.screen.RecipeScreen;
+import org.lwjgl.glfw.GLFW;
 import snownee.jade.util.Color;
 
+import java.util.List;
 import java.util.Set;
 
 @OnlyIn(Dist.CLIENT)
@@ -106,18 +118,17 @@ public final class ForgeClientEvent {
                 event.getToolTip().add(Component.translatable("gtocore.tooltip.item." + ItemUtils.getIdLocation(item).getPath() + "." + i));
             }
         } else {
-            String[] tooltips = Tooltips.TOOL_TIPS_KEY_MAP.get(item);
-            if (tooltips != null) {
-                if (tooltips.length == 1) event.getToolTip().add(Component.translatable(tooltips[0]));
-                else event.getToolTip().add(Component.translatable(tooltips[0], tooltips[1]));
-            }
+            List<Component> tooltips = Tooltips.TOOL_TIPS_KEY_MAP.get(item);
+            if (tooltips != null) event.getToolTip().addAll(tooltips);
         }
     }
 
     @SubscribeEvent
     public static void onClientTick(TickEvent.ClientTickEvent event) {
         if (event.phase != TickEvent.Phase.START) return;
-        if (Minecraft.getInstance().player instanceof IEnhancedPlayer) {
+        Minecraft mc = Minecraft.getInstance();
+        updateHudScreen(mc);
+        if (mc.player instanceof IEnhancedPlayer) {
             boolean isShiftDown = Screen.hasShiftDown();
             if (isShiftDown != lastShiftState) {
                 PlayerData.SHIFT_KEY.send(buf -> buf.writeBoolean(isShiftDown));
@@ -152,11 +163,14 @@ public final class ForgeClientEvent {
             }
             ItemStack itemStack = player.getMainHandItem();
             Item item = itemStack.getItem();
+            if (WirelessClientHandler.shouldHighlight()) {
+                WirelessClientHandler.highlightMachines(camera, poseStack, event.getLevelRenderer().renderBuffers.bufferSource());
+            }
             if (item != Items.AIR && itemStack.hasTag()) {
                 if (GTCEu.isDev() && StructureWriteBehavior.isItem(itemStack)) {
                     poses = StructureWriteBehavior.getPos(itemStack);
                     if (poses != null) {
-                        RenderHelper.highlightBlock(camera, poseStack, 0, 0, 1, poses);
+                        RenderHelper.highlightBlock(camera, poseStack, 0, 0, 1, poses[0], poses[1]);
                     }
                 } else if (StructureDetectBehavior.isItem(itemStack)) {
                     poses = StructureDetectBehavior.getPos(itemStack);
@@ -178,7 +192,7 @@ public final class ForgeClientEvent {
                         RenderHelper.highlightBlock(camera, poseStack, color.getRed() / 255f, color.getGreen() / 255f, color.getBlue() / 255f, entry.getKey().start, entry.getKey().end);
                     });
             if (ClientCache.machineNotFormedHighlight) {
-                ((ILevel) level).gtceu$getHighlightCache().forEach(p -> {
+                ILevel.getHighlightCache(level).forEach(p -> {
                     var pos = BlockPos.of(p);
                     RenderHelper.highlightBlock(camera, poseStack, 1, 0.1f, 0.1f, pos, pos);
                 });
@@ -187,8 +201,36 @@ public final class ForgeClientEvent {
     }
 
     @SubscribeEvent
+    public static void onScreenClosing(ScreenEvent.Closing event) {
+        if (event.getScreen() instanceof ModularUIGuiContainer gui) {
+            var p = gui.getMenu().getModularUI().getFlatWidgetCollection().stream()
+                    .filter(AEPatternViewSlotWidgetKt.class::isInstance)
+                    .map(AEPatternViewSlotWidgetKt.class::cast)
+                    .filter(AEPatternViewSlotWidgetKt::emiFlagFilter)
+                    .findFirst();
+            p.ifPresent(AEPatternViewSlotWidgetKt::onDestroy);
+        }
+    }
+
+    @SubscribeEvent
+    public static void onScreenOpening(ScreenEvent.Opening event) {
+        if (event.getCurrentScreen() instanceof ModularUIGuiContainer gui &&
+                event.getNewScreen() instanceof RecipeScreen) {
+            gui.getMenu().getModularUI().getFlatWidgetCollection().stream()
+                    .filter(AEPatternViewSlotWidgetKt.class::isInstance)
+                    .map(AEPatternViewSlotWidgetKt.class::cast)
+                    .forEach(a -> a.setEmiFlag(true));
+        }
+    }
+
+    @SubscribeEvent
     public static void registerCommands(RegisterClientCommandsEvent evt) {
         GTOClientCommands.init(evt.getDispatcher());
+    }
+
+    @SubscribeEvent
+    public static void onClientDisconnect(ClientPlayerNetworkEvent.LoggingOut event) {
+        WirelessNetworkSavedData.setCLIENT_INSTANCE(new WirelessNetworkSavedData());
     }
 
     /**
@@ -226,4 +268,31 @@ public final class ForgeClientEvent {
     }
 
     public record HighlightNeed(BlockPos start, BlockPos end, int color) {}
+
+    private static void updateHudScreen(Minecraft mc) {
+        boolean keyDown = isMovableHudTogglePhysicallyDown(mc);
+        boolean inGame = mc.level != null && mc.player != null;
+        if (mc.screen instanceof HUDScreen) {
+            if (!keyDown || !inGame) {
+                mc.setScreen(null);
+            }
+            return;
+        }
+        if (keyDown && inGame && mc.screen == null) {
+            mc.setScreen(new HUDScreen());
+        }
+    }
+
+    private static boolean isMovableHudTogglePhysicallyDown(Minecraft mc) {
+        var key = KeyBind.movableHudToggle.getKey();
+        long window = mc.getWindow().getWindow();
+        if (key == InputConstants.UNKNOWN) {
+            return false;
+        }
+        return switch (key.getType()) {
+            case KEYSYM -> InputConstants.isKeyDown(window, key.getValue());
+            case MOUSE -> GLFW.glfwGetMouseButton(window, key.getValue()) == GLFW.GLFW_PRESS;
+            case SCANCODE -> KeyBind.movableHudToggle.isDown();
+        };
+    }
 }

@@ -11,9 +11,8 @@ import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.Level;
 
-import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import com.lowdragmc.lowdraglib.syncdata.annotation.RequireRerender;
+import com.gto.datasynclib.annotations.SaveToDisk;
+import com.gto.datasynclib.annotations.SyncToClient;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -21,9 +20,8 @@ public final class HeaterMachine extends SimpleNoEnergyMachine implements IHeate
 
     public static final int MaxTemperature = 800;
 
-    @Persisted
-    @DescSynced
-    @RequireRerender
+    @SaveToDisk
+    @SyncToClient(notifyUpdate = true)
     private int temperature = 293;
     private TickableSubscription tickSubs;
 
@@ -79,12 +77,9 @@ public final class HeaterMachine extends SimpleNoEnergyMachine implements IHeate
     }
 
     @Override
-    public boolean onWorking() {
-        if (super.onWorking()) {
-            if (getOffsetTimer() % 10 == 0) raiseTemperature(1);
-            return true;
-        }
-        return false;
+    public void onWorking() {
+        super.onWorking();
+        if (getOffsetTimer() % 10 == 0) raiseTemperature(1);
     }
 
     @Override

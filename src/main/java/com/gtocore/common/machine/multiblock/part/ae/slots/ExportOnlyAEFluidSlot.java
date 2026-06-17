@@ -2,25 +2,24 @@ package com.gtocore.common.machine.multiblock.part.ae.slots;
 
 import com.gtolib.utils.MathUtil;
 
-import com.gregtechceu.gtceu.api.transfer.fluid.IFluidHandlerModifiable;
 import com.gregtechceu.gtceu.utils.GTMath;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.IFluidTank;
+import net.minecraftforge.fluids.capability.IFluidHandler;
 
 import appeng.api.stacks.AEFluidKey;
 import appeng.api.stacks.GenericStack;
-import org.jetbrains.annotations.NotNull;
+
 import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
 @MethodsReturnNonnullByDefault
 @ParametersAreNonnullByDefault
-public class ExportOnlyAEFluidSlot extends ExportOnlyAESlot implements IFluidHandlerModifiable, IFluidTank {
+public class ExportOnlyAEFluidSlot extends ExportOnlyAESlot implements IFluidHandler {
 
-    FluidStack stack = null;
+    FluidStack forgeStock = null;
 
     public ExportOnlyAEFluidSlot() {
         super();
@@ -34,11 +33,11 @@ public class ExportOnlyAEFluidSlot extends ExportOnlyAESlot implements IFluidHan
     public void addStack(GenericStack stack) {
         if (this.stock == null) {
             this.stock = stack;
-            this.stack = null;
+            this.forgeStock = null;
         } else {
             this.stock = GenericStack.sum(this.stock, stack);
-            if (this.stack != null) {
-                this.stack.setAmount(MathUtil.saturatedCast(this.stack.getAmount() + stack.amount()));
+            if (this.forgeStock != null) {
+                this.forgeStock.setAmount(MathUtil.saturatedCast(this.forgeStock.getAmount() + stack.amount()));
             }
         }
         onContentsChanged();
@@ -54,7 +53,7 @@ public class ExportOnlyAEFluidSlot extends ExportOnlyAESlot implements IFluidHan
             if (stack.equals(stock)) return;
             this.stock = stack;
         }
-        this.stack = null;
+        this.forgeStock = null;
         onContentsChanged();
     }
 
@@ -65,29 +64,12 @@ public class ExportOnlyAEFluidSlot extends ExportOnlyAESlot implements IFluidHan
         return FluidStack.EMPTY;
     }
 
-    @Override
-    public FluidStack getFluid() {
+    public FluidStack getStack() {
         if (this.stock != null && this.stock.what() instanceof AEFluidKey fluidKey) {
-            if (stack == null) stack = fluidKey.toStack(GTMath.saturatedCast(this.stock.amount()));
-            return stack;
+            if (forgeStock == null) forgeStock = fluidKey.toStack(GTMath.saturatedCast(this.stock.amount()));
+            return forgeStock;
         }
         return FluidStack.EMPTY;
-    }
-
-    @Override
-    public boolean isFluidValid(FluidStack stack) {
-        return false;
-    }
-
-    @Override
-    public int getFluidAmount() {
-        return this.stock != null ? GTMath.saturatedCast(this.stock.amount()) : 0;
-    }
-
-    @Override
-    public int getCapacity() {
-        // Its capacity is always 0.
-        return 0;
     }
 
     @Override
@@ -97,11 +79,8 @@ public class ExportOnlyAEFluidSlot extends ExportOnlyAESlot implements IFluidHan
 
     @Override
     public FluidStack getFluidInTank(int tank) {
-        return getFluid();
+        return getStack();
     }
-
-    @Override
-    public void setFluidInTank(int tank, FluidStack stack) {}
 
     @Override
     public int getTankCapacity(int tank) {
@@ -109,7 +88,7 @@ public class ExportOnlyAEFluidSlot extends ExportOnlyAESlot implements IFluidHan
     }
 
     @Override
-    public boolean isFluidValid(int tank, @NotNull FluidStack stack) {
+    public boolean isFluidValid(int tank, FluidStack stack) {
         return false;
     }
 
@@ -118,12 +97,7 @@ public class ExportOnlyAEFluidSlot extends ExportOnlyAESlot implements IFluidHan
         return 0;
     }
 
-    @Override
-    public boolean supportsFill(int tank) {
-        return false;
-    }
-
-    public long drain(long amount, boolean simulate, boolean notify) {
+    public long extract(long amount, boolean simulate, boolean notify) {
         if (this.stock == null || !(this.stock.what() instanceof AEFluidKey)) {
             return 0;
         }
@@ -132,8 +106,8 @@ public class ExportOnlyAEFluidSlot extends ExportOnlyAESlot implements IFluidHan
             this.stock = new GenericStack(this.stock.what(), this.stock.amount() - drained);
             if (this.stock.amount() == 0) {
                 this.stock = null;
-                stack = null;
-            } else if (stack != null) stack.setAmount(MathUtil.saturatedCast(stock.amount()));
+                forgeStock = null;
+            } else if (forgeStock != null) forgeStock.setAmount(MathUtil.saturatedCast(stock.amount()));
             if (notify) onContentsChanged();
         }
         return drained;
@@ -141,7 +115,7 @@ public class ExportOnlyAEFluidSlot extends ExportOnlyAESlot implements IFluidHan
 
     @Override
     public FluidStack drain(FluidStack resource, FluidAction action) {
-        if (this.getFluid().isFluidEqual(resource)) {
+        if (this.getStack().isFluidEqual(resource)) {
             return this.drain(resource.getAmount(), action);
         }
         return FluidStack.EMPTY;
@@ -158,16 +132,11 @@ public class ExportOnlyAEFluidSlot extends ExportOnlyAESlot implements IFluidHan
             this.stock = new GenericStack(this.stock.what(), this.stock.amount() - drained);
             if (this.stock.amount() == 0) {
                 this.stock = null;
-                stack = null;
-            } else if (stack != null) stack.setAmount(MathUtil.saturatedCast(stock.amount()));
+                forgeStock = null;
+            } else if (forgeStock != null) forgeStock.setAmount(MathUtil.saturatedCast(stock.amount()));
             onContentsChanged();
         }
         return result;
-    }
-
-    @Override
-    public boolean supportsDrain(int tank) {
-        return tank == 0;
     }
 
     @Override

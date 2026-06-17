@@ -64,7 +64,7 @@ public class ExResearchPartRenderer extends TieredHullMachineRenderer {
         super.renderMachine(quads, definition, machine, frontFacing, side, rand, modelFacing, modelState);
         if (machine instanceof ExResearchBasePartMachine hpcaComponent) {
             ResourceLocation texture, emissiveTexture = null;
-            var controller = hpcaComponent.isFormed() ? hpcaComponent.getControllers().first() : null;
+            var controller = hpcaComponent.isFormed() ? hpcaComponent.getController() : null;
             if (controller != null && (controller instanceof IWorkable workable && workable.isActive())) {
                 if (hpcaComponent.isDamaged()) {
                     texture = damagedActiveTexture;

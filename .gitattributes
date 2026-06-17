@@ -1,0 +1,20 @@
+# Auto detect text files and normalize to LF
+* text=auto eol=lf
+
+# Ensure these are always LF
+*.java text eol=lf
+*.kt text eol=lf
+*.json text eol=lf
+*.gradle text eol=lf
+*.properties text eol=lf
+*.xml text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
+*.md text eol=lf
+*.txt text eol=lf
+
+# Binary files
+*.png binary
+*.jpg binary
+*.jar binary
+*.ogg binary

@@ -15,19 +15,18 @@ import com.gregtechceu.gtceu.api.gui.widget.SlotWidget;
 import com.gregtechceu.gtceu.api.machine.SimpleTieredMachine;
 import com.gregtechceu.gtceu.api.machine.TickableSubscription;
 import com.gregtechceu.gtceu.api.machine.feature.IDataInfoProvider;
-import com.gregtechceu.gtceu.api.machine.feature.IFancyUIMachine;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.api.transfer.item.CustomItemStackHandler;
 import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.data.machines.GTMachineUtils;
 import com.gregtechceu.gtceu.common.item.PortableScannerBehavior;
+import com.gregtechceu.gtceu.utils.TaskHandler;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
-import net.minecraft.server.TickTask;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -36,14 +35,13 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
 
+import com.gto.datasynclib.annotations.SaveToDisk;
+import com.gto.datasynclib.annotations.SyncToClient;
 import com.hepdd.gtmthings.api.gui.widget.SimpleNumberInputWidget;
 import com.lowdragmc.lowdraglib.gui.texture.TextTexture;
 import com.lowdragmc.lowdraglib.gui.util.ClickData;
 import com.lowdragmc.lowdraglib.gui.widget.*;
-import com.lowdragmc.lowdraglib.side.item.ItemTransferHelper;
 import com.lowdragmc.lowdraglib.syncdata.ISubscription;
-import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.mojang.blaze3d.MethodsReturnNonnullByDefault;
 import lombok.Getter;
 import lombok.Setter;
@@ -57,11 +55,11 @@ import javax.annotation.ParametersAreNonnullByDefault;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public class SingleDigitalMiner extends SimpleTieredMachine implements IDigitalMiner, IFancyUIMachine, IDataInfoProvider {
+public class SingleDigitalMiner extends SimpleTieredMachine implements IDigitalMiner, IDataInfoProvider {
     // modify from gtmt
 
     private static final int BORDER_WIDTH = 3;
-    @Persisted
+    @SaveToDisk
     protected final CustomItemStackHandler filterInventory;
     private final int maximumRadius;
     @Nullable
@@ -78,18 +76,18 @@ public class SingleDigitalMiner extends SimpleTieredMachine implements IDigitalM
     // miner property
     @Getter
     @Setter
-    @Persisted
-    @DescSynced
+    @SaveToDisk
+    @SyncToClient
     private int minerRadius;
     @Getter
     @Setter
-    @Persisted
-    @DescSynced
+    @SaveToDisk
+    @SyncToClient
     private int minHeight;
     @Getter
     @Setter
-    @Persisted
-    @DescSynced
+    @SaveToDisk
+    @SyncToClient
     private int maxHeight;
     private int silkLevel;
 
@@ -154,7 +152,7 @@ public class SingleDigitalMiner extends SimpleTieredMachine implements IDigitalM
         if (!isRemote()) {
             filterChange();
             if (getLevel() instanceof ServerLevel serverLevel) {
-                serverLevel.getServer().tell(new TickTask(0, this::updateAutoOutputSubscription));
+                TaskHandler.enqueueTask(serverLevel, this::updateAutoOutputSubscription);
             }
             exportItemSubs = exportItems.addChangedListener(this::updateAutoOutputSubscription);
         }
@@ -179,9 +177,7 @@ public class SingleDigitalMiner extends SimpleTieredMachine implements IDigitalM
 
     /// ///////////////////////////////////
     protected void updateAutoOutputSubscription() {
-        var outputFacingItems = getFrontFacing();
-        if (!exportItems.isEmpty() && ItemTransferHelper.getItemTransfer(getLevel(),
-                getPos().relative(outputFacingItems), outputFacingItems.getOpposite()) != null) {
+        if (!exportItems.isEmpty() && blockEntityDirectionCache.hasAdjacentItemHandler(getLevel(), getPos(), getFrontFacing())) {
             autoOutputSubs = subscribeServerTick(autoOutputSubs, this::autoOutput, 20);
         } else if (autoOutputSubs != null) {
             autoOutputSubs.unsubscribe();
@@ -242,33 +238,33 @@ public class SingleDigitalMiner extends SimpleTieredMachine implements IDigitalM
         group.addWidget(filterSlot);
 
         // Radius
-        group.addWidget(new LabelWidget(99, 26, "水平范围:"));
-        group.addWidget(new SimpleNumberInputWidget(140, 24, 24, 12, this::getMinerRadius, this::setMinerRadius)
+        group.addWidget(new LabelWidget(99, 26, "gtocore.digital_miner.x_radial_length"));
+        group.addWidget(new SimpleNumberInputWidget(150, 24, 24, 12, this::getMinerRadius, this::setMinerRadius)
                 .setMin(1).setMax((int) (8 * Math.pow(2, getTier()))));
 
         // Min height
-        group.addWidget(new LabelWidget(99, 44, "最小高度:"));
-        group.addWidget(new SimpleNumberInputWidget(140, 42, 24, 12, this::getMinHeight, this::setMinHeight)
+        group.addWidget(new LabelWidget(99, 44, "gtocore.digital_miner.min_height"));
+        group.addWidget(new SimpleNumberInputWidget(150, 42, 24, 12, this::getMinHeight, this::setMinHeight)
                 .setMin(getLevel().getMinBuildHeight()).setMax(getLevel().getMaxBuildHeight()));
 
         // Max height
-        group.addWidget(new LabelWidget(99, 62, "最大高度:"));
-        group.addWidget(new SimpleNumberInputWidget(140, 60, 24, 12, this::getMaxHeight, this::setMaxHeight)
+        group.addWidget(new LabelWidget(99, 62, "gtocore.digital_miner.max_height"));
+        group.addWidget(new SimpleNumberInputWidget(150, 60, 24, 12, this::getMaxHeight, this::setMaxHeight)
                 .setMin(getLevel().getMinBuildHeight()).setMax(getLevel().getMaxBuildHeight()));
 
         // reset button
         this.resetButton = new ButtonWidget(16, 46 + BORDER_WIDTH, 18, 16 - BORDER_WIDTH,
-                new TextTexture("重置").setDropShadow(false).setColor(ChatFormatting.GRAY.getColor()), this::reset);
-        this.resetButton.setHoverTooltips(Component.literal("修改配置后必须重置才能生效。"));
+                new TextTexture("gtocore.digital_miner.reset").setDropShadow(false).setColor(ChatFormatting.GRAY.getColor()), this::reset);
+        this.resetButton.setHoverTooltips(Component.translatable("gtocore.digital_miner.reset.tooltip"));
         group.addWidget(this.resetButton);
 
         // silk button
         this.silkButton = new ButtonWidget(36, 46 + BORDER_WIDTH, 18, 16 - BORDER_WIDTH,
-                new TextTexture("精准")
+                new TextTexture("gtocore.digital_miner.silk")
                         .setDropShadow(false)
                         .setColor(silkLevel == 0 ? ChatFormatting.GRAY.getColor() : ChatFormatting.GREEN.getColor()),
                 this::setSilk);
-        this.silkButton.setHoverTooltips(Component.literal("开启精准采集模式，4倍耗电。"));
+        this.silkButton.setHoverTooltips(Component.translatable("gtocore.digital_miner.silk.tooltip"));
         group.addWidget(this.silkButton);
 
         return group;
@@ -293,18 +289,18 @@ public class SingleDigitalMiner extends SimpleTieredMachine implements IDigitalM
     private void setSilk(ClickData clickData) {
         if (silkLevel == 0) {
             silkLevel = 1;
-            this.silkButton.setButtonTexture(new TextTexture("精准").setDropShadow(false).setColor(ChatFormatting.GREEN.getColor()));
+            this.silkButton.setButtonTexture(new TextTexture("gtocore.digital_miner.silk").setDropShadow(false).setColor(ChatFormatting.GREEN.getColor()));
             energyPerTick = GTValues.VEX[getTier() - 1] * 4;
         } else {
             silkLevel = 0;
-            this.silkButton.setButtonTexture(new TextTexture("精准").setDropShadow(false).setColor(ChatFormatting.GRAY.getColor()));
+            this.silkButton.setButtonTexture(new TextTexture("gtocore.digital_miner.silk").setDropShadow(false).setColor(ChatFormatting.GRAY.getColor()));
             energyPerTick = GTValues.VEX[getTier() - 1];
         }
         resetRecipe();
     }
 
     private void addDisplayText(List<Component> textList) {
-        textList.add(Component.literal("挖掘: ").append(String.valueOf(getRecipeLogic().getOreAmount())));
+        textList.add(Component.translatable("gtocore.digital_miner.to_be_mined").append(String.valueOf(getRecipeLogic().getOreAmount())));
         if (getRecipeLogic().isDone())
             textList.add(Component.translatable("gtceu.multiblock.large_miner.done")
                     .setStyle(Style.EMPTY.withColor(ChatFormatting.GREEN)));
@@ -335,9 +331,9 @@ public class SingleDigitalMiner extends SimpleTieredMachine implements IDigitalM
             if (currentRadius == 1)
                 minerRadius = this.maximumRadius;
             else if (playerIn.isShiftKeyDown())
-                setMinerRadius(Math.max(1, Math.round(currentRadius / 2.0f)));
+                minerRadius = Math.max(1, Math.round(currentRadius / 2.0f));
             else
-                setMinerRadius(Math.max(1, currentRadius - 1));
+                minerRadius = Math.max(1, currentRadius - 1);
 
             getRecipeLogic().resetArea(true);
 
@@ -377,8 +373,8 @@ public class SingleDigitalMiner extends SimpleTieredMachine implements IDigitalM
                             return;
                         }
                         need = new ForgeClientEvent.HighlightNeed(
-                                getPos().east(getMinerRadius()).north(getMinerRadius()).atY(getMaxHeight()),
-                                getPos().west(getMinerRadius()).south(getMinerRadius()).atY(getMinHeight()),
+                                getPos().east(minerRadius).north(minerRadius).atY(maxHeight),
+                                getPos().west(minerRadius).south(minerRadius).atY(minHeight),
                                 ChatFormatting.WHITE.getColor());
                         ForgeClientEvent.CUstomHighlightNeeds.computeIfAbsent(
                                 need, k -> 20 * 10);

@@ -20,15 +20,15 @@ final class Packer {
 
     public static void init() {
         PACKER_RECIPES.recipeBuilder("zero_point_module")
-                .inputItems(GTOItems.ZERO_POINT_MODULE_FRAGMENTS.asItem(), 64)
-                .outputItems(GTItems.ZERO_POINT_MODULE.asItem())
+                .inputItems(GTOItems.ZERO_POINT_MODULE_FRAGMENTS, 64)
+                .outputItems(GTItems.ZERO_POINT_MODULE)
                 .EUt(120)
                 .duration(2000)
                 .save();
 
         PACKER_RECIPES.recipeBuilder("scrap_box")
-                .inputItems(GTOItems.SCRAP.asItem(), 9)
-                .outputItems(GTOItems.SCRAP_BOX.asItem())
+                .inputItems(GTOItems.SCRAP, 9)
+                .outputItems(GTOItems.SCRAP_BOX)
                 .EUt(12)
                 .duration(200)
                 .save();

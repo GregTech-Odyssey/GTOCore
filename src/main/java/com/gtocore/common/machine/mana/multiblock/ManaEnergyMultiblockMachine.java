@@ -1,11 +1,12 @@
 package com.gtocore.common.machine.mana.multiblock;
 
 import com.gtolib.api.machine.mana.feature.IManaEnergyMachine;
-import com.gtolib.api.recipe.Recipe;
-import com.gtolib.api.recipe.modifier.RecipeModifierFunction;
+import com.gtolib.api.recipe.GTORecipeModifiers;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.IEnergyContainer;
+import com.gregtechceu.gtceu.api.recipe.GTRecipe;
+import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -32,20 +33,20 @@ public class ManaEnergyMultiblockMachine extends ManaMultiblockMachine implement
 
     @Override
     @Nullable
-    protected Recipe getRealRecipe(@NotNull Recipe recipe) {
-        recipe = super.getRealRecipe(recipe);
+    public GTRecipe getRealRecipe(@NotNull RecipeHandlerUnit unit, @NotNull GTRecipe recipe) {
+        recipe = super.getRealRecipe(unit, recipe);
         if (recipe == null) return null;
         long eu = recipe.getInputEUt();
         if (eu > 0) {
-            recipe = RecipeModifierFunction.externalEnergyOverclocking(this, recipe, eu, getManaContainer().getMaxIORate(), true, 1, 1);
+            recipe = GTORecipeModifiers.externalEnergyOverclocking(this, unit, recipe, eu, getManaContainer().getMaxIORate(), true, 1, 1);
             return recipe;
         } else {
-            return RecipeModifierFunction.manaOverclocking(this, recipe, getManaContainer().getMaxIORate());
+            return GTORecipeModifiers.manaOverclocking(this, unit, recipe, getManaContainer().getMaxIORate());
         }
     }
 
     @Override
-    public @NotNull IEnergyContainer gtolib$getEnergyContainer() {
+    public @NotNull IEnergyContainer getEnergyContainer() {
         return container;
     }
 }

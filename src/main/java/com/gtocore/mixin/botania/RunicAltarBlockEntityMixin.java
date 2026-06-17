@@ -9,7 +9,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.AABB;
 
-import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
@@ -26,6 +25,7 @@ import vazkii.botania.common.helper.EntityHelper;
 import vazkii.botania.common.item.material.RuneItem;
 import vazkii.botania.xplat.XplatAbstractions;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -129,7 +129,7 @@ public abstract class RunicAltarBlockEntityMixin extends SimpleInventoryBlockEnt
     @Shadow(remap = false)
     private void saveLastRecipe() {
         if (lastRecipe == null) {
-            lastRecipe = new ObjectArrayList<>();
+            lastRecipe = new ArrayList<>();
         } else {
             lastRecipe.clear();
         }

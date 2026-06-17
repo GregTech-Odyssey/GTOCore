@@ -1,16 +1,33 @@
 package com.gtocore.common.data.translation
 
 import com.gtocore.api.lang.ComponentListSupplier
+import com.gtocore.api.lang.ComponentSupplier
 import com.gtocore.api.lang.toLiteralSupplier
 import com.gtocore.api.misc.AutoInitialize
+import com.gtocore.common.data.GTOBlocks
+import com.gtocore.common.data.GTOItems
+import com.gtocore.config.GTOConfig
 import com.gtocore.utils.setTooltips
 
+import net.minecraft.network.chat.Component
+import net.minecraft.world.item.Item
+import net.minecraft.world.level.block.Block
+import net.minecraft.world.level.block.Blocks
+
+import appeng.core.definitions.AEBlocks
 import appeng.core.definitions.AEItems
 import appeng.core.definitions.AEParts
-import com.enderio.base.common.init.EIOItems
+import com.direwolf20.buildinggadgets2.setup.Registration.TemplateManager
 import com.glodblock.github.extendedae.common.EPPItemAndBlock
+import com.gregtechceu.gtceu.GTCEu
+import com.gregtechceu.gtceu.common.data.GTItems
+import com.gregtechceu.gtceu.common.data.GTMachines
 import com.gregtechceu.gtceu.utils.FormattingUtil
+import com.hepdd.gtmthings.data.CustomItems
+import com.hepdd.gtmthings.data.CustomMachines
+import dev.shadowsoffire.apotheosis.adventure.Adventure
 import earth.terrarium.adastra.common.registry.ModBlocks
+import vazkii.botania.common.block.BotaniaBlocks.fabulousPool
 
 object GTOItemTooltips : AutoInitialize<GTOItemTooltips>() {
     // 升级模块 - 速度
@@ -88,6 +105,29 @@ object GTOItemTooltips : AutoInitialize<GTOItemTooltips>() {
         info("前期大量获取种子去种地的好帮手" translatedTo "A good helper for obtaining seeds in large quantities in the early game")
     }
 
+    val TravelStaff = ComponentListSupplier {
+        setTranslationPrefix("the_staff_of_travelling")
+
+        info("末影接口经典款式传送工具仿制品" translatedTo "A replica of the classic teleportation tool of the Ender IO Inc.")
+
+        section(ComponentSlang.MainFunction)
+        guide("右键选择目标并传送" translatedTo "Right click to select target and teleport")
+        guide("潜行右键可短距离折跃" translatedTo "Shift + Right click to blink a short distance")
+        guide("左键可以切换三种模式" translatedTo "Left click air to switch between three modes")
+        command("1.可以选中所有目标" translatedTo "First mode: Can select all targets")
+        command("2.可以在每个区块选中一个目标" translatedTo "Second mode: Can select one target per block")
+        command("3.可以选中点击到的目标" translatedTo "Third mode: Can select the target you clicked")
+        info("很多AE节点现在都可以作为传送锚点" translatedTo "Many AE nodes can now be used as teleport anchors")
+    }
+    val MEWirelessMachineConfigurator = ComponentListSupplier {
+        setTranslationPrefix("me_wireless_machine_configurator")
+
+        section(ComponentSlang.MainFunction)
+        guide("右键空气打开界面配置目标网络" translatedTo "Right-click air to open the interface and configure the target network")
+        guide("右键ME无线机器可以将该机器所连接的网络设为目标网络" translatedTo "Right-click a ME wireless machine to set the network it is connected to as the target network")
+        guide("Shift+右键ME无线机器可以导入该机器的网络配置" translatedTo "Shift + Right-click a ME wireless machine to import its network configuration")
+    }
+
     // 时间扭曲者
     val TimeTwisterTooltips = ComponentListSupplier {
         setTranslationPrefix("time_twister")
@@ -118,6 +158,15 @@ object GTOItemTooltips : AutoInitialize<GTOItemTooltips>() {
                     section("与存储设备进行交互" translatedTo "Interact with storage devices")
                     info("经过优化，吞吐量性能卓越" translatedTo "Throughput performance is excellent")
                 }.editionByGTONormal(),
+            )
+        }
+        listOf(AEBlocks.CONDENSER.asItem()).forEach {
+            it.setTooltips(
+                ComponentListSupplier {
+                    setTranslationPrefix("matter_condenser")
+
+                    story("近年垃圾回收商引起的一次事故让大家把目光投向了这台物质聚合器。" translatedTo "A recent incident involving a waste recycler has turned people's attention to this Matter Condenser.")
+                },
             )
         }
 
@@ -156,6 +205,58 @@ object GTOItemTooltips : AutoInitialize<GTOItemTooltips>() {
                 }.editionByGTONormal(),
             )
         }
+        listOf(
+            AEBlocks.CRAFTING_STORAGE_1K,
+            AEBlocks.CRAFTING_STORAGE_4K,
+            AEBlocks.CRAFTING_STORAGE_16K,
+            AEBlocks.CRAFTING_STORAGE_64K,
+            AEBlocks.CRAFTING_STORAGE_256K,
+            AEBlocks.CRAFTING_ACCELERATOR,
+            AEBlocks.CRAFTING_UNIT,
+            AEBlocks.CRAFTING_MONITOR,
+        ).forEach {
+            val type = it.block().type
+            it.asItem().setTooltips(
+                ComponentListSupplier {
+                    setTranslationPrefix("crafting_storage_" + type.acceleratorThreads + "_" + type.storageBytes)
+
+                    info("提供§b${type.acceleratorThreads}§r并行处理" translatedTo "Provides §b${type.acceleratorThreads}§r parallel processing")
+                    if (type.storageBytes > 0) {
+                        info("提供§b${type.storageBytes / 1024}K§r存储容量" translatedTo "Provides §b${type.storageBytes / 1024}K§r storage capacity")
+                    }
+                }.editionByGTONormal(),
+            )
+        }
+        val bomb = { block: Block, activateItem: Item ->
+            block.asItem().setTooltips(
+                ComponentListSupplier {
+                    setTranslationPrefix("charge_bomb")
+
+                    if (GTCEu.isDataGen() || !GTOConfig.INSTANCE.gamePlay.disableChargeBomb) {
+                        info(
+                            ComponentSupplier(
+                                Component.translatable(
+                                    "gtocore.tooltip.item.activate_by",
+                                    activateItem.description,
+                                ),
+                            ),
+                        )
+                        info("也可以把它喂给热爆花..." translatedTo "It can also be fed to entropinnyum flowers...")
+                    } else {
+                        error(
+                            ComponentSupplier(
+                                Component.translatable(
+                                    "gtocore.tooltip.item.charge_bomb.disabled",
+                                ),
+                            ),
+                        )
+                    }
+                },
+            )
+        }
+        bomb(GTOBlocks.NAQUADRIA_CHARGE.get(), GTItems.QUANTUM_STAR.asItem())
+        bomb(GTOBlocks.LEPTONIC_CHARGE.get(), GTItems.GRAVI_STAR.asItem())
+        bomb(GTOBlocks.QUANTUM_CHROMODYNAMIC_CHARGE.get(), GTOItems.UNSTABLE_STAR.asItem())
 
         listOf(AEItems.ITEM_CELL_256K.asItem(), AEItems.FLUID_CELL_256K.asItem()).forEach {
             it.setTooltips(
@@ -170,29 +271,114 @@ object GTOItemTooltips : AutoInitialize<GTOItemTooltips>() {
             )
         }
 
+        fabulousPool.asItem().setTooltips(
+            ComponentListSupplier {
+                setTranslationPrefix("fabulous_pool")
+
+                content("能存一千普通池子的魔力" translatedTo "Can hold the mana of one thousand regular pools")
+            }.editionByGTONormal(),
+        )
+
         listOf(AEItems.CERTUS_QUARTZ_KNIFE.asItem(), AEItems.NETHER_QUARTZ_KNIFE.asItem()).forEach {
             it.setTooltips(
                 ComponentListSupplier {
-                    highlight("Shift+右键方块可以复制其名称，便于命名" translatedTo "Shift+Right click a block to copy its name, which is convenient for naming")
+                    highlight("Shift+右键方块可以复制其名称" translatedTo "Shift+Right click a block to copy its name")
+                    highlight("右键物品可以复制其名称" translatedTo "Right click an item to copy its name")
+                    highlight("重命名以 + 开头可添加后缀" translatedTo "Rename with a + prefix to add a suffix")
                 }.editionByGTONormal(),
             )
         }
-        listOf(EIOItems.TRAVEL_STAFF.asItem()).forEach {
-            it.setTooltips(
-                ComponentListSupplier {
-                    highlight("左键可以切换三种模式" translatedTo "Left click air to switch between three modes")
-                    command("1.可以选中所有目标" translatedTo "First mode: Can select all targets")
-                    command("2.可以在每个区块选中一个目标" translatedTo "Second mode: Can select one target per block")
-                    command("3.可以选中点击到的目标" translatedTo "Third mode: Can select the target you clicked")
-                    info("很多AE节点现在都可以作为传送锚点" translatedTo "Many AE nodes can now be used as teleport anchors")
-                }.editionByGTONormal(),
-            )
-        }
+
         listOf(ModBlocks.OXYGEN_DISTRIBUTOR.get().asItem()).forEach {
             it.setTooltips(
                 ComponentListSupplier {
                     command("直接通入氧气与电以工作" translatedTo "Needs oxygen and power to work")
                 }.editionByGTONormal(),
+            )
+        }
+
+        listOf(Adventure.Items.BOSS_SUMMONER.get()).forEach {
+            it.setTooltips(
+                ComponentListSupplier {
+                    setTranslationPrefix("boss_summoner")
+
+                    info("由捕捉附魔击杀神化Boss概率掉落" translatedTo "Dropped by killing Apotheosis Bosses with the Capture enchantment")
+                },
+            )
+        }
+
+        listOf(Blocks.OBSIDIAN.asItem()).forEach {
+            it.setTooltips(
+                ComponentListSupplier {
+                    setTranslationPrefix("obsidian")
+                    story("要不试试在它上面用砧板切洋葱？" translatedTo "How about trying to chop onions on it with a cutting board?")
+                },
+            )
+        }
+
+        listOf(TemplateManager.get().asItem()).forEach {
+            it.setTooltips(
+                ComponentListSupplier {
+                    highlight("要不试试放入AE2样板？" translatedTo "How about slotting in an AE2 pattern?")
+                }.editionByGTONormal(),
+            )
+        }
+
+        GTMachines.MUFFLER_HATCH.forEach {
+            it?.asItem()?.setTooltips(
+                ComponentListSupplier {
+                    setTranslationPrefix("muffler_hatch")
+
+                    if (GTOConfig.INSTANCE.gamePlay.disableMufflerPart) {
+                        info(
+                            ComponentSupplier(
+                                Component.translatable(
+                                    "gtocore.tooltip.item.muffler.disabled",
+                                ),
+                            ),
+                        )
+                    } else {
+                        info(
+                            ComponentSupplier(
+                                Component.translatable(
+                                    "gtocore.tooltip.item.muffler.enabled",
+                                ),
+                            ),
+                        )
+                    }
+                },
+            )
+        }
+
+        CustomItems.PROGRAMMABLE_COVER.get().setTooltips(
+            ComponentListSupplier {
+                setTranslationPrefix("programmable_cover")
+                add("虚拟物品槽：§b1§r" translatedTo "Virtual item slots: §b1§r")
+            }.editionByGTONormal(),
+        )
+
+        listOf(
+            CustomItems.WIRELESS_ENERGY_TERMINAL.get(),
+            CustomItems.WIRELESS_ENERGY_BINDING_TOOL.get(),
+        ).forEach {
+            it.setTooltips(
+                ComponentListSupplier {
+                    setTranslationPrefix("wireless_energy_binding")
+                    add("右键可绑定电池箱或蓄能变电站" translatedTo "Right-click to bind a Battery Buffer or Power Substation")
+                    add("绑定目标决定了单个无线设备的传输上限" translatedTo "Binding target determines the transmission limit of a single wireless device") { gray() }
+                },
+            )
+        }
+
+        CustomMachines.ME_EXPORT_BUFFER.setTooltipBuilder { _, components ->
+            components.addAll(
+                ComponentListSupplier {
+                    setTranslationPrefix("gtmt_me_export_buffer")
+                    addTranslatable("gtceu.machine.dual_hatch.export.tooltip")
+                    addTranslatable("gtceu.machine.me.export.tooltip")
+                    addTranslatable("gtceu.part_sharing.enabled")
+                    add(GTOMachineTooltips.AutoConnectMETooltips)
+                }.editionByGTONormal().get(),
             )
         }
     }

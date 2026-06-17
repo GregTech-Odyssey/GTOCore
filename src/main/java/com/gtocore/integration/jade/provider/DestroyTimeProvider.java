@@ -25,4 +25,9 @@ public class DestroyTimeProvider implements IBlockComponentProvider {
     public ResourceLocation getUid() {
         return GTOCore.id("destroy_time_provider");
     }
+
+    @Override
+    public boolean enabledByDefault() {
+        return false;
+    }
 }

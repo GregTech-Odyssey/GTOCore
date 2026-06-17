@@ -20,3 +20,4 @@ libs/*-debug.jar
 *.DS_Store
 /savedRun/
 keystore.jks
+tmp_gtolib/

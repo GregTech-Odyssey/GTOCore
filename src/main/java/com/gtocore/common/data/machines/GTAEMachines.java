@@ -1,9 +1,12 @@
 package com.gtocore.common.data.machines;
 
+import com.gtocore.api.machine.part.GTOPartAbility;
 import com.gtocore.common.data.translation.GTOMachineTooltips;
+import com.gtocore.common.data.translation.GTOMachineTooltipsA;
 import com.gtocore.common.machine.multiblock.part.ae.*;
 import com.gtocore.common.machine.noenergy.VirtualItemProviderMachine;
 
+import com.gtolib.GTOCore;
 import com.gtolib.api.machine.impl.part.CraftingInterfacePartMachine;
 
 import com.gregtechceu.gtceu.GTCEu;
@@ -68,6 +71,7 @@ public final class GTAEMachines {
             .langValue("ME Energy Access Hatch")
             .tier(EV)
             .allRotation()
+            .tooltipsText("Provides Energy for ME Network", "为ME网络提供能量")
             .notAllowSharedTooltips()
             .renderer(() -> new OverlayTieredMachineRenderer(EV, GTCEu.id("block/machine/part/me_pattern_buffer")))
             .register();
@@ -86,11 +90,11 @@ public final class GTAEMachines {
             .abilities(PartAbility.IMPORT_ITEMS)
             .allRotation()
             .renderer(() -> new OverlayTieredMachineRenderer(LuV, GTCEu.id("block/machine/part/me_item_bus.import")))
-            .tooltips(GTOMachineTooltips.INSTANCE.getAutoConnectMETooltips().getSupplier())
             .tooltips(Component.translatable("gtceu.machine.item_bus.import.tooltip"),
                     Component.translatable("gtceu.machine.me.item_import.tooltip"),
                     Component.translatable("gtceu.machine.me.copy_paste.tooltip"),
                     Component.translatable("gtceu.part_sharing.enabled"))
+            .meAutoConnectable()
             .register();
 
     public static final MachineDefinition ME_TAG_FILTER_STOCK_HATCH = machine("me_tag_filter_stock_hatch", "ME标签过滤库存输入仓", METagFilterStockHatchPartMachine::new)
@@ -98,19 +102,52 @@ public final class GTAEMachines {
             .abilities(PartAbility.IMPORT_FLUIDS)
             .allRotation()
             .renderer(() -> new OverlayTieredMachineRenderer(LuV, GTCEu.id("block/machine/part/me_fluid_hatch.import")))
-            .tooltips(GTOMachineTooltips.INSTANCE.getAutoConnectMETooltips().getSupplier())
             .tooltips(Component.translatable("gtceu.machine.fluid_hatch.import.tooltip"),
                     Component.translatable("gtceu.machine.me.item_import.tooltip"),
                     Component.translatable("gtceu.machine.me.copy_paste.tooltip"),
                     Component.translatable("gtceu.part_sharing.enabled"))
+            .meAutoConnectable()
+            .register();
+
+    public static final MachineDefinition ME_REQUESTABLE_INPUT_BUS_MACHINE = machine("me_requestable_input_bus_machine", "ME可请求输入总线", MERequestableInputBusMachine::new)
+            .langValue("ME Requestable Input Bus")
+            .tooltips(GTOMachineTooltips.INSTANCE.getMeRequestableInputBusTooltips().getSupplier())
+            .meAutoConnectable()
+            .tier(LuV)
+            .allRotation()
+            .abilities(PartAbility.IMPORT_ITEMS)
+            .notAllowSharedTooltips()
+            .renderer(() -> new OverlayTieredMachineRenderer(LuV, GTCEu.id("block/machine/part/me_item_bus.import")))
+            .register();
+
+    public static final MachineDefinition ME_REQUESTABLE_INPUT_HATCH_MACHINE = machine("me_requestable_input_hatch_machine", "ME可请求输入仓", MERequestableInputHatchMachine::new)
+            .langValue("ME Requestable Input Hatch")
+            .tooltips(GTOMachineTooltips.INSTANCE.getMeRequestableInputHatchTooltips().getSupplier())
+            .meAutoConnectable()
+            .tier(LuV)
+            .allRotation()
+            .abilities(PartAbility.IMPORT_FLUIDS)
+            .notAllowSharedTooltips()
+            .renderer(() -> new OverlayTieredMachineRenderer(LuV, GTCEu.id("block/machine/part/me_fluid_hatch.import")))
+            .register();
+
+    public static final MachineDefinition ME_INPUT_BUFFER_PART_MACHINE = machine("me_input_buffer_part_machine", "ME样板配置输入总成", MEInputBufferPartMachine::new)
+            .langValue("ME Pattern-Configurable Input Buffer")
+            .tooltips(GTOMachineTooltipsA.INSTANCE.getMeInputBufferPartMachineTooltips().getSupplier())
+            .meAutoConnectable()
+            .tier(LuV)
+            .allRotation()
+            .abilities(PartAbility.IMPORT_ITEMS, PartAbility.IMPORT_FLUIDS)
+            .notAllowSharedTooltips()
+            .renderer(() -> new OverlayTieredMachineRenderer(LuV, GTCEu.id("block/machine/part/me_pattern_buffer_proxy")))
             .register();
 
     public static final MachineDefinition ME_CRAFT_PATTERN_PART_MACHINE = machine("me_craft_pattern_part_machine", "合成样板仓", MECraftPatternPartMachine::new)
             .langValue("ME Craft Pattern Hatch")
             .tooltips(GTOMachineTooltips.INSTANCE.getMeCraftPatternHatchTooltips().getSupplier())
+            .meAutoConnectable()
             .tier(ZPM)
             .allRotation()
-            .abilities(PartAbility.IMPORT_ITEMS, PartAbility.IMPORT_FLUIDS)
             .notAllowSharedTooltips()
             .renderer(() -> new OverlayTieredMachineRenderer(ZPM, GTCEu.id("block/machine/part/me_pattern_buffer_proxy")))
             .register();
@@ -118,38 +155,49 @@ public final class GTAEMachines {
     public static final MachineDefinition ME_CATALYST_ME_PATTERN_BUFFER = machine("me_catalyst_pattern_buffer", "ME催化剂样板总成", MECatalystPatternBufferPartMachine::new)
             .langValue("ME Catalyst Pattern Buffer")
             .tooltips(GTOMachineTooltips.INSTANCE.getMeCatalystPatternBufferTooltips().getSupplier())
-            .tooltips(GTOMachineTooltips.INSTANCE.getMePatternHatchTooltips().invoke(27).getSupplier())
+            .tooltips(GTOMachineTooltips.INSTANCE.getMePatternHatchTooltips().invoke(36).getSupplier())
+            .meAutoConnectable()
             .tier(ZPM)
             .allRotation()
-            .abilities(PartAbility.IMPORT_ITEMS, PartAbility.IMPORT_FLUIDS)
-            .tooltipsKey("gtceu.part_sharing.enabled")
+            .abilities(PartAbility.IMPORT_ITEMS, PartAbility.IMPORT_FLUIDS, GTOPartAbility.DUAL_INPUT)
             .renderer(() -> new OverlayTieredMachineRenderer(ZPM, GTCEu.id("block/machine/part/me_pattern_buffer")))
             .register();
 
-    public static final MachineDefinition ME_EXTEND_PATTERN_BUFFER = machine("me_extend_pattern_buffer", "ME扩展样板总成", h -> new MEPatternBufferPartMachineKt(h, 81))
+    public static final MachineDefinition ME_WILDCARD_PATTERN_BUFFER = machine("me_wildcard_pattern_buffer", "ME通配符样板总成", MEWildcardPatternBufferPartMachine::new)
+            .langValue("ME Wildcard Pattern Buffer")
+            .tooltips(GTOMachineTooltips.INSTANCE.getMeWildcardPatternBufferTooltips().getSupplier())
+            .tooltips(GTOMachineTooltips.INSTANCE.getMePatternHatchTooltips().invoke(1).getSupplier())
+            .meAutoConnectable()
+            .tier(UHV)
+            .allRotation()
+            .abilities(PartAbility.IMPORT_ITEMS, PartAbility.IMPORT_FLUIDS, GTOPartAbility.DUAL_INPUT)
+            .renderer(() -> new OverlayTieredMachineRenderer(UHV, GTOCore.id("block/machine/part/me_pattern_buffer_red")))
+            .register();
+
+    public static final MachineDefinition ME_EXTEND_PATTERN_BUFFER = machine("me_extend_pattern_buffer", "ME扩展样板总成", h -> new MEPatternBufferPartMachineKt(h, 108))
             .langValue("ME Extend Pattern Buffer")
             .tier(UV)
-            .tooltips(GTOMachineTooltips.INSTANCE.getMePatternHatchTooltips().invoke(81).getSupplier())
+            .tooltips(GTOMachineTooltips.INSTANCE.getMePatternHatchTooltips().invoke(108).getSupplier())
+            .meAutoConnectable()
             .allRotation()
-            .abilities(PartAbility.IMPORT_ITEMS, PartAbility.IMPORT_FLUIDS)
-            .tooltipsKey("gtceu.part_sharing.enabled")
+            .abilities(PartAbility.IMPORT_ITEMS, PartAbility.IMPORT_FLUIDS, GTOPartAbility.DUAL_INPUT)
             .renderer(() -> new OverlayTieredMachineRenderer(UV, GTCEu.id("block/machine/part/me_pattern_buffer")))
             .register();
 
     public static final MachineDefinition ME_EXTEND_PATTERN_BUFFER_ULTRA = machine("me_extend_pattern_buffer_ultra", "ME扩展样板总成 Ultra", h -> new MEPatternBufferPartMachineKt(h, 324))
             .langValue("ME Extend Pattern Buffer Ultra")
             .tooltips(GTOMachineTooltips.INSTANCE.getMePatternHatchTooltips().invoke(324).getSupplier())
+            .meAutoConnectable()
             .tier(UHV)
             .allRotation()
-            .abilities(PartAbility.IMPORT_ITEMS, PartAbility.IMPORT_FLUIDS)
-            .tooltipsKey("gtceu.part_sharing.enabled")
+            .abilities(PartAbility.IMPORT_ITEMS, PartAbility.IMPORT_FLUIDS, GTOPartAbility.DUAL_INPUT)
             .renderer(() -> new OverlayTieredMachineRenderer(UHV, GTCEu.id("block/machine/part/me_pattern_buffer")))
             .register();
 
     public static final MachineDefinition MUFFLER_HATCH_ME = machine("me_muffler_hatch", "ME消声仓", MEMufflerHatchPartMachine::new)
             .langValue("ME Muffler Hatch")
             .tier(LuV)
-            .tooltips(GTOMachineTooltips.INSTANCE.getAutoConnectMETooltips().getSupplier())
+            .meAutoConnectable()
             .allRotation()
             .abilities(PartAbility.MUFFLER)
             .renderer(() -> new OverlayTieredMachineRenderer(LuV, GTCEu.id("block/machine/part/me_item_bus.import")))
@@ -160,7 +208,6 @@ public final class GTAEMachines {
             .machine("me_input_bus", MEInputBusPartMachine::new)
             .langValue("ME Input Bus")
             .genLang("ME输入总线")
-            .tooltips(GTOMachineTooltips.INSTANCE.getAutoConnectMETooltips().getSupplier())
             .tier(EV)
             .allRotation()
             .abilities(PartAbility.IMPORT_ITEMS)
@@ -169,6 +216,7 @@ public final class GTAEMachines {
                     Component.translatable("gtceu.machine.me.item_import.tooltip"),
                     Component.translatable("gtceu.machine.me.copy_paste.tooltip"),
                     Component.translatable("gtceu.part_sharing.enabled"))
+            .meAutoConnectable()
             .register();
 
     public static final MachineDefinition STOCKING_IMPORT_BUS_ME = GTM
@@ -176,7 +224,6 @@ public final class GTAEMachines {
             .langValue("ME Stocking Input Bus")
             .genLang("ME库存输入总线")
             .tier(LuV)
-            .tooltips(GTOMachineTooltips.INSTANCE.getAutoConnectMETooltips().getSupplier())
             .allRotation()
             .abilities(PartAbility.IMPORT_ITEMS)
             .overlayTieredHullRenderer("me_item_bus.import")
@@ -186,6 +233,7 @@ public final class GTAEMachines {
                     Component.translatable("gtceu.machine.me.copy_paste.tooltip"),
                     Component.translatable("gtceu.machine.me.stocking_item.tooltip.1"),
                     Component.translatable("gtceu.part_sharing.enabled"))
+            .meAutoConnectable()
             .register();
 
     public static final MachineDefinition ITEM_EXPORT_BUS_ME = GTM
@@ -193,7 +241,6 @@ public final class GTAEMachines {
             .langValue("ME Output Bus")
             .genLang("ME输出总线")
             .tier(EV)
-            .tooltips(GTOMachineTooltips.INSTANCE.getAutoConnectMETooltips().getSupplier())
             .allRotation()
             .abilities(PartAbility.EXPORT_ITEMS)
             .overlayTieredHullRenderer("me_item_bus.export")
@@ -201,6 +248,7 @@ public final class GTAEMachines {
                     Component.translatable("gtceu.machine.me.item_export.tooltip"),
                     Component.translatable("gtceu.machine.me.export.tooltip"),
                     Component.translatable("gtceu.part_sharing.enabled"))
+            .meAutoConnectable()
             .register();
 
     public static final MachineDefinition FLUID_IMPORT_HATCH_ME = GTM
@@ -208,7 +256,6 @@ public final class GTAEMachines {
             .langValue("ME Input Hatch")
             .genLang("ME输入仓")
             .tier(EV)
-            .tooltips(GTOMachineTooltips.INSTANCE.getAutoConnectMETooltips().getSupplier())
             .allRotation()
             .abilities(PartAbility.IMPORT_FLUIDS)
             .overlayTieredHullRenderer("me_fluid_hatch.import")
@@ -216,6 +263,7 @@ public final class GTAEMachines {
                     Component.translatable("gtceu.machine.me.fluid_import.tooltip"),
                     Component.translatable("gtceu.machine.me.copy_paste.tooltip"),
                     Component.translatable("gtceu.part_sharing.enabled"))
+            .meAutoConnectable()
             .register();
 
     public static final MachineDefinition STOCKING_IMPORT_HATCH_ME = GTM
@@ -223,7 +271,6 @@ public final class GTAEMachines {
             .langValue("ME Stocking Input Hatch")
             .genLang("ME库存输入仓")
             .tier(LuV)
-            .tooltips(GTOMachineTooltips.INSTANCE.getAutoConnectMETooltips().getSupplier())
             .allRotation()
             .abilities(PartAbility.IMPORT_FLUIDS)
             .overlayTieredHullRenderer("me_fluid_hatch.import")
@@ -233,6 +280,7 @@ public final class GTAEMachines {
                     Component.translatable("gtceu.machine.me.copy_paste.tooltip"),
                     Component.translatable("gtceu.machine.me.stocking_fluid.tooltip.1"),
                     Component.translatable("gtceu.part_sharing.enabled"))
+            .meAutoConnectable()
             .register();
 
     public static final MachineDefinition FLUID_EXPORT_HATCH_ME = GTM
@@ -240,7 +288,6 @@ public final class GTAEMachines {
             .langValue("ME Output Hatch")
             .genLang("ME输出仓")
             .tier(EV)
-            .tooltips(GTOMachineTooltips.INSTANCE.getAutoConnectMETooltips().getSupplier())
             .allRotation()
             .abilities(PartAbility.EXPORT_FLUIDS)
             .overlayTieredHullRenderer("me_fluid_hatch.export")
@@ -248,30 +295,33 @@ public final class GTAEMachines {
                     Component.translatable("gtceu.machine.me.fluid_export.tooltip"),
                     Component.translatable("gtceu.machine.me.export.tooltip"),
                     Component.translatable("gtceu.part_sharing.enabled"))
+            .meAutoConnectable()
             .register();
 
     public static final MachineDefinition ME_PATTERN_BUFFER = GTM
-            .machine("me_pattern_buffer", h -> new MEPatternBufferPartMachineKt(h, 27))
+            .machine("me_pattern_buffer", h -> new MEPatternBufferPartMachineKt(h, 36))
             .tier(LuV)
             .allRotation()
-            .abilities(PartAbility.IMPORT_ITEMS, PartAbility.IMPORT_FLUIDS)
+            .abilities(PartAbility.IMPORT_ITEMS, PartAbility.IMPORT_FLUIDS, GTOPartAbility.DUAL_INPUT)
             .allRotation()
             .overlayTieredHullRenderer("me_pattern_buffer")
             .langValue("ME Pattern Buffer")
             .genLang("ME样板总成")
-            .tooltips(GTOMachineTooltips.INSTANCE.getMePatternHatchTooltips().invoke(27).getSupplier())
+            .tooltips(GTOMachineTooltips.INSTANCE.getMePatternHatchTooltips().invoke(36).getSupplier())
+            .meAutoConnectable()
             .register();
 
     public static final MachineDefinition ME_PATTERN_BUFFER_PROXY = GTM
             .machine("me_pattern_buffer_proxy", MEPatternBufferProxyPartMachine::new)
             .tier(LuV)
             .allRotation()
-            .abilities(PartAbility.IMPORT_ITEMS, PartAbility.IMPORT_FLUIDS)
+            .abilities(PartAbility.IMPORT_ITEMS, PartAbility.IMPORT_FLUIDS, GTOPartAbility.DUAL_INPUT)
             .allRotation()
             .overlayTieredHullRenderer("me_pattern_buffer_proxy")
             .langValue("ME Pattern Buffer Proxy")
             .genLang("ME样板总成镜像")
             .tooltips(Component.translatable("block.gtceu.pattern_buffer_proxy.desc.0"),
+                    Component.translatable("gtocore.machine.pattern_buffer_proxy.tooltip.0"),
                     Component.translatable("block.gtceu.pattern_buffer_proxy.desc.1"),
                     Component.translatable("block.gtceu.pattern_buffer_proxy.desc.2"),
                     Component.translatable("gtceu.part_sharing.enabled"))

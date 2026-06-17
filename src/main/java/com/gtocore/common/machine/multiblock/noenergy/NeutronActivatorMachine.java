@@ -1,24 +1,26 @@
 package com.gtocore.common.machine.multiblock.noenergy;
 
+import com.gtocore.api.pattern.GTOPredicates;
+import com.gtocore.common.data.GTORecipeDataKeys;
 import com.gtocore.common.machine.multiblock.part.NeutronAcceleratorPartMachine;
 import com.gtocore.common.machine.multiblock.part.SensorPartMachine;
 
 import com.gtolib.api.gui.MagicProgressBarProWidget;
 import com.gtolib.api.machine.multiblock.NoEnergyMultiblockMachine;
 import com.gtolib.api.recipe.IdleReason;
-import com.gtolib.api.recipe.Recipe;
-import com.gtolib.api.recipe.modifier.RecipeModifierFunction;
-import com.gtolib.utils.FunctionContainer;
 import com.gtolib.utils.MachineUtils;
 import com.gtolib.utils.NumberUtils;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
-import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.machine.ConditionalSubscriptionHandler;
 import com.gregtechceu.gtceu.api.machine.feature.IExplosionMachine;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
+import com.gregtechceu.gtceu.api.recipe.GTRecipe;
+import com.gregtechceu.gtceu.api.recipe.handler.IO;
+import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
+import com.gregtechceu.gtceu.api.recipe.modifier.RecipeModifier;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.ItemBusPartMachine;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
@@ -28,12 +30,12 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 
+import com.gto.datasynclib.annotations.SaveToDisk;
 import com.lowdragmc.lowdraglib.gui.modular.ModularUI;
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import lombok.Getter;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -46,12 +48,12 @@ public class NeutronActivatorMachine extends NoEnergyMultiblockMachine implement
     private static final Item dustGraphite = ChemicalHelper.getItem(TagPrefix.dust, GTMaterials.Graphite);
     int height;
     @Getter
-    @Persisted
+    @SaveToDisk
     protected int eV;
     private final ConditionalSubscriptionHandler neutronEnergySubs;
     private SensorPartMachine sensorMachine;
-    private final List<ItemBusPartMachine> busMachines = new ObjectArrayList<>(2);
-    private final List<NeutronAcceleratorPartMachine> acceleratorMachines = new ObjectArrayList<>(2);
+    private final List<ItemBusPartMachine> busMachines = new ArrayList<>(2);
+    private final List<NeutronAcceleratorPartMachine> acceleratorMachines = new ArrayList<>(2);
 
     public NeutronActivatorMachine(MetaMachineBlockEntity holder) {
         super(holder);
@@ -66,7 +68,7 @@ public class NeutronActivatorMachine extends NoEnergyMultiblockMachine implement
                 IO io = itemBusPart.getInventory().getHandlerIO();
                 if (io == IO.IN || io == IO.BOTH) {
                     busMachines.add(itemBusPart);
-                    for (var handler : part.getRecipeHandlers()) {
+                    for (var handler : itemBusPart.getRecipeHandlers()) {
                         traitSubscriptions.add(handler.subscribe(this::absorptionUpdate));
                     }
                 }
@@ -82,9 +84,9 @@ public class NeutronActivatorMachine extends NoEnergyMultiblockMachine implement
         acceleratorMachines.clear();
         busMachines.clear();
         super.onStructureFormed();
-        FunctionContainer<Integer, ?> container = getMultiblockState().getMatchContext().get("SpeedPipe");
+        var container = getMultiblockState().getMatchContext().get(GTOPredicates.DataKeys.SPEED_PIPE);
         if (container != null) {
-            height = container.getValue();
+            height = container;
         }
         neutronEnergySubs.initialize(getLevel());
     }
@@ -104,9 +106,9 @@ public class NeutronActivatorMachine extends NoEnergyMultiblockMachine implement
 
     @Nullable
     @Override
-    protected Recipe getRealRecipe(Recipe recipe) {
-        if ((eV > recipe.data.getInt("ev_min") * 1000000 && eV < recipe.data.getInt("ev_max") * 1000000)) {
-            recipe = RecipeModifierFunction.hatchParallel(this, recipe);
+    protected GTRecipe getRealRecipe(RecipeHandlerUnit unit, GTRecipe recipe) {
+        if ((eV > recipe.data.getInt(GTORecipeDataKeys.EV_MIN) * 1000000 && eV < recipe.data.getInt(GTORecipeDataKeys.EV_MAX) * 1000000)) {
+            recipe = RecipeModifier.hatchParallel(this, unit, recipe);
             if (recipe == null) return null;
             recipe.duration = (int) Math.round(Math.max(recipe.duration * getEfficiencyFactor(), 1));
             return recipe;
@@ -116,19 +118,13 @@ public class NeutronActivatorMachine extends NoEnergyMultiblockMachine implement
     }
 
     @Override
-    public boolean onWorking() {
-        return super.onWorking() && working();
-    }
-
-    boolean working() {
-        if (getRecipeLogic().getLastRecipe() != null) {
-            int evt = (int) (getRecipeLogic().getLastRecipe().data.getInt("evt") * 1000 * getEVtMultiplier());
-            if (eV < evt) {
-                setIdleReason(IdleReason.NEUTRON_KINETIC_ENERGY_NOT_SATISFIES);
-                return false;
-            } else {
-                eV -= evt;
-            }
+    public boolean handleTickRecipe(GTRecipe recipe) {
+        int evt = (int) (recipe.data.getInt(GTORecipeDataKeys.EVT) * 1000 * getEVtMultiplier());
+        if (eV < evt) {
+            setIdleReason(IdleReason.NEUTRON_KINETIC_ENERGY_NOT_SATISFIES);
+            return false;
+        } else {
+            eV -= evt;
         }
         return true;
     }

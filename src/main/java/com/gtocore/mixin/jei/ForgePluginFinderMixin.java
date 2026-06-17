@@ -1,17 +1,19 @@
 package com.gtocore.mixin.jei;
 
-import com.gtocore.integration.emi.GTEMIPlugin;
+import com.gtolib.api.GTOApi;
 
-import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.forge.startup.ForgePluginFinder;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Mixin(ForgePluginFinder.class)
-public final class ForgePluginFinderMixin {
+public abstract class ForgePluginFinderMixin {
 
     /**
      * @author .
@@ -19,8 +21,8 @@ public final class ForgePluginFinderMixin {
      */
     @Overwrite(remap = false)
     public static List<IModPlugin> getModPlugins() {
-        List<IModPlugin> plugins = new ObjectArrayList<>();
-        GTEMIPlugin.addJEIPlugin(plugins);
-        return plugins;
+        Map<Object, IModPlugin> plugins = new HashMap<>();
+        GTOApi.JEI_PLUGIN_EVENT.call(plugin -> plugins.put(plugin.getClass(), plugin));
+        return new ArrayList<>(plugins.values());
     }
 }

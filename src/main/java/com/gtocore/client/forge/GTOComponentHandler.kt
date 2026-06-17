@@ -2,16 +2,9 @@ package com.gtocore.client.forge
 
 import com.gtocore.api.gui.graphic.GTOToolTipComponent
 import com.gtocore.api.gui.graphic.GTOTooltipComponentItem
-import com.gtocore.api.gui.graphic.impl.GTOComponentTooltipComponent
 import com.gtocore.api.gui.graphic.impl.GTOProgressToolTipComponent
 import com.gtocore.api.gui.graphic.impl.toPercentageWith
-import com.gtocore.api.lang.ComponentSupplier
-import com.gtocore.api.lang.toLiteralSupplier
-import com.gtocore.config.GTOConfig
 
-import net.minecraft.client.Minecraft
-import net.minecraft.client.resources.language.ClientLanguage
-import net.minecraft.client.resources.language.I18n
 import net.minecraft.network.chat.Component
 import net.minecraftforge.api.distmarker.Dist
 import net.minecraftforge.api.distmarker.OnlyIn
@@ -22,11 +15,6 @@ import net.minecraftforge.eventbus.api.SubscribeEvent
 import appeng.api.storage.StorageCells
 import appeng.api.storage.cells.IBasicCellItem
 import appeng.me.cells.BasicCellHandler
-import com.google.common.collect.Lists
-import com.gregtechceu.gtceu.api.item.GTBucketItem
-import com.gregtechceu.gtceu.api.item.TagPrefixItem
-import com.gregtechceu.gtceu.api.item.tool.GTToolItem
-import com.gtolib.GTOCore
 import com.mojang.datafixers.util.Either
 
 @OnlyIn(Dist.CLIENT)
@@ -80,60 +68,8 @@ object GTOComponentHandler {
                 )
             }
         }
-        // 英文翻译,优先级为0,英文环境不启用
-        run {
-            if (!GTOConfig.INSTANCE.showEnglishName) return@run
-            val englishName = englishLanguage?.getOrDefault(itemStack.descriptionId) ?: return@run
-            if (I18n.get(itemStack.descriptionId) == englishName) return@run
-            val componentSupplier: ComponentSupplier = when {
-                itemStack.isEmpty -> return@run
-                item is TagPrefixItem -> {
-                    val tagPrefix = item.tagPrefix
-                    val material = item.material
-                    val format = englishLanguage?.getOrDefault(tagPrefix.unlocalizedName)?.format(englishLanguage?.getOrDefault(material.unlocalizedName))
-                    if (format?.contains("%s") == true) return@run
-                    format.toLiteralSupplier()
-                }
-                item is GTToolItem -> {
-                    val toolType = item.toolType
-                    val material = item.material
-                    if (toolType == null || material == null) return@run
-                    val format = englishLanguage?.getOrDefault(toolType.unlocalizedName)?.format(englishLanguage?.getOrDefault(material.unlocalizedName))
-                    if (format?.contains("%s") == true) return@run
-                    format.toLiteralSupplier()
-                }
-                item is GTBucketItem -> {
-                    return@run
-                }
-                else -> englishLanguage?.getOrDefault(itemStack.descriptionId).toLiteralSupplier()
-            }.gray()
-            if (componentSupplier.get().string.contains("%s")) return@run
-            components.add(
-                GTOComponentTooltipComponent(componentSupplier.get()),
-            )
-        }
         components.sortedBy { -it.priority }.forEach {
             event.tooltipElements.add(Either.right(it))
-        }
-    }
-    var englishLanguage: ClientLanguage? = null
-    init {
-        // 初始化英语语言
-        if (GTOConfig.INSTANCE.showEnglishName) {
-            run {
-                val manager = Minecraft.getInstance().languageManager
-                val list: MutableList<String?> = Lists.newArrayList("en_us")
-                val englishInfo = manager.getLanguage("en_us")
-                if (englishInfo != null) {
-                    englishLanguage = ClientLanguage.loadFrom(
-                        Minecraft.getInstance().resourceManager,
-                        list,
-                        englishInfo.bidirectional(),
-                    )
-                } else {
-                    GTOCore.LOGGER.warn("Failed to load English language for GTOCore.")
-                }
-            }
         }
     }
 }

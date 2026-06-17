@@ -15,9 +15,9 @@ repositories {
         filter { includeGroup("dev.emi") }
     }
 
-    exclusiveContent { // tterrag - registrate
-        forRepository { maven { url = "https://maven.tterrag.com/" } }
-        filter { includeGroup("com.tterrag.registrate") }
+    exclusiveContent { // Xaero's
+        forRepository { maven { url = "https://chocolateminecraft.com/maven/" } }
+        filter { includeGroupAndSubgroups("xaero") }
     }
 
     maven {

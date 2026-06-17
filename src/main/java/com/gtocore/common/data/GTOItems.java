@@ -1,16 +1,22 @@
 package com.gtocore.common.data;
 
+import com.gtocore.api.data.Algae;
 import com.gtocore.api.lang.OffsetGradientColor;
 import com.gtocore.api.misc.AutoInitializeImpl;
 import com.gtocore.client.renderer.item.HaloItemRenderer;
+import com.gtocore.client.renderer.item.MaterialsColorMap;
 import com.gtocore.client.renderer.item.OrderItemProviderRenderer;
 import com.gtocore.common.cover.PowerAmplifierCover;
 import com.gtocore.common.data.translation.GTOItemTooltips;
 import com.gtocore.common.item.*;
-import com.gtocore.common.item.PalmSizedBankBehavior;
 import com.gtocore.common.item.armor.SpaceArmorComponentItem;
+import com.gtocore.common.item.devtool.CreativeAllFluidCellItem;
 import com.gtocore.common.item.misc.GrassHarvesterBehaviour;
+import com.gtocore.config.GTOConfig;
 import com.gtocore.data.lootTables.RewardBagLoot;
+import com.gtocore.integration.ae.wtlib.WFTMenu;
+import com.gtocore.integration.ae.wtlib.WRTMenu;
+import com.gtocore.integration.apotheosis.ApotheosisGemFilter;
 
 import com.gtolib.GTOCore;
 import com.gtolib.api.ae2.me2in1.Wireless;
@@ -25,13 +31,11 @@ import com.gregtechceu.gtceu.api.data.chemical.material.stack.MaterialStack;
 import com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys;
 import com.gregtechceu.gtceu.api.item.ComponentItem;
 import com.gregtechceu.gtceu.api.item.component.ElectricStats;
+import com.gregtechceu.gtceu.common.data.GTCovers;
 import com.gregtechceu.gtceu.common.data.GTFluids;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.common.data.GTMedicalConditions;
-import com.gregtechceu.gtceu.common.item.AntidoteBehavior;
-import com.gregtechceu.gtceu.common.item.CoverPlaceBehavior;
-import com.gregtechceu.gtceu.common.item.DataItemBehavior;
-import com.gregtechceu.gtceu.common.item.TooltipBehavior;
+import com.gregtechceu.gtceu.common.item.*;
 import com.gregtechceu.gtceu.common.item.armor.*;
 import com.gregtechceu.gtceu.config.ConfigHolder;
 import com.gregtechceu.gtceu.data.recipe.CustomTags;
@@ -41,6 +45,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.food.FoodProperties;
@@ -48,14 +53,17 @@ import net.minecraft.world.item.*;
 import net.minecraftforge.common.Tags;
 
 import appeng.items.materials.StorageComponentItem;
-import com.enderio.base.common.init.EIOFluids;
+
+import com.gto.registrate.util.entry.ItemEntry;
+import com.gto.registrate.util.nullness.NonNullBiConsumer;
 import com.lowdragmc.lowdraglib.utils.LocalizationUtils;
-import com.tterrag.registrate.util.entry.ItemEntry;
-import com.tterrag.registrate.util.nullness.NonNullBiConsumer;
 import earth.terrarium.adastra.common.registry.ModFluids;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Map;
+
 import static com.gregtechceu.gtceu.common.data.GTItems.*;
+import static com.gregtechceu.gtceu.common.data.GTModels.overrideModel;
 import static com.gtocore.common.item.tarotArcanumRegister.registerTarotArcanum;
 import static com.gtocore.data.record.ApotheosisAffixRecord.registerAffixEssence;
 import static com.gtocore.data.record.EnchantmentRecord.registerEnchantmentEssence;
@@ -71,14 +79,16 @@ public final class GTOItems {
         GTMaterials.Oxygen.getProperty(PropertyKey.FLUID).getStorage().store(FluidStorageKeys.GAS, ModFluids.OXYGEN, null);
         GTMaterials.Hydrogen.getProperty(PropertyKey.FLUID).getStorage().store(FluidStorageKeys.GAS, ModFluids.HYDROGEN, null);
         GTFluids.handleNonMaterialFluids(GTMaterials.Oil, ModFluids.OIL);
-        GTFluids.handleNonMaterialFluids(GTMaterials.RocketFuel, () -> EIOFluids.ROCKET_FUEL.get().getSource());
 
-        if (GTCEu.isDev()) {
+        if (GTOConfig.INSTANCE.devMode.enableCustomRecipes || GTCEu.isDev()) {
             item("recipe_editor", "配方编辑器", ComponentItem::create)
                     .properties(p -> p.stacksTo(1))
                     .onRegister(attach(RecipeEditorBehavior.INSTANCE))
                     .model(NonNullBiConsumer.noop())
                     .register();
+        }
+
+        if (GTCEu.isDev()) {
 
             item("debug_structure_writer", "多方块结构导出工具", ComponentItem::create)
                     .properties(p -> p.stacksTo(1))
@@ -94,6 +104,11 @@ public final class GTOItems {
         }
     }
 
+    public static final ItemEntry<Item> PULSATING_CRYSTAL = register("pulsating_crystal", "脉冲水晶");
+    public static final ItemEntry<Item> VIBRANT_CRYSTAL = register("vibrant_crystal", "振动水晶");
+    public static final ItemEntry<Item> ENDER_CRYSTAL = register("ender_crystal", "末影水晶");
+    public static final ItemEntry<Item> PRESCIENT_CRYSTAL = register("prescient_crystal", "预知水晶");
+
     public static final ItemEntry<Item> SHAPE_EXTRUDER_ROD_LONG = GTM.item("long_rod_extruder_mold", Item::new).onRegister(materialInfo(new ItemMaterialInfo(new MaterialStack(GTMaterials.Steel, GTValues.M << 2)))).register();
 
     public static final ItemEntry<StorageComponentItem> CELL_COMPONENT_1M = registerStorageComponentItem(1);
@@ -104,7 +119,14 @@ public final class GTOItems {
 
     public static final ItemEntry<ComponentItem> ORDER = item("order", "%s 订单", ComponentItem::create)
             .toolTips(GTOItemTooltips.INSTANCE.getOrderTooltips().getArray())
+            .lang("%s Order")
             .properties(p -> p.stacksTo(1))
+            .onRegister(attach(OrderItem.INSTANCE))
+            .onRegister(attachRenderer(() -> OrderItemProviderRenderer.INSTANCE))
+            .register();
+    public static final ItemEntry<ComponentItem> TEMP_ORDER = item("temporary_order", "%s 临时订单", ComponentItem::create)
+            .toolTips(GTOItemTooltips.INSTANCE.getOrderTooltips().getArray())
+            .lang("%s Temporary Order")
             .onRegister(attach(OrderItem.INSTANCE))
             .onRegister(attachRenderer(() -> OrderItemProviderRenderer.INSTANCE))
             .register();
@@ -164,8 +186,15 @@ public final class GTOItems {
             .onRegister(attach(new DroneBehavior(GTValues.IV)))
             .register();
 
+    public static final ItemEntry<ComponentItem> HYPERDIMENSIONAL_DRONE = item("hyperdimensional_drone", "超维度无人机", ComponentItem::create)
+            .lang("Hyperdimensional Drone")
+            .properties(p -> p.stacksTo(1))
+            .onRegister(modelPredicate(GTCEu.id("battery"), ElectricStats::getStoredPredicate))
+            .onRegister(attach(new DroneBehavior(GTValues.MAX)))
+            .register();
+
     public static final ItemEntry<ComponentItem> MAX_ELECTRIC_PUMP = item("max_electric_pump", "§4§lMAX§r电动泵", ComponentItem::create)
-            .lang("MAX Electric Pump")
+            .lang("§4§lMAX§r Electric Pump")
             .onRegister(attach(new CoverPlaceBehavior(GTOCovers.ELECTRIC_PUMP_MAX)))
             .onRegister(attach(new TooltipBehavior(lines -> {
                 lines.add(Component.translatable("item.gtceu.electric.pump.tooltip"));
@@ -175,7 +204,7 @@ public final class GTOItems {
             .register();
 
     public static final ItemEntry<ComponentItem> MAX_CONVEYOR_MODULE = item("max_conveyor_module", "§4§lMAX§r传送带", ComponentItem::create)
-            .lang("MAX Conveyor Module")
+            .lang("§4§lMAX§r Conveyor Module")
             .onRegister(attach(new CoverPlaceBehavior(GTOCovers.CONVEYOR_MODULE_MAX)))
             .onRegister(attach(new TooltipBehavior(lines -> {
                 lines.add(Component.translatable("item.gtceu.conveyor.module.tooltip"));
@@ -184,7 +213,7 @@ public final class GTOItems {
             .register();
 
     public static final ItemEntry<ComponentItem> MAX_ROBOT_ARM = item("max_robot_arm", "§4§lMAX§r机械臂", ComponentItem::create)
-            .lang("MAX Robot Arm")
+            .lang("§4§lMAX§r Robot Arm")
             .onRegister(attach(new CoverPlaceBehavior(GTOCovers.ROBOT_ARM_MAX)))
             .onRegister(attach(new TooltipBehavior(lines -> {
                 lines.add(Component.translatable("item.gtceu.robot.arm.tooltip"));
@@ -192,11 +221,11 @@ public final class GTOItems {
             })))
             .register();
 
-    public static final ItemEntry<Item> MAX_ELECTRIC_MOTOR = registerLang("max_electric_motor", "MAX Electric Motor", "§4§lMAX§r电动马达");
-    public static final ItemEntry<Item> MAX_ELECTRIC_PISTON = registerLang("max_electric_piston", "MAX Electric Piston", "§4§lMAX§r电力活塞");
-    public static final ItemEntry<Item> MAX_FIELD_GENERATOR = registerLang("max_field_generator", "MAX Field Generator", "§4§lMAX§r力场发生器");
-    public static final ItemEntry<Item> MAX_EMITTER = registerLang("max_emitter", "MAX Emitte", "§4§lMAX§r发射器");
-    public static final ItemEntry<Item> MAX_SENSOR = registerLang("max_sensor", "MAX Sensor", "§4§lMAX§r传感器");
+    public static final ItemEntry<Item> MAX_ELECTRIC_MOTOR = registerLang("max_electric_motor", "§4§lMAX§r Electric Motor", "§4§lMAX§r电动马达");
+    public static final ItemEntry<Item> MAX_ELECTRIC_PISTON = registerLang("max_electric_piston", "§4§lMAX§r Electric Piston", "§4§lMAX§r电力活塞");
+    public static final ItemEntry<Item> MAX_FIELD_GENERATOR = registerLang("max_field_generator", "§4§lMAX§r Field Generator", "§4§lMAX§r力场发生器");
+    public static final ItemEntry<Item> MAX_EMITTER = registerLang("max_emitter", "§4§lMAX§r Emitter", "§4§lMAX§r发射器");
+    public static final ItemEntry<Item> MAX_SENSOR = registerLang("max_sensor", "§4§lMAX§r Sensor", "§4§lMAX§r传感器");
 
     public static final ItemEntry<Item> INTEGRATED_CONTROL_CORE_UV = registerLang("uv_integrated_control_core", "§3UV§r Integrated Control Core", "§3UV§r集控核心");
     public static final ItemEntry<Item> INTEGRATED_CONTROL_CORE_UHV = registerLang("uhv_integrated_control_core", "§4UHV§r Integrated Control Core", "§4UHV§r集控核心");
@@ -206,7 +235,7 @@ public final class GTOItems {
     public static final ItemEntry<Item> INTEGRATED_CONTROL_CORE_OpV = registerLang("opv_integrated_control_core", "§9§lOpV§r Integrated Control Core", "§9§lOpV§r集控核心");
     public static final ItemEntry<Item> INTEGRATED_CONTROL_CORE_MAX = registerLang("max_integrated_control_core", "§4§lMAX§r Integrated Control Core", "§4§lMAX§r集控核心");
 
-    public static final ItemEntry<ComponentItem> ULV_ELECTRIC_PUMP = item("ulv_electric_pump", "ULV电动泵", ComponentItem::create)
+    public static final ItemEntry<ComponentItem> ULV_ELECTRIC_PUMP = item("ulv_electric_pump", "§8ULV§r电动泵", ComponentItem::create)
             .lang("ULV Electric Pump")
             .onRegister(attach(new CoverPlaceBehavior(GTOCovers.ELECTRIC_PUMP_ULV)))
             .onRegister(attach(new TooltipBehavior(lines -> {
@@ -215,7 +244,7 @@ public final class GTOItems {
             })))
             .register();
 
-    public static final ItemEntry<ComponentItem> ULV_CONVEYOR_MODULE = item("ulv_conveyor_module", "ULV传送带", ComponentItem::create)
+    public static final ItemEntry<ComponentItem> ULV_CONVEYOR_MODULE = item("ulv_conveyor_module", "§8ULV§r传送带", ComponentItem::create)
             .lang("ULV Conveyor Module")
             .onRegister(attach(new CoverPlaceBehavior(GTOCovers.CONVEYOR_MODULE_ULV)))
             .onRegister(attach(new TooltipBehavior(lines -> {
@@ -224,16 +253,16 @@ public final class GTOItems {
             })))
             .register();
 
-    public static final ItemEntry<ComponentItem> ULV_FLUID_REGULATOR = item("ulv_fluid_regulator", "ULV流体校准器", ComponentItem::create)
+    public static final ItemEntry<ComponentItem> ULV_FLUID_REGULATOR = item("ulv_fluid_regulator", "§8ULV§r流体校准器", ComponentItem::create)
             .lang("ULV Fluid Regulator")
             .onRegister(attach(new CoverPlaceBehavior(GTOCovers.FLUID_REGULATOR_ULV)))
             .onRegister(attach(new TooltipBehavior(lines -> {
                 lines.add(Component.translatable("item.gtceu.fluid.regulator.tooltip"));
-                lines.add(Component.translatable("gtceu.universal.tooltip.fluid_transfer_rate", (1280 / 2) / 20));
+                lines.add(Component.translatable("gtceu.universal.tooltip.fluid_transfer_rate", 16));
             })))
             .register();
 
-    public static final ItemEntry<ComponentItem> ULV_ROBOT_ARM = item("ulv_robot_arm", "ULV机械臂", ComponentItem::create)
+    public static final ItemEntry<ComponentItem> ULV_ROBOT_ARM = item("ulv_robot_arm", "§8ULV§r机械臂", ComponentItem::create)
             .lang("ULV Robot Arm")
             .onRegister(attach(new CoverPlaceBehavior(GTOCovers.ROBOT_ARM_ULV)))
             .onRegister(attach(new TooltipBehavior(lines -> {
@@ -242,8 +271,8 @@ public final class GTOItems {
             })))
             .register();
 
-    public static final ItemEntry<Item> ULV_ELECTRIC_MOTOR = registerLang("ulv_electric_motor", "ULV Electric Motor", "ULV电动马达");
-    public static final ItemEntry<Item> ULV_ELECTRIC_PISTON = registerLang("ulv_electric_piston", "ULV Electric Piston", "ULV电力活塞");
+    public static final ItemEntry<Item> ULV_ELECTRIC_MOTOR = registerLang("ulv_electric_motor", "ULV Electric Motor", "§8ULV§r电动马达");
+    public static final ItemEntry<Item> ULV_ELECTRIC_PISTON = registerLang("ulv_electric_piston", "ULV Electric Piston", "§8ULV§r电力活塞");
 
     public static final ItemEntry<ComponentItem> LV_POWER_AMPLIFIERS = item("lv_power_amplifiers", "LV功率增幅器", ComponentItem::create)
             .model((ctx, prov) -> prov.generated(ctx, GTOCore.id("item/power_amplifiers/lv_power_amplifiers")))
@@ -307,7 +336,7 @@ public final class GTOItems {
     public static final ItemEntry<ComponentItem> WIRELESS_CHARGER_COVER = item("wireless_charger_cover", "无线充能覆盖板", ComponentItem::create)
             .toolTips(ComponentBuilder.create()
                     .addLines("贴在存储方块上可使内部的物品自动充能", "Attach to a storage block to automatically charge its contents")
-                    .addLines("需要链接无线充能器使用", "Requires a wireless charger to use")
+                    .addLines("需要链接HV及以上等级的无线充能器使用", "Requires linking with a HV or higher wireless charger to use")
                     .build().getArray())
             .onRegister(attach(new CoverPlaceBehavior(GTOCovers.WIRELESS_CHARGER_COVER)))
             .register();
@@ -361,10 +390,6 @@ public final class GTOItems {
             .onRegister(attach(new DataItemBehavior(true)))
             .register();
 
-    public static final ItemEntry<ComponentItem> CLOSED_TIMELIKE_CURVE_GUIDANCE_UNIT = item("closed_timelike_curve_guidance_unit", "封闭类时曲线引导单元", ComponentItem::create)
-            .onRegister(attach(new DataItemBehavior(true)))
-            .register();
-
     public static final ItemEntry<DiscItem> DATA_DISC = item("data_disc", "数据光盘", DiscItem::new)
             .register();
 
@@ -386,17 +411,21 @@ public final class GTOItems {
             .onRegister(attach(new DataItemBehavior(true)))
             .register();// OPV鸿蒙之眼后解锁,MAX初期开使用
 
-    public static final ItemEntry<Item> DATA_CRYSTAL_COMPONENT_MK1 = register("data_crystal_component_mk1", "数据晶片组件 mk1");
-    public static final ItemEntry<Item> DATA_CRYSTAL_COMPONENT_MK2 = register("data_crystal_component_mk2", "数据晶片组件 mk2");
-    public static final ItemEntry<Item> DATA_CRYSTAL_COMPONENT_MK3 = register("data_crystal_component_mk3", "数据晶片组件 mk3");
-    public static final ItemEntry<Item> DATA_CRYSTAL_COMPONENT_MK4 = register("data_crystal_component_mk4", "数据晶片组件 mk4");
-    public static final ItemEntry<Item> DATA_CRYSTAL_COMPONENT_MK5 = register("data_crystal_component_mk5", "数据晶片组件 mk5");
+    public static final ItemEntry<ComponentItem> CLOSED_TIMELIKE_CURVE_GUIDANCE_UNIT = item("closed_timelike_curve_guidance_unit", "封闭类时曲线引导单元", ComponentItem::create)
+            .onRegister(attach(new DataItemBehavior(true)))
+            .register();
 
-    public static final ItemEntry<DataCrystalItem> DATA_CRYSTAL_MK1 = item("data_crystal_mk1", "数据晶片 mk1", DataCrystalItem::new).register();
-    public static final ItemEntry<DataCrystalItem> DATA_CRYSTAL_MK2 = item("data_crystal_mk2", "数据晶片 mk2", DataCrystalItem::new).register();
-    public static final ItemEntry<DataCrystalItem> DATA_CRYSTAL_MK3 = item("data_crystal_mk3", "数据晶片 mk3", DataCrystalItem::new).register();
-    public static final ItemEntry<DataCrystalItem> DATA_CRYSTAL_MK4 = item("data_crystal_mk4", "数据晶片 mk4", DataCrystalItem::new).register();
-    public static final ItemEntry<DataCrystalItem> DATA_CRYSTAL_MK5 = item("data_crystal_mk5", "数据晶片 mk5", DataCrystalItem::new).register();
+    public static final ItemEntry<Item> DATA_CRYSTAL_COMPONENT_MK1 = registerLang("data_crystal_component_mk1", "Data Crystal Component MK I", "数据晶片组件 MK I");
+    public static final ItemEntry<Item> DATA_CRYSTAL_COMPONENT_MK2 = registerLang("data_crystal_component_mk2", "Data Crystal Component MK II", "数据晶片组件 MK II");
+    public static final ItemEntry<Item> DATA_CRYSTAL_COMPONENT_MK3 = registerLang("data_crystal_component_mk3", "Data Crystal Component MK III", "数据晶片组件 MK III");
+    public static final ItemEntry<Item> DATA_CRYSTAL_COMPONENT_MK4 = registerLang("data_crystal_component_mk4", "Data Crystal Component MK IV", "数据晶片组件 MK IV");
+    public static final ItemEntry<Item> DATA_CRYSTAL_COMPONENT_MK5 = registerLang("data_crystal_component_mk5", "Data Crystal Component MK V", "数据晶片组件 MK V");
+
+    public static final ItemEntry<DataCrystalItem> DATA_CRYSTAL_MK1 = item("data_crystal_mk1", "数据晶片 MK I", DataCrystalItem::new).lang("Data Crystal MK I").register();
+    public static final ItemEntry<DataCrystalItem> DATA_CRYSTAL_MK2 = item("data_crystal_mk2", "数据晶片 MK II", DataCrystalItem::new).lang("Data Crystal MK II").register();
+    public static final ItemEntry<DataCrystalItem> DATA_CRYSTAL_MK3 = item("data_crystal_mk3", "数据晶片 MK III", DataCrystalItem::new).lang("Data Crystal MK III").register();
+    public static final ItemEntry<DataCrystalItem> DATA_CRYSTAL_MK4 = item("data_crystal_mk4", "数据晶片 MK IV", DataCrystalItem::new).lang("Data Crystal MK IV").register();
+    public static final ItemEntry<DataCrystalItem> DATA_CRYSTAL_MK5 = item("data_crystal_mk5", "数据晶片 MK V", DataCrystalItem::new).lang("Data Crystal MK V").register();
 
     public static final ItemEntry<KineticRotorItem> WOOD_ROTOR = registerRotor("wood_kinetic_rotor", "木", 2400, 4, 10, 0);
     public static final ItemEntry<KineticRotorItem> IRON_ROTOR = registerRotor("iron_kinetic_rotor", "铁", 14000, 10, 20, 1);
@@ -495,12 +524,21 @@ public final class GTOItems {
     public static final ItemEntry<Item> OPV_VOLTAGE_COIL = registerLang("opv_voltage_coil", "OpV Voltage Coil", "过载压线圈");
     public static final ItemEntry<Item> MAX_VOLTAGE_COIL = registerLang("max_voltage_coil", "MAX Voltage Coil", "上限压线圈");
 
-    public static final ItemEntry<Item> SPACE_DRONE_MK1 = registerLang("space_drone_mk1", "Space Drone MKⅠ", "太空无人机MKⅠ");
-    public static final ItemEntry<Item> SPACE_DRONE_MK2 = registerLang("space_drone_mk2", "Space Drone MKⅡ", "太空无人机MKⅡ");
-    public static final ItemEntry<Item> SPACE_DRONE_MK3 = registerLang("space_drone_mk3", "Space Drone MKⅢ", "太空无人机MKⅢ");
-    public static final ItemEntry<Item> SPACE_DRONE_MK4 = registerLang("space_drone_mk4", "Space Drone MKⅣ", "太空无人机MKⅣ");
-    public static final ItemEntry<Item> SPACE_DRONE_MK5 = registerLang("space_drone_mk5", "Space Drone MKⅤ", "太空无人机MKⅤ");
-    public static final ItemEntry<Item> SPACE_DRONE_MK6 = registerLang("space_drone_mk6", "Space Drone MKⅥ", "太空无人机MKⅥ");
+    public static final ItemEntry<Item> SPACE_DRONE_MK1 = registerLang("space_drone_mk1", "Space Drone MK I", "太空无人机 MK I");
+    public static final ItemEntry<Item> SPACE_DRONE_MK2 = registerLang("space_drone_mk2", "Space Drone MK II", "太空无人机 MK II");
+    public static final ItemEntry<Item> SPACE_DRONE_MK3 = registerLang("space_drone_mk3", "Space Drone MK III", "太空无人机 MK III");
+    public static final ItemEntry<Item> SPACE_DRONE_MK4 = registerLang("space_drone_mk4", "Space Drone MK IV", "太空无人机 MK IV");
+    public static final ItemEntry<Item> SPACE_DRONE_MK5 = registerLang("space_drone_mk5", "Space Drone MK V", "太空无人机 MK V");
+    public static final ItemEntry<Item> SPACE_DRONE_MK6 = registerLang("space_drone_mk6", "Space Drone MK VI", "太空无人机 MK VI");
+
+    public static ItemEntry<Item> NEUTRON_PILE = register("neutron_pile", "中子尘埃");
+
+    public static ItemEntry<Item> INFINITY_CATALYST = registerCustomModel("infinity_catalyst", "无尽催化剂");
+
+    public static ItemEntry<Item> INFINITY_SINGULARITY = item("infinity_singularity", "无尽奇点")
+            .model(NonNullBiConsumer.noop())
+            .color(() -> () -> (item, i) -> MaterialsColorMap.getCurrentRainbowColor())
+            .register();
 
     public static final ItemEntry<ComponentItem> COSMIC_SINGULARITY = item("cosmic_singularity", "宇宙奇点", ComponentItem::create)
             .onRegister(attachRenderer(() -> HaloItemRenderer.COSMIC_HALO))
@@ -610,14 +648,16 @@ public final class GTOItems {
     public static final ItemEntry<Item> ROTATING_TRANSPARENT_SURFACE = register("rotating_transparent_surface", "旋转透明层");
     public static final ItemEntry<Item> ELECTRON_SOURCE = register("electron_source", "电子源");
     public static final ItemEntry<Item> ESSENCE = register("essence", "精华");
+    public static final ItemEntry<Item> HIGHLY_CONCURRENT_INTENSIVE_OPTICAL_COMPUTING_CHANNEL = register("highly_concurrent_intensive_optical_computing_channel", "高并发密集型光计算通道");
+    public static final ItemEntry<Item> SEALED_SINGULARITY_PLATFORM = register("sealed_exotic_singularity_platform", "封闭奇异发生平台");
     public static final ItemEntry<Item> ESSENCE_SEED = register("essence_seed", "精华种子");
     public static final ItemEntry<Item> NUCLEAR_STAR = register("nuclear_star", "核能之星");
     public static final ItemEntry<Item> UNSTABLE_STAR = register("unstable_star", "易变之星");
-    public static final ItemEntry<Item> PRECISION_CIRCUIT_ASSEMBLY_ROBOT_MK1 = register("precision_circuit_assembly_robot_mk1", "精密电路装配机器人MKⅠ");
-    public static final ItemEntry<Item> PRECISION_CIRCUIT_ASSEMBLY_ROBOT_MK2 = register("precision_circuit_assembly_robot_mk2", "精密电路装配机器人MKⅡ");
-    public static final ItemEntry<Item> PRECISION_CIRCUIT_ASSEMBLY_ROBOT_MK3 = register("precision_circuit_assembly_robot_mk3", "精密电路装配机器人MKⅢ");
-    public static final ItemEntry<Item> PRECISION_CIRCUIT_ASSEMBLY_ROBOT_MK4 = register("precision_circuit_assembly_robot_mk4", "精密电路装配机器人MKⅣ");
-    public static final ItemEntry<Item> PRECISION_CIRCUIT_ASSEMBLY_ROBOT_MK5 = register("precision_circuit_assembly_robot_mk5", "精密电路装配机器人MKⅤ");
+    public static final ItemEntry<Item> PRECISION_CIRCUIT_ASSEMBLY_ROBOT_MK1 = registerLang("precision_circuit_assembly_robot_mk1", "Precision Circuit Assembly Robot MK I", "精密电路装配机器人 MK I");
+    public static final ItemEntry<Item> PRECISION_CIRCUIT_ASSEMBLY_ROBOT_MK2 = registerLang("precision_circuit_assembly_robot_mk2", "Precision Circuit Assembly Robot MK II", "精密电路装配机器人 MK II");
+    public static final ItemEntry<Item> PRECISION_CIRCUIT_ASSEMBLY_ROBOT_MK3 = registerLang("precision_circuit_assembly_robot_mk3", "Precision Circuit Assembly Robot MK III", "精密电路装配机器人 MK III");
+    public static final ItemEntry<Item> PRECISION_CIRCUIT_ASSEMBLY_ROBOT_MK4 = registerLang("precision_circuit_assembly_robot_mk4", "Precision Circuit Assembly Robot MK IV", "精密电路装配机器人 MK IV");
+    public static final ItemEntry<Item> PRECISION_CIRCUIT_ASSEMBLY_ROBOT_MK5 = registerLang("precision_circuit_assembly_robot_mk5", "Precision Circuit Assembly Robot MK V", "精密电路装配机器人 MK V");
     public static final ItemEntry<Item> SCRAP = register("scrap", "废料");
     public static final ItemEntry<Item> SCRAP_BOX = register("scrap_box", "废料盒");
     public static final ItemEntry<Item> NUCLEAR_WASTE = register("nuclear_waste", "核废料");
@@ -703,14 +743,14 @@ public final class GTOItems {
     public static final ItemEntry<Item> CLOSED_TIMELIKE_CURVE_COMPUTATIONAL_UNIT_CONTAINER = register("closed_timelike_curve_computational_unit_container", "封闭类时曲线计算单元容器");
     public static final ItemEntry<Item> CLOSED_TIMELIKE_CURVE_COMPUTATIONAL_UNIT = register("closed_timelike_curve_computational_unit", "封闭类时曲线计算单元");
     public static final ItemEntry<Item> HIGHLY_DENSE_POLYMER_PLATE = register("highly_dense_polymer_plate", "高密度聚合物板");
-    public static final ItemEntry<Item> SPACE_PROBE_MK1 = register("space_probe_mk1", "宇宙探测器MKⅠ");
-    public static final ItemEntry<Item> SPACE_PROBE_MK2 = register("space_probe_mk2", "宇宙探测器MKⅡ");
-    public static final ItemEntry<Item> SPACE_PROBE_MK3 = register("space_probe_mk3", "宇宙探测器MKⅢ");
+    public static final ItemEntry<Item> SPACE_PROBE_MK1 = registerLang("space_probe_mk1", "Space Probe MK I", "宇宙探测器 MK I");
+    public static final ItemEntry<Item> SPACE_PROBE_MK2 = registerLang("space_probe_mk2", "Space Probe MK II", "宇宙探测器 MK II");
+    public static final ItemEntry<Item> SPACE_PROBE_MK3 = registerLang("space_probe_mk3", "Space Probe MK III", "宇宙探测器 MK III");
     public static final ItemEntry<Item> HYPERCUBE = register("hypercube", "超立方体");
     public static final ItemEntry<Item> ANNIHILATION_CONSTRAINER = register("annihilation_constrainer", "湮灭约束器");
     public static final ItemEntry<Item> SOLAR_LIGHT_SPLITTER = register("solar_light_splitter", "阳光分离器");
-    public static final ItemEntry<Item> CREATE_ULTIMATE_BATTERY = registerTooltip("create_ultimate_battery", "创造电池", () -> Component.literal(I18n.get("tooltip.avaritia.tier", StringUtils.white_blue(I18n.get("gtocore.tooltip.unknown")))).withStyle(ChatFormatting.GREEN));
-    public static final ItemEntry<Item> SUPRACHRONAL_MAINFRAME_COMPLEX = registerTooltip("suprachronal_mainframe_complex", "创造主机", () -> Component.literal(I18n.get("tooltip.avaritia.tier", StringUtils.white_blue(I18n.get("gtocore.tooltip.unknown")))).withStyle(ChatFormatting.GREEN));
+    public static final ItemEntry<Item> CREATE_ULTIMATE_BATTERY = registerTooltip("create_ultimate_battery", "创造电池", () -> Component.literal(I18n.get("ars_nouveau.tier", StringUtils.white_blue(I18n.get("gtocore.tooltip.unknown")))).withStyle(ChatFormatting.GREEN));
+    public static final ItemEntry<Item> SUPRACHRONAL_MAINFRAME_COMPLEX = registerTooltip("suprachronal_mainframe_complex", "创造主机", () -> Component.literal(I18n.get("ars_nouveau.tier", StringUtils.white_blue(I18n.get("gtocore.tooltip.unknown")))).withStyle(ChatFormatting.GREEN));
     public static final ItemEntry<Item> ZERO_POINT_MODULE_FRAGMENTS = register("zero_point_module_fragments", "零点模块碎片");
     public static final ItemEntry<Item> TCETIESEAWEEDEXTRACT = register("tcetieseaweedextract", "鲸鱼座T星E藻类提取物");
     public static final ItemEntry<Item> TCETIEDANDELIONS = register("tcetiedandelions", "鲸鱼座T星E藻类");
@@ -777,14 +817,13 @@ public final class GTOItems {
     public static final ItemEntry<Item> GIGA_CHAD = register("giga_chad", "Giga Chad代币");
     public static final ItemEntry<Item> REACTOR_FUEL_ROD = register("reactor_fuel_rod", "空燃料棒");
     public static final ItemEntry<Item> TUNGSTEN_CARBIDE_REACTOR_FUEL_ROD = register("tungsten_carbide_reactor_fuel_rod", "空碳化钨燃料棒");
-    public static final ItemEntry<Item> HUI_CIRCUIT_1 = registerLang("hui_circuit_1", "High Calculation Workstation MK-I", "高算力工作站 MK-I");
-    public static final ItemEntry<Item> HUI_CIRCUIT_2 = registerLang("hui_circuit_2", "High Calculation Workstation MK-II", "高算力工作站 MK-II");
-    public static final ItemEntry<Item> HUI_CIRCUIT_3 = registerLang("hui_circuit_3", "High Calculation Workstation MK-III", "高算力工作站 MK-III");
-    public static final ItemEntry<Item> HUI_CIRCUIT_4 = registerLang("hui_circuit_4", "High Calculation Workstation MK-IV", "高算力工作站 MK-IV");
-    public static final ItemEntry<Item> HUI_CIRCUIT_5 = registerLang("hui_circuit_5", "High Calculation Workstation MK-V", "高算力工作站 MK-V");
+    public static final ItemEntry<Item> HUI_CIRCUIT_1 = registerLang("hui_circuit_1", "High Calculation Workstation MK I", "高算力工作站 MK I");
+    public static final ItemEntry<Item> HUI_CIRCUIT_2 = registerLang("hui_circuit_2", "High Calculation Workstation MK II", "高算力工作站 MK II");
+    public static final ItemEntry<Item> HUI_CIRCUIT_3 = registerLang("hui_circuit_3", "High Calculation Workstation MK III", "高算力工作站 MK III");
+    public static final ItemEntry<Item> HUI_CIRCUIT_4 = registerLang("hui_circuit_4", "High Calculation Workstation MK IV", "高算力工作站 MK IV");
+    public static final ItemEntry<Item> HUI_CIRCUIT_5 = registerLang("hui_circuit_5", "High Calculation Workstation MK V", "高算力工作站 MK V");
     public static final ItemEntry<Item> SPECIAL_CERAMICS = register("special_ceramics", "特种陶瓷");
     public static final ItemEntry<Item> PLANET_SCAN_SATELLITE = register("planet_scan_satellite", "行星扫描卫星");
-    public static final ItemEntry<Item> HYPERDIMENSIONAL_DRONE = register("hyperdimensional_drone", "超维度无人机");
 
     public static final ItemEntry<Item> HOT_IRON_INGOT = registerCustomModel("hot_iron_ingot", "热铁锭");
     public static final ItemEntry<Item> RAW_VACUUM_TUBE = registerCustomModel("raw_vacuum_tube", "粗真空管");
@@ -795,14 +834,14 @@ public final class GTOItems {
     public static final ItemEntry<Item> SEPARATION_ELECTROMAGNET = register("separation_electromagnet", "分离用电磁铁");
     public static final ItemEntry<Item> HIGHLY_INSULATING_FOIL = registerCustomModel("highly_insulating_foil", "高绝缘性箔");
 
-    public static final ItemEntry<Item> BLUE_ALGAE = registerAlgae("blue", "蓝");
-    public static final ItemEntry<Item> BROWN_ALGAE = registerAlgae("brown", "褐");
-    public static final ItemEntry<Item> GOLD_ALGAE = registerAlgae("gold", "金");
-    public static final ItemEntry<Item> GREEN_ALGAE = registerAlgae("green", "绿");
-    public static final ItemEntry<Item> RED_ALGAE = registerAlgae("red", "红");
-    public static final ItemEntry<Item> GOLD_ALGAE_FIBER = registerAlgaeFiber("gold", "金");
-    public static final ItemEntry<Item> GREEN_ALGAE_FIBER = registerAlgaeFiber("green", "绿");
-    public static final ItemEntry<Item> RED_ALGAE_FIBER = registerAlgaeFiber("red", "红");
+    public static final ItemEntry<Item> BLUE_ALGAE = registerAlgae(Algae.BlueAlgae);
+    public static final ItemEntry<Item> BROWN_ALGAE = registerAlgae(Algae.BrownAlgae);
+    public static final ItemEntry<Item> GOLD_ALGAE = registerAlgae(Algae.GoldAlgae);
+    public static final ItemEntry<Item> GREEN_ALGAE = registerAlgae(Algae.GreenAlgae);
+    public static final ItemEntry<Item> RED_ALGAE = registerAlgae(Algae.RedAlgae);
+    public static final ItemEntry<Item> GOLD_ALGAE_FIBER = registerAlgaeFiber(Algae.GoldAlgae);
+    public static final ItemEntry<Item> GREEN_ALGAE_FIBER = registerAlgaeFiber(Algae.GreenAlgae);
+    public static final ItemEntry<Item> RED_ALGAE_FIBER = registerAlgaeFiber(Algae.RedAlgae);
 
     public static final ItemEntry<Item> CEREBRUM = register("cerebrum", "大脑");
     public static final ItemEntry<Item> SUPER_CEREBRUM = register("super_cerebrum", "超级大脑");
@@ -817,6 +856,7 @@ public final class GTOItems {
     public static final ItemEntry<Item> CUPRIAVIDUS_PETRI_DISH = registerTexture("cupriavidus_petri_dish", "贪铜钩虫菌培养皿", "germ");
     public static final ItemEntry<Item> SHEWANELLA_PETRI_DISH = registerTexture("shewanella_petri_dish", "希瓦氏菌培养皿", "germ");
     public static final ItemEntry<Item> CLOSTRIDIUM_PASTEURIANUM_DISH = registerTexture("clostridium_pasteurianum_dish", "巴氏梭菌培养皿", "germ");
+    public static final ItemEntry<Item> HYPERTHERMOPHILIC_ARCHAEON_DISH = registerTexture("hyperthermophilic_archaeon_dish", "嗜热古菌培养皿", "germ");
 
     public static final ItemEntry<Item> CONVERSION_SIMULATE_CARD = register("conversion_simulate_card", "转换模拟卡");
     public static final ItemEntry<Item> ACTIVATED_CARBON_FILTER_MESH = register("activated_carbon_filter_mesh", "活性炭过滤网");
@@ -859,6 +899,7 @@ public final class GTOItems {
     public static final ItemEntry<Item> MICA_INSULATOR_FOIL = register("mica_insulator_foil", "云母绝缘薄片");
 
     public static final ItemEntry<Item> RAW_ALUMINUM = register("raw_aluminum", "生铝");
+    public static final ItemEntry<Item> SUBATOMIC_SPONGE = register("subatomic_sponge", "亚原子海绵");
 
     public static final ItemEntry<Item> HIGH_PURITY_SILICON_BOULE = register("high_purity_silicon_boule", "高纯多晶硅");
     public static final ItemEntry<Item> REGIONAL_SMELTING_SILICON_BOULE = register("regional_smelting_silicon_boule", "区域熔炼的多晶硅");
@@ -897,12 +938,50 @@ public final class GTOItems {
         }
     }).register();
 
+    public static final ItemEntry<Item> MANA_CRYSTAL = register("mana_crystal", "魔力结晶");
+
+    public static final ItemEntry<Item> SOURCE_SPIRIT_DEBRIS = registerTooltip("source_spirit_debris", "源灵碎屑", () -> Component.literal("✨"));
+    public static final ItemEntry<Item> HOLY_ROOT_MYCELIUM = registerTooltip("holy_root_mycelium", "圣根菌丝", () -> Component.literal("🍄"));
+    public static final ItemEntry<Item> STAR_DEBRIS_SAND = registerTooltip("star_debris_sand", "星屑砂", () -> Component.literal("⭐"));
+    public static final ItemEntry<Item> VEIN_BLOOD_MUCUS = registerTooltip("vein_blood_mucus", "脉血粘液", () -> Component.literal("🩸"));
+    public static final ItemEntry<Item> SOUL_SHADOW_DUST = registerTooltip("soul_shadow_dust", "魂影尘", () -> Component.literal("🌑"));
+    public static final ItemEntry<Item> CONSCIOUSNESS_THREAD = registerTooltip("consciousness_thread", "识念丝", () -> Component.literal("🧵"));
+    public static final ItemEntry<Item> BONE_ASH_GRANULE = registerTooltip("bone_ash_granule", "骸灰粒", () -> Component.literal("💀"));
+    public static final ItemEntry<Item> SPIRIT_BONE_FRAGMENT = registerTooltip("spirit_bone_fragment", "灵骸碎片", () -> Component.literal("👻"));
+
+    public static final ItemEntry<Item> ORIGIN_CORE_ENERGY_BODY = register("origin_core_energy_body", "源核能量体");
+    public static final ItemEntry<Item> SOURCE_ENERGY_CATALYST_EMBRYO = register("source_energy_catalyst_embryo", "源能催化晶胚");
+    public static final ItemEntry<Item> SOURCE_ENERGY_CATALYST_CRYSTAL = register("source_energy_catalyst_crystal", "源能催化晶");
+    public static final ItemEntry<Item> SOURCE_ENERGY_CATALYST_CRYSTAL_SHARD = register("source_energy_catalyst_crystal_shard", "源能催化晶残片");
+    public static final ItemEntry<Item> REGENERATED_SOURCE_ENERGY_BODY = register("regenerated_source_energy_body", "再生源能能量体");
+
+    public static final ItemEntry<Item> SOUL_THOUGHT_CONDENSATE = register("soul_thought_condensate", "魂念凝聚体");
+    public static final ItemEntry<Item> ANCHORED_SOUL_CORE = register("anchored_soul_core", "锚定魂核");
+    public static final ItemEntry<Item> SOUL_THOUGHT_CATALYST_EMBRYO = register("soul_thought_catalyst_embryo", "魂念催化胚");
+    public static final ItemEntry<Item> SOUL_THOUGHT_CATALYST_CORE = register("soul_thought_catalyst_core", "魂念催化核");
+    public static final ItemEntry<Item> SOUL_THOUGHT_CATALYST_CORE_SHARD = register("soul_thought_catalyst_core_shard", "魂念催化核碎片");
+    public static final ItemEntry<Item> REGENERATED_SOUL_CORE = register("regenerated_soul_core", "再生魂核");
+
+    public static final ItemEntry<Item> REMNANT_ENERGY_ADSORBER = register("remnant_energy_adsorber", "骸能吸附体");
+    public static final ItemEntry<Item> REMNANT_EROSION_CATALYST_EMBRYO = register("remnant_erosion_catalyst_embryo", "骸蚀催化胚");
+    public static final ItemEntry<Item> REGENERATED_REMNANT_ENERGY_ADSORBER = register("regenerated_remnant_energy_adsorber", "再生骸能吸附体");
+
+    public static final ItemEntry<Item> PURIFY_REFINED_ORIGIN_CORE_CRYSTAL_ORE = register("purify_refined_origin_core_crystal_ore", "净化精炼源核晶矿石");
+    public static final ItemEntry<Item> PURIFY_REFINED_STAR_BLOOD_CRYSTAL_ORE = register("purify_refined_star_blood_crystal_ore", "净化精炼星血晶矿石");
+    public static final ItemEntry<Item> PURIFY_REFINED_SOUL_JADE_CRYSTAL_ORE = register("purify_refined_soul_jade_crystal_ore", "净化精炼魂玉晶矿石");
+    public static final ItemEntry<Item> PURIFY_REFINED_REMNANT_SPIRIT_STONE_ORE = register("purify_refined_remnant_spirit_stone_ore", "净化精炼骸灵石矿石");
+
+    public static final ItemEntry<Item> CRUDELY_PURIFIED_ORIGIN_CORE_CRYSTAL_ORE = register("crudely_purified_origin_core_crystal_ore", "粗劣提纯源核晶矿石");
+    public static final ItemEntry<Item> CRUDELY_FUSED_STAR_BLOOD_CRYSTAL_ORE = register("crudely_fused_star_blood_crystal_ore", "粗劣融合星血晶矿石");
+    public static final ItemEntry<Item> CRUDELY_HARMONIZED_SOUL_JADE_CRYSTAL_ORE = register("crudely_harmonized_soul_jade_crystal_ore", "粗劣调和魂玉晶矿石");
+    public static final ItemEntry<Item> CRUDELY_SHAPED_REMNANT_SPIRIT_STONE_ORE = register("crudely_shaped_remnant_spirit_stone_ore", "粗劣塑形骸灵石矿石");
+
     @SuppressWarnings("rawtypes")
     public static final ItemEntry[] TAROT_ARCANUM = registerTarotArcanum();
 
     public static final ItemEntry<AffixCanvas> AFFIX_CANVAS = item("affix_canvas", "铭刻之布", AffixCanvas::new).register();
-    public static final ItemEntry<ApothItem>[] ENCHANTMENT_ESSENCE = registerEnchantmentEssence();
-    public static final ItemEntry<ApothItem>[] AFFIX_ESSENCE = registerAffixEssence();
+    public static final Map<String, ItemEntry<ApothItem>> ENCHANTMENT_ESSENCE = registerEnchantmentEssence();
+    public static final Map<String, ItemEntry<ApothItem>> AFFIX_ESSENCE = registerAffixEssence();
 
     private static final String[] IndustrialComponents = { "standard", "extended", "special", "blasting" };
     private static final String[] IndustrialComponents2 = { "基础", "扩展", "特种", "爆破" };
@@ -927,6 +1006,8 @@ public final class GTOItems {
     }
 
     public static final ItemEntry<Wireless.Item> WIRELESS_ME2IN1 = item("wireless_me2in1_terminal", "无线ME2合1终端", Wireless.Item::new).register();
+    public static final ItemEntry<WRTMenu.WRTItem> WIRELESS_WRT = item("wireless_requester_terminal", "无线请求终端", WRTMenu.WRTItem::new).register();
+    public static final ItemEntry<WFTMenu.WFTItem> WIRELESS_WFT = item("wireless_facility_management_terminal", "无线设施管理终端", WFTMenu.WFTItem::new).register();
 
     public static final ItemEntry<Item> RO_MEMBRANE = register("ro_membrane", "ro膜");
     public static final ItemEntry<Item> NON_WOVEN_FABRIC = register("non_woven_fabric", "无纺布");
@@ -1063,24 +1144,33 @@ public final class GTOItems {
     public static final ItemEntry<Item> PREOXIDIZED_ATOMIC_PAN_FIBER = item("preoxidized_atomic_pan_fiber", "预氧化原子级聚丙烯腈原丝").model(NonNullBiConsumer.noop()).register();
     public static final ItemEntry<Item> GRAPHITIZED_ATOMIC_PAN_FIBER = item("graphitized_atomic_pan_fiber", "石墨化原子级聚丙烯腈原丝").model(NonNullBiConsumer.noop()).register();
 
-    // 能量控制模块mk123
-    public static final ItemEntry<Item> ENERGY_CONTROL_MODULE_MK1 = register("energy_control_module_mk1", "能量控制模块 MK-I");
-    public static final ItemEntry<Item> ENERGY_CONTROL_MODULE_MK2 = register("energy_control_module_mk2", "能量控制模块 MK-II");
-    public static final ItemEntry<Item> ENERGY_CONTROL_MODULE_MK3 = register("energy_control_module_mk3", "能量控制模块 MK-III");
-    // 运行控制模块mk123
-    public static final ItemEntry<Item> MACHINING_CONTROL_MODULE_MK1 = register("machining_control_module_mk1", "运行控制模块 MK-I");
-    public static final ItemEntry<Item> MACHINING_CONTROL_MODULE_MK2 = register("machining_control_module_mk2", "运行控制模块 MK-II");
-    public static final ItemEntry<Item> MACHINING_CONTROL_MODULE_MK3 = register("machining_control_module_mk3", "运行控制模块 MK-III");
-    // 小型太空梭mk12
-    public static final ItemEntry<ComponentItem> SMALL_SHUTTLE_MK1 = item("small_shuttle_mk1", "小型太空梭 MK-I", ComponentItem::create)
+    // 能量控制模块MK123
+    public static final ItemEntry<Item> ENERGY_CONTROL_MODULE_MK1 = registerLang("energy_control_module_mk1", "Energy Control Module MK I", "能量控制模块 MK I");
+    public static final ItemEntry<Item> ENERGY_CONTROL_MODULE_MK2 = registerLang("energy_control_module_mk2", "Energy Control Module MK II", "能量控制模块 MK II");
+    public static final ItemEntry<Item> ENERGY_CONTROL_MODULE_MK3 = registerLang("energy_control_module_mk3", "Energy Control Module MK III", "能量控制模块 MK III");
+    // 运行控制模块MK123
+    public static final ItemEntry<Item> MACHINING_CONTROL_MODULE_MK1 = registerLang("machining_control_module_mk1", "Machining Control Module MK I", "运行控制模块 MK I");
+    public static final ItemEntry<Item> MACHINING_CONTROL_MODULE_MK2 = registerLang("machining_control_module_mk2", "Machining Control Module MK II", "运行控制模块 MK II");
+    public static final ItemEntry<Item> MACHINING_CONTROL_MODULE_MK3 = registerLang("machining_control_module_mk3", "Machining Control Module MK III", "运行控制模块 MK III");
+    // 小型太空梭MK12
+    public static final ItemEntry<ComponentItem> SMALL_SHUTTLE_MK1 = item("small_shuttle_mk1", "小型太空梭 MK I", ComponentItem::create)
+            .lang("Small Shuttle MK I")
             .onRegister(attach(ElectricStats.createRechargeableBattery(3_600_000L, GTValues.HV)))
             .register();
-    public static final ItemEntry<ComponentItem> SMALL_SHUTTLE_MK2 = item("small_shuttle_mk2", "小型太空梭 MK-II", ComponentItem::create)
+    public static final ItemEntry<ComponentItem> SMALL_SHUTTLE_MK2 = item("small_shuttle_mk2", "小型太空梭 MK II", ComponentItem::create)
+            .lang("Small Shuttle MK II")
             .onRegister(attach(ElectricStats.createRechargeableBattery(10_240_000L, GTValues.EV)))
             .register();
-    // 激光陀螺仪mk12
-    public static final ItemEntry<Item> LASER_GYROSCOPE_MK1 = register("laser_gyroscope_mk1", "激光陀螺仪 MK-I");
-    public static final ItemEntry<Item> LASER_GYROSCOPE_MK2 = register("laser_gyroscope_mk2", "激光陀螺仪 MK-II");
+    // 激光陀螺仪MK12
+    public static final ItemEntry<Item> LASER_GYROSCOPE_MK1 = registerLang("laser_gyroscope_mk1", "Laser Gyroscope MK I", "激光陀螺仪 MK I");
+    public static final ItemEntry<Item> LASER_GYROSCOPE_MK2 = registerLang("laser_gyroscope_mk2", "Laser Gyroscope MK II", "激光陀螺仪 MK II");
+
+    // 无人机载终极电池
+    public static final ItemEntry<ComponentItem> DRONE_ULTIMATE_BATTERY = item("drone_ultimate_battery", "无人机载终极电池", ComponentItem::create)
+            .model(overrideModel(GTCEu.id("battery"), 8))
+            .onRegister(modelPredicate(GTCEu.id("battery"), ElectricStats::getStoredPredicate))
+            .onRegister(attach(ElectricStats.createRechargeableBattery(4_800_000_000_000L, GTValues.UHV)))
+            .tag(CustomTags.UHV_BATTERIES).register();
 
     // 奇怪的45钢钢板
     public static final ItemEntry<Item> STRANGE_STRUCTURE_STEEL_45_PLATE = register("strange_structure_steel_45_plate", "奇怪的45钢钢板");
@@ -1109,11 +1199,21 @@ public final class GTOItems {
     public static final ItemEntry<Item> WHITE_DYE_MASTERBATCH = register("white_dye_masterbatch", "白色染料色母");
 
     public static final ItemEntry<RewardBagItem> LV_REWARD_BAG = registerRewardBag("lv_reward_bag", "lv Reward Bag", "LV 战利品袋", RewardBagLoot.LV_REWARD_BAG_LOOT);
+    public static final ItemEntry<RewardBagItem> RUNE1_REWARD_BAG = registerRewardBag("rune1_reward_bag", "Tier 1 Rune Reward Bag", "一阶符文战利品袋", RewardBagLoot.RUNE_REWARD_BAG1_LOOT);
+    public static final ItemEntry<RewardBagItem> RUNE2_REWARD_BAG = registerRewardBag("rune2_reward_bag", "Tier 2 Rune Reward Bag", "二阶符文战利品袋", RewardBagLoot.RUNE_REWARD_BAG2_LOOT);
+    public static final ItemEntry<RewardBagItem> RUNE3_REWARD_BAG = registerRewardBag("rune3_reward_bag", "Tier 3 Rune Reward Bag", "三阶符文战利品袋", RewardBagLoot.RUNE_REWARD_BAG3_LOOT);
+    public static final ItemEntry<RewardBagItem> RUNE4_REWARD_BAG = registerRewardBag("rune4_reward_bag", "Tier 4 Rune Reward Bag", "四阶符文战利品袋", RewardBagLoot.RUNE_REWARD_BAG4_LOOT);
 
     private static @NotNull ItemEntry<RewardBagItem> registerRewardBag(String id, String en, String cn, ResourceLocation rewardBag) {
         return item(id, cn, p -> new RewardBagItem(p, rewardBag))
                 .lang(en)
                 .model((ctx, prov) -> prov.generated(ctx, GTOCore.id("item/philosophers_stone")))
+                .color(() -> () -> (stack, tintIndex) -> {
+                    if (stack.getItem() instanceof RewardBagItem rewardBagItem) {
+                        return RandomSource.create(rewardBagItem.getDefaultLootTable().hashCode()).nextInt(0xFFFFFF);
+                    }
+                    return 0xFFFFFF;
+                })
                 .register();
     }
 
@@ -1152,11 +1252,11 @@ public final class GTOItems {
     public static final ItemEntry<ComponentItem> PALM_SIZED_BANK = item("palm_sized_bank", "泛银河系格雷科技掌上银行", ComponentItem::create)
             .toolTips(GTOItemTooltips.INSTANCE.getPalmSizedBankTooltips().getArray())
             .properties(p -> p.stacksTo(1))
-            .lang("Pan-Galactic Grey Technology Palm-Sized Bank")
+            .lang("Pan-Galactic Greg Technology Palm-Sized Bank")
             .onRegister(attach(PalmSizedBankBehavior.INSTANCE))
             .register();
 
-    public static final ItemEntry<GrayMembershipCardItem> GRAY_MEMBERSHIP_CARD = item("gray_membership_card", "格雷会员卡", GrayMembershipCardItem::new).register();
+    public static final ItemEntry<GregMembershipCardItem> GREG_MEMBERSHIP_CARD = item("greg_membership_card", "格雷会员卡", GregMembershipCardItem::new).register();
 
     public static final ItemEntry<ComponentItem> PATTERN_BUFFER_UPGRADER0 = item("pattern_buffer_upgrader", "样板总成升级器", ComponentItem::create)
             .toolTips(ComponentBuilder.create()
@@ -1183,6 +1283,8 @@ public final class GTOItems {
             .toolTips(ComponentBuilder.create()
                     .addLines("§7Shift + 右键点击将存储访问仓替换为当前物品对应等级的存储访问仓。§r",
                             "§7Shift + Right-Click to convert a Storage Access Hatch into the tier corresponding to this item.§r")
+                    .addLines("§7当从大整数存储访问仓升级到该存储访问仓时，若原有存储储量超过9.2E18，则超过部分将§c§l永久丢失§r§7！§r",
+                            "§7When upgrading from a BigInt Storage Access Hatch to this Storage Access Hatch, if the original storage exceeds 9.2E18, the excess will be §c§lpermanently lost§r§7!§r")
                     .build().getArray())
             .onRegister(attach(MEStorageHatchReplacer.Long))
             .register();
@@ -1197,12 +1299,95 @@ public final class GTOItems {
             .toolTips(ComponentBuilder.create()
                     .addLines("§7Shift + 右键点击将存储访问仓替换为当前物品对应等级的存储访问仓。§r",
                             "§7Shift + Right-Click to convert a Storage Access Hatch into the tier corresponding to this item.§r")
+                    .addLines("§7当从大整数存储访问仓升级到该存储访问仓时，若原有存储储量超过9.2E18，则超过部分将§c§l永久丢失§r§7！§r",
+                            "§7When upgrading from a BigInt Storage Access Hatch to this Storage Access Hatch, if the original storage exceeds 9.2E18, the excess will be §c§lpermanently lost§r§7!§r")
                     .build().getArray())
             .onRegister(attach(MEStorageHatchReplacer.LongIO))
+            .register();
+
+    public static final ItemEntry<CreativeAllFluidCellItem> ALL_FLUIDS_CELL = item("all_fluids_cell", "创造流体元件（已充满）", p -> new CreativeAllFluidCellItem(p.stacksTo(1).rarity(Rarity.EPIC)))
+            .lang("Creative Fluid Cell (Filled)")
+            .model(NonNullBiConsumer.noop())
+            .register();
+
+    public static final ItemEntry<ComponentItem> TRAVEL_STAFF = item("travel_staff", "旅行手杖", p -> ComponentItem.create(p.stacksTo(1)))
+            .lang("The Staff of Travelling")
+            .onRegister(attach(TravelStaffBehavior.create()))
+            .model((ctx, prov) -> prov.handheld(ctx))
+            .register();
+
+    public static final ItemEntry<ComponentItem> ME_WIRELESS_MACHINE_CONFIGURATOR = item("me_wireless_machine_configurator", "ME无线机器配置器",
+            p -> ComponentItem.create(p.stacksTo(1)))
+            .onRegister(attach(MEWirelessMachineConfigurator.INSTANCE))
+            .register();
+
+    public static final ItemEntry<ComponentItem> TESSERACT_TARGET_MARKER = item("tesseract_target_marker", "坐标标签枪", ComponentItem::create)
+            .toolTips(ComponentBuilder.create()
+                    .addLines("§7可以按顺序标记超立方体传输目标位置。§r",
+                            "§7Used to mark the target location for Tesseract proxy in order.§r")
+                    .addLines("§a右键方块：§r 标记位置 §7(按正序)§r",
+                            "§aRight-Click:§r Mark Position §7(in order)§r")
+                    .addLines("§aShift + 右键方块：§r 清除该位置的标记§r",
+                            "§aShift + Right-Click:§r Clear the mark of this position§r")
+                    .addLines("§aShift + 右键空气：§r 清除所有标记§r",
+                            "§aShift + Right-Click Air:§r Clear all marks§r")
+                    .addLines("§a左键方块：§r 标记位置 §7(按倒序)§r",
+                            "§aRight-Click:§r Mark Position §7(in reverse order)§r")
+                    .addLines("§aShift + 左键超立方体：§r 将当前的标签应用到该超立方体§r",
+                            "§aShift + Left-Click Tesseract:§r Apply the current markers to this Tesseract§r")
+                    .addLines("§a中键选取键超立方体：§r 将当前超立方体的坐标配置复制到标签枪§r",
+                            "§aPick Block Key(default Middle-Click) Tesseract:§r Copy the coordinate configuration of this Tesseract to the marker gun§r")
+                    .addLines("§6注意：§r 向基于坐标信息卡的超立方体应用标签时需要足量的坐标信息卡！§r",
+                            "§6Note:§r Applying markers to a coordinate card-based Tesseract requires sufficient coordinate cards!§r")
+                    .build().getArray())
+            .properties(p -> p.stacksTo(1))
+            .onRegister(attach(new TesseractTargetMarker()))
+            .register();
+
+    public static ItemEntry<ComponentItem> GEM_ITEM_FILTER = item("gem_item_filter", "神化宝石过滤卡", ComponentItem::create)
+            .toolTips(Component.translatable("item.gtceu.item_filter.tooltip.0"),
+                    Component.translatable("item.gtceu.item_filter.tooltip.1"))
+            .onRegister(attach(new ItemFilterBehaviour(ApotheosisGemFilter::loadFilter),
+                    new CoverPlaceBehavior(GTCovers.ITEM_FILTER)))
+            .onRegister(materialInfo(new ItemMaterialInfo(new MaterialStack(GTOMaterials.Livingsteel, GTValues.M * 2),
+                    new MaterialStack(GTMaterials.Steel, GTValues.M))))
             .register();
 
     // TODO 所有带有此物品的配方都是临时配方，后续会随时被删除
     public static final ItemEntry<Item> STOPGAP_MEASURES = item("stopgap_measures", "权宜之计")
             .toolTips(ComponentBuilder.create().addLines("§7在写了~~§r", "§7On working~~§r").build().getArray())
+            .register();
+
+    public static final ItemEntry<RandomPositiveFoodItem> RANDOM_POSITIVE_FOOD_1 = item("delicious_food_1", "好吃的鱼 I", p -> new RandomPositiveFoodItem(p, 4, 0.6F))
+            .model((a, b) -> b.generated(a, GTOCore.id("item/food/fish/fish1")))
+            .register();
+
+    public static final ItemEntry<RandomPositiveFoodItem> RANDOM_POSITIVE_FOOD_2 = item("delicious_food_2", "好吃的鱼 II", p -> new RandomPositiveFoodItem(p, 6, 0.7F))
+            .model((a, b) -> b.generated(a, GTOCore.id("item/food/fish/fish2")))
+            .register();
+
+    public static final ItemEntry<RandomPositiveFoodItem> RANDOM_POSITIVE_FOOD_3 = item("delicious_food_3", "好吃的鱼 III", p -> new RandomPositiveFoodItem(p, 8, 0.8F))
+            .model((a, b) -> b.generated(a, GTOCore.id("item/food/fish/fish3")))
+            .register();
+
+    public static final ItemEntry<RandomPositiveFoodItem> RANDOM_POSITIVE_FOOD_4 = item("delicious_food_4", "好吃的鱼 IV", p -> new RandomPositiveFoodItem(p, 10, 0.9F))
+            .model((a, b) -> b.generated(a, GTOCore.id("item/food/fish/fish4")))
+            .register();
+
+    public static final ItemEntry<RandomPositiveFoodItem> CHOPPER_POPPER_FISH_HEAD_1 = item("chopper_popper_fish_head_1", "剁椒鱼头 I", p -> new RandomPositiveFoodItem(p, 4, 0.6F))
+            .model((a, b) -> b.generated(a, GTOCore.id("item/food/fishhead/fish_head0")))
+            .register();
+
+    public static final ItemEntry<RandomPositiveFoodItem> CHOPPER_POPPER_FISH_HEAD_2 = item("chopper_popper_fish_head_2", "剁椒鱼头 II", p -> new RandomPositiveFoodItem(p, 6, 0.7F))
+            .model((a, b) -> b.generated(a, GTOCore.id("item/food/fishhead/fish_head1")))
+            .register();
+    public static final ItemEntry<RandomPositiveFoodItem> CHOPPER_POPPER_FISH_HEAD_3 = item("chopper_popper_fish_head_3", "剁椒鱼头 III", p -> new RandomPositiveFoodItem(p, 8, 0.8F))
+            .model((a, b) -> b.generated(a, GTOCore.id("item/food/fishhead/fish_head2")))
+            .register();
+    public static final ItemEntry<RandomPositiveFoodItem> CHOPPER_POPPER_FISH_HEAD_4 = item("chopper_popper_fish_head_4", "剁椒鱼头 IV", p -> new RandomPositiveFoodItem(p, 10, 0.9F))
+            .model((a, b) -> b.generated(a, GTOCore.id("item/food/fishhead/fish_head3")))
+            .register();
+    public static final ItemEntry<RandomPositiveFoodItem> CHOPPER_POPPER_FISH_HEAD_5 = item("chopper_popper_fish_head_5", "剁椒鱼头 V", p -> new RandomPositiveFoodItem(p, 10, 1F))
+            .model((a, b) -> b.generated(a, GTOCore.id("item/food/fishhead/fish_head4")))
             .register();
 }

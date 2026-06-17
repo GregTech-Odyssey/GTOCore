@@ -12,6 +12,7 @@ import appeng.api.stacks.KeyCounter;
 import appeng.blockentity.crafting.IMolecularAssemblerSupportedPattern;
 import appeng.crafting.pattern.EncodedPatternItem;
 import appeng.crafting.pattern.ProcessingPatternItem;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -35,7 +36,9 @@ public class MECraftPatternPartMachine extends MEPatternPartMachineKt<MECraftPat
 
     @Override
     public boolean patternFilter(ItemStack stack) {
-        return stack.getItem() instanceof EncodedPatternItem && !(stack.getItem() instanceof ProcessingPatternItem);
+        return stack.getItem() instanceof EncodedPatternItem &&
+                !(stack.getItem() instanceof ProcessingPatternItem) &&
+                MEPatternPartMachineKtKt.checkDuplicatedPattern(this, stack);
     }
 
     @Override
@@ -45,11 +48,6 @@ public class MECraftPatternPartMachine extends MEPatternPartMachineKt<MECraftPat
 
     @Override
     public boolean defaultShowInTravel() {
-        return false;
-    }
-
-    @Override
-    public boolean canShared() {
         return false;
     }
 
@@ -108,5 +106,10 @@ public class MECraftPatternPartMachine extends MEPatternPartMachineKt<MECraftPat
         public Runnable getOnContentsChanged() {
             return machine.onContentsChanged;
         }
+    }
+
+    @Override
+    public boolean gto$isCraftingContainer() {
+        return true;
     }
 }

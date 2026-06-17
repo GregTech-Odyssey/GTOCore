@@ -13,11 +13,11 @@ import com.fast.fastcollection.O2OOpenCacheHashMap;
 import com.lowdragmc.lowdraglib.gui.widget.*;
 import com.lowdragmc.lowdraglib.utils.Position;
 import com.lowdragmc.lowdraglib.utils.Size;
-import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import it.unimi.dsi.fastutil.objects.ObjectBooleanPair;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
@@ -30,7 +30,7 @@ public class DisplayComponentGroup extends WidgetGroup {
     @NotNull
     private final List<ResourceLocation> originList;
     /// Uses both sides
-    private final List<ObjectBooleanPair<ResourceLocation>> current = new ObjectArrayList<>();
+    private final List<ObjectBooleanPair<ResourceLocation>> current = new ArrayList<>();
     private final Map<ResourceLocation, DisplayComponentWidget> displayWidgets = new O2OOpenCacheHashMap<>();
     private DraggableScrollableWidgetGroup scrollArea;
 
@@ -175,11 +175,9 @@ public class DisplayComponentGroup extends WidgetGroup {
         private final ResourceLocation id;
         private final SwitchWidget switchWidget;
         private final LabelWidget labelWidget;
-        private final ButtonWidget upButton;
-        private final ButtonWidget downButton;
 
         @SuppressWarnings("ConstantConditions")
-        public DisplayComponentWidget(ResourceLocation id, boolean enabledInitially) {
+        DisplayComponentWidget(ResourceLocation id, boolean enabledInitially) {
             this.id = id;
 
             var color = enabledInitially ? ChatFormatting.GREEN : ChatFormatting.YELLOW;
@@ -204,27 +202,29 @@ public class DisplayComponentGroup extends WidgetGroup {
             switchWidget.setHoverTooltips(Component.translatable("gtocore.machine.monitor.adjust_component.switch"));
 
             // Add up and down buttons for moving the widget
+            ButtonWidget upButton;
             this.addWidget(upButton = new ButtonWidget(125, 0, 10, 10, (click) -> {
                 if (!isRemote()) moveWidgetUp(this);
             }).setButtonTexture(GuiTextures.BUTTON, GuiTextures.BUTTON_RIGHT.copy().rotate(-45).scale(0.8f)));
             upButton.setHoverTooltips(Component.translatable("gtocore.machine.monitor.adjust_component.move_up"));
 
+            ButtonWidget downButton;
             this.addWidget(downButton = new ButtonWidget(140, 0, 10, 10, (click) -> {
                 if (!isRemote()) moveWidgetDown(this);
             }).setButtonTexture(GuiTextures.BUTTON, GuiTextures.BUTTON_LEFT.copy().rotate(-45).scale(0.8f)));
             downButton.setHoverTooltips(Component.translatable("gtocore.machine.monitor.adjust_component.move_down"));
         }
 
-        public ResourceLocation getRL() {
+        ResourceLocation getRL() {
             return id;
         }
 
-        public boolean isEnabled() {
+        boolean isEnabled() {
             return switchWidget.isPressed();
         }
 
         @SuppressWarnings("ConstantConditions")
-        public DisplayComponentWidget setEnabled(boolean enabled) {
+        DisplayComponentWidget setEnabled(boolean enabled) {
             switchWidget.setPressed(enabled);
             if (isRemote()) labelWidget.setColor(enabled ? ChatFormatting.GREEN.getColor() : ChatFormatting.YELLOW.getColor());
             return this;

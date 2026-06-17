@@ -7,6 +7,7 @@ import com.gtocore.common.block.BlockMap;
 import com.gtocore.common.data.GTOBlocks;
 import com.gtocore.common.data.GTOMachines;
 import com.gtocore.common.data.GTOMaterials;
+import com.gtocore.common.data.GTORecipeDataKeys;
 import com.gtocore.common.data.translation.GTOMachineTooltips;
 import com.gtocore.common.machine.multiblock.electric.AnalysisAndResearchCenterMachine;
 import com.gtocore.common.machine.multiblock.electric.ScanningStationMachine;
@@ -22,14 +23,11 @@ import com.gtocore.common.machine.multiblock.part.research.ExResearchCoolerPartM
 import com.gtocore.common.machine.multiblock.part.research.ExResearchEmptyPartMachine;
 
 import com.gtolib.GTOCore;
-import com.gtolib.api.GTOValues;
 import com.gtolib.api.registries.GTOMachineBuilder;
 
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
-import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
-import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
@@ -100,16 +98,16 @@ public final class ExResearchMachines {
                     .aisle(" BBB             BBB     BBB", " BBB             BBB     BBB", " BBB             BBB     BBB", " BBB             BBB     BBB", " BBBEEEEEEEEEEEEEBBBEEEEEBBB", " BBBEEEEEEEEEEEEEBBBEEEEEBBB", " BBBEEEEEEEEEEEEEBBBEEEEEBBB", " BBB             BBB     BBB", "                            ", "                            ", "                            ", "                            ", "                            ", "                            ", "                            ", "                            ", "                            ", "                            ", "                            ", "                            ", "                            ", "                            ", "                            ", "                            ", "                            ", "                            ", "                            ", "                            ", "                            ", "                            ", "                            ", "                            ", "                            ", "                            ", "                            ", "                            ", "                            ", "                            ", "                            ", "                            ", "                            ", "                            ", "                            ", "                            ", "                            ", "                            ", "                            ", "                            ", "                            ", "                            ", "                            ", "                            ", "                            ", "                            ", "                            ", "                            ", "                            ", "                            ", "                            ")
                     .where('A', blocks(GTOBlocks.NAQUADAH_ALLOY_CASING.get()))
                     .where('B', blocks(GTOBlocks.IRIDIUM_CASING.get()))
-                    .where('C', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTOMaterials.BabbittAlloy)))
+                    .where('C', GTOPredicates.frame(GTOMaterials.BabbittAlloy))
                     .where('D', blocks(GTOBlocks.STRONTIUM_CARBONATE_CERAMIC_RAY_ABSORBING_MECHANICAL_CUBE.get()))
                     .where('E', blocks(GTBlocks.MACHINE_CASING_UHV.get()))
                     .where('F', blocks(GCYMBlocks.CASING_NONCONDUCTING.get()))
                     .where('G', blocks(GTOBlocks.ANTIFREEZE_HEATPROOF_MACHINE_CASING.get()))
-                    .where('H', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTOMaterials.HastelloyN)))
+                    .where('H', GTOPredicates.frame(GTOMaterials.HastelloyN))
                     .where('I', blocks(GTOBlocks.OXIDATION_RESISTANT_HASTELLOY_N_MECHANICAL_CASING.get()))
                     .where('J', blocks(GTOBlocks.PRESSURE_CONTAINMENT_CASING.get()))
                     .where('K', GTOPredicates.absBlocks())
-                    .where('L', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTMaterials.Ruridit)))
+                    .where('L', GTOPredicates.frame(GTMaterials.Ruridit))
                     .where('M', blocks(GTOBlocks.LITHIUM_OXIDE_CERAMIC_HEAT_RESISTANT_SHOCK_RESISTANT_MECHANICAL_CUBE.get()))
                     .where('N', blocks(GTBlocks.ADVANCED_COMPUTER_CASING.get()))
                     .where('O', blocks(GTBlocks.HIGH_POWER_CASING.get()))
@@ -124,11 +122,11 @@ public final class ExResearchMachines {
                             .or(abilities(INPUT_ENERGY).setMaxGlobalLimited(2))
                             .or(abilities(COMPUTATION_DATA_TRANSMISSION).setMaxGlobalLimited(1))
                             .or(abilities(MAINTENANCE).setExactLimit(1)))
-                    .where('S', GTOPredicates.tierBlock(BlockMap.COMPUTER_HEAT_MAP, GTOValues.COMPUTER_HEAT_TIER))
+                    .where('S', GTOPredicates.tierBlock(BlockMap.COMPUTER_HEAT_MAP, GTORecipeDataKeys.COMPUTER_HEAT_TIER))
                     .where('T', abilities(GTOPartAbility.COMPUTING_COMPONENT, HPCA_COMPONENT))
-                    .where('U', GTOPredicates.tierBlock(BlockMap.COMPUTER_CASING_MAP, GTOValues.COMPUTER_CASING_TIER))
+                    .where('U', GTOPredicates.tierBlock(BlockMap.COMPUTER_CASING_MAP, GTORecipeDataKeys.COMPUTER_CASING_TIER))
                     .where('V', GTOPredicates.glass())
-                    .where('W', controller(blocks(definition.get())))
+                    .where('W', controller(definition))
                     .where('X', blocks(Blocks.ANDESITE_WALL))
                     .where('Y', blocks(Blocks.IRON_BARS))
                     .where(' ', any())
@@ -138,7 +136,7 @@ public final class ExResearchMachines {
 
     public static final MachineDefinition NICH_EMPTY_COMPONENT = registerHPCAPart(
             "nich_empty_component", "空NICH组件",
-            ExResearchEmptyPartMachine::new, false, false, 3)
+            holder -> new ExResearchEmptyPartMachine(holder, 3), false, false, 3)
             .register();
 
     public static final MachineDefinition NICH_COMPUTING_COMPONENTS = registerHPCAPart(
@@ -171,7 +169,7 @@ public final class ExResearchMachines {
 
     public static final MachineDefinition GWCA_EMPTY_COMPONENT = registerHPCAPart(
             "gwca_empty_component", "空GWCA组件",
-            ExResearchEmptyPartMachine::new, false, false, 4)
+            holder -> new ExResearchEmptyPartMachine(holder, 4), false, false, 4)
             .register();
 
     public static final MachineDefinition GWCA_COMPUTING_COMPONENTS = registerHPCAPart(
@@ -281,7 +279,7 @@ public final class ExResearchMachines {
                     .aisle("AEEEEEEEEEEEEEA", "CFEGEFFFFFFFFFD", "CFEGEFFFFFFFFFD", "AEEGEEEEEEEEEED", "D EGGGGGGGGGE D", "DEEEEEEEEEEGEEA", "DFFFFFFFFFEGEFC", "DFFFFFFFFFEGEFC", "AEEEEEEEEEEEEEA")
                     .aisle("AAA AAAAAAAAAAA", "ABA ACCCCCCCCCA", "ADA ACCCCCCCCCA", "ADA AAAAAAAAAAA", "ADA         ADA", "AAAAAAAAAAA ADA", "ACCCCCCCCCA ADA", "ACCCCCCCCCA ADA", "AAAAAAAAAAA AAA")
                     .where('A', blocks(GTBlocks.COMPUTER_CASING.get()))
-                    .where('B', controller(blocks(definition.get())))
+                    .where('B', controller(definition))
                     .where('C', abilities(PartAbility.DATA_ACCESS)
                             .or(blocks(GTBlocks.HIGH_POWER_CASING.get()))
                             .or(abilities(PartAbility.OPTICAL_DATA_TRANSMISSION))
@@ -299,7 +297,7 @@ public final class ExResearchMachines {
                     .where('J', blocks(GTOBlocks.IRIDIUM_CASING.get()))
                     .where('K', blocks(GTBlocks.HIGH_POWER_CASING.get()))
                     .where('L', blocks(GCYMBlocks.ELECTROLYTIC_CELL.get()))
-                    .where('M', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTMaterials.Naquadria)))
+                    .where('M', GTOPredicates.frame(GTMaterials.Naquadria))
                     .where('N', blocks(GTOBlocks.IRIDIUM_PIPE_CASING.get()))
                     .where(' ', any())
                     .build())
@@ -358,7 +356,7 @@ public final class ExResearchMachines {
                     .aisle(" X ", "XAX", "---", "---", "---", "XAX", " X ")
                     .aisle(" X ", "XAX", "-A-", "-H-", "-A-", "XAX", " X ")
                     .aisle("   ", "XXX", "---", "---", "---", "XXX", "   ")
-                    .where('S', controller(blocks(definition.get())))
+                    .where('S', controller(definition))
                     .where('X', blocks(COMPUTER_CASING.get()))
                     .where(' ', any())
                     .where('-', air())
@@ -424,7 +422,7 @@ public final class ExResearchMachines {
                             .or(abilities(PartAbility.COMPUTATION_DATA_RECEPTION).setExactLimit(1))
                             .or(abilities(PartAbility.MAINTENANCE).setExactLimit(1)))
                     .where('F', blocks(GCYMBlocks.ELECTROLYTIC_CELL.get()))
-                    .where('G', controller(blocks(definition.get())))
+                    .where('G', controller(definition))
                     .where('H', blocks(ANALYZE_HOLDER.get())
                             .or(blocks(RESEARCH_HOLDER.get())))
                     .where(' ', any())
@@ -498,7 +496,7 @@ public final class ExResearchMachines {
                             .or(abilities(PartAbility.INPUT_ENERGY).setMaxGlobalLimited(2))
                             .or(abilities(PartAbility.COMPUTATION_DATA_RECEPTION).setExactLimit(1))
                             .or(abilities(PartAbility.MAINTENANCE).setExactLimit(1)))
-                    .where('F', controller(blocks(definition.get())))
+                    .where('F', controller(definition))
                     .where('G', blocks(DATA_GENERATE_HOLDER.get()))
                     .where(' ', any())
                     .build())

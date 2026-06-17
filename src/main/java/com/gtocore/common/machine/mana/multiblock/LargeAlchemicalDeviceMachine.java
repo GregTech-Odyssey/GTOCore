@@ -1,19 +1,18 @@
 package com.gtocore.common.machine.mana.multiblock;
 
-import com.gtolib.api.recipe.Recipe;
-import com.gtolib.api.recipe.modifier.ParallelLogic;
+import com.gtocore.common.data.GTORecipeDataKeys;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
-import com.gregtechceu.gtceu.api.capability.recipe.FluidRecipeCapability;
-import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
+import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.content.Content;
+import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
+import com.gregtechceu.gtceu.api.recipe.modifier.ParallelLogic;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
 
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
+import com.gto.datasynclib.annotations.SaveToDisk;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
@@ -22,7 +21,7 @@ import static com.lowdragmc.lowdraglib.LDLib.random;
 
 public final class LargeAlchemicalDeviceMachine extends ManaMultiblockMachine {
 
-    @Persisted
+    @SaveToDisk
     private final int[] probabilityParams = { 10000, 10000, 10000 };
 
     private final int[] currentRecipeParams = new int[3];
@@ -43,37 +42,37 @@ public final class LargeAlchemicalDeviceMachine extends ManaMultiblockMachine {
     }
 
     @Override
-    protected @Nullable Recipe getRealRecipe(@NotNull Recipe recipe) {
+    public GTRecipe getRealRecipe(@NotNull RecipeHandlerUnit unit, GTRecipe recipe) {
         boolean param = false;
         long parallels = getHatchParallel(this);
         recipe.duration = Math.max(1, (int) (recipe.duration * timeReduction));
         for (int i = 0; i < 3; i++) {
-            String key = "param" + (i + 1);
+            var key = GTORecipeDataKeys.PARAM[i];
             param = param || recipe.data.contains(key);
             currentRecipeParams[i] = recipe.data.contains(key) ? recipe.data.getInt(key) * 100 : 10000;
         }
         if (param) {
             adjustParameters(currentRecipeParams);
-            return ParallelLogic.accurateParallel(this, enhanceRecipe(recipe, currentRecipeParams), parallels);
+            return ParallelLogic.accurateParallel(this, unit, enhanceRecipe(recipe, currentRecipeParams), parallels);
         }
-        return ParallelLogic.accurateParallel(this, recipe, parallels);
+        return ParallelLogic.accurateParallel(this, unit, recipe, parallels);
     }
 
     /**
      * 增强配方：添加概率输出项
      */
-    private Recipe enhanceRecipe(Recipe recipe, int[] recipeParams) {
+    private GTRecipe enhanceRecipe(GTRecipe recipe, int[] recipeParams) {
         int matchRate = calculateMatchRate(recipeParams);
 
-        recipe.outputs.put(ItemRecipeCapability.CAP, recipe.getOutputContents(ItemRecipeCapability.CAP).stream().map(content -> {
-            if (content.chance < 11) return new Content(content.content, matchRate, 0);
+        recipe.itemOutputs = recipe.itemOutputs.stream().map(content -> {
+            if (content.chance < 11) return new Content<>(content.inner, matchRate, 0);
             else return content;
-        }).toList());
+        }).toList();
 
-        recipe.outputs.put(FluidRecipeCapability.CAP, recipe.getOutputContents(FluidRecipeCapability.CAP).stream().map(content -> {
-            if (content.chance < 11) return new Content(content.content, matchRate, 0);
+        recipe.fluidOutputs = recipe.fluidOutputs.stream().map(content -> {
+            if (content.chance < 11) return new Content<>(content.inner, matchRate, 0);
             else return content;
-        }).toList());
+        }).toList();
 
         return recipe;
     }

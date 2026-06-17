@@ -6,51 +6,38 @@ import com.gtolib.api.data.Galaxy;
 
 import com.gregtechceu.gtceu.api.data.DimensionMarker;
 import com.gregtechceu.gtceu.api.gui.widget.SlotWidget;
-import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
-import com.gregtechceu.gtceu.api.recipe.GTRecipe;
-import com.gregtechceu.gtceu.api.recipe.RecipeCondition;
-import com.gregtechceu.gtceu.api.recipe.condition.RecipeConditionType;
+import com.gregtechceu.gtceu.api.recipe.GTRecipeDefinition;
+import com.gregtechceu.gtceu.api.recipe.handler.IRecipeHandlerHolder;
+import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
 import com.gregtechceu.gtceu.api.registry.GTRegistries;
 import com.gregtechceu.gtceu.api.transfer.item.CustomItemStackHandler;
 import com.gregtechceu.gtceu.common.recipe.condition.DimensionCondition;
 import com.gregtechceu.gtceu.config.ConfigHolder;
 
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
-import net.minecraft.util.GsonHelper;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
-import com.google.gson.JsonObject;
 import com.lowdragmc.lowdraglib.gui.texture.TextTexture;
+import com.lowdragmc.lowdraglib.gui.widget.LabelWidget;
+import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
 import com.lowdragmc.lowdraglib.jei.IngredientIO;
+import org.apache.commons.lang3.mutable.MutableInt;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
 
-import static com.gtocore.common.recipe.condition.AbstractRecipeCondition.GALAXY;
-
 public class GalaxyCondition extends DimensionCondition {
 
-    private Galaxy galaxy;
+    private final Galaxy galaxy;
     private DimensionMarker[] dimensions;
 
     public GalaxyCondition(Galaxy galaxy) {
-        super();
+        super(false, null);
         this.galaxy = galaxy;
-    }
-
-    public GalaxyCondition() {
-        super();
-        this.galaxy = Galaxy.NONE;
-    }
-
-    @Override
-    public RecipeConditionType<?> getType() {
-        return GALAXY;
     }
 
     @Override
@@ -58,8 +45,15 @@ public class GalaxyCondition extends DimensionCondition {
         return Component.translatable("gtocore.condition.within_galaxy", Component.translatable("gtolib.galaxy.name." + galaxy.name()));
     }
 
-    public RecipeCondition createTemplate() {
-        return new GalaxyCondition();
+    @Override
+    public void addInfo(GTRecipeDefinition recipe, WidgetGroup group, int xOffset, MutableInt yOffset) {
+        super.addInfo(recipe, group, xOffset, yOffset);
+        group.addWidget(new LabelWidget(3 - xOffset, yOffset.addAndGet(10), getTooltips().getString()));
+    }
+
+    @Override
+    public int getInfoHeight(GTRecipeDefinition recipe) {
+        return 10;
     }
 
     @Override
@@ -101,33 +95,8 @@ public class GalaxyCondition extends DimensionCondition {
     }
 
     @Override
-    public boolean testCondition(@NotNull GTRecipe recipe, @NotNull RecipeLogic recipeLogic) {
-        Level level = recipeLogic.machine.self().getLevel();
-        return level != null && GTODimensions.getGalaxy(level.dimension().location()) == galaxy;
-    }
-
-    public @NotNull JsonObject serialize() {
-        JsonObject config = super.serialize();
-        config.addProperty("galaxy", this.galaxy.name());
-        return config;
-    }
-
-    public RecipeCondition deserialize(@NotNull JsonObject config) {
-        super.deserialize(config);
-        this.galaxy = Galaxy.valueOf(GsonHelper.getAsString(config, "galaxy"));
-        dimensions = null;
-        return this;
-    }
-
-    public RecipeCondition fromNetwork(FriendlyByteBuf buf) {
-        super.fromNetwork(buf);
-        this.galaxy = Galaxy.valueOf(buf.readUtf());
-        dimensions = null;
-        return this;
-    }
-
-    public void toNetwork(FriendlyByteBuf buf) {
-        super.toNetwork(buf);
-        buf.writeUtf(galaxy.name());
+    public boolean testCondition(IRecipeHandlerHolder holder, RecipeHandlerUnit unit, GTRecipeDefinition recipe) {
+        Level level = holder.self().getLevel();
+        return level != null && GTODimensions.getGalaxy(level.dimension()) == galaxy;
     }
 }

@@ -1,6 +1,6 @@
 {
   "dimension": "gtocore:titan",
-  "gravity":  4.116,
+  "gravity": 4.116,
   "orbit": "gtocore:titan_orbit",
   "oxygen": false,
   "solar_power": 6,

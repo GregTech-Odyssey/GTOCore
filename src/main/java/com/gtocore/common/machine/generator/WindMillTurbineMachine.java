@@ -5,11 +5,11 @@ import com.gtocore.common.item.KineticRotorItem;
 import com.gtolib.api.annotation.Scanned;
 import com.gtolib.api.annotation.dynamic.DynamicInitialValue;
 import com.gtolib.api.data.GTODimensions;
-import com.gtolib.api.machine.part.ItemHatchPartMachine;
+import com.gtolib.api.machine.part.ItemPartMachine;
 
 import com.gregtechceu.gtceu.api.GTValues;
+import com.gregtechceu.gtceu.api.blockentity.ITickSubscription;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
-import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.gui.fancy.IFancyTooltip;
 import com.gregtechceu.gtceu.api.gui.fancy.TooltipsPanel;
@@ -19,6 +19,7 @@ import com.gregtechceu.gtceu.api.machine.feature.IFancyUIMachine;
 import com.gregtechceu.gtceu.api.machine.feature.IMachineLife;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableEnergyContainer;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
+import com.gregtechceu.gtceu.api.recipe.handler.IO;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 
 import net.minecraft.ChatFormatting;
@@ -29,7 +30,6 @@ import net.minecraft.network.chat.Style;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
@@ -37,9 +37,9 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
+import com.gto.datasynclib.annotations.SaveToDisk;
+import com.gto.datasynclib.annotations.SyncToClient;
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
-import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.mojang.blaze3d.MethodsReturnNonnullByDefault;
 import earth.terrarium.adastra.api.planets.Planet;
 import earth.terrarium.adastra.api.planets.PlanetApi;
@@ -58,27 +58,28 @@ public final class WindMillTurbineMachine extends TieredEnergyMachine implements
 
     @DynamicInitialValue(key = "wind_mill_turbine.amperage_out", typeKey = KEY_AMPERAGE_OUT, easyValue = "2", normalValue = "1", expertValue = "1", cn = "输出电流", cnComment = "风力涡轮机的最大输出电流。", en = "Output Amperage", enComment = "The maximum output amperage of the wind turbine.")
     private static int amperage_out = 2;
-    @Persisted
+    @SaveToDisk
     private final NotifiableItemStackHandler inventory;
     @Getter
-    @Persisted
-    @DescSynced
+    @SaveToDisk
+    @SyncToClient
     private float spinSpeed;
     @Getter
     private float bladeAngle;
     @Getter
-    @DescSynced
+    @SyncToClient
     private int material;
     @Getter
-    @DescSynced
+    @SyncToClient
     private boolean hasRotor;
-    @DescSynced
+    @SyncToClient
     private boolean obstructed;
-    @DescSynced
+    @SyncToClient
     private float wind;
-    @DescSynced
+    @SyncToClient
     private int actualPower;
     private TickableSubscription energySubs;
+    private TickableSubscription tickSubscription;
 
     public WindMillTurbineMachine(MetaMachineBlockEntity holder, int tier, Object... args) {
         super(holder, tier, args);
@@ -96,13 +97,16 @@ public final class WindMillTurbineMachine extends TieredEnergyMachine implements
     private NotifiableItemStackHandler createMachineStorage() {
         var storage = new NotifiableItemStackHandler(this, 1, IO.NONE, IO.BOTH);
         storage.setFilter(i -> i.getItem() instanceof KineticRotorItem);
+        storage.addChangedListener(this::requestSync);
         return storage;
     }
 
     @Override
     public void onLoad() {
         super.onLoad();
-        if (!isRemote()) {
+        if (isRemote()) {
+            tickSubscription = subscribeClientTick(tickSubscription, this::tickUpdate);
+        } else {
             energySubs = subscribeServerTick(energySubs, this::checkEnergy, 20);
         }
     }
@@ -111,12 +115,11 @@ public final class WindMillTurbineMachine extends TieredEnergyMachine implements
     public void onUnload() {
         super.onUnload();
         unsubscribe();
+        tickSubscription = ITickSubscription.unsubscribe(tickSubscription);
     }
 
-    @Override
     @OnlyIn(Dist.CLIENT)
-    public void clientTick() {
-        super.clientTick();
+    private void tickUpdate() {
         bladeAngle += spinSpeed;
     }
 
@@ -132,7 +135,7 @@ public final class WindMillTurbineMachine extends TieredEnergyMachine implements
         if (level == null) return;
         actualPower = 0;
         ItemStack stack = inventory.storage.getStackInSlot(0);
-        if (!GTODimensions.isOverworld(level.dimension().location())) {
+        if (!GTODimensions.isOverworld(level.dimension())) {
             Planet planet = PlanetApi.API.getPlanet(level);
             if (planet == null || !planet.oxygen()) {
                 unsubscribe();
@@ -177,15 +180,24 @@ public final class WindMillTurbineMachine extends TieredEnergyMachine implements
                     }
                 }
             }
-            var eLevel = EnchantmentHelper.getItemEnchantmentLevel(Enchantments.UNBREAKING, stack) + 1;
+            var eLevel = stack.getEnchantmentLevel(Enchantments.UNBREAKING) + 1;
+            int newDamage = damage;
+
             if (obstructed) {
-                stack.setDamageValue(damage + (int) ((40 * spinSpeed) / eLevel + 1));
+                newDamage += (int) ((40 * spinSpeed) / eLevel + 1);
                 spinSpeed = 0;
             } else if (wind > rotorItem.getMinWind()) {
-                stack.setDamageValue(damage + (int) (Math.pow(Math.ceil(wind / rotorItem.getMaxWind()), 16) / eLevel + 1));
+                newDamage += (int) (Math.pow(Math.ceil(wind / rotorItem.getMaxWind()), 16) / eLevel + 1);
                 spinSpeed = Math.min(0.05F * wind, spinSpeed + 0.04F);
                 actualPower = (int) (GTValues.V[tier] * spinSpeed * 20 * getMaxInputOutputAmperage() / getMaxWind(tier));
                 energyContainer.addEnergy(20L * actualPower);
+            }
+            if (newDamage >= maxDamage) {
+                inventory.storage.setStackInSlot(0, ItemStack.EMPTY);
+                hasRotor = false;
+                spinSpeed = 0;
+            } else {
+                stack.setDamageValue(newDamage);
             }
         } else {
             if (hasRotor) {
@@ -199,7 +211,7 @@ public final class WindMillTurbineMachine extends TieredEnergyMachine implements
 
     @Override
     public Widget createUIWidget() {
-        return ItemHatchPartMachine.createSLOTWidget(inventory);
+        return ItemPartMachine.createSLOTWidget(inventory);
     }
 
     @Override

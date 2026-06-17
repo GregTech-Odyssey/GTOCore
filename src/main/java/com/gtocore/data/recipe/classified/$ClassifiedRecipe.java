@@ -21,7 +21,6 @@ public final class $ClassifiedRecipe {
         PetrochemicalPlant.init();
         PigmentMixing.init();
         UltimateMaterialForge.init();
-        GravitationShockburst.init();
         BedrockDrillingRig.init();
         QuantumForceTransformer.init();
         NeutronCompressor.init();
@@ -30,6 +29,7 @@ public final class $ClassifiedRecipe {
         DimensionalFocusEngravingArray.init();
         SuperParticleCollider.init();
         LargeGasCollector.init();
+        PlanetaryGasCollector.init();
         PCBFactory.init();
         FishingGround.init();
         DrillingModule.init();
@@ -98,8 +98,6 @@ public final class $ClassifiedRecipe {
         AlloyBlast.init();
         Extruder.init();
         Brewing.init();
-        CreateAggregation.init();
-        DoorOfCreate.init();
         HeatExchanger.init();
         DragonEggCopier.init();
         LavaFurnace.init();

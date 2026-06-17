@@ -14,7 +14,7 @@ import java.util.Arrays;
 import static com.gregtechceu.gtceu.api.GTValues.LuV;
 import static com.gregtechceu.gtceu.api.GTValues.VA;
 import static com.gtocore.common.data.GTORecipeTypes.RECIPES_DATA_GENERATE_RECIPES;
-import static com.gtocore.data.recipe.builder.research.ExResearchManager.DataItemMap;
+import static com.gtocore.data.recipe.builder.research.ExResearchManager.DataItemList;
 import static com.gtocore.data.recipe.builder.research.ExResearchManager.getDataCrystal;
 
 public final class RecipesDataGenerateRecipeBuilder {
@@ -52,7 +52,7 @@ public final class RecipesDataGenerateRecipeBuilder {
     }
 
     public RecipesDataGenerateRecipeBuilder getDataItem(int tire) {
-        this.DataItem = DataItemMap.get(tire);
+        this.DataItem = DataItemList.get(tire);
         return this;
     }
 

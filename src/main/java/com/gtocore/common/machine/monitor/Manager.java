@@ -7,6 +7,7 @@ import com.gtolib.api.network.NetworkPack;
 import com.gregtechceu.gtceu.api.block.MetaMachineBlock;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
+import com.gregtechceu.gtceu.core.ILevel;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -50,7 +51,7 @@ public final class Manager {
     private static final Queue<Runnable> Loading = new LinkedList<>();
     private static final Map<GridFacedPoint, GridNetwork> gridToNetwork = new ConcurrentHashMap<>();
 
-    private static final NetworkPack MONITOR_CHANGED = NetworkPack.registerS2C(7, (p, buf) -> {
+    private static final NetworkPack MONITOR_CHANGED = NetworkPack.registerS2C("monitorUpdateC2S", (p, buf) -> {
         CompoundTag tag = new CompoundTag();
         AtomicInteger i = new AtomicInteger(0);
         gridToNetwork.values().forEach(network -> {
@@ -80,7 +81,7 @@ public final class Manager {
     }
 
     static void addBlock(MetaMachine be) {
-        addBlock(be.getBlockState(), be.getPos(), be.getLevel());
+        addBlock(be.getBlockState(), be.getPos(), be.getLevel(), be.isPainted() ? be.getPaintingColor() : -1);
     }
 
     public static Direction getFrontFacing(BlockState state) {
@@ -163,7 +164,7 @@ public final class Manager {
     /**
      * 网格方向类，包含了方向、维度和第三个值（通常是X、Y或Z坐标）。
      * 这三个值可以确定网格所在的平面
-     * 
+     *
      * @param facing        网格的方向（法向量）
      * @param level         网格所在的维度
      * @param theThirdValue 网格所在平面上的第三个值（通常是X、Y或Z坐标）
@@ -220,7 +221,7 @@ public final class Manager {
 
     /**
      * 网格点类，包含了网格方向、X坐标和Y坐标。
-     * 
+     *
      * @param facing 网格的方向（法向量）
      * @param x      网格点的X坐标
      * @param y      网格点的Y坐标
@@ -384,7 +385,7 @@ public final class Manager {
         }
 
         private boolean canMerge(GridNetwork other, Direction2D facing2D) {
-            var maxMonitorSize = GTOConfig.INSTANCE.maxMonitorSize;
+            var maxMonitorSize = GTOConfig.INSTANCE.gamePlay.maxMonitorSize;
             return other != null && other.facing == facing && other.color == color &&
                     (facing2D.isHorizontal ? other.height() == this.height() && other.width() + this.width() <= maxMonitorSize :
                             other.width() == this.width() && other.height() + this.height() <= maxMonitorSize);
@@ -425,7 +426,7 @@ public final class Manager {
                         // 将其他网格的点添加到当前网格中
                         put(point, this);
                     }
-                    if (GTOConfig.INSTANCE.dev) {
+                    if (GTOConfig.INSTANCE.devMode.dev) {
                         if (gridToNetwork.keySet().stream().filter(
                                 p -> p.facing == facing && p.x >= fromX && p.x <= toX && p.y >= fromY && p.y <= toY).anyMatch(p -> gridToNetwork.get(p) != this)) {
                             // 如果当前网格仍然有点存在
@@ -466,7 +467,7 @@ public final class Manager {
          * 若该点是边界点，则会导致网格被切割成三个小矩形，若为角点，则会导致网格被切割成两个小矩形。
          * 情况是有限的，且最多生成四个新矩形，采取枚举的方式处理。
          * 3. 如果新生成的矩形能向外与其他矩形合并，则会尝试合并。
-         * 
+         *
          * @param point 要删除的点
          */
         private void split(GridFacedPoint point) {
@@ -525,7 +526,7 @@ public final class Manager {
                     created.add(shifted);
                 }
             }
-            if (GTOConfig.INSTANCE.dev) {
+            if (GTOConfig.INSTANCE.devMode.dev) {
                 if (gridToNetwork.keySet().stream().anyMatch(p -> gridToNetwork.get(p) == this)) {
                     // 如果当前网格仍然有点存在
                     throw new IllegalStateException("GridNetwork still has points after split: " + this);
@@ -588,7 +589,7 @@ public final class Manager {
                 lastRefreshTime = level.getGameTime();
                 informationProviders.clear();
                 for (GridFacedPoint point : points()) {
-                    var blockEntity = level.getBlockEntity(point.toBlockPos());
+                    var blockEntity = ILevel.getCachedBlockEntity(level, point.toBlockPos());
                     if (blockEntity instanceof MetaMachineBlockEntity be &&
                             be.getMetaMachine() instanceof IInformationProvider provider) {
                         informationProviders.add(provider);
@@ -622,7 +623,7 @@ public final class Manager {
         grid2Network.entrySet().removeIf(entry -> {
             GridFacedPoint point = entry.getKey();
             // 如果网格不在当前世界中，或者网格的点不在当前世界中，则移除该网格
-            return !point.facing.level.equals(level.dimension()) || !level.isLoaded(point.toBlockPos());
+            return point.facing.level != level.dimension() || !level.isLoaded(point.toBlockPos());
         });
     }
 

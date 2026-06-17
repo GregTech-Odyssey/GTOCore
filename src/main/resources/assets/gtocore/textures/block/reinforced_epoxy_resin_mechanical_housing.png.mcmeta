@@ -1,5 +1,5 @@
 {
-    "ldlib": {
-        "connection": "gtocore:block/reinforced_epoxy_resin_mechanical_housing_ctm"
-    }
+  "ldlib": {
+    "connection": "gtocore:block/reinforced_epoxy_resin_mechanical_housing_ctm"
+  }
 }

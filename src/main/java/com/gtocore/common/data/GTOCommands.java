@@ -1,15 +1,20 @@
 package com.gtocore.common.data;
 
+import com.gtocore.common.forge.ServerLangHook;
 import com.gtocore.common.saved.DysonSphereSavaedData;
+import com.gtocore.common.saved.VoidWorldTimeSavedData;
 
 import com.gtolib.GTOCore;
 import com.gtolib.api.data.Dimension;
+import com.gtolib.api.data.GTODimensions;
 import com.gtolib.api.misc.PlanetManagement;
-import com.gtolib.api.recipe.ingredient.FastFluidIngredient;
 import com.gtolib.utils.GTOUtils;
 import com.gtolib.utils.ItemUtils;
 import com.gtolib.utils.RLUtils;
 import com.gtolib.utils.StringConverter;
+
+import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
+import com.gregtechceu.gtceu.api.recipe.ingredient.ItemIngredient;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.commands.CommandSourceStack;
@@ -26,13 +31,13 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.material.Fluid;
 
 import appeng.api.behaviors.ContainerItemStrategies;
 import appeng.api.stacks.AEItemKey;
 import appeng.api.stacks.AEKey;
 import appeng.api.stacks.GenericStack;
+
 import com.glodblock.github.extendedae.common.EPPItemAndBlock;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.StringArgumentType;
@@ -61,7 +66,7 @@ public final class GTOCommands {
                 .then(Commands.literal("space")
                         .then(Commands.literal("planet").then(Commands.literal("unlock").requires(source -> source.hasPermission(2)).then(Commands.argument("player", EntityArgument.player()).then(Commands.argument("id", StringArgumentType.greedyString()).suggests((context, builder) -> SharedSuggestionProvider.suggest(Arrays.stream(Dimension.values()).filter(Dimension::isWithinGalaxy).map(Dimension::getLocation).map(ResourceLocation::toString), builder)).executes(ctx -> {
                             ServerPlayer player = EntityArgument.getPlayer(ctx, "player");
-                            ResourceLocation id = RLUtils.parse(StringArgumentType.getString(ctx, "id"));
+                            var id = GTODimensions.getDimensionKey(RLUtils.parse(StringArgumentType.getString(ctx, "id")));
                             PlanetManagement.unlock(player.getUUID(), id);
                             ctx.getSource().sendSuccess(() -> Component.translatable(PlanetManagement.isUnlocked(player, id) ? "gtocore.unlocked" : "gtocore.ununlocked"), false);
                             return 1;
@@ -76,6 +81,12 @@ public final class GTOCommands {
                             DysonSphereSavaedData.INSTANCE.setDirty();
                             return 1;
                         }))))
+                .then(Commands.literal("void")
+                        .executes(GTOCommands::toggleVoidWorldTime)
+                        .then(Commands.literal("time")
+                                .requires(source -> source.getEntity() instanceof ServerPlayer)
+                                .executes(GTOCommands::toggleVoidWorldTime)
+                                .then(Commands.literal("toggle").executes(GTOCommands::toggleVoidWorldTime))))
                 .then(Commands.literal("hand").executes(ctx -> {
                     ServerPlayer player = ctx.getSource().getPlayer();
                     if (player != null) {
@@ -90,7 +101,30 @@ public final class GTOCommands {
                                 giveCell(player);
                             }
                             return 1;
-                        })));
+                        }))
+                .then(Commands.literal("serverLang").requires(ctx -> ctx.hasPermission(2))
+                        .then(Commands.argument("lang_code", StringArgumentType.word()).executes(ctx -> {
+                            String lang = StringArgumentType.getString(ctx, "lang_code");
+                            ctx.getSource().sendSuccess(() -> Component.literal("Reloaded server language: " + lang), false);
+                            ServerLangHook.set(ctx.getSource().getServer(), lang);
+                            return 1;
+                        }))));
+    }
+
+    private static int toggleVoidWorldTime(com.mojang.brigadier.context.CommandContext<CommandSourceStack> ctx) {
+        // 只允许身处虚空世界的玩家切换当前虚空世界的时间锁定状态。
+        if (!(ctx.getSource().getEntity() instanceof ServerPlayer player) || !GTODimensions.isVoid(player.serverLevel().dimension())) {
+            ctx.getSource().sendFailure(Component.translatable("gtocore.lang.void_world_time_only_in_void"));
+            return 0;
+        }
+        boolean fixed = VoidWorldTimeSavedData.INSTANCE.toggleFixedTime();
+        if (fixed) {
+            player.serverLevel().setDayTime(1000L);
+            ctx.getSource().sendSuccess(() -> Component.translatable("gtocore.lang.void_world_time_locked"), false);
+        } else {
+            ctx.getSource().sendSuccess(() -> Component.translatable("gtocore.lang.void_world_time_unlocked"), false);
+        }
+        return 1;
     }
 
     private static void giveCell(ServerPlayer player) {
@@ -118,19 +152,20 @@ public final class GTOCommands {
     private static void hand(ServerPlayer player) {
         player.sendSystemMessage(Component.literal("Item in hand:"));
         ItemStack stack = player.getMainHandItem();
-        String s = StringConverter.fromItem(Ingredient.of(stack), 1);
+        String s = StringConverter.fromItem(ItemIngredient.of(stack), 1);
         if (s != null) {
             player.sendSystemMessage(copy(Component.literal(s).withStyle(ChatFormatting.DARK_BLUE)));
         }
         player.sendSystemMessage(copy(Component.literal(ItemUtils.getId(stack)).withStyle(ChatFormatting.GREEN)));
-        if (stack.hasTag()) player.sendSystemMessage(copy(Component.literal(stack.getTag().toString()).withStyle(ChatFormatting.AQUA)));
+        if (stack.hasTag())
+            player.sendSystemMessage(copy(Component.literal(stack.getTag().toString()).withStyle(ChatFormatting.AQUA)));
         for (TagKey<Item> tag : stack.getItemHolder().tags().toList()) {
             player.sendSystemMessage(copy(Component.literal(tag.location().toString()).withStyle((ChatFormatting.YELLOW))));
         }
         if (stack.getItem() instanceof BucketItem bucketItem) {
             player.sendSystemMessage(Component.literal("Held fluid:"));
             Fluid fluid = bucketItem.getFluid();
-            String f = StringConverter.fromFluid(FastFluidIngredient.of(1000L, fluid), false);
+            String f = StringConverter.fromFluid(FluidIngredient.of(fluid, 1000), false);
             if (f != null) {
                 player.sendSystemMessage(copy(Component.literal(f).withStyle(ChatFormatting.AQUA)));
             }

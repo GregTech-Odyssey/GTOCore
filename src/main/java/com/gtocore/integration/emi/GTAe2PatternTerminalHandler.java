@@ -19,8 +19,8 @@ import appeng.api.stacks.GenericStack;
 import appeng.integration.modules.emi.EmiStackHelper;
 import appeng.integration.modules.jeirei.EncodingHelper;
 import appeng.integration.modules.jeirei.TransferHelper;
-import appeng.menu.me.common.GridInventoryEntry;
 import appeng.menu.me.items.PatternEncodingTermMenu;
+
 import dev.emi.emi.api.recipe.EmiPlayerInventory;
 import dev.emi.emi.api.recipe.EmiRecipe;
 import dev.emi.emi.api.recipe.handler.EmiCraftContext;
@@ -35,9 +35,9 @@ import dev.emi.emi.screen.RecipeScreen;
 import vazkii.botania.client.integration.emi.BotaniaEmiRecipe;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import static appeng.integration.modules.emi.AbstractRecipeHandler.getInnerBounds;
 import static appeng.integration.modules.emi.AbstractRecipeHandler.isInputSlot;
@@ -59,11 +59,7 @@ final class GTAe2PatternTerminalHandler<T extends PatternEncodingTermMenu> imple
     }
 
     private Set<AEKey> getCraftableKeys(T menu) {
-        return menu.getClientRepo() != null ? menu.getClientRepo().getAllEntries()
-                .stream()
-                .filter(GridInventoryEntry::isCraftable)
-                .map(GridInventoryEntry::getWhat)
-                .collect(Collectors.toSet()) : Set.of();
+        return menu.getClientRepo() != null ? menu.getClientRepo().getCraftableKeys() : Set.of();
     }
 
     @Override
@@ -72,7 +68,7 @@ final class GTAe2PatternTerminalHandler<T extends PatternEncodingTermMenu> imple
         var anyCraftable = recipe.getInputs().stream()
                 .anyMatch(ing -> isCraftable(craftableKeys, ing));
         var gatheredTooltip = anyCraftable ? TransferHelper.createEncodingTooltip(true) : new ArrayList<Component>();
-        gatheredTooltip.addAll(getCatalystTooltip());
+        gatheredTooltip.addAll(getCatalystTooltip(recipe));
         return gatheredTooltip.stream()
                 .map(Component::getVisualOrderText)
                 .map(ClientTooltipComponent::create)
@@ -103,11 +99,20 @@ final class GTAe2PatternTerminalHandler<T extends PatternEncodingTermMenu> imple
         poseStack.popPose();
     }
 
-    private static List<Component> getCatalystTooltip() {
-        return List.of(
-                Component.translatable("gtocore.ae.appeng.me2in1.emi.catalyst").withStyle(ChatFormatting.AQUA),
-                Component.translatable("gtocore.ae.appeng.me2in1.emi.catalyst.fill").withStyle(ChatFormatting.GREEN),
-                Component.translatable("gtocore.ae.appeng.me2in1.emi.catalyst.virtual").withStyle(ChatFormatting.DARK_GREEN));
+    private static List<Component> getCatalystTooltip(EmiRecipe emiRecipe) {
+        if (emiRecipe instanceof MultiblockInfoEmiRecipe recipe) {
+            if (recipe.definition.getSubPatternFactory() != null) {
+                return List.of(
+                        Component.translatable("gtocore.ae.appeng.me2in1.emi.multiblock.sub").withStyle(ChatFormatting.GREEN),
+                        Component.translatable("gtocore.ae.appeng.me2in1.emi.multiblock.sub.all").withStyle(ChatFormatting.DARK_GREEN));
+            }
+            return Collections.emptyList();
+        } else {
+            return List.of(
+                    Component.translatable("gtocore.ae.appeng.me2in1.emi.catalyst").withStyle(ChatFormatting.AQUA),
+                    Component.translatable("gtocore.ae.appeng.me2in1.emi.catalyst.fill").withStyle(ChatFormatting.GREEN),
+                    Component.translatable("gtocore.ae.appeng.me2in1.emi.catalyst.virtual").withStyle(ChatFormatting.DARK_GREEN));
+        }
     }
 
     private static boolean isCraftable(Set<AEKey> craftableKeys, EmiIngredient ingredient) {
@@ -129,8 +134,11 @@ final class GTAe2PatternTerminalHandler<T extends PatternEncodingTermMenu> imple
         if (isCrafting(recipe)) {
             EncodingHelper.encodeCraftingRecipe(menu, recipe.getBackingRecipe(), GTEmiEncodingHelper.ofInputs(recipe), i -> true);
         } else {
-            if (recipe instanceof GTEMIRecipe gtemiRecipe && RecipeBuilder.RECIPE_MAP.containsKey(gtemiRecipe.getId())) {
+            if (recipe instanceof GTEMIRecipe gtemiRecipe && RecipeBuilder.get(gtemiRecipe.getId()) != null) {
                 ((IPatterEncodingTermMenu) menu).gtolib$addRecipe(gtemiRecipe.getId().toString());
+            } else if (recipe instanceof EmiCookingRecipe) {
+                ((IPatterEncodingTermMenu) menu).gtolib$addRecipe("gtceu:electric_furnace/");
+
             } else {
                 ((IPatterEncodingTermMenu) menu).gtolib$addRecipe("");
             }

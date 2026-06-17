@@ -382,9 +382,7 @@
             "type": "minecraft:condition",
             "if_true": {
               "type": "minecraft:biome",
-              "biome_is": [
-                "gtocore:barnarda_c_biome"
-              ]
+              "biome_is": ["gtocore:barnarda_c_biome"]
             },
             "then_run": {
               "type": "minecraft:condition",

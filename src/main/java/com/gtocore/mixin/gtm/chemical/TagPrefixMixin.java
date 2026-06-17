@@ -60,7 +60,7 @@ public class TagPrefixMixin implements ITagPrefix {
             return;
         }
         TagType type = TagType.withCustomFormatter(path, (prefix, mat) -> null);
-        type.formatter = (prefix, mat) -> TagUtils.createTGTag(type.tagPath.formatted(mat.getName()));
+        type.formatter = (prefix, mat) -> TagUtils.createTGItemTag(type.tagPath.formatted(mat.getName()));
         this.tags.add(type);
         cir.setReturnValue((TagPrefix) (Object) this);
     }
@@ -69,7 +69,7 @@ public class TagPrefixMixin implements ITagPrefix {
     private void unformattedTagPath(String path, CallbackInfoReturnable<TagPrefix> cir) {
         if ("ores".equals(path)) return;
         TagType type = TagType.withCustomFormatter(path, (prefix, mat) -> null);
-        type.formatter = (prefix, mat) -> TagUtils.createTGTag(type.tagPath);
+        type.formatter = (prefix, mat) -> TagUtils.createTGItemTag(type.tagPath);
         type.isParentTag = true;
         this.tags.add(type);
         cir.setReturnValue((TagPrefix) (Object) this);

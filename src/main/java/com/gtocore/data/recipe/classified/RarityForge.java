@@ -13,6 +13,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 
 import appeng.core.definitions.AEItems;
+
 import dev.shadowsoffire.apotheosis.adventure.Adventure;
 
 import static com.gregtechceu.gtceu.api.GTValues.VA;
@@ -23,7 +24,7 @@ final class RarityForge {
 
     public static void init() {
         RARITY_FORGE_RECIPES.builder("gem_dust")
-                .inputItems(TagUtils.createTGTag("flawless_gems"))
+                .inputItems(TagUtils.createTGItemTag("flawless_gems"))
                 .inputItems("apotheosis:gem_fused_slate", 1)
                 .outputItems("apotheosis:gem_dust", 2)
                 .EUt(32)
@@ -85,17 +86,17 @@ final class RarityForge {
                 .save();
 
         RARITY_FORGE_RECIPES.builder("speed_upgrade_module")
-                .inputItems(GTOItems.LV_POWER_AMPLIFIERS.asItem())
+                .inputItems(GTOItems.LV_POWER_AMPLIFIERS)
                 .inputItems(TagPrefix.gem, GTOMaterials.Fluix)
-                .outputItems(GTOItems.SPEED_UPGRADE_MODULE.asItem())
+                .outputItems(GTOItems.SPEED_UPGRADE_MODULE)
                 .EUt(32)
                 .duration(400)
                 .save();
 
         RARITY_FORGE_RECIPES.builder("energy_upgrade_module")
-                .inputItems(GTOItems.LV_POWER_AMPLIFIERS.asItem())
+                .inputItems(GTOItems.LV_POWER_AMPLIFIERS)
                 .inputItems(AEItems.CERTUS_QUARTZ_CRYSTAL_CHARGED.asItem())
-                .outputItems(GTOItems.ENERGY_UPGRADE_MODULE.asItem())
+                .outputItems(GTOItems.ENERGY_UPGRADE_MODULE)
                 .EUt(32)
                 .duration(400)
                 .save();
@@ -142,7 +143,6 @@ final class RarityForge {
                         .EUt(VA[i + 3])
                         .duration(200)
                         .category(GTORecipeCategories.RARITY_FORGE_RECIPES_GEM_UPGRADE)
-                        .supportFast(false)
                         .save();
             }
         }

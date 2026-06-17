@@ -14,13 +14,13 @@ final class Dehydrator {
     public static void init() {
         DEHYDRATOR_RECIPES.recipeBuilder("sodiumhydroxidesolution")
                 .outputItems(TagPrefix.dust, GTMaterials.SodiumHydroxide, 3)
-                .inputFluids(GTOMaterials.SodiumHydroxideSolution.getFluid(1000))
+                .inputFluids(GTOMaterials.SodiumHydroxideSolution, 1000)
                 .EUt(30)
                 .duration(140)
                 .save();
 
         DEHYDRATOR_RECIPES.recipeBuilder("er_lu_oxides_solution")
-                .inputFluids(GTOMaterials.ErLuOxidesSolution.getFluid(4000))
+                .inputFluids(GTOMaterials.ErLuOxidesSolution, 4000)
                 .chancedOutput(TagPrefix.dust, GTOMaterials.ErbiumOxide, 5, 4300, 275)
                 .chancedOutput(TagPrefix.dust, GTOMaterials.ThuliumOxide, 5, 4300, 275)
                 .chancedOutput(TagPrefix.dust, GTOMaterials.YtterbiumOxide, 5, 4300, 275)
@@ -30,7 +30,7 @@ final class Dehydrator {
                 .save();
 
         DEHYDRATOR_RECIPES.recipeBuilder("tb_ho_oxides_solution")
-                .inputFluids(GTOMaterials.TbHoOxidesSolution.getFluid(4000))
+                .inputFluids(GTOMaterials.TbHoOxidesSolution, 4000)
                 .chancedOutput(TagPrefix.dust, GTOMaterials.YttriumOxide, 5, 4300, 275)
                 .chancedOutput(TagPrefix.dust, GTOMaterials.TerbiumOxide, 5, 4300, 275)
                 .chancedOutput(TagPrefix.dust, GTOMaterials.DysprosiumOxide, 5, 4300, 275)
@@ -40,7 +40,7 @@ final class Dehydrator {
                 .save();
 
         DEHYDRATOR_RECIPES.recipeBuilder("silica_gel_dust")
-                .inputFluids(GTOMaterials.SilicaGelBase.getFluid(1000))
+                .inputFluids(GTOMaterials.SilicaGelBase, 1000)
                 .outputItems(TagPrefix.dust, GTOMaterials.SilicaGel, 3)
                 .outputItems(TagPrefix.dust, GTMaterials.Salt, 2)
                 .EUt(480)
@@ -49,14 +49,14 @@ final class Dehydrator {
                 .save();
 
         DEHYDRATOR_RECIPES.recipeBuilder("boron_trioxide_dust")
-                .inputFluids(GTOMaterials.BoricAcid.getFluid(2000))
+                .inputFluids(GTOMaterials.BoricAcid, 2000)
                 .outputItems(TagPrefix.dust, GTOMaterials.BoronTrioxide, 5)
                 .EUt(480)
                 .duration(400)
                 .save();
 
         DEHYDRATOR_RECIPES.recipeBuilder("residual_triniite_solution")
-                .inputFluids(GTOMaterials.ResidualTriniiteSolution.getFluid(2000))
+                .inputFluids(GTOMaterials.ResidualTriniiteSolution, 2000)
                 .outputItems(TagPrefix.dust, GTMaterials.Salt)
                 .outputItems(TagPrefix.dust, GTOMaterials.SodiumNitrate, 20)
                 .chancedOutput(TagPrefix.dust, GTMaterials.Naquadria, 2, 4800, 0)
@@ -67,15 +67,15 @@ final class Dehydrator {
 
         DEHYDRATOR_RECIPES.recipeBuilder("monomethylhydrazine")
                 .inputItems(TagPrefix.dust, GTMaterials.Carbon)
-                .inputFluids(GTOMaterials.Hydrazine.getFluid(1000))
-                .inputFluids(GTMaterials.Hydrogen.getFluid(2000))
-                .outputFluids(GTOMaterials.Monomethylhydrazine.getFluid(1000))
+                .inputFluids(GTOMaterials.Hydrazine, 1000)
+                .inputFluids(GTMaterials.Hydrogen, 2000)
+                .outputFluids(GTOMaterials.Monomethylhydrazine, 1000)
                 .EUt(240)
                 .duration(240)
                 .save();
 
         DEHYDRATOR_RECIPES.recipeBuilder("la_nd_oxides_solution")
-                .inputFluids(GTOMaterials.LaNdOxidesSolution.getFluid(4000))
+                .inputFluids(GTOMaterials.LaNdOxidesSolution, 4000)
                 .chancedOutput(TagPrefix.dust, GTOMaterials.LanthanumOxide, 5, 4300, 275)
                 .chancedOutput(TagPrefix.dust, GTOMaterials.CeriumOxide, 5, 4300, 275)
                 .chancedOutput(TagPrefix.dust, GTOMaterials.PraseodymiumOxide, 5, 4300, 275)
@@ -92,17 +92,17 @@ final class Dehydrator {
                 .save();
 
         DEHYDRATOR_RECIPES.recipeBuilder("polyimide")
-                .inputFluids(GTOMaterials.Paa.getFluid(144))
-                .outputFluids(GTOMaterials.Polyimide.getFluid(144))
+                .inputFluids(GTOMaterials.Paa, 144)
+                .outputFluids(GTOMaterials.Polyimide, 144)
                 .EUt(30)
                 .duration(270)
                 .save();
 
         DEHYDRATOR_RECIPES.recipeBuilder("germanium_dioxide_dust")
-                .inputFluids(GTOMaterials.GermaniumTetrachlorideSolution.getFluid(1000))
-                .inputFluids(GTMaterials.Hydrogen.getFluid(4000))
+                .inputFluids(GTOMaterials.GermaniumTetrachlorideSolution, 1000)
+                .inputFluids(GTMaterials.Hydrogen, 4000)
                 .outputItems(TagPrefix.dust, GTOMaterials.GermaniumDioxide, 3)
-                .outputFluids(GTMaterials.HydrochloricAcid.getFluid(4000))
+                .outputFluids(GTMaterials.HydrochloricAcid, 4000)
                 .EUt(30)
                 .duration(800)
                 .save();
@@ -117,23 +117,23 @@ final class Dehydrator {
         DEHYDRATOR_RECIPES.recipeBuilder("graphene_iron_plate")
                 .notConsumable(TagPrefix.rodLong, GTMaterials.YttriumBariumCuprate)
                 .inputItems(TagPrefix.dust, GTMaterials.Sodium, 3)
-                .inputFluids(GTOMaterials.GlucoseIronSolution.getFluid(1000))
-                .outputItems(GTOItems.GRAPHENE_IRON_PLATE.asItem())
+                .inputFluids(GTOMaterials.GlucoseIronSolution, 1000)
+                .outputItems(GTOItems.GRAPHENE_IRON_PLATE)
                 .outputItems(TagPrefix.gem, GTMaterials.Salt, 6)
                 .EUt(120)
                 .duration(40)
                 .save();
 
         DEHYDRATOR_RECIPES.recipeBuilder("stearic_acid")
-                .inputFluids(GTOMaterials.DeglyceratedSoap.getFluid(1000))
+                .inputFluids(GTOMaterials.DeglyceratedSoap, 1000)
                 .outputItems(TagPrefix.dust, GTMaterials.Salt)
-                .outputFluids(GTOMaterials.StearicAcid.getFluid(800))
+                .outputFluids(GTOMaterials.StearicAcid, 800)
                 .EUt(2000)
                 .duration(160)
                 .save();
 
         DEHYDRATOR_RECIPES.recipeBuilder("sm_gd_oxides_solution")
-                .inputFluids(GTOMaterials.SmGdOxidesSolution.getFluid(4000))
+                .inputFluids(GTOMaterials.SmGdOxidesSolution, 4000)
                 .chancedOutput(TagPrefix.dust, GTOMaterials.ScandiumOxide, 5, 4300, 275)
                 .chancedOutput(TagPrefix.dust, GTOMaterials.SamariumOxide, 5, 4300, 275)
                 .chancedOutput(TagPrefix.dust, GTOMaterials.EuropiumOxide, 5, 4300, 275)
@@ -143,14 +143,14 @@ final class Dehydrator {
                 .save();
 
         DEHYDRATOR_RECIPES.recipeBuilder("salt_dust")
-                .inputFluids(GTMaterials.SaltWater.getFluid(1000))
+                .inputFluids(GTMaterials.SaltWater, 1000)
                 .outputItems(TagPrefix.dust, GTMaterials.Salt, 2)
                 .EUt(30)
                 .duration(160)
                 .save();
 
         DEHYDRATOR_RECIPES.recipeBuilder("phthalic_anhydride_dust")
-                .inputFluids(GTMaterials.PhthalicAcid.getFluid(1000))
+                .inputFluids(GTMaterials.PhthalicAcid, 1000)
                 .outputItems(TagPrefix.dust, GTOMaterials.PhthalicAnhydride, 15)
                 .EUt(480)
                 .duration(400)
@@ -159,8 +159,8 @@ final class Dehydrator {
         DEHYDRATOR_RECIPES.recipeBuilder("diethyl_ether")
                 .circuitMeta(1)
                 .notConsumableFluid(GTMaterials.SulfuricAcid.getFluid(1000))
-                .inputFluids(GTMaterials.Ethanol.getFluid(2000))
-                .outputFluids(GTOMaterials.DiethylEther.getFluid(1000))
+                .inputFluids(GTMaterials.Ethanol, 2000)
+                .outputFluids(GTOMaterials.DiethylEther, 1000)
                 .EUt(750)
                 .duration(120)
                 .save();
@@ -168,7 +168,7 @@ final class Dehydrator {
         DEHYDRATOR_RECIPES.recipeBuilder("hydroxyapatite_ceramic_dust")
                 .inputItems(TagPrefix.dust, GTOMaterials.UndriedHydroxyapatite)
                 .outputItems(TagPrefix.dust, GTOMaterials.HydroxyapatiteCeramic)
-                .outputFluids(GTMaterials.Water.getFluid(1000))
+                .outputFluids(GTMaterials.Water, 1000)
                 .EUt(120)
                 .duration(10)
                 .save();

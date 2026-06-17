@@ -3,18 +3,20 @@ package com.gtocore.common.machine.multiblock.electric;
 import com.gtocore.api.data.Algae;
 import com.gtocore.api.gui.helper.LineChartHelper;
 import com.gtocore.common.data.GTOItems;
+import com.gtocore.common.data.GTORecipeDataKeys;
 import com.gtocore.common.machine.multiblock.part.ae.StorageAccessPartMachine;
 
 import com.gtolib.api.machine.feature.multiblock.ITierCasingMachine;
 import com.gtolib.api.machine.multiblock.ElectricMultiblockMachine;
-import com.gtolib.api.machine.trait.CustomRecipeLogic;
 import com.gtolib.api.machine.trait.TierCasingTrait;
-import com.gtolib.api.recipe.Recipe;
+import com.gtolib.api.recipe.TierDataKey;
 import com.gtolib.utils.GTOUtils;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
-import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
+import com.gregtechceu.gtceu.api.recipe.GTRecipeDefinition;
+import com.gregtechceu.gtceu.api.recipe.handler.ICustomRecipeLogicHolder;
+import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
 import com.gregtechceu.gtceu.api.sound.SoundEntry;
 import com.gregtechceu.gtceu.common.data.GTSoundEntries;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
@@ -29,25 +31,28 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 import appeng.api.config.Actionable;
 import appeng.api.networking.security.IActionSource;
+
+import com.gto.datasynclib.annotations.SyncToClient;
 import com.lowdragmc.lowdraglib.gui.util.ClickData;
 import com.lowdragmc.lowdraglib.gui.widget.ComponentPanelWidget;
 import com.lowdragmc.lowdraglib.gui.widget.DraggableScrollableWidgetGroup;
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
-import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import it.unimi.dsi.fastutil.longs.LongArrayList;
 import it.unimi.dsi.fastutil.longs.LongList;
-import it.unimi.dsi.fastutil.objects.Object2IntMap;
+import it.unimi.dsi.fastutil.objects.Reference2IntMap;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.EnumMap;
+import java.util.List;
+import java.util.Map;
 
 import static com.gregtechceu.gtceu.api.GTValues.V;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.Biomass;
-import static com.gtolib.api.GTOValues.GLASS_TIER;
 
-public class LargeAlgaeFarm extends ElectricMultiblockMachine implements ITierCasingMachine {
+public class LargeAlgaeFarm extends ElectricMultiblockMachine implements ITierCasingMachine, ICustomRecipeLogicHolder {
 
     private final Map<Algae, LongList> statistics = new EnumMap<>(Algae.class);
     private static final int statMaxSeconds = 30;
@@ -59,12 +64,12 @@ public class LargeAlgaeFarm extends ElectricMultiblockMachine implements ITierCa
     private float greenWeight = 1.0f;
     private float blueWeight = 1.0f;
 
-    @DescSynced
-    private Algae selectedAlgae = Algae.BlueAlge;
+    @SyncToClient
+    private Algae selectedAlgae = Algae.BlueAlgae;
 
     public LargeAlgaeFarm(MetaMachineBlockEntity metaMachineBlockEntity) {
         super(metaMachineBlockEntity);
-        this.tierCasingTrait = new TierCasingTrait(this, GLASS_TIER);
+        this.tierCasingTrait = new TierCasingTrait(this, GTORecipeDataKeys.GLASS_TIER);
     }
 
     @Override
@@ -78,17 +83,9 @@ public class LargeAlgaeFarm extends ElectricMultiblockMachine implements ITierCa
     }
 
     @Override
-    public boolean onWorking() {
-        if (super.onWorking()) {
-            if (getOffsetTimer() % 20 == 0) produceAlgae();
-            return true;
-        }
-        return false;
-    }
-
-    @Override
-    public RecipeLogic createRecipeLogic(Object... args) {
-        return new CustomRecipeLogic(this, this::getRecipe, true);
+    public void onWorking() {
+        super.onWorking();
+        if (getOffsetTimer() % 20 == 0) produceAlgae();
     }
 
     @Override
@@ -100,10 +97,6 @@ public class LargeAlgaeFarm extends ElectricMultiblockMachine implements ITierCa
             list.add(Component.empty().append(algae.getDisplayName())
                     .append(Component.literal(" x " + FormattingUtil.formatNumbers(amount))));
         }
-    }
-
-    private Recipe getRecipe() {
-        return getRecipeBuilder().duration(200).EUt(V[tier] / 2).buildRawRecipe();
     }
 
     @Override
@@ -178,12 +171,12 @@ public class LargeAlgaeFarm extends ElectricMultiblockMachine implements ITierCa
                     algaeGreenAbsorptions.get(algae) / totalAbsorptionGreen,
                     algaeBlueAbsorptions.get(algae) / totalAbsorptionBlue);
             long currentCount = algaeAccessHatch.extract(algae.aeKey(), Long.MAX_VALUE, Actionable.SIMULATE, IActionSource.ofMachine(algaeAccessHatch));
-            long increasement = getIncreasement(currentCount, tier, getCasingTier(GLASS_TIER),
+            long increasement = getIncreasement(currentCount, tier, getCasingTier(GTORecipeDataKeys.GLASS_TIER),
                     (algaeRedAbsorptions.get(algae) +
                             algaeGreenAbsorptions.get(algae) +
                             algaeBlueAbsorptions.get(algae)) * lightIntensity / 16,
                     algaeWeight);
-            long total = Math.min(getFluidAmount(Biomass.getFluid())[0], currentCount + increasement);
+            long total = Math.min(getFluidAmount(true, Biomass.getFluid())[0], currentCount + increasement);
             inputFluid(Biomass.getFluid(), total);
             if (total - currentCount > 0) {
                 algaeAccessHatch.insert(algae.aeKey(), total - currentCount, Actionable.MODULATE, IActionSource.ofMachine(algaeAccessHatch));
@@ -195,7 +188,7 @@ public class LargeAlgaeFarm extends ElectricMultiblockMachine implements ITierCa
     }
 
     private long[] getRGBIntensity() {
-        return getItemAmount(GTOItems.RED_HALIDE_LAMP.get(), GTOItems.GREEN_HALIDE_LAMP.get(), GTOItems.BLUE_HALIDE_LAMP.get());
+        return getItemAmount(true, GTOItems.RED_HALIDE_LAMP.get(), GTOItems.GREEN_HALIDE_LAMP.get(), GTOItems.BLUE_HALIDE_LAMP.get());
     }
 
     private void updateLightIntensity() {
@@ -211,7 +204,7 @@ public class LargeAlgaeFarm extends ElectricMultiblockMachine implements ITierCa
     }
 
     @Override
-    public Widget createUIWidget() {
+    public @NotNull Widget createUIWidget() {
         WidgetGroup widget = (WidgetGroup) super.createUIWidget();
         widget.getWidgetsByType(DraggableScrollableWidgetGroup.class).stream().findAny()
                 .ifPresent(ds -> ds.setSizeHeight(ds.getSizeHeight() - 55));
@@ -239,8 +232,13 @@ public class LargeAlgaeFarm extends ElectricMultiblockMachine implements ITierCa
     }
 
     @Override
-    public Object2IntMap<String> getCasingTiers() {
+    public Reference2IntMap<TierDataKey> getCasingTiers() {
         return tierCasingTrait.getCasingTiers();
+    }
+
+    @Override
+    public GTRecipeDefinition createCustomRecipe(RecipeHandlerUnit unit) {
+        return getRecipeBuilder().duration(200).EUt(V[tier] / 2).build();
     }
 
     private class StatisticWidget extends WidgetGroup {
@@ -275,12 +273,17 @@ public class LargeAlgaeFarm extends ElectricMultiblockMachine implements ITierCa
         public void drawInBackground(@NotNull GuiGraphics graphics, int mouseX, int mouseY, float partialTicks) {
             graphics.pose().pushPose();
             graphics.pose().translate(getPositionX(), getPositionY(), 0f);
-            LineChartHelper.INSTANCE.drawLineChart(
-                    graphics,
-                    statistics.getOrDefault(selectedAlgae, LongList.of()),
-                    getSizeWidth(),
-                    getSizeHeight(),
-                    selectedAlgae.getColor() | 0xFF000000);
+            // LineChartHelper.INSTANCE.drawLineChart(
+            // graphics,
+            // statistics.getOrDefault(selectedAlgae, LongList.of()),
+            // getSizeWidth(),
+            // getSizeHeight(),
+            // selectedAlgae.getColor() | 0xFF000000);
+            LineChartHelper.INSTANCE.builder(graphics, statistics.getOrDefault(selectedAlgae, LongList.of()))
+                    .width(getSizeWidth())
+                    .height(getSizeHeight())
+                    .lineColor(selectedAlgae.getColor() | 0xFF000000)
+                    .draw();
             graphics.pose().popPose();
             super.drawInBackground(graphics, mouseX, mouseY, partialTicks);
         }

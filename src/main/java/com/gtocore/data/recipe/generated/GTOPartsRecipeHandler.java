@@ -636,8 +636,8 @@ final class GTOPartsRecipeHandler {
             ELECTROPLATING_RECIPES.recipeBuilder("electroplate_%s_%s_turbine_rotor".formatted(material.getName(), plating.getName()))
                     .inputItems(turbineRotor, material)
                     .inputItems(plateDouble, plating, 5)
-                    .inputFluids(DistilledWater.getFluid(1000))
-                    .inputFluids(electrolyteMaterial.getFluid(250))
+                    .inputFluids(DistilledWater, 1000)
+                    .inputFluids(electrolyteMaterial, 250)
                     .outputItems(rotorStack)
                     .outputFluids(wasteMaterial.getFluid(1000))
                     .category(GTORecipeCategories.ROTOR_PLATING)
@@ -718,7 +718,7 @@ final class GTOPartsRecipeHandler {
         ItemStack data = GTOItems.DATA_DISC.get().getDisc(motorEnclosureStack);
 
         SCANNER_RECIPES.recipeBuilder(material.getName() + "_motor_enclosure")
-                .inputItems(GTOItems.DATA_DISC.asItem())
+                .inputItems(GTOItems.DATA_DISC)
                 .inputItems(motorEnclosureStack)
                 .outputItems(data)
                 .EUt((long) GTOUtils.getVoltageMultiplier(material) << 4)
@@ -756,7 +756,7 @@ final class GTOPartsRecipeHandler {
         ItemStack data = GTOItems.DATA_DISC.get().getDisc(pumpBarrelStack);
 
         SCANNER_RECIPES.recipeBuilder(material.getName() + "_pump_barrel")
-                .inputItems(GTOItems.DATA_DISC.asItem())
+                .inputItems(GTOItems.DATA_DISC)
                 .inputItems(pumpBarrelStack)
                 .outputItems(data)
                 .EUt((long) GTOUtils.getVoltageMultiplier(material) << 4)
@@ -794,7 +794,7 @@ final class GTOPartsRecipeHandler {
         ItemStack data = GTOItems.DATA_DISC.get().getDisc(pistonHousingStack);
 
         SCANNER_RECIPES.recipeBuilder(material.getName() + "_piston_housing")
-                .inputItems(GTOItems.DATA_DISC.asItem())
+                .inputItems(GTOItems.DATA_DISC)
                 .inputItems(pistonHousingStack)
                 .outputItems(data)
                 .EUt((long) GTOUtils.getVoltageMultiplier(material) << 4)
@@ -833,7 +833,7 @@ final class GTOPartsRecipeHandler {
         ItemStack data = GTOItems.DATA_DISC.get().getDisc(emitterBasesStack);
 
         SCANNER_RECIPES.recipeBuilder(material.getName() + "_emitter_base")
-                .inputItems(GTOItems.DATA_DISC.asItem())
+                .inputItems(GTOItems.DATA_DISC)
                 .inputItems(emitterBasesStack)
                 .outputItems(data)
                 .EUt((long) GTOUtils.getVoltageMultiplier(material) << 4)
@@ -871,7 +871,7 @@ final class GTOPartsRecipeHandler {
         ItemStack data = GTOItems.DATA_DISC.get().getDisc(sensorCasingStack);
 
         SCANNER_RECIPES.recipeBuilder(material.getName() + "_sensor_casing")
-                .inputItems(GTOItems.DATA_DISC.asItem())
+                .inputItems(GTOItems.DATA_DISC)
                 .inputItems(sensorCasingStack)
                 .outputItems(data)
                 .EUt((long) GTOUtils.getVoltageMultiplier(material) << 4)
@@ -909,7 +909,7 @@ final class GTOPartsRecipeHandler {
         ItemStack data = GTOItems.DATA_DISC.get().getDisc(fieldGeneratorCasingStack);
 
         SCANNER_RECIPES.recipeBuilder(material.getName() + "_field_generator_casing")
-                .inputItems(GTOItems.DATA_DISC.asItem())
+                .inputItems(GTOItems.DATA_DISC)
                 .inputItems(fieldGeneratorCasingStack)
                 .outputItems(data)
                 .EUt((long) GTOUtils.getVoltageMultiplier(material) << 4)
@@ -930,7 +930,7 @@ final class GTOPartsRecipeHandler {
         ItemStack stack = ChemicalHelper.get(CATALYST, material);
         if (stack.isEmpty()) return;
         ASSEMBLER_RECIPES.recipeBuilder(material.getName() + "_catalyst")
-                .inputItems(GTOItems.CATALYST_BASE.asItem())
+                .inputItems(GTOItems.CATALYST_BASE)
                 .inputItems(dust, material, 16)
                 .outputItems(stack)
                 .duration((int) material.getMass() << 2)
@@ -981,7 +981,7 @@ final class GTOPartsRecipeHandler {
 
         AUTOCLAVE_RECIPES.recipeBuilder("%s_seed".formatted(material.getName()))
                 .inputItems(stack1)
-                .inputFluids(DistilledWater.getFluid(800))
+                .inputFluids(DistilledWater, 800)
                 .outputItems(stack)
                 .duration((int) (material.getMass() << 2))
                 .EUt(7)

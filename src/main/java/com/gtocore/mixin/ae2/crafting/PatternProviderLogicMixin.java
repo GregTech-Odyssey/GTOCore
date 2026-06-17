@@ -1,34 +1,36 @@
 package com.gtocore.mixin.ae2.crafting;
 
-import com.gtocore.integration.eio.ITravelHandlerHook;
-
 import com.gtolib.api.ae2.*;
 import com.gtolib.api.ae2.machine.ICustomCraftingMachine;
 import com.gtolib.api.blockentity.IDirectionCacheBlockEntity;
-import com.gtolib.utils.holder.BooleanHolder;
-import com.gtolib.utils.holder.ObjectHolder;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 
 import net.minecraft.core.Direction;
 import net.minecraft.core.GlobalPos;
-import net.minecraft.world.level.Level;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.Nameable;
 
 import appeng.api.config.Actionable;
 import appeng.api.config.LockCraftingMode;
 import appeng.api.crafting.IPatternDetails;
 import appeng.api.implementations.blockentities.ICraftingMachine;
+import appeng.api.implementations.blockentities.PatternContainerGroup;
 import appeng.api.networking.IManagedGridNode;
 import appeng.api.networking.crafting.ICraftingProvider;
 import appeng.api.networking.security.IActionSource;
 import appeng.api.stacks.AEKey;
 import appeng.api.stacks.GenericStack;
 import appeng.api.stacks.KeyCounter;
+import appeng.core.localization.GuiText;
 import appeng.helpers.patternprovider.PatternProviderLogic;
 import appeng.helpers.patternprovider.PatternProviderLogicHost;
 import appeng.helpers.patternprovider.PatternProviderTarget;
 import appeng.util.ConfigManager;
 import appeng.util.inv.AppEngInternalInventory;
+
+import com.gto.datasynclib.util.holder.BooleanHolder;
+import com.gto.datasynclib.util.holder.ObjHolder;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap;
 import org.jetbrains.annotations.Nullable;
@@ -36,9 +38,9 @@ import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.function.BooleanSupplier;
 import java.util.function.Supplier;
 
@@ -91,6 +93,9 @@ public abstract class PatternProviderLogicMixin implements IPatternProviderLogic
     protected abstract Set<Direction> getActiveSides();
 
     @Shadow
+    public abstract PatternContainerGroup getTerminalGroup();
+
+    @Shadow
     protected abstract void onPushPatternSuccess(IPatternDetails pattern);
 
     @Shadow
@@ -105,16 +110,56 @@ public abstract class PatternProviderLogicMixin implements IPatternProviderLogic
         gtolib$targetCaches = new PatternProviderTargetCache[6];
     }
 
-    @Inject(method = "configChanged", at = @At("TAIL"), remap = false)
-    private void onSave(CallbackInfo ci) {
-        Level level = host.getBlockEntity().getLevel();
-        if (level != null) {
-            ITravelHandlerHook.requireResync(level);
+    @Inject(method = "getTerminalGroup", at = @At("HEAD"), cancellable = true, remap = false)
+    private void gto$getTerminalGroup(CallbackInfoReturnable<PatternContainerGroup> cir) {
+        if (!(host instanceof Nameable nameable) || !nameable.hasCustomName()) {
+            return;
         }
+
+        String customName = nameable.getCustomName().getString();
+        if (!customName.startsWith("+") || customName.length() == 1) {
+            return;
+        }
+
+        var suffix = Component.literal(customName.substring(1));
+        var blockEntity = host.getBlockEntity();
+        var level = blockEntity.getLevel();
+        if (level == null) {
+            return;
+        }
+
+        var groups = new LinkedHashSet<PatternContainerGroup>();
+        for (Direction side : getActiveSides()) {
+            var group = PatternContainerGroup.fromMachine(level, blockEntity.getBlockPos().relative(side), side.getOpposite());
+            if (group != null) {
+                groups.add(group);
+            }
+        }
+
+        if (groups.size() == 1) {
+            var group = groups.iterator().next();
+            cir.setReturnValue(new PatternContainerGroup(group.icon(), group.name().copy().append(suffix), group.tooltip()));
+            return;
+        }
+
+        List<Component> tooltip = Collections.emptyList();
+        if (groups.size() > 1) {
+            tooltip = new ArrayList<>();
+            tooltip.add(GuiText.AdjacentToDifferentMachines.text().withStyle(net.minecraft.ChatFormatting.BOLD));
+            for (var group : groups) {
+                tooltip.add(group.name());
+                for (var line : group.tooltip()) {
+                    tooltip.add(Component.literal("  ").append(line));
+                }
+            }
+        }
+
+        var hostIcon = host.getTerminalIcon();
+        cir.setReturnValue(new PatternContainerGroup(hostIcon, hostIcon.getDisplayName().copy().append(suffix), tooltip));
     }
 
     @Override
-    public PushResult gtolib$pushPattern(IPatternDetails patternDetails, ObjectHolder<KeyCounter[]> inputHolder, Supplier<PushResult> pushPatternSuccess) {
+    public PushResult gtolib$pushPattern(IPatternDetails patternDetails, ObjHolder<KeyCounter[]> inputHolder, Supplier<PushResult> pushPatternSuccess) {
         if (!this.mainNode.isActive()) return PushResult.GRID_NODE_MISSING;
         if (!this.patterns.contains(patternDetails)) return PushResult.PATTERN_DOES_NOT_EXIST;
         var be = host.getBlockEntity();
@@ -133,7 +178,7 @@ public abstract class PatternProviderLogicMixin implements IPatternProviderLogic
 
         var level = be.getLevel();
         var pos = be.getBlockPos();
-        BooleanHolder success = new BooleanHolder(false);
+        BooleanHolder success = new BooleanHolder();
         boolean molecular = !patternDetails.supportsPushInputsToExternalInventory();
         for (var direction : getActiveSides()) {
             var adjBe = cache.getAdjacentBlockEntity(level, pos, direction);
@@ -180,7 +225,7 @@ public abstract class PatternProviderLogicMixin implements IPatternProviderLogic
     }
 
     @Unique
-    private PushResult gtolib$pushCraftingMachine(ICraftingMachine craftingMachine, IPatternDetails patternDetails, ObjectHolder<KeyCounter[]> inputHolder, Supplier<PushResult> pushPatternSuccess, Direction adjBeSide) {
+    private PushResult gtolib$pushCraftingMachine(ICraftingMachine craftingMachine, IPatternDetails patternDetails, ObjHolder<KeyCounter[]> inputHolder, Supplier<PushResult> pushPatternSuccess, Direction adjBeSide) {
         boolean success = false;
         while (true) {
             if (inputHolder.value != null && craftingMachine.acceptsPlans() && craftingMachine.pushPattern(patternDetails, inputHolder.value, adjBeSide)) {
@@ -195,7 +240,7 @@ public abstract class PatternProviderLogicMixin implements IPatternProviderLogic
     }
 
     @Unique
-    private PushResult gtolib$pushTarget(IPatternDetails patternDetails, ObjectHolder<KeyCounter[]> inputHolder, Supplier<PushResult> pushPatternSuccess, BooleanSupplier canPush, Direction direction, PatternProviderTarget adapter, boolean continuous) {
+    private PushResult gtolib$pushTarget(IPatternDetails patternDetails, ObjHolder<KeyCounter[]> inputHolder, Supplier<PushResult> pushPatternSuccess, BooleanSupplier canPush, Direction direction, PatternProviderTarget adapter, boolean continuous) {
         int count = this.gtocore$pushedCount;
         boolean success = false;
         while (count > 0) {

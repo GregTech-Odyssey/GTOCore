@@ -1,38 +1,44 @@
 package com.gtocore.common.forge;
 
-import com.gtocore.common.data.GTOBlocks;
-import com.gtocore.common.data.GTOCommands;
-import com.gtocore.common.data.GTOEffects;
-import com.gtocore.common.data.GTOItems;
+import com.gtocore.common.data.*;
 import com.gtocore.common.item.ItemMap;
 import com.gtocore.common.machine.multiblock.electric.voidseries.VoidTransporterMachine;
-import com.gtocore.common.saved.DysonSphereSavaedData;
-import com.gtocore.common.saved.RecipeRunLimitSavaedData;
-import com.gtocore.common.saved.WirelessSavedData;
+import com.gtocore.common.saved.*;
 import com.gtocore.config.GTOConfig;
 import com.gtocore.integration.Mods;
+import com.gtocore.integration.botania.IEntropinnyum;
 import com.gtocore.integration.ftbquests.AdditionalTeamData;
 import com.gtocore.utils.OrganUtilsKt;
 
 import com.gtolib.GTOCore;
 import com.gtolib.api.annotation.DataGeneratorScanned;
 import com.gtolib.api.annotation.language.RegisterLanguage;
+import com.gtolib.api.data.Dimension;
 import com.gtolib.api.data.GTODimensions;
+import com.gtolib.api.item.tool.VajraItem;
 import com.gtolib.api.machine.feature.IVacuumMachine;
 import com.gtolib.api.player.IEnhancedPlayer;
+import com.gtolib.api.player.attribute.PlayerAttributes;
 import com.gtolib.utils.RLUtils;
+import com.gtolib.utils.RegistriesUtils;
 import com.gtolib.utils.ServerUtils;
 import com.gtolib.utils.explosion.SphereExplosion;
 import com.gtolib.utils.register.BlockRegisterUtils;
 
 import com.gregtechceu.gtceu.GTCEu;
+import com.gregtechceu.gtceu.api.GTCEuAPI;
 import com.gregtechceu.gtceu.api.GTValues;
+import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
+import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.item.tool.GTToolItem;
+import com.gregtechceu.gtceu.api.item.tool.ToolHelper;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.WorkableTieredMachine;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.api.recipe.RecipeHelper;
 import com.gregtechceu.gtceu.common.data.GTItems;
+import com.gregtechceu.gtceu.common.data.GTMaterials;
+import com.gregtechceu.gtceu.utils.memoization.GTMemoizer;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
@@ -42,6 +48,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.ClickEvent;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -51,14 +58,17 @@ import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.CommandEvent;
 import net.minecraftforge.event.RegisterCommandsEvent;
+import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.EntityTravelToDimensionEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
@@ -68,24 +78,31 @@ import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.level.BlockEvent;
 import net.minecraftforge.event.level.LevelEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
+import net.minecraftforge.event.server.ServerStoppedEvent;
 import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.registries.MissingMappingsEvent;
 
+import com.google.common.collect.ImmutableMap;
 import earth.terrarium.adastra.common.entities.mob.GlacianRam;
 import org.apache.logging.log4j.core.config.Configurator;
 
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.function.Supplier;
 
 @DataGeneratorScanned
 public final class ForgeCommonEvent {
 
+    // 缓存虚空世界实例，避免每个 tick 反复按维度去查找。
+    private static ServerLevel voidWorldLevel;
+    private static final int VOID_TIME_FIX_INTERVAL = 100;
+
     public static void init() {
         MinecraftForge.EVENT_BUS.register(ForgeCommonEvent.class);
         MinecraftForge.EVENT_BUS.register(AnimalsRevengeEvent.class);
-        MinecraftForge.EVENT_BUS.register(TravelStaffItemMixinLikeForge.class);
     }
 
     @SubscribeEvent
@@ -102,6 +119,14 @@ public final class ForgeCommonEvent {
     public static void onEntityTravelToDimension(EntityTravelToDimensionEvent event) {
         if (event.getEntity() instanceof FallingBlockEntity fallingBlock) {
             fallingBlock.discard();
+        }
+        if (event.getEntity() instanceof Player player && event.getDimension() == Dimension.OTHERSIDE.getResourceKey()) {
+            boolean othersidePass = IEnhancedPlayer.of(player).getPlayerData().getPlayerAttributes().getBooleanCurrent(PlayerAttributes.WARDEN_STATE) || player.getAbilities().instabuild;
+            if (!othersidePass) {
+                event.setCanceled(true);
+                player.sendSystemMessage(Component.translatable("gtocore.message.otherside_pass_required").withStyle(ChatFormatting.DARK_GRAY));
+                player.sendSystemMessage(Component.translatable("gtocore.message.otherside_pass_required.1").withStyle(ChatFormatting.GRAY));
+            }
         }
     }
 
@@ -161,18 +186,24 @@ public final class ForgeCommonEvent {
             return;
         }
 
-        if (!GTOConfig.INSTANCE.disableChargeBomb) {
-            if (item == GTItems.QUANTUM_STAR.get() && level.getBlockState(pos).getBlock() == GTOBlocks.NAQUADRIA_CHARGE.get()) {
+        if (!GTOConfig.INSTANCE.gamePlay.disableChargeBomb) {
+            if (item == GTItems.QUANTUM_STAR.get() &&
+                    level.getBlockState(pos).getBlock() == GTOBlocks.NAQUADRIA_CHARGE.get() &&
+                    !IEntropinnyum.absorbBomb(level, pos, (int) 1e6)) {
                 SphereExplosion.explosion(pos, level, 200, true, true);
                 return;
             }
 
-            if (item == GTItems.GRAVI_STAR.get() && level.getBlockState(pos).getBlock() == GTOBlocks.LEPTONIC_CHARGE.get()) {
+            if (item == GTItems.GRAVI_STAR.get() &&
+                    level.getBlockState(pos).getBlock() == GTOBlocks.LEPTONIC_CHARGE.get() &&
+                    !IEntropinnyum.absorbBomb(level, pos, (int) 4e6)) {
                 SphereExplosion.explosion(pos, level, 800, true, true);
                 return;
             }
 
-            if (item == GTOItems.UNSTABLE_STAR.get() && level.getBlockState(pos).getBlock() == GTOBlocks.QUANTUM_CHROMODYNAMIC_CHARGE.get()) {
+            if (item == GTOItems.UNSTABLE_STAR.get() &&
+                    level.getBlockState(pos).getBlock() == GTOBlocks.QUANTUM_CHROMODYNAMIC_CHARGE.get() &&
+                    !IEntropinnyum.absorbBomb(level, pos, (int) 1e7)) {
                 SphereExplosion.explosion(pos, level, 2000, true, true);
                 return;
             }
@@ -208,7 +239,7 @@ public final class ForgeCommonEvent {
             if (block == Blocks.CRYING_OBSIDIAN) {
                 if (!Objects.equals(dim, "gtocore:flat")) {
                     if (VoidTransporterMachine.checkTransporter(pos, level, 0)) return;
-                    ServerLevel serverLevel = server.getLevel(GTODimensions.getDimensionKey(GTODimensions.FLAT));
+                    ServerLevel serverLevel = server.getLevel(GTODimensions.FLAT);
                     if (serverLevel != null) {
                         int value = Objects.equals(dim, "gtocore:void") ? 1 : 10;
                         data.putDouble("y_f", player.getY() + 1);
@@ -228,7 +259,7 @@ public final class ForgeCommonEvent {
             if (block == Blocks.OBSIDIAN) {
                 if (!Objects.equals(dim, "gtocore:void")) {
                     if (VoidTransporterMachine.checkTransporter(pos, level, 0)) return;
-                    ServerLevel serverLevel = server.getLevel(GTODimensions.getDimensionKey(GTODimensions.VOID));
+                    ServerLevel serverLevel = server.getLevel(GTODimensions.VOID);
                     if (serverLevel != null) {
                         int value = Objects.equals(dim, "gtocore:flat") ? 1 : 10;
                         data.putDouble("y_v", player.getY() + 1);
@@ -248,7 +279,7 @@ public final class ForgeCommonEvent {
             if (block == BlockRegisterUtils.REACTOR_CORE.get()) {
                 if ("gtocore:ancient_world".equals(dim) || "minecraft:the_nether".equals(dim)) {
                     int dimdata = "gtocore:ancient_world".equals(dim) ? 1 : 2;
-                    ServerUtils.teleportToDimension(server, player, RLUtils.parse(data.getString("dim_" + dimdata)), new Vec3(data.getDouble("pos_x_" + dimdata), data.getDouble("pos_y_" + dimdata), data.getDouble("pos_z_" + dimdata)));
+                    ServerUtils.teleportToDimension(server, player, GTODimensions.getDimensionKey(RLUtils.parse(data.getString("dim_" + dimdata))), new Vec3(data.getDouble("pos_x_" + dimdata), data.getDouble("pos_y_" + dimdata), data.getDouble("pos_z_" + dimdata)));
                 }
             }
         }
@@ -283,6 +314,16 @@ public final class ForgeCommonEvent {
                 player.displayClientMessage(Component.translatable("gtocore.dev", Component.literal("GitHub").withStyle(Style.EMPTY.withColor(ChatFormatting.GREEN).withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://github.com/GregTech-Odyssey/GregTech-Odyssey/issues")))), false);
                 Configurator.setRootLevel(org.apache.logging.log4j.Level.INFO);
             }
+            showVoidTimeHint(player);
+            WirelessNetworkSavedData.write(player);
+        }
+    }
+
+    @SubscribeEvent
+    public static void onPlayerChangedDimensionEvent(PlayerEvent.PlayerChangedDimensionEvent event) {
+        if (event.getEntity() instanceof ServerPlayer player) {
+            showVoidTimeHint(player);
+            WirelessNetworkSavedData.write(player);
             // Removed server-side language-gated announcement; it will now be handled client-side in ClientHooks
         }
     }
@@ -290,19 +331,89 @@ public final class ForgeCommonEvent {
     @SubscribeEvent
     public static void onLevelLoad(LevelEvent.Load event) {
         if (event.getLevel() instanceof ServerLevel level) {
+            // 虚空世界加载时顺手记录引用，后续只在需要纠正时间时使用。
+            if (GTODimensions.isVoid(level.dimension())) {
+                voidWorldLevel = level;
+            }
             ServerLevel serverLevel = level.getServer().getLevel(Level.OVERWORLD);
             if (serverLevel == null) return;
             DysonSphereSavaedData.INSTANCE = serverLevel.getDataStorage().computeIfAbsent(DysonSphereSavaedData::new, DysonSphereSavaedData::new, "dyson_sphere_data");
             RecipeRunLimitSavaedData.INSTANCE = serverLevel.getDataStorage().computeIfAbsent(RecipeRunLimitSavaedData::new, RecipeRunLimitSavaedData::new, "recipe_run_limit_data");
-            WirelessSavedData.Companion.setINSTANCE(serverLevel.getDataStorage().computeIfAbsent(WirelessSavedData::initialize, WirelessSavedData::new, "wireless_saved_data_" + GTOConfig.INSTANCE.aeGridKey));
+            VoidWorldTimeSavedData.INSTANCE = serverLevel.getDataStorage().computeIfAbsent(VoidWorldTimeSavedData::initialize, VoidWorldTimeSavedData::new, VoidWorldTimeSavedData.DATA_NAME);
+            VirtualCoinSavedData.INSTANCE = serverLevel.getDataStorage().computeIfAbsent(VirtualCoinSavedData::new, VirtualCoinSavedData::new, "virtual_coin_data");
+            WirelessNetworkSavedData.Companion.setINSTANCE(serverLevel.getDataStorage().computeIfAbsent(WirelessNetworkSavedData::initialize, WirelessNetworkSavedData::new, "wireless_saved_data_" + GTOConfig.INSTANCE.devMode.aeGridKey));
             if (Mods.FTBQUESTS.isLoaded()) {
                 AdditionalTeamData.instance = serverLevel.getDataStorage().computeIfAbsent(AdditionalTeamData::new, AdditionalTeamData::new, "ftb_quests_additional_team_data");
             }
+            if (GTODimensions.isVoid(level.dimension()) && VoidWorldTimeSavedData.INSTANCE.isFixedTime()) {
+                level.setDayTime(1000L);
+            }
+        }
+    }
+
+    @SubscribeEvent
+    public static void onLevelUnload(LevelEvent.Unload event) {
+        if (event.getLevel() instanceof ServerLevel level && voidWorldLevel == level) {
+            voidWorldLevel = null;
+        }
+    }
+
+    @SubscribeEvent
+    public static void onServerStoppedEvent(ServerStoppedEvent event) {
+        DysonSphereSavaedData.INSTANCE = new DysonSphereSavaedData();
+        RecipeRunLimitSavaedData.INSTANCE = new RecipeRunLimitSavaedData();
+        VoidWorldTimeSavedData.INSTANCE = new VoidWorldTimeSavedData();
+        VirtualCoinSavedData.INSTANCE = new VirtualCoinSavedData();
+        voidWorldLevel = null;
+        WirelessNetworkSavedData.Companion.setINSTANCE(new WirelessNetworkSavedData());
+        if (Mods.FTBQUESTS.isLoaded()) {
+            AdditionalTeamData.instance = new AdditionalTeamData();
+        }
+    }
+
+    @SubscribeEvent
+    public static void onServerTick(TickEvent.ServerTickEvent event) {
+        if (event.phase != TickEvent.Phase.END || !VoidWorldTimeSavedData.INSTANCE.isFixedTime() || event.getServer().getTickCount() % VOID_TIME_FIX_INTERVAL != 0) {
+            return;
+        }
+        // 固定时间只需每 100 tick 纠正一次，减少持续运行时的检查频率。
+        ServerLevel level = voidWorldLevel;
+        if (level == null) {
+            level = event.getServer().getLevel(GTODimensions.VOID);
+            voidWorldLevel = level;
+        }
+        if (level != null && level.getDayTime() != 1000L) {
+            level.setDayTime(1000L);
         }
     }
 
     @RegisterLanguage(valuePrefix = "gtocore.lang", en = "Channel mode command banned in expert", cn = "在专家模式下，频道模式命令被禁止")
     private static final String CHANNEL_MODE_COMMAND_BANNED = "banned";
+
+    @RegisterLanguage(valuePrefix = "gtocore.lang", en = "Use /gtocore void time to toggle whether the void world stays fixed at 1000.", cn = "使用 /gtocore void time 切换虚空世界是否固定在 1000。")
+    public static final String VOID_WORLD_TIME_HINT = "void_world_time_hint";
+
+    @RegisterLanguage(valuePrefix = "gtocore.lang", en = "Void world time is now fixed at 1000.", cn = "虚空世界时间已固定在 1000。")
+    public static final String VOID_WORLD_TIME_LOCKED = "void_world_time_locked";
+
+    @RegisterLanguage(valuePrefix = "gtocore.lang", en = "Void world time is no longer fixed at 1000.", cn = "虚空世界时间已不再固定在 1000。")
+    public static final String VOID_WORLD_TIME_UNLOCKED = "void_world_time_unlocked";
+
+    @RegisterLanguage(valuePrefix = "gtocore.lang", en = "This command can only be used in the void world.", cn = "此命令只能在虚空世界中使用。")
+    public static final String VOID_WORLD_TIME_ONLY_IN_VOID = "void_world_time_only_in_void";
+
+    private static void showVoidTimeHint(ServerPlayer player) {
+        if (!GTODimensions.isVoid(player.serverLevel().dimension())) {
+            return;
+        }
+        CompoundTag data = player.getPersistentData();
+        // 用玩家持久数据记录提示是否展示过，保证每人只显示一次。
+        if (data.getBoolean("gtocore_void_time_hint_shown")) {
+            return;
+        }
+        data.putBoolean("gtocore_void_time_hint_shown", true);
+        player.displayClientMessage(Component.translatable("gtocore.lang." + VOID_WORLD_TIME_HINT).withStyle(ChatFormatting.AQUA), false);
+    }
 
     @SuppressWarnings("all")
     @SubscribeEvent
@@ -332,10 +443,17 @@ public final class ForgeCommonEvent {
 
     @SubscribeEvent
     public static void serverStarting(ServerStartingEvent event) {
-        DistExecutor.unsafeRunWhenOn(Dist.DEDICATED_SERVER, () -> () -> {
-            if (Objects.equals(GTOConfig.INSTANCE.serverLang, "en_us")) return;
-            ServerLangHook.gto$loadLanguage(GTOConfig.INSTANCE.serverLang, event.getServer());
-        });
+        DistExecutor.unsafeRunWhenOn(Dist.DEDICATED_SERVER, () -> () -> ServerLangHook.reload(event.getServer()));
+    }
+
+    @SubscribeEvent
+    public static void harvestCheck(PlayerEvent.HarvestCheck harvestCheck) {
+        ItemStack stack = harvestCheck.getEntity().getMainHandItem();
+        if (stack.getItem() instanceof VajraItem tool) {
+            int tier = tool.getTier().getLevel();
+            if (tier >= 6) harvestCheck.setCanHarvest(true);
+            else harvestCheck.setCanHarvest(ToolHelper.isCorrectTierForDrops(harvestCheck.getTargetBlock(), tier));
+        }
     }
 
     @SubscribeEvent
@@ -347,8 +465,8 @@ public final class ForgeCommonEvent {
                 mapping.remap(GTOBlocks.SPACETIME_CONTINUUM_RIPPER.get());
             } else if (mapping.getKey().equals(GTOCore.id("spacetimebendingcore"))) {
                 mapping.remap(GTOBlocks.SPACETIME_BENDING_CORE.get());
-            } else if (mapping.getKey().equals(GTOCore.id("titanium_alloy_internal_frame"))) {
-                mapping.remap(GTOBlocks.TITANIUM_ALLOY_INTERNAL_FRAME.get());
+            } else if (mapping.getKey().equals(GTOCore.id("titanium_alloy_frame_internal"))) {
+                mapping.remap(GTOBlocks.TITANIUM_ALLOY_FRAME_INTERNAL.get());
             }
         });
         event.getMappings(Registries.ITEM, GTOCore.MOD_ID).forEach(mapping -> {
@@ -359,10 +477,68 @@ public final class ForgeCommonEvent {
             } else if (mapping.getKey().equals(GTOCore.id("spacetimebendingcore"))) {
                 mapping.remap(GTOBlocks.SPACETIME_BENDING_CORE.asItem());
             } else if (mapping.getKey().equals(GTOCore.id("titanium_alloy_internal_frame"))) {
-                mapping.remap(GTOBlocks.TITANIUM_ALLOY_INTERNAL_FRAME.asItem());
+                mapping.remap(GTOBlocks.TITANIUM_ALLOY_FRAME_INTERNAL.asItem());
+            }
+        });
+        event.getMappings(Registries.BLOCK, "avaritia").forEach(mapping -> {
+            if (AvaritiaBlocks.get().containsKey(mapping.getKey().getPath())) {
+                mapping.remap(AvaritiaBlocks.get().get(mapping.getKey().getPath()));
+            }
+        });
+        event.getMappings(Registries.BLOCK, "enderio").forEach(mapping -> {
+            if (mapping.getKey().getNamespace().equals("enderio")) {
+                var block = RegistriesUtils.getBlock(GTOCore.id(mapping.getKey().getPath()).toString());
+                if (block != null && block != Blocks.AIR) {
+                    mapping.remap(block);
+                }
+            }
+        });
+        event.getMappings(Registries.ITEM, "avaritia").forEach(mapping -> {
+            if (AvaritiaItems.get().containsKey(mapping.getKey().getPath())) {
+                mapping.remap(AvaritiaItems.get().get(mapping.getKey().getPath()));
+            }
+        });
+        event.getMappings(Registries.ITEM, "enderio").forEach(mapping -> {
+            if (mapping.getKey().getNamespace().equals("enderio")) {
+                var item = RegistriesUtils.getItem(GTOCore.id(mapping.getKey().getPath()));
+                if (mapping.getKey().getPath().startsWith("powdered_")) {
+                    var mat = GTCEuAPI.materialManager.getMaterial(mapping.getKey().getPath().replace("powdered_", ""));
+                    if (mat == null) return;
+                    item = ChemicalHelper.getItem(TagPrefix.dust, mat);
+                }
+                if (item != Items.AIR && item != Items.BARRIER) {
+                    mapping.remap(item);
+                }
+            }
+        });
+        event.getMappings(Registries.FLUID, "enderio").forEach(mapping -> {
+            if (mapping.getKey().getNamespace().equals("enderio")) {
+                var fluid = RegistriesUtils.getFluid(GTOCore.id(mapping.getKey().getPath()));
+                if (fluid != null && fluid != Fluids.EMPTY) {
+                    mapping.remap(fluid);
+                }
+                if (mapping.getKey().equals(ResourceLocation.parse("enderio:rocket_fuel"))) {
+                    mapping.remap(GTMaterials.RocketFuel.getFluid());
+                }
             }
         });
     }
+
+    private static final Supplier<Map<String, Item>> AvaritiaItems = GTMemoizer.memoize(() -> ImmutableMap.<String, Item>builder()
+            .put("neutron_ingot", ChemicalHelper.getItem(TagPrefix.ingot, GTOMaterials.Neutron))
+            .put("crystal_matrix_ingot", ChemicalHelper.getItem(TagPrefix.ingot, GTOMaterials.CrystalMatrix))
+            .put("infinity_ingot", ChemicalHelper.getItem(TagPrefix.ingot, GTOMaterials.Infinity))
+            .put("neutron_nugget", ChemicalHelper.getItem(TagPrefix.nugget, GTOMaterials.Neutron))
+            .put("singularity", GTOItems.INFINITY_SINGULARITY.asItem())
+            .put("eternal_singularity", GTOItems.COSMIC_SINGULARITY.asItem())
+            .put("infinity_catalyst", GTOItems.INFINITY_CATALYST.asItem())
+            .build());
+    @SuppressWarnings("ConstantConditions")
+    private static final Supplier<Map<String, Block>> AvaritiaBlocks = GTMemoizer.memoize(() -> ImmutableMap.<String, Block>builder()
+            .put("infinity", ChemicalHelper.getBlock(TagPrefix.block, GTOMaterials.Infinity))
+            .put("crystal_matrix", ChemicalHelper.getBlock(TagPrefix.block, GTOMaterials.CrystalMatrix))
+            .put("neutron", ChemicalHelper.getBlock(TagPrefix.block, GTOMaterials.Neutron))
+            .build());
 
     // ===================== CLIENT ONLY HOOKS =====================
 }

@@ -24,11 +24,13 @@ import xaero.pac.common.parties.party.IPartyPlayerInfo;
 import xaero.pac.common.parties.party.ally.IPartyAlly;
 import xaero.pac.common.parties.party.member.IPartyMember;
 import xaero.pac.common.server.IServerData;
+import xaero.pac.common.server.claims.IServerClaimsManager;
 import xaero.pac.common.server.claims.protection.ChunkProtection;
+import xaero.pac.common.server.claims.protection.api.IChunkProtectionAPI;
 import xaero.pac.common.server.parties.party.IServerParty;
 import xaero.pac.common.server.player.config.IPlayerConfig;
-import xaero.pac.common.server.player.config.api.IPlayerConfigAPI;
 import xaero.pac.common.server.player.config.api.IPlayerConfigOptionSpecAPI;
+import xaero.pac.common.server.player.config.api.v2.IPlayerConfigAPI;
 
 import java.util.List;
 import java.util.Map;
@@ -39,7 +41,7 @@ import java.util.function.Function;
 import javax.annotation.Nullable;
 
 @Mixin(ChunkProtection.class)
-public class ChunkProtectionMixin {
+public abstract class ChunkProtectionMixin<CM extends IServerClaimsManager<?, ?, ?>> implements IChunkProtectionAPI {
 
     /**
      * @author .
@@ -64,7 +66,7 @@ public class ChunkProtectionMixin {
      * @reason .
      */
     @Overwrite(remap = false)
-    public boolean onEntityPlaceBlock(IServerData<?, ?> serverData, Entity entity, ServerLevel world, BlockPos pos, IPlayerConfigOptionSpecAPI<Integer> option) {
+    public boolean onEntityPlaceBlock(IServerData<CM, ?> serverData, Entity entity, ServerLevel world, BlockPos pos, xaero.pac.common.server.player.config.api.v2.IPlayerConfigOptionSpecAPI<String> option) {
         return false;
     }
 
@@ -82,7 +84,7 @@ public class ChunkProtectionMixin {
      * @reason .
      */
     @Overwrite(remap = false)
-    public boolean onMobGrief(IServerData<?, ?> serverData, Entity entity) {
+    private boolean onMobGrief(IServerData<CM, ?> serverData, Entity entity, boolean blocks, boolean entities, boolean items) {
         return false;
     }
 
@@ -261,7 +263,7 @@ public class ChunkProtectionMixin {
      * @reason .
      */
     @Overwrite(remap = false)
-    public boolean onEntityMerge(IServerData<?, ?> serverData, Entity first, UUID firstThrower, UUID firstOwner, Entity second, UUID secondThrower, UUID secondOwner, IPlayerConfigOptionSpecAPI<Integer> playerOption, IPlayerConfigOptionSpecAPI<Integer> mobOption, IPlayerConfigOptionSpecAPI<Boolean> redirectOption) {
+    public boolean onEntityMerge(IServerData<CM, ?> serverData, Entity first, UUID firstThrower, UUID firstOwner, Entity second, UUID secondThrower, UUID secondOwner, xaero.pac.common.server.player.config.api.v2.IPlayerConfigOptionSpecAPI<String> playerOption, xaero.pac.common.server.player.config.api.v2.IPlayerConfigOptionSpecAPI<String> mobOption, xaero.pac.common.server.player.config.api.v2.IPlayerConfigOptionSpecAPI<Boolean> redirectOption) {
         return false;
     }
 

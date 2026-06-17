@@ -1,8 +1,8 @@
 package com.gtocore.common.machine.multiblock.electric.miner;
 
+import com.gtocore.common.data.GTORecipeDataKeys;
 import com.gtocore.integration.jade.provider.RecipeLogicProvider;
 
-import com.gtolib.api.GTOValues;
 import com.gtolib.api.annotation.DataGeneratorScanned;
 import com.gtolib.api.annotation.NewDataAttributes;
 import com.gtolib.api.machine.feature.IDigitalMiner;
@@ -33,14 +33,14 @@ import net.minecraft.network.chat.Style;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.phys.AABB;
 
+import com.gto.datasynclib.annotations.SaveToDisk;
+import com.gto.datasynclib.annotations.SyncToClient;
 import com.hepdd.gtmthings.api.gui.widget.SimpleNumberInputWidget;
 import com.lowdragmc.lowdraglib.gui.texture.TextTexture;
 import com.lowdragmc.lowdraglib.gui.util.ClickData;
 import com.lowdragmc.lowdraglib.gui.widget.*;
 import com.lowdragmc.lowdraglib.gui.widget.layout.Align;
 import com.lowdragmc.lowdraglib.syncdata.ISubscription;
-import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.mojang.blaze3d.MethodsReturnNonnullByDefault;
 import lombok.Getter;
 import lombok.Setter;
@@ -57,9 +57,9 @@ public class DigitalMiner extends TierCasingMultiblockMachine implements IDigita
 
     // ===================== UI相关方法 =====================
     private static final int BORDER_WIDTH = 3;
-    @Persisted
+    @SaveToDisk
     protected final CustomItemStackHandler filterInventory;
-    @Persisted
+    @SaveToDisk
     public IDigitalMiner.FluidMode fluidMode = IDigitalMiner.FluidMode.Harvest;
     @Nullable
     protected ISubscription energySubs;
@@ -73,56 +73,56 @@ public class DigitalMiner extends TierCasingMultiblockMachine implements IDigita
     // ===================== 构造与初始化 =====================
     protected ButtonWidget fluidModeButton;
     protected DraggableScrollableWidgetGroup mapArea;
-    @Persisted
-    @DescSynced
+    @SaveToDisk
+    @SyncToClient
     private int xRadialLength;
-    @Persisted
-    @DescSynced
+    @SaveToDisk
+    @SyncToClient
     private int zRadialLength;
     @Getter
-    @Persisted
-    @DescSynced
+    @SaveToDisk
+    @SyncToClient
     private int xOffset;
     @Getter
-    @Persisted
-    @DescSynced
+    @SaveToDisk
+    @SyncToClient
     private int zOffset;
     @Setter
     @Getter
-    @Persisted
-    @DescSynced
+    @SaveToDisk
+    @SyncToClient
     private int minHeight;
     @Setter
     @Getter
-    @Persisted
-    @DescSynced
+    @SaveToDisk
+    @SyncToClient
     private int maxHeight;
 
     // ===================== 逻辑相关方法 =====================
     @Getter
-    @Persisted
+    @SaveToDisk
     private int silkLevel;
-    @DescSynced
+    @SyncToClient
     private long energyPerTickBase = 0L;
     @Getter
-    @DescSynced
+    @SyncToClient
     private int parallelMining = 0;
-    @DescSynced
+    @SyncToClient
     private int prospectorRadius;
-    @DescSynced
-    @Persisted
+    @SyncToClient
+    @SaveToDisk
     private int maxRadius = 1;
     // ===================== Getter/Setter =====================
     @Getter
-    @DescSynced
-    @Persisted
+    @SyncToClient
+    @SaveToDisk
     private boolean showRange = false;
     @Getter
     private long energyPerTick;
     private ButtonWidget showRangeButton;
 
     public DigitalMiner(MetaMachineBlockEntity holder) {
-        super(holder, GTOValues.INTEGRAL_FRAMEWORK_TIER);
+        super(holder, GTORecipeDataKeys.INTEGRAL_FRAMEWORK_TIER);
         this.filterInventory = createFilterItemHandler();
         this.silkLevel = 0;
         this.minHeight = 0;
@@ -169,7 +169,7 @@ public class DigitalMiner extends TierCasingMultiblockMachine implements IDigita
     @Override
     public void onStructureFormed() {
         super.onStructureFormed();
-        tier = Math.min(getCasingTier(GTOValues.INTEGRAL_FRAMEWORK_TIER), tier);
+        tier = Math.min(getCasingTier(GTORecipeDataKeys.INTEGRAL_FRAMEWORK_TIER), tier);
         this.energyPerTickBase = (int) Math.pow(4, getTier()) * 2L;
         this.energyPerTick = energyPerTickBase * (silkLevel == 0 ? 1 : 4);
         this.parallelMining = (int) Math.min(4096, 4 * Math.pow(2, getTier()));
@@ -418,7 +418,7 @@ public class DigitalMiner extends TierCasingMultiblockMachine implements IDigita
             textList.add(Component.translatable("gtceu.multiblock.large_miner.needspower")
                     .setStyle(Style.EMPTY.withColor(ChatFormatting.RED)));
         textList.addAll(NewDataAttributes.LEVEL.create(tier).get());
-        RecipeLogicProvider.getEUtTooltip(textList, getEnergyPerTick(), false);
+        RecipeLogicProvider.getEUtTooltip(textList, energyPerTick, false, RecipeLogicProvider.getVoltage(getRecipeLogic()));
         textList.add(Component.translatable(PARALLEL, parallelMining));
     }
 
@@ -469,7 +469,7 @@ public class DigitalMiner extends TierCasingMultiblockMachine implements IDigita
             maxHeight = temp;
         }
         BlockPos pos = getPos();
-        BlockPos pos1 = pos.offset(getXOffset(), 0, getZOffset()).atY(minHeight);
+        BlockPos pos1 = pos.offset(xOffset, 0, zOffset).atY(minHeight);
         BlockPos pos2 = pos1.offset((xRadialLength), 0, (zRadialLength)).atY(maxHeight);
         return new AABB(pos1, pos2);
     }
@@ -482,7 +482,7 @@ public class DigitalMiner extends TierCasingMultiblockMachine implements IDigita
         double lastX = 0, lastY = 0;
         WaypointItem startWaypoint = null;
 
-        public ProspectorMap(int x, int y, int width, int height, int radius, ProspectorMode mode, int scale, Widget parent) {
+        ProspectorMap(int x, int y, int width, int height, int radius, ProspectorMode mode, int scale, Widget parent) {
             super(x, y, width, height, radius, mode, scale);
             this.parent = parent;
             this.itemList.setVisible(false).setActive(false);

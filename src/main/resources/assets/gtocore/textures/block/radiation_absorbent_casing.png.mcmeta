@@ -1,5 +1,5 @@
 {
-    "ldlib": {
-        "connection": "gtocore:block/radiation_absorbent_casing_ctm"
-    }
+  "ldlib": {
+    "connection": "gtocore:block/radiation_absorbent_casing_ctm"
+  }
 }

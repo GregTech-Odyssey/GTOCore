@@ -743,7 +743,7 @@ public final class MaterialB {
                 .iconSet(DULL)
                 .buildAndRegister();
 
-        RhodiumTriphenylphosphineChloride = material("rhodium_triphenylphosphine_chloride", "三（三苯基膦）铑(I)氯化物")
+        RhodiumTriphenylphosphineChloride = material("rhodium_triphenylphosphine_chloride", "三(三苯基膦)氯化铑(I)")
                 .dust()
                 .color(0x776715)
                 .components(Rhodium, 1, Chlorine, 1, Carbon, 18, Hydrogen, 15, Phosphorus, 1)
@@ -2382,7 +2382,7 @@ public final class MaterialB {
                 .iconSet(DULL)
                 .buildAndRegister();
 
-        FilteredSater = material("filtered_water", "过滤水")
+        FilteredSater = material("filtered_water", "Filtered Water", "过滤水")
                 .fluid()
                 .components(Hydrogen, 2, Oxygen, 1)
                 .color(0x0058cd)
@@ -2390,7 +2390,7 @@ public final class MaterialB {
                 .flags(DISABLE_DECOMPOSITION)
                 .buildAndRegister();
 
-        OzoneWater = material("ozone_water", "臭氧水")
+        OzoneWater = material("ozone_water", "Ozone Water", "臭氧水")
                 .fluid()
                 .components(Hydrogen, 2, Oxygen, 1)
                 .color(0x0058cd)
@@ -2398,7 +2398,7 @@ public final class MaterialB {
                 .flags(DISABLE_DECOMPOSITION)
                 .buildAndRegister();
 
-        FlocculentWater = material("flocculent_water", "絮凝水")
+        FlocculentWater = material("flocculent_water", "Flocculent Water", "絮凝水")
                 .fluid()
                 .components(Hydrogen, 2, Oxygen, 1)
                 .color(0x0058cd)
@@ -2406,7 +2406,7 @@ public final class MaterialB {
                 .flags(DISABLE_DECOMPOSITION)
                 .buildAndRegister();
 
-        PHNeutralWater = material("ph_neutral_water", "pH中和水")
+        PHNeutralWater = material("ph_neutral_water", "pH Neutral Water", "pH中和水")
                 .fluid()
                 .components(Hydrogen, 2, Oxygen, 1)
                 .color(0x0058cd)
@@ -2414,7 +2414,7 @@ public final class MaterialB {
                 .flags(DISABLE_DECOMPOSITION)
                 .buildAndRegister();
 
-        ExtremeTemperatureWater = material("extreme_temperature_water", "极端温度水")
+        ExtremeTemperatureWater = material("extreme_temperature_water", "Extreme Temperature Water", "极端温度水")
                 .fluid()
                 .components(Hydrogen, 2, Oxygen, 1)
                 .color(0x0058cd)
@@ -2422,7 +2422,7 @@ public final class MaterialB {
                 .flags(DISABLE_DECOMPOSITION)
                 .buildAndRegister();
 
-        ElectricEquilibriumWater = material("electric_equilibrium_water", "电平衡水")
+        ElectricEquilibriumWater = material("electric_equilibrium_water", "Electric Equilibrium Water", "电平衡水")
                 .fluid()
                 .components(Hydrogen, 2, Oxygen, 1)
                 .color(0x0058cd)
@@ -2430,7 +2430,7 @@ public final class MaterialB {
                 .flags(DISABLE_DECOMPOSITION)
                 .buildAndRegister();
 
-        DegassedWater = material("degassed_water", "脱气水")
+        DegassedWater = material("degassed_water", "Degassed Water", "脱气水")
                 .fluid()
                 .components(Hydrogen, 2, Oxygen, 1)
                 .color(0x0058cd)
@@ -2438,7 +2438,7 @@ public final class MaterialB {
                 .flags(DISABLE_DECOMPOSITION)
                 .buildAndRegister();
 
-        BaryonicPerfectionWater = material("baryonic_perfection_water", "重子完美水")
+        BaryonicPerfectionWater = material("baryonic_perfection_water", "Baryonic Perfection Water", "重子完美水")
                 .fluid()
                 .components(Hydrogen, 2, Oxygen, 1)
                 .color(0x0058cd)
@@ -3217,7 +3217,7 @@ public final class MaterialB {
                 .iconSet(LIMPID)
                 .buildAndRegister();
 
-        AbsoluteEthanol = material("absolute_ethanol", "绝对乙醇")
+        AbsoluteEthanol = material("absolute_ethanol", "无水乙醇")
                 .fluid()
                 .color(0xff4500)
                 .components(Carbon, 2, Hydrogen, 6, Oxygen, 1)
@@ -4894,7 +4894,7 @@ public final class MaterialB {
                 .color(0xcee55a).secondaryColor(0x9cbf38)
                 .iconSet(BRIGHT)
                 .temp(4500)
-                .flags(GTOMaterialFlags.GENERATE_CERAMIC, GTOMaterialFlags.GENERATE_MXene)
+                .flags(GTOMaterialFlags.GENERATE_CERAMIC, GENERATE_TINY_DUST, GTOMaterialFlags.GENERATE_MXene)
                 .buildAndRegister().setFormula("WB4");
 
         SilicaCeramic = material("silica_ceramic", "氧化硅岩陶瓷")
@@ -4926,7 +4926,7 @@ public final class MaterialB {
                 .color(0x6cdcff).secondaryColor(0x3ab1ff)
                 .iconSet(BRIGHT)
                 .temp(12600)
-                .flags(GTOMaterialFlags.GENERATE_CERAMIC, GTOMaterialFlags.GENERATE_MXene)
+                .flags(GTOMaterialFlags.GENERATE_CERAMIC, GENERATE_TINY_DUST, GTOMaterialFlags.GENERATE_MXene)
                 .buildAndRegister().setFormula("TmB6");
 
         SiliconNitrideCeramic = material("silicon_nitride_ceramic", "氮化硅陶瓷")
@@ -4934,7 +4934,7 @@ public final class MaterialB {
                 .color(0x29c824).secondaryColor(0x1b7a1b)
                 .temp(5400)
                 .iconSet(BRIGHT)
-                .flags(GTOMaterialFlags.GENERATE_CERAMIC, GTOMaterialFlags.GENERATE_MXene)
+                .flags(GTOMaterialFlags.GENERATE_CERAMIC, GENERATE_TINY_DUST, GTOMaterialFlags.GENERATE_MXene)
                 .buildAndRegister().setFormula("Si3N4");
 
         Titanium3Carbide = material("titanium3_carbide_ceramic", "碳化钛陶瓷")
@@ -4942,7 +4942,7 @@ public final class MaterialB {
                 .color(0x6b423b).secondaryColor(0x4e2f2a)
                 .iconSet(BRIGHT)
                 .temp(5400)
-                .flags(GTOMaterialFlags.GENERATE_CERAMIC, GTOMaterialFlags.GENERATE_MXene)
+                .flags(GTOMaterialFlags.GENERATE_CERAMIC, GENERATE_TINY_DUST, GTOMaterialFlags.GENERATE_MXene)
                 .buildAndRegister().setFormula("Ti3C2");
 
         CobaltOxideCeramic = material("cobalt_oxide_ceramic", "氧化钴陶瓷")
@@ -4982,7 +4982,7 @@ public final class MaterialB {
                 .color(0xd4ac4b).secondaryColor(0x9c7a34)
                 .iconSet(BRIGHT)
                 .temp(3600)
-                .flags(GTOMaterialFlags.GENERATE_CERAMIC, GTOMaterialFlags.GENERATE_MXene)
+                .flags(GTOMaterialFlags.GENERATE_CERAMIC, GENERATE_TINY_DUST, GTOMaterialFlags.GENERATE_MXene)
                 .buildAndRegister().setFormula("TiN");
 
         BoronCarbideCeramics = material("boron_carbide_ceramics", "碳化硼陶瓷")

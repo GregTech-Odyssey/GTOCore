@@ -6,53 +6,47 @@ import com.gtocore.common.data.GTORecipeTypes;
 import com.gtolib.api.annotation.DataGeneratorScanned;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
-import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.gui.fancy.TabsWidget;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
+import com.gregtechceu.gtceu.api.machine.feature.IRecipeLogicMachine;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiController;
 import com.gregtechceu.gtceu.api.machine.trait.CircuitHandler;
+import com.gregtechceu.gtceu.api.machine.trait.IRecipeHandlerTrait;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
+import com.gregtechceu.gtceu.api.recipe.GTRecipeDefinition;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
+import com.gregtechceu.gtceu.api.recipe.handler.IO;
+import com.gregtechceu.gtceu.api.recipe.handler.IRecipeHandler;
+import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.DualHatchPartMachine;
-import com.gregtechceu.gtceu.utils.TaskHandler;
 
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.ItemStack;
 
+import com.gto.datasynclib.annotations.SaveToDisk;
+import com.gto.datasynclib.annotations.SyncToClient;
 import com.hepdd.gtmthings.api.machine.IProgrammableMachine;
 import com.hepdd.gtmthings.common.item.VirtualItemProviderBehavior;
 import com.hepdd.gtmthings.data.CustomItems;
-import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
+import java.util.function.BiPredicate;
 
 @DataGeneratorScanned
-public class ProgrammableHatchPartMachine extends DualHatchPartMachine implements IProgrammableMachine {
+public final class ProgrammableHatchPartMachine extends DualHatchPartMachine implements IProgrammableMachine {
 
-    @Persisted
-    @DescSynced
+    @SaveToDisk
+    @SyncToClient
     private final ArrayList<GTRecipeType> recipeTypes = new ArrayList<>();
-    @Persisted
-    @DescSynced
-    private GTRecipeType recipeType = GTORecipeTypes.HATCH_COMBINED;
+    @SaveToDisk
+    @SyncToClient
+    private GTRecipeType recipeType = null;
 
     public ProgrammableHatchPartMachine(MetaMachineBlockEntity holder, int tier, IO io, Object... args) {
         super(holder, tier, io, args);
-    }
-
-    private void changeMode(GTRecipeType type) {
-        this.recipeType = type == null ? GTORecipeTypes.HATCH_COMBINED : type;
-        this.getHandlerList().external.recipeType = type;
-    }
-
-    @Override
-    public void onPaintingColorChanged(int color) {
-        super.onPaintingColorChanged(color);
-        if (getLevel() instanceof ServerLevel serverLevel) {
-            TaskHandler.enqueueServerTask(serverLevel, () -> this.getHandlerList().external.recipeType = recipeType == GTORecipeTypes.HATCH_COMBINED ? null : recipeType, 1);
-        }
     }
 
     @Override
@@ -70,32 +64,81 @@ public class ProgrammableHatchPartMachine extends DualHatchPartMachine implement
     }
 
     @Override
+    public RecipeHandlerUnit getHandlerUnit() {
+        var list = getRecipeHandlerUnit();
+        if (list == null) {
+            List<IRecipeHandler> handlers = new ArrayList<>();
+            IO handlerIO = null;
+            for (var trait : self().getTraits()) {
+                if (trait instanceof IRecipeHandlerTrait rht && rht.isAvailable() && rht.getHandlerIO() != IO.NONE) {
+                    if (handlerIO == null) handlerIO = rht.getHandlerIO();
+                    handlers.add(rht);
+                }
+            }
+
+            if (handlers.isEmpty()) {
+                list = RecipeHandlerUnit.NO_DATA;
+                setRecipeHandlerUnit(list);
+            } else {
+                list = new ProgrammableRHL(handlerIO, this, handlers);
+                setRecipeHandlerUnit(list);
+            }
+        }
+        return list;
+    }
+
+    @Override
     public void onLoad() {
         super.onLoad();
-        if (recipeType == GTORecipeTypes.DUMMY_RECIPES) {
-            recipeType = GTORecipeTypes.HATCH_COMBINED;
+        if (recipeType == GTORecipeTypes.DUMMY_RECIPES || recipeType == GTORecipeTypes.HATCH_COMBINED) {
+            recipeType = null;
         }
-        this.getHandlerList().external.recipeType = recipeType == GTORecipeTypes.HATCH_COMBINED ? null : recipeType;
+        MultiMachineModeFancyConfigurator.verify(recipeTypes, recipeType, () -> recipeType = null);
     }
 
     @Override
     public void attachSideTabs(TabsWidget sideTabs) {
         super.attachSideTabs(sideTabs);
-        sideTabs.attachSubTab(new MultiMachineModeFancyConfigurator(recipeTypes, recipeType, this::changeMode));
+        sideTabs.attachSubTab(new MultiMachineModeFancyConfigurator(recipeTypes, recipeType, this::setRecipeType));
     }
 
     @Override
     public void addedToController(@NotNull IMultiController controller) {
         super.addedToController(controller);
         this.recipeTypes.clear();
-        this.recipeTypes.addAll(MultiMachineModeFancyConfigurator.extractRecipeTypes(this.getControllers()));
+        this.recipeTypes.addAll(MultiMachineModeFancyConfigurator.extractRecipeTypes(this.getController()));
+        MultiMachineModeFancyConfigurator.verify(recipeTypes, recipeType, () -> recipeType = null);
+    }
+
+    @Override
+    public void setAvailableRecipeTypes(@NotNull GTRecipeType[] types) {
+        this.recipeTypes.clear();
+        this.recipeTypes.addAll(Arrays.asList(types));
+        MultiMachineModeFancyConfigurator.verify(recipeTypes, recipeType, () -> recipeType = null);
     }
 
     @Override
     public void removedFromController(@NotNull IMultiController controller) {
         super.removedFromController(controller);
         this.recipeTypes.clear();
-        this.recipeTypes.addAll(MultiMachineModeFancyConfigurator.extractRecipeTypes(this.getControllers()));
+    }
+
+    public void setRecipeType(GTRecipeType type) {
+        if (type != recipeType) {
+            recipeType = type;
+            for (var c : getControllers()) {
+                if (c instanceof IRecipeLogicMachine machine) {
+                    machine.getRecipeLogic().markLastRecipeDirty();
+                    machine.getRecipeLogic().updateTickSubscription();
+                }
+            }
+        }
+    }
+
+    @Override
+    public boolean swapIO() {
+        // Programmable hatches should not be able to swap IO
+        return false;
     }
 
     @Override
@@ -124,12 +167,39 @@ public class ProgrammableHatchPartMachine extends DualHatchPartMachine implement
             @NotNull
             @Override
             public ItemStack insertItem(int slot, @NotNull ItemStack stack, boolean simulate) {
-                if (machine.isProgrammable() && stack.is(CustomItems.VIRTUAL_ITEM_PROVIDER.get())) {
+                if (machine.isProgrammable() && stack.hasTag() && stack.is(CustomItems.VIRTUAL_ITEM_PROVIDER.get())) {
                     setStackInSlot(slot, VirtualItemProviderBehavior.getVirtualItem(stack));
                     return ItemStack.EMPTY;
                 }
                 return stack;
             }
+        }
+    }
+
+    private static class ProgrammableRHL extends RecipeHandlerUnit {
+
+        private final ProgrammableHatchPartMachine part;
+
+        private ProgrammableRHL(IO handlerIO, ProgrammableHatchPartMachine part, Collection<IRecipeHandler> handlers) {
+            super(handlerIO, part, handlers.toArray(new IRecipeHandler[0]));
+            this.part = part;
+            this.priority = 10000;
+        }
+
+        @Override
+        public RecipeHandlerUnit wrapper(Collection<IRecipeHandler> handlers) {
+            return new ProgrammableRHL(IO.IN, part, handlers);
+        }
+
+        @Override
+        public boolean findRecipe(GTRecipeType recipeType, BiPredicate<RecipeHandlerUnit, GTRecipeDefinition> canHandle) {
+            final var type = part.recipeType;
+            if (type != null && type != recipeType) {
+                recipeType = type;
+            }
+            var map = this.getSearchMap(recipeType);
+            if (map.isEmpty()) return false;
+            return recipeType.search(this, map, canHandle);
         }
     }
 }

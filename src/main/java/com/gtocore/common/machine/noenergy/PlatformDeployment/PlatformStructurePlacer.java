@@ -2,6 +2,8 @@ package com.gtocore.common.machine.noenergy.PlatformDeployment;
 
 import com.gtocore.common.data.GTOMachines;
 
+import com.gtolib.utils.MultiBlockFileReader;
+
 import com.gregtechceu.gtceu.utils.TaskHandler;
 
 import net.minecraft.core.BlockPos;
@@ -62,7 +64,7 @@ final class PlatformStructurePlacer {
         this.onBatch = onBatch;
         this.onFinished = onFinished;
 
-        this.subscription = TaskHandler.enqueueServerTick(serverLevel, this::placeBatch, 0, 0);
+        this.subscription = TaskHandler.enqueueTick(serverLevel, this::placeBatch, 0, 0);
     }
 
     /**
@@ -156,24 +158,49 @@ final class PlatformStructurePlacer {
         }
     }
 
+    public static String[][] parseAllAisles(InputStream input) throws IOException {
+        List<String[]> aisles = new ArrayList<>();
+        Pattern aislePattern = Pattern.compile("\\.aisle\\(([^)]+)\\)");
+        Pattern stringPattern = Pattern.compile("\"([^\"]+)\"");
+
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(input))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                line = line.trim();
+                if (line.startsWith(".aisle(")) {
+                    Matcher aisleMatcher = aislePattern.matcher(line);
+                    if (aisleMatcher.find()) {
+                        String content = aisleMatcher.group(1);
+                        Matcher stringMatcher = stringPattern.matcher(content);
+                        List<String> rows = new ArrayList<>();
+                        while (stringMatcher.find()) {
+                            rows.add(stringMatcher.group(1));
+                        }
+                        if (!rows.isEmpty()) {
+                            aisles.add(rows.toArray(new String[0]));
+                        }
+                    }
+                }
+            }
+        }
+        return aisles.toArray(new String[0][]);
+    }
+
     /**
      * 方块迭代器（修复镜像方向错误，支持独立旋转/镜像）
      */
     private static class BlockIterator implements Iterator<BlockIterator.Entry> {
 
-        private final BufferedReader reader;
+        private final String[][] parsedAisles;
+        private int currentAisleIndex = 0;
+
         private final BlockPos startPos;
         private final Char2ReferenceOpenHashMap<BlockState> blockMapping;
-        private final Pattern aislePattern = Pattern.compile("\\.aisle\\(([^)]+)\\)");
-        private final Pattern stringPattern = Pattern.compile("\"([^\"]+)\"");
 
         private String[] currentAisle;
         private int y = 0;
         private int x = 0;
         private int z = 0;
-
-        private final int totalAisles;
-        private int processedAisles = 0;
 
         private final boolean zMirror;
         private final boolean xMirror;
@@ -182,37 +209,23 @@ final class PlatformStructurePlacer {
         private final int offsetX, offsetY, offsetZ;
 
         BlockIterator(InputStream input, BlockPos startPos, Char2ReferenceOpenHashMap<BlockState> blockMapping,
-                      String resourcePath, boolean zMirror, boolean xMirror, int rotation) throws IOException {
-            this.reader = new BufferedReader(new InputStreamReader(input));
+                      boolean zMirror, boolean xMirror, int rotation) throws IOException {
             this.startPos = startPos;
             this.blockMapping = blockMapping;
-            this.totalAisles = countTotalAisles(resourcePath);
             this.zMirror = zMirror;
             this.xMirror = xMirror;
             this.rotation = rotation;
 
-            // 读取完整结构尺寸（包含 sizeY）
-            int sx = 0, sy = 0, sz = 0;
-            try (InputStream sizeInput = PlatformStructurePlacer.class.getClassLoader().getResourceAsStream(resourcePath)) {
-                if (sizeInput != null) {
-                    BufferedReader sizeReader = new BufferedReader(new InputStreamReader(sizeInput));
-                    String line;
-                    while ((line = sizeReader.readLine()) != null) {
-                        line = line.trim();
-                        if (line.startsWith(".size(")) {
-                            Pattern sizePattern = Pattern.compile("\\.size\\((\\d+), (\\d+), (\\d+)\\)");
-                            Matcher m = sizePattern.matcher(line);
-                            if (m.find()) {
-                                sx = Integer.parseInt(m.group(1));
-                                sy = Integer.parseInt(m.group(2));
-                                sz = Integer.parseInt(m.group(3));
-                                break;
-                            }
-                        }
-                    }
-                    sizeReader.close();
-                }
-            }
+            this.parsedAisles = MultiBlockFileReader.load(input).pattern();
+
+            int sx = 0;
+            int sy = 0;
+            int sz = 0;
+            try {
+                sx = parsedAisles[0][0].length();
+                sy = parsedAisles[0].length;
+                sz = parsedAisles.length;
+            } catch (Throwable ignored) {}
             this.sizeX = sx;
             this.sizeZ = sz;
 
@@ -231,7 +244,6 @@ final class PlatformStructurePlacer {
             this.offsetX = -minLx;
             this.offsetY = -minLy;
             this.offsetZ = -minLz;
-
             readNextAisle();
         }
 
@@ -266,87 +278,41 @@ final class PlatformStructurePlacer {
             return new int[] { rx, ly, rz };
         }
 
-        /**
-         * 统计文件中总 aisle 数
-         */
-        private static int countTotalAisles(String resourcePath) throws IOException {
-            try (InputStream countInput = PlatformStructurePlacer.class.getClassLoader().getResourceAsStream(resourcePath)) {
-                BufferedReader countReader;
-                if (countInput != null) {
-                    countReader = new BufferedReader(new InputStreamReader(countInput));
-                } else {
-                    throw new FileNotFoundException("Structure file not found: " + resourcePath);
-                }
-
-                int count = 0;
-                String line;
-                while ((line = countReader.readLine()) != null) {
-                    if (line.trim().startsWith(".aisle(")) {
-                        count++;
-                    }
-                }
-                return count;
+        private void readNextAisle() {
+            if (currentAisleIndex < parsedAisles.length) {
+                currentAisle = parsedAisles[currentAisleIndex];
+                currentAisleIndex++;
+                y = 0;
+                x = 0;
+            } else {
+                currentAisle = null;
             }
-        }
-
-        /**
-         * 读取下一个 .aisle(...)
-         */
-        private void readNextAisle() throws IOException {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                line = line.trim();
-                if (line.startsWith(".aisle(")) {
-                    Matcher aisleMatcher = aislePattern.matcher(line);
-                    if (aisleMatcher.find()) {
-                        String content = aisleMatcher.group(1);
-                        Matcher stringMatcher = stringPattern.matcher(content);
-                        List<String> rows = new ArrayList<>();
-                        while (stringMatcher.find()) {
-                            rows.add(stringMatcher.group(1));
-                        }
-                        if (!rows.isEmpty()) {
-                            currentAisle = rows.toArray(new String[0]);
-                            y = 0;
-                            x = 0;
-                            processedAisles++;
-                            return;
-                        }
-                    }
-                }
-            }
-            currentAisle = null;
         }
 
         int getProgressPercentage() {
-            if (totalAisles == 0) return 0;
-            return Math.min(100, (int) (((double) processedAisles / totalAisles) * 100));
+            if (parsedAisles.length == 0) return 0;
+            return Math.min(100, (int) (((double) currentAisleIndex / parsedAisles.length) * 100));
         }
 
         @Override
         public boolean hasNext() {
-            try {
-                while (true) {
-                    if (currentAisle == null) return false;
-
-                    if (y < currentAisle.length) {
-                        String row = currentAisle[y];
-                        while (x < row.length()) {
-                            char c = row.charAt(x);
-                            if (blockMapping.containsKey(c)) {
-                                return true;
-                            }
-                            x++;
+            while (true) {
+                if (currentAisle == null) return false;
+                if (y < currentAisle.length) {
+                    String row = currentAisle[y];
+                    while (x < row.length()) {
+                        char c = row.charAt(x);
+                        if (blockMapping.containsKey(c)) {
+                            return true;
                         }
-                        x = 0;
-                        y++;
-                    } else {
-                        readNextAisle();
-                        z++;
+                        x++;
                     }
+                    x = 0;
+                    y++;
+                } else {
+                    readNextAisle();
+                    z++;
                 }
-            } catch (IOException e) {
-                return false;
             }
         }
 
@@ -411,14 +377,14 @@ final class PlatformStructurePlacer {
                                     int rotation,
                                     IntConsumer onBatch,
                                     Runnable onFinished) throws IOException {
-        String resourcePath = "assets/" + structure.resource().toString().replace(":", "/");
+        String resourcePath = "platforms/" + structure.resource().toString().replace(":", "/") + ".mbs";
         try (InputStream input = PlatformStructurePlacer.class.getClassLoader().getResourceAsStream(resourcePath)) {
             if (input == null) {
                 throw new FileNotFoundException("Structure file not found: " + structure.resource());
             }
 
             // 由于未知问题，这里交换了xz顺序，使其可以正常运行
-            BlockIterator iterator = new BlockIterator(input, startPos, loadMappingFromJson(structure.blockMapping()), resourcePath, xMirror, zMirror, rotation);
+            BlockIterator iterator = new BlockIterator(input, startPos, loadMappingFromJson(structure.blockMapping()), xMirror, zMirror, rotation);
             if (level instanceof ServerLevel serverLevel) new PlatformStructurePlacer(serverLevel, iterator, perTick, breakBlocks, skipAir, updateLight, onBatch, onFinished);
             else throw new IllegalArgumentException("Structure placement can only be done on ServerLevel");
         }

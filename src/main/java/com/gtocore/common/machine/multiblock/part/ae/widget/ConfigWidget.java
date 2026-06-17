@@ -9,6 +9,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 import appeng.api.stacks.GenericStack;
+
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
 import com.lowdragmc.lowdraglib.utils.Position;
@@ -16,6 +17,7 @@ import com.lowdragmc.lowdraglib.utils.Size;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import lombok.Getter;
+import lombok.Setter;
 
 public abstract class ConfigWidget extends WidgetGroup {
 
@@ -27,10 +29,13 @@ public abstract class ConfigWidget extends WidgetGroup {
     private static final int UPDATE_ID = 1000;
     @Getter
     private final boolean isStocking;
+    @Setter
+    private boolean showAmount;
 
-    ConfigWidget(int x, int y, IConfigurableSlot[] config, boolean isStocking) {
+    ConfigWidget(int x, int y, IConfigurableSlot[] config, boolean isStocking, boolean showAmount) {
         super(new Position(x, y), new Size(config.length / 2 * 18, 74));
         this.isStocking = isStocking;
+        this.showAmount = showAmount;
         this.config = config;
         this.init();
         this.amountSetWidget = new AmountSetWidget(31, -60, this);
@@ -38,6 +43,10 @@ public abstract class ConfigWidget extends WidgetGroup {
         this.addWidget(this.amountSetWidget.getAmountText());
         this.amountSetWidget.setVisible(false);
         this.amountSetWidget.getAmountText().setVisible(false);
+    }
+
+    ConfigWidget(int x, int y, IConfigurableSlot[] config, boolean isStocking) {
+        this(x, y, config, isStocking, !isStocking);
     }
 
     @OnlyIn(Dist.CLIENT)
@@ -73,13 +82,16 @@ public abstract class ConfigWidget extends WidgetGroup {
             if (this.amountSetWidget.getAmountText().mouseClicked(mouseX, mouseY, button)) {
                 return true;
             }
+            if (!this.amountSetWidget.isMouseOverElement(mouseX, mouseY)) {
+                this.disableAmountClient();
+            }
         }
         for (Widget w : this.widgets) {
             if (w instanceof AEConfigSlotWidget slot) {
                 slot.setSelect(false);
             }
         }
-        this.disableAmountClient();
+
         return super.mouseClicked(mouseX, mouseY, button);
     }
 
@@ -169,5 +181,9 @@ public abstract class ConfigWidget extends WidgetGroup {
             return s1.amount() == s2.amount() && s1.what().matches(s2);
         }
         return false;
+    }
+
+    public boolean showAmount() {
+        return showAmount;
     }
 }

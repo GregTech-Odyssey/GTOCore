@@ -22,8 +22,10 @@ import net.minecraftforge.fml.common.Mod;
 
 import appeng.client.gui.AEBaseScreen;
 import appeng.menu.SlotSemantic;
+
 import com.mojang.blaze3d.platform.InputConstants;
 import com.mojang.blaze3d.vertex.PoseStack;
+import lombok.Getter;
 
 /// A useful debug tool to inspect the slot indices in container screens.
 /// This file is under the MPL-2.0 license.
@@ -33,6 +35,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 @Mod.EventBusSubscriber(modid = GTOCore.MOD_ID, value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class DebugScreenInspector {
 
+    @Getter
     private static boolean visible = false;
 
     @SubscribeEvent
@@ -139,7 +142,7 @@ public class DebugScreenInspector {
     @SubscribeEvent
     public static void onKeyDown(ScreenEvent.KeyPressed.Pre event) {
         if (Mods.SFM.isLoaded()) return; // Skip if SFM is loaded, as it handles the hotkey itself
-        if (!GTOConfig.INSTANCE.dev) return; // Only enable in dev mode
+        if (!GTOConfig.INSTANCE.devMode.dev) return; // Only enable in dev mode
         // Handle Ctrl+I hotkey to toggle overlay
         var toggleKey = KeyBind.debugInspectKey;
         var toggleKeyPressed = toggleKey.isActiveAndMatches(InputConstants.Type.KEYSYM.getOrCreate(event.getKeyCode()));

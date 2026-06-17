@@ -34,6 +34,6 @@ public final class ForgeModInitializerMixin {
 
         ForgeNetworkHandler.registerMessages();
 
-        GTOUtils.startThread(BookRegistry.INSTANCE::init);
+        GTOUtils.asyncExecute(BookRegistry.INSTANCE::init);
     }
 }

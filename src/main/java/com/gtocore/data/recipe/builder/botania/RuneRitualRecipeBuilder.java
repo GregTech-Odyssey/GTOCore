@@ -16,10 +16,8 @@ import mythicbotany.rune.RuneRitualRecipe;
 import java.util.ArrayList;
 import java.util.List;
 
-// 符文仪式配方建造者（适配GTDynamicDataPack.addRecipe注册方式）
 public final class RuneRitualRecipeBuilder {
 
-    // 静态入口：创建建造者，配方ID格式为 "gtocore:rune_ritual/名称"
     public static RuneRitualRecipeBuilder builder(String name) {
         return new RuneRitualRecipeBuilder(GTOCore.id("rune_ritual/" + name));
     }

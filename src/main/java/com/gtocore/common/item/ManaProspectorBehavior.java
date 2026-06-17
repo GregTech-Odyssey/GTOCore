@@ -35,7 +35,7 @@ import java.util.List;
 public final class ManaProspectorBehavior extends ProspectorScannerBehavior implements IComponentCapability, IItemLifeCycle, IDurabilityBar {
 
     private static final String MANA_KEY = "mana";
-    private static final int CONSUMPTION_PER_TICK = 40;
+    private static final int CONSUMPTION_PER_TICK = 10;
     private static final int CONSUMPTION_PER_CHUNK = 500;
 
     private final int radius;

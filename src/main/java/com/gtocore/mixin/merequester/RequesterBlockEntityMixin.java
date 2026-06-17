@@ -2,6 +2,7 @@ package com.gtocore.mixin.merequester;
 
 import appeng.api.networking.IGridNode;
 import appeng.api.networking.ticking.TickingRequest;
+
 import com.almostreliable.merequester.requester.RequesterBlockEntity;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;

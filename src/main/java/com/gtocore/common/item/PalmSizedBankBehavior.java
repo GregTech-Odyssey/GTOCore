@@ -32,7 +32,6 @@ import com.lowdragmc.lowdraglib.gui.modular.ModularUI;
 import com.lowdragmc.lowdraglib.gui.texture.IGuiTexture;
 import com.lowdragmc.lowdraglib.gui.texture.ItemStackTexture;
 import com.lowdragmc.lowdraglib.gui.widget.*;
-import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import it.unimi.dsi.fastutil.longs.Long2LongMap;
 import it.unimi.dsi.fastutil.objects.Object2LongMap;
 import it.unimi.dsi.fastutil.objects.Object2ObjectMap;
@@ -40,8 +39,8 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
-import static com.gtocore.common.item.GrayMembershipCardItem.createWithUuidAndSharedList;
-import static com.gtocore.data.transaction.data.TradeLang.*;
+import static com.gtocore.common.item.GregMembershipCardItem.createWithUuidAndSharedList;
+import static com.gtocore.data.transaction.data.TradeLang.TECH_OPERATOR_COIN;
 import static com.gtocore.data.transaction.data.trade.UnlockTrade.*;
 
 public class PalmSizedBankBehavior implements IItemUIFactory, IFancyUIProvider {
@@ -215,13 +214,9 @@ public class PalmSizedBankBehavior implements IItemUIFactory, IFancyUIProvider {
                 return GTOItems.PALM_SIZED_BANK.asStack().getDisplayName();
             }
 
-            @DescSynced
             private UUID uuid = null;
-            @DescSynced
             private String string = null;
-            @DescSynced
             private boolean confirm1 = false;
-            @DescSynced
             private int tradeAmount = 0;
 
             static final int width = 256;
@@ -290,13 +285,12 @@ public class PalmSizedBankBehavior implements IItemUIFactory, IFancyUIProvider {
                     }
                 }));
 
-                SimpleNumberInputWidget amountInput = new SimpleNumberInputWidget(width / 2 + 5, 4 + 31, width / 2 - 17, 8,
+                mainGroup.addWidget(new SimpleNumberInputWidget(width / 2 + 5, 4 + 31, width / 4, 8,
                         () -> tradeAmount,
-                        (newValue) -> {
+                        newValue -> {
                             tradeAmount = newValue;
                             confirm1 = false;
-                        });
-                mainGroup.addWidget(amountInput);
+                        }));
 
                 group.addWidget(mainGroup);
                 group.setBackground(GuiTextures.BACKGROUND_INVERSE);
@@ -322,7 +316,6 @@ public class PalmSizedBankBehavior implements IItemUIFactory, IFancyUIProvider {
                 return GTOItems.PALM_SIZED_BANK.asStack().getDisplayName();
             }
 
-            @DescSynced
             private String choose = null;
 
             static final int width = 256;
@@ -426,7 +419,6 @@ public class PalmSizedBankBehavior implements IItemUIFactory, IFancyUIProvider {
                 return GTOItems.PALM_SIZED_BANK.asStack().getDisplayName();
             }
 
-            @DescSynced
             private String choose = null;
 
             static final int width = 256;

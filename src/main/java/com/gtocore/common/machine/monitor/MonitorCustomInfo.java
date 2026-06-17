@@ -9,9 +9,9 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 
+import com.gto.datasynclib.annotations.SaveToDisk;
+import com.gto.datasynclib.annotations.SyncToClient;
 import com.lowdragmc.lowdraglib.gui.widget.*;
-import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.utils.Position;
 import lombok.Getter;
 import lombok.Setter;
@@ -24,8 +24,8 @@ public class MonitorCustomInfo extends AbstractInfoProviderMonitor {
 
     private static final char FORMATTING_CODE = 167;
     private static final int MAX_LENGTH = 100;
-    @DescSynced
-    @Persisted
+    @SyncToClient
+    @SaveToDisk
     private String content = "";
 
     public MonitorCustomInfo(MetaMachineBlockEntity holder) {
@@ -78,7 +78,7 @@ public class MonitorCustomInfo extends AbstractInfoProviderMonitor {
         var infoList = super.provideInformation();
         infoList.addIfAbsent(
                 DisplayRegistry.CUSTOM_DISPLAY.id(),
-                Component.literal(getContent())
+                Component.literal(content)
                         .getVisualOrderText());
         return infoList;
     }

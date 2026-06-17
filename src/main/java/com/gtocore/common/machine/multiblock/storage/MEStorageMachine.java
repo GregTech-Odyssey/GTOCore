@@ -1,5 +1,6 @@
 package com.gtocore.common.machine.multiblock.storage;
 
+import com.gtocore.api.pattern.GTOPredicates;
 import com.gtocore.common.data.GTOItems;
 import com.gtocore.common.machine.multiblock.part.ae.StorageAccessPartMachine;
 
@@ -8,7 +9,6 @@ import com.gtolib.api.annotation.DataGeneratorScanned;
 import com.gtolib.api.annotation.language.RegisterLanguage;
 import com.gtolib.api.machine.feature.multiblock.IStorageMultiblock;
 import com.gtolib.api.machine.multiblock.NoRecipeLogicMultiblockMachine;
-import com.gtolib.utils.FunctionContainer;
 import com.gtolib.utils.NumberUtils;
 import com.gtolib.utils.StringUtils;
 
@@ -23,17 +23,18 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.Level;
 
 import appeng.api.stacks.AEKey;
+
+import com.gto.datasynclib.annotations.SaveToDisk;
 import com.hepdd.gtmthings.api.capability.IBindable;
 import com.hepdd.gtmthings.utils.BigIntegerUtils;
 import com.lowdragmc.lowdraglib.gui.util.ClickData;
 import com.lowdragmc.lowdraglib.gui.widget.ComponentPanelWidget;
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import it.unimi.dsi.fastutil.objects.Reference2ReferenceMap;
 import org.jetbrains.annotations.Nullable;
 
 import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -43,14 +44,14 @@ public final class MEStorageMachine extends NoRecipeLogicMultiblockMachine imple
     public static final long infinite = 1000000000000L; // 1T
     @RegisterLanguage(en = "Data Index Position: ", cn = "数据索引位置：")
     private static final String MODE = "gtocore.machine.me_storage.mode";
-    @Persisted
+    @SaveToDisk
     private final NotifiableItemStackHandler machineStorage;
-    @Persisted
+    @SaveToDisk
     private UUID uuid;
-    @Persisted
+    @SaveToDisk
     private boolean player = true;
     private StorageAccessPartMachine accessPartMachine;
-    private final List<Reference2ReferenceMap.Entry<AEKey, BigInteger>> list = new ObjectArrayList<>();
+    private final List<Reference2ReferenceMap.Entry<AEKey, BigInteger>> list = new ArrayList<>();
 
     public MEStorageMachine(MetaMachineBlockEntity holder) {
         super(holder);
@@ -74,7 +75,7 @@ public final class MEStorageMachine extends NoRecipeLogicMultiblockMachine imple
             }
         }
         if (accessPartMachine == null) return;
-        FunctionContainer<Double, ?> functionContainer = getMultiblockState().getMatchContext().get("MEStorageCore");
+        var functionContainer = getMultiblockState().getMatchContext().get(GTOPredicates.DataKeys.ME_STORAGE_CORE);
         if (functionContainer == null) return;
         if (player) {
             accessPartMachine.setUUID(getOwnerUUID());
@@ -82,7 +83,7 @@ public final class MEStorageMachine extends NoRecipeLogicMultiblockMachine imple
             if (uuid == null) uuid = UUID.randomUUID();
             accessPartMachine.setUUID(uuid);
         }
-        accessPartMachine.setCapacity(functionContainer.getValue());
+        accessPartMachine.setCapacity(functionContainer);
         accessPartMachine.setInfinite(accessPartMachine.getCapacity() > infinite && getStorageStack().getCount() == 64);
         accessPartMachine.setCheck(true);
     }

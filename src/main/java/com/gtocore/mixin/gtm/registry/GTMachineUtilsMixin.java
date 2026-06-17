@@ -2,17 +2,17 @@ package com.gtocore.mixin.gtm.registry;
 
 import com.gtocore.utils.register.MachineRegisterUtils;
 
-import com.gtolib.api.recipe.modifier.RecipeModifierFunction;
+import com.gtolib.api.recipe.GTORecipeModifiers;
 import com.gtolib.api.registries.GTOMachineBuilder;
 import com.gtolib.utils.GTOUtils;
 
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
-import com.gregtechceu.gtceu.api.capability.recipe.FluidRecipeCapability;
-import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
 import com.gregtechceu.gtceu.api.machine.*;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
+import com.gregtechceu.gtceu.api.recipe.info.FluidRecipeInfo;
+import com.gregtechceu.gtceu.api.recipe.info.ItemRecipeInfo;
 import com.gregtechceu.gtceu.client.renderer.machine.SimpleGeneratorMachineRenderer;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import com.gregtechceu.gtceu.common.data.machines.GTMachineUtils;
@@ -45,12 +45,12 @@ public final class GTMachineUtilsMixin {
                             .editableUI(SimpleTieredMachine.EDITABLE_UI_CREATOR.apply(GTCEu.id("macerator"), GTRecipeTypes.MACERATOR_RECIPES))
                             .nonYAxisRotation()
                             .recipeType(GTRecipeTypes.MACERATOR_RECIPES)
-                            .addOutputLimit(ItemRecipeCapability.CAP, switch (tier) {
+                            .addOutputLimit(ItemRecipeInfo.INSTANCE, switch (tier) {
                                 case 1, 2 -> 1;
                                 case 3 -> 3;
                                 default -> 4;
                             })
-                            .recipeModifier(RecipeModifierFunction.OVERCLOCKING)
+                            .recipeModifier(GTORecipeModifiers.UPGRADE_OVERCLOCK)
                             .workableTieredHullRenderer(GTCEu.id("block/machines/macerator"))
                             .tooltips(GTMachineUtils.workableTiered(tier, V[tier], V[tier] << 6, GTRecipeTypes.MACERATOR_RECIPES, GTMachineUtils.defaultTankSizeFunction.apply(tier), true))
                             .register(),
@@ -66,9 +66,9 @@ public final class GTMachineUtilsMixin {
                         .editableUI(SimpleGeneratorMachine.EDITABLE_UI_CREATOR.apply(GTCEu.id(name), recipeType))
                         .allRotation()
                         .recipeType(recipeType)
-                        .recipeModifier(RecipeModifierFunction.SIMPLE_GENERATOR_MACHINEMODIFIER)
-                        .addOutputLimit(ItemRecipeCapability.CAP, 0)
-                        .addOutputLimit(FluidRecipeCapability.CAP, 0)
+                        .recipeModifier(GTORecipeModifiers.SIMPLE_GENERATOR_MACHINEMODIFIER)
+                        .addOutputLimit(ItemRecipeInfo.INSTANCE, 0)
+                        .addOutputLimit(FluidRecipeInfo.INSTANCE, 0)
                         .renderer(() -> new SimpleGeneratorMachineRenderer(tier, GTCEu.id("block/generators/" + name)))
                         .tooltips(Component.translatable("gtocore.machine.efficiency.tooltip", GTOUtils.getGeneratorEfficiency(recipeType, tier)).append("%"))
                         .tooltips(Component.translatable("gtceu.universal.tooltip.amperage_out", GTOUtils.getGeneratorAmperage(tier)))
@@ -84,7 +84,7 @@ public final class GTMachineUtilsMixin {
                         .editableUI(SimpleTieredMachine.EDITABLE_UI_CREATOR.apply(GTCEu.id(name), recipeType))
                         .nonYAxisRotation()
                         .recipeType(recipeType)
-                        .recipeModifier(RecipeModifierFunction.OVERCLOCKING)
+                        .recipeModifier(GTORecipeModifiers.UPGRADE_OVERCLOCK)
                         .workableTieredHullRenderer(GTCEu.id("block/machines/" + name))
                         .tooltips(GTMachineUtils.workableTiered(tier, GTValues.V[tier], GTValues.V[tier] << 6, recipeType,
                                 tankScalingFunction.apply(tier), true))

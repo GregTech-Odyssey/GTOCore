@@ -1,5 +1,6 @@
 plugins {
     id 'idea'
+    id 'eclipse'
     id 'java-library'
     id 'maven-publish'
     id 'signing'
@@ -8,6 +9,7 @@ plugins {
     alias libs.plugins.spotless
     alias libs.plugins.kotlin.jvm
     alias libs.plugins.kotlin.plugin
+    alias libs.plugins.kotlin.lombok
 }
 
 version = mod_version
@@ -23,15 +25,75 @@ apply from: "$rootDir/gradle/scripts/resources.gradle"
 apply from: "$rootDir/gradle/scripts/jars.gradle"
 apply from: "$rootDir/gradle/scripts/spotless.gradle"
 
+// Eclipse classpath configuration for VS Code Java Language Server
+eclipse {
+    classpath {
+        // Include all compile/runtime configurations so VS Code can resolve all dependencies
+        plusConfigurations += [configurations.compileClasspath, configurations.runtimeClasspath]
+        downloadSources = true
+        downloadJavadoc = true
+        file.whenMerged { cp ->
+            // Add Kotlin compiled output so VS Code JDT LS can resolve Kotlin classes from Java
+            cp.entries += new org.gradle.plugins.ide.eclipse.model.SourceFolder(
+                "build/classes/kotlin/main", null
+            )
+
+            // Collect all jars already in the Eclipse classpath
+            def existingPaths = cp.entries
+                .findAll { it instanceof org.gradle.plugins.ide.eclipse.model.Library }
+                .collect { it.path }
+                .toSet()
+
+            // Add any resolved compileClasspath files that Eclipse missed
+            // (e.g. ModDevGradle artifact-transform outputs for modImplementation deps)
+            configurations.compileClasspath.resolvedConfiguration.resolvedArtifacts.each { art ->
+                def f = art.file
+                if (f.exists() && f.name.endsWith('.jar') && !existingPaths.contains(f.absolutePath)) {
+                    def lib = new org.gradle.plugins.ide.eclipse.model.Library(
+                        cp.fileReferenceFactory.fromFile(f)
+                    )
+                    cp.entries += lib
+                    existingPaths.add(f.absolutePath)
+                }
+            }
+        }
+    }
+}
+
 generateModMetadata.doFirst {
     mkdir('run/client')
     mkdir('run/server')
     mkdir('run/data')
 }
 
+
+def configureLegacyWriter = { taskName , preferredConfigName, outFileName ->
+    tasks.named(taskName) {
+        doLast {
+            def cfg = configurations.findByName(preferredConfigName) ?: configurations.getByName("runtimeClasspath")
+            def out = file("$buildDir/moddev/${outFileName}")
+            out.parentFile.mkdirs()
+            out.text += cfg.files.collect { it.absolutePath }.findAll {
+                it.contains("commons-math3") || it.contains("opencc4j") ||
+                        it.contains("heaven") || it.contains("nlp-common")
+            }.join(System.lineSeparator())
+        }
+    }
+}
+
+configureLegacyWriter("writeClientLegacyClasspath", "clientRuntimeClasspath", "clientLegacyClasspath.txt")
+configureLegacyWriter("writeServerLegacyClasspath", "serverRuntimeClasspath", "serverLegacyClasspath.txt")
+configureLegacyWriter("writeDataLegacyClasspath",   "dataRuntimeClasspath",   "dataLegacyClasspath.txt")
+
 tasks.withType(JavaCompile).configureEach {
     options.encoding = "UTF-8"
     options.compilerArgs << "-Xlint:-deprecation" << "-Xlint:-removal"
+}
+
+// Ensure Java compilation depends on Kotlin and can resolve Kotlin classes
+tasks.named('compileJava', JavaCompile) {
+    dependsOn tasks.named('compileKotlin')
+    classpath += files(tasks.named('compileKotlin').map { it.destinationDirectory })
 }
 
 jar {

@@ -30,12 +30,14 @@ import net.minecraft.world.level.block.Blocks;
 import com.hollingsworth.arsnouveau.setup.registry.BlockRegistry;
 import com.hollingsworth.arsnouveau.setup.registry.ItemsRegistry;
 import com.kyanite.deeperdarker.content.DDBlocks;
+import dev.shadowsoffire.apotheosis.adventure.Adventure;
 import earth.terrarium.adastra.common.registry.ModBlocks;
 import io.github.lounode.extrabotany.common.block.ExtraBotanyBlocks;
 import io.github.lounode.extrabotany.common.block.flower.ExtrabotanyFlowerBlocks;
 import io.github.lounode.extrabotany.common.item.ExtraBotanyItems;
 import io.github.lounode.extrabotany.common.lib.ExtraBotanyTags;
 import it.unimi.dsi.fastutil.objects.Reference2IntOpenHashMap;
+import mythicbotany.register.ModItems;
 import vazkii.botania.api.recipe.StateIngredient;
 import vazkii.botania.common.block.BotaniaBlocks;
 import vazkii.botania.common.block.BotaniaFlowerBlocks;
@@ -313,6 +315,90 @@ public final class BotaniaRecipes {
 
         // 神话植物学 符文支架
         {
+            // 诗之蜜酒
+            {
+                RuneRitualRecipeBuilder makeKvasirMead = RuneRitualRecipeBuilder.builder("mana_kvasir_mead")
+                        .centerRune(ModItems.kvasirBlood);
+
+                for (int i : new int[] { -3, -1, 1 })
+                    makeKvasirMead.addOuterRune(Adventure.Items.ANCIENT_MATERIAL.get(), i, 3, true)
+                            .addOuterRune(Adventure.Items.ANCIENT_MATERIAL.get(), -i, -3, true)
+                            .addOuterRune(Adventure.Items.ANCIENT_MATERIAL.get(), 3, -i, true)
+                            .addOuterRune(Adventure.Items.ANCIENT_MATERIAL.get(), -3, i, true);
+
+                int radius = 2;
+                for (int i = -radius + 1; i <= radius - 1; i++)
+                    makeKvasirMead.addOuterRune(Items.HONEYCOMB_BLOCK, i, radius, true)
+                            .addOuterRune(Items.HONEYCOMB_BLOCK, i, -radius, true)
+                            .addOuterRune(Items.HONEYCOMB_BLOCK, radius, i, true)
+                            .addOuterRune(Items.HONEYCOMB_BLOCK, -radius, i, true);
+
+                radius = 4;
+                for (int i = -radius + 1; i <= radius - 1; i++)
+                    makeKvasirMead.addOuterRune(Items.HONEY_BLOCK, i, radius, true)
+                            .addOuterRune(Items.HONEY_BLOCK, i, -radius, true)
+                            .addOuterRune(Items.HONEY_BLOCK, radius, i, true)
+                            .addOuterRune(Items.HONEY_BLOCK, -radius, i, true);
+
+                Item[] runeItem1 = {
+                        BotaniaItems.runeEarth, BotaniaItems.runeAir, BotaniaItems.runeFire, BotaniaItems.runeWater,
+                        BotaniaItems.runeSpring, BotaniaItems.runeSummer, BotaniaItems.runeAutumn, BotaniaItems.runeWinter,
+                        BotaniaItems.runeMana, BotaniaItems.runeLust, BotaniaItems.runeGluttony, BotaniaItems.runeGreed,
+                        BotaniaItems.runeSloth, BotaniaItems.runeWrath, BotaniaItems.runeEnvy, BotaniaItems.runePride, };
+                Item[] runeItem2 = {
+                        ModItems.asgardRune, ModItems.vanaheimRune, ModItems.alfheimRune,
+                        ModItems.joetunheimRune, ModItems.muspelheimRune, ModItems.niflheimRune,
+                        ModItems.nidavellirRune, ModItems.helheimRune, ModItems.midgardRune, };
+                int k = -4;
+                for (int i = 0; i < 8; i++) {
+                    makeKvasirMead.addOuterRune(runeItem1[i], k, 5, true)
+                            .addOuterRune(runeItem1[i], -k, -5, true)
+                            .addOuterRune(runeItem1[i + 8], 5, -k, true)
+                            .addOuterRune(runeItem1[i + 8], -5, k, true);
+                    k++;
+                    if (k == 0) k++;
+                }
+                k = -2;
+                for (int i = 0; i < 3; i++) {
+                    makeKvasirMead.addOuterRune(runeItem2[i], k, 3, true)
+                            .addOuterRune(runeItem2[i], -k, -3, true)
+                            .addOuterRune(runeItem2[i + 3], 3, -k, true)
+                            .addOuterRune(runeItem2[i + 3], -3, k, true);
+                    k += 2;
+                }
+
+                makeKvasirMead.addOuterRune(runeItem2[6], 0, 1, true)
+                        .addOuterRune(runeItem2[6], 0, -1, true)
+                        .addOuterRune(runeItem2[7], 1, 0, true)
+                        .addOuterRune(runeItem2[7], -1, 0, true)
+                        .addOuterRune(runeItem2[8], 2, -2, true)
+                        .addOuterRune(runeItem2[8], -2, 2, true);
+
+                for (int i : new int[] { 5, 4, 2, 1 }) {
+                    makeKvasirMead.addOuterRune(GTOBlocks.STAR_STONE[i], i, i, true)
+                            .addOuterRune(GTOBlocks.STAR_STONE[i], -i, -i, true);
+                }
+                for (int i : new int[] { 5, 4, 1 }) {
+                    makeKvasirMead.addOuterRune(ChemicalHelper.getItem(block, Runerock), -i, i, true)
+                            .addOuterRune(ChemicalHelper.getItem(block, Runerock), i, -i, true);
+                }
+
+                makeKvasirMead.addOuterRune(ItemsRegistry.EARTH_ESSENCE, 0, -5, true)
+                        .addOuterRune(ItemsRegistry.AIR_ESSENCE, 0, 5, true)
+                        .addOuterRune(ItemsRegistry.WATER_ESSENCE, -5, 0, true)
+                        .addOuterRune(ItemsRegistry.FIRE_ESSENCE, 5, 0, true);
+
+                makeKvasirMead
+                        .mana(10000000)
+                        .ticks(18000)
+                        .addInput(ChemicalHelper.getItem(gemFlawless, OriginCoreCrystal))
+                        .addInput(ChemicalHelper.getItem(gemFlawless, StarBloodCrystal))
+                        .addInput(GTOItems.PHILOSOPHERS_STONE)
+                        .addInput(ChemicalHelper.getItem(gemFlawless, SoulJadeCrystal))
+                        .addInput(ChemicalHelper.getItem(gemFlawless, RemnantSpiritStone))
+                        .addOutput(ModItems.kvasirMead)
+                        .save();
+            }
 
         }
 
@@ -528,7 +614,7 @@ public final class BotaniaRecipes {
 
             MANA_INFUSER_RECIPES.builder("mana_powder_dust")
                     .notConsumable(BotaniaBlocks.livingrock.asItem())
-                    .inputItems(TagUtils.createTGTag("dusts"))
+                    .inputItems(TagUtils.createTGItemTag("dusts"))
                     .outputItems(BotaniaItems.manaPowder)
                     .duration(20)
                     .circuitMeta(1)
@@ -746,7 +832,7 @@ public final class BotaniaRecipes {
 
             INDUSTRIAL_ALTAR_RECIPES.builder("colorful_mystical_flower")
                     .inputItems(ForgeTags.SEEDS, 8)
-                    .inputFluids(Water.getFluid(8000))
+                    .inputFluids(Water, 8000)
                     .outputItems(COLORFUL_MYSTICAL_FLOWER, 8)
                     .duration(20)
                     .MANAt(32)
@@ -782,19 +868,19 @@ public final class BotaniaRecipes {
             // 魔力凝聚
             {
                 String[] EndremEyes = {
-                        "black_eye", "cold_eye", "corrupted_eye", "lost_eye",
+                        "black_eye", "cold_eye",
                         "nether_eye", "old_eye", "rogue_eye", "cursed_eye",
-                        "guardian_eye", "magical_eye", "wither_eye"
+                        "guardian_eye", "magical_eye"
                 };
                 String[] EndremEyes_input = {
-                        "minecraft:sculk_catalyst", "ad_astra:ice_shard", "enderio:plant_matter_brown", "enderio:redstone_alloy_grinding_ball",
+                        "minecraft:sculk_catalyst", "ad_astra:ice_shard",
                         "botania:quartz_blaze", "botania:forest_eye", "botania:redstone_root", "botania:life_essence",
-                        "minecraft:prismarine_crystals", "botania:mana_bottle", "enderio:withering_powder"
+                        "minecraft:prismarine_crystals", "botania:mana_bottle"
                 };
 
                 for (int i = 0; i < EndremEyes.length; i++) {
                     MANA_CONDENSER_RECIPES.builder(EndremEyes[i])
-                            .inputItems(GTItems.QUANTUM_EYE.asItem())
+                            .inputItems(GTItems.QUANTUM_EYE)
                             .inputItems(EndremEyes_input[i])
                             .outputItems("endrem:" + EndremEyes[i])
                             .duration(200)
@@ -805,7 +891,7 @@ public final class BotaniaRecipes {
                 MANA_CONDENSER_RECIPES.builder("enriched_naquadah_trinium_europium_duranide")
                         .inputItems(GTOTagPrefix.SUPERCONDUCTOR_BASE, GTMaterials.EnrichedNaquadahTriniumEuropiumDuranide, 4)
                         .outputItems(TagPrefix.wireGtSingle, GTMaterials.EnrichedNaquadahTriniumEuropiumDuranide, 4)
-                        .inputFluids(GTOMaterials.Aether.getFluid(1000))
+                        .inputFluids(GTOMaterials.Aether, 1000)
                         .duration(80)
                         .MANAt(2048)
                         .save();
@@ -813,7 +899,7 @@ public final class BotaniaRecipes {
                 MANA_CONDENSER_RECIPES.builder("ruthenium_trinium_americium_neutronate")
                         .inputItems(GTOTagPrefix.SUPERCONDUCTOR_BASE, GTMaterials.RutheniumTriniumAmericiumNeutronate, 4)
                         .outputItems(TagPrefix.wireGtSingle, GTMaterials.RutheniumTriniumAmericiumNeutronate, 4)
-                        .inputFluids(GTOMaterials.Aether.getFluid(1000))
+                        .inputFluids(GTOMaterials.Aether, 1000)
                         .duration(80)
                         .MANAt(8192)
                         .save();
@@ -1099,7 +1185,7 @@ public final class BotaniaRecipes {
                 .duration(300)
                 .circuitMeta(circuitMeta)
                 .MANAt(mana / 50);
-        CountMap.reference2IntEntrySet().forEach(entry -> build.inputItems(entry.getKey(), entry.getIntValue()));
+        CountMap.reference2IntEntrySet().fastForEach(entry -> build.inputItems(entry.getKey(), entry.getIntValue()));
         build.save();
     }
 
@@ -1120,7 +1206,7 @@ public final class BotaniaRecipes {
                 .duration(300)
                 .circuitMeta(circuitMeta)
                 .MANAt(mana / 50);
-        CountMap.reference2IntEntrySet().forEach(entry -> build.inputItems(entry.getKey(), entry.getIntValue() * 4));
+        CountMap.reference2IntEntrySet().fastForEach(entry -> build.inputItems(entry.getKey(), entry.getIntValue() * 4));
         build.save();
     }
 
@@ -1137,12 +1223,12 @@ public final class BotaniaRecipes {
         var build = INDUSTRIAL_ALTAR_RECIPES.builder(id);
         build
                 .inputItems(ForgeTags.SEEDS, 8)
-                .inputFluids(Water.getFluid(8000))
+                .inputFluids(Water, 8000)
                 .outputItems(output, 8)
                 .duration(20)
                 .circuitMeta(circuitMeta)
                 .MANAt(32);
-        CountMap.reference2IntEntrySet().forEach(entry -> build.inputItems(entry.getKey(), entry.getIntValue() * 2));
+        CountMap.reference2IntEntrySet().fastForEach(entry -> build.inputItems(entry.getKey(), entry.getIntValue() * 2));
         build.save();
     }
 

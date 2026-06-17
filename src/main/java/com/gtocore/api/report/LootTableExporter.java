@@ -28,6 +28,7 @@ import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 public class LootTableExporter {
@@ -39,6 +40,7 @@ public class LootTableExporter {
 
     private static final DecimalFormat PERCENT_FORMAT = new DecimalFormat("#.##%");
     private static final DecimalFormat NUMBER_FORMAT = new DecimalFormat("#.##");
+    private static final Pattern PATTERN = Pattern.compile("[^a-zA-Z0-9_-]");
 
     /**
      * 导出所有命名空间下的所有战利品表到Markdown文件
@@ -136,7 +138,7 @@ public class LootTableExporter {
 
                 String markdown = generateTypeMarkdown(type, typeTables, lootTablesByNamespace);
 
-                String safeTypeName = type.replaceAll("[^a-zA-Z0-9_-]", "_");
+                String safeTypeName = PATTERN.matcher(type).replaceAll("_");
                 Path reportPath = logDir.resolve("[" + safeTypeName + "].md");
 
                 try (BufferedWriter writer = Files.newBufferedWriter(reportPath)) {
@@ -336,24 +338,21 @@ public class LootTableExporter {
 
         String entryType = entry.get("type").getAsString();
 
-        if ("minecraft:item".equals(entryType)) {
-            processItemEntry(entry, lootPool);
-        } else if ("minecraft:tag".equals(entryType)) {
-            processTagEntry(entry, lootPool);
-        } else if ("minecraft:loot_table".equals(entryType)) {
-            processLootTableEntry(entry, lootPool);
-        } else if ("minecraft:empty".equals(entryType)) {
-            processEmptyEntry(entry, lootPool);
-        } else if ("minecraft:group".equals(entryType)) {
-            processGroupEntry(entry, lootPool);
-        } else {
-            GTOCore.LOGGER.debug("未处理的战利品条目类型: {}", entryType);
-            LootItem lootItem = new LootItem();
-            lootItem.type = "未处理类型";
-            lootItem.itemId = entryType;
-            lootItem.displayName = "未处理: " + entryType;
-            lootItem.weight = entry.has("weight") ? entry.get("weight").getAsDouble() : 1.0;
-            lootPool.lootItems.add(lootItem);
+        switch (entryType) {
+            case "minecraft:item" -> processItemEntry(entry, lootPool);
+            case "minecraft:tag" -> processTagEntry(entry, lootPool);
+            case "minecraft:loot_table" -> processLootTableEntry(entry, lootPool);
+            case "minecraft:empty" -> processEmptyEntry(entry, lootPool);
+            case "minecraft:group" -> processGroupEntry(entry, lootPool);
+            case null, default -> {
+                GTOCore.LOGGER.debug("未处理的战利品条目类型: {}", entryType);
+                LootItem lootItem = new LootItem();
+                lootItem.type = "未处理类型";
+                lootItem.itemId = entryType;
+                lootItem.displayName = "未处理: " + entryType;
+                lootItem.weight = entry.has("weight") ? entry.get("weight").getAsDouble() : 1.0;
+                lootPool.lootItems.add(lootItem);
+            }
         }
     }
 
@@ -408,120 +407,141 @@ public class LootTableExporter {
         String functionSource = isPoolFunction ? "池级别" : "条目级别";
         lootItem.functions.add(functionSource + ":" + functionType);
 
-        if ("minecraft:set_count".equals(functionType)) {
-            boolean isAdd = function.has("add") && function.get("add").getAsBoolean();
-            lootItem.countOperation = isAdd ? "添加" : "设置";
+        switch (functionType) {
+            case "minecraft:set_count" -> {
+                boolean isAdd = function.has("add") && function.get("add").getAsBoolean();
+                lootItem.countOperation = isAdd ? "添加" : "设置";
 
-            if (function.has("count")) {
-                ValueInfo countInfo = getValueInfo(function.get("count"));
-                if (isAdd) {
+                if (function.has("count")) {
+                    ValueInfo countInfo = getValueInfo(function.get("count"));
+                    if (isAdd) {
+                        lootItem.count += countInfo.average;
+                        lootItem.countDetail = (lootItem.countDetail != null ? lootItem.countDetail + "+" : "") + countInfo.detail;
+                    } else {
+                        lootItem.count = countInfo.average;
+                        lootItem.countDetail = countInfo.detail;
+                    }
+
+                    lootItem.displayName += (isPoolFunction ? " (池" : " (") + lootItem.countOperation +
+                            "数量: " + countInfo.detail + ")";
+                }
+            }
+            case "minecraft:add_count" -> {
+                lootItem.countOperation = "添加";
+                if (function.has("count")) {
+                    ValueInfo countInfo = getValueInfo(function.get("count"));
                     lootItem.count += countInfo.average;
                     lootItem.countDetail = (lootItem.countDetail != null ? lootItem.countDetail + "+" : "") + countInfo.detail;
-                } else {
-                    lootItem.count = countInfo.average;
-                    lootItem.countDetail = countInfo.detail;
+                    lootItem.displayName += (isPoolFunction ? " (池添加数量: " : " (添加数量: ") + countInfo.detail + ")";
                 }
-
-                lootItem.displayName += (isPoolFunction ? " (池" : " (") + lootItem.countOperation +
-                        "数量: " + countInfo.detail + ")";
             }
-        } else if ("minecraft:add_count".equals(functionType)) {
-            lootItem.countOperation = "添加";
-            if (function.has("count")) {
-                ValueInfo countInfo = getValueInfo(function.get("count"));
-                lootItem.count += countInfo.average;
-                lootItem.countDetail = (lootItem.countDetail != null ? lootItem.countDetail + "+" : "") + countInfo.detail;
-                lootItem.displayName += (isPoolFunction ? " (池添加数量: " : " (添加数量: ") + countInfo.detail + ")";
+            case "minecraft:looting_enchant" -> {
+                lootItem.lootingAffected = true;
+                if (function.has("count")) {
+                    ValueInfo countInfo = getValueInfo(function.get("count"));
+                    lootItem.lootingCount = countInfo.average;
+                    lootItem.displayName += (isPoolFunction ? " (池掠夺加成: " : " (掠夺加成: ") + countInfo.detail + "每级)";
+                }
+                if (function.has("limit")) {
+                    lootItem.lootingLimit = function.get("limit").getAsInt();
+                    lootItem.displayName += " (上限: " + lootItem.lootingLimit + ")";
+                }
             }
-        } else if ("minecraft:looting_enchant".equals(functionType)) {
-            lootItem.lootingAffected = true;
-            if (function.has("count")) {
-                ValueInfo countInfo = getValueInfo(function.get("count"));
-                lootItem.lootingCount = countInfo.average;
-                lootItem.displayName += (isPoolFunction ? " (池掠夺加成: " : " (掠夺加成: ") + countInfo.detail + "每级)";
+            case "minecraft:enchant_randomly" -> {
+                lootItem.enchanted = true;
+                if (function.has("enchantments")) {
+                    lootItem.enchantments = function.getAsJsonArray("enchantments").toString()
+                            .replace("[", "").replace("]", "").replace("\"", "");
+                    lootItem.displayName += (isPoolFunction ? " (池随机附魔: " : " (随机附魔: ") + lootItem.enchantments + ")";
+                } else {
+                    lootItem.displayName += (isPoolFunction ? " (池随机附魔)" : " (随机附魔)");
+                }
             }
-            if (function.has("limit")) {
-                lootItem.lootingLimit = function.get("limit").getAsInt();
-                lootItem.displayName += " (上限: " + lootItem.lootingLimit + ")";
+            case "minecraft:enchant_with_levels" -> {
+                lootItem.enchanted = true;
+                lootItem.enchantWithLevels = true;
+                if (function.has("levels")) {
+                    ValueInfo levelsInfo = getValueInfo(function.get("levels"));
+                    lootItem.displayName += (isPoolFunction ? " (池等级附魔: " : " (等级附魔: ") + levelsInfo.detail + "级)";
+                }
+                if (function.has("treasure") && function.get("treasure").getAsBoolean()) {
+                    lootItem.treasureEnchant = true;
+                    lootItem.displayName += " (包含宝藏附魔)";
+                }
             }
-        } else if ("minecraft:enchant_randomly".equals(functionType)) {
-            lootItem.enchanted = true;
-            if (function.has("enchantments")) {
-                lootItem.enchantments = function.getAsJsonArray("enchantments").toString()
-                        .replace("[", "").replace("]", "").replace("\"", "");
-                lootItem.displayName += (isPoolFunction ? " (池随机附魔: " : " (随机附魔: ") + lootItem.enchantments + ")";
-            } else {
-                lootItem.displayName += (isPoolFunction ? " (池随机附魔)" : " (随机附魔)");
+            case "minecraft:potion" -> {
+                lootItem.hasPotion = true;
+                if (function.has("potion")) {
+                    lootItem.potionType = function.get("potion").getAsString();
+                    lootItem.displayName += (isPoolFunction ? " (池药水: " : " (药水: ") + lootItem.potionType + ")";
+                } else {
+                    lootItem.displayName += (isPoolFunction ? " (池随机药水)" : " (随机药水)");
+                }
             }
-        } else if ("minecraft:enchant_with_levels".equals(functionType)) {
-            lootItem.enchanted = true;
-            lootItem.enchantWithLevels = true;
-            if (function.has("levels")) {
-                ValueInfo levelsInfo = getValueInfo(function.get("levels"));
-                lootItem.displayName += (isPoolFunction ? " (池等级附魔: " : " (等级附魔: ") + levelsInfo.detail + "级)";
+            case "minecraft:smelt" -> {
+                lootItem.smelted = true;
+                lootItem.displayName += (isPoolFunction ? " (池已冶炼)" : " (已冶炼)");
             }
-            if (function.has("treasure") && function.get("treasure").getAsBoolean()) {
-                lootItem.treasureEnchant = true;
-                lootItem.displayName += " (包含宝藏附魔)";
+            case "minecraft:set_damage" -> {
+                lootItem.hasDamage = true;
+                if (function.has("damage")) {
+                    ValueInfo damageInfo = getValueInfo(function.get("damage"));
+                    lootItem.damage = damageInfo.average;
+                    lootItem.displayName += (isPoolFunction ? " (池损伤: " : " (损伤: ") + damageInfo.detail + ")";
+                }
             }
-        } else if ("minecraft:potion".equals(functionType)) {
-            lootItem.hasPotion = true;
-            if (function.has("potion")) {
-                lootItem.potionType = function.get("potion").getAsString();
-                lootItem.displayName += (isPoolFunction ? " (池药水: " : " (药水: ") + lootItem.potionType + ")";
-            } else {
-                lootItem.displayName += (isPoolFunction ? " (池随机药水)" : " (随机药水)");
+            case "minecraft:set_nbt" -> {
+                lootItem.hasNbt = true;
+                lootItem.displayName += (isPoolFunction ? " (池有NBT数据)" : " (有NBT数据)");
             }
-        } else if ("minecraft:smelt".equals(functionType)) {
-            lootItem.smelted = true;
-            lootItem.displayName += (isPoolFunction ? " (池已冶炼)" : " (已冶炼)");
-        } else if ("minecraft:set_damage".equals(functionType)) {
-            lootItem.hasDamage = true;
-            if (function.has("damage")) {
-                ValueInfo damageInfo = getValueInfo(function.get("damage"));
-                lootItem.damage = damageInfo.average;
-                lootItem.displayName += (isPoolFunction ? " (池损伤: " : " (损伤: ") + damageInfo.detail + ")";
+            case "minecraft:fill_player_head" -> {
+                lootItem.hasPlayerHeadData = true;
+                lootItem.displayName += (isPoolFunction ? " (池填充玩家头颅数据)" : " (填充玩家头颅数据)");
             }
-        } else if ("minecraft:set_nbt".equals(functionType)) {
-            lootItem.hasNbt = true;
-            lootItem.displayName += (isPoolFunction ? " (池有NBT数据)" : " (有NBT数据)");
-        } else if ("minecraft:fill_player_head".equals(functionType)) {
-            lootItem.hasPlayerHeadData = true;
-            lootItem.displayName += (isPoolFunction ? " (池填充玩家头颅数据)" : " (填充玩家头颅数据)");
-        } else if ("minecraft:entity装备".equals(functionType)) {
-            lootItem.isEntityEquipment = true;
-            lootItem.displayName += (isPoolFunction ? " (池实体装备)" : " (实体装备)");
-        } else if ("minecraft:copy_name".equals(functionType)) {
-            lootItem.copyName = true;
-            String source = function.has("source") ? function.get("source").getAsString() : "实体";
-            lootItem.displayName += (isPoolFunction ? " (池复制" : " (复制") + source + "名称)";
-        } else if ("minecraft:copy_nbt".equals(functionType)) {
-            lootItem.copyNbt = true;
-            lootItem.displayName += (isPoolFunction ? " (池复制NBT)" : " (复制NBT)");
-        } else if ("minecraft:limit_count".equals(functionType)) {
-            lootItem.limitCount = true;
-            if (function.has("limit")) {
-                int limit = function.get("limit").getAsInt();
-                lootItem.displayName += (isPoolFunction ? " (池数量上限: " : " (数量上限: ") + limit + ")";
+            case "minecraft:entity装备" -> {
+                lootItem.isEntityEquipment = true;
+                lootItem.displayName += (isPoolFunction ? " (池实体装备)" : " (实体装备)");
             }
-        } else if ("minecraft:set_attributes".equals(functionType)) {
-            lootItem.hasAttributes = true;
-            lootItem.displayName += (isPoolFunction ? " (池设置属性)" : " (设置属性)");
-        } else if ("minecraft:set_book_contents".equals(functionType)) {
-            lootItem.hasBookContents = true;
-            lootItem.displayName += (isPoolFunction ? " (池设置书本内容)" : " (设置书本内容)");
-        } else if ("minecraft:set_lore".equals(functionType)) {
-            lootItem.hasLore = true;
-            lootItem.displayName += (isPoolFunction ? " (池设置 Lore)" : " (设置 Lore)");
-        } else if ("minecraft:set_name".equals(functionType)) {
-            lootItem.hasCustomName = true;
-            lootItem.displayName += (isPoolFunction ? " (池自定义名称)" : " (自定义名称)");
-        } else if ("minecraft:explosion_decay".equals(functionType)) {
-            lootItem.explosionDecay = true;
-            lootItem.displayName += (isPoolFunction ? " (池爆炸衰减)" : " (爆炸衰减)");
-        } else {
-            GTOCore.LOGGER.debug("未处理的{}函数类型: {}", functionSource, functionType);
-            lootItem.otherFunctions.add(functionSource + ":" + functionType);
+            case "minecraft:copy_name" -> {
+                lootItem.copyName = true;
+                String source = function.has("source") ? function.get("source").getAsString() : "实体";
+                lootItem.displayName += (isPoolFunction ? " (池复制" : " (复制") + source + "名称)";
+            }
+            case "minecraft:copy_nbt" -> {
+                lootItem.copyNbt = true;
+                lootItem.displayName += (isPoolFunction ? " (池复制NBT)" : " (复制NBT)");
+            }
+            case "minecraft:limit_count" -> {
+                lootItem.limitCount = true;
+                if (function.has("limit")) {
+                    int limit = function.get("limit").getAsInt();
+                    lootItem.displayName += (isPoolFunction ? " (池数量上限: " : " (数量上限: ") + limit + ")";
+                }
+            }
+            case "minecraft:set_attributes" -> {
+                lootItem.hasAttributes = true;
+                lootItem.displayName += (isPoolFunction ? " (池设置属性)" : " (设置属性)");
+            }
+            case "minecraft:set_book_contents" -> {
+                lootItem.hasBookContents = true;
+                lootItem.displayName += (isPoolFunction ? " (池设置书本内容)" : " (设置书本内容)");
+            }
+            case "minecraft:set_lore" -> {
+                lootItem.hasLore = true;
+                lootItem.displayName += (isPoolFunction ? " (池设置 Lore)" : " (设置 Lore)");
+            }
+            case "minecraft:set_name" -> {
+                lootItem.hasCustomName = true;
+                lootItem.displayName += (isPoolFunction ? " (池自定义名称)" : " (自定义名称)");
+            }
+            case "minecraft:explosion_decay" -> {
+                lootItem.explosionDecay = true;
+                lootItem.displayName += (isPoolFunction ? " (池爆炸衰减)" : " (爆炸衰减)");
+            }
+            case null, default -> {
+                GTOCore.LOGGER.debug("未处理的{}函数类型: {}", functionSource, functionType);
+                lootItem.otherFunctions.add(functionSource + ":" + functionType);
+            }
         }
     }
 
@@ -1077,10 +1097,11 @@ public class LootTableExporter {
 
         // 所有类型链接
         markdown.append("## 类型报告列表\n");
-        for (String type : lootTablesByType.keySet()) {
-            String safeTypeName = type.replaceAll("[^a-zA-Z0-9_-]", "_");
+        for (Map.Entry<String, List<LootTableAnalysis>> entry : lootTablesByType.entrySet()) {
+            String type = entry.getKey();
+            String safeTypeName = PATTERN.matcher(type).replaceAll("_");
             markdown.append("- [").append(type).append("](").append("[").append(safeTypeName).append("].md) - ")
-                    .append(lootTablesByType.get(type).size()).append(" 个战利品表\n");
+                    .append(entry.getValue().size()).append(" 个战利品表\n");
         }
 
         // 战利品表汇总比较
@@ -1088,13 +1109,13 @@ public class LootTableExporter {
         markdown.append("| 类型 | 命名空间 | 战利品表 | 奖励池数量 | 总期望值 | 状态 |\n");
         markdown.append("|------|----------|----------|-----------|----------|------|\n");
 
-        for (String tableName : allLootTables.keySet()) {
-            LootTableAnalysis analysis = allLootTables.get(tableName);
+        for (Map.Entry<String, LootTableAnalysis> entry : allLootTables.entrySet()) {
+            LootTableAnalysis analysis = entry.getValue();
             if (analysis == null) {
                 continue;
             }
 
-            ResourceLocation loc = new ResourceLocation(tableName);
+            ResourceLocation loc = new ResourceLocation(entry.getKey());
             String namespace = loc.getNamespace();
 
             String status = analysis.getError() != null ? "错误" : "正常";
@@ -1147,7 +1168,7 @@ public class LootTableExporter {
         @Setter
         private String error;
 
-        public LootTableAnalysis(String name) {
+        LootTableAnalysis(String name) {
             this.name = name;
             this.type = "未知";
         }

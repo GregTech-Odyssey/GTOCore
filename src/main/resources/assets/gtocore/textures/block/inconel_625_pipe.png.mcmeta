@@ -1,5 +1,5 @@
 {
-    "ldlib": {
-        "connection": "gtocore:block/inconel_625_pipe_ctm"
-    }
+  "ldlib": {
+    "connection": "gtocore:block/inconel_625_pipe_ctm"
+  }
 }

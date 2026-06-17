@@ -1,17 +1,19 @@
 package com.gtocore.common.data.machines;
 
 import com.gtocore.api.machine.part.GTOPartAbility;
+import com.gtocore.api.pattern.GTOPredicates;
+import com.gtocore.client.renderer.machine.CosmicCelestialSpireOfConvergenceRenderer;
 import com.gtocore.common.data.GTOBlocks;
 import com.gtocore.common.data.GTOMaterials;
 import com.gtocore.common.data.GTORecipeTypes;
 import com.gtocore.common.data.translation.GTOMachineTooltips;
+import com.gtocore.common.data.translation.GTOMachineTooltipsA;
 import com.gtocore.common.machine.mana.multiblock.*;
 
 import com.gtolib.GTOCore;
 import com.gtolib.api.annotation.NewDataAttributes;
 import com.gtolib.api.machine.ManaDistributorMachine;
 import com.gtolib.api.machine.MultiblockDefinition;
-import com.gtolib.api.recipe.modifier.RecipeModifierFunction;
 import com.gtolib.utils.MultiBlockFileReader;
 import com.gtolib.utils.RLUtils;
 import com.gtolib.utils.RegistriesUtils;
@@ -23,7 +25,8 @@ import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
 import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility;
 import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
 import com.gregtechceu.gtceu.api.pattern.MultiblockShapeInfo;
-import com.gregtechceu.gtceu.api.pattern.util.RelativeDirection;
+import com.gregtechceu.gtceu.api.recipe.modifier.RecipeModifier;
+import com.gregtechceu.gtceu.client.renderer.machine.WorkableSidedCasingMachineRenderer;
 import com.gregtechceu.gtceu.common.data.GCYMBlocks;
 import com.gregtechceu.gtceu.common.data.GTBlocks;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
@@ -31,11 +34,13 @@ import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Blocks;
 
+import dev.shadowsoffire.apotheosis.Apotheosis;
 import vazkii.botania.common.block.BotaniaBlocks;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 import static com.gregtechceu.gtceu.api.machine.multiblock.PartAbility.*;
 import static com.gregtechceu.gtceu.api.pattern.Predicates.*;
@@ -59,7 +64,7 @@ public final class ManaMultiBlock {
             .tooltipsText("符文编号：", "Rune number:")
             .tooltipsSupplier(() -> Collections.singletonList(ManaAlloyBlastSmelterMachine.getRunes()))
             .tooltips(NewDataAttributes.ALLOW_PARALLEL_NUMBER.create(16))
-            .recipeModifier(RecipeModifierFunction.overclocking(0.5, 1, 0.5))
+            .recipeModifier(RecipeModifier.overclocking(0.5, 1, 0.5))
             .recipeTypes(GTORecipeTypes.ALLOY_BLAST_RECIPES)
             .block(GTOBlocks.MANASTEEL_CASING)
             .pattern(definition -> MultiBlockFileReader.start(definition)
@@ -69,10 +74,10 @@ public final class ManaMultiBlock {
                             .or(abilities(GTOPartAbility.INPUT_MANA).setMaxGlobalLimited(8, 1))
                             .or(abilities(MAINTENANCE).setExactLimit(1)))
                     .where('C', blocks(GTOBlocks.MANASTEEL_CASING.get()))
-                    .where('D', controller(blocks(definition.get())))
+                    .where('D', controller(definition))
                     .where('E', blocks(RegistriesUtils.getBlock("botania:elf_glass")))
                     .where('F', blocks(RegistriesUtils.getBlock("botania:livingrock_wall")))
-                    .where('G', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTOMaterials.Gaiasteel)))
+                    .where('G', GTOPredicates.frame(GTOMaterials.Gaiasteel))
                     .where('H', heatingCoils())
                     .where('I', abilities(MUFFLER))
                     .where(' ', any())
@@ -103,7 +108,7 @@ public final class ManaMultiBlock {
             .recipeTypes(GTRecipeTypes.DUMMY_RECIPES)
             .block(RegistriesUtils.getSupplierBlock("botania:livingrock_bricks"))
             .pattern(definition -> MultiBlockFileReader.start(definition)
-                    .where('~', controller(blocks(definition.get())))
+                    .where('~', controller(definition))
                     .where('A', blocks(RegistriesUtils.getBlock("botania:livingrock_bricks_wall")))
                     .where('B', blocks(RegistriesUtils.getBlock("botania:livingrock_bricks")))
                     .where('b', blocks(RegistriesUtils.getBlock("botania:livingrock_bricks"))
@@ -129,7 +134,7 @@ public final class ManaMultiBlock {
             .recipeTypes(GTRecipeTypes.DUMMY_RECIPES)
             .block(RegistriesUtils.getSupplierBlock("botania:livingrock_bricks"))
             .pattern(definition -> MultiBlockFileReader.start(definition)
-                    .where('~', controller(blocks(definition.get())))
+                    .where('~', controller(definition))
                     .where('A', blocks(RegistriesUtils.getBlock("botania:livingrock")))
                     .where('B', blocks(RegistriesUtils.getBlock("botania:livingrock_bricks_wall")))
                     .where('C', blocks(RegistriesUtils.getBlock("botania:livingrock_bricks")))
@@ -159,13 +164,13 @@ public final class ManaMultiBlock {
                     .where('B', blocks(RegistriesUtils.getBlock("botania:livingrock_bricks")))
                     .where('C', blocks(RegistriesUtils.getBlock("botania:livingwood_fence")))
                     .where('D', blocks(RegistriesUtils.getBlock("botania:livingwood")))
-                    .where('E', controller(blocks(definition.get())))
+                    .where('E', controller(definition))
                     .where('F', blocks(GTOBlocks.MANASTEEL_CASING.get())
                             .or(abilities(GTOPartAbility.INPUT_MANA).setMaxGlobalLimited(16, 1))
                             .or(abilities(PARALLEL_HATCH).setMaxGlobalLimited(1))
                             .or(abilities(EXPORT_ITEMS).setMaxGlobalLimited(16, 1))
                             .or(abilities(IMPORT_ITEMS).setMaxGlobalLimited(16, 1)))
-                    .where('G', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTOMaterials.Manasteel)))
+                    .where('G', GTOPredicates.frame(GTOMaterials.Manasteel))
                     .where('H', blocks(RegistriesUtils.getBlock("botania:glimmering_livingwood")))
                     .where('I', blocks(RegistriesUtils.getBlock("botania:mana_glass")))
                     .where('J', blocks(Blocks.AIR))
@@ -182,6 +187,7 @@ public final class ManaMultiBlock {
             .parallelizableTooltips()
             .perfectOCTooltips()
             .parallelizableManaOverclock()
+            .tooltipsSupplier(GTOMachineTooltips.INSTANCE.getManaCondenserTooltips().getSupplier())
             .recipeTypes(GTORecipeTypes.MANA_CONDENSER_RECIPES)
             .block(GTOBlocks.MANASTEEL_CASING)
             .pattern(definition -> ManaCondenserMachine.getBlockPattern(0, definition))
@@ -205,17 +211,17 @@ public final class ManaMultiBlock {
             .recipeTypes(GTORecipeTypes.ELF_EXCHANGE_RECIPES)
             .block(GTOBlocks.MANASTEEL_CASING)
             .pattern(definition -> MultiBlockFileReader.start(definition)
-                    .where('A', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTOMaterials.Manasteel)))
+                    .where('A', GTOPredicates.frame(GTOMaterials.Manasteel))
                     .where('B', blocks(GTOBlocks.MANASTEEL_CASING.get())
                             .or(abilities(GTOPartAbility.INPUT_MANA).setMaxGlobalLimited(2, 1))
                             .or(abilities(PARALLEL_HATCH).setMaxGlobalLimited(1))
                             .or(abilities(EXPORT_ITEMS).setMaxGlobalLimited(4, 1))
                             .or(abilities(IMPORT_ITEMS).setMaxGlobalLimited(4, 1)))
-                    .where('C', controller(blocks(definition.get())))
+                    .where('C', controller(definition))
                     .where('D', blocks(RegistriesUtils.getBlock("botania:polished_livingrock")))
                     .where('E', blocks(GTOBlocks.MANASTEEL_CASING.get()))
                     .where('F', blocks(RegistriesUtils.getBlock("botania:bifrost_perm")))
-                    .where('G', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTOMaterials.Elementium)))
+                    .where('G', GTOPredicates.frame(GTOMaterials.Elementium))
                     .where('H', blocks(RegistriesUtils.getBlock("botania:elf_glass")))
                     .where('I', blocks(RegistriesUtils.getBlock("botania:alfheim_portal")))
                     .where('J', blocks(RegistriesUtils.getBlock("botania:dragonstone_block")))
@@ -231,7 +237,7 @@ public final class ManaMultiBlock {
             .parallelizableManaOverclock()
             .recipeTypes(GTORecipeTypes.INDUSTRIAL_ALTAR_RECIPES)
             .block(GTOBlocks.MANASTEEL_CASING)
-            .pattern(definition -> MultiBlockFileReader.start(definition, RelativeDirection.FRONT, RelativeDirection.UP, RelativeDirection.RIGHT)
+            .pattern(definition -> MultiBlockFileReader.start(definition)
                     .where('A', blocks(GTOBlocks.MANASTEEL_CASING.get())
                             .or(abilities(GTOPartAbility.INPUT_MANA).setMaxGlobalLimited(16, 1))
                             .or(abilities(PARALLEL_HATCH).setMaxGlobalLimited(1))
@@ -245,7 +251,7 @@ public final class ManaMultiBlock {
                     .where('G', blocks(GTOBlocks.MANASTEEL_CASING.get()))
                     .where('H', blocks(RegistriesUtils.getBlock("botania:livingrock_bricks")))
                     .where('I', blocks(RegistriesUtils.getBlock("botania:glimmering_livingwood")))
-                    .where('J', controller(blocks(definition.get())))
+                    .where('J', controller(definition))
                     .where('K', blocks(RegistriesUtils.getBlock("botania:runic_altar")))
                     .where('L', blocks(RegistriesUtils.getBlock("botania:brewery")))
                     .where('M', blocks(ChemicalHelper.getBlock(TagPrefix.block, Runerock)))
@@ -260,14 +266,14 @@ public final class ManaMultiBlock {
             .perfectOCTooltips()
             .recipeTypes(GTORecipeTypes.GREENHOUSE_RECIPES)
             .block(GTOBlocks.MANASTEEL_CASING)
-            .pattern(definition -> MultiBlockFileReader.start(definition, RelativeDirection.RIGHT, RelativeDirection.UP, RelativeDirection.BACK)
+            .pattern(definition -> MultiBlockFileReader.start(definition)
                     .where('A', blocks(RegistriesUtils.getBlock("botania:livingrock_slab")))
                     .where('C', blocks(GTOBlocks.MANASTEEL_CASING.get()))
                     .where('D', blocks(RegistriesUtils.getBlock("botania:glimmering_livingwood")))
                     .where('E', blocks(RegistriesUtils.getBlock("botania:livingrock_bricks")))
                     .where('F', blocks(RegistriesUtils.getBlock("botania:mana_glass")))
                     .where('G', blocks(Blocks.AIR))
-                    .where('H', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTOMaterials.Gaiasteel)))
+                    .where('H', GTOPredicates.frame(GTOMaterials.Gaiasteel))
                     .where('I', blocks(RegistriesUtils.getBlock("botania:livingrock_bricks_wall")))
                     .where('J', blocks(BotaniaBlocks.enchantedSoil))
                     .where('K', blocks(GTOBlocks.MANASTEEL_CASING.get())
@@ -276,7 +282,7 @@ public final class ManaMultiBlock {
                             .or(abilities(IMPORT_FLUIDS).setMaxGlobalLimited(4, 1))
                             .or(abilities(EXPORT_ITEMS).setMaxGlobalLimited(4, 1))
                             .or(abilities(IMPORT_ITEMS).setMaxGlobalLimited(4, 1)))
-                    .where('L', controller(blocks(definition.get())))
+                    .where('L', controller(definition))
                     .where(' ', any())
                     .build())
             .workableCasingRenderer(GTOCore.id("block/casings/manasteel_casing"), GTCEu.id("block/multiblock/gcym/large_centrifuge"))
@@ -286,9 +292,9 @@ public final class ManaMultiBlock {
             .nonYAxisRotation()
             .parallelizableTooltips()
             .recipeTypes(GTORecipeTypes.MANA_GARDEN_RECIPES, GTORecipeTypes.MANA_GARDEN_FUEL)
-            .recipeModifier(RecipeModifierFunction.HATCH_PARALLEL)
+            .recipeModifier(RecipeModifier.HATCH_PARALLEL)
             .block(RegistriesUtils.getSupplierBlock("botania:livingrock"))
-            .pattern(definition -> MultiBlockFileReader.start(definition, RelativeDirection.FRONT, RelativeDirection.UP, RelativeDirection.RIGHT)
+            .pattern(definition -> MultiBlockFileReader.start(definition)
                     .where('A', blocks(RegistriesUtils.getBlock("botania:livingrock")))
                     .where('B', blocks(RegistriesUtils.getBlock("botania:mana_pylon")))
                     .where('C', blocks(RegistriesUtils.getBlock("botania:livingwood")))
@@ -312,7 +318,7 @@ public final class ManaMultiBlock {
                     .where('N', blocks(RegistriesUtils.getBlock("botania:hydroangeas_motif")))
                     .where('O', blocks(RegistriesUtils.getBlock("botania:dreamwood")))
                     .where('P', blocks(GTOBlocks.MANASTEEL_CASING.get()))
-                    .where('Q', controller(blocks(definition.get())))
+                    .where('Q', controller(definition))
                     .where('R', blocks(RegistriesUtils.getBlock("botania:endoflame")))
                     .where('S', blocks(RegistriesUtils.getBlock("botania:rosa_arcana")))
                     .where('T', blocks(RegistriesUtils.getBlock("botania:entropinnyum")))
@@ -356,7 +362,7 @@ public final class ManaMultiBlock {
                     .where('K', blocks(RegistriesUtils.getBlock("gtceu:olivine_block")))
                     .where('L', blocks(RegistriesUtils.getBlock("botania:elf_glass")))
                     .where('M', blocks(RegistriesUtils.getBlock("botania:bifrost_perm")))
-                    .where('N', controller(blocks(definition.get())))
+                    .where('N', controller(definition))
                     .where(' ', any())
                     .build())
             .workableCasingRenderer(GTOCore.id("block/casings/spell_prism_casing"), GTCEu.id("block/multiblock/gcym/large_centrifuge"))
@@ -368,7 +374,7 @@ public final class ManaMultiBlock {
             .tooltipsSupplier(GTOMachineTooltips.INSTANCE.getAlchemicalDeviceTooltips().getSupplier())
             .tooltipsSupplier(GTOMachineTooltips.INSTANCE.getLargeAlchemicalDeviceTooltips().getSupplier())
             .moduleTooltips(new PartAbility[0])
-            .recipeModifiers(RecipeModifierFunction.HATCH_PARALLEL)
+            .recipeModifiers(RecipeModifier.HATCH_PARALLEL)
             .recipeTypes(GTORecipeTypes.ALCHEMY_CAULDRON_RECIPES)
             .block(GCYMBlocks.CASING_CORROSION_PROOF)
             .pattern(definition -> FactoryBlockPattern.start(definition)
@@ -380,7 +386,7 @@ public final class ManaMultiBlock {
                     .aisle("A  B  A", " BEEEB ", " CEEEC ", " C   C ", " C   C ", " C   C ", " C   C ", " C   C ", " C   C ", " C   C ", " C   C ", " C   C ", " CEEEC ", "  BBB  ")
                     .aisle(" AAAAA ", "  BBB  ", "  CHC  ", "  CCC  ", "  CDC  ", "  CDC  ", "  CDC  ", "  CDC  ", "  CDC  ", "  CDC  ", "  CDC  ", "  CCC  ", "  CCC  ", "       ")
                     .where('A', blocks(GTOBlocks.PPS_CORROSION_RESISTANT_MECHANICAL_HOUSING.get()))
-                    .where('B', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTOMaterials.Herbs)))
+                    .where('B', GTOPredicates.frame(GTOMaterials.Herbs))
                     .where('C', blocks(GCYMBlocks.CASING_CORROSION_PROOF.get())
                             .or(abilities(EXPORT_ITEMS).setMaxGlobalLimited(4, 1))
                             .or(abilities(IMPORT_ITEMS).setMaxGlobalLimited(4, 1))
@@ -393,7 +399,7 @@ public final class ManaMultiBlock {
                     .where('E', blocks(GCYMBlocks.CASING_CORROSION_PROOF.get()))
                     .where('F', blocks(GTBlocks.FILTER_CASING.get()))
                     .where('G', blocks(GTBlocks.HERMETIC_CASING_IV.get()))
-                    .where('H', controller(blocks(definition.get())))
+                    .where('H', controller(definition))
                     .where('I', blocks(GTOBlocks.IRIDIUM_PIPE_CASING.get()))
                     .where(' ', any())
                     .build())
@@ -414,7 +420,7 @@ public final class ManaMultiBlock {
                     .where('H', blocks(GTOBlocks.TRANSMUTATION_CATALYST.get()))
                     .where('I', blocks(GTOBlocks.HERETICAL_MECHANICAL_CASING.get()))
                     .where('J', blocks(GTOBlocks.AMPROSIUM_ACTIVE_CASING.get()))
-                    .where('K', controller(blocks(definition.get())))
+                    .where('K', controller(definition))
                     .where(' ', any())
                     .build())
             .workableCasingRenderer(GTCEu.id("block/casings/gcym/corrosion_proof_casing"), GTCEu.id("block/multiblock/gcym/large_centrifuge"))
@@ -441,7 +447,7 @@ public final class ManaMultiBlock {
                     .where('E', blocks(GTOBlocks.SOURCE_FIBER_MECHANICAL_CASING.get()))
                     .where('F', blocks(GTOBlocks.INFUSED_GOLD_REINFORCED_WOODEN_CASING.get()))
                     .where('G', blocks(RegistriesUtils.getBlock("ars_nouveau:magebloom_block")))
-                    .where('H', controller(blocks(definition.get())))
+                    .where('H', controller(definition))
                     .where(' ', any())
                     .build())
             .workableCasingRenderer(GTOCore.id("block/casings/source_fiber_mechanical_casing"), GTCEu.id("block/multiblock/gcym/large_centrifuge"))
@@ -463,7 +469,7 @@ public final class ManaMultiBlock {
                     .aisle("  D   D  ", " EEDDDEE ", "  EAFAE  ", " GGGPGGG ", "         ", "         ", "         ", "         ", "         ", " GGGGGGG ", "  EAFAE  ", " EEDDDEE ", "  D   D  ")
                     .aisle("  A   A  ", "  A   A  ", "   ABA   ", "  A   A  ", "  A   A  ", "         ", "  C   C  ", "         ", "  A   A  ", "  A   A  ", "   ABA   ", "  A   A  ", "  A   A  ")
                     .where('A', blocks(GTOBlocks.SOURCE_FIBER_MECHANICAL_CASING.get()))
-                    .where('B', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTOMaterials.Thaumium)))
+                    .where('B', GTOPredicates.frame(GTOMaterials.Thaumium))
                     .where('C', blocks(RegistriesUtils.getBlock("botania:bifrost_perm")))
                     .where('D', blocks(GTOBlocks.SOURCE_STONE_CASING.get()))
                     .where('E', blocks(GTOBlocks.SPELL_PRISM_CASING.get()))
@@ -476,16 +482,145 @@ public final class ManaMultiBlock {
                             .or(abilities(EXPORT_FLUIDS))
                             .or(abilities(EXPORT_ITEMS)))
                     .where('H', blocks(ChemicalHelper.getBlock(TagPrefix.block, Runerock)))
-                    .where('I', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTOMaterials.Laureril)))
-                    .where('J', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTOMaterials.Gaia)))
+                    .where('I', GTOPredicates.frame(GTOMaterials.Laureril))
+                    .where('J', GTOPredicates.frame(GTOMaterials.Gaia))
                     .where('K', blocks(RegistriesUtils.getBlock("botania:conjuration_catalyst")))
                     .where('L', blocks(RegistriesUtils.getBlock("botania:alchemy_catalyst")))
                     .where('M', blocks(RegistriesUtils.getBlock("botania:elf_glass")))
                     .where('N', blocks(RegistriesUtils.getBlock("extrabotany:dimension_catalyst")))
                     .where('J', blocks(GTOBlocks.STAR_STONE[0].get()))
-                    .where('P', controller(blocks(definition.get())))
+                    .where('P', controller(definition))
                     .where(' ', any())
                     .build())
             .workableCasingRenderer(GTOCore.id("block/casings/spell_prism_casing"), GTCEu.id("block/multiblock/fusion_reactor"))
+            .register();
+
+    public static final MultiblockMachineDefinition RESONANCE_FLOWER = multiblock("resonance_flower", "共鸣之花", ResonanceFlowerMachine::new)
+            .tooltips(GTOMachineTooltips.INSTANCE.getResonanceFlowerTooltips().getSupplier())
+            .specialParallelizableTooltips()
+            .parallelizableManaOverclock()
+            .recipeTypes(GTORecipeTypes.ELEMENTAL_RESONANCE)
+            .block(GTOBlocks.THE_ORIGIN_CASING)
+            .pattern(definition -> MultiBlockFileReader.start(definition)
+                    .where('A', blocks(GTOBlocks.THE_END_CASING.get()))
+                    .where('B', blocks(GTOBlocks.SPELL_PRISM_CASING.get()))
+                    .where('C', blocks(RegistriesUtils.getBlock("ars_nouveau:spell_prism")))
+                    .where('D', blocks(RegistriesUtils.getBlock("botania:elf_glass")))
+                    .where('E', blocks(RegistriesUtils.getBlock("ars_nouveau:source_gem_block")))
+                    .where('F', blocks(GTOBlocks.SOURCE_STONE_CASING.get()))
+                    .where('G', blocks(GTOBlocks.THE_CHAOS_CASING.get()))
+                    .where('H', blocks(RegistriesUtils.getBlock("botania:mana_diamond_block")))
+                    .where('I', blocks(GTOBlocks.TERRASTEEL_CASING.get()))
+                    .where('J', blocks(GTOBlocks.ORIGINAL_BRONZE_CASING.get()))
+                    .where('K', blocks(GTOBlocks.THE_ORIGIN_CASING.get()))
+                    .where('L', blocks(RegistriesUtils.getBlock("ars_nouveau:void_prism")))
+                    .where('M', blocks(GTOBlocks.THE_ORIGIN_CASING.get())
+                            .or(autoAbilities(definition.getRecipeTypes()))
+                            .or(abilities(GTOPartAbility.INPUT_MANA).setMaxGlobalLimited(16))
+                            .or(abilities(MAINTENANCE).setExactLimit(1)))
+                    .where('N', blocks(RegistriesUtils.getBlock("botania:dragonstone_block")))
+                    .where('O', blocks(RegistriesUtils.getBlock("botania:bifrost_perm")))
+                    .where('P', controller(definition))
+                    .where(' ', any())
+                    .build())
+            .workableCasingRenderer(GTOCore.id("block/casings/the_origin_casing"), GTCEu.id("block/multiblock/gcym/large_centrifuge"))
+            .register();
+
+    public static final MultiblockMachineDefinition COSMIC_CELESTIAL_SPIRE_OF_CONVERGENCE = multiblock("cosmic_celestial_spire_of_convergence", "寰宇星穹天体聚合圣坛", CosmicCelestialSpireOfConvergence::new)
+            .tooltips(GTOMachineTooltips.INSTANCE.getCosmicCelestialSpireOfConvergenceTooltips().getSupplier())
+            .recipeTypes(GTORecipeTypes.CELESTIAL_CONDENSER_RECIPES)
+            .block(GTOBlocks.SPELL_PRISM_CASING)
+            .pattern(definition -> MultiBlockFileReader.start(definition)
+                    .where('A', blocks(RegistriesUtils.getBlock("botania:polished_livingrock_wall")))
+                    .where('B', blocks(RegistriesUtils.getBlock("botania:shimmerrock")))
+                    .where('C', blocks(RegistriesUtils.getBlock("botania:elf_glass")))
+                    .where('D', blocks(RegistriesUtils.getBlock("botania:bifrost_perm")))
+                    .where('E', blocks(GTOBlocks.STAR_STONE[11].get()))
+                    .where('F', blocks(RegistriesUtils.getBlock("botania:corporea_brick_wall")))
+                    .where('G', GTOPredicates.frame(GTOMaterials.Orichalcos))
+                    .where('H', blocks(RegistriesUtils.getBlock("botania:prism")))
+                    .where('I', blocks(RegistriesUtils.getBlock("botania:mana_glass")))
+                    .where('J', blocks(GTOBlocks.HERETICAL_MECHANICAL_CASING.get()))
+                    .where('K', blocks(GTOBlocks.INFUSED_GOLD_REINFORCED_WOODEN_CASING.get()))
+                    .where('L', blocks(GTOBlocks.SPELL_PRISM_CASING.get()))
+                    .where('M', blocks(RegistriesUtils.getBlock("mythicbotany:alfsteel_pylon")))
+                    .where('N', GTOPredicates.frame(GTOMaterials.Photonium))
+                    .where('O', blocks(GTOBlocks.SPELL_PRISM_CASING.get())
+                            .or(autoAbilities(definition.getRecipeTypes()))
+                            .or(abilities(GTOPartAbility.INPUT_MANA).setMaxGlobalLimited(16))
+                            .or(abilities(MAINTENANCE).setExactLimit(1)))
+                    .where('P', blocks(GTOBlocks.THE_ORIGIN_CASING.get()))
+                    .where('Q', blocks(GTOBlocks.ORICHALCOS_CASING.get()))
+                    .where('R', blocks(GTOBlocks.SOURCE_FIBER_MECHANICAL_CASING.get()))
+                    .where('S', GTOPredicates.frame(GTOMaterials.Shadowium))
+                    .where('T', blocks(RegistriesUtils.getBlock("botania:mana_pool")))
+                    .where('U', blocks(RegistriesUtils.getBlock("botania:corporea_index")))
+                    .where('V', blocks(RegistriesUtils.getBlock("botania:cacophonium_block")))
+                    .where('W', blocks(RegistriesUtils.getBlock("botania:azulejo_2")))
+                    .where('X', blocks(GTOBlocks.THE_SOLARIS_LENS.get()))
+                    .where('[', blocks(RegistriesUtils.getBlock("ars_nouveau:sky_block")))
+                    .where('Y', controller(definition))
+                    .where('Z', blocks(RegistriesUtils.getBlock("botania:alfheim_portal")))
+                    .where(' ', any())
+                    .build())
+            .renderer(CosmicCelestialSpireOfConvergenceRenderer::new)
+            .hasTESR(true)
+            .register();
+
+    public static final MultiblockMachineDefinition MANA_FLOW_ASSEMBLER = multiblock("mana_beam_assembler", "魔力流合成台", ManaFlowAssembler::new)
+            .nonYAxisRotation()
+            .recipeTypes(GTORecipeTypes.MANA_FLOW_ASSEMBLER_RECIPES)
+            .block(GTOBlocks.MANASTEEL_CASING)
+            .tooltipsSupplier(GTOMachineTooltipsA.INSTANCE.getManaFlowAssemblerTooltips().getSupplier())
+            .pattern(definition -> FactoryBlockPattern.start(definition)
+                    .aisle("HBBBI", "H   I", "D   D", "E   E")
+                    .aisle("BFFFB", "     ", "     ", "     ")
+                    .aisle("BFGFB", "     ", "     ", "     ")
+                    .aisle("BFFFB", "     ", "     ", "     ")
+                    .aisle("ABBBC", "A   C", "D   D", "E   E")
+                    .where('A', blocks(RegistriesUtils.getBlock("ars_nouveau:blue_archwood_log")))
+                    .where('B', blocks(RegistriesUtils.getBlock("botania:livingrock_wall")))
+                    .where('C', blocks(RegistriesUtils.getBlock("ars_nouveau:purple_archwood_log")))
+                    .where('D', ManaFlowAssembler.MANA_POOL.get())
+                    .where('E', ManaFlowAssembler.MANA_PYLON.get())
+                    .where('F', blocks(GTOBlocks.MANASTEEL_CASING.get())
+                            .or(abilities(IMPORT_FLUIDS_1X).setMaxGlobalLimited(1)))
+                    .where('G', controller(definition))
+                    .where('H', blocks(RegistriesUtils.getBlock("ars_nouveau:red_archwood_log")))
+                    .where('I', blocks(RegistriesUtils.getBlock("ars_nouveau:green_archwood_log")))
+                    .where(' ', any())
+                    .build())
+            .workableCasingRenderer(GTOCore.id("block/casings/manasteel_casing"), GTCEu.id("block/multiblock/cleanroom"))
+            .register();
+
+    // 脉冲机器维护基座
+    public static final MultiblockMachineDefinition PULSE_MACHINE_MAINTENANCE_PEDESTAL = multiblock("pulse_machine_maintenance_pedestal", "脉冲机器维护基座", PulseMachineMaintenancePedestal::new)
+            .nonYAxisRotation()
+            .block(RegistriesUtils.getSupplierBlock("apotheosis:stoneshelf"))
+            .recipeTypes(GTORecipeTypes.DUMMY_RECIPES)
+            .tooltips(GTOMachineTooltipsA.INSTANCE.getPulseMachineMaintenancePedestalTooltips().getSupplier())
+            .pattern(definition -> FactoryBlockPattern.start(definition)
+                    .aisle("   BB", "     ", "     ", "     ", "     ", "     ", "     ", "     ")
+                    .aisle(" AABA", "     ", "     ", "     ", "     ", "     ", "     ", "     ")
+                    .aisle(" ACB ", "  D  ", "  E  ", "     ", "     ", "  F  ", "  G  ", "  F  ")
+                    .aisle("BABB ", "     ", "     ", "     ", "     ", "     ", "     ", "     ")
+                    .aisle("AA   ", "     ", "     ", "     ", "     ", "     ", "     ", "     ")
+                    .where('A', blocks(Blocks.CHISELED_QUARTZ_BLOCK))
+                    .where('B', blocks(RegistriesUtils.getBlock("ars_nouveau:smooth_sourcestone")))
+                    .where('C', blocks(RegistriesUtils.getBlock("gtceu:opal_block")))
+                    .where('D', controller(definition))
+                    .where('E', blocks(RegistriesUtils.getBlock("apotheosis:stoneshelf")))
+                    .where('F', blocks(RegistriesUtils.getBlock("botania:natura_pylon")))
+                    .where('G', blocks(ManaMachine.PULSE_CORE.get()))
+                    .where(' ', any())
+                    .build())
+            .renderer(() -> {
+                var r = new WorkableSidedCasingMachineRenderer("", GTCEu.id("block/multiblock/implosion_compressor"));
+                r.setTextureOverride(Map.of(
+                        "bottom", RLUtils.mc("block/polished_andesite"),
+                        "top", RLUtils.mc("block/polished_andesite"),
+                        "side", RLUtils.fromNamespaceAndPath(Apotheosis.MODID, "blocks/stoneshelf")));
+                return r;
+            })
             .register();
 }

@@ -3,6 +3,8 @@ package com.gtocore.common.machine.multiblock.part.ae;
 import com.gtocore.common.machine.multiblock.part.ae.slots.ExportOnlyAEItemSlot;
 import com.gtocore.common.machine.multiblock.part.ae.slots.ExportOnlyAEStockingItemList;
 
+import com.gtolib.GTOCore;
+
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.gui.fancy.ConfiguratorPanel;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiController;
@@ -23,12 +25,12 @@ import net.minecraft.world.phys.BlockHitResult;
 
 import appeng.api.config.Actionable;
 import appeng.api.networking.IGrid;
-import appeng.api.networking.storage.IStorageService;
 import appeng.api.stacks.AEItemKey;
 import appeng.api.stacks.AEKey;
 import appeng.api.stacks.GenericStack;
 import appeng.api.storage.MEStorage;
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
+
+import com.gto.datasynclib.annotations.SaveToDisk;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Comparator;
@@ -39,9 +41,9 @@ import javax.annotation.ParametersAreNonnullByDefault;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public class MEStockingBusPartMachine extends MEInputBusPartMachine implements IMEStockingPart, IStorageService.UpdateRequester {
+public class MEStockingBusPartMachine extends MEInputBusPartMachine implements IMEStockingPart {
 
-    @Persisted
+    @SaveToDisk
     private boolean autoPull;
 
     public MEStockingBusPartMachine(MetaMachineBlockEntity holder) {
@@ -160,22 +162,26 @@ public class MEStockingBusPartMachine extends MEInputBusPartMachine implements I
 
         var queue = new PriorityQueue<>(CONFIG_SIZE, Comparator.comparingLong(GenericStack::amount));
 
-        for (var entry : counter) {
-            long amount = entry.getLongValue();
-            if (amount <= 0) continue;
-            var what = entry.getKey();
-            if (!(what instanceof AEItemKey)) continue;
-            boolean free = queue.size() < CONFIG_SIZE;
-            if (!free && queue.peek().amount() >= amount) continue;
-            if (!test(what)) continue;
-            var stack = new GenericStack(what, amount);
-            if (testConfiguredInOtherPart(stack)) continue;
-            if (free) {
-                queue.offer(stack);
-            } else {
-                queue.poll();
-                queue.offer(stack);
+        try {
+            for (var entry : counter) {
+                long amount = entry.getLongValue();
+                if (amount <= 0) continue;
+                var what = entry.getKey();
+                if (!(what instanceof AEItemKey)) continue;
+                boolean free = queue.size() < CONFIG_SIZE;
+                if (!free && queue.peek().amount() >= amount) continue;
+                if (!test(what)) continue;
+                var stack = new GenericStack(what, amount);
+                if (testConfiguredInOtherPart(stack)) continue;
+                if (free) {
+                    queue.offer(stack);
+                } else {
+                    queue.poll();
+                    queue.offer(stack);
+                }
             }
+        } catch (NullPointerException e) {
+            GTOCore.LOGGER.error("exception in MEStockingBusPartMachine.refreshList");
         }
 
         int index;

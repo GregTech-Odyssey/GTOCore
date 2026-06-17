@@ -79,7 +79,7 @@ public final class BatteryRecipes {
         ASSEMBLER_RECIPES.recipeBuilder("battery_hull_hv")
                 .inputItems(cableGtSingle, Gold, 4)
                 .inputItems(plate, BatteryAlloy, 9)
-                .inputFluids(Polyethylene.getFluid(1296))
+                .inputFluids(Polyethylene, 1296)
                 .outputItems(BATTERY_HULL_HV)
                 .duration(300).EUt(4).save();
 
@@ -95,7 +95,7 @@ public final class BatteryRecipes {
         ASSEMBLER_RECIPES.recipeBuilder("battery_hull_iv")
                 .inputItems(cableGtSingle, Platinum, 2)
                 .inputItems(plate, RoseGold, 6)
-                .inputFluids(Polytetrafluoroethylene.getFluid(288))
+                .inputFluids(Polytetrafluoroethylene, 288)
                 .outputItems(BATTERY_HULL_MEDIUM_VANADIUM)
                 .duration(200).EUt(VA[EV]).save();
 
@@ -111,7 +111,7 @@ public final class BatteryRecipes {
         ASSEMBLER_RECIPES.recipeBuilder("battery_hull_zpm")
                 .inputItems(cableGtSingle, Naquadah, 2)
                 .inputItems(plate, Europium, 6)
-                .inputFluids(Polybenzimidazole.getFluid(288))
+                .inputFluids(Polybenzimidazole, 288)
                 .outputItems(BATTERY_HULL_MEDIUM_NAQUADRIA)
                 .duration(200).EUt(VA[LuV]).save();
 
@@ -119,7 +119,7 @@ public final class BatteryRecipes {
         ASSEMBLER_RECIPES.recipeBuilder("battery_hull_uv")
                 .inputItems(cableGtSingle, YttriumBariumCuprate, 2)
                 .inputItems(plate, Americium, 18)
-                .inputFluids(Polybenzimidazole.getFluid(576))
+                .inputFluids(Polybenzimidazole, 576)
                 .outputItems(BATTERY_HULL_LARGE_NAQUADRIA)
                 .duration(300).EUt(VA[ZPM]).save();
 
@@ -262,13 +262,13 @@ public final class BatteryRecipes {
 
         AUTOCLAVE_RECIPES.recipeBuilder("energy_crystal_water")
                 .inputItems(ENERGIUM_DUST, 9)
-                .inputFluids(Water.getFluid(1000))
+                .inputFluids(Water, 1000)
                 .outputItems(ENERGIUM_CRYSTAL)
                 .duration(1800).EUt(VA[HV]).save();
 
         AUTOCLAVE_RECIPES.recipeBuilder("energy_crystal_distilled")
                 .inputItems(ENERGIUM_DUST, 9)
-                .inputFluids(DistilledWater.getFluid(1000))
+                .inputFluids(DistilledWater, 1000)
                 .outputItems(ENERGIUM_CRYSTAL)
                 .duration(1200).EUt(320).save();
 
@@ -294,13 +294,13 @@ public final class BatteryRecipes {
 
         AUTOCLAVE_RECIPES.recipeBuilder("lapotron_gem_water")
                 .inputItems(dust, Lapotron, 15)
-                .inputFluids(Water.getFluid(1000))
+                .inputFluids(Water, 1000)
                 .outputItems(gem, Lapotron)
                 .duration(1800).EUt(VA[HV]).save();
 
         AUTOCLAVE_RECIPES.recipeBuilder("lapotron_gem_distilled")
                 .inputItems(dust, Lapotron, 15)
-                .inputFluids(DistilledWater.getFluid(1000))
+                .inputFluids(DistilledWater, 1000)
                 .outputItems(gem, Lapotron)
                 .duration(1200).EUt(320).save();
 

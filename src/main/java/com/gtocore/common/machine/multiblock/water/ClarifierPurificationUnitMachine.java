@@ -3,14 +3,14 @@ package com.gtocore.common.machine.multiblock.water;
 import com.gtocore.common.data.GTOItems;
 
 import com.gtolib.api.machine.feature.multiblock.IFluidRendererMachine;
-import com.gtolib.api.recipe.Recipe;
 import com.gtolib.api.recipe.RecipeBuilder;
-import com.gtolib.api.recipe.RecipeRunner;
 import com.gtolib.utils.MachineUtils;
 import com.gtolib.utils.NumberUtils;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
+import com.gregtechceu.gtceu.api.recipe.GTRecipe;
+import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
 import net.minecraft.ChatFormatting;
@@ -22,10 +22,8 @@ import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
 
 import com.fast.fastcollection.OpenCacheHashSet;
-import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import com.lowdragmc.lowdraglib.syncdata.annotation.RequireRerender;
-import org.jetbrains.annotations.Nullable;
+import com.gto.datasynclib.annotations.SaveToDisk;
+import com.gto.datasynclib.annotations.SyncToClient;
 
 import java.util.List;
 import java.util.Set;
@@ -36,15 +34,13 @@ import javax.annotation.ParametersAreNonnullByDefault;
 @MethodsReturnNonnullByDefault
 public final class ClarifierPurificationUnitMachine extends WaterPurificationUnitMachine implements IFluidRendererMachine {
 
-    private static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(ClarifierPurificationUnitMachine.class);
     private static final Fluid AIR = GTMaterials.Air.getFluid();
 
-    @Persisted
+    @SaveToDisk
     private int count;
-    @DescSynced
-    @RequireRerender
+    @SyncToClient(notifyUpdate = true)
     private final Set<BlockPos> fluidBlockOffsets = new OpenCacheHashSet<>();
-    @DescSynced
+    @SyncToClient
     private Fluid cachedFluid;
 
     public ClarifierPurificationUnitMachine(MetaMachineBlockEntity holder) {
@@ -52,9 +48,9 @@ public final class ClarifierPurificationUnitMachine extends WaterPurificationUni
     }
 
     @Override
-    protected boolean beforeWorking(@Nullable Recipe recipe) {
+    public void beforeWorking(RecipeHandlerUnit unit, GTRecipe recipe) {
         cachedFluid = IFluidRendererMachine.getFluid(recipe);
-        return super.beforeWorking(recipe);
+        super.beforeWorking(unit, recipe);
     }
 
     @Override
@@ -89,16 +85,17 @@ public final class ClarifierPurificationUnitMachine extends WaterPurificationUni
     }
 
     @Override
-    long before() {
+    long prepareRecipe(RecipeHandlerUnit unit) {
         eut = 0;
         if (count > 100) {
+            if (!simulateOutputItem(GTOItems.SCRAP.asItem(), count / 20)) return 0;
             if (inputFluid(AIR, count * 10000L) && inputFluid(Fluids.WATER, (200L + GTValues.RNG.nextInt(100)) * 1000) && outputItem(GTOItems.SCRAP.asItem(), count / 20)) {
                 count = 0;
             } else {
                 return 0;
             }
         }
-        long inputCount = Math.min(parallel(), getFluidAmount(Fluids.WATER)[0]);
+        long inputCount = Math.min(parallel(), unit.getFluidAmount(true, Fluids.WATER)[0]);
         if (inputCount > 0) {
             long outputCount = inputCount * 9 / 10;
             RecipeBuilder builder = getRecipeBuilder();
@@ -109,7 +106,7 @@ public final class ClarifierPurificationUnitMachine extends WaterPurificationUni
                 builder.outputFluids(Fluids.WATER, outputCount);
             }
             recipe = builder.buildRawRecipe();
-            if (RecipeRunner.matchRecipe(this, recipe)) {
+            if (matchRecipe(unit, recipe)) {
                 count += NumberUtils.chanceOccurrences((int) Math.min(10000, inputCount / 1000), 3, 800);
                 calculateVoltage(inputCount);
             }

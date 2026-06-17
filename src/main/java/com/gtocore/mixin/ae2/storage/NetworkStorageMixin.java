@@ -2,20 +2,20 @@ package com.gtocore.mixin.ae2.storage;
 
 import com.gtocore.common.machine.multiblock.part.ae.StorageAccessPartMachine;
 
-import com.gtolib.utils.holder.IntObjectHolder;
-
 import appeng.api.config.Actionable;
 import appeng.api.networking.security.IActionSource;
 import appeng.api.stacks.AEKey;
 import appeng.api.stacks.KeyCounter;
 import appeng.api.storage.MEStorage;
 import appeng.me.storage.NetworkStorage;
-import it.unimi.dsi.fastutil.objects.ObjectArrayList;
+
+import com.gto.datasynclib.util.holder.IntObjectHolder;
 import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NavigableMap;
 
@@ -23,7 +23,7 @@ import java.util.NavigableMap;
 public abstract class NetworkStorageMixin {
 
     @Unique
-    private ObjectArrayList<IntObjectHolder<MEStorage>> gtolib$inventory;
+    private List<IntObjectHolder<MEStorage>> gtolib$inventory;
 
     @Mutable
     @Shadow(remap = false)
@@ -44,7 +44,7 @@ public abstract class NetworkStorageMixin {
 
     @Inject(method = "<init>", at = @At("TAIL"), remap = false)
     private void gtolib$init(CallbackInfo ci) {
-        gtolib$inventory = new ObjectArrayList<>();
+        gtolib$inventory = new ArrayList<>();
         priorityInventory = null;
     }
 
@@ -71,10 +71,7 @@ public abstract class NetworkStorageMixin {
 
     @Inject(method = "unmount", at = @At(value = "INVOKE", target = "Ljava/util/NavigableMap;entrySet()Ljava/util/Set;"), remap = false, cancellable = true)
     private void gtolib$unmount(MEStorage inventory, CallbackInfo ci) {
-        var ii = gtolib$inventory.listIterator(0);
-        while (ii.hasNext()) {
-            if (ii.next().obj == inventory) ii.remove();
-        }
+        gtolib$inventory.removeIf(meStorageIntObjectHolder -> meStorageIntObjectHolder.obj == inventory);
         ci.cancel();
     }
 
@@ -88,7 +85,7 @@ public abstract class NetworkStorageMixin {
         var remaining = amount;
         this.mountsInUse = true;
         try {
-            var ii = gtolib$inventory.listIterator(0);
+            var ii = gtolib$inventory.iterator();
             while (ii.hasNext() && remaining > 0) {
                 var inv = ii.next().obj;
                 if (isQueuedForRemoval(inv)) continue;
@@ -134,6 +131,7 @@ public abstract class NetworkStorageMixin {
         if (gtocore$inUse) return;
         gtocore$inUse = true;
         try {
+            if (gtolib$inventory.isEmpty()) return;
             gtolib$inventory.forEach(entry -> entry.obj.getAvailableStacks(out));
         } finally {
             gtocore$inUse = false;

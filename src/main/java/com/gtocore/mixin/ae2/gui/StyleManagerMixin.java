@@ -1,6 +1,7 @@
 package com.gtocore.mixin.ae2.gui;
 
 import appeng.client.gui.style.StyleManager;
+
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
@@ -16,6 +17,10 @@ public class StyleManagerMixin {
             return "/screens/terminals/modify_pattern_encoding_terminal.json";
         } else if (path.contains("ex_pattern_provider.json")) {
             return "/screens/modify_pattern_provider.json";
+        } else if (path.contains("tag_export_bus.json")) {
+            return "/screens/modifying/tag_export_bus.json";
+        } else if (path.contains("tag_storage_bus.json")) {
+            return "/screens/modifying/tag_storage_bus.json";
         }
         return path;
     }

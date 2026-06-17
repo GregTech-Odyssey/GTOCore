@@ -21,8 +21,6 @@ import com.gregtechceu.gtceu.data.recipe.VanillaRecipeHelper;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.common.Tags;
 
-import com.enderio.machines.common.init.MachineBlocks;
-
 import static com.gregtechceu.gtceu.api.GTValues.*;
 import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.*;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
@@ -319,7 +317,7 @@ public final class MachineRecipe {
         VanillaRecipeHelper.addShapedRecipe(true, GTOCore.id("steam_vacuum_pump"), GTOMachines.STEAM_VACUUM_PUMP.first().asItem(), "DSD",
                 "SMS", "GSG", 'M', GTBlocks.BRONZE_BRICKS_HULL.asItem(), 'S', new MaterialEntry(pipeNormalFluid, Bronze), 'D', GTMachines.BRONZE_DRUM.asItem(), 'G', new MaterialEntry(gearSmall, Bronze));
         VanillaRecipeHelper.addShapedRecipe(true, GTOCore.id("steam_alloy_smelter_bronze"), GTMachines.STEAM_ALLOY_SMELTER.left().asItem(),
-                "XXX", "FMF", "XXX", 'M', GTBlocks.BRONZE_BRICKS_HULL.asItem(), 'X', new MaterialEntry(TagPrefix.pipeSmallFluid, GTMaterials.Bronze), 'F', MachineBlocks.PRIMITIVE_ALLOY_SMELTER.asItem());
+                "XXX", "FMF", "XXX", 'M', GTBlocks.BRONZE_BRICKS_HULL.asItem(), 'X', new MaterialEntry(TagPrefix.pipeSmallFluid, GTMaterials.Bronze), 'F', Blocks.FURNACE.asItem());
 
         ASSEMBLER_RECIPES.recipeBuilder("infinity_fluid_drilling_rig")
                 .inputItems(GTMachines.HULL[UV])
@@ -336,12 +334,12 @@ public final class MachineRecipe {
                 .inputItems(MultiBlockA.LARGE_PYROLYSE_OVEN.asItem(), 16)
                 .inputItems(GCYMMachines.LARGE_DISTILLERY.asItem(), 16)
                 .inputItems(CustomTags.ZPM_CIRCUITS, 64)
-                .inputItems(GTItems.EMITTER_LuV.asItem(), 32)
+                .inputItems(GTItems.EMITTER_LuV, 32)
                 .inputItems(pipeHugeFluid, StainlessSteel, 64)
-                .inputItems(GTItems.ELECTRIC_PUMP_IV.asItem(), 32)
+                .inputItems(GTItems.ELECTRIC_PUMP_IV, 32)
                 .inputItems(plate, WatertightSteel, 64)
                 .inputItems(plateDouble, StainlessSteel, 64)
-                .inputFluids(SolderingAlloy.getFluid(5184))
+                .inputFluids(SolderingAlloy, 5184)
                 .outputItems(MultiBlockB.WOOD_DISTILLATION)
                 .duration(800).EUt(VA[ZPM])
                 .save();

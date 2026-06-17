@@ -4,21 +4,24 @@ import com.gtocore.api.pattern.GTOPredicates;
 import com.gtocore.client.renderer.StructurePattern;
 import com.gtocore.client.renderer.StructureVBO;
 import com.gtocore.common.data.GTOBlocks;
+import com.gtocore.common.data.GTORecipeDataKeys;
 
 import com.gtolib.api.machine.feature.multiblock.ITierCasingMachine;
 import com.gtolib.api.machine.multiblock.NoEnergyMultiblockMachine;
-import com.gtolib.api.machine.trait.CustomRecipeLogic;
 import com.gtolib.api.machine.trait.TierCasingTrait;
-import com.gtolib.api.recipe.Recipe;
+import com.gtolib.api.recipe.TierDataKey;
 import com.gtolib.utils.ClientUtil;
 import com.gtolib.utils.MultiBlockFileReader;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
+import com.gregtechceu.gtceu.api.machine.TickableSubscription;
 import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility;
-import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.api.pattern.BlockPattern;
 import com.gregtechceu.gtceu.api.pattern.Predicates;
+import com.gregtechceu.gtceu.api.recipe.GTRecipeDefinition;
+import com.gregtechceu.gtceu.api.recipe.handler.ICustomRecipeLogicHolder;
+import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
@@ -26,45 +29,53 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluids;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
-import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import it.unimi.dsi.fastutil.objects.Object2IntMap;
+import com.gto.datasynclib.annotations.SaveToDisk;
+import com.gto.datasynclib.annotations.SyncToClient;
+import it.unimi.dsi.fastutil.objects.Reference2IntMap;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
 import static com.gtocore.common.block.BlockMap.GRAVITONFLOWMAP;
-import static com.gtolib.api.GTOValues.GRAVITON_FLOW_TIER;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public final class GodForgeMachine extends NoEnergyMultiblockMachine implements ITierCasingMachine {
+public final class GodForgeMachine extends NoEnergyMultiblockMachine implements ITierCasingMachine, ICustomRecipeLogicHolder {
 
-    @DescSynced
-    @Persisted
+    @SyncToClient
+    @SaveToDisk
     public float color;
     private boolean isRemoved = false;
     public long rotation;
     public int timer;
-    @DescSynced
-    @Persisted
+    @SyncToClient
+    @SaveToDisk
     public int tier;
+
+    private TickableSubscription rotationSubscription;
 
     private final TierCasingTrait tierCasingTrait;
 
     public GodForgeMachine(MetaMachineBlockEntity holder) {
         super(holder);
-        tierCasingTrait = new TierCasingTrait(this, GRAVITON_FLOW_TIER);
+        tierCasingTrait = new TierCasingTrait(this, GTORecipeDataKeys.GRAVITON_FLOW_TIER);
     }
 
     @Override
-    public Object2IntMap<String> getCasingTiers() {
+    public Reference2IntMap<TierDataKey> getCasingTiers() {
         return tierCasingTrait.getCasingTiers();
     }
 
     @Override
-    public void clientTick() {
-        super.clientTick();
+    public void onStructureFormedClient() {
+        super.onStructureFormedClient();
+        rotationSubscription = subscribeClientTick(rotationSubscription, this::rotation);
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    private void rotation() {
         if (this.isActive() || this.timer > this.rotation) {
             this.rotation++;
             this.timer = 20;
@@ -88,8 +99,8 @@ public final class GodForgeMachine extends NoEnergyMultiblockMachine implements 
     @Override
     public void onStructureFormed() {
         super.onStructureFormed();
-        color = 1 - 0.1F * getCasingTier(GRAVITON_FLOW_TIER);
-        tier = getCasingTier(GRAVITON_FLOW_TIER);
+        color = 1 - 0.1F * getCasingTier(GTORecipeDataKeys.GRAVITON_FLOW_TIER);
+        tier = getCasingTier(GTORecipeDataKeys.GRAVITON_FLOW_TIER);
     }
 
     private BlockPos getRealPos(int x, int y, int z) {
@@ -166,7 +177,7 @@ public final class GodForgeMachine extends NoEnergyMultiblockMachine implements 
 
     public static BlockPattern getBlockPattern(MultiblockMachineDefinition definition) {
         return MultiBlockFileReader.start(definition)
-                .where('~', Predicates.controller(Predicates.blocks(definition.get())))
+                .where('~', Predicates.controller(definition))
                 .where(' ', Predicates.any())
                 .where('A', Predicates.blocks(GTOBlocks.TRANSCENDENTALLY_AMPLIFIED_MAGNETIC_CONFINEMENT_CASING.get()).or(Predicates.abilities(PartAbility.IMPORT_FLUIDS).setMaxGlobalLimited(1)))
                 .where('B', Predicates.blocks(GTOBlocks.SINGULARITY_REINFORCED_STELLAR_SHIELDING_CASING.get()))
@@ -174,17 +185,13 @@ public final class GodForgeMachine extends NoEnergyMultiblockMachine implements 
                 .where('D', Predicates.blocks(GTOBlocks.BOUNDLESS_GRAVITATIONALLY_SEVERED_STRUCTURE_CASING.get()))
                 .where('E', Predicates.blocks(GTOBlocks.TRANSCENDENTALLY_AMPLIFIED_MAGNETIC_CONFINEMENT_CASING.get()))
                 .where('F', Predicates.blocks(GTOBlocks.STELLAR_ENERGY_SIPHON_CASING.get()))
-                .where('G', GTOPredicates.tierBlock(GRAVITONFLOWMAP, GRAVITON_FLOW_TIER))
+                .where('G', GTOPredicates.tierBlock(GRAVITONFLOWMAP, GTORecipeDataKeys.GRAVITON_FLOW_TIER))
                 .where('H', Predicates.blocks(GTOBlocks.SPATIALLY_TRANSCENDENT_GRAVITATIONAL_LENS_BLOCK.get()))
                 .build();
     }
 
-    private Recipe getRecipe() {
-        return getRecipeBuilder().inputFluids(Fluids.WATER, 100).duration(20).buildRawRecipe();
-    }
-
     @Override
-    public RecipeLogic createRecipeLogic(Object... args) {
-        return new CustomRecipeLogic(this, this::getRecipe, true);
+    public GTRecipeDefinition createCustomRecipe(RecipeHandlerUnit unit) {
+        return getRecipeBuilder().inputFluids(Fluids.WATER, 100).duration(20).build();
     }
 }

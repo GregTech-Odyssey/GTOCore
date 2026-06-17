@@ -4,7 +4,7 @@ import com.gtocore.integration.emi.multipage.MultiblockInfoEmiRecipe;
 
 import com.gtolib.api.gui.PatternSlotWidget;
 import com.gtolib.api.gui.SelectedSlotWidget;
-import com.gtolib.api.item.ItemHandlerModifiable;
+import com.gtolib.api.item.ItemStackHandler;
 import com.gtolib.api.machine.MultiblockDefinition;
 import com.gtolib.api.machine.feature.multiblock.IMultiStructureMachine;
 
@@ -16,6 +16,7 @@ import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiController;
 import com.gregtechceu.gtceu.api.machine.multiblock.part.MultiblockPartMachine;
 import com.gregtechceu.gtceu.api.pattern.BlockPattern;
+import com.gregtechceu.gtceu.api.pattern.Predicates;
 import com.gregtechceu.gtceu.api.pattern.TraceabilityPredicate;
 import com.gregtechceu.gtceu.api.pattern.predicates.SimplePredicate;
 import com.gregtechceu.gtceu.config.ConfigHolder;
@@ -28,6 +29,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
@@ -37,7 +39,10 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
+import com.google.common.collect.ObjectArrays;
+import com.gto.registrate.ICustomfCategoryFill;
 import com.lowdragmc.lowdraglib.client.scene.WorldSceneRenderer;
+import com.lowdragmc.lowdraglib.client.utils.RenderBufferUtils;
 import com.lowdragmc.lowdraglib.client.utils.RenderUtils;
 import com.lowdragmc.lowdraglib.gui.editor.ColorPattern;
 import com.lowdragmc.lowdraglib.gui.texture.ColorRectTexture;
@@ -56,10 +61,7 @@ import it.unimi.dsi.fastutil.objects.Reference2ReferenceOpenHashMap;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Vector3f;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.LongStream;
 
@@ -118,8 +120,9 @@ public final class PatternPreview extends WidgetGroup {
             if (!isPartHighlighting) return;
             patterns[index].partsSet.forEach(
                     pos -> {
-                        var poseStack = new PoseStack();
                         var pos0 = BlockPos.of(pos);
+                        if (layer != -1 && layer + patterns[index].minY != pos0.getY()) return;
+                        var poseStack = new PoseStack();
                         RenderSystem.disableDepthTest();
                         // RenderSystem.disableCull();
                         RenderSystem.enableBlend();
@@ -132,6 +135,32 @@ public final class PatternPreview extends WidgetGroup {
                         RenderSystem.setShader(GameRenderer::getPositionColorShader);
                         buffer.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR);
                         RenderUtils.renderCubeFace(poseStack, buffer, -0.5F, -0.5F, -0.5F, 0.5F, 0.5F, 0.5F, 0.2f, 0.6f, 0.2f, 0.3f);
+                        tesselator.end();
+                        poseStack.popPose();
+                        RenderSystem.blendFunc(770, 771);
+                        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+                        // RenderSystem.enableCull();
+                        RenderSystem.enableDepthTest();
+                    });
+            patterns[index].placeHolderSet.forEach(
+                    pos -> {
+                        var poseStack = new PoseStack();
+                        var pos0 = BlockPos.of(pos);
+                        RenderSystem.disableDepthTest();
+                        // RenderSystem.disableCull();
+                        RenderSystem.enableBlend();
+                        RenderSystem.blendFunc(770, 1);
+                        poseStack.pushPose();
+                        poseStack.translate((double) pos0.getX() + (double) 0.5F, (double) pos0.getY() + (double) 0.5F, (double) pos0.getZ() + (double) 0.5F);
+                        poseStack.scale(1.02f, 1.02f, 1.02f);
+                        Tesselator tesselator = Tesselator.getInstance();
+                        BufferBuilder buffer = tesselator.getBuilder();
+                        RenderSystem.setShader(GameRenderer::getRendertypeLinesShader);
+                        RenderSystem.lineWidth(6);
+                        buffer.begin(VertexFormat.Mode.LINES, DefaultVertexFormat.POSITION_COLOR_NORMAL);
+                        // RenderUtils.renderCubeFace(poseStack, buffer, -0.5F, -0.5F, -0.5F, 0.5F, 0.5F, 0.5F, 0.2f,
+                        // 0.2f, 0.6f, 0.3f);
+                        RenderBufferUtils.drawCubeFrame(poseStack, buffer, -0.5F, -0.5F, -0.5F, 0.5F, 0.5F, 0.5F, 0.2f, 0.2f, 0.6f, 0.8f);
                         tesselator.end();
                         poseStack.popPose();
                         RenderSystem.blendFunc(770, 771);
@@ -201,7 +230,7 @@ public final class PatternPreview extends WidgetGroup {
     private void setupScene(MBPattern pattern) {
         LongStream longStream = pattern.predicateMap.keySet().longStream();
         if (pattern.controllerBase.isFormed()) {
-            LongSet set = pattern.controllerBase.getMultiblockState().getMatchContext().getOrDefault("renderMask", LongSets.EMPTY_SET);
+            LongSet set = pattern.controllerBase.getMultiblockState().getMatchContext().getOrDefault(Predicates.DataKey.RENDER_MASK, LongSets.EMPTY_SET);
             if (!set.isEmpty()) {
                 sceneWidget.setRenderedCore(longStream.filter(pos -> !set.contains(pos)).mapToObj(BlockPos::of).filter(pos -> layer == -1 || layer + pattern.minY == pos.getY()).collect(Collectors.toList()), null);
             } else {
@@ -242,7 +271,7 @@ public final class PatternPreview extends WidgetGroup {
         }
         slotWidgets = new PatternSlotWidget[itemList.size()];
         for (int i = 0; i < slotWidgets.length; i++) {
-            slotWidgets[i] = new PatternSlotWidget(new ItemHandlerModifiable(itemList.get(i)), i, 4 + i * 18, 0);
+            slotWidgets[i] = new PatternSlotWidget(new ItemStackHandler(itemList.get(i)), i, 4 + i * 18, 0);
             scrollableWidgetGroup.addWidget(slotWidgets[i]);
         }
     }
@@ -275,7 +304,14 @@ public final class PatternPreview extends WidgetGroup {
             List<List<ItemStack>> candidateStacks = new ArrayList<>();
             List<List<Component>> predicateTips = new ArrayList<>();
             for (SimplePredicate simplePredicate : predicates) {
-                List<ItemStack> itemStacks = simplePredicate.getCandidates();
+                List<ItemStack> itemStacks = new ArrayList<>();
+                for (ItemStack stack : simplePredicate.getCandidates()) {
+                    if (stack.getItem() instanceof ICustomfCategoryFill customfCategoryFill) {
+                        customfCategoryFill.fillItemCategory(itemStacks::add);
+                    } else {
+                        itemStacks.add(stack);
+                    }
+                }
                 if (!itemStacks.isEmpty()) {
                     candidateStacks.add(itemStacks);
                     predicateTips.add(simplePredicate.getToolTips(predicate));
@@ -310,7 +346,7 @@ public final class PatternPreview extends WidgetGroup {
         }
         state.clearCache();
         if (controllerBase.isFormed()) {
-            LongSet set = state.getMatchContext().getOrDefault("renderMask", LongSets.EMPTY_SET);
+            LongSet set = state.getMatchContext().getOrDefault(Predicates.DataKey.RENDER_MASK, LongSets.EMPTY_SET);
             if (!set.isEmpty()) {
                 sceneWidget.setRenderedCore(poses.longStream().filter(pos -> !set.contains(pos)).mapToObj(BlockPos::of).toList(), null);
             } else {
@@ -322,13 +358,9 @@ public final class PatternPreview extends WidgetGroup {
     }
 
     private MBPattern initializePattern(MultiblockDefinition definition, MultiblockDefinition.Pattern pattern, int index) {
-        var patternMap = pattern.blockMap();
-        var pos = pattern.multiController();
-        if (patternMap == null) {
-            var pair = pattern.initialize(definition, index);
-            patternMap = pair.getSecond();
-            pos = pair.getFirst();
-        }
+        var pair = pattern.initialize(definition, index);
+        var patternMap = pair.getSecond();
+        var pos = pair.getFirst();
         Long2ReferenceOpenHashMap<BlockInfo> blockMap = new Long2ReferenceOpenHashMap<>(patternMap.values().stream().mapToInt(LongOpenHashSet::size).sum());
         patternMap.forEach((b, i) -> i.forEach(p -> blockMap.put(p, b)));
         IMultiController controllerBase = blockMap.get(pos.asLong()).getBlockEntity(pos) instanceof MetaMachineBlockEntity blockEntity ? blockEntity.metaMachine instanceof IMultiController controller ? controller : null : null;
@@ -337,8 +369,8 @@ public final class PatternPreview extends WidgetGroup {
             LEVEL.addBlock(BlockPos.of(entry.getLongKey()), entry.getValue());
         }
         if (controllerBase != null) {
-            controllerBase.self().holder.getSelf().setLevel(LEVEL);
-            LEVEL.setInnerBlockEntity(controllerBase.self().holder.getSelf());
+            controllerBase.self().holder.setLevel(LEVEL);
+            LEVEL.setInnerBlockEntity(controllerBase.self().holder);
         }
         Long2ObjectOpenHashMap<TraceabilityPredicate> predicateMap = controllerBase == null ? null : new Long2ObjectOpenHashMap<>();
         if (controllerBase != null) {
@@ -408,6 +440,7 @@ public final class PatternPreview extends WidgetGroup {
         @NotNull
         private final IMultiController controllerBase;
         private final LongSet partsSet;
+        private final LongSet placeHolderSet;
         private final int maxY;
         private final int minY;
         private final BlockPos center;
@@ -415,26 +448,24 @@ public final class PatternPreview extends WidgetGroup {
         private MBPattern(@NotNull Long2ReferenceOpenHashMap<BlockInfo> blockMap, @NotNull List<ItemStack> parts, @NotNull Long2ObjectOpenHashMap<TraceabilityPredicate> predicateMap, @NotNull IMultiController controllerBase) {
             this.parts = parts;
             this.partsSet = new LongOpenHashSet();
+            this.placeHolderSet = new LongOpenHashSet();
             this.predicateMap = predicateMap;
             this.controllerBase = controllerBase;
             this.center = controllerBase.self().getPos();
             for (var entry : predicateMap.long2ObjectEntrySet()) {
                 var pos = entry.getLongKey();
                 var predicate = entry.getValue();
-                predicate.common.stream()
+                var simplePredicates = ObjectArrays.concat(predicate.common.toArray(new SimplePredicate[0]), predicate.limited.toArray(new SimplePredicate[0]), SimplePredicate.class);
+                Arrays.stream(simplePredicates)
                         .map(s -> s.blockInfo.get())
                         .filter(Objects::nonNull)
-                        .filter(s -> s.hasBlockEntity() &&
-                                s.getBlockEntity(BlockPos.of(entry.getLongKey())) instanceof MetaMachineBlockEntity mmbe &&
-                                mmbe.getMetaMachine() instanceof MultiblockPartMachine)
-                        .forEach(s -> partsSet.add(pos));
-                predicate.limited.stream()
-                        .map(s -> s.blockInfo.get())
-                        .filter(Objects::nonNull)
-                        .filter(s -> s.hasBlockEntity() &&
-                                s.getBlockEntity(BlockPos.of(entry.getLongKey())) instanceof MetaMachineBlockEntity mmbe &&
-                                mmbe.getMetaMachine() instanceof MultiblockPartMachine)
-                        .forEach(s -> partsSet.add(pos));
+                        .forEach(s -> {
+                            if (s.hasBlockEntity() &&
+                                    s.getBlockEntity(BlockPos.of(entry.getLongKey())) instanceof MetaMachineBlockEntity mmbe &&
+                                    mmbe.getMetaMachine() instanceof MultiblockPartMachine)
+                                partsSet.add(pos);
+                            if (s.getItemStackForm().is(Items.BARRIER)) placeHolderSet.add(pos);
+                        });
             }
             int min = Integer.MAX_VALUE;
             int max = Integer.MIN_VALUE;

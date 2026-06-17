@@ -14,12 +14,13 @@ import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.common.data.GTMaterialItems;
 import com.gregtechceu.gtceu.integration.jade.provider.*;
 
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 
+import com.gto.registrate.util.entry.ItemProviderEntry;
 import com.hepdd.gtmthings.integration.jade.provider.WirelessEnergyHatchProvider;
-import com.tterrag.registrate.util.entry.ItemProviderEntry;
 import snownee.jade.addon.harvest.HarvestToolProvider;
 import snownee.jade.addon.harvest.SimpleToolHandler;
 import snownee.jade.api.IWailaClientRegistration;
@@ -43,6 +44,8 @@ public final class GTOJadePlugin implements IWailaPlugin {
         registration.registerBlockDataProvider(new ControllableBlockProvider(), MetaMachineBlockEntity.class);
         registration.registerBlockDataProvider(BlockEntityProvider.INSTANCE, BlockEntity.class);
         registration.registerBlockDataProvider(new RecipeLogicProvider(), MetaMachineBlockEntity.class);
+        registration.registerBlockDataProvider(new MaintenanceHatchProvider(), MetaMachineBlockEntity.class);
+        registration.registerBlockDataProvider(new MaintenanceParamProvider(), MetaMachineBlockEntity.class);
         registration.registerBlockDataProvider(new ParallelProvider(), MetaMachineBlockEntity.class);
         registration.registerBlockDataProvider(new RecipeOutputProvider(), MetaMachineBlockEntity.class);
         registration.registerBlockDataProvider(new MultiblockStructureProvider(), MetaMachineBlockEntity.class);
@@ -62,7 +65,6 @@ public final class GTOJadePlugin implements IWailaPlugin {
         registration.registerBlockDataProvider(new ManaContainerBlockProvider(), ManaMachineBlockEntity.class);
         registration.registerBlockDataProvider(new AccelerateBlockProvider(), BlockEntity.class);
         registration.registerBlockDataProvider(new WirelessGridProvider(), MetaMachineBlockEntity.class);
-        registration.registerBlockDataProvider(new MaintenanceHatchProvider(), MetaMachineBlockEntity.class);
 
         registration.registerBlockDataProvider(new AEGridProvider(), BlockEntity.class);
     }
@@ -77,6 +79,8 @@ public final class GTOJadePlugin implements IWailaPlugin {
         registration.registerBlockComponent(new ControllableBlockProvider(), MetaMachineBlock.class);
         registration.registerBlockComponent(BlockEntityProvider.INSTANCE, Block.class);
         registration.registerBlockComponent(new RecipeLogicProvider(), MetaMachineBlock.class);
+        registration.registerBlockComponent(new MaintenanceHatchProvider(), MetaMachineBlock.class);
+        registration.registerBlockComponent(new MaintenanceParamProvider(), MetaMachineBlock.class);
         registration.registerBlockComponent(new ParallelProvider(), MetaMachineBlock.class);
         registration.registerBlockComponent(new RecipeOutputProvider(), MetaMachineBlock.class);
         registration.registerBlockComponent(new MultiblockStructureProvider(), MetaMachineBlock.class);
@@ -96,15 +100,17 @@ public final class GTOJadePlugin implements IWailaPlugin {
         registration.registerBlockComponent(new ManaContainerBlockProvider(), MetaMachineBlock.class);
         registration.registerBlockComponent(new AccelerateBlockProvider(), Block.class);
         registration.registerBlockComponent(new WirelessGridProvider(), MetaMachineBlock.class);
-        registration.registerBlockComponent(new MaintenanceHatchProvider(), MetaMachineBlock.class);
 
         registration.registerBlockComponent(new AEGridProvider(), Block.class);
+
+        registration.registerBlockComponent(AEItemAmountProvider.INSTANCE, Block.class);
+        registration.registerEntityComponent(AEItemAmountProvider.INSTANCE, ItemEntity.class);
     }
 
     static {
         GTMaterialItems.TOOL_ITEMS.columnMap().forEach((type, map) -> {
-            if (type.harvestTags.isEmpty() || type.harvestTags.get(0).location().getNamespace().equals("minecraft")) return;
-            HarvestToolProvider.registerHandler(new SimpleToolHandler(type.name, type.harvestTags.get(0), map.values().stream().filter(Objects::nonNull).filter(ItemProviderEntry::isPresent).map(ItemProviderEntry::asItem).toArray(Item[]::new)));
+            if (type.harvestTags.isEmpty() || type.harvestTags.getFirst().location().getNamespace().equals("minecraft")) return;
+            HarvestToolProvider.registerHandler(new SimpleToolHandler(type.name, type.harvestTags.getFirst(), map.values().stream().filter(Objects::nonNull).filter(ItemProviderEntry::isPresent).map(ItemProviderEntry::asItem).toArray(Item[]::new)));
         });
     }
 }

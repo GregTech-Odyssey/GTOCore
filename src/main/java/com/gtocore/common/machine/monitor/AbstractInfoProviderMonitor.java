@@ -2,6 +2,8 @@ package com.gtocore.common.machine.monitor;
 
 import com.gtocore.api.gui.DisplayComponentGroup;
 
+import com.gtolib.GTOCore;
+
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.gui.widget.LongInputWidget;
 import com.gregtechceu.gtceu.api.machine.TickableSubscription;
@@ -10,46 +12,49 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 
+import com.gto.datasynclib.annotations.SaveToDisk;
+import com.gto.datasynclib.annotations.SyncToClient;
 import com.lowdragmc.lowdraglib.gui.widget.ComponentPanelWidget;
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
-import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.utils.Position;
 import com.lowdragmc.lowdraglib.utils.Size;
-import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import it.unimi.dsi.fastutil.objects.ObjectBooleanPair;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public abstract class AbstractInfoProviderMonitor extends BasicMonitor implements IInformationProvider {
 
-    @Persisted
-    @DescSynced
+    @SaveToDisk
+    @SyncToClient
     private long priority = 0;
 
-    @Persisted
-    @DescSynced
+    @SaveToDisk
+    @SyncToClient
     private ResourceLocation[] displayOrderCache = new ResourceLocation[0];
 
-    @Persisted
-    @DescSynced
+    @SaveToDisk
+    @SyncToClient
     private boolean[] displayEnabledCache = new boolean[0];
 
     private TickableSubscription tickableSubscription;
 
     AbstractInfoProviderMonitor(MetaMachineBlockEntity holder) {
         super(holder);
-        Class<? extends BasicMonitor> clazz = this.getClass();
     }
 
     @Override
     public void onLoad() {
         super.onLoad();
-        tickableSubscription = this.subscribeServerTick(tickableSubscription, () -> {
-            this.syncInfoFromServer();
-            this.getSyncStorage().markAllDirty();
-            this.requestSync();
+        if (isRemote()) return;
+        tickableSubscription = this.subscribeAsyncTick(tickableSubscription, () -> {
+            try {
+                this.syncInfoFromServer();
+                this.requestSync();
+            } catch (Throwable throwable) {
+                GTOCore.LOGGER.error("Error syncing monitor info provider data", throwable);
+            }
         }, 10);
     }
 
@@ -81,7 +86,7 @@ public abstract class AbstractInfoProviderMonitor extends BasicMonitor implement
             return getAvailableRLs(); // Default: all available are enabled
         }
 
-        var list = new ObjectArrayList<ResourceLocation>();
+        var list = new ArrayList<ResourceLocation>();
         for (int i = 0; i < displayOrderCache.length; i++) {
             // Check if the component is still available and if it is enabled
             if (i < displayEnabledCache.length && displayEnabledCache[i] && getAvailableRLs().contains(displayOrderCache[i])) {
@@ -99,7 +104,7 @@ public abstract class AbstractInfoProviderMonitor extends BasicMonitor implement
                     .toList();
         }
 
-        var list = new ObjectArrayList<ObjectBooleanPair<ResourceLocation>>();
+        var list = new ArrayList<ObjectBooleanPair<ResourceLocation>>();
         for (int i = 0; i < displayOrderCache.length; i++) {
             // Only add components that are still available to the machine
             if (getAvailableRLs().contains(displayOrderCache[i])) {
@@ -112,7 +117,7 @@ public abstract class AbstractInfoProviderMonitor extends BasicMonitor implement
 
     @Override
     public Widget createUIWidget() {
-        final var initialPriority = this.getPriority();
+        final var initialPriority = this.priority;
         LongInputWidget input = new LongInputWidget(Position.of(50, 144),
                 this::getPriority, this::setPriority);
         input.setMax((long) Integer.MAX_VALUE).setMin((long) Integer.MIN_VALUE).setValue(initialPriority);

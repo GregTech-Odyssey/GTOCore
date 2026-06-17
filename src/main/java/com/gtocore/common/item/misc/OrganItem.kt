@@ -13,11 +13,11 @@ import net.minecraft.world.item.TooltipFlag
 import net.minecraft.world.level.Level
 
 import com.gregtechceu.gtceu.api.item.ComponentItem
+import com.gto.registrate.util.entry.ItemEntry
+import com.gto.registrate.util.nullness.NonNullConsumer
 import com.gtolib.GTOCore
 import com.gtolib.utils.TagUtils
 import com.gtolib.utils.register.ItemRegisterUtils.item
-import com.tterrag.registrate.util.entry.ItemEntry
-import com.tterrag.registrate.util.nullness.NonNullConsumer
 
 class TierData {
     companion object {
@@ -71,7 +71,7 @@ sealed class OrganItemBase(properties: Properties, val organType: OrganType) :
     companion object {
         fun <T : OrganItemBase> registerOrganItem(id: String, organType: OrganType, resourceName: String, en: String, cn: String, itemFactory: (Properties, OrganType) -> T, onRegister: NonNullConsumer<T> = NonNullConsumer { }): ItemEntry<T> {
             val resourcePath = "item/organ/part/${organType.key}/$resourceName"
-            val tag = TagUtils.createTag(GTOCore.id("organ_${organType.key}"))
+            val tag = TagUtils.createItemTag(GTOCore.id("organ_${organType.key}"))
             val itemBuilder = item(id, "器官 $cn") { p -> itemFactory(p.stacksTo(1).setNoRepair(), organType) }
                 .lang("organ $en ")
                 .tag(tag)
@@ -93,6 +93,7 @@ sealed class OrganItemBase(properties: Properties, val organType: OrganType) :
             }
             if (tier >= 2) tooltipComponents.add(OrganTranslation.blockReachInfo(4).get())
             if (tier >= 3) tooltipComponents.add(OrganTranslation.alwaysSaturation.get())
+            if (tier >= 3) tooltipComponents.add(OrganTranslation.nanoWallInfo.get())
             if (tier >= 2 && organType == OrganType.Liver) tooltipComponents.add(OrganTranslation.noPoisonAndWither.get())
             if (tier >= 2 && organType == OrganType.Lung) tooltipComponents.add(OrganTranslation.breathUnderWater.get())
             if (tier >= 4) tooltipComponents.add(OrganTranslation.flightInfo.get())

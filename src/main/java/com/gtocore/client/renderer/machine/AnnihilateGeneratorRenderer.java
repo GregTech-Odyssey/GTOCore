@@ -77,4 +77,9 @@ public final class AnnihilateGeneratorRenderer extends WorkableCasingMachineRend
     public boolean isGlobalRenderer(BlockEntity blockEntity) {
         return true;
     }
+
+    @Override
+    public int getViewDistance() {
+        return 256;
+    }
 }

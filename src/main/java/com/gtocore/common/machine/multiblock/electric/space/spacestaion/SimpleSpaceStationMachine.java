@@ -1,52 +1,52 @@
 package com.gtocore.common.machine.multiblock.electric.space.spacestaion;
 
+import com.gtocore.api.pattern.GTOPredicates;
 import com.gtocore.client.forge.ForgeClientEvent;
 
-import com.gtolib.api.machine.trait.CustomRecipeLogic;
-import com.gtolib.api.recipe.Recipe;
 import com.gtolib.api.recipe.RecipeBuilder;
-import com.gtolib.api.recipe.RecipeRunner;
-import com.gtolib.api.recipe.ingredient.FastFluidIngredient;
-import com.gtolib.utils.MachineUtils;
 
 import com.gregtechceu.gtceu.api.block.IFilterType;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
-import com.gregtechceu.gtceu.api.capability.recipe.*;
 import com.gregtechceu.gtceu.api.machine.multiblock.CleanroomType;
-import com.gregtechceu.gtceu.api.machine.trait.RecipeHandlerList;
-import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
+import com.gregtechceu.gtceu.api.pattern.Predicates;
+import com.gregtechceu.gtceu.api.recipe.GTRecipeDefinition;
+import com.gregtechceu.gtceu.api.recipe.handler.ICustomRecipeLogicHolder;
+import com.gregtechceu.gtceu.api.recipe.handler.IO;
+import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 
+import com.gto.datasynclib.annotations.SaveToDisk;
 import com.lowdragmc.lowdraglib.gui.util.ClickData;
 import com.lowdragmc.lowdraglib.gui.widget.ComponentPanelWidget;
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import earth.terrarium.adastra.api.planets.PlanetApi;
-import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Set;
 
 import static com.gregtechceu.gtceu.api.GTValues.EV;
 import static com.gregtechceu.gtceu.api.GTValues.VA;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.DistilledWater;
 import static com.gtocore.common.data.GTOMaterials.FlocculationWasteSolution;
 
-public class SimpleSpaceStationMachine extends AbstractSpaceStation {
+public class SimpleSpaceStationMachine extends AbstractSpaceStation implements ICustomRecipeLogicHolder {
 
     @Nullable
-    private Collection<BlockPos> outputDistilledWaterHatches;
+    private Set<BlockPos> outputDistilledWaterHatches;
     @Nullable
-    private ObjectArrayList<RecipeHandlerList> outputDistilledWaterHatchesList;
+    private List<RecipeHandlerUnit> outputDistilledWaterHatchesList;
     /// 空间站附赠超净间
     @Nullable
     private CleanroomType cleanroomType = null;
 
-    @Persisted
+    @SaveToDisk
     private int waterAmountPerHatch = 8;
 
     public SimpleSpaceStationMachine(MetaMachineBlockEntity metaMachineBlockEntity) {
@@ -54,13 +54,13 @@ public class SimpleSpaceStationMachine extends AbstractSpaceStation {
     }
 
     @Override
-    public void addHandlerList(RecipeHandlerList handler) {
-        if (outputDistilledWaterHatches != null && outputDistilledWaterHatches.stream().anyMatch(p -> handler.part.self().getPos() == p)) {
+    public void addHandlerList(RecipeHandlerUnit handler) {
+        if (outputDistilledWaterHatches != null && outputDistilledWaterHatches.contains(handler.part.self().getPos()) && handler.handlerIO == IO.OUT) {
             if (outputDistilledWaterHatchesList == null) {
-                outputDistilledWaterHatchesList = new ObjectArrayList<>();
+                outputDistilledWaterHatchesList = new ArrayList<>();
             }
             outputDistilledWaterHatchesList.add(handler);
-            if (handler.getHandlerIO() == IO.OUT) return;
+            return;
         }
         super.addHandlerList(handler);
     }
@@ -71,9 +71,9 @@ public class SimpleSpaceStationMachine extends AbstractSpaceStation {
     /// @see com.gregtechceu.gtceu.common.machine.multiblock.electric.CleanroomMachine#onStructureFormed()
     @Override
     public void onStructureFormed() {
-        this.outputDistilledWaterHatches = getMultiblockState().getMatchContext().getOrDefault("spaceMachinePhotovoltaicSupp", Collections.emptyList());
+        this.outputDistilledWaterHatches = getMultiblockState().getMatchContext().getOrDefault(GTOPredicates.DataKeys.SPACE_MACHINE_PHOTOVOLTAIC_SUPP, Collections.emptySet());
         super.onStructureFormed();
-        IFilterType filterType = getMultiblockState().getMatchContext().get("FilterType");
+        IFilterType filterType = getMultiblockState().getMatchContext().get(Predicates.DataKey.FILTER_TYPE);
         if (filterType != null) {
             this.cleanroomType = filterType.getCleanroomType();
         } else {
@@ -108,14 +108,6 @@ public class SimpleSpaceStationMachine extends AbstractSpaceStation {
         return List.of(Component.translatable("tooltip.ad_astra.oxygen_distribution_area"));
     }
 
-    private Recipe getRecipe() {
-        if (!PlanetApi.API.isSpace(getLevel()))
-            return null;
-        return inputFluids(getRecipeBuilder().duration(200).EUt(VA[EV]))
-                .outputFluids(FlocculationWasteSolution.getFluid(30))
-                .buildRawRecipe();
-    }
-
     private static RecipeBuilder inputFluids(RecipeBuilder builder) {
         builder.inputFluids(DistilledWater, 15);
         builder.inputFluids(GTMaterials.RocketFuel, 10);
@@ -148,7 +140,7 @@ public class SimpleSpaceStationMachine extends AbstractSpaceStation {
     }
 
     @Override
-    public boolean onWorking() {
+    public void onWorking() {
         var time = getOffsetTimer();
         if (time % 20 == 0) {
 
@@ -156,41 +148,26 @@ public class SimpleSpaceStationMachine extends AbstractSpaceStation {
 
             /// Distilled Water distribution
             if (waterAmountPerHatch > 0 && outputDistilledWaterHatchesList != null && !outputDistilledWaterHatchesList.isEmpty()) {
-                for (RecipeHandlerList handler : outputDistilledWaterHatchesList) {
-                    IRecipeCapabilityHolder waterHolder = new IRecipeCapabilityHolder() {
-
-                        @Override
-                        public @NotNull Map<IO, List<RecipeHandlerList>> getCapabilitiesProxy() {
-                            return Map.of(IO.OUT, Collections.singletonList(handler));
-                        }
-
-                        @Override
-                        public @NotNull Map<IO, Map<RecipeCapability<?>, List<IRecipeHandler<?>>>> getCapabilitiesFlat() {
-                            return Map.of(IO.OUT, handler.handlerMap);
-                        }
-                    };
-                    if (RecipeRunner.handleContent(
-                            waterHolder,
-                            IO.OUT,
-                            ObjectArrayList.of(FastFluidIngredient.of(DistilledWater.getFluid(waterAmountPerHatch))), FluidRecipeCapability.CAP, true, false) &&
-                            inputFluid(DistilledWater.getFluid(waterAmountPerHatch))) {
-
-                        MachineUtils.outputFluid(waterHolder, DistilledWater.getFluid(waterAmountPerHatch));
+                for (var handler : outputDistilledWaterHatchesList) {
+                    if (handler.simulateOutputFluid(DistilledWater.getFluid(), waterAmountPerHatch) && inputFluid(DistilledWater.getFluid(), waterAmountPerHatch)) {
+                        handler.outputFluid(DistilledWater.getFluid(), waterAmountPerHatch);
                     }
                 }
             }
         }
-        return super.onWorking();
-    }
-
-    @Override
-    @NotNull
-    public RecipeLogic createRecipeLogic(Object @NotNull... args) {
-        return new CustomRecipeLogic(this, this::getRecipe, true);
+        super.onWorking();
     }
 
     @Override
     public Set<CleanroomType> getTypes() {
         return this.cleanroomType == null ? Set.of() : Set.of(this.cleanroomType);
+    }
+
+    @Override
+    public GTRecipeDefinition createCustomRecipe(RecipeHandlerUnit unit) {
+        if (!PlanetApi.API.isSpace(getLevel())) return null;
+        return inputFluids(getRecipeBuilder().duration(200).EUt(VA[EV]))
+                .outputFluids(FlocculationWasteSolution.getFluid(30))
+                .build();
     }
 }

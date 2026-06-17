@@ -1,11 +1,13 @@
 package com.gtocore.common.block;
 
+import com.gtocore.common.data.machines.MultiBlockG;
+
 import com.gtolib.GTOCore;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
-import com.gregtechceu.gtceu.utils.GTUtil;
 
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
@@ -45,13 +47,9 @@ public class WirelessEnergyUnitBlock extends Block {
     @Override
     public void appendHoverText(@NotNull ItemStack stack, @Nullable BlockGetter level, @NotNull List<Component> tooltip, @NotNull TooltipFlag flag) {
         super.appendHoverText(stack, level, tooltip, flag);
-        if (GTUtil.isShiftDown()) {
-            tooltip.add(Component.translatable("gtceu.multiblock.power_substation.capacity", FormattingUtil.formatNumbers(capacity)));
-            tooltip.add(Component.translatable("gtceu.machine.fluid_drilling_rig.depletion", (double) loss / 10));
-        } else {
-            tooltip.add(Component.translatable("tooltip.ad_astra.shift_description"));
-        }
-        tooltip.add(Component.translatable("gtocore.machine.wireless_energy_unit.tooltip"));
+        tooltip.add(Component.translatable("gtocore.machine.tooltip.upgrade_action", MultiBlockG.WIRELESS_ENERGY_SUBSTATION.get().getName(), Component.translatable("gtocore.adv_terminal.block_map.wireless_energy_unit")).withStyle(ChatFormatting.GRAY));
+        tooltip.add(Component.translatable("gtceu.multiblock.power_substation.capacity", FormattingUtil.formatNumbers(capacity)));
+        tooltip.add(Component.translatable("gtceu.machine.fluid_drilling_rig.depletion", (double) loss / 10));
     }
 
     @Nullable

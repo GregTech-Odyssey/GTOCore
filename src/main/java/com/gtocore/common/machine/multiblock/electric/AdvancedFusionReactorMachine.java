@@ -4,32 +4,30 @@ import com.gtolib.api.machine.multiblock.CrossRecipeMultiblockMachine;
 import com.gtolib.api.machine.trait.CrossRecipeTrait;
 import com.gtolib.api.machine.trait.EnergyContainerTrait;
 import com.gtolib.api.recipe.IdleReason;
-import com.gtolib.api.recipe.Recipe;
 import com.gtolib.utils.MachineUtils;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.IEnergyContainer;
-import com.gregtechceu.gtceu.api.capability.recipe.EURecipeCapability;
-import com.gregtechceu.gtceu.api.capability.recipe.FluidRecipeCapability;
-import com.gregtechceu.gtceu.api.capability.recipe.IO;
-import com.gregtechceu.gtceu.api.capability.recipe.IRecipeHandler;
 import com.gregtechceu.gtceu.api.machine.ConditionalSubscriptionHandler;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
+import com.gregtechceu.gtceu.api.recipe.handler.IO;
+import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
+import com.gregtechceu.gtceu.common.data.GTRecipeDataKeys;
 import com.gregtechceu.gtceu.utils.GTUtil;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.network.chat.Component;
 
-import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
+import com.gto.datasynclib.annotations.SaveToDisk;
+import com.gto.datasynclib.annotations.SyncToClient;
 import lombok.Getter;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
-import java.util.Objects;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import static com.gregtechceu.gtceu.api.GTValues.LuV;
 import static com.gregtechceu.gtceu.common.machine.multiblock.electric.FusionReactorMachine.calculateEnergyStorageFactor;
 
 @ParametersAreNonnullByDefault
@@ -37,36 +35,31 @@ import static com.gregtechceu.gtceu.common.machine.multiblock.electric.FusionRea
 public final class AdvancedFusionReactorMachine extends CrossRecipeMultiblockMachine {
 
     @Getter
-    @DescSynced
+    @SyncToClient
     private int color = -1;
-    private final int tier;
-    @Persisted
+    private static final int tier = LuV;
+    @SaveToDisk
     private long heat = 0;
-    @Persisted
+    @SaveToDisk
     private final EnergyContainerTrait energyContainer;
     private final ConditionalSubscriptionHandler preHeatSubs;
 
-    public AdvancedFusionReactorMachine(MetaMachineBlockEntity holder, int tier) {
+    public AdvancedFusionReactorMachine(MetaMachineBlockEntity holder) {
         super(holder, false, true, MachineUtils::getHatchParallel);
-        this.tier = tier;
         this.energyContainer = createEnergyContainer();
         preHeatSubs = new ConditionalSubscriptionHandler(this, this::updateHeat, 0, () -> isFormed || heat > 0);
     }
 
     private EnergyContainerTrait createEnergyContainer() {
-        var container = new EnergyContainerTrait(this, 0);
-        container.setCapabilityValidator(Objects::isNull);
-        return container;
+        return new EnergyContainerTrait(this, 0);
     }
 
     @Override
     public void onStructureFormed() {
         super.onStructureFormed();
         int size = 0;
-        for (IRecipeHandler<?> handler : getCapabilitiesFlat(IO.IN, EURecipeCapability.CAP)) {
-            if (handler instanceof IEnergyContainer) {
-                size++;
-            }
+        for (var handler : getCapabilitiesFlat(IO.IN, IEnergyContainer.class)) {
+            size++;
         }
         var bonusTier = calculateBonusTier();
         energyContainer.resetBasicInfo(calculateEnergyStorageFactor(tier + bonusTier, size));
@@ -102,8 +95,8 @@ public final class AdvancedFusionReactorMachine extends CrossRecipeMultiblockMac
 
     @Override
     @Nullable
-    public Recipe getRealRecipe(Recipe recipe) {
-        long eu_to_start = recipe.data.getLong("eu_to_start");
+    public GTRecipe getRealRecipe(RecipeHandlerUnit unit, GTRecipe recipe) {
+        long eu_to_start = recipe.data.getLong(GTRecipeDataKeys.EU_TO_START);
         if (eu_to_start > energyContainer.getEnergyCapacity()) {
             setIdleReason(IdleReason.INSUFFICIENT_ENERGY_BUFFER);
             return null;
@@ -117,7 +110,7 @@ public final class AdvancedFusionReactorMachine extends CrossRecipeMultiblockMac
             energyContainer.removeEnergy(heatDiff);
             heat += heatDiff;
         }
-        return super.getRealRecipe(recipe);
+        return super.getRealRecipe(unit, recipe);
     }
 
     private void updateHeat() {
@@ -134,19 +127,21 @@ public final class AdvancedFusionReactorMachine extends CrossRecipeMultiblockMac
     }
 
     @Override
-    public boolean onWorking() {
+    public void onWorking() {
         if (color == -1) {
             GTRecipe recipe = recipeLogic.getLastRecipe();
             assert recipe != null;
-            if (!recipe.getOutputContents(FluidRecipeCapability.CAP).isEmpty()) {
-                var stack = FluidRecipeCapability.CAP.of(recipe.getOutputContents(FluidRecipeCapability.CAP).get(0).getContent()).getStacks()[0];
-                int newColor = -16777216 | GTUtil.getFluidColor(stack);
-                if (color != newColor) {
-                    color = newColor;
+            if (!recipe.fluidOutputs.isEmpty()) {
+                var fluid = recipe.fluidOutputs.getFirst().inner.getFluid();
+                if (fluid != null) {
+                    int newColor = -16777216 | GTUtil.getFluidColor(fluid);
+                    if (color != newColor) {
+                        color = newColor;
+                    }
                 }
             }
         }
-        return super.onWorking();
+        super.onWorking();
     }
 
     @Override
@@ -170,6 +165,6 @@ public final class AdvancedFusionReactorMachine extends CrossRecipeMultiblockMac
 
     @Override
     public int getTier() {
-        return this.tier + calculateBonusTier();
+        return tier + calculateBonusTier();
     }
 }

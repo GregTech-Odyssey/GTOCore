@@ -1,28 +1,28 @@
 package com.gtocore.common.machine.trait;
 
+import com.gtocore.common.data.GTORecipeDataKeys;
 import com.gtocore.common.machine.multiblock.part.RadiationHatchPartMachine;
 import com.gtocore.data.IdleReason;
 
 import com.gtolib.api.machine.feature.multiblock.IMultiblockTraitHolder;
 import com.gtolib.api.machine.trait.MultiblockTrait;
-import com.gtolib.api.recipe.Recipe;
 
-import com.gregtechceu.gtceu.api.machine.feature.IRecipeLogicMachine;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
+import com.gregtechceu.gtceu.api.recipe.GTRecipe;
+import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
 
 import net.minecraft.network.chat.Component;
 
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
+import com.gto.datasynclib.annotations.SaveToDisk;
 import it.unimi.dsi.fastutil.objects.ReferenceOpenHashSet;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.Set;
 
-public final class RadioactivityTrait extends MultiblockTrait {
+public class RadioactivityTrait extends MultiblockTrait {
 
-    @Persisted
+    @SaveToDisk
     private int recipeRadioactivity;
 
     private final Set<RadiationHatchPartMachine> radiationHatchPartMachines = new ReferenceOpenHashSet<>();
@@ -50,14 +50,13 @@ public final class RadioactivityTrait extends MultiblockTrait {
     }
 
     @Override
-    public boolean beforeWorking(@Nullable Recipe recipe) {
-        if (recipe == null) return true;
-        recipeRadioactivity = recipe.data.getInt("radioactivity");
+    public GTRecipe modifyRecipe(RecipeHandlerUnit unit, @NotNull GTRecipe recipe) {
+        recipeRadioactivity = recipe.data.getInt(GTORecipeDataKeys.RADIOACTIVITY);
         if (recipeRadioactivity > 0 && outside()) {
-            if (machine instanceof IRecipeLogicMachine recipeLogicMachine) IdleReason.setIdleReason(recipeLogicMachine, IdleReason.RADIATION);
-            return true;
+            IdleReason.RADIATION.setReason(machine);
+            return null;
         }
-        return super.beforeWorking(recipe);
+        return recipe;
     }
 
     @Override
@@ -66,7 +65,7 @@ public final class RadioactivityTrait extends MultiblockTrait {
         super.afterWorking();
     }
 
-    private int getRecipeRadioactivity() {
+    protected int getRecipeRadioactivity() {
         int radioactivity = 0;
         for (RadiationHatchPartMachine partMachine : radiationHatchPartMachines) {
             radioactivity += partMachine.getRadioactivity();

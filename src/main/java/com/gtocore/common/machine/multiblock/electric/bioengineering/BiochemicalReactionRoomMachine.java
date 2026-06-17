@@ -6,11 +6,11 @@ import com.gtolib.api.machine.multiblock.ElectricMultiblockMachine;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
+import com.gto.datasynclib.annotations.SaveToDisk;
 
 public final class BiochemicalReactionRoomMachine extends ElectricMultiblockMachine {
 
-    @Persisted
+    @SaveToDisk
     private final RadioactivityTrait radioactivityTrait;
 
     public BiochemicalReactionRoomMachine(MetaMachineBlockEntity holder) {

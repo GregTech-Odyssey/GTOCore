@@ -1,11 +1,13 @@
 package com.gtocore.common.machine.multiblock.part.ae;
 
+import com.gtocore.common.data.GTORecipeDataKeys;
+
 import com.gtolib.api.machine.multiblock.TierCasingMultiblockMachine;
 import com.gtolib.utils.MathUtil;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
-import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiController;
+import com.gregtechceu.gtceu.api.recipe.handler.IO;
 import com.gregtechceu.gtceu.config.ConfigHolder;
 
 import appeng.api.config.AccessRestriction;
@@ -14,12 +16,12 @@ import appeng.api.config.PowerMultiplier;
 import appeng.api.config.PowerUnits;
 import appeng.api.networking.energy.IAEPowerStorage;
 import appeng.api.networking.events.GridPowerStorageStateChanged;
+
 import com.lowdragmc.lowdraglib.gui.widget.LabelWidget;
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
 import org.jetbrains.annotations.NotNull;
 
-import static com.gtolib.api.GTOValues.GLASS_TIER;
 import static java.lang.Math.min;
 
 public class MEEnergyAccessPartMachine extends MEPartMachine implements IAEPowerStorage {
@@ -57,7 +59,8 @@ public class MEEnergyAccessPartMachine extends MEPartMachine implements IAEPower
             return;
         }
         this.ratio = ConfigHolder.INSTANCE.compat.energy.euToFeRatio;
-        this.ratio *= 1 + 0.3 * controller.getCasingTier(GLASS_TIER);
+        this.ratio *= 1 + 0.3 * controller.getCasingTier(GTORecipeDataKeys.GLASS_TIER);
+        this.ratio *= controller.getSubFormedAmount() + 1;
         if (this.getMainNode().getGrid() != null) {
             this.getMainNode().getGrid().postEvent(new GridPowerStorageStateChanged(this, GridPowerStorageStateChanged.PowerEventType.PROVIDE_POWER));
         }
@@ -84,7 +87,7 @@ public class MEEnergyAccessPartMachine extends MEPartMachine implements IAEPower
 
     @Override
     public double injectAEPower(double amt, Actionable mode) {
-        return 0;
+        return amt;
     }
 
     @Override

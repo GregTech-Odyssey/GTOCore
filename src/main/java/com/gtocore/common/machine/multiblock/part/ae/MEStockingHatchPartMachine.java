@@ -4,6 +4,8 @@ import com.gtocore.common.machine.multiblock.part.ae.slots.ExportOnlyAEFluidList
 import com.gtocore.common.machine.multiblock.part.ae.slots.ExportOnlyAEFluidSlot;
 import com.gtocore.common.machine.multiblock.part.ae.slots.ExportOnlyAEStockingFluidList;
 
+import com.gtolib.GTOCore;
+
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.gui.fancy.ConfiguratorPanel;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiController;
@@ -24,12 +26,12 @@ import net.minecraft.world.phys.BlockHitResult;
 
 import appeng.api.config.Actionable;
 import appeng.api.networking.IGrid;
-import appeng.api.networking.storage.IStorageService;
 import appeng.api.stacks.AEFluidKey;
 import appeng.api.stacks.AEKey;
 import appeng.api.stacks.GenericStack;
 import appeng.api.storage.MEStorage;
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
+
+import com.gto.datasynclib.annotations.SaveToDisk;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Comparator;
@@ -40,10 +42,10 @@ import javax.annotation.ParametersAreNonnullByDefault;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public class MEStockingHatchPartMachine extends MEInputHatchPartMachine implements IMEStockingPart, IStorageService.UpdateRequester {
+public class MEStockingHatchPartMachine extends MEInputHatchPartMachine implements IMEStockingPart {
 
     private static final int CONFIG_SIZE = 16;
-    @Persisted
+    @SaveToDisk
     private boolean autoPull;
 
     public MEStockingHatchPartMachine(MetaMachineBlockEntity holder) {
@@ -158,22 +160,26 @@ public class MEStockingHatchPartMachine extends MEInputHatchPartMachine implemen
 
         var queue = new PriorityQueue<>(CONFIG_SIZE, Comparator.comparingLong(GenericStack::amount));
 
-        for (var entry : counter) {
-            long amount = entry.getLongValue();
-            if (amount <= 0) continue;
-            var what = entry.getKey();
-            if (!(what instanceof AEFluidKey)) continue;
-            boolean free = queue.size() < CONFIG_SIZE;
-            if (!free && queue.peek().amount() >= amount) continue;
-            if (!test(what)) continue;
-            var stack = new GenericStack(what, amount);
-            if (testConfiguredInOtherPart(stack)) continue;
-            if (free) {
-                queue.offer(stack);
-            } else {
-                queue.poll();
-                queue.offer(stack);
+        try {
+            for (var entry : counter) {
+                long amount = entry.getLongValue();
+                if (amount <= 0) continue;
+                var what = entry.getKey();
+                if (!(what instanceof AEFluidKey)) continue;
+                boolean free = queue.size() < CONFIG_SIZE;
+                if (!free && queue.peek().amount() >= amount) continue;
+                if (!test(what)) continue;
+                var stack = new GenericStack(what, amount);
+                if (testConfiguredInOtherPart(stack)) continue;
+                if (free) {
+                    queue.offer(stack);
+                } else {
+                    queue.poll();
+                    queue.offer(stack);
+                }
             }
+        } catch (Exception e) {
+            GTOCore.LOGGER.error("exception in MEStockingHatchPartMachine.refreshList");
         }
 
         int index;
@@ -236,7 +242,7 @@ public class MEStockingHatchPartMachine extends MEInputHatchPartMachine implemen
         tag.putBoolean("DistinctBuses", isDistinct());
         if (!circuitInventory.storage.getStackInSlot(0).isEmpty()) {
             tag.putByte("GhostCircuit", (byte) IntCircuitBehaviour.getCircuitConfiguration(circuitInventory.storage.getStackInSlot(0)));
-        } ;
+        }
         return tag;
     }
 

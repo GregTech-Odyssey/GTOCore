@@ -133,7 +133,7 @@ public class MonitorRenderer extends MachineRenderer {
                     stack.pushPose();
 
                     var pos = monitor.getPos();
-                    if (GTOConfig.INSTANCE.dev) {
+                    if (GTOConfig.INSTANCE.devMode.dev) {
                         var box = Shapes.create(network.aabb());
                         LevelRenderer.renderVoxelShape(stack, buffer.getBuffer(RenderType.lines()), box, -pos.getX(), -pos.getY(), -pos.getZ(), 0f, 1f, 0f, 1f, false);
                     }
@@ -169,7 +169,7 @@ public class MonitorRenderer extends MachineRenderer {
                         int cumulatedHeight = 0;
                         int lastLineX = 0;
                         for (IDisplayComponent iDisplayComponent : info) {
-                            if (GTOConfig.INSTANCE.dev) {
+                            if (GTOConfig.INSTANCE.devMode.dev) {
                                 LevelRenderer.renderLineBox(stack, buffer.getBuffer(RenderType.lines()),
                                         0, cumulatedHeight, 0, iDisplayComponent.getVisualWidth(), cumulatedHeight + iDisplayComponent.getVisualHeight(), 0,
                                         0f, 1f, 0f, 1f);
@@ -230,7 +230,7 @@ public class MonitorRenderer extends MachineRenderer {
     @OnlyIn(Dist.CLIENT)
     public static class RenderedCacheClearer {
 
-        @SubscribeEvent()
+        @SubscribeEvent
         public static void clearRenderCache(ScreenEvent.Render.Pre event) {
             renderedThisTick.clear();
         }

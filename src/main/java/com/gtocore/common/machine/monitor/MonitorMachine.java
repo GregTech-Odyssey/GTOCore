@@ -12,14 +12,15 @@ import com.gtolib.utils.NumberUtils;
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
-import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.gui.widget.SlotWidget;
 import com.gregtechceu.gtceu.api.machine.feature.IMachineModifyDrops;
 import com.gregtechceu.gtceu.api.machine.steam.SimpleSteamMachine;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
+import com.gregtechceu.gtceu.api.recipe.handler.IO;
 import com.gregtechceu.gtceu.client.util.TooltipHelper;
 import com.gregtechceu.gtceu.common.machine.multiblock.steam.SteamParallelMultiblockMachine;
+import com.gregtechceu.gtceu.core.ILevel;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 import com.gregtechceu.gtceu.utils.GTUtil;
 
@@ -45,12 +46,12 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraftforge.fluids.FluidStack;
 
 import com.google.common.collect.ImmutableBiMap;
+import com.gto.datasynclib.annotations.SaveToDisk;
+import com.gto.datasynclib.annotations.SyncToClient;
 import com.lowdragmc.lowdraglib.gui.texture.IGuiTexture;
 import com.lowdragmc.lowdraglib.gui.texture.ResourceTexture;
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
-import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import kotlin.Pair;
 import org.jetbrains.annotations.NotNull;
 import snownee.jade.api.BlockAccessor;
@@ -66,9 +67,9 @@ import java.util.stream.Stream;
 
 public class MonitorMachine extends AbstractInfoProviderMonitor implements IMachineModifyDrops {
 
-    @DescSynced
+    @SyncToClient
     private Component[] bufferCache = new Component[0];
-    @DescSynced
+    @SyncToClient
     private float progress = 0.0F;
     private List<FormattedCharSequence> textListCache;
     private BlockPos pos;
@@ -91,7 +92,7 @@ public class MonitorMachine extends AbstractInfoProviderMonitor implements IMach
             .put(index++, DisplayRegistry.MACHINE_RECIPE_OUTPUT_FLUID_3)
             .put(index++, DisplayRegistry.MACHINE_MANTENANCE)
             .build();
-    @Persisted
+    @SaveToDisk
     private final NotifiableItemStackHandler inventory;
     private boolean isCardChange;
 
@@ -137,7 +138,7 @@ public class MonitorMachine extends AbstractInfoProviderMonitor implements IMach
     }
 
     @Override
-    public void clientTick() {
+    protected void clientTick() {
         super.clientTick();
         if (getOffsetTimer() % 10 == 0 && bufferCache != null) {
             textListCache = Stream.of(bufferCache)
@@ -173,7 +174,7 @@ public class MonitorMachine extends AbstractInfoProviderMonitor implements IMach
         }
         Level level = getLevel();
         CompoundTag tags = new CompoundTag();
-        tile = Objects.requireNonNull(getLevel()).getBlockEntity(pos);
+        tile = ILevel.asyncGetBlockEntity(level, pos);
         if (tile != null) {
             if (accessor == null) {
                 accessor = new BlockAccessor() {

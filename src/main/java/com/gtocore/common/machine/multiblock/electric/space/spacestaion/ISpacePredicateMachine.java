@@ -1,5 +1,6 @@
 package com.gtocore.common.machine.multiblock.electric.space.spacestaion;
 
+import com.gtocore.api.pattern.GTOPredicates;
 import com.gtocore.common.data.GTOBlocks;
 
 import com.gtolib.api.machine.feature.IEnhancedRecipeLogicMachine;
@@ -22,12 +23,13 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 
+import com.fast.fastcollection.OpenCacheHashSet;
 import com.lowdragmc.lowdraglib.utils.BlockInfo;
 import earth.terrarium.adastra.api.systems.OxygenApi;
 import earth.terrarium.adastra.api.systems.TemperatureApi;
 import earth.terrarium.adastra.common.constants.PlanetConstants;
 import earth.terrarium.adastra.common.registry.ModSoundEvents;
-import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
+import it.unimi.dsi.fastutil.objects.ReferenceOpenHashSet;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -62,7 +64,7 @@ public interface ISpacePredicateMachine extends ISpaceWorkspaceMachine, ICleanro
             });
             setSpaceMachines(null);
         }
-        setSpaceMachines(getMultiblockState().getMatchContext().getOrDefault("spaceMachine", Collections.emptyList()));
+        setSpaceMachines(getMultiblockState().getMatchContext().getOrDefault(GTOPredicates.DataKeys.SPACE_MACHINE, Collections.emptySet()));
         getSpaceMachines().forEach(receiver -> {
             receiver.setCleanroom(this);
             receiver.setWorkspaceProvider(this);
@@ -86,7 +88,7 @@ public interface ISpacePredicateMachine extends ISpaceWorkspaceMachine, ICleanro
         /// Oxygen and Temperature
         /// @see earth.terrarium.adastra.common.blockentities.machines.OxygenDistributorBlockEntity#tickOxygen
         if (getLevel() instanceof ServerLevel level) {
-            Set<BlockPos> positions = new ObjectOpenHashSet<>(getMultiblockState().getMatchContext().getOrDefault("space", Collections.emptyList()));
+            Set<BlockPos> positions = new OpenCacheHashSet<>(getMultiblockState().getMatchContext().getOrDefault(GTOPredicates.DataKeys.SPACE, Collections.emptySet()));
 
             this.resetLastDistributedBlocks(positions);
             OxygenApi.API.setOxygen(level, positions, true);
@@ -115,10 +117,10 @@ public interface ISpacePredicateMachine extends ISpaceWorkspaceMachine, ICleanro
                 return false;
             }
             if (machine instanceof IWorkInSpaceMachine spaceMachine) {
-                blockWorldState.getMatchContext().getOrCreate("spaceMachine", ObjectOpenHashSet::new).add(spaceMachine);
+                blockWorldState.getMatchContext().getOrCreate(GTOPredicates.DataKeys.SPACE_MACHINE, ReferenceOpenHashSet::new).add(spaceMachine);
             }
         }
-        blockWorldState.getMatchContext().getOrCreate("space", ObjectOpenHashSet::new).add(blockWorldState.getPos());
+        blockWorldState.getMatchContext().getOrCreate(GTOPredicates.DataKeys.SPACE, OpenCacheHashSet::new).add(blockWorldState.getPos());
         return true;
     }, null, null));
     MemoizedSupplier<TraceabilityPredicate> photovoltaicPlantSupplyingPredicate = GTMemoizer.memoize(() -> {
@@ -126,7 +128,7 @@ public interface ISpacePredicateMachine extends ISpaceWorkspaceMachine, ICleanro
         return new BlockPredicate(blockWorldState -> {
             if (abilities.test(blockWorldState)) {
                 if (blockWorldState.getTileEntity() instanceof MetaMachineBlockEntity mbe && mbe.getMetaMachine() instanceof MultiblockPartMachine spaceMachine) {
-                    blockWorldState.getMatchContext().getOrCreate("spaceMachinePhotovoltaicSupp", ObjectOpenHashSet::new).add(spaceMachine.getPos());
+                    blockWorldState.getMatchContext().getOrCreate(GTOPredicates.DataKeys.SPACE_MACHINE_PHOTOVOLTAIC_SUPP, OpenCacheHashSet::new).add(spaceMachine.getPos());
                 }
                 return true;
             }

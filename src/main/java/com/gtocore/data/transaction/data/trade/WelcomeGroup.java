@@ -25,14 +25,13 @@ import java.util.Set;
 
 import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
 import static com.gtocore.common.data.GTOMachines.TRADING_STATION;
-import static com.gtocore.common.data.GTOMaterials.Adamantine;
-import static com.gtocore.common.data.GTOMaterials.Infinity;
+import static com.gtocore.common.data.GTOMaterials.*;
 import static com.gtocore.data.transaction.data.TradeLang.TECH_OPERATOR_COIN;
 import static com.gtocore.data.transaction.data.TradeLang.addTradeLang;
 import static com.gtocore.data.transaction.data.trade.UnlockTrade.UNLOCK_BASE;
 import static com.lowdragmc.lowdraglib.LDLib.random;
 
-public class WelcomeGroup {
+public final class WelcomeGroup {
 
     /**
      * 欢迎来到格雷科技
@@ -48,12 +47,12 @@ public class WelcomeGroup {
 
         int ShopIndex1 = TradingManager.INSTANCE.addShopByGroupIndex(
                 GroupIndex,
-                addTradeLang("欢迎来到格雷科技销售部币兑区", "Welcome to the Currency Exchange Area of Gray Technology Sales Department"),
+                addTradeLang("格雷科技销售部兑币区", "Currency Exchange Area of Gray Technology Sales Department"),
                 UNLOCK_BASE,
                 Set.of(TECH_OPERATOR_COIN),
-                GuiTextures.GREGTECH_LOGO);
+                new ItemStackTexture(ChemicalHelper.get(GTOTagPrefix.COIN, Neutronium)));
 
-        Material[] materials = { Copper, Cupronickel, Silver, Gold, Osmium, Naquadah, Neutronium, Adamantine, Infinity };
+        Material[] materials = { Copper, Cupronickel, Silver, Gold, Osmium, Naquadah, Neutronium, Adamantine, Infinity, Neutron };
 
         for (int i = 0; i < materials.length; i++) {
             TradingManager.INSTANCE.addTradeEntryByIndices(GroupIndex, ShopIndex1, createCoinExchangeTrade(materials[i], i));
@@ -62,10 +61,10 @@ public class WelcomeGroup {
 
         int ShopIndex2 = TradingManager.INSTANCE.addShopByGroupIndex(
                 GroupIndex,
-                addTradeLang("欢迎来到格雷科技销售部会员区", "Welcome to the Membership Area of Gray Technology Sales Department"),
+                addTradeLang("格雷科技销售部会员区", "Membership Area of Gray Technology Sales Department"),
                 UNLOCK_BASE,
                 Set.of(TECH_OPERATOR_COIN),
-                GuiTextures.GREGTECH_LOGO);
+                new ResourceTexture("minecraft:textures/mob_effect/luck.png"));
 
         TradingManager.INSTANCE.addTradeEntryByIndices(GroupIndex, ShopIndex2, new TradeEntry.Builder()
                 .texture(new ResourceTexture("minecraft:textures/mob_effect/luck.png"))
@@ -80,7 +79,8 @@ public class WelcomeGroup {
         for (int i = 1; i < 8; i++) {
             TradingManager.INSTANCE.addTradeEntryByIndices(GroupIndex, ShopIndex2, new TradeEntry.Builder()
                     .texture(new StackTexture(TRADING_STATION[1].asStack()))
-                    .addDescription(Component.translatable(addTradeLang("升级贸易站", "升级贸易站")))
+                    .addDescription(Component.translatable(addTradeLang("升级贸易站", "Upgrade Trading Station")))
+                    .addDescription(Component.translatable("gtocore.trade_group.exchanged", "Tier" + (i + 1), "Tier" + i))
                     .unlockCondition(UNLOCK_BASE)
                     .inputItem(TRADING_STATION[i].asStack())
                     .inputCurrency(TECH_OPERATOR_COIN, 4 << (i * 3))
@@ -93,7 +93,7 @@ public class WelcomeGroup {
         ItemStack Coin = ChemicalHelper.get(GTOTagPrefix.COIN, material);
         return new TradeEntry.Builder()
                 .texture(new ItemStackTexture(Coin))
-                .description(List.of(Component.translatable(addTradeLang("将硬币兑换为技术员币", "Exchange coins for technician coins"))))
+                .description(List.of(Component.translatable("gtocore.trade_group.exchanged", Component.translatable("gtocore.currency." + TECH_OPERATOR_COIN), Coin.getDisplayName())))
                 .unlockCondition(UNLOCK_BASE)
                 .inputItem(Coin)
                 .outputCurrency(TECH_OPERATOR_COIN, 1L << (tier * 3))
@@ -104,7 +104,7 @@ public class WelcomeGroup {
         ItemStack Coin = ChemicalHelper.get(GTOTagPrefix.COIN, material);
         return new TradeEntry.Builder()
                 .texture(new ItemStackTexture(Coin))
-                .description(List.of(Component.translatable(addTradeLang("将技术员币提款为硬币", "Technician coins can be withdrawn as coins"))))
+                .description(List.of(Component.translatable("gtocore.trade_group.exchanged", Coin.getDisplayName(), Component.translatable("gtocore.currency." + TECH_OPERATOR_COIN))))
                 .unlockCondition(UNLOCK_BASE)
                 .inputCurrency(TECH_OPERATOR_COIN, 1L << (tier * 3))
                 .outputItem(Coin)
@@ -116,18 +116,18 @@ public class WelcomeGroup {
 
     // 前置检查逻辑：检查本周是否签过到
     private static int checkThisWeek(TradeData data, TradeEntry entry) {
-        Level level = data.getLevel();
+        Level level = data.level();
         ServerLevel serverLevel = level instanceof ServerLevel ? (ServerLevel) level : null;
         long time = WalletUtils.getGameMinuteKey(level) / Weekly_time * Weekly_time;
-        if (WalletUtils.getTransactionMinuteAmount(data.getUuid(), serverLevel, Weekly_check_in, time) == 0) return 1;
+        if (WalletUtils.getTransactionMinuteAmount(data.uuid(), serverLevel, Weekly_check_in, time) == 0) return 1;
         return 0;
     }
 
     // 执行逻辑：添加标记，随机给予0-100技术员币
     private static void performCheckIn(TradeData data, TradeEntry entry, int multiplier) {
-        Level level = data.getLevel();
+        Level level = data.level();
         ServerLevel serverLevel = level instanceof ServerLevel ? (ServerLevel) level : null;
-        WalletUtils.addTimingCompressionStrategyTransaction(data.getUuid(), serverLevel, Weekly_check_in, Weekly_time, 1);
-        WalletUtils.addCurrency(data.getUuid(), serverLevel, TECH_OPERATOR_COIN, random.nextInt() & 100);
+        WalletUtils.addTimingCompressionStrategyTransaction(data.uuid(), serverLevel, Weekly_check_in, Weekly_time, 1);
+        WalletUtils.addCurrency(data.uuid(), serverLevel, TECH_OPERATOR_COIN, random.nextInt() & 100);
     }
 }

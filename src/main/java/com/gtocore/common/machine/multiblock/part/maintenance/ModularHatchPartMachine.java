@@ -7,7 +7,6 @@ import com.gtolib.api.annotation.language.RegisterLanguage;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.ICleanroomReceiver;
-import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.gui.widget.IntInputWidget;
 import com.gregtechceu.gtceu.api.gui.widget.SlotWidget;
@@ -17,6 +16,7 @@ import com.gregtechceu.gtceu.api.machine.feature.ICleanroomProvider;
 import com.gregtechceu.gtceu.api.machine.feature.IMachineModifyDrops;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiController;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
+import com.gregtechceu.gtceu.api.recipe.handler.IO;
 import com.gregtechceu.gtceu.api.transfer.item.SingleCustomItemStackHandler;
 
 import net.minecraft.ChatFormatting;
@@ -28,12 +28,12 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
+import com.gto.datasynclib.annotations.SaveToDisk;
+import com.gto.datasynclib.annotations.SyncToClient;
 import com.lowdragmc.lowdraglib.gui.widget.ComponentPanelWidget;
 import com.lowdragmc.lowdraglib.gui.widget.DraggableScrollableWidgetGroup;
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
-import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 
@@ -48,34 +48,34 @@ public class ModularHatchPartMachine extends ACMHatchPartMachine implements IMod
 
     private TickableSubscription tickSubs;
 
-    @Persisted
+    @SaveToDisk
     private final NotifiableItemStackHandler temperatureModuleInv;
-    @Persisted
+    @SaveToDisk
     private final NotifiableItemStackHandler gravityModuleInv;
-    @Persisted
+    @SaveToDisk
     private final NotifiableItemStackHandler vacuumModuleInv;
-    @Persisted
+    @SaveToDisk
     private final NotifiableItemStackHandler cleanroomModuleInv;
-    @Persisted
+    @SaveToDisk
     private int temperature = 293;
-    @Persisted
+    @SaveToDisk
     private int activeTemperature = 293;
-    @Persisted
-    @DescSynced
+    @SaveToDisk
+    @SyncToClient
     private int currentGravity = 0;
     @Getter
-    @Persisted
-    @DescSynced
+    @SaveToDisk
+    @SyncToClient
     private boolean vacuumMode = false;
     @Getter
-    @Persisted
-    @DescSynced
+    @SaveToDisk
+    @SyncToClient
     private boolean gravityMode = false;
     /// indicates whether player could set temperature
     /// notice that even if temperatureMode is false, the temperature could be set passively by other machines
     @Getter
-    @Persisted
-    @DescSynced
+    @SaveToDisk
+    @SyncToClient
     private boolean temperatureMode = false;
 
     private IntInputWidget gravityWidget;
@@ -84,19 +84,19 @@ public class ModularHatchPartMachine extends ACMHatchPartMachine implements IMod
     public ModularHatchPartMachine(MetaMachineBlockEntity metaTileEntityId) {
         super(metaTileEntityId);
 
-        temperatureModuleInv = new NotifiableItemStackHandler(this, 1, IO.IN, IO.BOTH, SingleCustomItemStackHandler::new);
+        temperatureModuleInv = new NotifiableItemStackHandler(this, 1, IO.NONE, IO.BOTH, SingleCustomItemStackHandler::new);
         temperatureModuleInv.setFilter(stack -> stack.getItem() == Wrapper.TEMPERATURE_CHECK);
         temperatureModuleInv.addChangedListener(this::onConditionChange);
 
-        gravityModuleInv = new NotifiableItemStackHandler(this, 1, IO.IN, IO.BOTH, SingleCustomItemStackHandler::new);
+        gravityModuleInv = new NotifiableItemStackHandler(this, 1, IO.NONE, IO.BOTH, SingleCustomItemStackHandler::new);
         gravityModuleInv.setFilter(stack -> stack.getItem() == Wrapper.GRAVITY_CHECK);
         gravityModuleInv.addChangedListener(this::onConditionChange);
 
-        vacuumModuleInv = new NotifiableItemStackHandler(this, 1, IO.IN, IO.BOTH, SingleCustomItemStackHandler::new);
+        vacuumModuleInv = new NotifiableItemStackHandler(this, 1, IO.NONE, IO.BOTH, SingleCustomItemStackHandler::new);
         vacuumModuleInv.setFilter(stack -> stack.getItem() == Wrapper.VACUUM_CHECK);
         vacuumModuleInv.addChangedListener(this::onConditionChange);
 
-        cleanroomModuleInv = new NotifiableItemStackHandler(this, 1, IO.IN, IO.BOTH, SingleCustomItemStackHandler::new);
+        cleanroomModuleInv = new NotifiableItemStackHandler(this, 1, IO.NONE, IO.BOTH, SingleCustomItemStackHandler::new);
         cleanroomModuleInv.setFilter(stack -> Wrapper.CLEAN_CHECK.containsKey(stack.getItem()));
         cleanroomModuleInv.addChangedListener(this::onConditionChange);
     }
@@ -146,6 +146,10 @@ public class ModularHatchPartMachine extends ACMHatchPartMachine implements IMod
     private static final int xlabel = 6;
     private static final int xslot = 160;
     private static final int ylabel = 4;
+    private static final int rowHeight = 33;
+
+    // 通常来说不会超过这个长度，因为其他语言应该会主动\n换行，用来保底防止真的有太长的
+    private static final int textWidth = 160;
 
     private static final int MIN_TEMPERATURE = 273;
     private static final int MAX_TEMPERATURE = 2273;
@@ -157,51 +161,65 @@ public class ModularHatchPartMachine extends ACMHatchPartMachine implements IMod
         WidgetGroup group;
         int y = 0;
         group = new DraggableScrollableWidgetGroup(0, 0, 200, 100);
-        group.addWidget(new WidgetGroup(4, 4, 192, 140)
+        group.addWidget(new WidgetGroup(4, 4, 192, 190)
                 // Duration Multiplier
-                .addWidget(getConfigPanel(xlabel, ylabel + y++ * 22,
+                .addWidget(getConfigPanel(xlabel, ylabel + y++ * rowHeight,
                         () -> getTextWidgetText(this::getDurationMultiplier),
                         () -> Component.translatable("gtceu.maintenance.configurable_duration.modify"),
                         this::incInternalMultiplier, this::decInternalMultiplier, () -> true, getMIN_DURATION_MULTIPLIER(), getMAX_DURATION_MULTIPLIER()))
                 // Temperature
-                .addWidget(new SlotWidget(temperatureModuleInv.storage, 0, xslot, ylabel + y * 22, true, true)
+                .addWidget(new SlotWidget(temperatureModuleInv.storage, 0, xslot, ylabel + y * rowHeight, true, true)
                         .setBackground(GuiTextures.SLOT)
                         .setHoverTooltips(Component.translatable(TOOLTIP_KEY, Wrapper.TEMPERATURE_CHECK.getDefaultInstance().getDisplayName(), Component.translatable(TEMPERATURE_FUNC))))
-                .addWidget(getConfigPanel(xlabel, ylabel + y++ * 22,
+                .addWidget(getConfigPanel(xlabel, ylabel + y++ * rowHeight,
                         () -> Component.translatable("gtocore.machine.current_temperature", getTemperature()),
                         () -> temperatureMode ?
                                 Component.translatable(TEMPERATURE_CONFIG) :
-                                Component.translatable(TOOLTIP_REQUIRED_KEY, Wrapper.TEMPERATURE_CHECK.getDefaultInstance().getDisplayName()),
+                                Component.translatable(TOOLTIP_REQUIRED_KEY, getDisplayName(TEMPERATURE_SHORT_NAME)),
                         v -> setActiveTemperature(activeTemperature + v),
                         v -> setActiveTemperature(activeTemperature - v),
                         () -> temperatureMode, MIN_TEMPERATURE, MAX_TEMPERATURE))
                 // Gravity
-                .addWidget(new SlotWidget(gravityModuleInv.storage, 0, xslot, ylabel + y * 22, true, true)
+                .addWidget(new SlotWidget(gravityModuleInv.storage, 0, xslot, ylabel + y * rowHeight, true, true)
                         .setBackground(GuiTextures.SLOT)
                         .setHoverTooltips(Component.translatable(TOOLTIP_KEY, Wrapper.GRAVITY_CHECK.getDefaultInstance().getDisplayName(), Component.translatable(GRAVITY_FUNC))))
-                .addWidget(getConfigPanel(xlabel, ylabel + y++ * 22,
+                .addWidget(getConfigPanel(xlabel, ylabel + y++ * rowHeight,
                         () -> Component.translatable("forge.entity_gravity").append(": %s".formatted(getCurrentGravity())),
                         () -> gravityMode ?
                                 Component.translatable(GRAVITY_CONFIG) :
-                                Component.translatable(TOOLTIP_REQUIRED_KEY, Wrapper.GRAVITY_CHECK.getDefaultInstance().getDisplayName()),
+                                Component.translatable(TOOLTIP_REQUIRED_KEY, getDisplayName(GRAVITY_SHORT_NAME)),
                         v -> setCurrentGravity(getCurrentGravity() + v),
                         v -> setCurrentGravity(getCurrentGravity() - v),
                         () -> gravityMode, MIN_GRAVITY, MAX_GRAVITY))
                 // Vacuum
-                .addWidget(new SlotWidget(vacuumModuleInv.storage, 0, xslot, ylabel + y * 22, true, true)
+                .addWidget(new SlotWidget(vacuumModuleInv.storage, 0, xslot, ylabel + y * rowHeight, true, true)
                         .setBackground(GuiTextures.SLOT)
                         .setHoverTooltips(Component.translatable(TOOLTIP_KEY, Wrapper.VACUUM_CHECK.getDefaultInstance().getDisplayName(), Component.translatable(VACUUM_TIER_4))))
-                .addWidget(new ComponentPanelWidget(xlabel, ylabel + y++ * 22 + 11, (list) -> list.add(Component.translatable("gtocore.recipe.vacuum.tier", getVacuumTier()))))
+                .addWidget(new ComponentPanelWidget(xlabel, ylabel + y++ * rowHeight, (list) -> {
+                    list.add(Component.translatable("gtocore.recipe.vacuum.tier", getVacuumTier()));
+                    if (!vacuumMode) {
+                        list.add(Component.translatable(TOOLTIP_REQUIRED_KEY, getDisplayName(VACUUM_SHORT_NAME)));
+                    }
+                }).setMaxWidthLimit(textWidth))
                 // Cleanroom
-                .addWidget(new SlotWidget(cleanroomModuleInv.storage, 0, xslot, ylabel + y * 22, true, true)
+                .addWidget(new SlotWidget(cleanroomModuleInv.storage, 0, xslot, ylabel + y * rowHeight, true, true)
                         .setBackground(GuiTextures.SLOT)
                         .setHoverTooltips(Component.translatable(TOOLTIP_KEY_CLEANROOM)))
-                .addWidget(new ComponentPanelWidget(xlabel, ylabel + y++ * 22, (list) -> {
+                .addWidget(new ComponentPanelWidget(xlabel, ylabel + y++ * rowHeight, (list) -> {
                     list.add(Component.translatable(CURRENT_CLEANROOM));
                     list.add(getCurrentCleanroom().withStyle(ChatFormatting.GREEN));
-                }))
+                    if (cleanroomModuleInv.getStackInSlot(0).isEmpty()) {
+                        list.add(Component.translatable(TOOLTIP_REQUIRED_KEY_CLEANROOM, getDisplayName(CLEANROOM_SHORT_NAME)));
+                    }
+                }).setMaxWidthLimit(180))
                 .setBackground(GuiTextures.BACKGROUND_INVERSE));
         return group;
+    }
+
+    private static MutableComponent getDisplayName(String key) {
+        return Component.literal("[")
+                .append(Component.translatable(key))
+                .append(Component.literal("]"));
     }
 
     private static ComponentPanelWidget getConfigPanel(int x, int y,
@@ -220,7 +238,7 @@ public class ModularHatchPartMachine extends ACMHatchPartMachine implements IMod
             }
             list.add(buttonText.setStyle(Style.EMPTY.withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
                     Component.translatable(RANGE_LIMIT, String.format("%.2f", min), String.format("%.2f", max))))));
-        }).setMaxWidthLimit(150 - 8 - 8 - 4).clickHandler((componentData, clickData) -> {
+        }).setMaxWidthLimit(textWidth).clickHandler((componentData, clickData) -> {
             if (!clickData.isRemote && enableWrite.getAsBoolean()) {
                 int multiplier = clickData.isCtrlClick ? 100 : clickData.isShiftClick ? 10 : 1;
                 if ("sub".equals(componentData)) {
@@ -234,7 +252,7 @@ public class ModularHatchPartMachine extends ACMHatchPartMachine implements IMod
 
     private MutableComponent getCurrentCleanroom() {
         if (!getControllers().isEmpty() &&
-                getControllers().first() instanceof ICleanroomReceiver receiver) {
+                getController() instanceof ICleanroomReceiver receiver) {
             if (receiver.getCleanroom() != null) {
                 List<MutableComponent> cleanroomTypes = receiver.getCleanroom().getTypes().stream()
                         .map(type -> Component.translatable(type.getTranslationKey()))
@@ -293,8 +311,7 @@ public class ModularHatchPartMachine extends ACMHatchPartMachine implements IMod
         gravityMode = !gravityModuleInv.getStackInSlot(0).isEmpty();
         vacuumMode = !vacuumModuleInv.getStackInSlot(0).isEmpty();
         var cleanroom = Wrapper.CLEAN_CHECK.get(cleanroomModuleInv.getStackInSlot(0).getItem());
-        if (!getControllers().isEmpty() &&
-                getControllers().first() instanceof ICleanroomReceiver receiver && receiver.getCleanroom() != cleanroom) {
+        if (getController() instanceof ICleanroomReceiver receiver && receiver.getCleanroom() != cleanroom) {
             receiver.setCleanroom(cleanroom);
         }
         if (gravityWidget != null) {
@@ -334,8 +351,18 @@ public class ModularHatchPartMachine extends ACMHatchPartMachine implements IMod
     private static final String TOOLTIP_KEY = "gtocore.machine.modular_maintenance.tooltip";
     @RegisterLanguage(cn = "在槽位放入超净可配置维护仓以启用对应等级的超净环境", en = "Place a Cleanroom Configurable Maintenance Hatch in the slot to enable the corresponding level of cleanroom environment")
     private static final String TOOLTIP_KEY_CLEANROOM = "gtocore.machine.modular_maintenance.tooltip.cleanroom";
-    @RegisterLanguage(cn = "放入%s以启用调节", en = "Insert %s to enable adjustment")
+    @RegisterLanguage(cn = "放入%s以启用调节", en = "Insert %s\nto enable adjustment")
     private static final String TOOLTIP_REQUIRED_KEY = "gtocore.machine.modular_maintenance.required.tooltip";
+    @RegisterLanguage(cn = "放入%s以启用超净环境", en = "Insert %s\nto enable cleanroom environment")
+    private static final String TOOLTIP_REQUIRED_KEY_CLEANROOM = "gtocore.machine.modular_maintenance.required.tooltip.cleanroom";
+    @RegisterLanguage(cn = "电力加热器", en = "Electric Heater")
+    private static final String TEMPERATURE_SHORT_NAME = "gtocore.machine.modular_maintenance.temperature.short_name";
+    @RegisterLanguage(cn = "可配置重力维护仓", en = "Gravity Configuration Hatch")
+    private static final String GRAVITY_SHORT_NAME = "gtocore.machine.modular_maintenance.gravity.short_name";
+    @RegisterLanguage(cn = "可配置真空维护仓", en = "Vacuum Configuration Hatch")
+    private static final String VACUUM_SHORT_NAME = "gtocore.machine.modular_maintenance.vacuum.short_name";
+    @RegisterLanguage(cn = "超净可配置维护仓", en = "Cleanroom Configuration Hatch")
+    private static final String CLEANROOM_SHORT_NAME = "gtocore.machine.modular_maintenance.cleanroom.short_name";
     @RegisterLanguage(cn = "控制重力：", en = "Control Gravity：")
     private static final String GRAVITY_CONFIG = "gtocore.machine.modular_maintenance.gravity_config";
     @RegisterLanguage(cn = "调节温度：", en = "Adjust Temperature：")

@@ -1,6 +1,8 @@
 package com.gtocore.common.data
 
+import com.gtocore.common.data.translation.GTOMachineTooltips
 import com.gtocore.integration.ae.ExchangeStorageMonitorPart
+import com.gtocore.integration.ae.PatternContentAccessTerminalPart
 import com.gtocore.integration.ae.SimpleCraftingTerminal
 
 import net.minecraft.network.chat.Component
@@ -12,12 +14,12 @@ import appeng.api.parts.PartModels
 import appeng.core.definitions.ItemDefinition
 import appeng.items.parts.PartItem
 import appeng.items.parts.PartModelsHelper
+import com.gto.registrate.util.entry.ItemEntry
+import com.gto.registrate.util.nullness.NonNullBiConsumer
 import com.gtolib.GTOCore
 import com.gtolib.api.ae2.me2in1.Me2in1TerminalPart
 import com.gtolib.api.annotation.component_builder.ComponentBuilder
 import com.gtolib.utils.register.ItemRegisterUtils.item
-import com.tterrag.registrate.util.entry.ItemEntry
-import com.tterrag.registrate.util.nullness.NonNullBiConsumer
 
 import java.util.function.Function
 import java.util.function.Supplier
@@ -63,7 +65,18 @@ object GTOAEParts {
                 .buildSingle(),
             ComponentBuilder.create("支持编码、管理样板，并支持批量编码、自动填充配方等功能。", "supports encoding and managing patterns, batch encoding, auto-filling recipes, and more.") { p -> p }
                 .buildSingle(),
+            ComponentBuilder.create("拖曳任意子面板的右下角以调整其大小。", "Drag the bottom-right corner of any subpanel to adjust its size.") { p -> p }
+                .buildSingle(),
         ),
+    )
+
+    val Pattern_Content_Access_Terminal: Supplier<ItemDefinition<PartItem<PatternContentAccessTerminalPart>>> = createPart(
+        id = "pattern_content_access_terminal",
+        en = "Pattern Content Access Terminal",
+        cn = "样板内容管理终端",
+        partClass = PatternContentAccessTerminalPart::class.java,
+        factory = ::PatternContentAccessTerminalPart,
+        tooltips = GTOMachineTooltips.PatternContentAccessTerminalTooltips.getSupplier().get(),
     )
 
     private fun <T : IPart> createPart(id: String, en: String, cn: String, partClass: Class<T>, factory: Function<IPartItem<T>, T>, tooltips: List<Component> = listOf()): Supplier<ItemDefinition<PartItem<T>>> {

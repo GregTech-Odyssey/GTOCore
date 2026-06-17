@@ -3,22 +3,17 @@ package com.gtocore.common.machine.multiblock.electric;
 import com.gtocore.common.machine.multiblock.part.ScanningHolderMachine;
 
 import com.gtolib.api.machine.multiblock.ElectricMultiblockMachine;
-import com.gtolib.api.recipe.Recipe;
-import com.gtolib.api.recipe.RecipeRunner;
-import com.gtolib.utils.ItemUtils;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
-import com.gregtechceu.gtceu.api.capability.recipe.FluidRecipeCapability;
-import com.gregtechceu.gtceu.api.capability.recipe.IO;
-import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
 import com.gregtechceu.gtceu.api.machine.multiblock.MultiblockDisplayText;
-import com.gregtechceu.gtceu.api.machine.trait.RecipeHandlerList;
+import com.gregtechceu.gtceu.api.recipe.GTRecipe;
+import com.gregtechceu.gtceu.api.recipe.handler.IO;
+import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraftforge.fluids.FluidStack;
 
 import java.util.List;
@@ -46,7 +41,7 @@ public class ScanningStationMachine extends ElectricMultiblockMachine {
                 }
                 this.objectHolder = scanningHolder;
                 // 添加物品流体处理器（包含扫描槽、催化剂槽和数据槽）
-                addHandlerList(RecipeHandlerList.of(IO.IN, scanningHolder.getAsHandler(), scanningHolder.getCatalystFluidTank()));
+                addHandlerList(RecipeHandlerUnit.of(IO.IN, scanningHolder.getAsHandler(), scanningHolder.getCatalystFluidTank()));
             }
         }
 
@@ -92,25 +87,29 @@ public class ScanningStationMachine extends ElectricMultiblockMachine {
     }
 
     @Override
-    public boolean matchRecipe(Recipe recipe) {
-        return RecipeRunner.matchRecipeInput(this, recipe);
+    public boolean matchRecipeOutput(GTRecipe recipe) {
+        return true;
     }
 
     @Override
-    public boolean handleRecipeIO(Recipe originalRecipe, IO io) {
-        if (io == IO.IN) {
-            objectHolder.setLocked(true);
+    public boolean handleRecipeInput(RecipeHandlerUnit unit, GTRecipe recipe) {
+        if (super.handleRecipeInput(unit, recipe)) {
+            if (objectHolder != null) objectHolder.setLocked(true);
             return true;
         }
+        return false;
+    }
 
+    @Override
+    public boolean handleRecipeOutput(GTRecipe originalRecipe) {
         var lastRecipe = getRecipeLogic().getLastRecipe();
         if (lastRecipe == null) {
             objectHolder.setLocked(false);
             return true;
         }
 
-        var catalyst = lastRecipe.getInputContents(ItemRecipeCapability.CAP);
-        if (ItemRecipeCapability.CAP.of(catalyst.getFirst().content).getItems()[0].getItem() != objectHolder.getCatalystItem(false).getItem()) {
+        var catalyst = lastRecipe.itemInputs;
+        if (catalyst.getFirst().inner.getInnerItemStack().getItem() != objectHolder.getCatalystItem(false).getItem()) {
             ItemStack hold = objectHolder.getHeldItem(true);
             objectHolder.setHeldItem(objectHolder.getCatalystItem(true));
             objectHolder.setCatalystItem(hold);
@@ -118,11 +117,12 @@ public class ScanningStationMachine extends ElectricMultiblockMachine {
             return true;
         }
 
-        var fluidInputs = lastRecipe.getInputContents(FluidRecipeCapability.CAP);
+        var fluidInputs = lastRecipe.fluidInputs;
         if (!fluidInputs.isEmpty()) {
-            FluidStack requiredFluid = FluidRecipeCapability.CAP.of(fluidInputs.getFirst().content).getStacks()[0];
+            var ingredient = fluidInputs.getFirst();
+            var requiredFluid = ingredient.inner.getFluid();
             FluidStack currentFluid = objectHolder.getCatalystFluidTank().getFluidInTank(0);
-            if (currentFluid.isEmpty() || !requiredFluid.isFluidEqual(currentFluid) || currentFluid.getAmount() < requiredFluid.getAmount()) {
+            if (currentFluid.isEmpty() || currentFluid.getFluid() != requiredFluid || currentFluid.getAmount() < ingredient.amount) {
                 objectHolder.setLocked(false);
                 return true;
             }
@@ -130,8 +130,8 @@ public class ScanningStationMachine extends ElectricMultiblockMachine {
 
         objectHolder.setHeldItem(ItemStack.EMPTY);
         ItemStack outputItem = ItemStack.EMPTY;
-        var contents = lastRecipe.getOutputContents(ItemRecipeCapability.CAP);
-        if (!contents.isEmpty()) outputItem = ItemUtils.getFirstSized((Ingredient) contents.getFirst().content).copy();
+        var contents = lastRecipe.itemOutputs;
+        if (!contents.isEmpty()) outputItem = contents.getFirst().inner.getInnerItemStack().copy();
         if (!outputItem.isEmpty()) objectHolder.setDataItem(outputItem);
 
         objectHolder.getCatalystFluidTank().setFluidInTank(0, FluidStack.EMPTY);

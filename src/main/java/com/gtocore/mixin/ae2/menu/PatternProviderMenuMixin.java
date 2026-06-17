@@ -7,6 +7,7 @@ import com.gtolib.api.ae2.IPatternProviderMenu;
 import appeng.helpers.patternprovider.PatternProviderLogic;
 import appeng.menu.guisync.GuiSync;
 import appeng.menu.implementations.PatternProviderMenu;
+
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;

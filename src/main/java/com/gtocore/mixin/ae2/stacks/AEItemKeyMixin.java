@@ -1,12 +1,10 @@
 package com.gtocore.mixin.ae2.stacks;
 
-import com.gtolib.IItem;
 import com.gtolib.api.ae2.stacks.IAEItemKey;
+import com.gtolib.api.item.IItem;
 import com.gtolib.api.misc.IMapValueCache;
 import com.gtolib.api.recipe.lookup.MapIngredient;
 import com.gtolib.utils.RLUtils;
-
-import com.gregtechceu.gtceu.api.recipe.lookup.IntIngredientMap;
 
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
@@ -19,6 +17,8 @@ import net.minecraft.world.level.ItemLike;
 
 import appeng.api.stacks.AEItemKey;
 import appeng.core.AELog;
+
+import com.fast.recipesearch.IntLongMap;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.*;
 
@@ -65,7 +65,7 @@ public abstract class AEItemKeyMixin implements IAEItemKey {
         if (tag == null || tag.isEmpty()) {
             return ((IItem) item.asItem()).gtolib$getAEKey();
         } else {
-            return IMapValueCache.ITEM_KEY_CACHE.get(stack);
+            return IMapValueCache.ITEM_KEY_CACHE.getCache(stack);
         }
     }
 
@@ -89,7 +89,7 @@ public abstract class AEItemKeyMixin implements IAEItemKey {
         if (tag == null || tag.isEmpty()) return ((IItem) item).gtolib$getAEKey();
         var stack = new ItemStack(item, 1);
         stack.setTag(tag);
-        return IMapValueCache.ITEM_KEY_CACHE.get(stack);
+        return IMapValueCache.ITEM_KEY_CACHE.getCache(stack);
     }
 
     /**
@@ -107,7 +107,7 @@ public abstract class AEItemKeyMixin implements IAEItemKey {
             }
             var stack = new ItemStack(item, 1);
             stack.setTag(extraTag);
-            return IMapValueCache.ITEM_KEY_CACHE.get(stack);
+            return IMapValueCache.ITEM_KEY_CACHE.getCache(stack);
         } catch (Exception e) {
             AELog.debug("Tried to load an invalid item key from NBT: %s", tag, e);
             return null;
@@ -141,7 +141,7 @@ public abstract class AEItemKeyMixin implements IAEItemKey {
         }
         var stack = new ItemStack(item);
         stack.readShareTag(shareTag);
-        return IMapValueCache.ITEM_KEY_CACHE.get(stack);
+        return IMapValueCache.ITEM_KEY_CACHE.getCache(stack);
     }
 
     /**
@@ -165,9 +165,9 @@ public abstract class AEItemKeyMixin implements IAEItemKey {
     }
 
     @Override
-    public void gtolib$convert(long amount, IntIngredientMap map) {
+    public void gtolib$convert(long amount, IntLongMap map) {
         if (gtocore$is == null) {
-            var m = new IntIngredientMap();
+            var m = new IntLongMap();
             MapIngredient.ITEM_CONVERTER.convert(getReadOnlyStack(), 1, m);
             gtocore$is = m.toIntArray();
         }

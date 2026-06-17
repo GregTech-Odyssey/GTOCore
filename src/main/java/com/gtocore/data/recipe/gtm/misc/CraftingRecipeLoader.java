@@ -1,23 +1,30 @@
 package com.gtocore.data.recipe.gtm.misc;
 
+import com.gtocore.common.data.GTOItems;
 import com.gtocore.common.data.GTOMaterials;
 
+import com.gtolib.GTOCore;
+import com.gtolib.utils.RegistriesUtils;
+
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
+import com.gregtechceu.gtceu.api.data.chemical.material.Material;
 import com.gregtechceu.gtceu.api.data.chemical.material.stack.MaterialEntry;
-import com.gregtechceu.gtceu.api.recipe.FacadeCoverRecipe;
+import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.recipe.ingredient.FluidContainerIngredient;
 import com.gregtechceu.gtceu.common.data.GTBlocks;
 import com.gregtechceu.gtceu.common.data.GTItems;
+import com.gregtechceu.gtceu.common.data.GTMaterials;
+import com.gregtechceu.gtceu.common.recipe.FacadeCoverRecipe;
 import com.gregtechceu.gtceu.data.pack.GTDynamicDataPack;
 import com.gregtechceu.gtceu.data.recipe.CustomTags;
 import com.gregtechceu.gtceu.data.recipe.VanillaRecipeHelper;
 
 import net.minecraft.data.recipes.SpecialRecipeBuilder;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraftforge.common.Tags;
 
 import vazkii.botania.common.block.BotaniaBlocks;
 import vazkii.botania.common.block.BotaniaFlowerBlocks;
@@ -26,6 +33,7 @@ import vazkii.botania.common.item.BotaniaItems;
 import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.*;
 import static com.gregtechceu.gtceu.common.data.GTItems.*;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
+import static com.gtocore.api.data.tag.GTOTagPrefix.COIN;
 import static com.gtocore.common.data.GTOItems.*;
 
 public final class CraftingRecipeLoader {
@@ -124,16 +132,13 @@ public final class CraftingRecipeLoader {
                 "XEX", 'P', new MaterialEntry(plate, Platinum), 'I', new MaterialEntry(plate, Ruridit), 'C',
                 CARBON_FIBER_PLATE.asItem(), 'X', CustomTags.EV_CIRCUITS, 'E', ENERGIUM_CRYSTAL.asItem());
 
-        VanillaRecipeHelper.addShapedRecipe("solar_panel_basic", COVER_SOLAR_PANEL.asItem(), "WGW", "CPC",
-                'W', SILICON_WAFER.asItem(), 'G', new ItemStack(Blocks.GLASS_PANE), 'C', CustomTags.LV_CIRCUITS, 'P',
-                CARBON_FIBER_PLATE.asItem());
-        VanillaRecipeHelper.addShapedRecipe("solar_panel_ulv", COVER_SOLAR_PANEL_ULV.asItem(), "WGW", "CAC",
-                "P P", 'W', PHOSPHORUS_WAFER.asItem(), 'G', Tags.Items.GLASS_PANES, 'C', CustomTags.HV_CIRCUITS, 'P',
-                ChemicalHelper.get(plate, GalliumArsenide), 'A', ChemicalHelper.get(wireGtQuadruple, Graphene));
-        VanillaRecipeHelper.addShapedRecipe("solar_panel_lv", COVER_SOLAR_PANEL_LV.asItem(), "WGW", "CAC",
-                "P P", 'W', NAQUADAH_WAFER.asItem(), 'G', GTBlocks.CASING_TEMPERED_GLASS.asItem(), 'C',
-                CustomTags.LuV_CIRCUITS, 'P', ChemicalHelper.get(plate, IndiumGalliumPhosphide), 'A',
-                ChemicalHelper.get(wireGtHex, Graphene));
+        VanillaRecipeHelper.addShapedRecipe(GTOCore.id("solar_panel"), GTItems.COVER_SOLAR_PANEL.asItem(),
+                " A ",
+                "BCB",
+                "EDE",
+                'A', Items.GLASS_PANE, 'B', new MaterialEntry(TagPrefix.plate, GTMaterials.WroughtIron),
+                'C', new MaterialEntry(TagPrefix.dust, GTMaterials.Silicon), 'D', GTOItems.SUPER_CAPACITOR.asItem(),
+                'E', CustomTags.LV_CIRCUITS);
 
         VanillaRecipeHelper.addShapedRecipe("universal_fluid_cell", FLUID_CELL_UNIVERSAL.asItem(), "C ",
                 "  ", 'C', FLUID_CELL);
@@ -178,6 +183,36 @@ public final class CraftingRecipeLoader {
                 "ABA",
                 " A ",
                 'A', new MaterialEntry(plate, Steel), 'B', new MaterialEntry(plate, Glass));
+
+        VanillaRecipeHelper.addShapedFluidContainerRecipe(new ResourceLocation("easy_villagers", "iron_farm", null), RegistriesUtils.getItemStack("easy_villagers:iron_farm"),
+                "AAA",
+                "ABA",
+                "CDC",
+                'A', Items.GLASS_PANE, 'B', new FluidContainerIngredient(Lava.getFluid(1000)), 'C', new MaterialEntry(TagPrefix.ingot, GTMaterials.Iron), 'D', new MaterialEntry(TagPrefix.rock, GTMaterials.Stone));
+
+        VanillaRecipeHelper.addShapedFluidContainerRecipe(new ResourceLocation("easy_villagers", "farmer", null), RegistriesUtils.getItemStack("easy_villagers:farmer"),
+                "AAA",
+                "ABA",
+                "CDC",
+                'A', Items.GLASS_PANE, 'B', new FluidContainerIngredient(Water.getFluid(1000)), 'C', new MaterialEntry(TagPrefix.ingot, GTMaterials.Iron), 'D', Items.DIRT);
+
+        VanillaRecipeHelper.addShapedFluidContainerRecipe(new ResourceLocation("extrabotany", "feather_of_jingwei", null), RegistriesUtils.getItemStack("extrabotany:feather_of_jingwei"),
+                "ABA",
+                "ACA",
+                "ADA",
+                'A', new MaterialEntry(TagPrefix.dust, GTMaterials.Blaze), 'B', new FluidContainerIngredient(Lava.getFluid(1000)), 'C', Items.FEATHER, 'D', RegistriesUtils.getItemStack("extrabotany:hero_medal"));
+
+        VanillaRecipeHelper.addShapedFluidContainerRecipe(new ResourceLocation("apotheosis", "sigil_of_withdrawal", null), RegistriesUtils.getItemStack("apotheosis:sigil_of_withdrawal", 4),
+                "ABA",
+                "CDC",
+                "AEA",
+                'A', RegistriesUtils.getItemStack("apotheosis:gem_fused_slate"), 'B', new MaterialEntry(TagPrefix.rod, GTMaterials.Blaze), 'C', new MaterialEntry(TagPrefix.gem, GTMaterials.EnderPearl), 'D', new FluidContainerIngredient(Lava.getFluid(1000)), 'E', RegistriesUtils.getItemStack("apotheosis:gem_dust"));
+
+        VanillaRecipeHelper.addShapedFluidContainerRecipe(new ResourceLocation("apotheosis", "salvaging_table", null), RegistriesUtils.getItemStack("apotheosis:salvaging_table"),
+                "AAA",
+                "BCD",
+                "EFE",
+                'A', new MaterialEntry(TagPrefix.ingot, GTMaterials.Copper), 'B', Items.IRON_PICKAXE, 'C', Items.SMITHING_TABLE, 'D', Items.IRON_AXE, 'E', RegistriesUtils.getItem("apotheosis:gem_dust"), 'F', new FluidContainerIngredient(Lava.getFluid(1000)));
 
         ///////////////////////////////////////////////////
         // Shapes and Molds //
@@ -302,5 +337,43 @@ public final class CraftingRecipeLoader {
         // Special //
         ///////////////////////////////////////////////////
         SpecialRecipeBuilder.special(FacadeCoverRecipe.SERIALIZER).save(GTDynamicDataPack.CONSUMER, "gtceu:crafting/facade_cover");
+
+        ///////////////////////////////////////////////////
+        // Coin //
+        ///////////////////////////////////////////////////
+        addCoinConversionRecipes();
+    }
+
+    private static final Material[] COIN_TIERS = {
+            GTMaterials.Copper,
+            GTMaterials.Cupronickel,
+            GTMaterials.Silver,
+            GTMaterials.Gold,
+            GTMaterials.Osmium,
+            GTMaterials.Naquadah,
+            GTMaterials.Neutronium,
+            GTOMaterials.Adamantine,
+            GTOMaterials.Infinity,
+            GTOMaterials.Neutron
+    };
+
+    private static void addCoinConversionRecipes() {
+        for (int i = 0; i < COIN_TIERS.length - 1; i++) {
+            Material lower = COIN_TIERS[i];
+            Material upper = COIN_TIERS[i + 1];
+            VanillaRecipeHelper.addShapelessRecipe("coin_upgrade_" + lower.getName() + "_to_" + upper.getName(),
+                    ChemicalHelper.get(COIN, upper),
+                    new MaterialEntry(COIN, lower),
+                    new MaterialEntry(COIN, lower),
+                    new MaterialEntry(COIN, lower),
+                    new MaterialEntry(COIN, lower),
+                    new MaterialEntry(COIN, lower),
+                    new MaterialEntry(COIN, lower),
+                    new MaterialEntry(COIN, lower),
+                    new MaterialEntry(COIN, lower));
+            VanillaRecipeHelper.addShapelessRecipe("coin_downgrade_" + upper.getName() + "_to_" + lower.getName(),
+                    ChemicalHelper.get(COIN, lower, 8),
+                    new MaterialEntry(COIN, upper));
+        }
     }
 }

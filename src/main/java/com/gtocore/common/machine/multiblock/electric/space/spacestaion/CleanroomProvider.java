@@ -1,6 +1,6 @@
 package com.gtocore.common.machine.multiblock.electric.space.spacestaion;
 
-import com.gtocore.api.machine.part.ILargeSpaceStationMachine;
+import com.gtocore.api.machine.ILargeSpaceStationMachine;
 import com.gtocore.common.machine.multiblock.part.maintenance.CMHatchPartMachine;
 
 import com.gtolib.api.capability.IIWirelessInteractor;
@@ -12,30 +12,26 @@ import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.feature.ICleanroomProvider;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
 import com.gregtechceu.gtceu.api.machine.multiblock.CleanroomType;
+import com.gregtechceu.gtceu.api.pattern.Predicates;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 
 import com.google.common.collect.ImmutableSet;
-import it.unimi.dsi.fastutil.objects.ObjectArrayList;
-import it.unimi.dsi.fastutil.objects.ObjectList;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import static com.gregtechceu.gtceu.api.GTValues.*;
 import static com.gtocore.common.machine.multiblock.part.maintenance.ModularHatchPartMachine.CLEANROOM_NOT_SET;
 import static com.gtocore.common.machine.multiblock.part.maintenance.ModularHatchPartMachine.CURRENT_CLEANROOM;
 
-public class CleanroomProvider extends Extension implements IDroneControlCenterMachine {
+public class CleanroomProvider extends Extension implements IDroneControlCenterMachine, ISpaceServiceMachine {
 
     private @Nullable ICleanroomProvider cleanroomType = null;
-    private final ObjectList<DroneHatchPartMachine> droneHatchPartMachine = new ObjectArrayList<>();
+    private final List<DroneHatchPartMachine> droneHatchPartMachine = new ArrayList<>();
 
     public CleanroomProvider(MetaMachineBlockEntity metaMachineBlockEntity) {
         super(metaMachineBlockEntity, ILargeSpaceStationMachine.twoWayPositionFunction(41));
@@ -45,7 +41,7 @@ public class CleanroomProvider extends Extension implements IDroneControlCenterM
     public void onStructureFormed() {
         droneHatchPartMachine.clear();
         super.onStructureFormed();
-        IFilterType filterType = getMultiblockState().getMatchContext().get("FilterType");
+        IFilterType filterType = getMultiblockState().getMatchContext().get(Predicates.DataKey.FILTER_TYPE);
         if (filterType != null) {
             this.cleanroomType = switch (filterType.getCleanroomType().getName()) {
                 case "sterile_cleanroom" -> CMHatchPartMachine.STERILE_DUMMY_CLEANROOM;
@@ -97,7 +93,7 @@ public class CleanroomProvider extends Extension implements IDroneControlCenterM
     }
 
     @Override
-    public ObjectList<DroneHatchPartMachine> getDroneHatchPartMachine() {
+    public List<DroneHatchPartMachine> getDroneHatchPartMachine() {
         return droneHatchPartMachine;
     }
 

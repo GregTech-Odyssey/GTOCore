@@ -4,15 +4,12 @@ import com.gtocore.api.machine.part.GTOPartAbility;
 import com.gtocore.api.pattern.GTOPredicates;
 import com.gtocore.common.data.GTOMachines;
 
+import com.gtolib.api.data.GTODimensions;
 import com.gtolib.api.misc.PlanetManagement;
-import com.gtolib.api.recipe.modifier.RecipeModifierFunction;
-import com.gtolib.api.recipe.modifier.RecipeModifierFunctionList;
-import com.gtolib.utils.ItemUtils;
-import com.gtolib.utils.MachineUtils;
+import com.gtolib.api.recipe.GTORecipeModifiers;
 import com.gtolib.utils.RLUtils;
 
 import com.gregtechceu.gtceu.api.GTValues;
-import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
@@ -29,11 +26,12 @@ import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import com.gregtechceu.gtceu.common.data.machines.GTMachineUtils;
 import com.gregtechceu.gtceu.common.data.machines.GTMultiMachines;
+import com.gregtechceu.gtceu.utils.FormattingUtil;
 
+import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.Ingredient;
 
 import org.jetbrains.annotations.Nullable;
 
@@ -50,26 +48,22 @@ public final class GTMachineModify {
     public static void init() {
         GTMultiMachines.MULTI_SMELTER.setRecipeTypes(new GTRecipeType[] { GTRecipeTypes.FURNACE_RECIPES });
         GTMultiMachines.MULTI_SMELTER.setTooltipBuilder((itemStack, components) -> components.add(Component.translatable("gtceu.machine.available_recipe_map_1.tooltip", Component.translatable("gtceu.electric_furnace"))));
-        GTMultiMachines.MULTI_SMELTER.setRecipeModifier(new RecipeModifierFunctionList(RecipeModifierFunction::multiSmelterParallel));
+        GTMultiMachines.MULTI_SMELTER.setRecipeModifier(GTORecipeModifiers.UPGRADE_MULTI_SMELTER_OVERCLOCK);
         GTMultiMachines.LARGE_CHEMICAL_REACTOR.setRecipeModifier(RecipeModifier.NO_MODIFIER);
-        GTMultiMachines.LARGE_BOILER_BRONZE.setRecipeModifier(RecipeModifierFunction.LARGE_BOILER_MODIFIER);
-        GTMultiMachines.LARGE_BOILER_STEEL.setRecipeModifier(RecipeModifierFunction.LARGE_BOILER_MODIFIER);
-        GTMultiMachines.LARGE_BOILER_TITANIUM.setRecipeModifier(RecipeModifierFunction.LARGE_BOILER_MODIFIER);
-        GTMultiMachines.LARGE_BOILER_TUNGSTENSTEEL.setRecipeModifier(RecipeModifierFunction.LARGE_BOILER_MODIFIER);
-        GTMultiMachines.ELECTRIC_BLAST_FURNACE.setRecipeModifier(new RecipeModifierFunctionList(RecipeModifierFunction::ebfOverclock));
-        GTMultiMachines.PYROLYSE_OVEN.setRecipeModifier(new RecipeModifierFunctionList(RecipeModifierFunction::pyrolyseOvenOverclock));
+        GTMultiMachines.ELECTRIC_BLAST_FURNACE.setRecipeModifier(GTORecipeModifiers.UPGRADE_EBF_OVERCLOCK);
+        GTMultiMachines.PYROLYSE_OVEN.setRecipeModifier(GTORecipeModifiers.UPGRADE_PYROLYSE_OVEN_OVERCLOCK);
         GTMultiMachines.PYROLYSE_OVEN.setRecoveryItems(GTMachineModify::tinydustFromDustOutput);
-        GTMultiMachines.CRACKER.setRecipeModifier(new RecipeModifierFunctionList(RecipeModifierFunction::crackerOverclock));
-        GTMultiMachines.IMPLOSION_COMPRESSOR.setRecipeModifier(RecipeModifierFunction.OVERCLOCKING);
+        GTMultiMachines.CRACKER.setRecipeModifier(GTORecipeModifiers.UPGRADE_CRACKER_OVERCLOCK);
+        GTMultiMachines.IMPLOSION_COMPRESSOR.setRecipeModifier(GTORecipeModifiers.UPGRADE_OVERCLOCK);
         GTMultiMachines.IMPLOSION_COMPRESSOR.setRecoveryItems((a, b) -> ChemicalHelper.get(TagPrefix.dustTiny, GTMaterials.Saltpeter));
-        GTMultiMachines.DISTILLATION_TOWER.setRecipeModifier(RecipeModifierFunction.OVERCLOCKING);
-        GTMultiMachines.VACUUM_FREEZER.setRecipeModifier(RecipeModifierFunction.OVERCLOCKING);
-        GTMultiMachines.ASSEMBLY_LINE.setRecipeModifier(RecipeModifierFunction.OVERCLOCKING);
+        GTMultiMachines.DISTILLATION_TOWER.setRecipeModifier(GTORecipeModifiers.UPGRADE_OVERCLOCK);
+        GTMultiMachines.VACUUM_FREEZER.setRecipeModifier(GTORecipeModifiers.UPGRADE_OVERCLOCK);
+        GTMultiMachines.ASSEMBLY_LINE.setRecipeModifier(GTORecipeModifiers.UPGRADE_OVERCLOCK);
         GTMultiMachines.STEAM_GRINDER.setPatternFactory(definition -> FactoryBlockPattern.start(definition)
                 .aisle("XXX", "XXX", "XXX")
                 .aisle("XXX", "X#X", "XXX")
                 .aisle("XXX", "XSX", "XXX")
-                .where('S', Predicates.controller(blocks(definition.get())))
+                .where('S', Predicates.controller(definition))
                 .where('#', air())
                 .where('X', blocks(CASING_BRONZE_BRICKS.get())
                         .or(abilities(PartAbility.STEAM_IMPORT_ITEMS).setMaxGlobalLimited(1).setPreviewCount(1))
@@ -82,7 +76,7 @@ public final class GTMachineModify {
                 .aisle("FFF", "XXX", " X ")
                 .aisle("FFF", "X#X", " X ")
                 .aisle("FFF", "XSX", " X ")
-                .where('S', controller(blocks(definition.get())))
+                .where('S', controller(definition))
                 .where('#', air())
                 .where(' ', any())
                 .where('X', blocks(CASING_BRONZE_BRICKS.get())
@@ -99,14 +93,14 @@ public final class GTMachineModify {
                 .aisle("XXX", "XYX", "XXX", "XXX")
                 .where('X', blocks(CASING_PRIMITIVE_BRICKS.get()).or(blocks(PRIMITIVE_BLAST_FURNACE_HATCH.get()).setMaxGlobalLimited(5)))
                 .where('#', air())
-                .where('Y', controller(blocks(definition.get())))
+                .where('Y', controller(definition))
                 .build());
 
         GTMultiMachines.LARGE_BOILER_BRONZE.setPatternFactory(definition -> FactoryBlockPattern.start(definition)
                 .aisle("XXX", "CCC", "CCC", "CCC")
                 .aisle("XXX", "CPC", "CPC", "CCC")
                 .aisle("XXX", "CSC", "CCC", "CCC")
-                .where('S', Predicates.controller(blocks(definition.get())))
+                .where('S', Predicates.controller(definition))
                 .where('P', blocks(CASING_BRONZE_PIPE.get()))
                 .where('X', blocks(FIREBOX_BRONZE.get()).setMinGlobalLimited(5)
                         .or(Predicates.abilities(PartAbility.IMPORT_FLUIDS).setMinGlobalLimited(1).setPreviewCount(1))
@@ -122,7 +116,7 @@ public final class GTMachineModify {
                     .aisle("ZZZ", "Z#Z", "ZZZ")
                     .aisle("XXX", "X#X", "XXX").setRepeatable(0, 10)
                     .aisle("XXX", "XXX", "XXX")
-                    .where('S', Predicates.controller(blocks(definition.get())))
+                    .where('S', Predicates.controller(definition))
                     .where('Y', blocks(CASING_STAINLESS_CLEAN.get())
                             .or(Predicates.abilities(PartAbility.EXPORT_ITEMS).setMaxGlobalLimited(1))
                             .or(Predicates.abilities(PartAbility.INPUT_ENERGY).setMinGlobalLimited(1).setMaxGlobalLimited(2))
@@ -147,28 +141,27 @@ public final class GTMachineModify {
                         .or(GTOPredicates.autoIOAbilities(definition.getRecipeTypes()))
                         .or(abilities(PartAbility.INPUT_ENERGY).setMaxGlobalLimited(2))
                         .or(abilities(GTOPartAbility.ACCELERATE_HATCH).setMaxGlobalLimited(1)))
-                .where('B', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTMaterials.StainlessSteel)))
+                .where('B', GTOPredicates.frame(GTMaterials.StainlessSteel))
                 .where('C', blocks(GTBlocks.CASING_INVAR_HEATPROOF.get()))
                 .where('D', blocks(GTBlocks.CASING_STEEL_PIPE.get()))
-                .where('E', controller(blocks(definition.get())))
+                .where('E', controller(definition))
                 .where(' ', any())
                 .build()));
         GTMultiMachines.ELECTRIC_BLAST_FURNACE.setAdditionalDisplay((m, l) -> {});
 
         for (int tier : GTMachineUtils.ELECTRIC_TIERS) {
-            GTMachines.MACERATOR[tier].setRecipeModifier(RecipeModifierFunction.OVERCLOCKING);
-            GTMachines.ROCK_CRUSHER[tier].setRecipeModifier(RecipeModifierFunction.OVERCLOCKING);
-            if (tier < GTValues.IV) GTMachines.AIR_SCRUBBER[tier].setRecipeModifier(RecipeModifierFunction.OVERCLOCKING);
+            GTMachines.MACERATOR[tier].setRecipeModifier(GTORecipeModifiers.UPGRADE_OVERCLOCK);
+            GTMachines.ROCK_CRUSHER[tier].setRecipeModifier(GTORecipeModifiers.UPGRADE_OVERCLOCK);
             if (tier > GTValues.LV) {
                 GTMachines.SCANNER[tier].setOnWorking(machine -> {
                     if (machine.getProgress() == machine.getMaxProgress() - 1) {
-                        MachineUtils.forEachInputItems(machine, (stack, amount) -> {
+                        machine.forEachItems(true, (stack, amount) -> {
                             CompoundTag tag = stack.getTag();
                             if (tag != null) {
                                 String planet = tag.getString("planet");
                                 if (!planet.isEmpty()) {
                                     UUID uuid = tag.getUUID("uuid");
-                                    PlanetManagement.unlock(uuid, RLUtils.parse(planet));
+                                    PlanetManagement.unlock(uuid, GTODimensions.getDimensionKey(RLUtils.parse(planet)));
                                     stack.setCount(0);
                                     return true;
                                 }
@@ -176,10 +169,29 @@ public final class GTMachineModify {
                             return false;
                         });
                     }
-                    return true;
                 });
             }
         }
+
+        for (int tier : GTMachineUtils.LOW_TIERS) {
+            GTMachines.AIR_SCRUBBER[tier].setTooltipBuilder((itemStack, components) -> {
+                components.add(Component.translatable("gtocore.machine.air_scrubber.ash_chance",
+                        Component.literal(FormattingUtil.formatNumbers(getAirScrubberAshTransferChance(tier))).withStyle(ChatFormatting.WHITE))
+                        .withStyle(ChatFormatting.GRAY));
+                components.add(Component.translatable("gtocore.machine.air_scrubber.range",
+                        Component.literal(FormattingUtil.formatNumbers(getAirScrubberRange(tier))).withStyle(ChatFormatting.WHITE))
+                        .withStyle(ChatFormatting.GRAY));
+            });
+            GTMachines.AIR_SCRUBBER[tier].setRecipeModifier(GTORecipeModifiers.UPGRADE_OVERCLOCK);
+        }
+    }
+
+    private static double getAirScrubberAshTransferChance(int tier) {
+        return 100.0 - 50.0 / tier;
+    }
+
+    private static int getAirScrubberRange(int tier) {
+        return 1 << (tier + 3);
     }
 
     private static ItemStack ash;
@@ -193,9 +205,9 @@ public final class GTMachineModify {
             ash = GTMachineModify.ash;
         }
         if (machine.getLevel() == null) return ash;
-        if (gtRecipe != null && gtRecipe.outputs.get(ItemRecipeCapability.CAP) != null) {
-            var pool = gtRecipe.outputs.get(ItemRecipeCapability.CAP)
-                    .stream().map(ing -> ItemUtils.getFirstSized((Ingredient) ing.content))
+        if (gtRecipe != null && !gtRecipe.itemOutputs.isEmpty()) {
+            var pool = gtRecipe.itemOutputs
+                    .stream().map(ing -> ing.inner.getInnerItemStack())
                     .filter(i -> !i.isEmpty() && ChemicalHelper.getPrefix(i.getItem()) == TagPrefix.dust)
                     .map(i -> ChemicalHelper.get(TagPrefix.dustTiny, ChemicalHelper.getMaterialStack(i).material()))
                     .toList();

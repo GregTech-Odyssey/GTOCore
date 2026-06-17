@@ -3,6 +3,7 @@ package com.gtocore.mixin.ae2.stacks;
 import com.gtolib.api.ae2.stacks.IGenericStack;
 
 import appeng.api.stacks.GenericStack;
+
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Mutable;

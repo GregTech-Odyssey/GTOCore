@@ -1,6 +1,6 @@
 package com.gtocore.integration;
 
-import net.minecraftforge.fml.ModList;
+import net.minecraftforge.fml.loading.FMLLoader;
 
 import lombok.Getter;
 
@@ -16,12 +16,18 @@ public enum Mods {
     SOPHISTICATEDBACKPACKS("sophisticatedbackpacks"),
     BIOMESOPLENTY("biomesoplenty"),
     BIOMESWEVEGONE("biomeswevegone"),
-    FTBQUESTS("ftbquests");
+    PIPEZ("pipez"),
+    FTBQUESTS("ftbquests"),
+    CONSTRUCTION_WAND("constructionwand"),
+    JECHARACTERS("jecharacters"),
+    LANG("moremorelang"),
+    FACTORY_BLOCKS("factory_blocks"),
+    MYTHICBOTANY("mythicbotany");
 
     @Getter
     private final boolean loaded;
 
     Mods(String modId) {
-        loaded = ModList.get().isLoaded(modId);
+        loaded = FMLLoader.getLoadingModList().getModFileById(modId) != null;
     }
 }

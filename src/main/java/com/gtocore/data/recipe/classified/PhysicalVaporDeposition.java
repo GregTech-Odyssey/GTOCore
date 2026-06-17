@@ -20,17 +20,17 @@ final class PhysicalVaporDeposition {
     public static void init() {
         PHYSICAL_VAPOR_DEPOSITION_RECIPES.recipeBuilder("highly_insulating_foil")
                 .inputItems(TagPrefix.foil, GTOMaterials.Polyetheretherketone)
-                .inputFluids(GTOMaterials.Azafullerene.getFluid(10))
-                .outputItems(GTOItems.HIGHLY_INSULATING_FOIL.asItem())
+                .inputFluids(GTOMaterials.Azafullerene, 10)
+                .outputItems(GTOItems.HIGHLY_INSULATING_FOIL)
                 .EUt(7680)
                 .duration(240)
                 .cleanroom(CleanroomType.CLEANROOM)
                 .save();
 
         PHYSICAL_VAPOR_DEPOSITION_RECIPES.recipeBuilder("cosmic_soc_wafer")
-                .inputItems(GTOItems.PREPARED_COSMIC_SOC_WAFER.asItem())
+                .inputItems(GTOItems.PREPARED_COSMIC_SOC_WAFER)
                 .inputFluids(GTMaterials.Argon.getFluid(FluidStorageKeys.PLASMA, 1000))
-                .outputItems(GTOItems.SIMPLE_COSMIC_SOC_WAFER.asItem())
+                .outputItems(GTOItems.SIMPLE_COSMIC_SOC_WAFER)
                 .EUt(7864320)
                 .duration(600)
                 .cleanroom(CleanroomType.CLEANROOM)
@@ -38,8 +38,8 @@ final class PhysicalVaporDeposition {
 
         PHYSICAL_VAPOR_DEPOSITION_RECIPES.recipeBuilder("fullerene_polymer_matrix_soft_tubing")
                 .inputItems(TagPrefix.wireFine, GTOMaterials.Polyetheretherketone)
-                .inputFluids(GTOMaterials.FullerenePolymerMatrixPulp.getFluid(18))
-                .outputItems(GTOItems.FULLERENE_POLYMER_MATRIX_SOFT_TUBING.asItem())
+                .inputFluids(GTOMaterials.FullerenePolymerMatrixPulp, 18)
+                .outputItems(GTOItems.FULLERENE_POLYMER_MATRIX_SOFT_TUBING)
                 .EUt(100)
                 .duration(80)
                 .save();
@@ -146,7 +146,7 @@ final class PhysicalVaporDeposition {
                 .save();
         PHYSICAL_VAPOR_DEPOSITION_RECIPES.builder("plasma_field_glass")
                 .inputItems(GTOBlocks.ENDERIUM_BOROSILICATE_GLASS.asItem())
-                .inputItems(GTItems.EMITTER_ZPM.asItem(), 2)
+                .inputItems(GTItems.EMITTER_ZPM, 2)
                 .outputItems(GTOBlocks.PLASMA_FIELD_GLASS.asItem())
                 .inputFluids(GTOMaterials.DegenerateRhenium, FluidStorageKeys.PLASMA, 1000)
                 .inputFluids(GTMaterials.MolybdenumDisilicide, 1296)

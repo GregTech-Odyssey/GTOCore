@@ -2,8 +2,7 @@ package com.gtocore.common.machine.multiblock.water;
 
 import com.gtocore.common.machine.multiblock.part.IndicatorHatchPartMachine;
 
-import com.gtolib.api.machine.part.ItemHatchPartMachine;
-import com.gtolib.api.recipe.RecipeRunner;
+import com.gtolib.api.machine.part.ItemPartMachine;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
@@ -11,12 +10,13 @@ import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.chemical.material.MarkerMaterials;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
+import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;
 
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
+import com.gto.datasynclib.annotations.SaveToDisk;
 
 import java.util.List;
 
@@ -38,26 +38,26 @@ public final class HighEnergyLaserPurificationUnitMachine extends WaterPurificat
             ChemicalHelper.getItem(TagPrefix.lens, MarkerMaterials.Color.Magenta),
             ChemicalHelper.getItem(TagPrefix.lens, MarkerMaterials.Color.Pink));
 
-    @Persisted
+    @SaveToDisk
     private int index;
 
-    @Persisted
+    @SaveToDisk
     private int time;
 
-    @Persisted
+    @SaveToDisk
     private int await;
 
-    @Persisted
+    @SaveToDisk
     private int working;
 
-    @Persisted
+    @SaveToDisk
     private int chance;
 
-    @Persisted
+    @SaveToDisk
     private long inputCount;
 
     private IndicatorHatchPartMachine indicatorHatchPartMachine;
-    private ItemHatchPartMachine itemHatchPartMachine;
+    private ItemPartMachine ItemPartMachine;
 
     public HighEnergyLaserPurificationUnitMachine(MetaMachineBlockEntity holder) {
         super(holder, 32);
@@ -68,8 +68,8 @@ public final class HighEnergyLaserPurificationUnitMachine extends WaterPurificat
         super.onPartScan(part);
         if (indicatorHatchPartMachine == null && part instanceof IndicatorHatchPartMachine lensSensorPart) {
             indicatorHatchPartMachine = lensSensorPart;
-        } else if (itemHatchPartMachine == null && part instanceof ItemHatchPartMachine itemHatchPart) {
-            itemHatchPartMachine = itemHatchPart;
+        } else if (ItemPartMachine == null && part instanceof ItemPartMachine itemHatchPart) {
+            ItemPartMachine = itemHatchPart;
         }
     }
 
@@ -77,21 +77,21 @@ public final class HighEnergyLaserPurificationUnitMachine extends WaterPurificat
     public void onStructureInvalid() {
         super.onStructureInvalid();
         indicatorHatchPartMachine = null;
-        itemHatchPartMachine = null;
+        ItemPartMachine = null;
     }
 
     @Override
     public void customText(List<Component> textList) {
         super.customText(textList);
         if (getRecipeLogic().isWorking()) {
-            textList.add(Component.translatable("gui.enderio.sag_mill_chance", chance));
-            textList.add(Component.translatable("tooltip.avaritia.num_items", LENS.get(index).getDescription()));
+            textList.add(Component.translatable("gtceu.jei.ore_vein_diagram.chance", chance));
+            textList.add(Component.translatable("attributeslib.gui.current", LENS.get(index).getDescription()));
         }
     }
 
     @Override
-    public boolean onWorking() {
-        if (!super.onWorking()) return false;
+    public void onWorking() {
+        super.onWorking();
         if (getRecipeLogic().getProgress() > time) {
             time = GTValues.RNG.nextInt(120) + 120 + getRecipeLogic().getProgress();
             if (index < 9) {
@@ -119,28 +119,27 @@ public final class HighEnergyLaserPurificationUnitMachine extends WaterPurificat
         } else {
             indicatorHatchPartMachine.setRedstoneSignalOutput(0);
         }
-        return true;
     }
 
     private boolean match() {
-        return itemHatchPartMachine.getInventory().storage.getStackInSlot(0).is(LENS.get(index));
+        return ItemPartMachine.getInventory().storage.getStackInSlot(0).is(LENS.get(index));
     }
 
     @Override
-    public void onRecipeFinish() {
-        super.onRecipeFinish();
+    public void afterWorking() {
+        super.afterWorking();
         if (GTValues.RNG.nextInt(100) <= chance) outputFluid(WaterPurificationPlantMachine.GradePurifiedWater6, inputCount * 9 / 10);
     }
 
     @Override
-    long before() {
+    long prepareRecipe(RecipeHandlerUnit unit) {
         eut = 0;
         chance = 0;
         time = GTValues.RNG.nextInt(120) + 120;
-        inputCount = Math.min(parallel(), getFluidAmount(WaterPurificationPlantMachine.GradePurifiedWater5)[0]);
+        inputCount = Math.min(parallel(), unit.getFluidAmount(true, WaterPurificationPlantMachine.GradePurifiedWater5)[0]);
         if (inputCount > 0) {
             recipe = getRecipeBuilder().duration(WaterPurificationPlantMachine.DURATION).inputFluids(WaterPurificationPlantMachine.GradePurifiedWater5, inputCount).buildRawRecipe();
-            if (RecipeRunner.matchRecipe(this, recipe)) {
+            if (matchRecipe(unit, recipe)) {
                 calculateVoltage(inputCount);
             }
         }

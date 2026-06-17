@@ -72,21 +72,25 @@ public abstract class MaterialMixin implements GTOMaterial {
         gtolib$temp = temp;
     }
 
-    @Inject(method = "getMaterialRGB()I", at = @At("HEAD"), remap = false, cancellable = true)
+    @Inject(method = { "getMaterialRGB()I", "getMaterialSecondaryRGB" }, at = @At("HEAD"), remap = false, cancellable = true)
     private void getMaterialRGB(CallbackInfoReturnable<Integer> cir) {
         if (GTCEu.isClientSide()) {
             IntSupplier supplier = MaterialsColorMap.MaterialColors.get(this);
             if (supplier == null) return;
-            cir.setReturnValue(supplier.getAsInt());
+            cir.setReturnValue(supplier.getAsInt() & 0xFFFFFF);
         }
     }
 
-    @Inject(method = "getMaterialARGB(I)I", at = @At("HEAD"), remap = false, cancellable = true)
+    @Inject(method = { "getMaterialARGB(I)I", "getMaterialSecondaryARGB" }, at = @At("HEAD"), remap = false, cancellable = true)
     private void getMaterialARGB(CallbackInfoReturnable<Integer> cir) {
         if (GTCEu.isClientSide()) {
             IntSupplier supplier = MaterialsColorMap.MaterialColors.get(this);
             if (supplier == null) return;
-            cir.setReturnValue(supplier.getAsInt());
+            if ((supplier.getAsInt() & 0xFF000000) == 0) {
+                cir.setReturnValue(supplier.getAsInt() | 0xFF000000);
+            } else {
+                cir.setReturnValue(supplier.getAsInt());
+            }
         }
     }
 }

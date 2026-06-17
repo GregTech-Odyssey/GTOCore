@@ -27,12 +27,18 @@ public final class GTOPartAbility extends PartAbility {
     public static final PartAbility EXTRACT_MANA = new GTOPartAbility("extract_mana", "魔力抽取仓", "Extract Mana");
     public static final PartAbility COMPUTING_COMPONENT = new GTOPartAbility("computing_component", "计算组件", "Computing Component Hatch");
     public static final PartAbility CATALYST_HATCH = new GTOPartAbility("catalyst_hatch", "催化剂仓", "Catalyst Hatch");
+    public static final PartAbility MANA_AMPLIFIER_HATCH = new GTOPartAbility("mana_amplifier_hatch", "魔力增幅仓", "Mana Amplifier Hatch");
 
-    public static final PartAbility ITEMS_INPUT = new GTOPartAbility("items_input", "物品输入仓", "Items Input");
-    public static final PartAbility ITEMS_OUTPUT = new GTOPartAbility("items_output", "物品输出仓", "Items Output");
+    public static final PartAbility DUAL_INPUT = new GTOPartAbility("dual_input", "输入总成", "Dual Input");
+    public static final PartAbility DUAL_OUTPUT = new GTOPartAbility("dual_output", "输出总成", "Dual Output");
+    public static final PartAbility ITEMS_INPUT_BUS = new GTOPartAbility("items_input", "物品输入仓", "Items Input");
+    public static final PartAbility ITEMS_OUTPUT_BUS = new GTOPartAbility("items_output", "物品输出仓", "Items Output");
 
     public static final PartAbility STEAM_IMPORT_FLUIDS = new GTOPartAbility("steam_import_fluids", "蒸汽流体输入仓", "Steam Import Fluids");
     public static final PartAbility STEAM_EXPORT_FLUIDS = new GTOPartAbility("steam_export_fluids", "蒸汽流体输出仓", "Steam Export Fluids");
+
+    // 仅用于放入附属模块的描述中
+    public static final PartAbility EXTRA_ENERGY_HATCH = new GTOPartAbility("extra_energy_hatch", "额外能源仓", "Extra Energy Hatch");
 
     public GTOPartAbility(String name, String cn, String en) {
         super(name);
@@ -66,7 +72,7 @@ public final class GTOPartAbility extends PartAbility {
             LANG.put("gtocore.part_ability.muffler", new CNEN("消声仓", "Muffler"));
             LANG.put("gtocore.part_ability.tank_valve", new CNEN("储罐阀门", "Tank Valve"));
             LANG.put("gtocore.part_ability.passthrough_hatch", new CNEN("通行仓", "Passthrough Hatch"));
-            LANG.put("gtocore.part_ability.parallel_hatch", new CNEN("并行仓", "Parallel Hatch"));
+            LANG.put("gtocore.part_ability.parallel_hatch", new CNEN("并行控制仓", "Parallel Control Hatch"));
             LANG.put("gtocore.part_ability.input_laser", new CNEN("激光能源仓", "Input Laser"));
             LANG.put("gtocore.part_ability.output_laser", new CNEN("激光动力仓", "Output Laser"));
             LANG.put("gtocore.part_ability.computation_data_reception", new CNEN("算力数据靶仓", "Computation Data Reception"));
@@ -84,10 +90,16 @@ public final class GTOPartAbility extends PartAbility {
         PartAbility.STEAM_EXPORT_ITEMS.register(2, GTMachines.ITEM_EXPORT_BUS[0].get());
         STEAM_IMPORT_FLUIDS.register(2, GTOMachines.INFINITE_INTAKE_HATCH.get());
         for (var machine : GTMachines.ITEM_IMPORT_BUS) {
-            if (machine != null) ITEMS_INPUT.register(machine.getTier(), machine.get());
+            if (machine != null) ITEMS_INPUT_BUS.register(machine.getTier(), machine.get());
         }
         for (var machine : GTMachines.ITEM_EXPORT_BUS) {
-            if (machine != null) ITEMS_OUTPUT.register(machine.getTier(), machine.get());
+            if (machine != null) ITEMS_OUTPUT_BUS.register(machine.getTier(), machine.get());
+        }
+        for (var machine : GTMachines.DUAL_IMPORT_HATCH) {
+            if (machine != null) DUAL_INPUT.register(machine.getTier(), machine.get());
+        }
+        for (var machine : GTMachines.DUAL_EXPORT_HATCH) {
+            if (machine != null) DUAL_OUTPUT.register(machine.getTier(), machine.get());
         }
     }
 }

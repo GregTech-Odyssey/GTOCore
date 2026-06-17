@@ -10,8 +10,9 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 
 import appeng.api.networking.IManagedGridNode;
-import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
+
+import com.gto.datasynclib.annotations.SaveToDisk;
+import com.gto.datasynclib.annotations.SyncToClient;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.EnumSet;
@@ -19,16 +20,16 @@ import java.util.List;
 
 public abstract class AbstractAEInfoMonitor extends AbstractInfoProviderMonitor implements IGridConnectedMachine {
 
-    @DescSynced
+    @SyncToClient
     @NotNull
     protected State state = State.NO_GRID;
 
     int lastUpdateTime = 0;
 
-    @Persisted
+    @SaveToDisk
     final GridNodeHolder nodeHolder;
 
-    @DescSynced
+    @SyncToClient
     protected boolean isOnline;
 
     AbstractAEInfoMonitor(MetaMachineBlockEntity holder) {
@@ -84,13 +85,6 @@ public abstract class AbstractAEInfoMonitor extends AbstractInfoProviderMonitor 
         rls.add(DisplayRegistry.AE_ERROR.id());
         return rls;
     }
-
-    /**
-     * 因还需判断是否为NO_CONFIG状态，
-     * {@link State}的变更必须在继承类中实现！
-     */
-    @Override
-    public abstract void syncInfoFromServer();
 
     protected enum State {
         NO_GRID,

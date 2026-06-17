@@ -6,11 +6,117 @@ import com.gtocore.api.lang.ComponentSupplier
 import com.gtocore.api.lang.toLiteralSupplier
 import com.gtocore.api.misc.AutoInitialize
 import com.gtocore.common.data.translation.ComponentSlang.AfterModuleInstallation
+import com.gtocore.common.data.translation.ComponentSlang.EfficiencyBonus
+import com.gtocore.common.data.translation.ComponentSlang.MainFunction
 import com.gtocore.common.data.translation.ComponentSlang.RunningRequirements
 
 import net.minecraft.network.chat.Component
 
+import appeng.api.config.PowerUnits
+import com.gregtechceu.gtceu.config.ConfigHolder
+
 object GTOMachineTooltipsA : AutoInitialize<GTOMachineTooltipsA>() {
+
+    val pulseMachineMaintenancePedestalTooltips: ComponentListSupplier = ComponentListSupplier {
+        setTranslationPrefix("pulse_machine_maintenance_pedestal")
+
+        section(MainFunction)
+        command("当机器上方的脉冲核心收到一个强度不低于240的魔力脉冲时，尝试工作一次" translatedTo "When the pulse core above the machine receives a mana pulse with strength not less than 240, it will attempt to work once")
+        command("工作时会尝试对附近的机器进行维护，或是从消声仓中消除4份灰尘" translatedTo "When working, it will attempt to maintain nearby machines or eliminate 4 units of dust from the muffler hatch")
+        info("工作半径为12格，且每次工作仅随机维护一个机器或随机消除4份灰尘" translatedTo "The working radius is 12 blocks, and each time it works, it only randomly maintains one machine or randomly eliminates 4 units of dust")
+        guide("这样的魔力脉冲可以通过魔力发射器安装魔力透镜：强度来发射" translatedTo "Such mana pulses can be emitted by installing a mana lens: Power on a mana blaster")
+        guide("或是使用精灵等级及以上的魔力发射器" translatedTo "Or using a mana blaster of Alfhelm tier or above")
+    }
+
+    val virtualCoinMinerTooltips: ComponentListSupplier = ComponentListSupplier {
+        setTranslationPrefix("virtual_coin_miner")
+
+        section(MainFunction)
+        highlight("通过消耗算力来挖掘虚拟货币" translatedTo "Mines virtual coins by consuming computational workload")
+        info("每提交一定的算力后，矿机将获得一个金币奖励" translatedTo "After submitting a certain amount of computational workload, the miner will receive a gold coin reward")
+        command("每获得一次金币奖励，下一次奖励将需要提交更多的算力" translatedTo "Each time a gold coin reward is obtained, the next reward will require more computational workload to be submitted")
+
+        section(RunningRequirements)
+        command("运行需要每秒消耗20mB多氯联苯冷却剂" translatedTo "Consumes 20mB of PCB coolant per second while running")
+        command("每提交的1CWU算力需要1920EU的能量支持" translatedTo "Each 1 CWU of computational workload submitted requires 1920 EU of energy support")
+    }
+    val meInputBufferPartMachineTooltips: ComponentListSupplier = ComponentListSupplier {
+        setTranslationPrefix("me_input_buffer_part_machine")
+
+        section(MainFunction)
+        command("ME输入仓室的一种特殊模式，仅能使用样板进行配置" translatedTo "A special mode of the ME input hatch/bus, can only be configured using patterns")
+        command("在该模式下，每个槽位使用样板配置一组特定的物品或流体，仓室将从ME网络提取对应的物品与流体" translatedTo "In this mode, each slot is configured with a pattern for a specific group of items or fluids, and the hatch/bus will extract the corresponding items and fluids from the ME network")
+    }
+    val planetaryGasCollectorTooltips: ComponentListSupplier = ComponentListSupplier {
+        setTranslationPrefix("planetary_gas_collector")
+
+        section(MainFunction)
+        command("用于在行星表面收集大气中的气体(效率非常惊人)" translatedTo "Used to collect gases from the atmosphere on the surface of planets (with an amazing efficiency)")
+        command("在地球建立的空间站能够收集到来自主世界、下界和末地的气体" translatedTo "In the space station built on Earth, gases from the Overworld, Nether, and End can be collected")
+        command("在其他行星建立的空间站能够收集到该行星特有的大气气体" translatedTo "In the space station built on other planets, the unique atmospheric gases of that planet can be collected")
+    }
+
+    val directedHyperCubeMachineTooltips: ComponentListSupplier = ComponentListSupplier {
+        setTranslationPrefix("directed_hyper_cube_machine")
+
+        section(MainFunction)
+        highlight("代理多个流体或物品存储器，且指定代理方向" translatedTo "Proxy (a or multi) (fluid or item or both)storage with directed sides")
+        command("使用§b坐标标签枪§r按照分配顺序绑定方块" translatedTo "Use the §bTesseract Target Marker§r to bind blocks in allocation order")
+        section("被样板供应器推送时" translatedTo "When being pushed by the Pattern Provider")
+        function("将样板供应器的样板内容按照编写顺序依次输出到多个方块的多个面" translatedTo "Outputs the pattern contents of the Pattern Provider to multiple sides of multiple blocks in the order written")
+        command("原料在样板中对应的编号严格对应绑定方块的编号" translatedTo "The number corresponding to the raw material in the pattern strictly corresponds to the number of the bound block")
+        command("若样板内容的长度大于绑定的方块数量，则该样板将拒绝被推送" translatedTo "If the length of the pattern content is greater than the number of bound blocks, the pattern will refuse to be pushed")
+        guide("适用于一些较为复杂的自动化场景（如新生魔艺的附魔装置自动化）" translatedTo "Suitable for some more complex automation scenarios (such as Ars Nouveau's Enchanting Apparatus)")
+    }
+
+    val meEnergySubstationTooltips: ComponentListSupplier = ComponentListSupplier {
+        setTranslationPrefix("me_energy_substation")
+
+        section(MainFunction)
+        ok("为ME网络提供额外的能量供应" translatedTo "Provides additional energy supply for the ME network")
+        command(
+            ("每一点EU可以转换成 " translatedTo "Each point of EU can be converted into ") +
+                PowerUnits.FE.convertTo(PowerUnits.AE, ConfigHolder.INSTANCE.compat.energy.euToFeRatio.toDouble()).toLiteralSupplier() +
+                (" 点AE能量" translatedTo " points of AE energy"),
+        )
+        info("使用ME能量访问仓导出能量到ME网络" translatedTo "Use the ME Energy Access Hatch to export energy to the ME network")
+        increase("玻璃等级每级可将转换效率提升30%" translatedTo "Each glass level can increase the conversion efficiency by 30%")
+        section(AfterModuleInstallation)
+        increase("安装模块可使转换效率额外x2" translatedTo "Installing modules can further double the conversion efficiency")
+    }
+
+    val spaceBioResearchModuleTooltips: ComponentListSupplier = ComponentListSupplier {
+        setTranslationPrefix("space_bio_research_module")
+
+        section(MainFunction)
+        command("用于在空间站内进行生物研究" translatedTo "Used for biological research in the space station")
+        command("超净间环境等级由环境维护舱决定" translatedTo "The cleanroom environment level is determined by the Environmental Maintenance Module")
+        info("当运行培养缸或生化反应室配方时，提供可调节的0~80Sv背景辐射环境" translatedTo "Provides an adjustable 0~80Sv background radiation environment when running bioreactor or biochemical reaction chamber recipes")
+    }
+    val spaceElevatorConnectorModuleTooltips: ComponentListSupplier = ComponentListSupplier {
+        setTranslationPrefix("space_elevator_connector_module")
+
+        command("与当前星球的太空电梯连接" translatedTo "Connects to the space elevator of the current planet")
+        increase(
+            "连接后，空间站各运行模块（如轨道冶炼舱等）可获得(0.8^n)×的耗时减免，n为太空电梯的动力模块等级" translatedTo
+                "After connecting, each operating module of the space station (such as orbital smelting chamber, etc.) can get a time reduction of (0.8^n)×, where n is the power module level of the space elevator",
+        )
+        increase(
+            "太空电梯安装的模块也将获得额外(0.8^(n/2))×的耗时减免" translatedTo
+                "Modules installed on the space elevator will also receive a time reduction of (0.8^(n/2))×",
+        )
+        decrease("会增加太空电梯50%的算力消耗" translatedTo "Increases the space elevator's Computational Workload consumption by 50%")
+
+        command("该模块仅能连接在其他模块的下方" translatedTo "This module can only connect below other modules")
+    }
+
+    // 合金冶炼炉
+    val AlloySmelterTooltips = ComponentListSupplier {
+        setTranslationPrefix("alloy_blast_smelter")
+
+        section(AfterModuleInstallation)
+        increase("运行速度翻倍" translatedTo "The running speed doubles")
+    }
 
     // 溶解罐
     val DissolvingTankTooltips = ComponentListSupplier {
@@ -18,10 +124,12 @@ object GTOMachineTooltipsA : AutoInitialize<GTOMachineTooltipsA>() {
 
         section(RunningRequirements)
         command("必须保证输入的流体与配方流体比例相同，否则无产物输出" translatedTo "Must ensure the ratio of input fluid to recipe fluid is the same, otherwise no product output")
-        increase("当安装附属模块时，模块将帮助机器自动进行原料配比，无上述条件限制" translatedTo "When the auxiliary module is installed, the module will help the machine automatically match the raw materials, without the above conditions")
+
+        section(AfterModuleInstallation)
+        increase("模块将帮助机器自动进行原料配比，无上述条件限制" translatedTo "The module will help the machine automatically match the raw materials, without the above conditions")
     }
 
-    // 框镖巨型核聚变反应堆
+    // 狂飙巨型核聚变反应堆
     val kuangbiaoGiantNuclearFusionReactorTooltips: ComponentListSupplier = ComponentListSupplier {
         setTranslationPrefix("kuangbiao_giant_nuclear_fusion_reactor")
 
@@ -52,8 +160,7 @@ object GTOMachineTooltipsA : AutoInitialize<GTOMachineTooltipsA>() {
     val SpaceStationDockingModule = ComponentListSupplier {
         setTranslationPrefix("space_station_docking_module")
         important("使用高级终端的模块搭建功能来选择该舱的不同形态" translatedTo "Use the module building function of the advanced terminal to select different forms of this chamber")
-//        important("因该机器为多形态机器，故不支持镜像搭建" translatedTo "As this machine is a multi-form machine, mirror building is not supported")
-//        important("请通过旋转主机来调整对接口方向" translatedTo "Please adjust the docking port direction by rotating the main machine")
+        important("仅在成型任意一个形态后，该模块才可正常工作" translatedTo "This module can only function properly after forming any shape")
         error("无法同时成型多个形态" translatedTo "Cannot form multiple shapes at the same time")
     }
 
@@ -125,16 +232,69 @@ object GTOMachineTooltipsA : AutoInitialize<GTOMachineTooltipsA>() {
         info("使用专用的藻类访问仓来收集或投放藻类" translatedTo "Use a dedicated algae access hatch to collect or release algae")
         Algae.entries.forEach { algae ->
             val colorName = when (algae) {
-                Algae.RedAlge -> "红藻" translatedTo "Red"
-                Algae.BrownAlge -> "褐藻" translatedTo "Brown"
-                Algae.GoldAlge -> "金藻" translatedTo "Golden"
-                Algae.GreenAlge -> "绿藻" translatedTo "Green"
-                Algae.BlueAlge -> "蓝藻" translatedTo "Blue"
+                Algae.RedAlgae -> "红藻" translatedTo "Red"
+                Algae.BrownAlgae -> "褐藻" translatedTo "Brown"
+                Algae.GoldAlgae -> "金藻" translatedTo "Golden"
+                Algae.GreenAlgae -> "绿藻" translatedTo "Green"
+                Algae.BlueAlgae -> "蓝藻" translatedTo "Blue"
             }.color(algae.color)
             info(
                 colorName +
                     ("r:" + algae.redAbsorption + " g:" + algae.greenAbsorption + " b:" + algae.blueAbsorption).toLiteralSupplier(),
             )
         }
+    }
+
+    val LargeSteamCrackerTooltips = ComponentListSupplier {
+        setTranslationPrefix("large_steam_cracker")
+        info("原料效率仅正常裂化机的40%" translatedTo "The raw material efficiency is only 40% of that of a normal cracker")
+        increase("每使用高一等级的蒸汽输入仓，配方产出提升100mb" translatedTo "For each higher level of steam input hatch used, the output increases by 100mb")
+    }
+
+    val ManaFlowAssemblerTooltips = ComponentListSupplier {
+        setTranslationPrefix("mana_flow_assembler")
+        story("原始人的泰拉凝聚板" translatedTo "The original person's Terra Condenser Plate")
+        content("该机器利用四角魔力池内的魔力流来运行" translatedTo "This machine operates using the mana flow in the quadrilateral mana pool")
+        content("魔力流的强度取决于四角魔力池上方魔力水晶的等级相应提供量之和" translatedTo "The strength of the mana flow depends on the sum of the levels of the mana crystals above the quadrilateral mana pool")
+        info("每种魔力水晶强度：" translatedTo "Mana crystal strength: ")
+        info("魔力水晶：提供§b8§rMana/t" translatedTo "Mana Crystal: provides §b8§r Mana/t")
+        info("自然水晶：提供§b32§rMana/t" translatedTo "Natura Crystal: provides §b32§r Mana/t")
+        info("精灵水晶：提供§b128§rMana/t" translatedTo "Alfsteel Crystal: provides §b128§r Mana/t")
+        info("盖亚水晶：提供§b512§rMana/t" translatedTo "Gaia Crystal: provides §b512§r Mana/t")
+        content("向合成台上投掷物品以输入，输出产物将以同样的方式投掷出来" translatedTo "Throw items onto the crafting station for input, and the output products will be thrown out in the same way")
+        important("只有前9个掉落物会被作为输入进行处理" translatedTo "Only the first 9 dropped items will be processed as input")
+        command("机器总是会以可使用的最大魔力强度运行,且配方时间固定为10秒" translatedTo "The machine will always operate at the maximum mana strength available, and the recipe time is fixed at 10 seconds")
+        command("且以此魔力强度计算配方时长(总魔力消耗量/魔力强度)，超过10秒的配方无法运行" translatedTo "And the recipe time is calculated based on this mana strength (total mana consumption / mana strength), recipes that exceed 10 seconds cannot run")
+        important("无法运行电力配方" translatedTo "Cannot run recipes that require EU")
+    }
+
+    val magneticFluidGeneratorTooltips: ComponentListSupplier = ComponentListSupplier {
+        setTranslationPrefix("magnetic_fluid_generator")
+
+        section(RunningRequirements)
+        important("玻璃等级限制了能量输出仓等级" translatedTo "The glass tier limits the energy output hatch tier")
+        command("实际产出由等离子热值决定" translatedTo "Actual output is determined by plasma heat value")
+
+        section(EfficiencyBonus)
+        increase("如果使用激光仓，则提升发电量 x 2^等级" translatedTo "If a laser hatch is used, power generation is increased by x 2^tier")
+
+        section(AfterModuleInstallation)
+        increase("如果使用激光仓，则提升发电量 x 4^等级" translatedTo "If a laser hatch is used, power generation is increased by x 4^tier")
+    }
+
+    val dysonSphereReceivingStationTooltips: ComponentListSupplier = ComponentListSupplier {
+        setTranslationPrefix("dyson_sphere_receiving_station")
+
+        section(MainFunction)
+        command("发射戴森球模块后开始工作" translatedTo "Starts working after launching Dyson Sphere modules")
+        command("需要输入极寒之凛冰作为冷却剂" translatedTo "Requires Gelid Cryotheum as a coolant")
+        info("产能功率，和需求算力由发射的模块数量决定" translatedTo "Power capacity and demand computing power are determined by the number of launched modules")
+        increase("每次发射可使功率增加1A MAX" translatedTo "Each launch can increase power by 1A MAX")
+
+        section("损坏机制" translatedTo "Damage Mechanics")
+        command("每次运行都有(模块数量/128 + 1)%的概率损坏一次模块" translatedTo "Each run has a (Module Count / 128 + 1)% chance to damage a module")
+        important("当损坏高于60%时，输出效率随损坏值由100%逐渐降低到20%，并输出随损坏值增强的红石信号" translatedTo "When damage exceeds 60%, output efficiency gradually decreases from 100% to 20% with damage value, and outputs a redstone signal enhanced by the damage value")
+        info("当损坏达到100%时减少一次模块发射数量，并重置损坏值" translatedTo "When damage reaches 100%, it reduces the number of module launches by one and resets the damage value")
+        info("在损坏值高于60%时发射不会增加发射次数，但会重置损坏值" translatedTo "When damage value is above 60%, launching will not increase the launch count but will reset the damage value")
     }
 }

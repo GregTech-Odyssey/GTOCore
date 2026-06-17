@@ -1,5 +1,6 @@
 package com.gtocore.data.recipe.classified;
 
+import com.gtocore.common.data.GTOFluids;
 import com.gtocore.common.data.GTOItems;
 import com.gtocore.common.data.GTOMaterials;
 import com.gtocore.common.recipe.condition.GravityCondition;
@@ -20,7 +21,6 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.fluids.FluidStack;
 
-import com.enderio.base.common.init.EIOFluids;
 import dev.shadowsoffire.apotheosis.ench.Ench;
 
 import static com.gtocore.common.data.GTOMaterials.TheWaterFromTheWellOfWisdom;
@@ -31,21 +31,21 @@ final class Extractor {
     public static void init() {
         EXTRACTOR_RECIPES.recipeBuilder("tannic")
                 .inputItems(Blocks.NETHER_WART_BLOCK.asItem())
-                .outputFluids(GTOMaterials.Tannic.getFluid(50))
+                .outputFluids(GTOMaterials.Tannic, 50)
                 .EUt(30)
                 .duration(200)
                 .save();
 
         EXTRACTOR_RECIPES.recipeBuilder("xpjuice")
                 .inputItems(TagPrefix.block, GTMaterials.Sculk)
-                .outputFluids(new FluidStack(EIOFluids.XP_JUICE.get().getSource(), 100))
+                .outputFluids(new FluidStack(GTOFluids.XP_JUICE.get().getSource(), 100))
                 .EUt(120)
                 .duration(20)
                 .save();
 
         EXTRACTOR_RECIPES.recipeBuilder("life_essence")
                 .inputItems(Items.EXPERIENCE_BOTTLE)
-                .outputFluids(new FluidStack(EIOFluids.XP_JUICE.get().getSource(), 250))
+                .outputFluids(new FluidStack(GTOFluids.XP_JUICE.get().getSource(), 250))
                 .EUt(8)
                 .duration(20)
                 .save();
@@ -53,14 +53,14 @@ final class Extractor {
         EXTRACTOR_RECIPES.recipeBuilder("milk")
                 .inputItems(Items.MILK_BUCKET.asItem())
                 .outputItems(Items.BUCKET.asItem())
-                .outputFluids(GTMaterials.Milk.getFluid(1000))
+                .outputFluids(GTMaterials.Milk, 1000)
                 .EUt(16)
                 .duration(60)
                 .save();
 
         EXTRACTOR_RECIPES.recipeBuilder("tcetieseaweedextract")
-                .inputItems(GTOItems.TCETIEDANDELIONS.asItem(), 64)
-                .outputItems(GTOItems.TCETIESEAWEEDEXTRACT.asItem())
+                .inputItems(GTOItems.TCETIEDANDELIONS, 64)
+                .outputItems(GTOItems.TCETIESEAWEEDEXTRACT)
                 .EUt(16)
                 .duration(200)
                 .addCondition(new GravityCondition(false))
@@ -76,7 +76,7 @@ final class Extractor {
         EXTRACTOR_RECIPES.recipeBuilder("dragon_breath")
                 .inputItems(Ench.Items.INFUSED_BREATH.get(), 3)
                 .outputItems(Items.GLASS_BOTTLE.asItem())
-                .outputFluids(GTOMaterials.DragonBreath.getFluid(1000))
+                .outputFluids(GTOMaterials.DragonBreath, 1000)
                 .EUt(30)
                 .duration(200)
                 .cleanroom(GTOCleanroomType.LAW_CLEANROOM)
@@ -84,14 +84,14 @@ final class Extractor {
 
         EXTRACTOR_RECIPES.recipeBuilder("tin")
                 .inputItems(TagPrefix.dust, GTMaterials.Tin)
-                .outputFluids(GTMaterials.Tin.getFluid(144))
+                .outputFluids(GTMaterials.Tin, 144)
                 .duration(240)
                 .EUt(30)
                 .heat(600)
                 .save();
 
         EXTRACTOR_RECIPES.recipeBuilder("algae")
-                .inputItems(TagUtils.createTag(GTOCore.id("algae")))
+                .inputItems(TagUtils.createItemTag(GTOCore.id("algae")))
                 .outputItems(TagPrefix.dust, GTOMaterials.AlgaeExtract)
                 .duration(120)
                 .EUt(30)
@@ -99,7 +99,7 @@ final class Extractor {
 
         EXTRACTOR_RECIPES.recipeBuilder("liquid_sunshine")
                 .inputItems(TagPrefix.dust, GTMaterials.Glowstone)
-                .outputFluids(new FluidStack(EIOFluids.LIQUID_SUNSHINE.getSource(), 100))
+                .outputFluids(new FluidStack(GTOFluids.LIQUID_SUNSHINE.getSource(), 100))
                 .EUt(120)
                 .duration(400)
                 .daytime()
@@ -107,15 +107,15 @@ final class Extractor {
 
         EXTRACTOR_RECIPES.recipeBuilder("blood")
                 .inputItems(TagPrefix.dust, GTMaterials.Meat)
-                .outputFluids(GTOMaterials.Blood.getFluid(100))
+                .outputFluids(GTOMaterials.Blood, 100)
                 .EUt(120)
                 .duration(50)
                 .cleanroom(CleanroomType.STERILE_CLEANROOM)
                 .save();
 
         EXTRACTOR_RECIPES.recipeBuilder("chitin")
-                .inputItems(TagUtils.createTag(RLUtils.forge("mushrooms")))
-                .outputFluids(GTOMaterials.Chitin.getFluid(100))
+                .inputItems(TagUtils.createItemTag(RLUtils.forge("mushrooms")))
+                .outputFluids(GTOMaterials.Chitin, 100)
                 .EUt(30)
                 .duration(100)
                 .save();
@@ -123,7 +123,7 @@ final class Extractor {
         EXTRACTOR_RECIPES.recipeBuilder("honey")
                 .inputItems(Items.HONEY_BOTTLE)
                 .outputItems(Items.GLASS_BOTTLE)
-                .outputFluids(GTOMaterials.Honey.getFluid(250))
+                .outputFluids(GTOMaterials.Honey, 250)
                 .EUt(30)
                 .duration(20)
                 .save();
@@ -141,6 +141,20 @@ final class Extractor {
                 .outputItems(new ItemStack(RegistriesUtils.getItem("gtceu:overworld_marker")).setHoverName(Component.translatable("item.gtocore.globe.earth")))
                 .EUt(30)
                 .duration(15000)
+                .save();
+
+        EXTRACTOR_RECIPES.builder("xp_jueice")
+                .inputItems("ars_nouveau:experience_gem")
+                .outputFluids(RegistriesUtils.getFluid("gtocore:xp_juice"), 60)
+                .EUt(12)
+                .duration(30)
+                .save();
+
+        EXTRACTOR_RECIPES.builder("xp_juice1e")
+                .inputItems("ars_nouveau:greater_experience_gem")
+                .outputFluids(RegistriesUtils.getFluid("gtocore:xp_juice"), 240)
+                .EUt(12)
+                .duration(120)
                 .save();
     }
 }

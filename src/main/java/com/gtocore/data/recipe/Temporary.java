@@ -1,13 +1,8 @@
 package com.gtocore.data.recipe;
 
 import com.gtocore.api.data.tag.GTOTagPrefix;
-import com.gtocore.common.data.GTOBlocks;
-import com.gtocore.common.data.GTOItems;
-import com.gtocore.common.data.GTOMachines;
-import com.gtocore.common.data.GTOMaterials;
+import com.gtocore.common.data.*;
 import com.gtocore.common.data.machines.SpaceMultiblock;
-
-import com.gtolib.api.GTOValues;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
@@ -26,7 +21,7 @@ public final class Temporary {
 
     public static void init() {
         FUSION_RECIPES.builder("quicksilver")
-                .inputFluids(GTOMaterials.AstralSilver.getFluid(576))
+                .inputFluids(GTOMaterials.AstralSilver, 576)
                 .inputFluids(GTOMaterials.Gaia, 144)
                 .outputFluids(GTOMaterials.Quicksilver, 288)
                 .duration(640)
@@ -62,7 +57,7 @@ public final class Temporary {
                 .save();
 
         CRACKING_RECIPES.builder("transcending_matter")
-                .inputItems(GTOItems.UNSTABLE_GAIA_SOUL.asItem())
+                .inputItems(GTOItems.UNSTABLE_GAIA_SOUL)
                 .inputFluids(GTOMaterials.Aether, 1000)
                 .inputFluids(GTOMaterials.DegenerateRhenium.getFluid(FluidStorageKeys.PLASMA, 1000))
                 .outputFluids(GTOMaterials.TranscendingMatter, 100000)
@@ -79,7 +74,7 @@ public final class Temporary {
                 .inputItems(CustomTags.UEV_CIRCUITS, 2)
                 .outputItems(GTOBlocks.INTEGRAL_FRAMEWORK_UEV.asItem())
                 .inputFluids(GTOMaterials.Ceruclase, 288)
-                .EUt(8388608)
+                .EUt(7864320)
                 .duration(100)
                 .save();
 
@@ -91,7 +86,7 @@ public final class Temporary {
                 .inputItems(CustomTags.UIV_CIRCUITS, 2)
                 .outputItems(GTOBlocks.INTEGRAL_FRAMEWORK_UIV.asItem())
                 .inputFluids(GTOMaterials.Haderoth, 288)
-                .EUt(33554432)
+                .EUt(31457280)
                 .duration(100)
                 .save();
 
@@ -104,7 +99,31 @@ public final class Temporary {
                 .inputItems(CustomTags.UXV_CIRCUITS, 2)
                 .inputFluids(GTOMaterials.ChromaticGlass, 288)
                 .duration(100)
-                .EUt(134217728)
+                .EUt(125829120)
+                .save();
+
+        ASSEMBLER_RECIPES.builder("integral_framework_opv")
+                .inputItems(GTMachines.HULL[GTValues.OpV].asItem())
+                .inputItems(TagPrefix.gear, GTOMaterials.Draconium, 4)
+                .inputItems(TagPrefix.plate, GTOMaterials.Draconium, 4)
+                .inputItems(TagPrefix.cableGtOctal, GTOMaterials.CrystalMatrix)
+                .inputItems(CustomTags.OpV_CIRCUITS, 2)
+                .inputFluids(GTOMaterials.FullerenePolymerMatrixPulp, 288)
+                .outputItems(GTOBlocks.INTEGRAL_FRAMEWORK_OPV.asItem())
+                .EUt(503316480)
+                .duration(100)
+                .save();
+
+        ASSEMBLER_RECIPES.builder("integral_framework_max")
+                .inputItems(GTMachines.HULL[GTValues.MAX].asItem())
+                .inputItems(TagPrefix.gear, GTOMaterials.ChaosInfinityAlloy, 4)
+                .inputItems(TagPrefix.plate, GTOMaterials.ChaosInfinityAlloy, 4)
+                .inputItems(TagPrefix.cableGtOctal, GTOMaterials.CosmicNeutronium)
+                .inputItems(CustomTags.MAX_CIRCUITS, 2)
+                .inputFluids(GTOMaterials.Radox, 288)
+                .outputItems(GTOBlocks.INTEGRAL_FRAMEWORK_MAX.asItem())
+                .EUt(2013265920)
+                .duration(100)
                 .save();
 
         STELLAR_FORGE_RECIPES.builder("hexaphasecopper_plasma")
@@ -112,30 +131,19 @@ public final class Temporary {
                 .inputItems(GTOTagPrefix.NANITES, GTMaterials.Copper, 4)
                 .inputFluids(GTOMaterials.Haderoth, 2304)
                 .inputFluids(GTMaterials.Copper, 2304)
-                .outputFluids(GTOMaterials.HexaphaseCopper.getFluid(1000))
+                .outputFluids(GTOMaterials.HexaphaseCopper.getFluid(FluidStorageKeys.PLASMA, 1000))
                 .EUt(33554432)
                 .duration(200)
-                .addData(GTOValues.STELLAR_CONTAINMENT_TIER, 2)
+                .addData(GTORecipeDataKeys.STELLAR_CONTAINMENT_TIER, 2)
                 .save();
 
         ASSEMBLER_RECIPES.builder("wyvern_core")
                 .inputItems(GTOBlocks.UIV_WIRELESS_ENERGY_UNIT.asItem(), 1024)
                 .inputItems(GTOBlocks.COMPONENT_ASSEMBLY_LINE_CASING_UIV.asItem(), 1024)
                 .inputItems(CustomTags.UXV_CIRCUITS, 8192)
-                .outputItems(GTOItems.WYVERN_CORE.asItem())
+                .outputItems(GTOItems.WYVERN_CORE)
                 .duration(200)
                 .EUt(33554432)
-                .save();
-
-        STELLAR_FORGE_RECIPES.builder("enhancement_core")
-                .inputItems(GTOBlocks.NAQUADRIA_CHARGE.asItem(), 64)
-                .inputItems(GTOItems.WYVERN_CORE.asItem(), 64)
-                .inputItems(GTOItems.WYVERN_CORE.asItem(), 64)
-                .outputItems("avaritia:enhancement_core")
-                .duration(2000)
-                .EUt(33554432)
-                .runLimit(1)
-                .addData(GTOValues.STELLAR_CONTAINMENT_TIER, 1)
                 .save();
 
         ASSEMBLER_RECIPES.builder("ACCELERATOR_MAGNETIC_CONSTRAINED_RAIL_CASING".toLowerCase(Locale.ROOT))
@@ -144,7 +152,7 @@ public final class Temporary {
                 .inputItems(GTBlocks.SUPERCONDUCTING_COIL.asItem())
                 .inputItems(TagPrefix.rodLong, GTMaterials.SamariumMagnetic, 8)
                 .inputItems(TagPrefix.rodLong, GTMaterials.AnnealedCopper, 8)
-                .inputItems(GTItems.VOLTAGE_COIL_LuV.asItem(), 4)
+                .inputItems(GTItems.VOLTAGE_COIL_LuV, 4)
                 .outputItems(GTOBlocks.ACCELERATOR_MAGNETIC_CONSTRAINED_RAIL_CASING.asItem())
                 .inputFluids(GTMaterials.NiobiumTitanium, 3456)
                 .EUt(960)
@@ -154,7 +162,7 @@ public final class Temporary {
                 .inputItems(TagPrefix.frameGt, GTMaterials.NaquadahEnriched)
                 .inputItems(GTOBlocks.IMPROVED_SUPERCONDUCTOR_COIL.asItem())
                 .inputItems(TagPrefix.wireGtHex, GTMaterials.RutheniumTriniumAmericiumNeutronate, 8)
-                .inputItems(GTItems.VOLTAGE_COIL_LuV.asItem(), 4)
+                .inputItems(GTItems.VOLTAGE_COIL_LuV, 4)
                 .outputItems(GTOBlocks.ACCELERATOR_ELECTROMAGNETIC_COIL_CONSTRAINT_CASING_UHV.asItem())
                 .inputFluids(GTMaterials.NiobiumTitanium, 3456 * 4)
                 .EUt(960)
@@ -164,7 +172,7 @@ public final class Temporary {
                 .inputItems(CustomTags.UEV_CIRCUITS, 4)
                 .inputItems(SpaceMultiblock.SPACE_STATION_ENVIRONMENTAL_MAINTENANCE_MODULE.asItem(), 4)
                 .inputItems(GTOBlocks.LAW_FILTER_CASING.asItem(), 4)
-                .inputItems(GTOItems.HIGH_FREQUENCY_LASER.asItem(), 2)
+                .inputItems(GTOItems.HIGH_FREQUENCY_LASER, 2)
                 .inputItems(GTOItems.INTEGRATED_CONTROL_CORE_UEV, 4)
                 .inputFluids(GTOMaterials.UltraLightweightCompositeSteel, 1152)
                 .outputItems(GTOMachines.SPACE_SHIELD_HATCH.asItem())
@@ -174,7 +182,7 @@ public final class Temporary {
         ASSEMBLER_RECIPES.builder("accelerator_observation_glass")
                 .inputItems(TagPrefix.frameGt, GTOMaterials.Nitinol50ShapeMemoryAlloy)
                 .inputItems(GTBlocks.CASING_LAMINATED_GLASS.asItem(), 2)
-                .inputItems(GTItems.NEUTRON_REFLECTOR.asItem(), 4)
+                .inputItems(GTItems.NEUTRON_REFLECTOR, 4)
                 .outputItems(GTOBlocks.ACCELERATOR_OBSERVATION_GLASS.asItem())
                 .inputFluids(GTOMaterials.FiberglassReinforcedPlastic, 576)
                 .EUt(480)
@@ -182,11 +190,11 @@ public final class Temporary {
                 .save();
         ASSEMBLER_RECIPES.builder("vacuum_chamber_beam_block")
                 .inputItems(TagPrefix.frameGt, GTOMaterials.TitaniumTC11)
-                .inputItems(GTItems.NEUTRON_REFLECTOR.asItem(), 2)
+                .inputItems(GTItems.NEUTRON_REFLECTOR, 2)
                 .inputItems(GTOBlocks.SPEEDING_PIPE.asItem())
                 .inputItems(TagPrefix.wireFine, GTMaterials.Europium, 16)
-                .inputItems(GTItems.SENSOR_ZPM.asItem(), 4)
-                .inputItems(GTItems.EMITTER_ZPM.asItem(), 4)
+                .inputItems(GTItems.SENSOR_ZPM, 4)
+                .inputItems(GTItems.EMITTER_ZPM, 4)
                 .outputItems(GTOBlocks.VACUUM_CHAMBER_BEAM_BLOCK.asItem())
                 .inputFluids(GTMaterials.Barium, 576)
                 .EUt(480)
@@ -194,7 +202,7 @@ public final class Temporary {
                 .save();
         ASSEMBLER_RECIPES.builder("accelerator_protection_casing")
                 .inputItems(TagPrefix.frameGt, GTOMaterials.Nitinol50ShapeMemoryAlloy)
-                .inputItems(GTItems.NEUTRON_REFLECTOR.asItem(), 4)
+                .inputItems(GTItems.NEUTRON_REFLECTOR, 4)
                 .inputItems(TagPrefix.plateDouble, GTOMaterials.CarbonFiberReinforcedEpoxyComposite, 4)
                 .outputItems(GTOBlocks.ACCELERATOR_PROTECTION_CASING.asItem())
                 .inputFluids(GTMaterials.Lead, 1000)

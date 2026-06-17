@@ -1,10 +1,10 @@
 package com.gtocore.mixin.gtm.recipe;
 
+import com.gtocore.config.GTOConfig;
+
 import com.gtolib.utils.ItemUtils;
 
-import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.GTValues;
-import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
 import com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialFlags;
@@ -12,6 +12,7 @@ import com.gregtechceu.gtceu.api.data.chemical.material.properties.PropertyKey;
 import com.gregtechceu.gtceu.api.data.chemical.material.stack.MaterialStack;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.item.IGTTool;
+import com.gregtechceu.gtceu.api.recipe.info.ItemRecipeInfo;
 import com.gregtechceu.gtceu.common.data.GTRecipeCategories;
 import com.gregtechceu.gtceu.data.recipe.misc.RecyclingRecipes;
 
@@ -81,7 +82,7 @@ public abstract class RecyclingRecipesMixin {
      */
     @Overwrite(remap = false)
     public static void init() {
-        if (GTCEu.isDev()) return;
+        if (GTOConfig.INSTANCE.devMode.disableRecyclingRecipes) return;
         for (var entry : ITEM_MATERIAL_INFO.entrySet()) {
             var item = entry.getKey();
             if (item instanceof IGTTool) continue;
@@ -95,7 +96,7 @@ public abstract class RecyclingRecipesMixin {
      */
     @Overwrite(remap = false)
     public static void registerRecyclingRecipes(ItemStack input, List<MaterialStack> components, boolean ignoreArcSmelting, @Nullable TagPrefix prefix) {
-        if (GTCEu.isDev()) return;
+        if (GTOConfig.INSTANCE.devMode.disableRecyclingRecipes) return;
         List<MaterialStack> materials = components.stream()
                 .filter(stack -> stack.material().hasProperty(PropertyKey.DUST))
                 .filter(stack -> stack.amount() >= M / 9)
@@ -111,7 +112,7 @@ public abstract class RecyclingRecipesMixin {
         if (ignoreArcSmelting) return;
 
         if (materials.size() == 1) {
-            Material m = materials.get(0).material();
+            Material m = materials.getFirst().material();
 
             // skip non-ingot materials
             if (!m.hasProperty(PropertyKey.INGOT)) {
@@ -139,7 +140,7 @@ public abstract class RecyclingRecipesMixin {
      */
     @Overwrite(remap = false)
     private static void registerMaceratorRecycling(ItemStack input, List<MaterialStack> materials, int multiplier) {
-        List<ItemStack> outputs = finalizeOutputs(materials, MACERATOR_RECIPES.getMaxOutputs(ItemRecipeCapability.CAP), ChemicalHelper::getDust);
+        List<ItemStack> outputs = finalizeOutputs(materials, MACERATOR_RECIPES.getMaxOutputs(ItemRecipeInfo.INSTANCE), ChemicalHelper::getDust);
         if (outputs != null && !outputs.isEmpty()) {
             ResourceLocation itemPath = ItemUtils.getIdLocation(input.getItem());
             var builder = MACERATOR_RECIPES.recipeBuilder("macerate_" + itemPath.getPath()).outputItems(outputs.toArray(ItemStack[]::new)).duration(calculateDuration(outputs)).EUt(2L * (long) multiplier);
@@ -159,7 +160,7 @@ public abstract class RecyclingRecipesMixin {
         if (prefix != TagPrefix.dust || ms.isEmpty() || !ms.material().hasProperty(PropertyKey.BLAST)) {
             if (prefix != TagPrefix.block) {
                 materials = combineStacks(materials.stream().map(RecyclingRecipesMixin::getArcSmeltingResult).filter(Objects::nonNull).collect(Collectors.toList()));
-                List<ItemStack> outputs = finalizeOutputs(materials, ARC_FURNACE_RECIPES.getMaxOutputs(ItemRecipeCapability.CAP), RecyclingRecipesMixin::getArcIngotOrDust);
+                List<ItemStack> outputs = finalizeOutputs(materials, ARC_FURNACE_RECIPES.getMaxOutputs(ItemRecipeInfo.INSTANCE), RecyclingRecipesMixin::getArcIngotOrDust);
                 if (outputs != null && !outputs.isEmpty()) {
                     ResourceLocation itemPath = ItemUtils.getIdLocation(input.getItem());
                     var builder = ARC_FURNACE_RECIPES.recipeBuilder("arc_" + itemPath.getPath()).outputItems(outputs.toArray(ItemStack[]::new)).duration(calculateDuration(outputs)).EUt(GTValues.VA[1]);

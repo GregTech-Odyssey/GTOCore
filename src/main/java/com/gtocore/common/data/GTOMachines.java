@@ -4,22 +4,26 @@ import com.gtocore.api.machine.part.GTOPartAbility;
 import com.gtocore.client.renderer.machine.*;
 import com.gtocore.common.blockentity.TesseractBlockEntity;
 import com.gtocore.common.data.machines.*;
+import com.gtocore.common.data.translation.GTOMachineStories;
 import com.gtocore.common.data.translation.GTOMachineTooltips;
-import com.gtocore.common.machine.electric.*;
+import com.gtocore.common.data.translation.GTOMachineTooltipsA;
+import com.gtocore.common.machine.dev.TestReportOutput;
+import com.gtocore.common.machine.electric.ElectricHeaterMachine;
+import com.gtocore.common.machine.electric.VacuumPumpMachine;
 import com.gtocore.common.machine.generator.LightningRodMachine;
 import com.gtocore.common.machine.generator.WindMillTurbineMachine;
 import com.gtocore.common.machine.monitor.*;
 import com.gtocore.common.machine.multiblock.electric.miner.SingleDigitalMiner;
 import com.gtocore.common.machine.multiblock.part.*;
-import com.gtocore.common.machine.multiblock.part.ae.MEPatternContentSortMachine;
 import com.gtocore.common.machine.multiblock.part.maintenance.*;
 import com.gtocore.common.machine.noenergy.*;
 import com.gtocore.common.machine.noenergy.PlatformDeployment.PlatformDeploymentMachine;
-import com.gtocore.common.machine.noenergy.TradingStationMachine;
-import com.gtocore.common.machine.noenergy.VillageTradingStationMachine;
+import com.gtocore.common.machine.noenergy.tradingstation.TradingStationMachine;
 import com.gtocore.common.machine.steam.SteamVacuumPumpMachine;
+import com.gtocore.common.machine.tesseract.AdvancedTesseractMachine;
+import com.gtocore.common.machine.tesseract.DirectedTesseractMachine;
+import com.gtocore.common.machine.tesseract.TesseractMachine;
 import com.gtocore.integration.ae.MeWirelessConnectMachine;
-import com.gtocore.integration.ae.SyncTesterMachine;
 
 import com.gtolib.GTOCore;
 import com.gtolib.api.GTOValues;
@@ -28,7 +32,7 @@ import com.gtolib.api.lang.CNEN;
 import com.gtolib.api.machine.SimpleNoEnergyMachine;
 import com.gtolib.api.machine.feature.multiblock.IParallelMachine;
 import com.gtolib.api.machine.impl.part.*;
-import com.gtolib.api.machine.part.ItemHatchPartMachine;
+import com.gtolib.api.machine.part.ItemPartMachine;
 import com.gtolib.api.registries.GTOMachineBuilder;
 import com.gtolib.api.registries.GTORegistration;
 import com.gtolib.utils.register.BlockRegisterUtils;
@@ -36,7 +40,6 @@ import com.gtolib.utils.register.BlockRegisterUtils;
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
-import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.data.RotationState;
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
@@ -46,6 +49,7 @@ import com.gregtechceu.gtceu.api.machine.SimpleTieredMachine;
 import com.gregtechceu.gtceu.api.machine.multiblock.CleanroomType;
 import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility;
 import com.gregtechceu.gtceu.api.machine.steam.SimpleSteamMachine;
+import com.gregtechceu.gtceu.api.recipe.handler.IO;
 import com.gregtechceu.gtceu.client.renderer.machine.*;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
@@ -57,14 +61,16 @@ import com.gregtechceu.gtceu.utils.FormattingUtil;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 
 import com.hepdd.gtmthings.GTMThings;
 import it.unimi.dsi.fastutil.Function;
 import it.unimi.dsi.fastutil.Pair;
 
 import static com.gregtechceu.gtceu.api.GTValues.*;
-import static com.gregtechceu.gtceu.api.capability.recipe.IO.IN;
 import static com.gregtechceu.gtceu.api.machine.multiblock.PartAbility.PARALLEL_HATCH;
+import static com.gregtechceu.gtceu.api.recipe.handler.IO.IN;
+import static com.gtocore.common.machine.multiblock.part.maintenance.ACMHatchPartMachine.LANG_PLACEMENT_TOOLTIP;
 import static com.gtocore.utils.register.MachineRegisterUtils.*;
 
 public final class GTOMachines {
@@ -87,15 +93,9 @@ public final class GTOMachines {
         OptionalMachine.init(); // 限制模式不注册会出现多方块预览错误
 
         if (GTCEu.isDev() || GTCEu.isDataGen()) {
-            final MachineDefinition SYNC_TESTER_MACHINE = machine("sync_tester_machine", "同步测试机", SyncTesterMachine::new)
-                    .allRotation()
-                    .tooltipsText("用于测试机器同步的工具。", "A tool for testing machine synchronization.")
-                    .tooltipsText("请勿在生产环境中使用。", "Do not use in production environment.")
-                    .register();
-
             final MachineDefinition TEST_REPORT_OUTPUT = machine("test_report_output", "测试报告输出器", TestReportOutput::new)
                     .allRotation()
-                    .tooltipsText("打印一些测试用信息", "Print some test information")
+                    .tooltipsText("Print some test information", "打印一些测试用信息")
                     .register();
         }
     }
@@ -104,10 +104,11 @@ public final class GTOMachines {
     // *** Simple Machine ***//
     /// ///////////////////////////////////
     public static final Pair<MachineDefinition, MachineDefinition> STEAM_VACUUM_PUMP = registerSteamMachines("steam_vacuum_pump", "真空泵", SteamVacuumPumpMachine::new, (pressure, builder) -> builder
-            .allRotation()
+            .noneRotation()
             .recipeType(GTORecipeTypes.VACUUM_PUMP_RECIPES)
             .recipeModifier(SimpleSteamMachine::recipeModifier)
             .tooltips(Component.translatable("gtocore.recipe.vacuum.tier", pressure ? 2 : 1))
+            .tooltips(Component.translatable("gtocore.machine.vacuum_pump.tooltip.0"))
             .renderer(() -> new WorkableSteamMachineRenderer(pressure, GTOCore.id("block/machines/vacuum_pump")))
             .register());
 
@@ -162,6 +163,7 @@ public final class GTOMachines {
                     .recipeType(GTORecipeTypes.VACUUM_PUMP_RECIPES)
                     .workableTieredHullRenderer(GTOCore.id("block/machines/vacuum_pump"))
                     .tooltips(Component.translatable("gtocore.recipe.vacuum.tier", tier + 1))
+                    .tooltips(Component.translatable("gtocore.machine.vacuum_pump.tooltip.0"))
                     .tooltips(GTMachineUtils.workableTiered(tier, V[tier], V[tier] << 6, GTORecipeTypes.VACUUM_PUMP_RECIPES, GTMachineUtils.defaultTankSizeFunction.apply(tier), true))
                     .register(),
             LV, MV, HV);
@@ -246,7 +248,7 @@ public final class GTOMachines {
     // ********** Part **********//
     /// ///////////////////////////////////
     public static final MachineDefinition[] THREAD_HATCH = registerTieredMachines("thread_hatch", tier -> GTOValues.VNFR[tier] + "线程仓",
-            ThreadHatchPartMachine::new, (tier, builder) -> builder
+            ThreadPartMachine::new, (tier, builder) -> builder
                     .langValue(GTOValues.VNFR[tier] + " Thread Hatch")
                     .allRotation()
                     .abilities(GTOPartAbility.THREAD_HATCH)
@@ -256,7 +258,7 @@ public final class GTOMachines {
             UV, UHV, UEV, UIV, UXV, OpV, MAX);
 
     public static final MachineDefinition[] OVERCLOCK_HATCH = registerTieredMachines("overclock_hatch", tier -> GTOValues.VNFR[tier] + "超频仓",
-            OverclockHatchPartMachine::new, (tier, builder) -> builder
+            OverclockPartMachine::new, (tier, builder) -> builder
                     .langValue(GTOValues.VNFR[tier] + " Overclock Hatch")
                     .allRotation()
                     .abilities(GTOPartAbility.OVERCLOCK_HATCH)
@@ -286,12 +288,12 @@ public final class GTOMachines {
                             p -> p.addCommentLines(
                                     """
                                             运行时长调整范围：%s%%~100%%
-                                            加速仓的等级低于机器配方等级时加速效力减弱20%%每级
+                                            加速仓等级低于配方电压等级时，每低1级回调20%%
                                             来自 GTO 的神秘力量
                                             尽情享受吧！""".formatted(FormattingUtil.formatNumber2Places(52.0 - tier * 2.0)),
                                     """
                                             Operation duration adjustment range: %s%%~100%%
-                                            The acceleration effect is weakened by 20%% per level when the level of the accelerate hatch is lower than the machine recipe level
+                                            When the accelerate hatch tier is lower than the recipe voltage tier, duration is increased by 20%% per missing tier
                                             Mysterious power from GTO
                                             Enjoy it to the fullest!""".formatted(FormattingUtil.formatNumber2Places(52.0 - tier * 2.0)))))
                     .notAllowSharedTooltips()
@@ -304,13 +306,14 @@ public final class GTOMachines {
             (tier, builder) -> builder
                     .langValue("%s Programmable Hatch".formatted(GTOValues.VNFR[tier]))
                     .allRotation()
-                    .abilities(PartAbility.IMPORT_ITEMS)
+                    .abilities(PartAbility.IMPORT_ITEMS, GTOPartAbility.DUAL_INPUT)
                     .renderer(() -> new OverlayTieredMachineRenderer(tier, GTCEu.id("block/machine/part/dual_hatch.import")))
-                    .tooltipsKey("gtocore.machine.programmablec_hatch.tooltip")
                     .tooltips(Component.translatable("gtceu.machine.dual_hatch.import.tooltip"),
+                            Component.translatable("gtocore.machine.programmablec_hatch.extra_tooltip.0"),
+                            Component.translatable("gtocore.machine.programmablec_hatch.extra_tooltip.1"),
                             Component.translatable("gtceu.universal.tooltip.item_storage_capacity", tier * tier),
                             Component.translatable("gtceu.universal.tooltip.fluid_storage_capacity_mult", tier, DualHatchPartMachine.getTankCapacity(DualHatchPartMachine.INITIAL_TANK_CAPACITY, tier)),
-                            Component.translatable("gtceu.part_sharing.enabled"))
+                            Component.translatable("gtocore.machine.programmablec_hatch.extra_tooltip.2"))
                     .allowCoverOnFront(true)
                     .register(),
             tiersBetween(LV, MAX));
@@ -448,22 +451,6 @@ public final class GTOMachines {
     public static final MachineDefinition[] LASER_OUTPUT_HATCH_16777216 = registerLaserHatch(IO.OUT, 16777216,
             PartAbility.OUTPUT_LASER);
 
-    public static final MachineDefinition ME_PATTERN_CONTENT_SORT_MACHINE = machine("me_pattern_content_sort_machine", "ME样板内容动态修改机", MEPatternContentSortMachine::new)
-            .overlayTieredHullRenderer("neutron_sensor")
-            .tier(HV)
-            .tooltips(NewDataAttributes.MIRACULOUS_TOOLS.create(new CNEN("ME样板内容动态修改机", "ME Pattern Content Dynamic Modifier"), p -> p.addCommentLines(
-                    """
-                            是的，你现在可以不修改样板，就一键替换其中的内容了。
-                            只需要将此机器连入ME网络，然后样板在被调用时，
-                            其内容就会按照你配置的优先级被同一行匹配替换。
-                            支持物品和流体""",
-                    """
-                            Yes, you can now replace the content of a pattern without modifying it.
-                            Just connect this machine to the ME network, and when the pattern is called,
-                            its content will be replaced according to the priority you configured.
-                            Supports both items and fluids""")))
-            .register();
-
     public static final MachineDefinition ME_WIRELESS_CONNECTION_MACHINE = machine("me_wireless_connection_machine", "ME无线连接机", MeWirelessConnectMachine::new)
             .renderer(MeWirelessConnectMachineRenderer::new)
             .tooltips(GTOMachineTooltips.INSTANCE.getAutoConnectMETooltips().getSupplier())
@@ -496,7 +483,8 @@ public final class GTOMachines {
             .abilities(PartAbility.STEAM)
             .renderer(() -> new OverlaySteamMachineRenderer(GTCEu.id("block/machine/part/" + "steam_hatch")))
             .tooltips(Component.translatable("gtceu.universal.tooltip.fluid_storage_capacity", FormattingUtil.formatNumbers(4096000)),
-                    Component.translatable("gtceu.machine.steam.steam_hatch.tooltip"))
+                    Component.translatable("gtceu.machine.steam.steam_hatch.tooltip"),
+                    Component.translatable(LargeSteamHatchPartMachine.CONVERSION_RATE, Component.literal("2").withStyle(ChatFormatting.RED)))
             .allowCoverOnFront(true)
             .register();
 
@@ -505,7 +493,8 @@ public final class GTOMachines {
             .abilities(PartAbility.STEAM)
             .renderer(() -> new OverlaySteamMachineRenderer(GTCEu.id("block/machine/part/" + "steam_hatch")))
             .tooltips(Component.translatable("gtceu.universal.tooltip.fluid_storage_capacity", FormattingUtil.formatNumbers(65536000)),
-                    Component.translatable(LargeSteamHatchPartMachine.ACCEPTED_FLUID).append(GTOMaterials.HighPressureSteam.getFluid(1).getDisplayName()))
+                    Component.translatable(LargeSteamHatchPartMachine.ACCEPTED_FLUID).append(GTOMaterials.HighPressureSteam.getFluid(1).getDisplayName()),
+                    Component.translatable(LargeSteamHatchPartMachine.CONVERSION_RATE, Component.literal("0.25").withStyle(ChatFormatting.GREEN)))
             .allowCoverOnFront(true)
             .register();
 
@@ -514,7 +503,8 @@ public final class GTOMachines {
             .abilities(PartAbility.STEAM)
             .renderer(() -> new OverlaySteamMachineRenderer(GTCEu.id("block/machine/part/" + "steam_hatch")))
             .tooltips(Component.translatable("gtceu.universal.tooltip.fluid_storage_capacity", FormattingUtil.formatNumbers(1048576000)),
-                    Component.translatable(LargeSteamHatchPartMachine.ACCEPTED_FLUID).append(GTOMaterials.SupercriticalSteam.getFluid(1).getDisplayName()))
+                    Component.translatable(LargeSteamHatchPartMachine.ACCEPTED_FLUID).append(GTOMaterials.SupercriticalSteam.getFluid(1).getDisplayName()),
+                    Component.translatable(LargeSteamHatchPartMachine.CONVERSION_RATE, Component.literal("0.25").withStyle(ChatFormatting.GREEN)))
             .allowCoverOnFront(true)
             .register();
 
@@ -552,6 +542,7 @@ public final class GTOMachines {
             .allRotation()
             .abilities(PartAbility.MAINTENANCE)
             .addTooltipsFromClass(ACMHatchPartMachine.class)
+            .tooltipsKey(LANG_PLACEMENT_TOOLTIP)
             .notAllowSharedTooltips()
             .renderer(() -> new MaintenanceHatchPartRenderer(5, GTCEu.id("block/machine/part/maintenance.full_auto")))
             .register();
@@ -561,6 +552,7 @@ public final class GTOMachines {
             .abilities(PartAbility.MAINTENANCE)
             .addTooltipsFromClass(ACMHatchPartMachine.class)
             .tooltips(GTOMachineTooltips.INSTANCE.getModularConfigurationMaintenanceHatchTooltips().getSupplier())
+            .tooltipsKey(LANG_PLACEMENT_TOOLTIP)
             .notAllowSharedTooltips()
             .renderer(() -> new MaintenanceHatchPartRenderer(6, GTCEu.id("block/machine/part/maintenance.full_auto")))
             .register();
@@ -595,6 +587,7 @@ public final class GTOMachines {
                             Component.translatable(type.getTranslationKey()).getString())));
                 }
             })
+            .tooltipsKey(LANG_PLACEMENT_TOOLTIP)
             .renderer(() -> new MaintenanceHatchPartRenderer(5, GTCEu.id("block/machine/part/maintenance.cleaning")))
             .register();
 
@@ -613,6 +606,7 @@ public final class GTOMachines {
                             Component.translatable(type.getTranslationKey()).getString())));
                 }
             })
+            .tooltipsKey(LANG_PLACEMENT_TOOLTIP)
             .renderer(() -> new MaintenanceHatchPartRenderer(9, GTOCore.id("block/machine/part/maintenance.sterile_cleaning")))
             .register();
 
@@ -630,10 +624,12 @@ public final class GTOMachines {
                             Component.translatable(type.getTranslationKey()).getString())));
                 }
             })
+            .tooltipsKey(LANG_PLACEMENT_TOOLTIP)
             .renderer(() -> new MaintenanceHatchPartRenderer(12, GTOCore.id("block/machine/part/maintenance.law_cleaning")))
             .register();
 
-    public static final MachineDefinition GRAVITY_HATCH = machine("gravity_hatch", "重力控制仓", GravityHatchPartMachine::new)
+    public static final MachineDefinition GRAVITY_HATCH = machine("gravity_hatch", "重力控制维护仓", GravityHatchPartMachine::new)
+            .langValue("Gravity Maintenance Hatch")
             .allRotation()
             .abilities(PartAbility.MAINTENANCE)
             .notAllowSharedTooltips()
@@ -641,14 +637,17 @@ public final class GTOMachines {
             .register();
 
     public static final MachineDefinition GRAVITY_CONFIGURATION_HATCH = machine("gravity_configuration_hatch", "可配置重力维护仓", CGCHatchPartMachine::new)
+            .langValue("Gravity Configuration Maintenance Hatch")
             .allRotation()
             .abilities(PartAbility.MAINTENANCE)
             .addTooltipsFromClass(ACMHatchPartMachine.class)
+            .tooltipsKey(LANG_PLACEMENT_TOOLTIP)
             .notAllowSharedTooltips()
             .renderer(() -> new MaintenanceHatchPartRenderer(10, GTCEu.id("block/machine/part/maintenance.full_auto")))
             .register();
 
-    public static final MachineDefinition VACUUM_HATCH = machine("vacuum_hatch", "真空仓", VacuumHatchPartMachine::new)
+    public static final MachineDefinition VACUUM_HATCH = machine("vacuum_hatch", "真空维护仓", VacuumHatchPartMachine::new)
+            .langValue("Vacuum Maintenance Hatch")
             .allRotation()
             .abilities(PartAbility.MAINTENANCE)
             .tooltips(Component.translatable("gtocore.recipe.vacuum.tier", 4))
@@ -657,10 +656,12 @@ public final class GTOMachines {
             .register();
 
     public static final MachineDefinition VACUUM_CONFIGURATION_HATCH = machine("vacuum_configuration_hatch", "可配置真空维护仓", CVCHatchPartMachine::new)
+            .langValue("Vacuum Configuration Maintenance Hatch")
             .allRotation()
             .abilities(PartAbility.MAINTENANCE)
             .addTooltipsFromClass(ACMHatchPartMachine.class)
             .tooltips(Component.translatable("gtocore.recipe.vacuum.tier", 4))
+            .tooltipsKey(LANG_PLACEMENT_TOOLTIP)
             .notAllowSharedTooltips()
             .renderer(() -> new MaintenanceHatchPartRenderer(6,
                     GTCEu.id("block/machine/part/maintenance.full_auto")))
@@ -685,6 +686,14 @@ public final class GTOMachines {
 
     public static final MachineDefinition HEAT_SENSOR = machine("heat_sensor", "热传感器", SensorPartMachine::new)
             .tier(LV)
+            .allRotation()
+            .tooltips(GTOMachineTooltips.INSTANCE.getSensorTooltips().getSupplier())
+            .notAllowSharedTooltips()
+            .overlayTieredHullRenderer("neutron_sensor")
+            .register();
+
+    public static final MachineDefinition ION_ACTIVITY_SENSOR = machine("ion_activity_sensor", "离子活度传感器", SensorPartMachine::new)
+            .tier(LuV)
             .allRotation()
             .tooltips(GTOMachineTooltips.INSTANCE.getSensorTooltips().getSupplier())
             .notAllowSharedTooltips()
@@ -717,7 +726,7 @@ public final class GTOMachines {
             .allowCoverOnFront(true)
             .register();
 
-    public static final MachineDefinition ROTOR_HATCH = machine("rotor_hatch", "转子仓", h -> new ItemHatchPartMachine(h, 1, i -> TurbineRotorBehaviour.getBehaviour(i) != null))
+    public static final MachineDefinition ROTOR_HATCH = machine("rotor_hatch", "转子仓", h -> new ItemPartMachine(h, 1, i -> TurbineRotorBehaviour.getBehaviour(i) != null))
             .tooltips(GTOMachineTooltips.INSTANCE.getRotorHatchTooltips().getSupplier())
             .tier(EV)
             .allRotation()
@@ -741,7 +750,7 @@ public final class GTOMachines {
             .allowCoverOnFront(true)
             .register();
 
-    public static final MachineDefinition LENS_HOUSING = machine("lens_housing", "透镜仓", h -> new ItemHatchPartMachine(h, 1, i -> ChemicalHelper.getPrefix(i.getItem()) == TagPrefix.lens))
+    public static final MachineDefinition LENS_HOUSING = machine("lens_housing", "透镜仓", h -> new ItemPartMachine(h, 1, i -> ChemicalHelper.getPrefix(i.getItem()) == TagPrefix.lens))
             .tier(EV)
             .allRotation()
             .notAllowSharedTooltips()
@@ -842,7 +851,7 @@ public final class GTOMachines {
             .tier(ZPM)
             .langValue("Huge Input Bus")
             .allRotation()
-            .abilities(PartAbility.IMPORT_ITEMS, GTOPartAbility.ITEMS_INPUT)
+            .abilities(PartAbility.IMPORT_ITEMS, GTOPartAbility.ITEMS_INPUT_BUS)
             .tooltipsKey("gtceu.part_sharing.enabled")
             .renderer(() -> new OverlayTieredMachineRenderer(ZPM, GTCEu.id("block/machine/part/item_bus.import")))
             .register();
@@ -928,6 +937,14 @@ public final class GTOMachines {
             .allowCoverOnFront(true)
             .register();
 
+    public static final MachineDefinition DIRECTED_TESSERACT_GENERATOR = blockEntityMachine("directed_tesseract_generator", "有向超立方体发生器", DirectedTesseractMachine::new, TesseractBlockEntity::new)
+            .allRotation()
+            .tooltips(GTOMachineTooltipsA.INSTANCE.getDirectedHyperCubeMachineTooltips().getSupplier())
+            .modelRenderer(() -> GTOCore.id("block/machine/tesseract_generator"))
+            .tier(IV)
+            .allowCoverOnFront(true)
+            .register();
+
     public static final MachineDefinition INDUSTRIAL_PLATFORM_DEPLOYMENT_TOOLS = machine("industrial_platform_deployment_tools", "工业平台展开工具", PlatformDeploymentMachine::new)
             .tooltipBuilder((stack, list) -> GTOMachineTooltips.INSTANCE.getIndustrialPlatformDeploymentToolsTooltips().apply(list))
             .nonYAxisRotation()
@@ -941,10 +958,16 @@ public final class GTOMachines {
             .modelRenderer(() -> GTOCore.id("block/machine/village_trading_station"))
             .register();
 
+    public static final MachineDefinition TRAVEL_ANCHOR = machine("travel_anchor", "旅行锚", TravelAnchorMachine::new)
+            .noneRotation()
+            .tooltips(GTOMachineStories.INSTANCE.getTravelAnchorTooltips().getSupplier())
+            .modelRenderer(() -> ResourceLocation.fromNamespaceAndPath("enderio", "block/travel_anchor"))
+            .register();
+
     public static final MachineDefinition[] TRADING_STATION = registerTieredMachines("trading_station", tier -> "泛银河系格雷科技贸易站 " + "Tier " + tier, TradingStationMachine::new,
             (tier, builder) -> builder
                     .langValue("Pan-Galactic Gray Technology Trading Station " + "Tier " + tier)
-                    .tooltipBuilder((stack, list) -> GTOMachineTooltips.INSTANCE.getPanGalaxyGrayTechTradingStationTooltips().apply(list))
+                    .tooltipBuilder((stack, list) -> GTOMachineTooltips.INSTANCE.getPanGalaxyGregTechTradingStationTooltips().apply(list))
                     .nonYAxisRotation()
                     .modelRenderer(() -> GTOCore.id("block/machine/trading_station"))
                     .register(),
@@ -956,9 +979,8 @@ public final class GTOMachines {
                     .nonYAxisRotation()
                     .recipeType(GTORecipeTypes.DIGITAL_MINER_RECIPE)
                     .workableTieredHullRenderer(GTCEu.id("block/machines/miner"))
-                    .tooltips(Component.translatable("gtceu.universal.tooltip.uses_per_tick", GTValues.VEX[tier - 1])
-                            .append(Component.literal(", ").withStyle(ChatFormatting.GRAY))
-                            .append(Component.literal("§7每个方块需要§f" + (int) (40 / Math.pow(2, tier)) + "§7刻。")))
+                    .tooltips(Component.translatable("gtceu.universal.tooltip.uses_per_tick", GTValues.VEX[tier - 1]))
+                    .tooltips(Component.translatable("gtceu.machine.miner.per_block", Math.pow(2, 1 - tier)))
                     .tooltips(Component.translatable("gtceu.universal.tooltip.voltage_in",
                             FormattingUtil.formatNumbers(GTValues.VEX[tier]),
                             GTValues.VNF[tier]))

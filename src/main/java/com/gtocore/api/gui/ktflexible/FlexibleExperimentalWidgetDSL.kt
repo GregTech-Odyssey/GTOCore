@@ -10,10 +10,11 @@ import net.minecraft.network.chat.Component
 import net.minecraftforge.api.distmarker.Dist
 import net.minecraftforge.api.distmarker.OnlyIn
 
-import com.gtolib.api.capability.ISync
+import com.gto.datasynclib.listener.IntNotifiableHolder
 import com.gtolib.api.gui.ktflexible.LayoutBuilder
 import com.gtolib.api.gui.ktflexible.Style
 import com.gtolib.api.gui.ktflexible.VBoxBuilder
+import com.lowdragmc.lowdraglib.gui.widget.Widget
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup
 
 import java.util.function.IntSupplier
@@ -35,7 +36,7 @@ fun LayoutBuilder<*>.progressBar(currentSupplier: IntSupplier, totalSupplier: In
             graphics.pose().pushPose()
             graphics.pose().translate(positionX.toFloat(), positionY.toFloat(), 0f)
 
-            val (actualWidth, actualHeight) = ProgressBarHelper.drawProgressBarWithText(
+            val (_, _) = ProgressBarHelper.drawProgressBarWithText(
                 graphics = graphics,
                 progress = percentage,
                 totalWidth = width,
@@ -53,7 +54,7 @@ fun LayoutBuilder<*>.progressBar(currentSupplier: IntSupplier, totalSupplier: In
     widget(widget)
 }
 
-fun LayoutBuilder<*>.textBlock(textSupplier: Supplier<Component>, tab: Int = 0, maxWidth: Int = 40, textColor: Int? = null) {
+fun LayoutBuilder<*>.textBlock(textSupplier: Supplier<Component>, tab: Int = 0, maxWidth: Int = 40, textColor: Int? = null): Widget {
     val widget = object : SyncWidget(0, 0, 100, 12) {
         private val textField = syncComponent({ textSupplier.get() }, -1, textSupplier.get())
         private val yPadding: Int = 1
@@ -94,7 +95,7 @@ fun LayoutBuilder<*>.textBlock(textSupplier: Supplier<Component>, tab: Int = 0, 
             graphics.pose().pushPose()
             graphics.pose().translate((positionX + tab).toFloat(), (positionY + yPadding).toFloat(), 0f)
 
-            val (actualWidth, actualHeight) = TextBlockHelper.drawTextBlock(
+            val (_, _) = TextBlockHelper.drawTextBlock(
                 graphics = graphics,
                 text = text,
                 lineGap = lineSpacing,
@@ -106,8 +107,9 @@ fun LayoutBuilder<*>.textBlock(textSupplier: Supplier<Component>, tab: Int = 0, 
             graphics.pose().popPose()
         }
     }
-    widget(widget)
+    return widget(widget)
 }
+
 class MultiPageDSLBuilder {
     private val pageSuppliers: MutableList<Supplier<VBoxBuilder.() -> Unit>> = mutableListOf()
     fun page(box: VBoxBuilder.() -> Unit) {
@@ -115,22 +117,24 @@ class MultiPageDSLBuilder {
     }
     fun build(): List<Supplier<VBoxBuilder.() -> Unit>> = pageSuppliers
 }
+
 interface MultiPageVScroll {
     fun refresh()
     fun getMaxPageSize(): Int
 }
-fun LayoutBuilder<*>.multiPageAdvanced(width: Int, height: Int, style: (Style.() -> Unit)? = null, pageSelector: ISync.IntSyncedField, runOnUpdate: Runnable = Runnable {}, builder: MultiPageDSLBuilder.() -> Unit): MultiPageVScroll {
+
+fun LayoutBuilder<*>.multiPageAdvanced(width: Int, height: Int, style: (Style.() -> Unit)? = null, pageSelector: IntNotifiableHolder, runOnUpdate: Runnable = Runnable {}, builder: MultiPageDSLBuilder.() -> Unit): MultiPageVScroll {
     val widget = object : WidgetGroup(0, 0, width, height), MultiPageVScroll {
-        var currentPage: ISync.IntSyncedField = pageSelector
+        var currentPage: IntNotifiableHolder = pageSelector
         val pageSuppliers: MutableList<Supplier<VBoxBuilder.() -> Unit>> = mutableListOf()
         init {
             currentPage.setReceiverListener { side, old, newV ->
-                if (GTOConfig.INSTANCE.aeLog) println("Page changed from $old to $newV on $side")
+                if (GTOConfig.INSTANCE.devMode.aeLog) println("Page changed from $old to $newV on $side")
                 runOnUpdate.run()
                 refresh()
             }
             currentPage.setSenderListener { side, old, newV ->
-                if (GTOConfig.INSTANCE.aeLog) println("Page changed from $old to $newV on $side")
+                if (GTOConfig.INSTANCE.devMode.aeLog) println("Page changed from $old to $newV on $side")
                 runOnUpdate.run()
                 refresh()
             }
@@ -139,6 +143,7 @@ fun LayoutBuilder<*>.multiPageAdvanced(width: Int, height: Int, style: (Style.()
                 pageSuppliers.addAll(build())
             }
         }
+
         override fun refresh() {
             clearAllWidgets()
             val receiver = pageSuppliers[currentPage.get()].get()

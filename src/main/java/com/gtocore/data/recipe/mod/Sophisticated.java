@@ -22,7 +22,7 @@ import java.util.Set;
 
 public final class Sophisticated {
 
-    public static void init() {
+    public static void backpack() {
         if (!Mods.SOPHISTICATEDBACKPACKS.isLoaded() || GTOCore.isEasy()) return;
         VanillaRecipeHelper.addShapelessRecipe(GTOCore.id("stack_upgrade_tier_1"), RegistriesUtils.getItemStack("sophisticatedbackpacks:stack_upgrade_tier_1"), RegistriesUtils.getItemStack("sophisticatedbackpacks:stack_upgrade_starter_tier"), GTMachines.SUPER_CHEST[GTValues.MV].asItem());
         VanillaRecipeHelper.addShapelessRecipe(GTOCore.id("advanced_compacting_upgrade"), RegistriesUtils.getItemStack("sophisticatedbackpacks:advanced_compacting_upgrade"), RegistriesUtils.getItemStack("sophisticatedbackpacks:compacting_upgrade"), GTItems.ELECTRIC_PISTON_MV.asItem());
@@ -47,7 +47,7 @@ public final class Sophisticated {
         VanillaRecipeHelper.addShapelessRecipe(GTOCore.id("compacting_upgrade"), RegistriesUtils.getItemStack("sophisticatedbackpacks:compacting_upgrade"), RegistriesUtils.getItemStack("sophisticatedbackpacks:upgrade_base"), GTItems.ELECTRIC_PISTON_LV.asItem());
         VanillaRecipeHelper.addShapelessRecipe(GTOCore.id("pickup_upgrade"), RegistriesUtils.getItemStack("sophisticatedbackpacks:pickup_upgrade"), RegistriesUtils.getItemStack("sophisticatedbackpacks:upgrade_base"), GTMachines.ITEM_COLLECTOR[GTValues.LV].asItem());
         VanillaRecipeHelper.addShapelessRecipe(GTOCore.id("advanced_pump_upgrade"), RegistriesUtils.getItemStack("sophisticatedbackpacks:advanced_pump_upgrade"), RegistriesUtils.getItemStack("sophisticatedbackpacks:pump_upgrade"), GTItems.ELECTRIC_PUMP_MV.asStack());
-        VanillaRecipeHelper.addShapelessRecipe(GTOCore.id("xp_pump_upgrade"), RegistriesUtils.getItemStack("sophisticatedbackpacks:xp_pump_upgrade"), RegistriesUtils.getItemStack("sophisticatedbackpacks:advanced_pump_upgrade"), RegistriesUtils.getItemStack("enderio:experience_rod"), RegistriesUtils.getItemStack("enderio:xp_vacuum"));
+        VanillaRecipeHelper.addShapelessRecipe(GTOCore.id("xp_pump_upgrade"), RegistriesUtils.getItem("sophisticatedbackpacks:xp_pump_upgrade"), RegistriesUtils.getItem("sophisticatedbackpacks:upgrade_base"), RegistriesUtils.getItem("gtocore:exp_obelisk"), GTItems.FLUID_REGULATOR_MV.asItem());
 
         VanillaRecipeHelper.addShapedRecipe(GTOCore.id("backpack"), RegistriesUtils.getItemStack("sophisticatedbackpacks:backpack"),
                 "ABA",
@@ -56,7 +56,7 @@ public final class Sophisticated {
                 'A', new MaterialEntry(TagPrefix.screw, GTMaterials.WroughtIron), 'B', new ItemStack(Items.LEATHER.asItem()), 'C', RegistriesUtils.getItemStack("gtceu:wood_crate"), 'D', new ItemStack(Items.STRING.asItem()));
     }
 
-    public static void initJsonFilter(Set<ResourceLocation> filters) {
+    public static void backpackFilter(Set<ResourceLocation> filters) {
         if (!Mods.SOPHISTICATEDBACKPACKS.isLoaded() || GTOCore.isEasy()) return;
         filters.add(RLUtils.sp("backpack"));
         filters.add(RLUtils.sp("pickup_upgrade"));
