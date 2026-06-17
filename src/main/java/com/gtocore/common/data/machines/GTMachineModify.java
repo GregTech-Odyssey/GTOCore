@@ -20,6 +20,7 @@ import com.gregtechceu.gtceu.api.pattern.TraceabilityPredicate;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.api.recipe.modifier.RecipeModifier;
+import com.gregtechceu.gtceu.api.recipe.modifier.RecipeModifierList;
 import com.gregtechceu.gtceu.common.data.GTBlocks;
 import com.gregtechceu.gtceu.common.data.GTMachines;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
@@ -51,7 +52,7 @@ public final class GTMachineModify {
         GTMultiMachines.MULTI_SMELTER.setRecipeModifier(GTORecipeModifiers.UPGRADE_MULTI_SMELTER_OVERCLOCK);
         GTMultiMachines.LARGE_CHEMICAL_REACTOR.setRecipeModifier(RecipeModifier.NO_MODIFIER);
         GTMultiMachines.ELECTRIC_BLAST_FURNACE.setRecipeModifier(GTORecipeModifiers.UPGRADE_EBF_OVERCLOCK);
-        GTMultiMachines.PYROLYSE_OVEN.setRecipeModifier(GTORecipeModifiers.UPGRADE_PYROLYSE_OVEN_OVERCLOCK);
+        GTMultiMachines.PYROLYSE_OVEN.setRecipeModifier(new RecipeModifierList(GTORecipeModifiers.POWER_AMPLIFIER, GTORecipeModifiers.UPGRADE_PYROLYSE_OVEN_OVERCLOCK));
         GTMultiMachines.PYROLYSE_OVEN.setRecoveryItems(GTMachineModify::tinydustFromDustOutput);
         GTMultiMachines.CRACKER.setRecipeModifier(GTORecipeModifiers.UPGRADE_CRACKER_OVERCLOCK);
         GTMultiMachines.IMPLOSION_COMPRESSOR.setRecipeModifier(GTORecipeModifiers.UPGRADE_OVERCLOCK);
