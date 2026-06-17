@@ -29,7 +29,6 @@ class TierData {
             "原型级" to "Prototype",
         )
         val MovementSpeedFunction: (Int) -> Double = { tier -> 0.1 * 0.1 * tier * 2.3 }
-        const val BlockReachFunction = 4
     }
 }
 enum class OrganType(val key: String, val cn: String, val slotCount: Int = 1) {

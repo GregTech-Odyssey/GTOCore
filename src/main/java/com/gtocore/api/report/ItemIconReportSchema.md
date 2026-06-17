@@ -251,14 +251,14 @@ ItemIconReport.generateReport();
 
 ## 名称与 Tooltip 获取逻辑
 
-| 字段 | 来源 | 说明 |
-|------|------|------|
-| `description_id` | `item.getDescriptionId()` / `fluid.getFluidType().getDescriptionId()` | 翻译键 |
-| `name_en` | `langEN.get(descriptionId)` — 从 `en_us.json` 加载 | 静态翻译，不含 NBT |
-| `name_zh` | `langZH.get(descriptionId)` — 从 `zh_cn.json` 加载 | 静态翻译，不含 NBT |
-| `display_name` | `stack.getHoverName().getString()` | 运行时名称，含 NBT（附魔书、药水等） |
-| `tooltip_en` | `getTooltipLines()` + 临时切换 EN Language | 完整英文 tooltip（含 GT 属性、附魔、lore） |
-| `tooltip_zh` | `getTooltipLines()` + 临时切换 ZH Language | 完整中文 tooltip |
+| 字段               | 来源                                                                    | 说明                            |
+|------------------|-----------------------------------------------------------------------|-------------------------------|
+| `description_id` | `item.getDescriptionId()` / `fluid.getFluidType().getDescriptionId()` | 翻译键                           |
+| `name_en`        | `langEN.get(descriptionId)` — 从 `en_us.json` 加载                       | 静态翻译，不含 NBT                   |
+| `name_zh`        | `langZH.get(descriptionId)` — 从 `zh_cn.json` 加载                       | 静态翻译，不含 NBT                   |
+| `display_name`   | `stack.getHoverName().getString()`                                    | 运行时名称，含 NBT（附魔书、药水等）          |
+| `tooltip_en`     | `getTooltipLines()` + 临时切换 EN Language                                | 完整英文 tooltip（含 GT 属性、附魔、lore） |
+| `tooltip_zh`     | `getTooltipLines()` + 临时切换 ZH Language                                | 完整中文 tooltip                  |
 
 tooltip 通过 `ItemStack.getTooltipLines(player, TooltipFlag.Default.NORMAL)` 获取，与 EMI/JEI 悬浮显示内容一致。
 通过临时替换 `Language.getInstance()` 实现双语 tooltip 导出。
@@ -296,15 +296,15 @@ logs/report/GTOCore-{version}/all_{timestamp}/
 
 ## 名称与 Tooltip 获取逻辑
 
-| 字段 | 来源 | 说明 |
-|------|------|------|
-| `description_id` | `item.getDescriptionId()` / `fluid.getFluidType().getDescriptionId()` | 翻译键 |
-| `name_en` | 从 `en_us.json` 加载的翻译表 | 静态翻译，不含 NBT |
-| `name_zh` | 从 `zh_cn.json` 加载的翻译表 | 静态翻译，不含 NBT |
-| `display_name_en` | `Language.inject(EN)` → `stack.getHoverName()` | 运行时英文名（含 NBT：附魔书、药水等） |
-| `display_name_zh` | `Language.inject(ZH)` → `stack.getHoverName()` | 运行时中文名（含 NBT） |
-| `tooltip_en` | `Language.inject(EN)` → `stack.getTooltipLines(null, NORMAL)` | 完整英文 tooltip（含 GT 属性、附魔、lore） |
-| `tooltip_zh` | `Language.inject(ZH)` → `stack.getTooltipLines(null, NORMAL)` | 完整中文 tooltip |
+| 字段                | 来源                                                                    | 说明                            |
+|-------------------|-----------------------------------------------------------------------|-------------------------------|
+| `description_id`  | `item.getDescriptionId()` / `fluid.getFluidType().getDescriptionId()` | 翻译键                           |
+| `name_en`         | 从 `en_us.json` 加载的翻译表                                                 | 静态翻译，不含 NBT                   |
+| `name_zh`         | 从 `zh_cn.json` 加载的翻译表                                                 | 静态翻译，不含 NBT                   |
+| `display_name_en` | `Language.inject(EN)` → `stack.getHoverName()`                        | 运行时英文名（含 NBT：附魔书、药水等）         |
+| `display_name_zh` | `Language.inject(ZH)` → `stack.getHoverName()`                        | 运行时中文名（含 NBT）                 |
+| `tooltip_en`      | `Language.inject(EN)` → `stack.getTooltipLines(null, NORMAL)`         | 完整英文 tooltip（含 GT 属性、附魔、lore） |
+| `tooltip_zh`      | `Language.inject(ZH)` → `stack.getTooltipLines(null, NORMAL)`         | 完整中文 tooltip                  |
 
 通过 `Language.inject()` 临时切换语言实例，与 EMI/JEI 悬浮显示内容一致。
 
@@ -314,169 +314,169 @@ logs/report/GTOCore-{version}/all_{timestamp}/
 
 基于 `EmiApi.getIndexStacks()` 在渲染线程收集，包含全量 tooltip。
 
-| 字段 | 类型 | 说明 |
-|------|------|------|
-| `id` | string | 资源 ID（如 `minecraft:stone`） |
-| `type` | string | `"item"` / `"fluid"` / `"block"` |
-| `namespace` | string | mod ID |
-| `path` | string | 路径部分 |
-| `description_id` | string | 翻译键 |
-| `name_en` | string | 英文名（lang 文件） |
-| `name_zh` | string | 中文名（lang 文件） |
-| `display_name_en` | string | 运行时英文名（NBT 感知） |
-| `display_name_zh` | string | 运行时中文名（NBT 感知） |
-| `tooltip_en` | string[] | 英文 tooltip 全部行 |
-| `tooltip_zh` | string[] | 中文 tooltip 全部行 |
-| `nbt` | string? | NBT 数据（仅有 NBT 的物品：编程电路、附魔书等） |
-| `is_circuit` | boolean? | 是否编程电路（仅 `gtceu:programmed_circuit`） |
-| `circuit_config` | int? | 编程电路配置编号（0-32） |
-| `icon_file` | string | 图标相对路径 |
+| 字段                | 类型       | 说明                                   |
+|-------------------|----------|--------------------------------------|
+| `id`              | string   | 资源 ID（如 `minecraft:stone`）           |
+| `type`            | string   | `"item"` / `"fluid"` / `"block"`     |
+| `namespace`       | string   | mod ID                               |
+| `path`            | string   | 路径部分                                 |
+| `description_id`  | string   | 翻译键                                  |
+| `name_en`         | string   | 英文名（lang 文件）                         |
+| `name_zh`         | string   | 中文名（lang 文件）                         |
+| `display_name_en` | string   | 运行时英文名（NBT 感知）                       |
+| `display_name_zh` | string   | 运行时中文名（NBT 感知）                       |
+| `tooltip_en`      | string[] | 英文 tooltip 全部行                       |
+| `tooltip_zh`      | string[] | 中文 tooltip 全部行                       |
+| `nbt`             | string?  | NBT 数据（仅有 NBT 的物品：编程电路、附魔书等）         |
+| `is_circuit`      | boolean? | 是否编程电路（仅 `gtceu:programmed_circuit`） |
+| `circuit_config`  | int?     | 编程电路配置编号（0-32）                       |
+| `icon_file`       | string   | 图标相对路径                               |
 
 ### list/items.json
 
 基于 `BuiltInRegistries.ITEM` 注册表。
 
-| 字段 | 类型 | 说明 |
-|------|------|------|
-| `id` | string | 物品 ID |
-| `namespace` | string | mod ID |
-| `path` | string | 路径 |
-| `tags` | string[] | 标签列表 |
-| `description_id` | string | 翻译键 |
-| `name_en` | string | 英文名 |
-| `name_zh` | string | 中文名 |
-| `display_name_en` | string | 运行时英文名 |
-| `display_name_zh` | string | 运行时中文名 |
-| `tooltip_en` | string[] | 英文 tooltip |
-| `tooltip_zh` | string[] | 中文 tooltip |
-| `max_stack_size` | int | 最大堆叠 |
-| `max_damage` | int | 最大耐久 |
-| `is_fireproof` | boolean | 防火 |
-| `has_container` | boolean | 有合成容器 |
+| 字段                | 类型       | 说明         |
+|-------------------|----------|------------|
+| `id`              | string   | 物品 ID      |
+| `namespace`       | string   | mod ID     |
+| `path`            | string   | 路径         |
+| `tags`            | string[] | 标签列表       |
+| `description_id`  | string   | 翻译键        |
+| `name_en`         | string   | 英文名        |
+| `name_zh`         | string   | 中文名        |
+| `display_name_en` | string   | 运行时英文名     |
+| `display_name_zh` | string   | 运行时中文名     |
+| `tooltip_en`      | string[] | 英文 tooltip |
+| `tooltip_zh`      | string[] | 中文 tooltip |
+| `max_stack_size`  | int      | 最大堆叠       |
+| `max_damage`      | int      | 最大耐久       |
+| `is_fireproof`    | boolean  | 防火         |
+| `has_container`   | boolean  | 有合成容器      |
 
 ### list/fluids.json
 
 基于 `BuiltInRegistries.FLUID` 注册表。
 
-| 字段 | 类型 | 说明 |
-|------|------|------|
-| `id` | string | 流体 ID |
-| `namespace` | string | mod ID |
-| `path` | string | 路径 |
-| `tags` | string[] | 标签列表 |
-| `description_id` | string | 翻译键（FluidType） |
-| `name_en` | string | 英文名（lang 文件） |
-| `name_zh` | string | 中文名（lang 文件） |
-| `display_name_en` | string | 运行时英文名（FluidStack） |
-| `display_name_zh` | string | 运行时中文名（FluidStack） |
-| `is_source` | boolean | 是否源方块 |
-| `bucket_volume` | int | 桶容量（1000 mB） |
+| 字段                | 类型       | 说明                 |
+|-------------------|----------|--------------------|
+| `id`              | string   | 流体 ID              |
+| `namespace`       | string   | mod ID             |
+| `path`            | string   | 路径                 |
+| `tags`            | string[] | 标签列表               |
+| `description_id`  | string   | 翻译键（FluidType）     |
+| `name_en`         | string   | 英文名（lang 文件）       |
+| `name_zh`         | string   | 中文名（lang 文件）       |
+| `display_name_en` | string   | 运行时英文名（FluidStack） |
+| `display_name_zh` | string   | 运行时中文名（FluidStack） |
+| `is_source`       | boolean  | 是否源方块              |
+| `bucket_volume`   | int      | 桶容量（1000 mB）       |
 
 ### list/blocks.json
 
 基于 `BuiltInRegistries.BLOCK` 注册表。
 
-| 字段 | 类型 | 说明 |
-|------|------|------|
-| `id` | string | 方块 ID |
-| `namespace` | string | mod ID |
-| `path` | string | 路径 |
-| `tags` | string[] | 标签列表 |
-| `description_id` | string | 翻译键 |
-| `name_en` | string | 英文名 |
-| `name_zh` | string | 中文名 |
-| `hardness` | float | 硬度 |
-| `explosion_resistance` | float | 爆炸抗性 |
-| `light_emission` | int | 发光等级 |
+| 字段                     | 类型       | 说明     |
+|------------------------|----------|--------|
+| `id`                   | string   | 方块 ID  |
+| `namespace`            | string   | mod ID |
+| `path`                 | string   | 路径     |
+| `tags`                 | string[] | 标签列表   |
+| `description_id`       | string   | 翻译键    |
+| `name_en`              | string   | 英文名    |
+| `name_zh`              | string   | 中文名    |
+| `hardness`             | float    | 硬度     |
+| `explosion_resistance` | float    | 爆炸抗性   |
+| `light_emission`       | int      | 发光等级   |
 
 ### misc/gt_machines.json
 
 基于 `GTRegistries.MACHINES`。
 
-| 字段 | 类型 | 说明 |
-|------|------|------|
-| `id` | string | 机器 ID（如 `gtceu:lv_electric_furnace`） |
-| `namespace` | string | mod ID |
-| `path` | string | 路径 |
-| `description_id` | string | 方块翻译键 |
-| `name_en` | string | 英文名 |
-| `name_zh` | string | 中文名 |
-| `tier` | int | 电压等级序号 |
-| `tier_name` | string | 等级缩写（LV/MV/...） |
-| `voltage` | long | 电压值 |
-| `recipe_types` | string[] | 关联配方类型 ID 列表 |
-| `is_multiblock` | boolean | 是否多方块 |
-| `is_generator` | boolean | 是否发电机（仅多方块） |
+| 字段               | 类型       | 说明                                   |
+|------------------|----------|--------------------------------------|
+| `id`             | string   | 机器 ID（如 `gtceu:lv_electric_furnace`） |
+| `namespace`      | string   | mod ID                               |
+| `path`           | string   | 路径                                   |
+| `description_id` | string   | 方块翻译键                                |
+| `name_en`        | string   | 英文名                                  |
+| `name_zh`        | string   | 中文名                                  |
+| `tier`           | int      | 电压等级序号                               |
+| `tier_name`      | string   | 等级缩写（LV/MV/...）                      |
+| `voltage`        | long     | 电压值                                  |
+| `recipe_types`   | string[] | 关联配方类型 ID 列表                         |
+| `is_multiblock`  | boolean  | 是否多方块                                |
+| `is_generator`   | boolean  | 是否发电机（仅多方块）                          |
 
 ### misc/recipe_type_machines.json
 
 基于 `GTRegistries.RECIPE_TYPES`，配方类型 → 机器反向映射。
 
-| 字段 | 类型 | 说明 |
-|------|------|------|
-| `id` | string | 配方类型 ID |
-| `namespace` | string | mod ID |
-| `path` | string | 路径 |
-| `translation_key` | string | 翻译键（`gtceu.{path}`） |
-| `name_en` | string | 英文名 |
-| `name_zh` | string | 中文名 |
-| `group` | string | 组分类（electric/multiblock/generator/steam/dummy） |
-| `max_item_inputs` | int | 最大物品输入 |
-| `max_item_outputs` | int | 最大物品输出 |
-| `max_fluid_inputs` | int | 最大流体输入 |
-| `max_fluid_outputs` | int | 最大流体输出 |
-| `machine_count` | int | 可处理该配方的机器数量 |
-| `machines` | string[] | 机器 ID 列表 |
+| 字段                  | 类型       | 说明                                             |
+|---------------------|----------|------------------------------------------------|
+| `id`                | string   | 配方类型 ID                                        |
+| `namespace`         | string   | mod ID                                         |
+| `path`              | string   | 路径                                             |
+| `translation_key`   | string   | 翻译键（`gtceu.{path}`）                            |
+| `name_en`           | string   | 英文名                                            |
+| `name_zh`           | string   | 中文名                                            |
+| `group`             | string   | 组分类（electric/multiblock/generator/steam/dummy） |
+| `max_item_inputs`   | int      | 最大物品输入                                         |
+| `max_item_outputs`  | int      | 最大物品输出                                         |
+| `max_fluid_inputs`  | int      | 最大流体输入                                         |
+| `max_fluid_outputs` | int      | 最大流体输出                                         |
+| `machine_count`     | int      | 可处理该配方的机器数量                                    |
+| `machines`          | string[] | 机器 ID 列表                                       |
 
 ### recipe/gregtech/{type}.json
 
 GT 配方按类型分文件。每个配方包含：
 
-| 字段 | 类型 | 说明 |
-|------|------|------|
-| `id` | string | 配方 ID |
-| `type` | string | 配方类型 |
-| `duration` | int | 持续时间（ticks） |
-| `eu_per_tick` | long | EU/t |
-| `eu_type` | string | `"input"` / `"output"` |
-| `total_eu` | long | 总 EU 消耗 |
-| `mana_per_tick` | long? | 魔力/t（仅魔力配方存在） |
-| `mana_type` | string? | `"input"` / `"output"` |
-| `total_mana` | long? | 总魔力消耗 |
-| `cwu_per_tick` | long? | 算力/t（CWU/t，仅需要算力的配方存在） |
-| `duration_is_total_cwu` | boolean? | true 时 duration 字段表示总 CWU 而非 ticks |
-| `total_cwu` | long? | 总算力消耗 |
-| `input_items` | array | 输入物品（含 items/amount/chance/tier_chance_boost/chance_percent） |
-| `output_items` | array | 输出物品 |
-| `input_fluids` | array | 输入流体（含 fluids/amount/chance） |
-| `output_fluids` | array | 输出流体 |
-| `tick_inputs` | object | 每 tick 输入（eu/mana 等） |
-| `data` | object | 附加数据（ebf_temp 等） |
-| `requires_circuit` | boolean? | 是否需要编程电路（仅存在时为 true） |
-| `circuit_config` | int? | 编程电路配置编号（0-32） |
-| `conditions` | array | 配方条件（type/class/tooltip/is_reverse） |
-| `is_fuel` | boolean | 是否燃料配方 |
+| 字段                      | 类型       | 说明                                                           |
+|-------------------------|----------|--------------------------------------------------------------|
+| `id`                    | string   | 配方 ID                                                        |
+| `type`                  | string   | 配方类型                                                         |
+| `duration`              | int      | 持续时间（ticks）                                                  |
+| `eu_per_tick`           | long     | EU/t                                                         |
+| `eu_type`               | string   | `"input"` / `"output"`                                       |
+| `total_eu`              | long     | 总 EU 消耗                                                      |
+| `mana_per_tick`         | long?    | 魔力/t（仅魔力配方存在）                                                |
+| `mana_type`             | string?  | `"input"` / `"output"`                                       |
+| `total_mana`            | long?    | 总魔力消耗                                                        |
+| `cwu_per_tick`          | long?    | 算力/t（CWU/t，仅需要算力的配方存在）                                       |
+| `duration_is_total_cwu` | boolean? | true 时 duration 字段表示总 CWU 而非 ticks                           |
+| `total_cwu`             | long?    | 总算力消耗                                                        |
+| `input_items`           | array    | 输入物品（含 items/amount/chance/tier_chance_boost/chance_percent） |
+| `output_items`          | array    | 输出物品                                                         |
+| `input_fluids`          | array    | 输入流体（含 fluids/amount/chance）                                 |
+| `output_fluids`         | array    | 输出流体                                                         |
+| `tick_inputs`           | object   | 每 tick 输入（eu/mana 等）                                         |
+| `data`                  | object   | 附加数据（ebf_temp 等）                                             |
+| `requires_circuit`      | boolean? | 是否需要编程电路（仅存在时为 true）                                         |
+| `circuit_config`        | int?     | 编程电路配置编号（0-32）                                               |
+| `conditions`            | array    | 配方条件（type/class/tooltip/is_reverse）                          |
+| `is_fuel`               | boolean  | 是否燃料配方                                                       |
 
 ### tag/{type}/{tag_name}.json
 
-| 字段 | 类型 | 说明 |
-|------|------|------|
-| `tag` | string | 标签 ID（如 `forge:ingots/iron`） |
-| `type` | string | `"item"` / `"fluid"` / `"block"` |
-| `items` | string[] | 资源 ID 列表 |
-| `count` | int | 资源数量 |
+| 字段      | 类型       | 说明                               |
+|---------|----------|----------------------------------|
+| `tag`   | string   | 标签 ID（如 `forge:ingots/iron`）     |
+| `type`  | string   | `"item"` / `"fluid"` / `"block"` |
+| `items` | string[] | 资源 ID 列表                         |
+| `count` | int      | 资源数量                             |
 
 ### misc/gt_environments.json
 
-| 字段 | 类型 | 说明 |
-|------|------|------|
-| `cleanroom_types` | array | 超净间类型（id/name/tier/description） |
-| `vacuum_conditions` | array | 真空等级（tier/name/description） |
-| `gravity_conditions` | array | 重力条件（id/name/gravity_level） |
+| 字段                     | 类型    | 说明                                |
+|------------------------|-------|-----------------------------------|
+| `cleanroom_types`      | array | 超净间类型（id/name/tier/description）   |
+| `vacuum_conditions`    | array | 真空等级（tier/name/description）       |
+| `gravity_conditions`   | array | 重力条件（id/name/gravity_level）       |
 | `dimension_conditions` | array | 维度条件（id/name/is_space/has_oxygen） |
-| `voltage_tiers` | array | 电压等级（tier/name/voltage/amperage） |
-| `recipe_modifiers` | array | 配方修改器（overclock/parallel） |
-| `special_conditions` | array | 特殊条件 |
+| `voltage_tiers`        | array | 电压等级（tier/name/voltage/amperage）  |
+| `recipe_modifiers`     | array | 配方修改器（overclock/parallel）         |
+| `special_conditions`   | array | 特殊条件                              |
 
 ## 触发方式
 

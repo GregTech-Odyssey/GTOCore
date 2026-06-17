@@ -18,7 +18,7 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 public abstract class MessageUtilMixin {
 
     /**
-     * @param dimensionId     原始 Component.literal 的参数，我们不直接使用它，但必须在签名中捕获。
+     * @param text            原始 Component.literal 的参数，我们不直接使用它，但必须在签名中捕获。
      * @param player          原始 createEnhancedHighlightMessage 方法的参数，用于传递上下文。
      * @param targetPos       原始 createEnhancedHighlightMessage 方法的参数。
      * @param targetDimension 原始 createEnhancedHighlightMessage 方法的核心参数，我们需要它来构建翻译键。
@@ -38,7 +38,7 @@ public abstract class MessageUtilMixin {
                        target = "Lnet/minecraft/network/chat/Component;literal(Ljava/lang/String;)Lnet/minecraft/network/chat/MutableComponent;",
                        ordinal = 1,
                        remap = true))
-    private static MutableComponent replaceDimensionComponent(String dimensionId, Player player, BlockPos targetPos, ResourceKey<Level> targetDimension, String translatable) {
+    private static MutableComponent replaceDimensionComponent(String text, Player player, BlockPos targetPos, ResourceKey<Level> targetDimension, String translatable) {
         return Component.translatable(GTODimensions.getTranslationKey(targetDimension));
     }
 }

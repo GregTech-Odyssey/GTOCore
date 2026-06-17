@@ -80,10 +80,10 @@ public class DataGenerateHolderMachine extends MultiblockPartMachine implements 
         int centerY = 48;
         group.addWidget(new ImageWidget(centerX - 33, centerY - 21, 84, 60, GTOGuiTextures.PROGRESS_BAR_DATA_GENERATE_BASE))
 
-                .addWidget(new BlockableSlotWidget(heldItems, CATALYST_SLOT_1, centerX - 65, centerY - 39)
+                .addWidget(new BlockableSlotWidget(heldItems, CATALYST_SLOT_1, 0, centerY - 39)
                         .setIsBlocked(this::isLocked)
                         .setBackground(GuiTextures.SLOT, GuiTextures.MOLECULAR_OVERLAY_1))
-                .addWidget(new BlockableSlotWidget(heldItems, CATALYST_SLOT_2, centerX - 65, centerY + 39)
+                .addWidget(new BlockableSlotWidget(heldItems, CATALYST_SLOT_2, 0, centerY + 39)
                         .setIsBlocked(this::isLocked)
                         .setBackground(GuiTextures.SLOT, GuiTextures.MOLECULAR_OVERLAY_1))
                 .addWidget(new BlockableSlotWidget(heldItems, EMPTY_SLOT, centerX, centerY)

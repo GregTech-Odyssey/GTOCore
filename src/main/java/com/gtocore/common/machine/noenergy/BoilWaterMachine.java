@@ -1,8 +1,11 @@
 package com.gtocore.common.machine.noenergy;
 
+import com.gtocore.common.data.GTORecipeTypes;
+import com.gtocore.data.IdleReason;
+
 import com.gtolib.api.machine.SimpleNoEnergyMachine;
+import com.gtolib.api.machine.heat.HeatHandler;
 import com.gtolib.api.machine.heat.feature.IHeatContainerMachine;
-import com.gtolib.api.machine.heat.trait.NotifiableHeatContainer;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.feature.IExplosionMachine;
@@ -10,10 +13,8 @@ import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeDefinition;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.api.recipe.handler.ICustomRecipeLogicHolder;
-import com.gregtechceu.gtceu.api.recipe.handler.IO;
 import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
-import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.material.Fluids;
@@ -24,22 +25,21 @@ import org.jetbrains.annotations.NotNull;
 
 public final class BoilWaterMachine extends SimpleNoEnergyMachine implements IHeatContainerMachine, IExplosionMachine, ICustomRecipeLogicHolder {
 
-    public static final int DrawWaterExplosionLine = 400;
-
     @Getter
     @SaveToDisk
-    private final NotifiableHeatContainer heatContainer;
+    private final HeatHandler heatContainer;
 
     public BoilWaterMachine(MetaMachineBlockEntity holder) {
         super(holder, 0, i -> 16000);
-        heatContainer = new NotifiableHeatContainer(this, IO.IN, 600, 2, 0.6, 0.01);
-        heatContainer.handler.setSideIOCondition(s -> s == Direction.DOWN);
+        heatContainer = new HeatHandler(holder, 600, 2, 0.6, 0.01);
+        heatContainer.setSideIOCondition(s -> s == Direction.DOWN);
+        heatContainer.addChangedListener(getRecipeLogic()::updateTickSubscription);
     }
 
     @Override
     @NotNull
     public GTRecipeType getRecipeType() {
-        return GTRecipeTypes.STEAM_TURBINE_FUELS;
+        return GTORecipeTypes.F1A1B;
     }
 
     @Override
@@ -50,7 +50,7 @@ public final class BoilWaterMachine extends SimpleNoEnergyMachine implements IHe
     @Override
     public boolean handleTickRecipe(GTRecipe recipe) {
         if (super.handleTickRecipe(recipe)) {
-            if (getOffsetTimer() % 15 == 0) return heatContainer.removeHeatUnrestricted(1, false) == 1;
+            if (getOffsetTimer() % 10 == 0) return heatContainer.removeHeatUnrestricted(1, false) == 1;
             return true;
         }
         return false;
@@ -58,7 +58,10 @@ public final class BoilWaterMachine extends SimpleNoEnergyMachine implements IHe
 
     @Override
     public GTRecipeDefinition createCustomRecipe(RecipeHandlerUnit unit) {
-        if (heatContainer.getTemperature() < 360) return null;
+        if (heatContainer.getTemperature() < 360) {
+            setIdleReason(IdleReason.INSUFFICIENT_TEMPERATURE);
+            return null;
+        }
         return getRecipeBuilder().duration(20).inputFluids(Fluids.WATER, 6).outputFluids(GTMaterials.Steam, (int) (960 * heatContainer.getTemperature() / 600)).build();
     }
 

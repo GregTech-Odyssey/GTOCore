@@ -51,14 +51,6 @@ public class ACMHatchPartMachine extends WorkableTieredPartMachine implements IM
     private static float MIN_DURATION_MULTIPLIER = 1.0F;
     private static final float DURATION_ACTION_AMOUNT = 0.01F;
 
-    protected void setDurationMultiplierPercent(float durationMultiplierPercent) {
-        this.durationMultiplier = durationMultiplierPercent / 100.0F;
-    }
-
-    protected float getDurationMultiplierPercent() {
-        return this.durationMultiplier * 100.0F;
-    }
-
     @SaveToDisk
     @SyncToClient
     private float durationMultiplier = 1.0F;

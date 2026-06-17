@@ -34,6 +34,32 @@ import static com.gtocore.common.data.GTORecipeTypes.ASSEMBLER_RECIPES;
 final class AssemblerA {
 
     public static void init() {
+        ASSEMBLER_RECIPES.builder("heat_pipes")
+                .inputItems(TagPrefix.pipeNormalFluid, GTMaterials.Copper, 1)
+                .inputItems(TagPrefix.plate, GTMaterials.Copper, 2)
+                .circuitMeta(11)
+                .outputItems(GTOBlocks.HEAT_PIPES[0].asItem())
+                .duration(200)
+                .EUt(7)
+                .save();
+
+        ASSEMBLER_RECIPES.builder("heat_interface")
+                .inputItems(TagPrefix.plate, GTMaterials.Steel, 2)
+                .circuitMeta(17)
+                .outputItems(GTOItems.HEAT_INTERFACE.asItem())
+                .duration(200)
+                .EUt(7)
+                .save();
+
+        ASSEMBLER_RECIPES.builder("heat_detector_cover")
+                .inputItems(TagPrefix.plate, GTMaterials.Steel, 2)
+                .inputItems(TagPrefix.dust, GTMaterials.RedAlloy, 1)
+                .circuitMeta(18)
+                .outputItems(GTOItems.HEAT_DETECTOR_COVER.asItem())
+                .duration(200)
+                .EUt(7)
+                .save();
+
         ASSEMBLER_RECIPES.builder("control_hatch")
                 .inputItems(GTMachines.HULL[GTValues.MV].asItem())
                 .inputItems(GTItems.COVER_MACHINE_CONTROLLER)
@@ -44,15 +70,33 @@ final class AssemblerA {
                 .duration(200)
                 .save();
 
-        ASSEMBLER_RECIPES.builder("heat_vacuum_interface")
+        ASSEMBLER_RECIPES.builder("heat_hatch")
+                .inputItems(GTMachines.HULL[ULV].asItem())
+                .inputItems(GTOItems.HEAT_INTERFACE)
+                .inputItems(TagPrefix.rotor, GTMaterials.Copper, 1)
+                .inputItems(GTOBlocks.HEAT_PIPES[0], 2)
+                .outputItems(GTOMachines.HEAT_HATCH)
+                .EUt(7)
+                .duration(200)
+                .save();
+
+        ASSEMBLER_RECIPES.builder("advanced_heat_hatch")
+                .inputItems(GTMachines.HULL[IV].asItem())
+                .inputItems(GTOMachines.HEAT_HATCH)
+                .inputItems(GTOBlocks.HEAT_PIPES[0], 4)
+                .outputItems(GTOMachines.ADVANCED_HEAT_HATCH)
+                .EUt(1920)
+                .duration(200)
+                .save();
+
+        ASSEMBLER_RECIPES.builder("vacuum_interface")
                 .inputItems(GTMachines.HULL[GTValues.LV].asItem())
                 .inputItems(GTOItems.AIR_VENT)
-                .inputItems(TagPrefix.rotor, GTMaterials.Copper, 2)
                 .inputItems(TagPrefix.pipeSmallFluid, GTMaterials.Steel, 2)
-                .outputItems(GTOMachines.TEMP_VACUUM_INTERFACE)
+                .outputItems(GTOMachines.VACUUM_INTERFACE)
                 .inputFluids(GTMaterials.TinAlloy, 288)
                 .EUt(7)
-                .duration(100)
+                .duration(200)
                 .save();
 
         ASSEMBLER_RECIPES.builder("wireless_charger_cover")

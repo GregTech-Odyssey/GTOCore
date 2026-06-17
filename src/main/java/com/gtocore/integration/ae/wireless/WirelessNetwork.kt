@@ -22,6 +22,7 @@ import com.lowdragmc.lowdraglib.LDLib
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap
+import it.unimi.dsi.fastutil.objects.Reference2IntMap
 import it.unimi.dsi.fastutil.objects.Reference2IntOpenHashMap
 import it.unimi.dsi.fastutil.objects.Reference2ReferenceOpenHashMap
 import it.unimi.dsi.fastutil.objects.ReferenceOpenHashSet
@@ -54,15 +55,13 @@ class WirelessNetwork(val id: String, val owner: UUID, var nickname: String = id
                 Codec.STRING.optionalFieldOf("nickname").forGetter { Optional.ofNullable(it.nickname) },
                 Codec.INT.optionalFieldOf("maxOutputsPerInput").forGetter { Optional.of(it.maxOutputsPerInput) },
             ).apply(b) { id, owner, nicknameOpt, maxOpt ->
-                WirelessNetwork(id, owner, nicknameOpt.orElse(id), maxOpt.orElse(defaultMaxOutputs()))
+                WirelessNetwork(id, owner, nicknameOpt.orElse(id) ?: id, maxOpt.orElse(defaultMaxOutputs()) ?: defaultMaxOutputs())
             }
         }
 
         var profiledLoadTime: Long = 0L
         var totalLoadedConns: Int = 0
         var refreshTimesCalled: Int = 0
-
-        fun getProfileSummary(): String = "WirelessNetwork Profile: totalLoadedConns=$totalLoadedConns, refreshTimesCalled=$refreshTimesCalled, averageLoadTime=${if (refreshTimesCalled > 0) profiledLoadTime / refreshTimesCalled else 0}ms"
     }
 
     var needsRefresh: Boolean = false
@@ -108,7 +107,12 @@ class WirelessNetwork(val id: String, val owner: UUID, var nickname: String = id
 
             WirelessMachine.NodeType.CHILD -> {
                 outputNodes.add(node)
-                connectionAvailableInput(node)
+                val pathingService: IPathingService? = node.mainNode?.grid?.pathingService
+                if (pathingService?.channelMode === ChannelMode.INFINITE) {
+                    connectionAvailableInput(node)
+                } else {
+                    needsRefresh = true
+                }
             }
         }
     }
@@ -140,11 +144,8 @@ class WirelessNetwork(val id: String, val owner: UUID, var nickname: String = id
     }
 
     fun connectionAvailableInput(output: WirelessMachine) {
-        val pathingService: IPathingService? = output.mainNode?.grid?.pathingService
-        val isInfinite = pathingService?.channelMode === ChannelMode.INFINITE
-        val outputWorkload = if (isInfinite) 0 else output.workloadChannels
         for (input in inputNodes) {
-            if (isNodeValid(input) && connections.getInt(input) < maxOutputsPerInput && (isInfinite || input.maxWorkloadChannels - input.workloadChannels >= outputWorkload)) {
+            if (isNodeValid(input) && connections.getInt(input) < maxOutputsPerInput) {
                 if (createConnection(input, output)) return
             }
         }
@@ -256,9 +257,11 @@ class WirelessNetwork(val id: String, val owner: UUID, var nickname: String = id
     }
 
     fun assignNodesGreedy() {
-        val it = inputNodes.iterator()
+        val inputs = Reference2IntOpenHashMap<WirelessMachine>(inputNodes.size)
+        inputNodes.forEach { if (isNodeValid(it)) inputs.put(it, it.workloadChannels) }
+        val it = inputs.reference2IntEntrySet().fastIterator()
         var conns = 0
-        var next: WirelessMachine? = null
+        var next: Reference2IntMap.Entry<WirelessMachine>? = null
         a@ for (output in outputNodes) {
             if (!isNodeValid(output)) continue
             while (true) {
@@ -266,20 +269,17 @@ class WirelessNetwork(val id: String, val owner: UUID, var nickname: String = id
                     if (it.hasNext()) {
                         next = it.next()
                         conns = 0
-                        if (!isNodeValid(next)) {
-                            next = null
-                            continue
-                        }
                     } else {
                         break@a
                     }
                 }
                 val outputWorkload = output.workloadChannels
-                if (conns >= maxOutputsPerInput || next.maxWorkloadChannels - next.workloadChannels < outputWorkload) {
+                if (conns >= maxOutputsPerInput || next.key.maxWorkloadChannels - next.intValue < outputWorkload) {
                     next = null
                     continue
                 }
-                if (createConnection(next, output)) {
+                if (createConnection(next.key, output)) {
+                    next.setValue(next.intValue + outputWorkload)
                     conns++
                     break
                 }

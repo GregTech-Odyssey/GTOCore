@@ -2,13 +2,15 @@ package com.gtocore.common.machine.electric;
 
 import com.gtocore.common.data.GTORecipeTypes;
 
+import com.gtolib.api.capability.IHeatContainer;
+import com.gtolib.api.machine.heat.HeatHandler;
 import com.gtolib.api.machine.heat.feature.IHeatContainerMachine;
-import com.gtolib.api.machine.heat.trait.NotifiableHeatContainer;
 import com.gtolib.api.machine.trait.NotifiableSafeEnergyContainer;
 import com.gtolib.api.recipe.RecipeBuilder;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
+import com.gregtechceu.gtceu.api.capability.GTCapability;
 import com.gregtechceu.gtceu.api.machine.WorkableTieredMachine;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableEnergyContainer;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableFluidTank;
@@ -36,13 +38,22 @@ public final class ElectricHeaterMachine extends WorkableTieredMachine implement
     @Getter
     @SaveToDisk
     @SyncToClient
-    private final NotifiableHeatContainer heatContainer;
+    private final HeatHandler heatContainer;
 
     public ElectricHeaterMachine(MetaMachineBlockEntity holder) {
         super(holder, 1, t -> 8000);
-        heatContainer = new NotifiableHeatContainer(this, IO.OUT, MaxTemperature, 2, 0.3, 0.01);
-        heatContainer.handler.setSideIOCondition(s -> s == Direction.UP);
-        heatContainer.handler.setCoolDownCondition(() -> !getRecipeLogic().isWorking());
+        heatContainer = new HeatHandler(holder, MaxTemperature, 2, 0.4, 0.01);
+        heatContainer.setSideIOCondition(s -> s == Direction.UP);
+        heatContainer.addChangedListener(getRecipeLogic()::updateTickSubscription);
+    }
+
+    @Override
+    public @Nullable <T> Object getGTCapability(@NotNull Class<T> cap, @Nullable Direction side) {
+        if (cap == IHeatContainer.class) {
+            if (testHeatCapability(side)) return heatContainer;
+            return GTCapability.EMPTY;
+        }
+        return super.getGTCapability(cap, side);
     }
 
     @Override
@@ -53,7 +64,7 @@ public final class ElectricHeaterMachine extends WorkableTieredMachine implement
 
     @Override
     protected @NotNull NotifiableFluidTank createImportFluidHandler(Object @NotNull... args) {
-        return new NotifiableFluidTank(this, 0, 0, IO.IN);
+        return new NotifiableFluidTank(this, 0, 0, IO.NONE).setAvailable(false);
     }
 
     @Override
@@ -82,19 +93,18 @@ public final class ElectricHeaterMachine extends WorkableTieredMachine implement
     @Override
     public void onWorking() {
         super.onWorking();
-        if (getOffsetTimer() % 10 == 0 && MaxTemperature > getHeatContainer().getTemperature() + 4) {
-            getHeatContainer().addHeatUnrestricted(16, false);
+        if (getOffsetTimer() % 10 == 0) {
+            if (heatContainer.currentHeat + 16 < heatContainer.maxHeat) {
+                heatContainer.addHeatUnrestricted(16, false);
+            } else {
+                getRecipeLogic().markLastRecipeDirty();
+            }
         }
     }
 
     @Override
     public GTRecipeDefinition createCustomRecipe(RecipeHandlerUnit unit) {
-        if (getHeatContainer().getTemperature() >= MaxTemperature) return null;
+        if (heatContainer.currentHeat + 16 >= heatContainer.maxHeat) return null;
         return RecipeBuilder.ofRaw().duration(20).EUt(30).build();
-    }
-
-    @Override
-    public boolean alwaysSearchRecipe() {
-        return true;
     }
 }

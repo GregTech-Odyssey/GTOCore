@@ -2,16 +2,16 @@ package com.gtocore.common.machine.multiblock.part.ae.widget
 
 import com.gtocore.api.gui.ktflexible.textBlock
 import com.gtocore.common.machine.multiblock.part.ae.*
-import com.gtocore.common.machine.multiblock.part.ae.MEPatternBufferPartMachineKt.Companion.emitting_crafting_mode
-import com.gtocore.common.machine.multiblock.part.ae.MEPatternBufferPartMachineKt.Companion.emitting_crafting_mode_tooltip
-import com.gtocore.common.machine.multiblock.part.ae.MEPatternBufferPartMachineKt.Companion.item_special
-import com.gtocore.common.machine.multiblock.part.ae.MEPatternBufferPartMachineKt.Companion.low_stock_triggering_mode
-import com.gtocore.common.machine.multiblock.part.ae.MEPatternBufferPartMachineKt.Companion.low_stock_triggering_mode_tooltip
-import com.gtocore.common.machine.multiblock.part.ae.MEPatternBufferPartMachineKt.Companion.low_stock_triggering_threshold
-import com.gtocore.common.machine.multiblock.part.ae.MEPatternBufferPartMachineKt.Companion.passive_input_multiplier
-import com.gtocore.common.machine.multiblock.part.ae.MEPatternBufferPartMachineKt.Companion.passive_input_multiplier_tooltip
-import com.gtocore.common.machine.multiblock.part.ae.MEPatternBufferPartMachineKt.Companion.pattern_configuration
-import com.gtocore.common.machine.multiblock.part.ae.MEPatternBufferPartMachineKt.Companion.request_crafting_when_insufficient
+import com.gtocore.common.machine.multiblock.part.ae.MEPatternBufferPartMachineKt.Companion.EMITTING_CRAFTING_MODE
+import com.gtocore.common.machine.multiblock.part.ae.MEPatternBufferPartMachineKt.Companion.EMITTING_CRAFTING_MODE_TOOLTIP
+import com.gtocore.common.machine.multiblock.part.ae.MEPatternBufferPartMachineKt.Companion.ITEM_SPECIAL
+import com.gtocore.common.machine.multiblock.part.ae.MEPatternBufferPartMachineKt.Companion.LOW_STOCK_TRIGGERING_MODE
+import com.gtocore.common.machine.multiblock.part.ae.MEPatternBufferPartMachineKt.Companion.LOW_STOCK_TRIGGERING_MODE_TOOLTIP
+import com.gtocore.common.machine.multiblock.part.ae.MEPatternBufferPartMachineKt.Companion.LOW_STOCK_TRIGGERING_THRESHOLD
+import com.gtocore.common.machine.multiblock.part.ae.MEPatternBufferPartMachineKt.Companion.PASSIVE_INPUT_MULTIPLIER
+import com.gtocore.common.machine.multiblock.part.ae.MEPatternBufferPartMachineKt.Companion.PASSIVE_INPUT_MULTIPLIER_TOOLTIP
+import com.gtocore.common.machine.multiblock.part.ae.MEPatternBufferPartMachineKt.Companion.PATTERN_CONFIGURATION
+import com.gtocore.common.machine.multiblock.part.ae.MEPatternBufferPartMachineKt.Companion.REQUEST_CRAFTING_WHEN_INSUFFICIENT
 
 import net.minecraft.network.chat.Component
 import net.minecraft.world.item.ItemStack
@@ -63,7 +63,7 @@ fun VBoxBuilder.buildToolBoxContentFor(machine: MEInputBufferPartMachine): Unit 
 
                 buildSectionDivider(this)
 
-                textBlock(maxWidth = width, textSupplier = { Component.translatable(item_special) })
+                textBlock(maxWidth = width, textSupplier = { Component.translatable(ITEM_SPECIAL) })
                 (0 until itemHandler.slots).chunked(9).forEach { indices ->
                     hBox(height = 18) {
                         indices.forEach { index ->
@@ -92,8 +92,8 @@ fun VBoxBuilder.buildToolBoxContentFor(machine: MEInputBufferPartMachine): Unit 
                     },
                 )
                 blank(height = 4)
-                textBlock(maxWidth = width, textSupplier = { Component.translatable(low_stock_triggering_mode) })
-                    .setHoverTooltips(low_stock_triggering_mode_tooltip)
+                textBlock(maxWidth = width, textSupplier = { Component.translatable(LOW_STOCK_TRIGGERING_MODE) })
+                    .setHoverTooltips(LOW_STOCK_TRIGGERING_MODE_TOOLTIP)
                 hBox(height = 24, style = { spacing = 4 }) {
                     val switch = AtomicReference<SwitchWidget>(null)
                     val longInput = LongInputWidget({ if (inv.minThreshold >= 0) inv.minThreshold else 0 }, {
@@ -114,24 +114,24 @@ fun VBoxBuilder.buildToolBoxContentFor(machine: MEInputBufferPartMachine): Unit 
                                     longInput.isVisible = false
                                 }
                             }),
-                        ).setHoverTooltips(low_stock_triggering_threshold) as SwitchWidget,
+                        ).setHoverTooltips(LOW_STOCK_TRIGGERING_THRESHOLD) as SwitchWidget,
                     )
                     widget(longInput)
                 }
                 blank(height = 4)
                 hBox(height = 24, style = { spacing = 4 }) {
-                    textBlock(maxWidth = width, textSupplier = { Component.translatable(emitting_crafting_mode) })
-                        .setHoverTooltips(emitting_crafting_mode_tooltip)
+                    textBlock(maxWidth = width, textSupplier = { Component.translatable(EMITTING_CRAFTING_MODE) })
+                        .setHoverTooltips(EMITTING_CRAFTING_MODE_TOOLTIP)
                     widget(switchWidget({ inv.isEmitterMode }, { inv.isEmitterMode = it }))
                 }
                 blank(height = 4)
                 hBox(height = 24, style = { spacing = 4 }) {
-                    textBlock(maxWidth = width, textSupplier = { Component.translatable(request_crafting_when_insufficient) })
+                    textBlock(maxWidth = width, textSupplier = { Component.translatable(REQUEST_CRAFTING_WHEN_INSUFFICIENT) })
                     widget(switchWidget({ inv.useRequest }, { inv.useRequest = it }))
                 }
                 blank(height = 4)
-                textBlock(maxWidth = width, textSupplier = { Component.translatable(passive_input_multiplier) })
-                    .setHoverTooltips(Component.translatable(passive_input_multiplier_tooltip))
+                textBlock(maxWidth = width, textSupplier = { Component.translatable(PASSIVE_INPUT_MULTIPLIER) })
+                    .setHoverTooltips(Component.translatable(PASSIVE_INPUT_MULTIPLIER_TOOLTIP))
                 hBox(height = 24, style = { spacing = 4 }) {
                     widget(
                         LongInputWidget({ if (inv.multiplier >= 1) inv.multiplier else 1 }, {
@@ -143,7 +143,7 @@ fun VBoxBuilder.buildToolBoxContentFor(machine: MEInputBufferPartMachine): Unit 
                 }
 
                 blank(height = 4)
-                textBlock(maxWidth = width, textSupplier = { Component.translatable(pattern_configuration) })
+                textBlock(maxWidth = width, textSupplier = { Component.translatable(PATTERN_CONFIGURATION) })
                 hBox(height = 36, style = { spacing = 4 }) {
                     val c = AEItemConfigWidget(0, 0, inv.exportOnlyItemList)
                     c.setShowAmount(true)

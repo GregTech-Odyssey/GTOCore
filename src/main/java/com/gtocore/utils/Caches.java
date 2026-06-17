@@ -1,21 +1,23 @@
 package com.gtocore.utils;
 
-import com.gtolib.api.misc.IMapValueCache;
-
 import com.glodblock.github.extendedae.common.me.taglist.TagPriorityList;
+import com.gto.fastcollection.cache.WeakValueHashCache;
+
+import java.util.function.Function;
 
 public final class Caches {
 
     private static final TagPriorityList EMPTY_TAG_FILTER = new TagPriorityList("", "");
 
-    private static final IMapValueCache<BiString, TagPriorityList> TAG_FILTER_CACHE = IMapValueCache.createWeak(
-            s -> {
-                if (s.isBlank()) return EMPTY_TAG_FILTER;
-                return new TagPriorityList(s.a, s.b);
-            });
+    private static final Function<BiString, TagPriorityList> FUNCTION = s -> {
+        if (s.isBlank()) return EMPTY_TAG_FILTER;
+        return new TagPriorityList(s.a, s.b);
+    };
+
+    private static final WeakValueHashCache<BiString, TagPriorityList> TAG_FILTER_CACHE = new WeakValueHashCache<>();
 
     public static TagPriorityList getTagPriorityList(String white, String black) {
-        return TAG_FILTER_CACHE.getCache(new BiString(white, black));
+        return TAG_FILTER_CACHE.getCache(new BiString(white, black), FUNCTION);
     }
 
     private record BiString(String a, String b) {

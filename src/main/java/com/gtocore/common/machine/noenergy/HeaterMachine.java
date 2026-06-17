@@ -1,14 +1,13 @@
 package com.gtocore.common.machine.noenergy;
 
 import com.gtolib.api.machine.SimpleNoEnergyMachine;
+import com.gtolib.api.machine.heat.HeatHandler;
 import com.gtolib.api.machine.heat.feature.IHeatContainerMachine;
-import com.gtolib.api.machine.heat.trait.NotifiableHeatContainer;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.feature.IExplosionMachine;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
-import com.gregtechceu.gtceu.api.recipe.handler.IO;
 import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 
@@ -29,13 +28,12 @@ public final class HeaterMachine extends SimpleNoEnergyMachine implements IHeatC
     @Getter
     @SaveToDisk
     @SyncToClient
-    private final NotifiableHeatContainer heatContainer;
+    private final HeatHandler heatContainer;
 
     public HeaterMachine(MetaMachineBlockEntity holder) {
         super(holder, 0, i -> 8000);
-        heatContainer = new NotifiableHeatContainer(this, IO.OUT, MaxTemperature, 1, 0.2, 0.01);
-        heatContainer.handler.setSideIOCondition(s -> s != getFrontFacing() && s != Direction.DOWN);
-        heatContainer.handler.setCoolDownCondition(() -> !getRecipeLogic().isWorking());
+        heatContainer = new HeatHandler(holder, MaxTemperature, 1, 0.4, 0.01);
+        heatContainer.setSideIOCondition(s -> s != getFrontFacing() && s != Direction.DOWN);
     }
 
     @Override
@@ -53,12 +51,12 @@ public final class HeaterMachine extends SimpleNoEnergyMachine implements IHeatC
     public void setWorkingEnabled(boolean isWorkingAllowed) {}
 
     private void setEnabled(boolean isWorkingAllowed) {
-        if (!isWorkingAllowed && getRecipeLogic().isWorking()) getRecipeLogic().interruptRecipe();
+        if (!isWorkingAllowed) getRecipeLogic().interruptRecipe();
         super.setWorkingEnabled(isWorkingAllowed);
     }
 
     @Override
-    public void onNeighborChanged(Block block, BlockPos fromPos, boolean isMoving) {
+    public void onNeighborChanged(@NotNull Block block, @NotNull BlockPos fromPos, boolean isMoving) {
         super.onNeighborChanged(block, fromPos, isMoving);
         Level level = getLevel();
         if (level == null) return;
@@ -69,7 +67,7 @@ public final class HeaterMachine extends SimpleNoEnergyMachine implements IHeatC
     @Override
     public void onWorking() {
         super.onWorking();
-        if (getOffsetTimer() % 20 == 0) {
+        if (getOffsetTimer() % 10 == 0) {
             heatContainer.addHeatUnrestricted(8, false);
         }
     }

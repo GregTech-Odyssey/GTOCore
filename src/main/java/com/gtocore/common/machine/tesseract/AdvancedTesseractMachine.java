@@ -55,6 +55,7 @@ import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
 import lombok.Getter;
 import lombok.Setter;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.lang.ref.WeakReference;
@@ -66,7 +67,12 @@ public class AdvancedTesseractMachine extends MetaMachine implements IFancyUIMac
 
     public static final Multiset<ImmutableList<Long>> HIGHLIGHTS = HashMultiset.create();
 
-    private final WeakReference<BlockEntity>[] blockEntityReference = new WeakReference[20];
+    private final WeakReference<BlockEntity>[] blockEntityReference = createBlockEntityReferences(20);
+
+    @SuppressWarnings("unchecked")
+    private static WeakReference<BlockEntity>[] createBlockEntityReferences(int size) {
+        return (WeakReference<BlockEntity>[]) new WeakReference<?>[size];
+    }
 
     @SaveToDisk
     @SyncToClient
@@ -99,7 +105,8 @@ public class AdvancedTesseractMachine extends MetaMachine implements IFancyUIMac
                 ItemStack card = inventory.storage.getStackInSlot(i);
                 if (card.isEmpty()) continue;
                 CompoundTag posTags = card.getTag();
-                if (posTags == null || !posTags.contains("x") || !posTags.contains("y") || !posTags.contains("z")) continue;
+                if (posTags == null || !posTags.contains("x") || !posTags.contains("y") || !posTags.contains("z"))
+                    continue;
                 var pos = new BlockPos(posTags.getInt("x"), posTags.getInt("y"), posTags.getInt("z"));
                 if (pos.equals(getPos())) continue;
                 if (!poss.contains(pos)) {
@@ -110,7 +117,7 @@ public class AdvancedTesseractMachine extends MetaMachine implements IFancyUIMac
     }
 
     @Override
-    protected InteractionResult onScrewdriverClick(Player playerIn, InteractionHand hand, Direction gridSide, BlockHitResult hitResult) {
+    protected @NotNull InteractionResult onScrewdriverClick(@NotNull Player playerIn, @NotNull InteractionHand hand, @NotNull Direction gridSide, @NotNull BlockHitResult hitResult) {
         if (!super.onScrewdriverClick(playerIn, hand, gridSide, hitResult).shouldSwing()) {
             roundRobin = !roundRobin;
             playerIn.displayClientMessage(Component.translatable(roundRobin ? "tooltip.ad_astra.distribution_mode.round_robin" : "tooltip.ad_astra.distribution_mode.sequential"), true);

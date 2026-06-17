@@ -87,15 +87,16 @@ public final class PerformanceMonitorMachine extends MetaMachine implements IFan
                     if (key.getPivot() != null) {
                         level = key.getPivot().getLevel();
                         if ((o = key.getPivot().getOwner()) != null) {
-                            if (o instanceof AEBasePart part) {
-                                var host = part.getHost();
-                                if (host != null) {
-                                    pos = host.getBlockEntity().getBlockPos().toShortString();
+                            switch (o) {
+                                case AEBasePart part -> {
+                                    var host = part.getHost();
+                                    if (host != null) {
+                                        pos = host.getBlockEntity().getBlockPos().toShortString();
+                                    }
                                 }
-                            } else if (o instanceof BlockEntity be) {
-                                pos = be.getBlockPos().toShortString();
-                            } else if (o instanceof MetaMachine machine) {
-                                pos = machine.getPos().toShortString();
+                                case BlockEntity be -> pos = be.getBlockPos().toShortString();
+                                case MetaMachine machine -> pos = machine.getPos().toShortString();
+                                default -> {}
                             }
                         }
                     }

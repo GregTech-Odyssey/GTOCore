@@ -1,7 +1,6 @@
 package com.gtocore.common.machine.noenergy;
 
 import com.gtolib.GTOCore;
-import com.gtolib.api.ae2.stacks.IKeyCounter;
 import com.gtolib.api.ae2.storage.CellDataStorage;
 import com.gtolib.api.machine.feature.multiblock.IParallelMachine;
 import com.gtolib.utils.SortUtils;
@@ -208,7 +207,7 @@ public final class VirtualItemProviderMachine extends MetaMachine implements IUI
     @Override
     public void getAvailableStacks(KeyCounter out) {
         var map = storage.getStoredMap();
-        IKeyCounter.addAll(out, map.size(), m -> map.reference2LongEntrySet().fastForEach(e -> m.addTo(e.getKey(), e.getLongValue())));
+        out.addAll(map.size(), m -> map.fastForEach(m::addTo));
     }
 
     @Override

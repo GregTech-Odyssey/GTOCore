@@ -34,19 +34,7 @@ object GTOItemTooltips : AutoInitialize<GTOItemTooltips>() {
     val SpeedUpgradeModuleTooltips = { coefficient: Double, gCoefficient: Double ->
         ComponentListSupplier {
             setTranslationPrefix("upgrade_module")
-
-            val s1 = FormattingUtil.formatNumbers(coefficient)
-            val s2 = FormattingUtil.formatNumbers(gCoefficient)
-
             highlight("提升机器运作速度" translatedTo "Speed up machine operation")
-            increase(
-                ("直接应用系数(越低越好): " translatedTo "Direct application coefficient (the lower, the better): ") + "${s1}x".toLiteralSupplier()
-                    .aqua(),
-            )
-            increase(
-                ("重复应用博弈系数(越低越好): " translatedTo "Repeated application of the gambling coefficient (the lower, the better):") + "${s2}x".toLiteralSupplier()
-                    .aqua(),
-            )
         }
     }
 
@@ -54,19 +42,7 @@ object GTOItemTooltips : AutoInitialize<GTOItemTooltips>() {
     val EnergyUpgradeModuleTooltips = { coefficient: Double, gCoefficient: Double ->
         ComponentListSupplier {
             setTranslationPrefix("upgrade_module")
-
-            val s1 = FormattingUtil.formatNumbers(coefficient)
-            val s2 = FormattingUtil.formatNumbers(gCoefficient)
-
             highlight("降低机器功耗" translatedTo "Reduce machine power consumption")
-            increase(
-                ("直接应用系数(越低越好): " translatedTo "Direct application coefficient (the lower, the better): ") + "${s1}x".toLiteralSupplier()
-                    .aqua(),
-            )
-            increase(
-                ("重复应用博弈系数(越低越好): " translatedTo "Repeated application of the gambling coefficient (the lower, the better):") + "${s2}x".toLiteralSupplier()
-                    .aqua(),
-            )
         }
     }
 

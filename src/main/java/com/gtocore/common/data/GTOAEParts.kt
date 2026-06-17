@@ -76,7 +76,7 @@ object GTOAEParts {
         cn = "样板内容管理终端",
         partClass = PatternContentAccessTerminalPart::class.java,
         factory = ::PatternContentAccessTerminalPart,
-        tooltips = GTOMachineTooltips.PatternContentAccessTerminalTooltips.getSupplier().get(),
+        tooltips = GTOMachineTooltips.PatternContentAccessTerminalTooltips.get(),
     )
 
     private fun <T : IPart> createPart(id: String, en: String, cn: String, partClass: Class<T>, factory: Function<IPartItem<T>, T>, tooltips: List<Component> = listOf()): Supplier<ItemDefinition<PartItem<T>>> {

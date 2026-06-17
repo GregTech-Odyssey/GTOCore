@@ -210,6 +210,17 @@ public class MEInputBufferPartMachine extends MEPatternPartMachineKt<MEInputBuff
     }
 
     @Override
+    public void onMachineRemoved() {
+        super.onMachineRemoved();
+        for (InternalSlot slot : getInternalInventory()) {
+            slot.refund();
+            for (var job : slot.craftingTracker.getRequestedJobs()) {
+                job.cancel();
+            }
+        }
+    }
+
+    @Override
     public Set<AEKey> getEmitableItems() {
         return slot2WatcherMap.entrySet().stream()
                 .filter(e -> e.getKey().isEmitterMode)
@@ -390,14 +401,6 @@ public class MEInputBufferPartMachine extends MEPatternPartMachineKt<MEInputBuff
             return exportOnlyItemList.isEmpty() && exportOnlyFluidList.isEmpty();
         }
 
-        public boolean isItemEmpty() {
-            return exportOnlyItemList.isEmpty();
-        }
-
-        public boolean isFluidEmpty() {
-            return exportOnlyFluidList.isEmpty();
-        }
-
         private void refund() {
             var network = machine.getMainNode().getGrid();
             if (network != null) {
@@ -424,6 +427,9 @@ public class MEInputBufferPartMachine extends MEPatternPartMachineKt<MEInputBuff
         public void onPatternChange() {
             refund();
             setRecipe(null);
+            for (var job : craftingTracker.getRequestedJobs()) {
+                job.cancel();
+            }
             reloadConfig();
         }
 

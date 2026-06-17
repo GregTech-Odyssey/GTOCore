@@ -44,7 +44,7 @@ class OrganModifierBehaviour :
     override fun createUI(p0: HeldItemUIFactory.HeldItemHolder?, p1: Player): ModularUI? = ModularUI(176, 166, p0, p1)
         .widget(FancyMachineUIWidget(this, 176, 166))
     class HandlerContainer(val player: Player) {
-        val organItemStacks = IEnhancedPlayer.of(player).playerData.organItemStacks
+        val organItemStacks: MutableList<ItemStack> = IEnhancedPlayer.of(player).playerData.organItemStacks
         var handlers = mutableMapOf<OrganType, CustomItemStackHandler>()
         init {
             OrganType.entries.forEach { organType ->

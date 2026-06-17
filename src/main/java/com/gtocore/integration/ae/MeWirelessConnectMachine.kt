@@ -7,14 +7,12 @@ import com.gtocore.common.saved.createNetworkSummarySyncField
 import com.gtocore.common.saved.createTopologySyncField
 import com.gtocore.integration.ae.wireless.WirelessMachine
 
-import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.network.chat.Component
 import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.ItemStack
-import net.minecraft.world.level.block.Block
 
 import appeng.api.networking.GridFlags
 import appeng.api.networking.IManagedGridNode
@@ -34,7 +32,6 @@ import com.gto.datasynclib.listener.ObjNotifiableHolder
 import com.lowdragmc.lowdraglib.gui.modular.ModularUI
 import com.lowdragmc.lowdraglib.gui.texture.IGuiTexture
 import com.lowdragmc.lowdraglib.gui.widget.Widget
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted
 
 /**
  * ME 无线连接机 — 可切换 INPUT/OUTPUT 节点类型。

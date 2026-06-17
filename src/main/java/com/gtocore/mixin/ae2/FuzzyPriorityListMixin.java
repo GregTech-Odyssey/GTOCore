@@ -7,7 +7,7 @@ import appeng.api.stacks.AEKey;
 import appeng.api.stacks.KeyCounter;
 import appeng.util.prioritylist.FuzzyPriorityList;
 
-import com.google.common.collect.ImmutableSet;
+import it.unimi.dsi.fastutil.objects.ReferenceOpenHashSet;
 import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -35,7 +35,7 @@ public class FuzzyPriorityListMixin {
     private void init(KeyCounter in, FuzzyMode mode, CallbackInfo ci) {
         gtolib$counter = new FuzzyKeyCounter(in);
         gtolib$isEmpty = in.isEmpty();
-        gtolib$items = ImmutableSet.copyOf(in.keySet());
+        gtolib$items = new ReferenceOpenHashSet<>(in.keySet());
         list = null;
     }
 

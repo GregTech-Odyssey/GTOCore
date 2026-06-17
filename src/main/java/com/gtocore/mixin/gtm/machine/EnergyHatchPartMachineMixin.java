@@ -41,7 +41,7 @@ public class EnergyHatchPartMachineMixin extends WorkableTieredIOPartMachine imp
 
     @Inject(method = "onLoad", at = @At("TAIL"), remap = false)
     private void onLoad(CallbackInfo ci) {
-        if (!isRemote()) {
+        if (!isRemote() && io == IO.IN) {
             gtolib$tickSubs = subscribeServerTick(gtolib$tickSubs, () -> charge(gtolib$tickSubs), 20);
         }
     }

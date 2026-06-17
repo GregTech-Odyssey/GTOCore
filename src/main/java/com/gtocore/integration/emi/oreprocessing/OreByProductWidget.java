@@ -58,7 +58,7 @@ final class OreByProductWrapper {
     private static final ImmutableList<ItemStack> ALWAYS_MACHINES = ImmutableList.of(
             // GTMachines.MACERATOR[GTValues.LV].asStack(),
             MultiBlockC.STEAM_CRUSHER.asStack(), GTMachines.MACERATOR[GTValues.LV].asStack(), GTMachines.CENTRIFUGE[GTValues.LV].asStack(), GTMachines.ORE_WASHER[GTValues.LV].asStack(), GTMachines.THERMAL_CENTRIFUGE[GTValues.LV].asStack(), GTMachines.MACERATOR[GTValues.LV].asStack(), GTMachines.MACERATOR[GTValues.LV].asStack(), GTMachines.CENTRIFUGE[GTValues.LV].asStack());
-    private final Int2ObjectMap<Content> chances = new Int2ObjectOpenHashMap<>();
+    private final Int2ObjectMap<Content<ItemIngredient>> chances = new Int2ObjectOpenHashMap<>();
     @Getter
     private final List<ItemEntryList> itemInputs = new ArrayList<>();
     @Getter
@@ -211,10 +211,10 @@ final class OreByProductWrapper {
         // electromagnetic separator
         if (hasSeparator) {
             // noinspection DataFlowIssue
-            TagPrefix prefix = (separatedInto.get(separatedInto.size() - 1).getBlastTemperature() == 0 && separatedInto.get(separatedInto.size() - 1).hasProperty(PropertyKey.INGOT)) ? TagPrefix.nugget : TagPrefix.dust;
-            ItemStack separatedStack2 = ChemicalHelper.get(prefix, separatedInto.get(separatedInto.size() - 1), prefix == TagPrefix.nugget ? 2 : 1);
+            TagPrefix prefix = (separatedInto.getLast().getBlastTemperature() == 0 && separatedInto.getLast().hasProperty(PropertyKey.INGOT)) ? TagPrefix.nugget : TagPrefix.dust;
+            ItemStack separatedStack2 = ChemicalHelper.get(prefix, separatedInto.getLast(), prefix == TagPrefix.nugget ? 2 : 1);
             addToOutputsPatched(material);
-            addToOutputs(separatedInto.get(0), TagPrefix.dust, 1);
+            addToOutputs(separatedInto.getFirst(), TagPrefix.dust, 1);
             addChance(1000, 250);
             addToOutputs(separatedStack2);
             addChance(prefix == TagPrefix.dust ? 500 : 2000, prefix == TagPrefix.dust ? 150 : 600);
@@ -253,7 +253,7 @@ final class OreByProductWrapper {
 
     public void getTooltip(int slotIndex, List<Component> tooltips) {
         if (chances.containsKey(slotIndex)) {
-            Content entry = chances.get(slotIndex);
+            Content<ItemIngredient> entry = chances.get(slotIndex);
             float chance = 100 * (float) entry.chance / ContentBuilder.maxChance;
             float boost = entry.tierChanceBoost / 100.0F;
             tooltips.add(FormattingUtil.formatPercentage2Places("gtceu.gui.content.chance_base", chance));
@@ -261,7 +261,7 @@ final class OreByProductWrapper {
         }
     }
 
-    public Content getChance(int slot) {
+    public Content<ItemIngredient> getChance(int slot) {
         return chances.get(slot);
     }
 
@@ -417,7 +417,7 @@ class OreByProductWidget extends WidgetGroup {
         for (int i = 0; i < ITEM_OUTPUT_LOCATIONS.size(); i += 2) {
             int slotIndex = i / 2;
             float xeiChance = 1.0F;
-            Content chance = recipeWrapper.getChance(i / 2 + itemInputs.size());
+            Content<ItemIngredient> chance = recipeWrapper.getChance(i / 2 + itemInputs.size());
             IGuiTexture overlay = null;
             if (chance != null) {
                 xeiChance = (float) chance.chance / ContentBuilder.maxChance;

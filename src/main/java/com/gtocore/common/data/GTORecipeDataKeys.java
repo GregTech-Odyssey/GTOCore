@@ -49,7 +49,8 @@ public final class GTORecipeDataKeys {
     public static final DataComponentKey<Integer> PARAM1 = register("param1", DataSyncCodec.INT_CODEC);
     public static final DataComponentKey<Integer> PARAM2 = register("param2", DataSyncCodec.INT_CODEC);
     public static final DataComponentKey<Integer> PARAM3 = register("param3", DataSyncCodec.INT_CODEC);
-    public static final DataComponentKey<Integer>[] PARAM = new DataComponentKey[] { PARAM1, PARAM2, PARAM3 };
+    @SuppressWarnings("unchecked")
+    public static final DataComponentKey<Integer>[] PARAM = (DataComponentKey<Integer>[]) new DataComponentKey<?>[] { PARAM1, PARAM2, PARAM3 };
 
     public static final DataComponentKey<CompoundTag> RESONANCE = register("resonance", DataSyncCodec.COMPOUND_TAG_CODEC);
 

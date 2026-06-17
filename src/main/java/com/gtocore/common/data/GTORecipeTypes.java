@@ -13,6 +13,7 @@ import com.gtocore.data.recipe.generated.GenerateDisassembly;
 
 import com.gtolib.GTOCore;
 import com.gtolib.api.machine.trait.TierCasingTrait;
+import com.gtolib.api.recipe.RecipeBuilder;
 import com.gtolib.api.recipe.RecipeType;
 
 import com.gregtechceu.gtceu.api.GTCEuAPI;
@@ -65,7 +66,7 @@ public final class GTORecipeTypes {
         RecipeTypeModify.init();
     }
 
-    private static final Consumer<GTRecipeBuilder> addFuelProperties = (b) -> PowerlessJetpack.FUELS.putIfAbsent(b.getFluidInputs().getFirst().inner, (int) (b.getDuration() * Math.abs(b.EUt())));
+    private static final Consumer<GTRecipeBuilder> addFuelProperties = b -> PowerlessJetpack.FUELS.putIfAbsent(((RecipeBuilder) b).getFluidInputs().getFirst().inner, (int) (b.getDuration() * Math.abs(b.EUt())));
     public static final GTRecipeType HATCH_COMBINED = register("hatch_combined", "Combined / Machine", "组合模式/机器模式", DUMMY).setXEIVisible(false);
     public static final RecipeType ALLOY_BLAST_RECIPES = (RecipeType) GCYMRecipeTypes.ALLOY_BLAST_RECIPES;
     public static final RecipeType STEAM_BOILER_RECIPES = (RecipeType) GTRecipeTypes.STEAM_BOILER_RECIPES;
@@ -1132,4 +1133,8 @@ public final class GTORecipeTypes {
             .setSlotOverlay(false, false, GuiTextures.SLOT)
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT)
             .setXEIVisible(false);
+
+    public static final RecipeType F1A1B = register("f1a1b", "通用", MAGIC)
+            .setMaxIOSize(0, 0, 1, 1)
+            .setSound(GTSoundEntries.FURNACE);
 }

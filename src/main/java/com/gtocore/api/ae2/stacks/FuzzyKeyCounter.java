@@ -1,10 +1,9 @@
 package com.gtocore.api.ae2.stacks;
 
-import com.gtolib.api.misc.IUnique;
-
 import appeng.api.config.FuzzyMode;
 import appeng.api.stacks.AEKey;
 import appeng.api.stacks.KeyCounter;
+import appeng.hooks.IUnique;
 
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.objects.Object2LongMap;
@@ -21,9 +20,9 @@ public final class FuzzyKeyCounter {
         map.fastForEach((key, longValue) -> {
             if (key.getPrimaryKey() instanceof IUnique unique) {
                 if (key.getFuzzySearchMaxValue() > 0) {
-                    lists.computeIfAbsent(unique.getUid(), k -> new VariantCounter.FuzzyVariantMap()).add(key, longValue);
+                    lists.computeIfAbsent(unique.ae2$getUid(), k -> new VariantCounter.FuzzyVariantMap()).add(key, longValue);
                 } else {
-                    lists.computeIfAbsent(unique.getUid(), k -> new VariantCounter.UnorderedVariantMap()).add(key, longValue);
+                    lists.computeIfAbsent(unique.ae2$getUid(), k -> new VariantCounter.UnorderedVariantMap()).add(key, longValue);
                 }
             }
         });
@@ -34,7 +33,7 @@ public final class FuzzyKeyCounter {
     public Collection<Object2LongMap.Entry<AEKey>> findFuzzy(AEKey key, FuzzyMode fuzzy) {
         if (lists == null) return Collections.emptyList();
         if (key.getPrimaryKey() instanceof IUnique unique) {
-            var subIndex = lists.get(unique.getUid());
+            var subIndex = lists.get(unique.ae2$getUid());
             if (subIndex != null) return subIndex.findFuzzy(key, fuzzy);
         }
         return Collections.emptyList();
@@ -47,9 +46,9 @@ public final class FuzzyKeyCounter {
         map.fastForEach((key, longValue) -> {
             if (key.getPrimaryKey() instanceof IUnique unique) {
                 if (key.getFuzzySearchMaxValue() > 0) {
-                    lists.computeIfAbsent(unique.getUid(), k -> new VariantCounter.FuzzyVariantMap()).add(key, longValue);
+                    lists.computeIfAbsent(unique.ae2$getUid(), k -> new VariantCounter.FuzzyVariantMap()).add(key, longValue);
                 } else {
-                    lists.computeIfAbsent(unique.getUid(), k -> new VariantCounter.UnorderedVariantMap()).add(key, longValue);
+                    lists.computeIfAbsent(unique.ae2$getUid(), k -> new VariantCounter.UnorderedVariantMap()).add(key, longValue);
                 }
             }
         });

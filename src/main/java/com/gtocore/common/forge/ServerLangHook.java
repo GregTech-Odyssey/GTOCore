@@ -14,10 +14,10 @@ import net.minecraft.util.GsonHelper;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.fml.loading.FMLLoader;
 
-import com.fast.fastcollection.O2OOpenCacheHashMap;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.gto.fastcollection.O2OOpenCacheHashMap;
 import org.apache.commons.io.IOUtils;
 
 import java.io.IOException;

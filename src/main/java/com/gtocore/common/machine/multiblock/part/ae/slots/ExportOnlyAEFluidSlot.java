@@ -74,7 +74,7 @@ public class ExportOnlyAEFluidSlot extends ExportOnlyAESlot implements IFluidHan
 
     @Override
     public int getTanks() {
-        return 0;
+        return 1;
     }
 
     @Override
@@ -84,12 +84,12 @@ public class ExportOnlyAEFluidSlot extends ExportOnlyAESlot implements IFluidHan
 
     @Override
     public int getTankCapacity(int tank) {
-        return 0;
+        return Integer.MAX_VALUE;
     }
 
     @Override
     public boolean isFluidValid(int tank, FluidStack stack) {
-        return false;
+        return true;
     }
 
     @Override
@@ -123,20 +123,10 @@ public class ExportOnlyAEFluidSlot extends ExportOnlyAESlot implements IFluidHan
 
     @Override
     public FluidStack drain(int maxDrain, FluidAction action) {
-        if (this.stock == null || !(this.stock.what() instanceof AEFluidKey fluidKey)) {
-            return FluidStack.EMPTY;
-        }
-        int drained = (int) Math.min(this.stock.amount(), maxDrain);
-        FluidStack result = fluidKey.toStack(drained);
-        if (action.execute()) {
-            this.stock = new GenericStack(this.stock.what(), this.stock.amount() - drained);
-            if (this.stock.amount() == 0) {
-                this.stock = null;
-                forgeStock = null;
-            } else if (forgeStock != null) forgeStock.setAmount(MathUtil.saturatedCast(stock.amount()));
-            onContentsChanged();
-        }
-        return result;
+        if (this.stock == null || !(this.stock.what() instanceof AEFluidKey fluidKey)) return FluidStack.EMPTY;
+        int drained = MathUtil.saturatedCast(extract(maxDrain, action.simulate(), true));
+        if (drained < 1) return FluidStack.EMPTY;
+        return fluidKey.toStack(drained);
     }
 
     @Override

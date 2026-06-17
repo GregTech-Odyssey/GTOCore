@@ -100,11 +100,6 @@ public class PlatformDeploymentMachine extends MetaMachine implements IFancyUIMa
     }
 
     @Override
-    public void onUnload() {
-        super.onUnload();
-    }
-
-    @Override
     public void onMachineRemoved() {
         unloadingMaterial();
         clearInventory(inventory.storage);
@@ -334,7 +329,7 @@ public class PlatformDeploymentMachine extends MetaMachine implements IFancyUIMa
     // 页面主文本
     private void addDisplayText(List<Component> textList) {
         switch (step) {
-            case Introduction -> GTOMachineTooltips.INSTANCE.getIndustrialPlatformDeploymentToolsIntroduction().apply(textList);
+            case Introduction -> GTOMachineTooltips.IndustrialPlatformDeploymentToolsIntroduction.apply(textList);
             case PresetSelection -> {
                 PlatformBlockType.PlatformPreset group = getPlatformPreset(checkGroup);
                 PlatformBlockType.PlatformBlockStructure structure = getPlatformBlockStructure(checkGroup, checkId);
@@ -780,7 +775,7 @@ public class PlatformDeploymentMachine extends MetaMachine implements IFancyUIMa
             int spacePixel = charWidth;
             int padPixels = (baseColWidth + (i == columnCount - 1 ? remainder : 0)) - widthOfString(col);
             result = result.append(col);
-            if (padPixels > 0 && spacePixel > 0) {
+            if (padPixels > 0) {
                 result = result.append(Component.literal(" ".repeat(padPixels / spacePixel)));
             }
         }

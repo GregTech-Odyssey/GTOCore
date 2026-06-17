@@ -52,9 +52,4 @@ public abstract class EntropinnyumBlockEntityMixin extends GeneratingFlowerBlock
             gto$maxMana = Math.max(gto$maxManaOrigin, getMana());
         }
     }
-
-    @Override
-    public void sync() {
-        super.sync();
-    }
 }

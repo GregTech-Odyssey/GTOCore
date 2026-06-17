@@ -12,7 +12,7 @@ import java.util.stream.Stream;
 public class QuestMixin {
 
     @Redirect(method = "isVisible", at = @At(value = "INVOKE", target = "Ljava/util/stream/Stream;anyMatch(Ljava/util/function/Predicate;)Z"), remap = false)
-    private boolean anyMatch(Stream instance, Predicate predicate) {
+    private boolean anyMatch(Stream<?> instance, Predicate<?> predicate) {
         return true;
     }
 }

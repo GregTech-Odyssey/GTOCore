@@ -26,7 +26,7 @@ public class LargeSteamCracker extends BaseSteamMultiblockMachine {
     }
 
     @Override
-    protected @Nullable GTRecipe getRealRecipe(RecipeHandlerUnit unit, @NotNull GTRecipe r) {
+    protected @Nullable GTRecipe getRealRecipe(@NotNull RecipeHandlerUnit unit, @NotNull GTRecipe r) {
         var r1 = super.getRealRecipe(unit, r);
         if (r1 != null) {
             var content = r1.fluidOutputs.getFirst();

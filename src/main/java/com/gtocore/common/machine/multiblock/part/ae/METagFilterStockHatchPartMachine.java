@@ -38,7 +38,7 @@ public class METagFilterStockHatchPartMachine extends MEStockingHatchPartMachine
 
     @Override
     boolean test(AEKey what) {
-        if (filter == null) filter = Caches.getTagPriorityList(tagWhite, tagBlack);;
+        if (filter == null) filter = Caches.getTagPriorityList(tagWhite, tagBlack);
         return filter.isListed(what);
     }
 

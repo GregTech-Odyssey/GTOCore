@@ -1,5 +1,6 @@
 package com.gtocore.mixin.ae2.crafting;
 
+import com.gtocore.config.GTOConfig;
 import com.gtocore.utils.NotificationUtils;
 
 import com.gtolib.utils.GTOUtils;
@@ -21,6 +22,7 @@ public class PendingCraftingJobsMixin {
 
     @Inject(method = "jobStatus", at = @At(value = "INVOKE", target = "Lappeng/core/AEConfig;isNotifyForFinishedCraftingJobs()Z"), remap = false)
     private static void notify(UUID id, AEKey what, long requestedAmount, long remainingAmount, CraftingJobStatusPacket.Status status, CallbackInfo ci) {
-        GTOUtils.asyncExecute(() -> NotificationUtils.notify(GuiText.ToastCraftingJobFinishedTitle.text().getString(), null, what.getDisplayName().getString(), NotificationUtils.Type.INFO, "assets/ae2/textures/item/crafting_pattern.png"));
+        if (!GTOConfig.INSTANCE.client.craftingJobFinishedNotification) return;
+        GTOUtils.asyncExecute(() -> NotificationUtils.notify(GuiText.ToastCraftingJobFinishedTitle.text().getString(), null, what.getDisplayName().getString(), NotificationUtils.Type.NONE, "assets/ae2/textures/block/controller_powered.png"));
     }
 }
