@@ -14,6 +14,7 @@ import com.gregtechceu.gtceu.api.machine.feature.multiblock.IDistillationTower;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
+import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
@@ -75,6 +76,24 @@ public final class PrimitiveDistillationTowerMachine extends NoEnergyMultiblockM
         } else {
             return false;
         }
+    }
+
+    @Override
+    public boolean matchRecipeOutput(GTRecipe recipe) {
+        return IDistillationTower.super.matchRecipeOutput(recipe) || IDistillationTower.super.matchRecipeOutput(withoutOptionalItemOutputs(recipe));
+    }
+
+    @Override
+    public boolean handleRecipeOutput(GTRecipe recipe) {
+        if (IDistillationTower.super.matchRecipeOutput(recipe)) return IDistillationTower.super.handleRecipeOutput(recipe);
+        return IDistillationTower.super.handleRecipeOutput(withoutOptionalItemOutputs(recipe));
+    }
+
+    private GTRecipe withoutOptionalItemOutputs(GTRecipe recipe) {
+        if (recipe.definition.recipeType != GTRecipeTypes.DISTILLATION_RECIPES || recipe.itemOutputs.isEmpty()) return recipe;
+        var copy = recipe.copy();
+        copy.itemOutputs = Collections.emptyList();
+        return copy;
     }
 
     private double getDurationMultiplier(double temperatureA, double temperatureB) {
