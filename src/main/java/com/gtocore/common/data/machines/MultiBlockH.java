@@ -12,6 +12,7 @@ import com.gtocore.common.machine.multiblock.steam.LargeSteamSolarBoilerMachine;
 
 import com.gtolib.GTOCore;
 import com.gtolib.api.annotation.NewDataAttributes;
+import com.gtolib.api.machine.feature.multiblock.IParallelMachine;
 import com.gtolib.api.machine.feature.multiblock.ITierCasingMachine;
 import com.gtolib.api.machine.impl.EncapsulatorExecutionModuleMachine;
 import com.gtolib.api.machine.impl.ProcessingEncapsulatorMachine;
@@ -27,6 +28,7 @@ import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
 import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
 import com.gregtechceu.gtceu.api.pattern.MultiblockShapeInfo;
+import com.gregtechceu.gtceu.api.recipe.modifier.ParallelLogic;
 import com.gregtechceu.gtceu.api.recipe.modifier.RecipeModifier;
 import com.gregtechceu.gtceu.common.data.*;
 
@@ -806,7 +808,7 @@ public final class MultiBlockH {
             .specialParallelizableTooltips()
             .tooltips(GTOMachineStories.atomizingCondenserTooltips)
             .recipeTypes(GTORecipeTypes.ATOMIZATION_CONDENSATION_RECIPES)
-            .recipeModifier(GTORecipeModifiers.UPGRADE_GCYM_OVERCLOCKING)
+            .recipeModifiers((m, u, r) -> ParallelLogic.accurateParallel(m, u, r, ((IParallelMachine) m).getParallel()), GTORecipeModifiers.UPGRADE_GCYM_OVERCLOCKING)
             .block(GTBlocks.CASING_ALUMINIUM_FROSTPROOF)
             .tooltips(NewDataAttributes.ALLOW_PARALLEL_NUMBER.create(h -> h.addLines("(密封机械方块等级)×4", "(Hermetic Mechanical Casing tier)×4")))
             .pattern(definition -> MultiBlockFileReader.start(definition)
