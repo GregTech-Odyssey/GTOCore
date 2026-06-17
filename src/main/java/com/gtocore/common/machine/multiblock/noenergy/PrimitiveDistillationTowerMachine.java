@@ -13,6 +13,7 @@ import com.gregtechceu.gtceu.api.machine.feature.IExplosionMachine;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IDistillationTower;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
+import com.gregtechceu.gtceu.api.recipe.content.Content;
 import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
@@ -80,17 +81,21 @@ public final class PrimitiveDistillationTowerMachine extends NoEnergyMultiblockM
 
     @Override
     public boolean matchRecipeOutput(GTRecipe recipe) {
-        return IDistillationTower.super.matchRecipeOutput(recipe) || IDistillationTower.super.matchRecipeOutput(withoutOptionalItemOutputs(recipe));
+        if (IDistillationTower.super.matchRecipeOutput(recipe)) return true;
+        var optional = withoutOptionalItemOutputs(recipe);
+        return optional != recipe && IDistillationTower.super.matchRecipeOutput(optional);
     }
 
     @Override
     public boolean handleRecipeOutput(GTRecipe recipe) {
         if (IDistillationTower.super.matchRecipeOutput(recipe)) return IDistillationTower.super.handleRecipeOutput(recipe);
-        return IDistillationTower.super.handleRecipeOutput(withoutOptionalItemOutputs(recipe));
+        var optional = withoutOptionalItemOutputs(recipe);
+        return optional != recipe && IDistillationTower.super.handleRecipeOutput(optional);
     }
 
     private GTRecipe withoutOptionalItemOutputs(GTRecipe recipe) {
         if (recipe.definition.recipeType != GTRecipeTypes.DISTILLATION_RECIPES || recipe.itemOutputs.isEmpty()) return recipe;
+        if (recipe.itemOutputs.stream().anyMatch(content -> content.chance >= Content.MAX_CHANCE)) return recipe;
         var copy = recipe.copy();
         copy.itemOutputs = Collections.emptyList();
         return copy;
