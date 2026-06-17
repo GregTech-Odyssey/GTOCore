@@ -33,7 +33,9 @@ import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
+import com.gregtechceu.gtceu.api.machine.feature.IOverclockMachine;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.ICoilMachine;
+import com.gregtechceu.gtceu.api.machine.feature.multiblock.IWorkableMultiController;
 import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility;
 import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
 import com.gregtechceu.gtceu.api.pattern.Predicates;
@@ -131,7 +133,7 @@ public final class MultiBlockA {
 
     public static final MultiblockMachineDefinition PLASMA_CONDENSER = multiblock("plasma_condenser", "等离子冷凝器",
             TierCasingMultiblockMachine.createMachine(GTORecipeDataKeys.GLASS_TIER))
-            .recipeModifier((m, u, r) -> RecipeModifier.overclocking(m, u, r, false, 1, Math.pow(1 / 1.1d, ((ITierCasingMachine) m).getCasingTier(GTORecipeDataKeys.GLASS_TIER)), 0.25))
+            .recipeModifier((m, u, r) -> m instanceof IOverclockMachine oc ? RecipeModifier.overclocking(m, u, r, m instanceof IWorkableMultiController c && c.isBatchEnabled(), 1, r.getInputEUt(), oc.getOverclockVoltage(), false, Math.pow(1 / 1.1d, ((ITierCasingMachine) m).getCasingTier(GTORecipeDataKeys.GLASS_TIER)), 0.25) : r)
             .allRotation()
             .recipeTypes(GTORecipeTypes.PLASMA_CONDENSER_RECIPES)
             .tooltips(GTOMachineStories.PlasmaCondenserTooltips)
