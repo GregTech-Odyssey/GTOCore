@@ -22,6 +22,7 @@ public interface ICrossRecipeMachineMixin {
      */
     @Overwrite
     default boolean isIndependentThread() {
-        return getCrossRecipeTrait().isSeparateThread && isRepeatedRecipes();
+        var threadHatch = getCrossRecipeTrait().threadHatchPartMachine;
+        return (threadHatch == null || threadHatch.isIThread()) && isRepeatedRecipes();
     }
 }
