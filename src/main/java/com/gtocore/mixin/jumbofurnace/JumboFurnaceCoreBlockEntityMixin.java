@@ -19,7 +19,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(JumboFurnaceCoreBlockEntity.class)
 public abstract class JumboFurnaceCoreBlockEntityMixin {
 
-    @Shadow
+    @Shadow(remap = false)
     private boolean needsRecipeUpdate;
 
     /**
@@ -39,7 +39,9 @@ public abstract class JumboFurnaceCoreBlockEntityMixin {
             method = "craft",
             at = @At(
                     value = "INVOKE",
-                    target = "Lnet/minecraft/world/item/crafting/Recipe;getRemainingItems(Lnet/minecraft/world/Container;)Lnet/minecraft/core/NonNullList;"))
+                    target = "Lnet/minecraft/world/item/crafting/Recipe;getRemainingItems(Lnet/minecraft/world/Container;)Lnet/minecraft/core/NonNullList;",
+                    remap = true),
+            remap = false)
     private NonNullList<ItemStack> gtocore$noSmeltingInputRefund(Recipe<?> recipe, Container inv) {
         return NonNullList.create();
     }
@@ -53,7 +55,7 @@ public abstract class JumboFurnaceCoreBlockEntityMixin {
      * machine stops. Clearing output only triggers needsOutputUpdate, not needsRecipeUpdate,
      * so updateRecipes() is never called again — the machine stays stuck forever.
      */
-    @Inject(method = "onOutputInventoryChanged", at = @At("HEAD"))
+    @Inject(method = "onOutputInventoryChanged", at = @At("HEAD"), remap = false)
     private void gtocore$revalidateRecipesOnOutputChange(CallbackInfo ci) {
         needsRecipeUpdate = true;
     }
