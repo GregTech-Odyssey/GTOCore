@@ -46,7 +46,7 @@ public abstract class AEBaseEntityBlockMixin<T extends AEBaseBlockEntity> extend
         }
     }
 
-    @Inject(method = "setPlacedBy", at = @At("TAIL"), remap = false)
+    @Inject(method = "setPlacedBy", at = @At("TAIL"))
     private void gtocore$configureAdjacentMachine(Level level, BlockPos pos, BlockState state, LivingEntity placer, ItemStack stack, CallbackInfo ci) {
         if (level.isClientSide() || !(placer instanceof Player player) || !player.isShiftKeyDown()) {
             return;
