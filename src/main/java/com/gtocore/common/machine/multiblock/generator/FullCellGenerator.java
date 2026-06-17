@@ -148,19 +148,18 @@ public class FullCellGenerator extends ElectricMultiblockMachine {
             setIdleReason(IdleReason.INVALID_INPUT);
             return null;
         }
+        double newBonusEfficiency;
+        double newAccumulatedEfficiencyDecay = accumulatedEfficiencyDecay;
         if (GTOCore.isEasy()) {
-            bonusEfficiency = membraneInfo.efficiencyBonus;
+            newBonusEfficiency = membraneInfo.efficiencyBonus;
         } else {
             var efficiencyBonusDecayFactor = GTOCore.isExpert() ? membraneInfo.efficiencyBonusDecayFactorExpertMode : membraneInfo.efficiencyBonusDecayFactor;
             var efficiencyBonus = GTOCore.isExpert() ? membraneInfo.efficiencyBonusExpertMode : membraneInfo.efficiencyBonus;
-            bonusEfficiency = efficiencyBonus * accumulatedEfficiencyDecay;
-            accumulatedEfficiencyDecay *= efficiencyBonusDecayFactor;
+            newBonusEfficiency = efficiencyBonus * accumulatedEfficiencyDecay;
+            newAccumulatedEfficiencyDecay *= efficiencyBonusDecayFactor;
         }
-        fuelEnergyPerUnit = (long) (fuelEnergyPerUnit * bonusEfficiency);
+        fuelEnergyPerUnit = (long) (fuelEnergyPerUnit * newBonusEfficiency);
         if (fuelEnergyPerUnit == 0) return null;
-        if (sensorPart != null) {
-            sensorPart.update((float) bonusEfficiency * 4.0f);
-        }
 
         // find existing electrolytes
         Material electrolytesExisting = null;
@@ -185,12 +184,18 @@ public class FullCellGenerator extends ElectricMultiblockMachine {
         // parallel calculation
         long euPermB = Wrapper.ELECTROLYTES_PER_MATERIAL_PER_MILLIBUCKET.get(electrolytesExisting);
         long maxCanAbsorbParallel = amountExisting * euPermB / fuelEnergyPerUnit;
+        if (maxCanAbsorbParallel <= 0) return null;
         var result = ParallelLogic.accurateParallel(this, unit, recipe, maxCanAbsorbParallel);
         if (result == null) return null;
 
         // electrolyte consumption adjustment
-        long actuallyConsumedmB = result.parallels * fuelEnergyPerUnit / euPermB;
-        if (actuallyConsumedmB == 0) return null;
+        long actuallyConsumedmB = Math.ceilDiv(result.parallels * fuelEnergyPerUnit, euPermB);
+        if (actuallyConsumedmB <= 0 || actuallyConsumedmB > amountExisting) return null;
+        bonusEfficiency = newBonusEfficiency;
+        accumulatedEfficiencyDecay = newAccumulatedEfficiencyDecay;
+        if (sensorPart != null) {
+            sensorPart.update((float) bonusEfficiency * 4.0f);
+        }
         var input = new ArrayList<>(result.fluidInputs);
         input.add(new Content<>(FluidIngredient.of(electrolytesExisting.getFluid(GTOFluidStorageKey.ENERGY_RELEASE_ANODE), actuallyConsumedmB), 10000, 0));
         input.add(new Content<>(FluidIngredient.of(electrolytesExisting.getFluid(GTOFluidStorageKey.ENERGY_RELEASE_CATHODE), actuallyConsumedmB), 10000, 0));
