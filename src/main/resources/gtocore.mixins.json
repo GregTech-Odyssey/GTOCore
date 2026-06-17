@@ -186,6 +186,7 @@
     "gtm.recipe.DimensionConditionMixin",
     "gtm.recipe.MaceratorLogicMixin",
     "gtm.recipe.RecyclingRecipesMixin",
+    "gtm.recipe.ToolHeadReplaceRecipeMixin",
     "gtm.recipe.WoodMachineRecipesMixin",
     "gtm.registry.GTBedrockFluidsMixin",
     "gtm.registry.GTBlocksMixin",
