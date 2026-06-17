@@ -26,8 +26,11 @@ import static com.gtocore.api.data.tag.GTOTagPrefix.*;
 import static com.gtocore.common.data.GTOItems.*;
 import static com.gtocore.common.data.GTOMaterials.*;
 import static mythicbotany.register.ModBlocks.alfsteelBlock;
+import static mythicbotany.register.ModBlocks.elementiumOre;
+import static mythicbotany.register.ModBlocks.rawElementiumBlock;
 import static mythicbotany.register.ModItems.alfsteelIngot;
 import static mythicbotany.register.ModItems.alfsteelNugget;
+import static mythicbotany.register.ModItems.rawElementium;
 
 public final class MaterialIgnored {
 
@@ -119,6 +122,9 @@ public final class MaterialIgnored {
         TagPrefix.ingot.setIgnored(Elementium, () -> () -> BotaniaItems.elementium);
         TagPrefix.nugget.setIgnored(Elementium, () -> () -> BotaniaItems.elementiumNugget);
         TagPrefix.block.setIgnored(Elementium, () -> BotaniaBlocks.elementiumBlock);
+        TagPrefix.rawOre.setIgnored(Elementium, () -> () -> rawElementium);
+        TagPrefix.rawOreBlock.setIgnored(Elementium, () -> rawElementiumBlock);
+        LIVING_STONE.setIgnored(Elementium, () -> elementiumOre);
         TagPrefix.ingot.setIgnored(Gaia, () -> () -> BotaniaItems.gaiaIngot);
         TagPrefix.gem.setIgnored(ManaDiamond, () -> () -> BotaniaItems.manaDiamond);
         TagPrefix.block.setIgnored(ManaDiamond, () -> BotaniaBlocks.manaDiamondBlock);
