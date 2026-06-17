@@ -202,6 +202,7 @@
     "jade.JadeForgeUtilsMixin",
     "jei.ForgePluginFinderMixin",
     "jei.JEIConfigMixin",
+    "jumbofurnace.JumboFurnaceCoreBlockEntityMixin",
     "map.BlockStateShortShapeCacheMixin",
     "mc.BlockBehaviourMixin",
     "mc.LanguageMixin",
