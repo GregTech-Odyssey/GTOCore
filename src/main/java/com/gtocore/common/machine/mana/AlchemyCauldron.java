@@ -75,12 +75,12 @@ public class AlchemyCauldron extends SimpleManaMachine implements IHeatContainer
         int matchRate = calculateMatchRate(recipeParams);
 
         recipe.itemOutputs = recipe.itemOutputs.stream().map(content -> {
-            if (content.chance < 11) return new Content<>(content.inner, matchRate, 0);
+            if (content.chance < 11 || content.tierChanceBoost > 0) return new Content<>(content.inner, matchRate, 0);
             else return content;
         }).toList();
 
         recipe.fluidOutputs = recipe.fluidOutputs.stream().map(content -> {
-            if (content.chance < 11) return new Content<>(content.inner, matchRate, 0);
+            if (content.chance < 11 || content.tierChanceBoost > 0) return new Content<>(content.inner, matchRate, 0);
             else return content;
         }).toList();
 
@@ -93,7 +93,7 @@ public class AlchemyCauldron extends SimpleManaMachine implements IHeatContainer
     private int calculateMatchRate(int[] recipeParams) {
         int distance = calculateDistance(probabilityParams, recipeParams);
         if (distance <= 0) return 10000;
-        else if (distance <= 5) return 9000;
+        else if (distance <= 5) return 10000;
         else if (distance >= 3000) return 1;
         float linear = (1 - distance * 3.3333333E-4F);
         float exponential = (float) Math.exp((1000 - distance) * 5.0E-4F);
