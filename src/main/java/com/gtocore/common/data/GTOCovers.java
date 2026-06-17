@@ -1,12 +1,10 @@
 package com.gtocore.common.data;
 
-import com.gtocore.common.cover.AirVentCover;
-import com.gtocore.common.cover.PowerAmplifierCover;
-import com.gtocore.common.cover.SteamPumpCover;
-import com.gtocore.common.cover.WirelessChargerCover;
+import com.gtocore.common.cover.*;
 
 import com.gtolib.GTOCore;
 
+import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.cover.CoverDefinition;
 import com.gregtechceu.gtceu.client.renderer.cover.*;
@@ -30,6 +28,10 @@ public final class GTOCovers {
     static final CoverDefinition[] POWER_AMPLIFIERS = GTCovers.registerTiered("power_amplifier", PowerAmplifierCover::new, tier -> POWER_AMPLIFIER, GTValues.tiersBetween(GTValues.LV, GTValues.LuV));
 
     static final CoverDefinition AIR_VENT = GTCovers.register("air_vent", AirVentCover::new, new SimpleCoverRenderer(GTOCore.id("block/machines/vacuum_pump/overlay_top")));
+
+    static final CoverDefinition HEAT_INTERFACE = GTCovers.register("heat_interface", HeatInterfaceCover::new, new SimpleCoverRenderer(GTCEu.id("block/cover/overlay_activity_detector")));
+
+    static final CoverDefinition HEAT_DETECTOR = GTCovers.register("heat_detector", HeatDetectorCover::new, new SimpleCoverRenderer(GTCEu.id("block/cover/overlay_energy_detector")));
 
     static final CoverDefinition STEAM_PUMP = GTCovers.register("steam_pump", SteamPumpCover::new, PumpCoverRenderer.INSTANCE);
 

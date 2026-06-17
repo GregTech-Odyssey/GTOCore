@@ -22,8 +22,8 @@ public final class KeyMessage {
         if (!level.hasChunkAt(player.blockPosition())) {
             return;
         }
-        switch (type) {
-            case 2 -> upgradeToolSpeed(player);
+        if (type == 2) {
+            upgradeToolSpeed(player);
         }
     }
 

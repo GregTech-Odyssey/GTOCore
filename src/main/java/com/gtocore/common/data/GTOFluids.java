@@ -24,7 +24,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import net.minecraftforge.versions.forge.ForgeVersion;
 
-import com.fast.fastcollection.O2OOpenCacheHashMap;
+import com.gto.fastcollection.O2OOpenCacheHashMap;
 import com.gto.registrate.Registrate;
 import com.gto.registrate.builders.FluidBuilder;
 import com.gto.registrate.providers.DataGenContext;
@@ -114,7 +114,7 @@ public final class GTOFluids {
     }
 
     private static DynamicFluidContainerModelBuilder<ItemModelBuilder> bucketModel(DataGenContext<Item, BucketItem> ctx, RegistrateItemModelProvider prov) {
-        return prov.withExistingParent(ctx.getName(), new ResourceLocation(ForgeVersion.MOD_ID, "item/bucket"))
+        return prov.withExistingParent(ctx.getName(), ResourceLocation.fromNamespaceAndPath(ForgeVersion.MOD_ID, "item/bucket"))
                 .customLoader(DynamicFluidContainerModelBuilder::begin)
                 .fluid(ctx.get().getFluid());
     }

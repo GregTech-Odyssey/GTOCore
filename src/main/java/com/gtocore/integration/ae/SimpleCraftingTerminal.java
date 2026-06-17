@@ -213,9 +213,7 @@ public class SimpleCraftingTerminal extends AbstractTerminalPart
     }
 
     private void invalidateOnExternalStorageChange() {
-        getMainNode().ifPresent((grid, node) -> {
-            grid.getTickManager().alertDevice(node);
-        });
+        getMainNode().ifPresent((grid, node) -> grid.getTickManager().alertDevice(node));
     }
 
     private void checkStorageBusOnInterface() {

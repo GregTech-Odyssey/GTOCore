@@ -21,11 +21,11 @@ import appeng.client.gui.widgets.ServerSettingToggleButton;
 import gto_ae.api.config.ExtendedSettings;
 import gto_ae.menu.ShowMolecularAssembler;
 
-import com.fast.fastcollection.OpenCacheHashSet;
 import com.glodblock.github.extendedae.client.button.HighlightButton;
 import com.glodblock.github.extendedae.client.gui.GuiExPatternTerminal;
 import com.glodblock.github.extendedae.container.ContainerExPatternTerminal;
 import com.google.common.collect.HashMultimap;
+import com.gto.fastcollection.OpenCacheHashSet;
 import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -67,7 +67,7 @@ public abstract class GuiExPatternTerminalMixin<T extends ContainerExPatternTerm
     private HashMap<Long, PatternContainerRecord> byId;
 
     @Shadow(remap = false)
-    protected abstract boolean itemStackMatchesSearchTerm(ItemStack itemStack, List<String> searchTerm, boolean checkOut);
+    protected abstract boolean itemStackMatchesSearchTerm(ItemStack itemStack, List<String> filterTokens, boolean checkOut);
 
     @Shadow(remap = false)
     @Final
@@ -145,7 +145,7 @@ public abstract class GuiExPatternTerminalMixin<T extends ContainerExPatternTerm
     }
 
     @Redirect(method = "refreshList", at = @At(value = "INVOKE", target = "Ljava/util/ArrayList;sort(Ljava/util/Comparator;)V"), remap = false)
-    private void sort(ArrayList<PatternContainerRecord> list, Comparator<PatternContainerRecord> comparator) {}
+    private void sort(ArrayList<PatternContainerRecord> list, Comparator<PatternContainerRecord> c) {}
 
     @Inject(remap = false, method = "refreshList", at = @At("HEAD"), cancellable = true)
     private void refreshList0(CallbackInfo ci) {

@@ -61,6 +61,7 @@ public final class GTOConfig {
         if (INSTANCE.devMode.dev) Configurator.setRootLevel(Level.INFO);
         if (INSTANCE.devMode.detailedLogging) Configurator.setRootLevel(Level.DEBUG);
         int difficulty = INSTANCE.gamePlay.difficulty.ordinal() + 1;
+        ConfigHolder.GENERATE_ENERGY_NO_MATCH = difficulty == 3;
         ConfigHolder.INSTANCE.recipes.generateLowQualityGems = false;
         ConfigHolder.INSTANCE.recipes.disableManualCompression = difficulty > 1;
         ConfigHolder.INSTANCE.recipes.harderRods = difficulty == 3;
@@ -327,6 +328,11 @@ public final class GTOConfig {
                 "When enabled, the machine power display will be similar to the style of the latest version of GTM, displayed as (Current @ Voltage - Power Value)" })
         @RegisterLanguage(namePrefix = "config.gtocore.option", en = "GTM Style Voltage Display", cn = "GTM 样式电压显示")
         public boolean gtmStyleVoltageDisplay = false;
+
+        @Configurable
+        @Configurable.Comment({ "启用后，AE2 合成任务完成时将发送系统桌面通知（仅支持 Windows 与 macOS）", "When enabled, a desktop notification is sent when an AE2 crafting job finishes (Windows and macOS only)" })
+        @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Crafting Job Finished Notification", cn = "合成任务完成桌面通知")
+        public boolean craftingJobFinishedNotification = true;
 
         @Configurable
         @RegisterLanguage(namePrefix = "config.gtocore.option", en = "HUD Settings", cn = "HUD 设置")

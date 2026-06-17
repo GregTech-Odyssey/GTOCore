@@ -229,7 +229,7 @@ public class MonitorAECPU extends AbstractAEInfoMonitor {
                 .addWidget(panel);
     }
 
-    /// @see CraftingStatusMenu#createCpuList()
+    /// @see CraftingStatusMenu
     private CraftingStatusMenu.CraftingCpuList createCpuList() {
         var entries = new ArrayList<CraftingStatusMenu.CraftingCpuListEntry>(lastCpuSet.size());
         for (var cpu : lastCpuSet.stream().sorted(RAW_CPU_COMPARATOR).toList()) {
@@ -254,7 +254,7 @@ public class MonitorAECPU extends AbstractAEInfoMonitor {
     }
 
     /// 保证每个CPU都有一个唯一的序列号
-    /// @see CraftingStatusMenu#getOrAssignCpuSerial(ICraftingCPU)
+    /// @see CraftingStatusMenu
     private int getOrAssignCpuSerial(ICraftingCPU cpu) {
         return cpuSerialMap.computeIfAbsent(cpu, ignored -> nextCpuSerial++);
     }

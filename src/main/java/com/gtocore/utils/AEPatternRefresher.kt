@@ -9,6 +9,7 @@ import com.gtolib.api.ae2.IExpandedGrid
 import kotlinx.coroutines.*
 
 import java.lang.Runnable
+import kotlin.time.Duration.Companion.milliseconds
 
 object AEPatternRefresher {
 
@@ -89,7 +90,7 @@ object AEPatternRefresher {
                 }
 
                 // 5. [后台线程] 等待，避免卡顿
-                delay(DELAY_BETWEEN_CHUNKS_MS)
+                delay(DELAY_BETWEEN_CHUNKS_MS.milliseconds)
             }
         }
     }

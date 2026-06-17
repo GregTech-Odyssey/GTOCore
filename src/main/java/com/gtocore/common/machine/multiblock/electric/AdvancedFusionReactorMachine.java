@@ -1,7 +1,6 @@
 package com.gtocore.common.machine.multiblock.electric;
 
 import com.gtolib.api.machine.multiblock.CrossRecipeMultiblockMachine;
-import com.gtolib.api.machine.trait.CrossRecipeTrait;
 import com.gtolib.api.machine.trait.EnergyContainerTrait;
 import com.gtolib.api.recipe.IdleReason;
 import com.gtolib.utils.MachineUtils;
@@ -78,11 +77,6 @@ public final class AdvancedFusionReactorMachine extends CrossRecipeMultiblockMac
             }
         }
         return bonusTier;
-    }
-
-    @Override
-    public CrossRecipeTrait getCrossRecipeTrait() {
-        return super.getCrossRecipeTrait();
     }
 
     @Override

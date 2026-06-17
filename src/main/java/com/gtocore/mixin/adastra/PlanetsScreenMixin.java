@@ -128,7 +128,7 @@ public abstract class PlanetsScreenMixin extends AbstractContainerScreen<Planets
                             need.append(Component.translatable("tooltip.ad_astra.unknown_tag", tagValue.serialize().get("tag")).withStyle(ChatFormatting.RED));
                         }
                     } else if (values[displayWhich] instanceof Ingredient.ItemValue itemValue) {
-                        need.append(itemValue.getItems().stream().toList().get(0).getHoverName().copy().withStyle(ChatFormatting.DARK_AQUA));
+                        need.append(itemValue.getItems().stream().toList().getFirst().getHoverName().copy().withStyle(ChatFormatting.DARK_AQUA));
                     } else {
                         need.append(Component.translatable("tooltip.ad_astra.unknown_ingredient").withStyle(ChatFormatting.RED));
                     }

@@ -3,10 +3,9 @@ package com.gtocore.common.data;
 import com.gtolib.GTOCore;
 import com.gtolib.api.annotation.DataGeneratorScanned;
 import com.gtolib.api.annotation.language.RegisterLanguage;
-import com.gtolib.api.machine.feature.ITemperatureMachine;
+import com.gtolib.api.capability.IHeatContainer;
 
 import com.gregtechceu.gtceu.api.GTValues;
-import com.gregtechceu.gtceu.api.machine.MetaMachine;
 
 import net.minecraft.core.Holder;
 import net.minecraft.core.RegistrySetBuilder;
@@ -42,7 +41,7 @@ public final class GTODamageTypes {
         return new GenericDamageSource(entity.level().registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(GENERIC), entity, customComponent, onDeath);
     }
 
-    public static DamageSource getMachineHeatWaveDamageSource(Entity entity, ITemperatureMachine machine) {
+    public static DamageSource getMachineHeatWaveDamageSource(Entity entity, IHeatContainer machine) {
         return new MachineHeatWaveDamageSource(entity.level().registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(MACHINE_HEAT_WAVE), entity, machine);
     }
 
@@ -75,17 +74,17 @@ public final class GTODamageTypes {
 
     private static final class MachineHeatWaveDamageSource extends DamageSource {
 
-        private final ITemperatureMachine machine;
+        private final IHeatContainer container;
 
-        private MachineHeatWaveDamageSource(Holder<DamageType> type, Entity entity, ITemperatureMachine machine) {
+        private MachineHeatWaveDamageSource(Holder<DamageType> type, Entity entity, IHeatContainer container) {
             super(type, entity);
-            this.machine = machine;
+            this.container = container;
         }
 
         @Override
         public @NotNull Component getLocalizedDeathMessage(@NotNull LivingEntity livingEntity) {
-            if (livingEntity instanceof Player player && machine instanceof MetaMachine metaMachine) {
-                return Component.translatable(MACHINE_HEAT_WAVE_MSG_ID, player.getDisplayName(), metaMachine.getBlockState().getBlock().getName(), machine.getTemperature());
+            if (livingEntity instanceof Player player) {
+                return Component.translatable(MACHINE_HEAT_WAVE_MSG_ID, player.getDisplayName(), container.toString(), container.getTemperature());
             }
             return super.getLocalizedDeathMessage(livingEntity);
         }

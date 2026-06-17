@@ -20,8 +20,8 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.ItemLike;
 
-import com.fast.fastcollection.O2OOpenCacheHashMap;
 import com.google.common.collect.ImmutableMap;
+import com.gto.fastcollection.O2OOpenCacheHashMap;
 import com.hepdd.gtmthings.utils.FormatUtil;
 import vectorwing.farmersdelight.common.registry.ModItems;
 

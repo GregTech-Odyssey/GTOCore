@@ -87,7 +87,7 @@ object GTOOrganItems {
     // ////////////////////////////////
     // ****** 编辑器 ******//
     // //////////////////////////////
-    val ORGAN_MODIFIER = item("organ_modifier", "器官修改器") { properties ->
+    val ORGAN_MODIFIER: ItemEntry<ComponentItem> = item("organ_modifier", "器官修改器") { properties ->
         ComponentItem.create(
             properties.stacksTo(1).setNoRepair(),
         )

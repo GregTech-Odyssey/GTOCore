@@ -134,14 +134,8 @@ public class FullCellGenerator extends ElectricMultiblockMachine {
         return null;
     }
 
-    @Override
-    public long getOverclockVoltage() {
-        return super.getOverclockVoltage();
-    }
-
     private GTRecipe getAbsorptionRecipe(RecipeHandlerUnit unit, GTRecipe recipe) {
         var fuelEnergyPerUnit = recipe.data.getLong(GTORecipeDataKeys.CONVERTED_ENERGY);
-
         // membrane bonus
         MembraneBonusInfo membraneInfo = null;
         for (int membraneTier = Wrapper.MEMBRANE_MATS.length - 1; membraneTier >= 0; membraneTier--) {
@@ -163,6 +157,7 @@ public class FullCellGenerator extends ElectricMultiblockMachine {
             accumulatedEfficiencyDecay *= efficiencyBonusDecayFactor;
         }
         fuelEnergyPerUnit = (long) (fuelEnergyPerUnit * bonusEfficiency);
+        if (fuelEnergyPerUnit == 0) return null;
         if (sensorPart != null) {
             sensorPart.update((float) bonusEfficiency * 4.0f);
         }
@@ -275,27 +270,27 @@ public class FullCellGenerator extends ElectricMultiblockMachine {
                 new MembraneBonusInfo(
                         0, GTMaterials.Polytetrafluoroethylene,
                         GTOMaterials.IronChromiumRedoxFlowBatteryElectrolyte,
-                        1.05d, 0.997d, 1.6d, 0.992d),
+                        1.05d, 0.992d, 1.1d, 0.99d),
                 new MembraneBonusInfo(
                         1, GTMaterials.Graphene,
                         GTOMaterials.VanadiumRedoxFlowBatteryElectrolyte,
-                        1.52d, 0.999d, 2.09d, 0.993d),
+                        1.3d, 0.994d, 1.21d, 0.991d),
                 new MembraneBonusInfo(
                         2, GTOMaterials.PolousPolyolefinSulfonate,
                         GTOMaterials.ZincIodideFlowBatteryElectrolyte,
-                        2.09d, 0.9995d, 2.44d, 0.995d),
+                        1.69d, 0.996d, 1.44d, 0.993d),
                 new MembraneBonusInfo(
                         3, GTOMaterials.PerfluorosulfonicAcidPolytetrafluoroethyleneCopolymer,
                         GTOMaterials.OrganicMoleculeRedoxFlowBatteryElectrolyte,
-                        2.44d, 0.9998d, 2.93d, 0.997d),
+                        1.96d, 0.999d, 1.69d, 0.995d),
                 new MembraneBonusInfo(
                         4, GTOMaterials.CeOxPolyDopamineReinforcedPolytetrafluoroethylene,
                         GTOMaterials.SuperconductingIonRedoxFlowBatteryElectrolyte,
-                        3.05d, 0.9999d, 3.31d, 0.9991d),
+                        2.25d, 0.9994d, 1.96d, 0.999d),
                 new MembraneBonusInfo(
                         5, GTOMaterials.NanocrackRegulatedSelfHumidifyingCompositeMaterial,
                         GTOMaterials.AntimatterRedoxFlowBatteryElectrolyte,
-                        3.51d, 1.0d, 3.57d, 0.9995d)
+                        2.5d, 1.0d, 2.5d, 0.9995d)
         };
         public static final ImmutableMap<Material, MembraneBonusInfo> MEMBRANE_MAT_TO_BONUS = Arrays.stream(MEMBRANE_MATS).collect(ImmutableMap.toImmutableMap(info -> info.membrane, info -> info));
     }

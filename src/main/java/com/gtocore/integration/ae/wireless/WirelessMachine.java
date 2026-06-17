@@ -20,7 +20,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 
 import appeng.api.networking.GridFlags;
-import appeng.api.networking.IGrid;
 import appeng.api.networking.IGridNode;
 import appeng.api.networking.pathing.ChannelMode;
 import appeng.helpers.AEMultiBlockEntity;
@@ -240,10 +239,6 @@ public interface WirelessMachine extends IGridConnectedMachine, ISync, IBindable
 
     // ==================== Callbacks ====================
 
-    default void addedToNetwork(String networkId) {}
-
-    default void removedFromNetwork(String networkId) {}
-
     default boolean allowWirelessConnection() {
         return true;
     }
@@ -381,30 +376,19 @@ public interface WirelessMachine extends IGridConnectedMachine, ISync, IBindable
     default int getWorkloadChannels() {
         var gridNode = getGridNode();
         if (gridNode == null) return 0;
-        if (isOnline()) {
-            return gridNode.getUsedChannels();
-        }
         var defaultWorkload = gridNode.hasFlag(GridFlags.REQUIRE_CHANNEL) ? 1 : 0;
         var mm = self();
-        IGrid grid = null;
         IGridNode node;
-        switch (mm.getNeighbor(mm.getFrontFacing())) {
+        switch (mm.holder.getNeighborBlockEntity(mm.getFrontFacing())) {
             case IGridConnectedBlockEntity nodeHost -> {
-                grid = nodeHost.getMainNode().getGrid();
                 node = nodeHost.getMainNode().getNode();
             }
             case AEMultiBlockEntity multiBlock -> {
                 node = multiBlock.getGridNode(mm.getFrontFacing().getOpposite());
-                if (node != null) {
-                    grid = node.getGrid();
-                }
             }
             case MetaMachineBlockEntity metaMachine -> {
                 if (metaMachine.getMetaMachine() instanceof IGridConnectedMachine gridMachine) {
                     node = gridMachine.getGridNode();
-                    if (node != null) {
-                        grid = node.getGrid();
-                    }
                 } else {
                     return defaultWorkload;
                 }
@@ -413,16 +397,10 @@ public interface WirelessMachine extends IGridConnectedMachine, ISync, IBindable
                 return defaultWorkload;
             }
         }
-        if (node == null || grid == null || !node.getConnectedSides().contains(mm.getFrontFacing().getOpposite())) {
+        if (node == null || !node.getConnectedSides().contains(mm.getFrontFacing().getOpposite())) {
             return defaultWorkload;
         }
-        if (getNodeType() == NodeType.SOURCE) {
-            return Math.min(node.getUsedChannels(), getMaxWorkloadChannels());
-        }
-        if (node.getMaxChannels() > 0) {
-            return Math.min(node.getMaxChannels() + 1, getMaxWorkloadChannels());
-        }
-        return defaultWorkload;
+        return node.getUsedChannels();
     }
 
     default int getMaxWorkloadChannels() {

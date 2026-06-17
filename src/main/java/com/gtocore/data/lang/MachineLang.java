@@ -27,7 +27,6 @@ final class MachineLang {
         addCNEN("gtocore.machine.thread.0", "同时处理至多 %s 种不同配方", "Processing up to %s different recipes simultaneously");
         addCNEN("gtocore.machine.thread.1", "每种配方至多 %s 个", "With a maximum of %s for each recipe");
         addCNEN("gtocore.machine.thread_hatch.tooltip.0", "可为机器提供 %s 线程的并行", "Can provide %s thread parallel processing for the machine");
-        addCNEN("gtocore.machine.rest_burn_time", "剩余燃烧时间: %s Tick", "Rest Burn Time %s Tick");
         addCNEN("gtocore.machine.total_time.duration", "额外耗时减免: %s", "Additional Duration Reduction: %s");
         addCNEN("gtocore.machine.block_conversion_room.am", "每次转化数量: %s", "Amount converted each time: %s");
         addCNEN("gtocore.machine.vacuum_pump.tooltip.0", "仅向水平相邻方块提供真空", "Only provides vacuum to horizontally adjacent blocks");
@@ -109,10 +108,10 @@ final class MachineLang {
         addCNEN("gtocore.machine.pattern_buffer_proxy.tooltip.0", "手持闪存潜行右键§6ME样板总成§f，然后右键§6ME样板总成镜像§f绑定。", "Hold a flash drive and sneak-right-click the §6ME Pattern Buffer§f, then right-click the §6ME Pattern Buffer Proxy§f to bind them.");
         addCNEN("gtocore.machine.need", "需要: %s", "Need: %s");
         addCNEN("gtocore.machine.advanced_infinite_driller.not_fluid_head", "无钻头", "No drill head");
-        addCNEN("gtocore.machine.advanced_infinite_driller.heat", "最大温度: %sK / 工作温度: %sK", "Max Temperature: %sK / Operating Temperature: %sK");
-        addCNEN("gtocore.machine.current_temperature", "当前温度: %sK", "Current Temperature: %sK");
+        addCNEN("gtocore.machine.advanced_infinite_driller.heat", "最大温度: %s K / 工作温度: %s K", "Max Temperature: %s K / Operating Temperature: %s K");
+        addCNEN("gtocore.machine.current_temperature", "当前温度: %s K", "Current Temperature: %s K");
         addCNEN("gtocore.machine.neutron_flux", "当前中子通量: %s keV", "Current Neutron Flux: %s keV");
-        addCNEN("gtocore.machine.temp.per_second", "配方每秒升温: %sK", "Recipe Temperature Increase Per Second: %sK");
+        addCNEN("gtocore.machine.temp.per_second", "配方每秒升温: %s K", "Recipe Temperature Increase Per Second: %s K");
         addCNEN("gtocore.recipe.neutron_flux.k", "最小中子通量: %s keV", "Minimum Neutron Flux: %s keV");
         addCNEN("gtocore.recipe.neutron_flux.m", "最小中子通量: %s MeV", "Minimum Neutron Flux: %s MeV");
         addCNEN("gtocore.recipe.neutron_flux.change", "每秒中子通量变化: %s keV", "Neutron Flux Change Per Second: %s keV");

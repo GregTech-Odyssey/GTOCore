@@ -7,7 +7,8 @@ import com.gtocore.common.recipe.custom.FormingPressLogic;
 import com.gtocore.data.recipe.classified.ManaSimulator;
 import com.gtocore.data.recipe.generated.GenerateDisassembly;
 
-import com.gtolib.api.recipe.MANATExpander;
+import com.gtolib.api.recipe.extension.MANARecipeExtension;
+import com.gtolib.api.recipe.extension.MANATRecipeExtension;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeBuilder;
@@ -57,7 +58,7 @@ public final class RecipeTypeModify {
         ASSEMBLY_LINE_RECIPES.onRecipeBuild(GenerateDisassembly::generateDisassembly);
 
         ASSEMBLER_RECIPES.onRecipeBuild((b) -> {
-            var mana = b.getData().getLong(MANATExpander.INSTANCE);
+            var mana = b.getData().getLong(MANATRecipeExtension.INSTANCE) + b.getData().getLong(MANARecipeExtension.INSTANCE);
             if (mana > 0) {
                 b.category(GTORecipeCategories.MANA_ASSEMBLER);
                 MANA_FLOW_ASSEMBLER_RECIPES.copyFrom(b).save();

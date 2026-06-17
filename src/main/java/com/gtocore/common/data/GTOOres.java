@@ -23,8 +23,8 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.level.Level;
 
-import com.fast.fastcollection.O2OOpenCacheHashMap;
-import com.fast.fastcollection.OpenCacheHashSet;
+import com.gto.fastcollection.O2OOpenCacheHashMap;
+import com.gto.fastcollection.OpenCacheHashSet;
 import it.unimi.dsi.fastutil.objects.Reference2IntOpenHashMap;
 import it.unimi.dsi.fastutil.objects.Reference2ReferenceOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ReferenceOpenHashSet;
@@ -891,7 +891,8 @@ public final class GTOOres {
                     .surfaceRock(RemnantSpiritStone)
                     .placement(SurfaceIndicatorGenerator.IndicatorPlacement.ABOVE)));
 
-    private static Set<ResourceKey<Level>> dimensions(ResourceKey... dimensions) {
+    @SafeVarargs
+    private static Set<ResourceKey<Level>> dimensions(ResourceKey<Level>... dimensions) {
         return new ReferenceOpenHashSet<>(dimensions);
     }
 

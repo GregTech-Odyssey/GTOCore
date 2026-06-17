@@ -1,7 +1,8 @@
 package com.gtocore.common.machine.multiblock.part.ae.slots;
 
-import com.gtolib.api.ae2.stacks.IAEItemKey;
 import com.gtolib.api.recipe.RecipeType;
+import com.gtolib.api.recipe.lookup.IIngredientConvertible;
+import com.gtolib.utils.MathUtil;
 
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableContentHandler;
@@ -66,7 +67,7 @@ public class ExportOnlyAEItemList extends NotifiableContentHandler implements IC
 
     @Override
     public boolean isItemValid(int i, @NotNull ItemStack itemStack) {
-        return false;
+        return true;
     }
 
     @Override
@@ -92,6 +93,16 @@ public class ExportOnlyAEItemList extends NotifiableContentHandler implements IC
     @Override
     public @NotNull ItemStack extractItem(int i, int i1, boolean b) {
         return ItemStack.EMPTY;
+    }
+
+    @Override
+    public ItemStack extractItemInternal(int slot, int amount, boolean simulate) {
+        var inv = inventory[slot];
+        var stack = inv.getStack();
+        if (stack.isEmpty()) return ItemStack.EMPTY;
+        amount = MathUtil.saturatedCast(inv.extract(amount, simulate, true));
+        if (amount < 1) return ItemStack.EMPTY;
+        return stack.copyWithCount(amount);
     }
 
     @Override
@@ -166,7 +177,7 @@ public class ExportOnlyAEItemList extends NotifiableContentHandler implements IC
                 if (specialConverter) {
                     type.convertItem(i.getReadOnlyStack(), stock.amount(), map);
                 } else {
-                    ((IAEItemKey) (Object) itemKey).gtolib$convert(stock.amount(), map);
+                    ((IIngredientConvertible) (Object) itemKey).gtolib$convert(stock.amount(), map);
                 }
             }
         }

@@ -16,7 +16,7 @@ import com.gregtechceu.gtceu.utils.ItemStackHashStrategy;
 
 import net.minecraft.world.item.ItemStack;
 
-import com.fast.fastcollection.O2LOpenCustomCacheHashMap;
+import com.gto.fastcollection.O2LOpenCustomCacheHashMap;
 import it.unimi.dsi.fastutil.objects.Object2LongOpenCustomHashMap;
 import org.jetbrains.annotations.NotNull;
 

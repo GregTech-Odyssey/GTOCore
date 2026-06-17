@@ -146,6 +146,8 @@
     "gtocore:quantum_glass",
     "gtocore:fermi_energy_gap_transition_glass",
     "gtocore:plasma_field_glass",
+    "gtocore:electromagnetic_shielding_glass",
+    "gtocore:chaos_shielding_glass",
     "gtocore:force_field_glass",
     "gtocore:spatially_transcendent_gravitational_lens_block",
     "gtocore:naquadria_charge",

@@ -2,8 +2,8 @@ package com.gtocore.common.machine.multiblock.part.ae.slots;
 
 import com.gtocore.common.machine.multiblock.part.ae.MEStockingHatchPartMachine;
 
-import com.gtolib.api.ae2.stacks.IAEFluidKey;
 import com.gtolib.api.recipe.RecipeType;
+import com.gtolib.api.recipe.lookup.IIngredientConvertible;
 import com.gtolib.utils.MathUtil;
 
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
@@ -107,7 +107,7 @@ public class ExportOnlyAEStockingFluidList extends ExportOnlyAEFluidList {
                     if (specialConverter) {
                         type.convertFluid(i.getReadOnlyStack(), amount, map);
                     } else {
-                        ((IAEFluidKey) (Object) fluidKey).gtolib$convert(amount, map);
+                        ((IIngredientConvertible) (Object) fluidKey).gtolib$convert(amount, map);
                     }
                 }
             }

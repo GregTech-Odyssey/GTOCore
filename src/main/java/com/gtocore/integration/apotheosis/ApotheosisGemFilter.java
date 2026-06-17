@@ -111,7 +111,6 @@ public class ApotheosisGemFilter implements ItemFilter {
     @Override
     public CompoundTag saveFilter() {
         if (!isBlackList && rarity == null && gemType == null) {
-            ;
             return null;
         }
         var tag = new CompoundTag();

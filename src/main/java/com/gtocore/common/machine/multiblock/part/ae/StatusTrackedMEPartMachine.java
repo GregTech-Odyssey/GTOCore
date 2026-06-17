@@ -54,7 +54,7 @@ public abstract class StatusTrackedMEPartMachine extends MEPartMachine implement
 
     @Override
     public PatternContainerGroup getTerminalGroup() {
-        AEItemKey icon = AEItemKey.of(self().getDefinition().get());;
+        AEItemKey icon = AEItemKey.of(self().getDefinition().get());
         MutableComponent title = self().getDefinition().get().getName();
         if (!getControllers().isEmpty()) {
             var controller = getControllers().iterator().next();

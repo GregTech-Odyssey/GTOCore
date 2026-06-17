@@ -197,6 +197,13 @@ public class LargeAlgaeFarm extends ElectricMultiblockMachine implements ITierCa
         var g = (int) Math.min(16, rgb[1]);
         var b = (int) Math.min(16, rgb[2]);
         int total = r + g + b;
+        if (total <= 0) {
+            this.lightIntensity = 0;
+            this.redWeight = 0.0f;
+            this.greenWeight = 0.0f;
+            this.blueWeight = 0.0f;
+            return;
+        }
         this.lightIntensity = Math.min(16, total);
         this.redWeight = r / (float) total;
         this.greenWeight = g / (float) total;

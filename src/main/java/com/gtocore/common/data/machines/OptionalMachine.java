@@ -35,7 +35,7 @@ public final class OptionalMachine {
 
             machine("me_simple_pattern_buffer", "ME简单样板总成", MESimplePatternBufferPartMachine::new)
                     .langValue("ME Simple Pattern Buffer")
-                    .tooltips(GTOMachineTooltips.INSTANCE.getMePatternHatchTooltips().invoke(9).getSupplier())
+                    .tooltips(GTOMachineTooltips.MePatternHatchTooltips.invoke(9))
                     .tier(MV)
                     .allRotation()
                     .abilities(PartAbility.IMPORT_ITEMS, PartAbility.IMPORT_FLUIDS, GTOPartAbility.DUAL_INPUT)
@@ -45,7 +45,7 @@ public final class OptionalMachine {
 
     public static final MultiblockMachineDefinition CARVING_CENTER = GTCEu.isDev() || Mods.CHISEL.isLoaded() ? multiblock("carving_center", "雕刻中心", ChiselMachine::new)
             .allRotation()
-            .tooltips(GTOMachineTooltips.INSTANCE.getCarvingCenterTooltips().getSupplier())
+            .tooltips(GTOMachineTooltips.CarvingCenterTooltips)
             .recipeTypes(DUMMY_RECIPES)
             .block(GTBlocks.CASING_STEEL_SOLID)
             .pattern(definition -> MultiBlockFileReader.start(definition)

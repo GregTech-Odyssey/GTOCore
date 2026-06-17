@@ -3,8 +3,7 @@ package com.gtocore.common.machine.trait;
 import com.gtocore.common.machine.multiblock.part.ae.AbstractRecipeInternalSlot;
 import com.gtocore.common.machine.multiblock.part.ae.MEPatternBufferPartMachine;
 
-import com.gtolib.api.ae2.stacks.IAEFluidKey;
-import com.gtolib.api.ae2.stacks.IAEItemKey;
+import com.gtolib.api.recipe.lookup.IIngredientConvertible;
 
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableRecipeHandlerTrait;
@@ -242,12 +241,12 @@ public final class InternalSlotRecipeHandler {
                 slot.fluidInventory.reference2LongEntrySet().fastForEach(e -> {
                     var a = e.getLongValue();
                     if (a < 1) return;
-                    ((IAEFluidKey) (Object) e.getKey()).gtolib$convert(a, slot.ingredientMap);
+                    ((IIngredientConvertible) (Object) e.getKey()).gtolib$convert(a, slot.ingredientMap);
                 });
                 slot.itemInventory.reference2LongEntrySet().fastForEach(e -> {
                     var a = e.getLongValue();
                     if (a < 1) return;
-                    ((IAEItemKey) (Object) e.getKey()).gtolib$convert(a, slot.ingredientMap);
+                    ((IIngredientConvertible) (Object) e.getKey()).gtolib$convert(a, slot.ingredientMap);
                 });
             }
             return slot.ingredientMap;

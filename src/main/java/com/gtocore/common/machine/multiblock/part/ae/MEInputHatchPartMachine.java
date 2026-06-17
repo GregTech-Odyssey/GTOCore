@@ -57,9 +57,7 @@ public class MEInputHatchPartMachine extends StatusTrackedMEPartMachine implemen
         aeFluidHandler = createTank();
         aeFluidHandler.addChangedListener(() -> {
             getConfiguredSetting().clear();
-            aeFluidHandler.fastForEachFluids((i, l) -> {
-                getConfiguredSetting().set(AEFluidKey.of(i), l);
-            });
+            aeFluidHandler.fastForEachFluids((i, l) -> getConfiguredSetting().set(AEFluidKey.of(i), l));
         });
         circuitInventory = CircuitHandler.create(this);
     }

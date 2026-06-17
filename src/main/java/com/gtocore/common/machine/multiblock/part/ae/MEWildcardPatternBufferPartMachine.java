@@ -5,14 +5,12 @@ import com.gtocore.config.GTOConfig;
 import com.gtolib.GTOCore;
 import com.gtolib.api.ae2.MyPatternDetailsHelper;
 import com.gtolib.api.ae2.pattern.IParallelPatternDetails;
-import com.gtolib.api.ae2.stacks.IIngredientConvertible;
 import com.gtolib.api.ae2.stacks.TagPrefixKey;
 import com.gtolib.api.annotation.DataGeneratorScanned;
 import com.gtolib.api.annotation.language.RegisterLanguage;
-import com.gtolib.api.fluid.IFluid;
 import com.gtolib.api.gui.ktflexible.VBoxBuilder;
-import com.gtolib.api.item.IItem;
 import com.gtolib.api.recipe.RecipeType;
+import com.gtolib.api.recipe.lookup.IIngredientConvertible;
 import com.gtolib.utils.GTOUtils;
 
 import com.gregtechceu.gtceu.api.GTCEuAPI;
@@ -49,6 +47,7 @@ import appeng.api.networking.crafting.ICraftingProvider;
 import appeng.api.stacks.*;
 import appeng.crafting.pattern.AEProcessingPattern;
 import appeng.crafting.pattern.ProcessingPatternItem;
+import appeng.hooks.IUnique;
 
 import com.fast.recipesearch.IntLongMap;
 import com.gto.datasynclib.annotations.SaveToDisk;
@@ -178,11 +177,6 @@ public class MEWildcardPatternBufferPartMachine extends MEPatternBufferPartMachi
     public void onPatternChange(int index) {
         super.onPatternChange(index);
         requestPatternUpdate();
-    }
-
-    @Override
-    public void onChanged() {
-        super.onChanged();
     }
 
     private void requestPatternUpdate() {
@@ -418,13 +412,13 @@ public class MEWildcardPatternBufferPartMachine extends MEPatternBufferPartMachi
                     }
                     switch (outStack.what()) {
                         case AEItemKey itemKey -> {
-                            int id = ((IItem) itemKey.getItem()).getUid();
+                            int id = ((IUnique) itemKey.getItem()).ae2$getUid();
                             if (blacklistedAltProcessableItemIds.contains(id)) {
                                 return null;
                             }
                         }
                         case AEFluidKey fluidKey -> {
-                            int id = ((IFluid) fluidKey.getFluid()).getUid();
+                            int id = ((IUnique) fluidKey.getFluid()).ae2$getUid();
                             if (blacklistedAltProcessableFluidIds.contains(id)) {
                                 return null;
                             }

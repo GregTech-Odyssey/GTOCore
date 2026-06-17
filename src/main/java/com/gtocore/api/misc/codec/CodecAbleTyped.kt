@@ -38,7 +38,7 @@ interface CodecAbleTyped<SELF : CodecAbleTyped<SELF, COMPANION>, COMPANION : Cod
     }
 
     @Suppress("UNCHECKED_CAST")
-    fun encodeToNbt(): CompoundTag = getCompanion().getCodec().encodeStart(NbtOps.INSTANCE, this as SELF).getOrThrow(false) { "Failed to encode $this" } as CompoundTag
+    fun encodeToNbt(): CompoundTag = getCompanion().getCodec().encodeStart(NbtOps.INSTANCE, this as SELF).getOrThrow(false) {} as CompoundTag
     fun encodeToBuffer(buf: FriendlyByteBuf) {
         buf.writeNbt(encodeToNbt())
     }

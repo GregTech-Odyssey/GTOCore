@@ -1,9 +1,9 @@
 package com.gtocore.common.machine.monitor;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
+import com.gregtechceu.gtceu.api.capability.GTCapabilityHelper;
 import com.gregtechceu.gtceu.api.capability.IOpticalComputationHatch;
 import com.gregtechceu.gtceu.api.capability.IOpticalComputationProvider;
-import com.gregtechceu.gtceu.api.capability.forge.GTCapability;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableComputationContainer;
 
 import net.minecraft.ChatFormatting;
@@ -11,11 +11,8 @@ import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.util.LazyOptional;
 
 import com.gto.datasynclib.annotations.SyncToClient;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.text.NumberFormat;
@@ -56,11 +53,9 @@ public class MonitorCWU extends AbstractInfoProviderMonitor implements IOpticalC
         return true;
     }
 
-    public <T> LazyOptional<T> getCapability(@NotNull Capability<T> cap, @Nullable Direction side) {
-        if (cap == GTCapability.CAPABILITY_COMPUTATION_PROVIDER) {
-            return GTCapability.CAPABILITY_COMPUTATION_PROVIDER.orEmpty(cap, LazyOptional.of(() -> this));
-        }
-        return null;
+    @Override
+    public boolean testCapability(@Nullable Direction side) {
+        return false;
     }
 
     @Override
@@ -108,9 +103,9 @@ public class MonitorCWU extends AbstractInfoProviderMonitor implements IOpticalC
         protected IOpticalComputationProvider getOpticalNetProvider() {
             IOpticalComputationProvider p = null;
             for (Direction direction : Direction.values()) {
-                BlockEntity blockEntity = machine.getNeighbor(direction);
+                BlockEntity blockEntity = machine.holder.getNeighborBlockEntity(direction);
                 if (blockEntity != null) {
-                    var cap = blockEntity.getCapability(GTCapability.CAPABILITY_COMPUTATION_PROVIDER, direction.getOpposite()).orElse(null);
+                    var cap = GTCapabilityHelper.getComputation(blockEntity, direction.getOpposite());
                     if (cap instanceof IOpticalComputationHatch hatch && hatch.isTransmitter() && hatch != machine) {
                         p = cap;
                         break;

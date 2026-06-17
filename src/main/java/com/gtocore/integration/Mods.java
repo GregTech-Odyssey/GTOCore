@@ -14,6 +14,7 @@ public enum Mods {
     IMMERSIVE_AIRCRAFT("immersive_aircraft"),
     CHISEL("chisel"),
     SOPHISTICATEDBACKPACKS("sophisticatedbackpacks"),
+    SOPHISTICATEDSTORAGE("sophisticatedstorage"),
     BIOMESOPLENTY("biomesoplenty"),
     BIOMESWEVEGONE("biomeswevegone"),
     PIPEZ("pipez"),

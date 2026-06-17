@@ -2,7 +2,6 @@ package com.gtocore.common.machine.multiblock.part.ae;
 
 import com.gtocore.api.data.Algae;
 
-import com.gtolib.api.ae2.stacks.IKeyCounter;
 import com.gtolib.api.ae2.storage.BigCellDataStorage;
 import com.gtolib.api.ae2.storage.CellDataStorage;
 import com.gtolib.api.annotation.DataGeneratorScanned;
@@ -276,7 +275,7 @@ public abstract class StorageAccessPartMachine extends AmountConfigurationPartMa
             if (data == CellDataStorage.EMPTY) return;
             var map = data.getStoredMap();
             if (map == null) return;
-            IKeyCounter.addAll(out, map.size(), m -> map.fastForEach(m::addTo));
+            out.addAll(map.size(), m -> map.fastForEach(m::addTo));
         }
 
         @Override
@@ -573,7 +572,7 @@ public abstract class StorageAccessPartMachine extends AmountConfigurationPartMa
             if (data == BigCellDataStorage.EMPTY) return;
             var map = data.getStoredMap();
             if (map == null) return;
-            IKeyCounter.addAll(out, map.size(), m -> map.reference2ReferenceEntrySet().fastForEach(e -> m.addTo(e.getKey(), BigIntegerUtils.getLongValue(e.getValue()))));
+            out.addAll(map.size(), m -> map.reference2ReferenceEntrySet().fastForEach(e -> m.addTo(e.getKey(), BigIntegerUtils.getLongValue(e.getValue()))));
         }
 
         @Override

@@ -41,7 +41,6 @@ import appeng.me.helpers.IGridConnectedBlockEntity;
 import appeng.me.storage.CompositeStorage;
 import appeng.me.storage.ExternalStorageFacade;
 
-import com.fast.fastcollection.O2OOpenCacheHashMap;
 import com.google.common.collect.HashMultiset;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Multiset;
@@ -49,6 +48,7 @@ import com.gto.datasynclib.annotations.SaveToDisk;
 import com.gto.datasynclib.annotations.SyncToClient;
 import com.gto.datasynclib.util.holder.BooleanHolder;
 import com.gto.datasynclib.util.holder.ObjHolder;
+import com.gto.fastcollection.O2OOpenCacheHashMap;
 import com.lowdragmc.lowdraglib.syncdata.IManaged;
 import com.lowdragmc.lowdraglib.syncdata.field.FieldManagedStorage;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
@@ -87,6 +87,11 @@ public class DirectedTesseractMachine extends MetaMachine implements
     private WeakReference<BlockEntity>[] blockEntityReference;
     private final ConditionalSubscriptionHandler task;
 
+    @SuppressWarnings("unchecked")
+    private static WeakReference<BlockEntity>[] createBlockEntityReferences(int size) {
+        return (WeakReference<BlockEntity>[]) new WeakReference<?>[size];
+    }
+
     public DirectedTesseractMachine(MetaMachineBlockEntity holder) {
         super(holder);
         this.unfinishedPushLists = new UnfinishedPushList(this);
@@ -103,7 +108,7 @@ public class DirectedTesseractMachine extends MetaMachine implements
         targets.clear();
         targets.addAll(newTargets);
         targets.sort(TesseractDirectedTarget.SORTER);
-        blockEntityReference = new WeakReference[targets.size()];
+        blockEntityReference = createBlockEntityReferences(targets.size());
     }
 
     @Override
@@ -124,7 +129,7 @@ public class DirectedTesseractMachine extends MetaMachine implements
             if (targets.isEmpty()) {
                 return null;
             }
-            blockEntityReference = new WeakReference[targets.size()];
+            blockEntityReference = createBlockEntityReferences(targets.size());
         }
         if (blockEntityReference[index] != null) {
             var be = blockEntityReference[index].get();
@@ -147,7 +152,8 @@ public class DirectedTesseractMachine extends MetaMachine implements
 
     @Override
     public IPatternProviderLogic.PushResult pushPattern(IPatternProviderLogic logic, IActionSource actionSource, BooleanHolder success, Operate operate, Set<AEKey> patternInputs, IPatternDetails patternDetails, ObjHolder<KeyCounter[]> inputHolder, Supplier<IPatternProviderLogic.PushResult> pushPatternSuccess, BooleanSupplier canPush, Direction direction, Direction adjBeSide) {
-        if (!(patternDetails instanceof AEProcessingPattern processingPattern)) return IPatternProviderLogic.PushResult.REJECTED;
+        if (!(patternDetails instanceof AEProcessingPattern processingPattern))
+            return IPatternProviderLogic.PushResult.REJECTED;
         var sparseInputs = processingPattern.getSparseInputs();
 
         if (unfinishedPushLists.hasWorkToDo() ||
@@ -182,9 +188,7 @@ public class DirectedTesseractMachine extends MetaMachine implements
         }
 
         remainingStacks.forEach(unfinishedPushLists::addTask);
-        readyToPushStacks.forEach((toPush, stack) -> {
-            toPush.insert(stack.what(), stack.amount(), Actionable.MODULATE);
-        });
+        readyToPushStacks.forEach((toPush, stack) -> toPush.insert(stack.what(), stack.amount(), Actionable.MODULATE));
         unfinishedPushLists.push();
         return pushPatternSuccess.get();
     }

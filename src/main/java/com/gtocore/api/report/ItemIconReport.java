@@ -49,6 +49,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexSorting;
 import dev.emi.emi.api.EmiApi;
 import dev.emi.emi.api.stack.EmiStack;
+import org.jetbrains.annotations.NotNull;
 import org.joml.Matrix4f;
 
 import java.awt.image.BufferedImage;
@@ -120,12 +121,12 @@ public class ItemIconReport {
         return new Language() {
 
             @Override
-            public String getOrDefault(String key, String defaultValue) {
+            public @NotNull String getOrDefault(@NotNull String key, @NotNull String defaultValue) {
                 return langMap.getOrDefault(key, defaultValue);
             }
 
             @Override
-            public boolean has(String key) {
+            public boolean has(@NotNull String key) {
                 return langMap.containsKey(key);
             }
 
@@ -135,7 +136,7 @@ public class ItemIconReport {
             }
 
             @Override
-            public FormattedCharSequence getVisualOrder(FormattedText text) {
+            public @NotNull FormattedCharSequence getVisualOrder(@NotNull FormattedText text) {
                 return FormattedCharSequence.EMPTY;
             }
         };
@@ -703,7 +704,7 @@ public class ItemIconReport {
      * - Multi-layer model rendering (base + overlay)
      * - ItemColors tinting (GT material colors, dye colors, etc.)
      * - All visual overlays
-     *
+     * <p>
      * This is the same pipeline EMI uses to display items in its GUI.
      * Must be called on the render thread.
      */
@@ -753,10 +754,10 @@ public class ItemIconReport {
             previousTarget.bindWrite(true);
 
             // Validate the captured image
-            if (image != null && isMissingTexture(image)) {
+            if (isMissingTexture(image)) {
                 return null;
             }
-            if (image != null && isBlankImage(image)) {
+            if (isBlankImage(image)) {
                 return null;
             }
 
@@ -835,8 +836,8 @@ public class ItemIconReport {
             previousTarget.bindWrite(true);
 
             // Validate the captured image
-            if (image != null && isMissingTexture(image)) return null;
-            if (image != null && isBlankImage(image)) return null;
+            if (isMissingTexture(image)) return null;
+            if (isBlankImage(image)) return null;
 
             return image;
 
@@ -946,6 +947,8 @@ public class ItemIconReport {
      * like saplings, candles, flowers, and leaves.
      */
     private static boolean isBlankImage(BufferedImage image) {
+        if (image == null) return false;
+
         int width = image.getWidth();
         int height = image.getHeight();
 
@@ -1509,7 +1512,6 @@ public class ItemIconReport {
         for (Item item : BuiltInRegistries.ITEM) {
             try {
                 ResourceLocation id = BuiltInRegistries.ITEM.getKey(item);
-                if (id == null) continue;
 
                 JsonObject itemJson = new JsonObject();
                 itemJson.addProperty("id", id.toString());
@@ -1578,7 +1580,6 @@ public class ItemIconReport {
         for (Fluid fluid : BuiltInRegistries.FLUID) {
             try {
                 ResourceLocation id = BuiltInRegistries.FLUID.getKey(fluid);
-                if (id == null) continue;
 
                 JsonObject fluidJson = new JsonObject();
                 fluidJson.addProperty("id", id.toString());
@@ -1631,7 +1632,6 @@ public class ItemIconReport {
         for (net.minecraft.world.level.block.Block block : BuiltInRegistries.BLOCK) {
             try {
                 ResourceLocation id = BuiltInRegistries.BLOCK.getKey(block);
-                if (id == null) continue;
 
                 JsonObject blockJson = new JsonObject();
                 blockJson.addProperty("id", id.toString());
@@ -1685,31 +1685,7 @@ public class ItemIconReport {
         envJson.addProperty("generated_at", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
 
         // Cleanroom types
-        JsonArray cleanroomTypes = new JsonArray();
-
-        JsonObject cleanroom = new JsonObject();
-        cleanroom.addProperty("id", "cleanroom");
-        cleanroom.addProperty("name", "Cleanroom");
-        cleanroom.addProperty("tier", 1);
-        cleanroom.addProperty("description", "Basic clean environment for chip manufacturing and precision processing");
-        cleanroomTypes.add(cleanroom);
-
-        JsonObject sterileCleanroom = new JsonObject();
-        sterileCleanroom.addProperty("id", "sterile_cleanroom");
-        sterileCleanroom.addProperty("name", "Sterile Cleanroom");
-        sterileCleanroom.addProperty("tier", 2);
-        sterileCleanroom.addProperty("description", "Advanced clean environment for bioengineering and advanced circuit manufacturing");
-        sterileCleanroom.addProperty("includes_cleanroom", true);
-        cleanroomTypes.add(sterileCleanroom);
-
-        JsonObject lawCleanroom = new JsonObject();
-        lawCleanroom.addProperty("id", "law_cleanroom");
-        lawCleanroom.addProperty("name", "LAW Cleanroom");
-        lawCleanroom.addProperty("tier", 3);
-        lawCleanroom.addProperty("description", "Highest-tier clean environment for the most precise manufacturing");
-        lawCleanroom.addProperty("includes_sterile_cleanroom", true);
-        lawCleanroom.addProperty("includes_cleanroom", true);
-        cleanroomTypes.add(lawCleanroom);
+        JsonArray cleanroomTypes = getJsonElements();
 
         envJson.add("cleanroom_types", cleanroomTypes);
 
@@ -1773,6 +1749,29 @@ public class ItemIconReport {
         envJson.add("voltage_tiers", voltageTiers);
 
         // Recipe modifiers
+        JsonArray recipeModifiers = getElements();
+
+        envJson.add("recipe_modifiers", recipeModifiers);
+
+        // Special conditions
+        JsonArray specialConditions = new JsonArray();
+        addCondition(specialConditions, "rock_breaker", "Rock Breaker", "Requires adjacent lava and water");
+        addCondition(specialConditions, "radioactivity", "Radioactivity", "Requires radioactive material or radiation hatch");
+        addCondition(specialConditions, "biome_temperature", "Biome Temperature", "Requires a specific biome temperature");
+        addCondition(specialConditions, "research", "Research Data", "Requires completing specific research to unlock recipe");
+        envJson.add("special_conditions", specialConditions);
+
+        Files.writeString(miscDir.resolve("gt_environments.json"), GSON.toJson(envJson));
+        GTOCore.LOGGER.info("[GTEnv] GT environment info exported");
+
+        // Export GT machines & multiblocks metadata
+        exportGTMachines(miscDir);
+
+        // Export recipe type → machine mapping
+        exportRecipeTypeMachines(miscDir);
+    }
+
+    private static @NotNull JsonArray getElements() {
         JsonArray recipeModifiers = new JsonArray();
 
         JsonObject overclock = new JsonObject();
@@ -1797,25 +1796,36 @@ public class ItemIconReport {
         parallel.addProperty("name", "Parallel");
         parallel.addProperty("description", "Execute multiple recipes simultaneously with linear EU and output scaling");
         recipeModifiers.add(parallel);
+        return recipeModifiers;
+    }
 
-        envJson.add("recipe_modifiers", recipeModifiers);
+    private static @NotNull JsonArray getJsonElements() {
+        JsonArray cleanroomTypes = new JsonArray();
 
-        // Special conditions
-        JsonArray specialConditions = new JsonArray();
-        addCondition(specialConditions, "rock_breaker", "Rock Breaker", "Requires adjacent lava and water");
-        addCondition(specialConditions, "radioactivity", "Radioactivity", "Requires radioactive material or radiation hatch");
-        addCondition(specialConditions, "biome_temperature", "Biome Temperature", "Requires a specific biome temperature");
-        addCondition(specialConditions, "research", "Research Data", "Requires completing specific research to unlock recipe");
-        envJson.add("special_conditions", specialConditions);
+        JsonObject cleanroom = new JsonObject();
+        cleanroom.addProperty("id", "cleanroom");
+        cleanroom.addProperty("name", "Cleanroom");
+        cleanroom.addProperty("tier", 1);
+        cleanroom.addProperty("description", "Basic clean environment for chip manufacturing and precision processing");
+        cleanroomTypes.add(cleanroom);
 
-        Files.writeString(miscDir.resolve("gt_environments.json"), GSON.toJson(envJson));
-        GTOCore.LOGGER.info("[GTEnv] GT environment info exported");
+        JsonObject sterileCleanroom = new JsonObject();
+        sterileCleanroom.addProperty("id", "sterile_cleanroom");
+        sterileCleanroom.addProperty("name", "Sterile Cleanroom");
+        sterileCleanroom.addProperty("tier", 2);
+        sterileCleanroom.addProperty("description", "Advanced clean environment for bioengineering and advanced circuit manufacturing");
+        sterileCleanroom.addProperty("includes_cleanroom", true);
+        cleanroomTypes.add(sterileCleanroom);
 
-        // Export GT machines & multiblocks metadata
-        exportGTMachines(miscDir);
-
-        // Export recipe type → machine mapping
-        exportRecipeTypeMachines(miscDir);
+        JsonObject lawCleanroom = new JsonObject();
+        lawCleanroom.addProperty("id", "law_cleanroom");
+        lawCleanroom.addProperty("name", "LAW Cleanroom");
+        lawCleanroom.addProperty("tier", 3);
+        lawCleanroom.addProperty("description", "Highest-tier clean environment for the most precise manufacturing");
+        lawCleanroom.addProperty("includes_sterile_cleanroom", true);
+        lawCleanroom.addProperty("includes_cleanroom", true);
+        cleanroomTypes.add(lawCleanroom);
+        return cleanroomTypes;
     }
 
     private static void addDimension(JsonArray arr, String id, String name, boolean isSpace, boolean hasOxygen) {

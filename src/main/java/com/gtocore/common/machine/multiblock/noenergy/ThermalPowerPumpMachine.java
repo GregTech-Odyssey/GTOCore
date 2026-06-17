@@ -3,6 +3,7 @@ package com.gtocore.common.machine.multiblock.noenergy;
 import com.gtolib.api.machine.multiblock.NoEnergyMultiblockMachine;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
+import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeDefinition;
 import com.gregtechceu.gtceu.api.recipe.handler.ICustomRecipeLogicHolder;
 import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
@@ -36,6 +37,11 @@ public final class ThermalPowerPumpMachine extends NoEnergyMultiblockMachine imp
             value = value * 3 / 2;
         }
         return value;
+    }
+
+    @Override
+    public boolean matchRecipeOutput(GTRecipe recipe) {
+        return true;
     }
 
     @Override

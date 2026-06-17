@@ -180,6 +180,7 @@ abstract class SyncWidget(x: Int, y: Int, width: Int, height: Int) : WidgetGroup
 
     protected fun syncInt(supplier: () -> Int, updateId: Int, initialValue: Int = 0): SyncField<Int> = syncField(supplier, DataOperations.INT, updateId, initialValue)
 
+    @Suppress("SameParameterValue")
     protected fun syncComponent(supplier: () -> Component, updateId: Int, initialValue: Component): SyncField<Component> = syncField(supplier, DataOperations.COMPONENT, updateId, initialValue)
 
     override fun writeInitialData(buffer: FriendlyByteBuf?) {

@@ -482,7 +482,7 @@ public class DigitalMiner extends TierCasingMultiblockMachine implements IDigita
         double lastX = 0, lastY = 0;
         WaypointItem startWaypoint = null;
 
-        ProspectorMap(int x, int y, int width, int height, int radius, ProspectorMode mode, int scale, Widget parent) {
+        ProspectorMap(int x, int y, int width, int height, int radius, ProspectorMode<?> mode, int scale, Widget parent) {
             super(x, y, width, height, radius, mode, scale);
             this.parent = parent;
             this.itemList.setVisible(false).setActive(false);

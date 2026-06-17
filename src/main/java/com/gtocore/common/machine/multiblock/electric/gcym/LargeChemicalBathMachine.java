@@ -11,8 +11,8 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.material.Fluid;
 
-import com.fast.fastcollection.OpenCacheHashSet;
 import com.gto.datasynclib.annotations.SyncToClient;
+import com.gto.fastcollection.OpenCacheHashSet;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Set;

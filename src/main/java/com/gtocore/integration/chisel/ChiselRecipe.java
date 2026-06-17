@@ -109,7 +109,7 @@ public final class ChiselRecipe {
             int j = this.output.size();
             int rows = (int) Math.ceil((double) j / (double) 6.0F);
             widgets.addTexture(TEXTURE, 21, 3, 108, 236 - (18 * (10 - rows) + 11), 0, 10);
-            widgets.addSlot(this.input.get(0), startX + 46, startY + 5).drawBack(false);
+            widgets.addSlot(this.input.getFirst(), startX + 46, startY + 5).drawBack(false);
 
             for (int x = 0; x < 6; ++x) {
                 for (int y = 0; y < rows && 6 * y + x < j; ++y) {

@@ -24,7 +24,7 @@ public class CompositeStorageMixin {
     private Map<AEKeyType, MEStorage> storages;
 
     @Inject(method = "<init>", at = @At("TAIL"), remap = false)
-    private void init(Map storages, CallbackInfo ci) {
+    private void init(Map<AEKeyType, MEStorage> storages, CallbackInfo ci) {
         if (storages instanceof AEKeyTypeMap) return;
         setStorages(this.storages);
     }

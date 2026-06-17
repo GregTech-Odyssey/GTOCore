@@ -177,7 +177,7 @@ public class SingleDigitalMiner extends SimpleTieredMachine implements IDigitalM
 
     /// ///////////////////////////////////
     protected void updateAutoOutputSubscription() {
-        if (!exportItems.isEmpty() && blockEntityDirectionCache.hasAdjacentItemHandler(getLevel(), getPos(), getFrontFacing())) {
+        if (!exportItems.isEmpty() && holder.blockEntityDirectionCache.hasAdjacentItemHandler(getLevel(), getPos(), getFrontFacing())) {
             autoOutputSubs = subscribeServerTick(autoOutputSubs, this::autoOutput, 20);
         } else if (autoOutputSubs != null) {
             autoOutputSubs.unsubscribe();

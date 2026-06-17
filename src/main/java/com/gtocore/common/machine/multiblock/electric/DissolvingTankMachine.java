@@ -12,8 +12,8 @@ import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.material.Fluid;
 
-import com.fast.fastcollection.OpenCacheHashSet;
 import com.gto.datasynclib.annotations.SyncToClient;
+import com.gto.fastcollection.OpenCacheHashSet;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 

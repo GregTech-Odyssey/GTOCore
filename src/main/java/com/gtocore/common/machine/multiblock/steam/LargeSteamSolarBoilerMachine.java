@@ -15,6 +15,7 @@ import com.gregtechceu.gtceu.api.machine.multiblock.WorkableMultiblockMachine;
 import com.gregtechceu.gtceu.api.pattern.BlockPattern;
 import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
 import com.gregtechceu.gtceu.api.pattern.util.RelativeDirection;
+import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeDefinition;
 import com.gregtechceu.gtceu.api.recipe.handler.ICustomRecipeLogicHolder;
 import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
@@ -118,6 +119,11 @@ public class LargeSteamSolarBoilerMachine extends WorkableMultiblockMachine impl
 
     private static boolean isBlockSolar(@NotNull Level world, @NotNull BlockPos pos) {
         return world.getBlockState(pos).is(GTOBlocks.SOLAR_HEAT_COLLECTOR_PIPE_CASING.get());
+    }
+
+    @Override
+    public boolean matchRecipeOutput(GTRecipe recipe) {
+        return true;
     }
 
     @NotNull

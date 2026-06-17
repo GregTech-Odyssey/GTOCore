@@ -14,9 +14,9 @@ public final class tarotArcanumRegister {
     private static final int Major = 0xC0C0C0;
     private static final int Minor = 0xc1e7ed;
 
-    @SuppressWarnings("rawtypes")
-    public static ItemEntry[] registerTarotArcanum() {
-        ItemEntry[] entries = new ItemEntry[79];
+    @SuppressWarnings("unchecked")
+    public static ItemEntry<TarotArcanum>[] registerTarotArcanum() {
+        ItemEntry<TarotArcanum>[] entries = (ItemEntry<TarotArcanum>[]) new ItemEntry<?>[79];
 
         entries[0] = item("tarot_card_0", "生命之树", p -> TarotArcanumBuilder.of(0xffec80, 0)
                 .withTooltip(GTOTarotArcanumTooltips.INSTANCE.getTarotArcanum_0()::apply)

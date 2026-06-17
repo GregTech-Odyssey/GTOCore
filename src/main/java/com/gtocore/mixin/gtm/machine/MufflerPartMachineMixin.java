@@ -172,7 +172,7 @@ public abstract class MufflerPartMachineMixin extends WorkableTieredPartMachine 
     @Override
     public void onLoad() {
         super.onLoad();
-        gto$chanceOfNotProduceAsh = Math.min(Math.max(gto$chanceOfNotProduceAsh, 0), getTier() * 10);
+        gto$chanceOfNotProduceAsh = Math.clamp(gto$chanceOfNotProduceAsh, 0, getTier() * 10);
         if (isRemote()) {
             gto$subParticle();
         }

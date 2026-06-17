@@ -10,9 +10,12 @@ import net.minecraft.client.renderer.Rect2i;
 import net.minecraft.network.chat.Component;
 import net.minecraftforge.client.gui.overlay.ForgeGui;
 
+import appeng.client.gui.Rects;
+
 import com.teamresourceful.resourcefulconfig.common.config.impl.ConfigParser;
 import earth.terrarium.adastra.client.config.AdAstraConfigClient;
 import earth.terrarium.adastra.client.screens.player.OverlayScreen;
+import earth.terrarium.adastra.common.items.armor.JetSuitItem;
 import lombok.Getter;
 import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
@@ -98,6 +101,9 @@ public class AdAstraHUD implements IMoveableHUD {
 
     @Override
     public Rect2i getBounds(int screenWidth, int screenHeight) {
+        if (Minecraft.getInstance().player != null && !JetSuitItem.hasFullSet(Minecraft.getInstance().player)) {
+            return Rects.ZERO;
+        }
         int x = AdAstraConfigClient.oxygenBarX;
         int y = AdAstraConfigClient.oxygenBarY;
         return new Rect2i(x, y, getHudWidth(), getHudHeight());
@@ -107,8 +113,8 @@ public class AdAstraHUD implements IMoveableHUD {
     public void setTopLeftPosition(int x, int y, int screenWidth, int screenHeight) {
         int maxX = Math.max(0, screenWidth - getHudWidth());
         int maxY = Math.max(0, screenHeight - getHudHeight());
-        int clampedX = Math.max(0, Math.min(maxX, x));
-        int clampedY = Math.max(0, Math.min(maxY, y));
+        int clampedX = Math.clamp(x, 0, maxX);
+        int clampedY = Math.clamp(y, 0, maxY);
         gto$lastVisibleX = clampedX;
         gto$lastVisibleY = clampedY;
         gto$pendingMovedX = 0;

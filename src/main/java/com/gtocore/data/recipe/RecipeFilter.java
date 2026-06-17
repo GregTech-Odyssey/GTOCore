@@ -17,7 +17,7 @@ import com.gregtechceu.gtceu.data.recipe.configurable.RecipeRemoval;
 
 import net.minecraft.resources.ResourceLocation;
 
-import com.fast.fastcollection.OpenCacheHashSet;
+import com.gto.fastcollection.OpenCacheHashSet;
 import com.kyanite.deeperdarker.DeeperDarker;
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 
@@ -54,7 +54,7 @@ public final class RecipeFilter {
     }
 
     private static void addFilter(List<Predicate<ResourceLocation>> filters) {
-        ObjectOpenHashSet<ResourceLocation> ids = new OpenCacheHashSet<>(2048);
+        ObjectOpenHashSet<ResourceLocation> ids = new OpenCacheHashSet<>(8192, 0.25F);
         initIdFilter(ids);
         RecipeRemoval.init(ids::add);
         filters.add(ids::contains);

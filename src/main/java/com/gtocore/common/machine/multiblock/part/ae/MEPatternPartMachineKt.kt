@@ -52,7 +52,6 @@ import com.gregtechceu.gtceu.utils.asm.EmptyMethodChecker
 import com.gto.datasynclib.annotations.SaveToDisk
 import com.gto.datasynclib.annotations.SyncToClient
 import com.gto.datasynclib.listener.IntNotifiableHolder
-import com.gto.datasynclib.util.DataCodecs
 import com.gtolib.api.ae2.MyPatternDetailsHelper
 import com.gtolib.api.ae2.pattern.IParallelPatternDetails
 import com.gtolib.api.annotation.DataGeneratorScanned
@@ -65,8 +64,6 @@ import com.lowdragmc.lowdraglib.gui.widget.Widget
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup
 import com.lowdragmc.lowdraglib.syncdata.IContentChangeAware
 import com.lowdragmc.lowdraglib.syncdata.ITagSerializable
-import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted
 
 import java.util.function.BiConsumer
 import java.util.function.IntSupplier
@@ -100,7 +97,7 @@ abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.AbstractInterna
         const val AE_NAME: String = "gtceu.ae.pattern_part_machine.ae_name"
 
         @RegisterLanguage(cn = "仅在简单游戏难度下启用", en = "Enable only in Easy Game Mode")
-        const val NOT_simple: String = "gtceu.ae.pattern_part_machine.not_simple"
+        const val NOT_SIMPLE: String = "gtceu.ae.pattern_part_machine.not_simple"
 
         @RegisterLanguage(cn = "不在旅行网络中显示", en = "Do not show in Travel Network")
         const val NOT_SHOW_IN_TRAVEL: String = "gtceu.ae.pattern_part_machine.not_show_in_travel"
@@ -191,15 +188,13 @@ abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.AbstractInterna
     open fun appendHoverTooltips(index: Int): Component? = null
     open fun onMouseClicked(index: Int) {}
     open fun getApplyIndex(): IntSupplier = IntSupplier { -1 }
-    open fun onPageNext() {}
-    open fun onPagePrev() {}
     open fun runOnUpdate() {}
     open fun addWidget(group: WidgetGroup) {}
     open fun onDetailsPostInit() {}
 
     // ==================== 生命周期方法 ====================
     @SyncToClient
-    val newPageField = IntNotifiableHolder.create()
+    val newPageField: IntNotifiableHolder = IntNotifiableHolder.create()
 
     override fun onLoad() {
         super.onLoad()
@@ -362,7 +357,7 @@ abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.AbstractInterna
                         machine = this@MEPatternPartMachineKt,
                         pageHeight = height1,
                         buildToolBoxContent = { buildToolBoxContent() },
-                        emptyPageTextSupplier = { Component.translatable(NOT_simple) },
+                        emptyPageTextSupplier = { Component.translatable(NOT_SIMPLE) },
                     )
                 val wid = this@vBox.availableWidth - 2 * 2
                 if (pageWidget.getMaxPageSize() > 1) {
@@ -371,7 +366,6 @@ abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.AbstractInterna
                             width = 30,
                             height = 13,
                             onClick = { _ ->
-                                onPagePrev()
                                 if (!isRemote) {
                                     newPageField.set((newPageField.get() - 1).coerceAtLeast(0))
                                     newPageField.markAsChanged()
@@ -385,7 +379,6 @@ abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.AbstractInterna
                             height = 13,
                             width = 30,
                             onClick = { _ ->
-                                onPageNext()
                                 if (!isRemote) {
                                     newPageField.set((newPageField.get() + 1).coerceAtMost(pageWidget.getMaxPageSize() - 1))
                                     newPageField.markAsChanged()

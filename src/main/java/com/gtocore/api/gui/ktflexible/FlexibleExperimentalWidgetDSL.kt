@@ -20,6 +20,7 @@ import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup
 import java.util.function.IntSupplier
 import java.util.function.Supplier
 
+@Suppress("UNUSED_PARAMETER")
 fun LayoutBuilder<*>.progressBar(currentSupplier: IntSupplier, totalSupplier: IntSupplier, width: Int = 100, height: Int = 20, border: Int = 2, padding: Int = 1, progressColorStyle: ProgressBarColorStyle = ProgressBarColorStyle.DEFAULT_GREEN, backgroundColor: Int = 0xFF404040.toInt(), borderColor: Int = 0xFF000000.toInt(), textColor: Int = 0xFFFFFFFF.toInt(), showPercentage: Boolean = false) {
     val widget = object : SyncWidget(0, 0, width, height) {
         private val currentField = syncInt({ currentSupplier.asInt }, -1, 1)

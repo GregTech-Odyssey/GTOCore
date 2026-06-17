@@ -9,7 +9,7 @@ import com.gtolib.api.machine.mana.feature.IManaMultiblock;
 import com.gtolib.api.machine.mana.trait.ManaTrait;
 import com.gtolib.api.machine.multiblock.TierCasingMultiblockMachine;
 import com.gtolib.api.misc.ManaContainerList;
-import com.gtolib.api.recipe.RecipeHelper;
+import com.gtolib.api.recipe.extension.MANATRecipeExtension;
 import com.gtolib.utils.explosion.SphereExplosion;
 
 import com.gregtechceu.gtceu.api.GTValues;
@@ -71,14 +71,14 @@ public final class StellarForgeMachine extends TierCasingMultiblockMachine imple
     @Override
     public GTRecipe getRealRecipe(@NotNull RecipeHandlerUnit unit, @NotNull GTRecipe recipe) {
         consecutiveRecipes++;
-        var manat = RecipeHelper.getMANAt(recipe);
+        var manat = MANATRecipeExtension.getMANAt(recipe);
         if (manat < 0) {
             if (getSubFormedAmount() == 0) {
                 consecutiveRecipes = 0;
                 return null;
             }
             if (consecutiveRecipes > 1) {
-                RecipeHelper.setMANAt(recipe, Math.max((long) (manat * Math.log(consecutiveRecipes + Math.E - 1)), Long.MIN_VALUE));
+                MANATRecipeExtension.setMANAt(recipe, Math.max((long) (manat * Math.log(consecutiveRecipes + Math.E - 1)), Long.MIN_VALUE));
             }
             return recipe;
         }

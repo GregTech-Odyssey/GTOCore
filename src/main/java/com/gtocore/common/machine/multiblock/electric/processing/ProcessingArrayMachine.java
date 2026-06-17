@@ -108,7 +108,7 @@ public final class ProcessingArrayMachine extends TierCasingMultiblockMachine im
 
     @Override
     public long getMaxParallel() {
-        return Math.min(getMachineLimit(arrayTier), Math.max(1, inventory.getStackInSlot(0).getCount()));
+        return Math.clamp(inventory.getStackInSlot(0).getCount(), 1, getMachineLimit(arrayTier));
     }
 
     @Override
