@@ -16,11 +16,21 @@ public abstract class BatteryBufferMachineMixin implements BatteryBufferMachineA
     }
 
     @Shadow(remap = false)
+    private List<Object> getNonFullBatteries() {
+        throw new AssertionError();
+    }
+
+    @Shadow(remap = false)
     protected boolean checkEnergyStored;
 
     @Override
     public List<Object> gtocore$getAllBatteries() {
         return getAllBatteries();
+    }
+
+    @Override
+    public List<Object> gtocore$getNonFullBatteries() {
+        return getNonFullBatteries();
     }
 
     @Override
@@ -37,6 +47,8 @@ public abstract class BatteryBufferMachineMixin implements BatteryBufferMachineA
 interface BatteryBufferMachineAccess {
 
     List<Object> gtocore$getAllBatteries();
+
+    List<Object> gtocore$getNonFullBatteries();
 
     boolean gtocore$checkEnergyStored();
 
