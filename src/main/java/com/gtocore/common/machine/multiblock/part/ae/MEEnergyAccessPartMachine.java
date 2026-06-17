@@ -11,6 +11,8 @@ import com.gregtechceu.gtceu.api.recipe.handler.IO;
 import com.gregtechceu.gtceu.config.ConfigHolder;
 
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.server.TickTask;
+import net.minecraft.server.level.ServerLevel;
 
 import appeng.api.config.AccessRestriction;
 import appeng.api.config.Actionable;
@@ -93,6 +95,17 @@ public class MEEnergyAccessPartMachine extends MEPartMachine implements IAEPower
         }
     }
 
+    private void scheduleEnergyServiceRefresh(TierCasingMultiblockMachine expectedController) {
+        if (getLevel() instanceof ServerLevel serverLevel) {
+            serverLevel.getServer().tell(new TickTask(1, () -> {
+                if (this.controller == expectedController && expectedController.isFormed()) {
+                    refreshEnergyService(() -> {});
+                    postEnergyEvent();
+                }
+            }));
+        }
+    }
+
     @Override
     public void removedFromController(@NotNull IMultiController controller) {
         super.removedFromController(controller);
@@ -103,8 +116,9 @@ public class MEEnergyAccessPartMachine extends MEPartMachine implements IAEPower
     public void addedToController(@NotNull IMultiController controller) {
         super.addedToController(controller);
         TierCasingMultiblockMachine newController = (TierCasingMultiblockMachine) controller;
-        refreshEnergyService(() -> this.controller = newController);
-        postEnergyEvent();
+        this.controller = newController;
+        updateRatio();
+        scheduleEnergyServiceRefresh(newController);
     }
 
     @Override
