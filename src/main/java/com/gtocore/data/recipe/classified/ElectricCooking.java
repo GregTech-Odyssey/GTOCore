@@ -259,10 +259,9 @@ final class ElectricCooking {
 
         ELECTRIC_COOKING_RECIPES.recipeBuilder("dog_food")
                 .inputItems(Items.ROTTEN_FLESH.asItem())
-                .inputItems(Items.BONE.asItem())
-                .inputItems(TagUtils.createItemTag(RLUtils.fd("wolf_prey")))
-                .inputItems("farmersdelight:rice")
-                .inputItems(Items.BOWL.asItem())
+                .inputItems(Items.BONE_MEAL.asItem())
+                .inputItems(TagUtils.createForgeItemTag("raw_meat"))
+                .inputItems(TagUtils.createForgeItemTag("crops/rice"))
                 .outputItems("farmersdelight:dog_food")
                 .circuitMeta(1)
                 .EUt(120)
