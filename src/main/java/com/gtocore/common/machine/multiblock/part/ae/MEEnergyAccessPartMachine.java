@@ -92,7 +92,10 @@ public class MEEnergyAccessPartMachine extends MEPartMachine implements IAEPower
 
     @Override
     public double getAEMaxPower() {
-        return Long.MAX_VALUE;
+        if (controller == null) {
+            return 0;
+        }
+        return EU2AE(controller.getEnergyContainer().getEnergyCapacity());
     }
 
     @Override
@@ -111,7 +114,7 @@ public class MEEnergyAccessPartMachine extends MEPartMachine implements IAEPower
 
     @Override
     public AccessRestriction getPowerFlow() {
-        return AccessRestriction.READ_WRITE;
+        return AccessRestriction.READ;
     }
 
     @Override
