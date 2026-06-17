@@ -37,7 +37,9 @@ public abstract class GTMaterialBlocksMixin {
     static ImmutableTable.Builder<TagPrefix, Material, BlockEntry<? extends Block>> MATERIAL_BLOCKS_BUILDER;
 
     @Shadow(remap = false)
-    private static void registerMaterialBlock(TagPrefix tagPrefix, Material material, GTRegistrate registrate) {}
+    private static void registerMaterialBlock(TagPrefix tagPrefix, Material material, GTRegistrate registrate) {
+        throw new UnsupportedOperationException("Implemented via mixin");
+    }
 
     @Unique
     private static ImmutableMap<Material, Set<TagPrefix>> ORE_MAP;

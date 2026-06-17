@@ -60,7 +60,7 @@ public class CommonProxyMixin {
     }
 
     @Redirect(method = "createItemCollector", at = @At(value = "INVOKE", target = "Lnet/minecraftforge/common/capabilities/CapabilityProvider;getCapability(Lnet/minecraftforge/common/capabilities/Capability;)Lnet/minecraftforge/common/util/LazyOptional;"), remap = false)
-    private static <T> LazyOptional<T> createItemCollector(CapabilityProvider instance, Capability<T> capability) {
+    private static <T> LazyOptional<T> createItemCollector(CapabilityProvider<?> instance, Capability<T> capability) {
         if (instance instanceof MetaMachineBlockEntity blockEntity && !(blockEntity instanceof TesseractBlockEntity)) {
             if (blockEntity.metaMachine instanceof MEPatternPartMachineKt<?>) return LazyOptional.empty();
             if (blockEntity.metaMachine instanceof MufflerPartMachine mufflerPartMachine) {
@@ -81,7 +81,7 @@ public class CommonProxyMixin {
     }
 
     @Redirect(method = "wrapFluidStorage", at = @At(value = "INVOKE", target = "Lnet/minecraftforge/common/capabilities/CapabilityProvider;getCapability(Lnet/minecraftforge/common/capabilities/Capability;)Lnet/minecraftforge/common/util/LazyOptional;"), remap = false)
-    private static <T> LazyOptional<T> wrapFluidStorage(CapabilityProvider instance, Capability<T> capability) {
+    private static <T> LazyOptional<T> wrapFluidStorage(CapabilityProvider<?> instance, Capability<T> capability) {
         if (instance instanceof MetaMachineBlockEntity blockEntity) {
             if (blockEntity.metaMachine instanceof MEPatternPartMachineKt<?>) return LazyOptional.empty();
             var ts = blockEntity.metaMachine.getTraits();

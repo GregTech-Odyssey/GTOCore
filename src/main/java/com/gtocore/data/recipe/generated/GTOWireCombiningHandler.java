@@ -93,7 +93,7 @@ final class GTOWireCombiningHandler {
                 .inputItems(prefix, material)
                 .outputItems(cableToWireMap.get(prefix), material)
                 .outputItems(TagPrefix.plate, rubber,
-                        (int) (prefix.secondaryMaterials().get(0).amount() / GTValues.M))
+                        (int) (prefix.secondaryMaterials().getFirst().amount() / GTValues.M))
                 .duration(100).EUt(GTValues.VA[GTValues.ULV])
                 .save();
     }

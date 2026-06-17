@@ -1,8 +1,8 @@
 package com.gtocore.common.recipe.condition;
 
-import com.gtocore.api.machine.IHeatContainerPart;
+import com.gtocore.api.machine.part.IHeatContainerPart;
 
-import com.gtolib.api.recipe.extension.HURecipeExtension;
+import com.gtolib.api.capability.IHeatContainer;
 
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.ICoilMachine;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiController;
@@ -36,7 +36,7 @@ public final class HeatCondition extends RecipeCondition {
                 if (p instanceof IHeatContainerPart t && t.getHeatContainer().getTemperature() >= temperature) return true;
             }
         } else {
-            var container = HURecipeExtension.getHeatContainer(holder);
+            var container = IHeatContainer.getCapability(holder.self().holder);
             if (container != null) {
                 return container.getTemperature() >= temperature;
             }

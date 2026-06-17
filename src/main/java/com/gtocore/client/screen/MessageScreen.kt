@@ -16,8 +16,7 @@ import com.gtolib.api.annotation.language.RegisterLanguage
 import com.gtocore.client.screen.MessageListScreen as MessageListScreen1
 
 @DataGeneratorScanned
-@Suppress("unused")
-class MessageScreen(private val message: ClientForge.MessageDefinition, private val currentPage: Int, private val totalPages: Int, private val onConfirm: () -> Unit, private val onExpand: (() -> Unit)? = null, private val onMarkAll: (() -> Unit)? = null) : Screen(Component.translatable(title_Key)) {
+class MessageScreen(private val message: ClientForge.MessageDefinition, private val currentPage: Int, private val totalPages: Int, private val onConfirm: () -> Unit, private val onExpand: (() -> Unit)? = null, private val onMarkAll: (() -> Unit)? = null) : Screen(Component.translatable(TITLE_KEY)) {
 
     // Scrolling support
     private var scrollOffset = 0.0
@@ -30,46 +29,46 @@ class MessageScreen(private val message: ClientForge.MessageDefinition, private 
     @DataGeneratorScanned
     companion object {
         @RegisterLanguage(cn = "GTO 消息系统", en = "GTO Message System")
-        const val title_Key = "gto.message.title"
+        const val TITLE_KEY = "gto.message.title"
 
         @RegisterLanguage(cn = "✅ 知道了", en = "✅ Got it")
-        const val gotit_Key = "gto.message.gotit"
+        const val GOT_IT_KEY = "gto.message.gotit"
 
         @RegisterLanguage(cn = "📜 展示历史", en = "📜 Show Historical")
-        const val showHistorical_Key = "gto.message.show_historical"
+        const val SHOW_HISTORICAL_KEY = "gto.message.show_historical"
 
         @RegisterLanguage(cn = "✅ 标记全部为已读", en = "✅ Mark All Read")
-        const val markAll_Key = "gto.message.mark_all"
+        const val MARK_ALL_KEY = "gto.message.mark_all"
 
         @RegisterLanguage(cn = "🔗 打开链接", en = "🔗 Open Link")
-        const val openLink_Key = "gto.message.open_link"
+        const val OPEN_LINK_KEY = "gto.message.open_link"
 
         @RegisterLanguage(cn = "版本：%s | 日期：%s | 页：%d/%d", en = "Version: %s | Date: %s | Page %d/%d")
-        const val versionDatePage_Key = "gto.message.version_date_page"
+        const val VERSION_DATE_PAGE_KEY = "gto.message.version_date_page"
 
         @RegisterLanguage(cn = "📋", en = "📋")
-        const val listIcon_Key = "gto.message.list_icon"
+        const val LIST_ICON_KEY = "gto.message.list_icon"
 
         @RegisterLanguage(cn = "✅ 所有消息已确认！", en = "✅ All messages confirmed!")
-        const val allConfirmed_Key = "gto.message.all_confirmed"
+        const val ALL_CONFIRMED_KEY = "gto.message.all_confirmed"
 
         @RegisterLanguage(cn = "✅ 所有最近消息已确认！", en = "✅ All recent messages confirmed!")
-        const val allRecentConfirmed_Key = "gto.message.all_recent_confirmed"
+        const val ALL_RECENT_CONFIRMED_KEY = "gto.message.all_recent_confirmed"
 
         @RegisterLanguage(cn = "您有更早的消息（>30天）", en = "You have older messages (>30 days)")
-        const val olderMessages_Key = "gto.message.older_messages"
+        const val OLDER_MESSAGES_KEY = "gto.message.older_messages"
 
         @RegisterLanguage(cn = "您想查看它们吗？", en = "Would you like to view them?")
-        const val viewThem_Key = "gto.message.view_them"
+        const val VIEW_THEM_KEY = "gto.message.view_them"
 
         @RegisterLanguage(cn = "✅ 已标记 %d 条消息为已读！", en = "✅ Marked %d message(s) as read!")
-        const val markedRead_Key = "gto.message.marked_read"
+        const val MARKED_READ_KEY = "gto.message.marked_read"
 
         @RegisterLanguage(cn = "📜 正在显示历史消息...", en = "📜 Showing historical messages...")
-        const val showingHistorical_Key = "gto.message.showing_historical"
+        const val SHOWING_HISTORICAL_KEY = "gto.message.showing_historical"
 
         @RegisterLanguage(cn = "提示：你随时可以通过 /gtocorec message 访问这些信息", en = "Tip: You can access these messages anytime via /gtocorec message")
-        const val commandTip_Key = "gto.message.command_tip"
+        const val COMMAND_TIP_KEY = "gto.message.command_tip"
     }
 
     override fun init() {
@@ -102,7 +101,7 @@ class MessageScreen(private val message: ClientForge.MessageDefinition, private 
 
         // 右上角消息列表按钮
         val listButton = Button.builder(
-            Component.translatable(listIcon_Key),
+            Component.translatable(LIST_ICON_KEY),
         ) { _ ->
             this.minecraft?.setScreen(MessageListScreen1())
         }.bounds(
@@ -118,12 +117,12 @@ class MessageScreen(private val message: ClientForge.MessageDefinition, private 
 
         // 左侧：展开历史（如果存在）
         onExpand?.let { expandCallback ->
-            val comp = Component.translatable(showHistorical_Key).withStyle(Style.EMPTY.withColor(ChatFormatting.AQUA))
+            val comp = Component.translatable(SHOW_HISTORICAL_KEY).withStyle(Style.EMPTY.withColor(ChatFormatting.AQUA))
             buttonEntries.add(Pair(comp) { _: Button -> expandCallback() })
         }
 
         // 中间：确认
-        val confirmComp = Component.translatable(gotit_Key).withStyle(Style.EMPTY.withColor(ChatFormatting.GREEN))
+        val confirmComp = Component.translatable(GOT_IT_KEY).withStyle(Style.EMPTY.withColor(ChatFormatting.GREEN))
         buttonEntries.add(
             Pair(confirmComp) { _: Button ->
                 onConfirm()
@@ -133,7 +132,7 @@ class MessageScreen(private val message: ClientForge.MessageDefinition, private 
 
         // 右侧：标记全部已读（如果存在）
         onMarkAll?.let { markAllCallback ->
-            val comp = Component.translatable(markAll_Key).withStyle(Style.EMPTY.withColor(ChatFormatting.GRAY))
+            val comp = Component.translatable(MARK_ALL_KEY).withStyle(Style.EMPTY.withColor(ChatFormatting.GRAY))
             buttonEntries.add(
                 Pair(comp) { _: Button ->
                     markAllCallback()
@@ -196,7 +195,7 @@ class MessageScreen(private val message: ClientForge.MessageDefinition, private 
         guiGraphics.fill(titleBgLeft, titleY - 8, titleBgRight, titleY + 15, 0xCC1E3A5F.toInt())
         guiGraphics.drawCenteredString(
             this.font,
-            Component.translatable(title_Key).withStyle(Style.EMPTY.withColor(ChatFormatting.WHITE).withBold(true)),
+            Component.translatable(TITLE_KEY).withStyle(Style.EMPTY.withColor(ChatFormatting.WHITE).withBold(true)),
             this.width / 2,
             titleY,
             0xFFFFFF,
@@ -205,7 +204,7 @@ class MessageScreen(private val message: ClientForge.MessageDefinition, private 
         // 渲染版本和日期信息（居中，带图标）
         guiGraphics.drawCenteredString(
             this.font,
-            Component.translatable(versionDatePage_Key, message.gameVersion, message.formatDate(), currentPage, totalPages),
+            Component.translatable(VERSION_DATE_PAGE_KEY, message.gameVersion, message.formatDate(), currentPage, totalPages),
             this.width / 2,
             titleY + 20,
             ChatFormatting.AQUA.color ?: 0x55AAFF,
@@ -260,7 +259,7 @@ class MessageScreen(private val message: ClientForge.MessageDefinition, private 
         }
 
         // 渲染命令提示信息（在底部按钮上方）
-        val tipText = Component.translatable(commandTip_Key).withStyle(Style.EMPTY.withColor(ChatFormatting.GRAY).withItalic(true))
+        val tipText = Component.translatable(COMMAND_TIP_KEY).withStyle(Style.EMPTY.withColor(ChatFormatting.GRAY).withItalic(true))
         guiGraphics.drawCenteredString(
             this.font,
             tipText,

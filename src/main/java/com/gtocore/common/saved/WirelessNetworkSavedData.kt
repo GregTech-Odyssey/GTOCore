@@ -18,13 +18,13 @@ import net.minecraftforge.event.TickEvent.ServerTickEvent
 import net.minecraftforge.eventbus.api.SubscribeEvent
 import net.minecraftforge.fml.common.Mod
 
-import com.fast.fastcollection.O2OOpenCacheHashMap
 import com.gregtechceu.gtceu.GTCEu
 import com.gto.datasynclib.DataSyncCodec
 import com.gto.datasynclib.datasream.codec.ByteStreamCodec
 import com.gto.datasynclib.datasream.codec.ByteStreamDecoder
 import com.gto.datasynclib.datasream.codec.ByteStreamEncoder
 import com.gto.datasynclib.listener.ObjNotifiableHolder
+import com.gto.fastcollection.O2OOpenCacheHashMap
 import com.gtolib.api.network.NetworkPack
 import com.hepdd.gtmthings.utils.TeamUtil
 import com.lowdragmc.lowdraglib.LDLib
@@ -70,11 +70,11 @@ class WirelessNetworkSavedData : SavedData() {
         ) { _: Player?, buf: FriendlyByteBuf ->
             CLIENT_INSTANCE.load(buf.readNbt() ?: CompoundTag())
             val mapSize = buf.readInt()
-            for (i in 0 until mapSize) {
+            repeat(mapSize) {
                 val networkName = buf.readUtf()
                 val nodeInfoSize = buf.readInt()
                 val network = CLIENT_INSTANCE.networkPool[networkName]
-                for (j in 0 until nodeInfoSize) {
+                repeat(nodeInfoSize) {
                     network?.clientPutNode(NodeInfo.decodeFromNbt(buf.readNbt() ?: CompoundTag()))
                 }
             }
@@ -186,7 +186,6 @@ class WirelessNetworkSavedData : SavedData() {
             // Nodes in unloaded chunks will self-correct via linkNetwork() → NOT_FOUND_GRID on reload.
             val allNodes = net.inputNodes + net.outputNodes
             for (node in allNodes) {
-                node.removedFromNetwork(net.id)
                 node.setConnectedNetworkId("")
             }
             net.nodeInfoTable.clear()
@@ -214,14 +213,12 @@ class WirelessNetworkSavedData : SavedData() {
             leaveNetwork(node)
 
             net.addNode(node)
-            node.addedToNetwork(networkId)
             INSTANCE.setDirty()
             return STATUS.SUCCESS
         }
 
         fun leaveNetwork(node: WirelessMachine) {
             findNetworkById(node.connectedNetworkId)?.let { net ->
-                node.removedFromNetwork(net.id)
                 net.removeNode(node)
             }
         }
@@ -232,11 +229,11 @@ class WirelessNetworkSavedData : SavedData() {
         }
 
         fun cancelDefault(networkId: String, requester: UUID) {
-            INSTANCE.defaultMap.remove(requester)
-            INSTANCE.setDirty()
+            if (INSTANCE.defaultMap[requester] == networkId) {
+                INSTANCE.defaultMap.remove(requester)
+                INSTANCE.setDirty()
+            }
         }
-
-        fun isDefault(networkId: String, requester: UUID): Boolean = get().defaultMap[requester] == networkId
 
         /**
          * 获取指定玩家的收藏（默认）网络ID，如果没有收藏则返回null。

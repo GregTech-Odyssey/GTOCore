@@ -17,6 +17,8 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.gui.overlay.ForgeGui;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -107,7 +109,7 @@ public class PlayerAttrHUD implements IMoveableHUD {
     }
 
     @Override
-    public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
+    public void render(@NotNull GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
         Rect2i bounds = getEditorBounds(getScreenWidth(), getScreenHeight());
         guiGraphics.fill(bounds.getX(), bounds.getY(),
                 bounds.getX() + bounds.getWidth(), bounds.getY() + bounds.getHeight(), 0xD0101010);

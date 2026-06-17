@@ -8,7 +8,6 @@ import com.gtolib.GTOCore;
 import com.gtolib.api.ae2.IPatternProviderLogic;
 import com.gtolib.api.ae2.pattern.IDetails;
 import com.gtolib.api.ae2.pattern.IParallelPatternDetails;
-import com.gtolib.api.ae2.stacks.IKeyCounter;
 
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 
@@ -43,12 +42,12 @@ import appeng.hooks.ticking.TickHandler;
 import appeng.me.cluster.implementations.CraftingCPUCluster;
 import appeng.me.service.CraftingService;
 
-import com.fast.fastcollection.OpenCacheHashSet;
 import com.google.common.collect.Multimaps;
 import com.google.common.collect.SetMultimap;
 import com.gto.datasynclib.util.holder.IntHolder;
 import com.gto.datasynclib.util.holder.LongHolder;
 import com.gto.datasynclib.util.holder.ObjHolder;
+import com.gto.fastcollection.OpenCacheHashSet;
 import it.unimi.dsi.fastutil.objects.*;
 import lombok.Getter;
 
@@ -687,14 +686,14 @@ public class OptimizedCraftingCpuLogic extends CraftingCpuLogic {
         KeyCounter[] inputHolder = getInputHolder((IDetails) details);
         boolean found = true;
 
-        var counter = IKeyCounter.of(sourceInv.list);
+        var counter = sourceInv.list;
         for (int x = 0; x < inputs.length; x++) {
             var list = inputHolder[x];
             var input = inputs[x];
             long remainingMultiplier = input.getMultiplier();
             for (var stack : input.getPossibleInputs()) {
                 var what = stack.what();
-                if (counter.gtolib$contains(what)) {
+                if (counter.contains(what)) {
                     var amount = stack.amount();
                     var extracted = sourceInv.extract(what, amount * remainingMultiplier, Actionable.MODULATE);
                     if (extracted == 0) continue;

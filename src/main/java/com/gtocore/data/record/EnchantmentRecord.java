@@ -8,13 +8,14 @@ import com.gtolib.utils.RLUtils;
 
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 
-import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.EnchantedBookItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.item.enchantment.EnchantmentInstance;
+import net.minecraftforge.registries.ForgeRegistries;
 
 import com.google.common.collect.ImmutableMap;
 import com.gto.registrate.util.entry.ItemEntry;
@@ -25,15 +26,23 @@ import java.util.List;
 import java.util.Map;
 
 import static com.gtolib.utils.register.ItemRegisterUtils.item;
-import static net.minecraft.nbt.Tag.TAG_COMPOUND;
 
-public record EnchantmentRecord(String enchantmentId, int maxLevels, String simplifiedId, String translationKey, int color, String processedId) {
+/**
+ * Registration data for enchantment essence items and helper methods for creating safe enchanted books.
+ */
+public record EnchantmentRecord(String enchantmentId, int maxLevels, String simplifiedId, String translationKey,
+                                int color, String processedId) {
 
     public static EnchantmentRecord create(String enchantmentId, int maxLevels,
                                            String simplifiedId, String translationKey) {
         int color = generateColorFromId(enchantmentId);
-        String processedId = enchantmentId.indexOf(':') > 0 ? enchantmentId.substring(enchantmentId.indexOf(':') + 1) : enchantmentId;
+        String processedId = getProcessedId(enchantmentId);
         return new EnchantmentRecord(enchantmentId, maxLevels, simplifiedId, translationKey, color, processedId);
+    }
+
+    private static String getProcessedId(String enchantmentId) {
+        int namespaceIndex = enchantmentId.indexOf(':');
+        return namespaceIndex > 0 ? enchantmentId.substring(namespaceIndex + 1) : enchantmentId;
     }
 
     private static int generateColorFromId(String enchantmentId) {
@@ -124,36 +133,36 @@ public record EnchantmentRecord(String enchantmentId, int maxLevels, String simp
         addRecord("mythicbotany:hammer_mobility", 5, "快速挥锤", "enchantment.mythicbotany.hammer_mobility");
     }
 
-    // 辅助方法：添加记录到Map
     private static void addRecord(String enchantmentId, int maxLevels, String simplifiedId, String translationKey) {
         var record = create(enchantmentId, maxLevels, simplifiedId, translationKey);
         ENCHANTMENTS.add(record);
     }
 
-    // 生成附魔书
+    /**
+     * Creates an enchanted book through the vanilla item API instead of hand-writing enchantment NBT.
+     *
+     * @param enchantment enchantment registry id
+     * @param lvl         enchantment level
+     * @return an enchanted book, or an empty enchanted book when the id is not registered
+     */
     public static ItemStack getEnchantedBookByEnchantmentId(String enchantment, int lvl) {
-        if (!isEnchantmentValid(enchantment)) {
-            return new ItemStack(Items.ENCHANTED_BOOK);
-        }
-        ItemStack enchantedBook = new ItemStack(Items.ENCHANTED_BOOK);
-        CompoundTag bookTag = enchantedBook.getOrCreateTag();
-        ListTag storedEnchantments = bookTag.getList("StoredEnchantments", TAG_COMPOUND);
-        CompoundTag enchantTag = new CompoundTag();
-        enchantTag.putString("id", enchantment);
-        enchantTag.putShort("lvl", (short) lvl);
-        storedEnchantments.add(enchantTag);
-        bookTag.put("StoredEnchantments", storedEnchantments);
-        enchantedBook.setTag(bookTag);
-        return enchantedBook;
+        Enchantment enchantmentEntry = getEnchantment(enchantment);
+        if (enchantmentEntry == null) return new ItemStack(Items.ENCHANTED_BOOK);
+        return EnchantedBookItem.createForEnchantment(new EnchantmentInstance(enchantmentEntry, lvl));
     }
 
-    private static boolean isEnchantmentValid(String enchantmentId) {
+    private static Enchantment getEnchantment(String enchantmentId) {
         ResourceLocation rl = RLUtils.parse(enchantmentId);
-        return BuiltInRegistries.ENCHANTMENT.containsKey(rl);
+        return ForgeRegistries.ENCHANTMENTS.getValue(rl);
     }
 
     public final static Map<Item, EnchantmentRecord> ENCHANTMENT_ITEM_MAP = new Reference2ReferenceOpenHashMap<>();
 
+    /**
+     * Registers every configured enchantment essence and records the reverse item lookup used by custom recipes.
+     *
+     * @return enchantment id to essence item entry
+     */
     public static Map<String, ItemEntry<ApothItem>> registerEnchantmentEssence() {
         ImmutableMap.Builder<String, ItemEntry<ApothItem>> entries = ImmutableMap.builder();
         for (var record : ENCHANTMENTS) {

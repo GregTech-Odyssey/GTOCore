@@ -20,6 +20,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import com.lowdragmc.lowdraglib.gui.modular.ModularUI;
 import com.lowdragmc.lowdraglib.gui.widget.ImageWidget;
 import com.lowdragmc.lowdraglib.gui.widget.LabelWidget;
+import org.jetbrains.annotations.NotNull;
 
 import static com.gregtechceu.gtceu.common.machine.multiblock.part.SteamHatchPartMachine.IS_STEEL;
 
@@ -52,12 +53,12 @@ public class SteamFluidHatchPartMachine extends FluidHatchPartMachine {
     }
 
     @Override
-    protected NotifiableItemStackHandler createCircuitItemHandler(Object... args) {
+    protected @NotNull NotifiableItemStackHandler createCircuitItemHandler(Object @NotNull... args) {
         return NotifiableItemStackHandler.empty(this);
     }
 
     @Override
-    public void attachConfigurators(ConfiguratorPanel configuratorPanel) {
+    public void attachConfigurators(@NotNull ConfiguratorPanel configuratorPanel) {
         super.superAttachConfigurators(configuratorPanel);
     }
 

@@ -1,7 +1,8 @@
 package com.gtocore.common.machine.multiblock.part.ae.slots;
 
-import com.gtolib.api.ae2.stacks.IAEFluidKey;
 import com.gtolib.api.recipe.RecipeType;
+import com.gtolib.api.recipe.lookup.IIngredientConvertible;
+import com.gtolib.utils.MathUtil;
 
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableContentHandler;
@@ -76,7 +77,7 @@ public class ExportOnlyAEFluidList extends NotifiableContentHandler implements I
 
     @Override
     public boolean isFluidValid(int i, @NotNull FluidStack fluidStack) {
-        return false;
+        return true;
     }
 
     @Override
@@ -100,6 +101,21 @@ public class ExportOnlyAEFluidList extends NotifiableContentHandler implements I
     @Override
     public boolean supportsFill(int tank) {
         return false;
+    }
+
+    @Override
+    public FluidStack drainInternal(FluidStack resource, FluidAction action) {
+        var amount = resource.getAmount();
+        if (amount < 1) return FluidStack.EMPTY;
+        var drained = 0;
+        var simulate = action.simulate();
+        for (var storage : inventory) {
+            if (storage.stock != null && storage.stock.what() instanceof AEFluidKey fluidKey && fluidKey.matches(resource)) {
+                drained += MathUtil.saturatedCast(storage.extract(amount - drained, simulate, true));
+                if (drained >= amount) break;
+            }
+        }
+        return drained > 0 ? ICustomFluidStackHandler.copy(resource, drained) : FluidStack.EMPTY;
     }
 
     @Override
@@ -174,7 +190,7 @@ public class ExportOnlyAEFluidList extends NotifiableContentHandler implements I
                 if (specialConverter) {
                     type.convertFluid(i.getReadOnlyStack(), stock.amount(), map);
                 } else {
-                    ((IAEFluidKey) (Object) fluidKey).gtolib$convert(stock.amount(), map);
+                    ((IIngredientConvertible) (Object) fluidKey).gtolib$convert(stock.amount(), map);
                 }
             }
         }

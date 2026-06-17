@@ -96,11 +96,11 @@ public class CosmicCelestialSpireOfConvergence extends ManaMultiblockMachine {
             deductResult = celestialHandler.deductResource(VOIDFLUX, voidfluxCost, parallel, this.solaris, this.lunara, this.voidflux, this.stellarm);
         } else if (stellarmCost > 0) {
             deductResult = celestialHandler.deductResource(STELLARM, stellarmCost, parallel, this.solaris, this.lunara, this.voidflux, this.stellarm);
-        } else if (anyCost > 0) {
+        } else {
             deductResult = celestialHandler.deductResource(ANY, anyCost, parallel, this.solaris, this.lunara, this.voidflux, this.stellarm);
         }
 
-        if (deductResult != null && deductResult.success()) {
+        if (deductResult.success()) {
             this.solaris = deductResult.solaris();
             this.lunara = deductResult.lunara();
             this.voidflux = deductResult.voidflux();

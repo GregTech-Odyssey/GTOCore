@@ -314,9 +314,7 @@ class PlatformCreators {
             obj.addProperty("id", id.toString());
 
             JsonObject props = new JsonObject();
-            src.getProperties().forEach(prop -> {
-                props.addProperty(prop.getName(), getPropertyValue(src, prop));
-            });
+            src.getProperties().forEach(prop -> props.addProperty(prop.getName(), getPropertyValue(src, prop)));
             obj.add("properties", props);
             return obj;
         }

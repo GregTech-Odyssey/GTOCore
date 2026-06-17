@@ -20,6 +20,14 @@ import static com.gtocore.common.data.GTORecipeTypes.*;
 public final class Temporary {
 
     public static void init() {
+        ASSEMBLER_RECIPES.builder("mana_pipes")
+                .inputItems(TagPrefix.plate, GTOMaterials.Manasteel, 6)
+                .circuitMeta(18)
+                .outputItems(GTOBlocks.MANA_PIPES[0].asItem())
+                .duration(200)
+                .EUt(120)
+                .save();
+
         FUSION_RECIPES.builder("quicksilver")
                 .inputFluids(GTOMaterials.AstralSilver, 576)
                 .inputFluids(GTOMaterials.Gaia, 144)

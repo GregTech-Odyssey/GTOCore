@@ -4,7 +4,7 @@ import com.gtolib.api.lang.CNEN;
 
 import com.gregtechceu.gtceu.GTCEu;
 
-import com.fast.fastcollection.O2OOpenCacheHashMap;
+import com.gto.fastcollection.O2OOpenCacheHashMap;
 
 import java.util.Map;
 

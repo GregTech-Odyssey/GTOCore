@@ -38,7 +38,7 @@ import net.minecraftforge.common.data.LanguageProvider;
 
 import gto_ae.core.localization.ExtendedLangs;
 
-import com.fast.fastcollection.O2OOpenCacheHashMap;
+import com.gto.fastcollection.O2OOpenCacheHashMap;
 
 import java.util.Arrays;
 import java.util.Map;

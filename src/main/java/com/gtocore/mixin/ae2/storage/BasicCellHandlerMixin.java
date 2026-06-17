@@ -17,7 +17,7 @@ import java.util.List;
 public class BasicCellHandlerMixin {
 
     @Redirect(method = "addCellInformationToTooltip", at = @At(value = "INVOKE", target = "Ljava/util/List;add(Ljava/lang/Object;)Z", ordinal = 1), remap = false)
-    private boolean addCellInformationToTooltip(List<Component> instance, Object e, @Local(name = "handler") BasicCellInventory inventory) {
-        return instance.add(Component.literal(String.valueOf(inventory.getStoredItemTypes())).withStyle(ChatFormatting.AQUA).append(Component.literal(" ").append(Component.translatable("gui.ae2.Types").withStyle(ChatFormatting.GRAY))));
+    private boolean addCellInformationToTooltip(List<Component> instance, Object e, @Local(name = "handler") BasicCellInventory handler) {
+        return instance.add(Component.literal(String.valueOf(handler.getStoredItemTypes())).withStyle(ChatFormatting.AQUA).append(Component.literal(" ").append(Component.translatable("gui.ae2.Types").withStyle(ChatFormatting.GRAY))));
     }
 }

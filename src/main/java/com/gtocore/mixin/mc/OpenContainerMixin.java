@@ -33,7 +33,7 @@ public class OpenContainerMixin {
                 MenuScreens.getScreenFactory(msg.getType(), Minecraft.getInstance(), msg.getWindowId(), msg.getName()).ifPresent(f -> {
                     var c = msg.getType().create(msg.getWindowId(), Minecraft.getInstance().player.getInventory(), msg.getAdditionalData());
                     Screen s = ((MenuScreens.ScreenConstructor<AbstractContainerMenu, ?>) f).create(c, Minecraft.getInstance().player.getInventory(), msg.getName());
-                    Minecraft.getInstance().player.containerMenu = ((MenuAccess) s).getMenu();
+                    Minecraft.getInstance().player.containerMenu = ((MenuAccess<?>) s).getMenu();
                     Minecraft.getInstance().setScreen(s);
                 });
             } catch (Exception ex) {

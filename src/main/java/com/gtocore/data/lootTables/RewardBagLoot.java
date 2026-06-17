@@ -1,8 +1,8 @@
 package com.gtocore.data.lootTables;
 
 import com.gtocore.common.data.GTOItems;
-import com.gtocore.data.lootTables.GTOLootTool.CustomLogicFunction;
-import com.gtocore.data.lootTables.GTOLootTool.CustomLogicNumberProvider;
+import com.gtocore.data.lootTables.tool.CustomLogicFunction;
+import com.gtocore.data.lootTables.tool.CustomLogicNumberProvider;
 
 import com.gtolib.GTOCore;
 
@@ -30,7 +30,7 @@ import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.ingot;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
 import static com.gtocore.common.data.GTOLoots.addToot;
 import static com.gtocore.common.data.GTOMaterials.RedstoneAlloy;
-import static com.gtocore.data.lootTables.GTOLootTool.LootRegistrationTool.getLootItem;
+import static com.gtocore.data.lootTables.tool.LootRegistrationTool.getLootItem;
 import static mythicbotany.register.ModItems.*;
 import static net.minecraft.world.level.storage.loot.providers.number.ConstantValue.exactly;
 import static net.minecraft.world.level.storage.loot.providers.number.UniformGenerator.between;

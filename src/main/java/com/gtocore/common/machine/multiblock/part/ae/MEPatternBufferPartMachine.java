@@ -67,13 +67,13 @@ import appeng.crafting.pattern.AEProcessingPattern;
 import appeng.crafting.pattern.EncodedPatternItem;
 import appeng.crafting.pattern.ProcessingPatternItem;
 
-import com.fast.fastcollection.OpenCacheHashSet;
 import com.fast.recipesearch.IntLongMap;
 import com.gto.datasynclib.annotations.SaveToDisk;
 import com.gto.datasynclib.annotations.SyncToClient;
 import com.gto.datasynclib.annotations.SyncToServer;
 import com.gto.datasynclib.datasream.data.Data;
 import com.gto.datasynclib.listener.IntNotifiableHolder;
+import com.gto.fastcollection.OpenCacheHashSet;
 import com.hepdd.gtmthings.common.item.VirtualItemProviderBehavior;
 import com.hepdd.gtmthings.data.CustomItems;
 import com.lowdragmc.lowdraglib.gui.texture.GuiTextureGroup;
@@ -344,7 +344,7 @@ public abstract class MEPatternBufferPartMachine extends MEPatternPartMachineKt<
                     return pattern;
                 }
                 var stack = PatternDetailsHelper.encodeProcessingPattern(input.toArray(new GenericStack[0]), processingPattern.getSparseOutputs());
-                return MyPatternDetailsHelper.CACHE.getCache(AEItemKey.of(stack));
+                return MyPatternDetailsHelper.decode(AEItemKey.of(stack));
             }
         }
         return pattern;
@@ -364,13 +364,11 @@ public abstract class MEPatternBufferPartMachine extends MEPatternPartMachineKt<
         if (!isRemote()) return;
         if (configuratorField.get() == index) {
             configuratorField.set(-1);
-            configuratorField.markAsChanged();
-            syncToServer();
         } else {
             configuratorField.set(index);
-            configuratorField.markAsChanged();
-            syncToServer();
         }
+        configuratorField.markAsChanged();
+        syncToServer();
     }
 
     @Override
@@ -617,14 +615,6 @@ public abstract class MEPatternBufferPartMachine extends MEPatternPartMachineKt<
 
         public boolean isEmpty() {
             return itemInventory.isEmpty() && fluidInventory.isEmpty();
-        }
-
-        public boolean isItemEmpty() {
-            return itemInventory.isEmpty();
-        }
-
-        public boolean isFluidEmpty() {
-            return fluidInventory.isEmpty();
         }
 
         private void refund() {

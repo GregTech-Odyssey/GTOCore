@@ -245,9 +245,7 @@ public class AEItemConfigSlotWidget extends AEConfigSlotWidget implements IGhost
         super.readUpdateInfo(id, buffer);
         IConfigurableSlot slot = this.parentWidget.getDisplay(this.index);
         switch (id) {
-            case REMOVE_ID -> {
-                slot.setConfig(null);
-            }
+            case REMOVE_ID -> slot.setConfig(null);
             case UPDATE_ID -> {
                 ItemStack item = buffer.readItem();
                 slot.setConfig(new GenericStack(AEItemKey.of(item), item.getCount()));

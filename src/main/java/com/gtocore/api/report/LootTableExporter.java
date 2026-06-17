@@ -73,7 +73,7 @@ public class LootTableExporter {
     public static List<String> getAllLootTableLocations() {
         MinecraftServer server = ServerLifecycleHooks.getCurrentServer();
         if (server == null) {
-            GTOCore.LOGGER.error("无法获取服务器实例 - 可能不在服务端环境或服务器未启动");
+            GTOCore.LOGGER.error("获取战利品表位置失败：无法获取服务器实例，可能不在服务端环境或服务器未启动");
             return Collections.emptyList();
         }
 
@@ -97,7 +97,7 @@ public class LootTableExporter {
     private static void exportAllLootTablesToMarkdown(List<String> lootTables) {
         MinecraftServer server = ServerLifecycleHooks.getCurrentServer();
         if (server == null) {
-            GTOCore.LOGGER.error("无法获取服务器实例 - 可能不在服务端环境或服务器未启动");
+            GTOCore.LOGGER.error("导出战利品表Markdown失败：无法获取服务器实例，可能不在服务端环境或服务器未启动");
             return;
         }
 
@@ -748,11 +748,11 @@ public class LootTableExporter {
             double baseProb = item.weight / totalWeight;
             double conditionalProb = baseProb * item.conditionFactor;
             // 确保概率在0-1范围内
-            conditionalProb = Math.max(0, Math.min(1, conditionalProb));
+            conditionalProb = Math.clamp(conditionalProb, 0, 1);
 
             item.probability = 1 - Math.pow(1 - conditionalProb, lootPool.totalRollsAverage);
             // 确保概率在0-1范围内
-            item.probability = Math.max(0, Math.min(1, item.probability));
+            item.probability = Math.clamp(item.probability, 0, 1);
 
             item.expectedValue = item.probability * item.count;
             lootPool.totalExpectedValue += item.expectedValue;

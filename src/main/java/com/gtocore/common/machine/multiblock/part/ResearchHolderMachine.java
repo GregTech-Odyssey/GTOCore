@@ -49,12 +49,6 @@ public class ResearchHolderMachine extends MultiblockPartMachine implements IMac
         heldItems = new ResearchHolder(this);
     }
 
-    public boolean isWorkingEnabled() {
-        return false;
-    }
-
-    public void setWorkingEnabled(boolean workingEnabled) {}
-
     @Override
     public void onMachineRemoved() {
         clearInventory(this.heldItems.storage);

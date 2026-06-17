@@ -153,21 +153,6 @@ object ProgressBarHelper {
 sealed class ProgressBarColorStyle : CodecAbleTyped<ProgressBarColorStyle, ProgressBarColorStyle.Companion> {
     companion object : CodecAbleTypedCompanion<ProgressBarColorStyle> {
         override fun getCodec(): Codec<ProgressBarColorStyle> = throw NotImplementedError("请在对应子类实现")
-        val HEALTH_GRADIENT = MultiGradient(
-            listOf(
-                0f to 0xFF33AA33.toInt(),
-                0.5f to 0xFFFFAA33.toInt(),
-                1f to 0xFF55CC55.toInt(),
-            ),
-        )
-        val MANA_GRADIENT = MultiGradient(
-            listOf(
-                0f to 0xFF0066CC.toInt(),
-                0.5f to 0xFF00CCCC.toInt(),
-                1f to 0xFFCCFFFF.toInt(),
-            ),
-        )
-        val EXPERIENCE_GRADIENT = Gradient(0xFF7FFF00.toInt(), 0xFFFFD700.toInt())
         val DEFAULT_GREEN = Solid(0xFF2ecc71.toInt())
         val DEFAULT_YELLOW = Solid(0xFFfdda0d.toInt())
         val DEFAULT_RED = Solid(0xFFe74c3c.toInt())
@@ -191,7 +176,7 @@ sealed class ProgressBarColorStyle : CodecAbleTyped<ProgressBarColorStyle, Progr
             override fun getCodec(): Codec<Segmented> = RecordCodecBuilder.create { instance ->
                 instance.group(
                     Codec.list(
-                        RecordCodecBuilder.create<Pair<Float, Int>> { pairInstance ->
+                        RecordCodecBuilder.create { pairInstance ->
                             pairInstance.group(
                                 Codec.FLOAT.fieldOf("threshold").forGetter(Pair<Float, Int>::first),
                                 Codec.INT.fieldOf("color").forGetter(Pair<Float, Int>::second),
@@ -222,7 +207,7 @@ sealed class ProgressBarColorStyle : CodecAbleTyped<ProgressBarColorStyle, Progr
             override fun getCodec(): Codec<MultiGradient> = RecordCodecBuilder.create { instance ->
                 instance.group(
                     Codec.list(
-                        RecordCodecBuilder.create<Pair<Float, Int>> { pairInstance ->
+                        RecordCodecBuilder.create { pairInstance ->
                             pairInstance.group(
                                 Codec.FLOAT.fieldOf("position").forGetter(Pair<Float, Int>::first),
                                 Codec.INT.fieldOf("color").forGetter(Pair<Float, Int>::second),

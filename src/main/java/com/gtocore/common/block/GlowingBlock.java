@@ -45,8 +45,9 @@ public class GlowingBlock extends Block {
 
     static String[] num = { "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X", "XI", "XII" };
 
+    @SuppressWarnings("unchecked")
     public static BlockEntry<GlowingBlock>[] createStarStone() {
-        BlockEntry<GlowingBlock>[] StarStone = new BlockEntry[num.length];
+        BlockEntry<GlowingBlock>[] StarStone = (BlockEntry<GlowingBlock>[]) new BlockEntry<?>[num.length];
         for (int i = 0; i < num.length; i++) {
             int finalI = i;
             StarStone[i] = block("star_stone_" + (i + 1), "星辰石 " + num[i], p -> new GlowingBlock(finalI + 4, MapColor.TERRACOTTA_WHITE))

@@ -108,7 +108,7 @@ public final class Message {
             ORDER_ITEM_C2S.send(b -> {
                 b.writeInt(Minecraft.getInstance().player.containerMenu.containerId);
                 b.writeVarInt(whatToCraft.size());
-                for (var entry : whatToCraft.entrySet()) {
+                for (var entry : whatToCraft.genericStackSet()) {
                     GenericStack.writeBuffer(entry, b);
                 }
                 b.writeLong(initialAmount);

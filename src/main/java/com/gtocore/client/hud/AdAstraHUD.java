@@ -113,8 +113,8 @@ public class AdAstraHUD implements IMoveableHUD {
     public void setTopLeftPosition(int x, int y, int screenWidth, int screenHeight) {
         int maxX = Math.max(0, screenWidth - getHudWidth());
         int maxY = Math.max(0, screenHeight - getHudHeight());
-        int clampedX = Math.max(0, Math.min(maxX, x));
-        int clampedY = Math.max(0, Math.min(maxY, y));
+        int clampedX = Math.clamp(x, 0, maxX);
+        int clampedY = Math.clamp(y, 0, maxY);
         gto$lastVisibleX = clampedX;
         gto$lastVisibleY = clampedY;
         gto$pendingMovedX = 0;

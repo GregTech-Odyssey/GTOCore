@@ -10,9 +10,13 @@ import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.StringTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+
+import appeng.core.definitions.AEItems;
+import appeng.items.materials.NamePressItem;
 
 import com.gto.datasynclib.util.holder.ObjHolder;
 import org.jetbrains.annotations.Nullable;
@@ -25,23 +29,32 @@ public final class FormingPressLogic implements GTRecipeType.ICustomRecipeLogic 
 
         private ItemStack mold = ItemStack.EMPTY;
         private ItemStack item = ItemStack.EMPTY;
+        private boolean ae;
 
         private boolean found() {
             return !mold.isEmpty() && !item.isEmpty();
         }
 
         private GTRecipeDefinition buildRecipe() {
-            ItemStack output = item.copyWithCount(1);
-            CompoundTag compoundtag = mold.getTagElement("display");
-            if (compoundtag != null && compoundtag.contains("Name", 8)) {
-                try {
-                    output.getOrCreateTagElement("display").putString("Name", compoundtag.getString("Name"));
-                } catch (Exception var3) {
-                    compoundtag.remove("Name");
+            var output = item.copyWithCount(1);
+            String name;
+            var c = mold.getTag();
+            if (c == null) return null;
+            if (ae) {
+                if (c.get(NamePressItem.TAG_INSCRIBE_NAME) instanceof StringTag stringTag) {
+                    name = stringTag.getAsString();
+                } else {
+                    return null;
+                }
+            } else {
+                if (c.get("display") instanceof CompoundTag compoundtag && compoundtag.get("Name") instanceof StringTag stringTag) {
+                    name = stringTag.getAsString();
+                } else {
                     return null;
                 }
             }
-            return recipeBuilder.notConsumable(mold)
+            output.getOrCreateTagElement("display").putString("Name", name);
+            return recipeBuilder.notConsumable(mold.getItem())
                     .inputItems(item.copyWithCount(1))
                     .outputItems(output)
                     .duration(40).EUt(4)
@@ -56,9 +69,12 @@ public final class FormingPressLogic implements GTRecipeType.ICustomRecipeLogic 
         data.mold = ItemStack.EMPTY;
         data.item = ItemStack.EMPTY;
         u.forEachItems(false, (stack, amount) -> {
-            boolean isMold = GTItems.SHAPE_MOLD_NAME.isIn(stack);
-            if (isMold && data.mold.isEmpty() && stack.hasCustomHoverName()) {
+            var item = stack.getItem();
+            var ae = AEItems.NAME_PRESS.asItem() == item;
+            var isMold = ae || GTItems.SHAPE_MOLD_NAME.is(item);
+            if (isMold && data.mold.isEmpty() && stack.hasTag()) {
                 data.mold = stack;
+                data.ae = ae;
             } else if (!isMold && data.item.isEmpty() && !stack.hasCustomHoverName()) {
                 data.item = stack;
             }

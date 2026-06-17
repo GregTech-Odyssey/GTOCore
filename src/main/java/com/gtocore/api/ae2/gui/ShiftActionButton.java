@@ -5,6 +5,8 @@ import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 
+import org.jetbrains.annotations.NotNull;
+
 public class ShiftActionButton extends Button {
 
     private final Component normalText;
@@ -23,7 +25,7 @@ public class ShiftActionButton extends Button {
     }
 
     @Override
-    public void renderWidget(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
+    public void renderWidget(@NotNull GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
         this.setMessage(Screen.hasShiftDown() ? shiftText : normalText);
         super.renderWidget(guiGraphics, mouseX, mouseY, partialTick);
     }

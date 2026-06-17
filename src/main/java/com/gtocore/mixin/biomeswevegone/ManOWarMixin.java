@@ -22,7 +22,6 @@ public abstract class ManOWarMixin extends Animal {
      */
     @Overwrite(remap = false)
     public int getMaxAirSupply() {
-        if (level() == null) return 0;
         int base = 6000;
         return this.level().getBiome(this.blockPosition()).is(BWGBiomeTags.DRY) ? base / this.getRandom().nextInt(1, 4) : base;
     }

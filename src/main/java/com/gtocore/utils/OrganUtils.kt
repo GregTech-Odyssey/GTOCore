@@ -14,9 +14,9 @@ fun PlayerData.ktGetOrganStack(): Map<OrganType, List<ItemStack>> = this.organIt
     .groupBy { (it.item as OrganItemBase).organType }
 fun PlayerData.ktMatchOrganTier(tier: Int, type: OrganType): Boolean {
     val mapValues: Map<OrganType, Int> = ktGetOrganStack()
-        .mapValues { it.value.filter { it.item is OrganItemBase.TierOrganItem } }
-        .filter { it.value.isNotEmpty() }
-        .mapValues { it.value.maxOf { (it.item as OrganItemBase.TierOrganItem).tier } }
+        .mapValues { entry -> entry.value.filter { stack -> stack.item is OrganItemBase.TierOrganItem } }
+        .filter { entry -> entry.value.isNotEmpty() }
+        .mapValues { entry -> entry.value.maxOf { stack -> (stack.item as OrganItemBase.TierOrganItem).tier } }
     return (mapValues[type] ?: -1) >= tier
 }
 

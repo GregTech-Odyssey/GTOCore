@@ -1,52 +1,26 @@
 package com.gtocore.common.machine.multiblock.noenergy;
 
-import com.gtocore.common.machine.multiblock.part.SensorPartMachine;
+import com.gtocore.api.machine.part.IHeatContainerPart;
+import com.gtocore.api.pattern.GTOPredicates;
 
-import com.gtolib.GTOCore;
-import com.gtolib.api.gui.MagicProgressBarProWidget;
 import com.gtolib.api.machine.multiblock.NoEnergyMultiblockMachine;
 import com.gtolib.api.recipe.IdleReason;
 
-import com.gregtechceu.gtceu.api.blockentity.ITickSubscription;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.IEnergyContainer;
-import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
-import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
-import com.gregtechceu.gtceu.api.gui.GuiTextures;
-import com.gregtechceu.gtceu.api.machine.ConditionalSubscriptionHandler;
-import com.gregtechceu.gtceu.api.machine.TickableSubscription;
 import com.gregtechceu.gtceu.api.machine.feature.IDummyEnergyMachine;
 import com.gregtechceu.gtceu.api.machine.feature.IExplosionMachine;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IDistillationTower;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
-import com.gregtechceu.gtceu.api.machine.multiblock.part.MultiblockPartMachine;
-import com.gregtechceu.gtceu.api.pattern.TraceabilityPredicate;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
-import com.gregtechceu.gtceu.api.recipe.handler.IO;
 import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
-import com.gregtechceu.gtceu.common.data.GTBlocks;
-import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
-import com.gregtechceu.gtceu.utils.memoization.GTMemoizer;
-import com.gregtechceu.gtceu.utils.memoization.MemoizedSupplier;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
-import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.sounds.SoundEvents;
-import net.minecraft.sounds.SoundSource;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.Items;
-import net.minecraft.world.level.material.Fluids;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 
-import com.fast.fastcollection.OpenCacheHashSet;
-import com.gto.datasynclib.annotations.SaveToDisk;
-import com.gto.datasynclib.annotations.SyncToClient;
-import com.gto.datasynclib.datasream.DataComponentKey;
 import com.lowdragmc.lowdraglib.gui.widget.*;
-import com.lowdragmc.lowdraglib.utils.BlockInfo;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -55,310 +29,78 @@ import java.util.*;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
-import static com.gregtechceu.gtceu.api.machine.multiblock.PartAbility.IMPORT_FLUIDS;
-import static com.gregtechceu.gtceu.api.pattern.Predicates.abilities;
-
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 public final class PrimitiveDistillationTowerMachine extends NoEnergyMultiblockMachine implements IExplosionMachine, IDummyEnergyMachine, IDistillationTower {
 
-    private static final DataComponentKey<Set<BlockPos>> WATER = DataComponentKey.createNoCodec("water");
-
-    @Nullable
-    private Set<BlockPos> waterSources = null;
-    @Nullable
-    private RecipeHandlerUnit waterInputs = null;
     private static final DummyContainer CONTAINER = new DummyContainer(120);
 
     @NotNull
     @Getter
     private final List<IFluidHandler> fluidOutputs = new ArrayList<>();
 
-    private static final Item COAL_DUST = ChemicalHelper.getItem(TagPrefix.dust, GTMaterials.Coal);
-    @Getter
-    @SaveToDisk
-    @SyncToClient(notifyUpdate = true)
-    private int heat = 298;
-    @Getter
-    @SyncToClient(notifyUpdate = true)
-    private WaterState waterState = WaterState.NO_WATER;
-    @Getter
-    @SyncToClient(notifyUpdate = true)
-    private int waterLevel = 0; // Used for rendering water level in the machine
-    @SaveToDisk
-    private int tier;
-    @SaveToDisk
-    private long time;
-    private final ConditionalSubscriptionHandler tickSubs;
-    private SensorPartMachine sensorMachine;
-    private TickableSubscription clientSubscription;
+    private IHeatContainerPart heatMachineA;
+    private IHeatContainerPart heatMachineB;
 
     public PrimitiveDistillationTowerMachine(MetaMachineBlockEntity holder) {
         super(holder);
-        tickSubs = new ConditionalSubscriptionHandler(this, this::tickUpdate, 0, this::shouldTick);
     }
 
     private boolean shouldTick() {
-        return isFormed || heat > 298 || time > 0;
-    }
-
-    /**
-     * 执行设备的更新逻辑。此方法会在每个周期被调用，用于调整设备的状态和处理输入/输出。
-     * 方法内部处理以下几个主要逻辑：
-     * 1. 根据当前时间 (time) 判断设备是否应该处于活动状态，并在必要时更新状态。
-     * 2. 如果时间可以被20整除，进行以下操作：
-     * - 检查设备的温度 (heat)，如果温度超过373时尝试使用水进行冷却。
-     * - 根据配方逻辑 (recipeLogic) 调整温度。
-     * 3. 根据当前时间递减。
-     * 4. 当时间耗尽时，处理以下几项内容：
-     * - 停止设备并且更新相关方块状态。
-     * - 检查是否有燃料物品的输入，并且根据燃料类型调整tier和时间。
-     * - 调整温度以接近理想值 (298)。
-     * 5. 每20个周期执行以下操作：
-     * - 检查温度是否超过850，如果是则触发爆炸 (doExplosion)。
-     * - 更新传感器设备 (sensorMachine) 的温度。
-     */
-    private static final int HEAT_THRESHOLD = 373;
-    private static final int MAX_WATER_USAGE = 9000;
-    private static final int TIER_DECREASE = 1;
-    private static final int TIER_INCREASE = 4;
-    private static final int IDEAL_HEAT = 298;
-    private static final int EXPLOSION = 850;
-
-    /**
-     * 执行设备的定时更新操作。
-     * 该方法负责处理以下逻辑：
-     * <p>
-     * *New* 更新水的状态以便渲染。
-     * </p>
-     * 1. 更新设备的工作状态。
-     * 2. 处理设备的热量和水消耗。
-     * 3. 检查燃料并进行补充。
-     * 4. 根据当前状态调整设备热量。
-     * 5. 调用后处理操作。
-     */
-    private void tickUpdate() {
-        long offsetTimer = getOffsetTimer();
-        if (offsetTimer % 20 == 0) {
-            var water = (int) Math.min(MAX_WATER_USAGE, getWaterAmount());
-            updateWaterState(water);
-            handleHeatAndWater(water);
-        }
-        if (time > 0) {
-            activateMachine();
-            time--;
-        } else {
-            deactivateMachine();
-            checkAndRefuel(offsetTimer);
-            adjustHeat(offsetTimer);
-        }
-        postTickActions(offsetTimer);
-        tickSubs.updateSubscription();
-    }
-
-    private long getWaterAmount() {
-        if (waterInputs != null) {
-            return waterInputs.getFluidAmount(true, Fluids.WATER)[0];
-        } else {
-            return getFluidAmount(true, Fluids.WATER)[0];
-        }
-    }
-
-    private void consumeWater(int amount) {
-        if (waterInputs != null) {
-            waterInputs.inputFluid(Fluids.WATER, amount);
-        } else {
-            inputFluid(Fluids.WATER, amount);
-        }
-    }
-
-    /**
-     * 激活机器的方法。
-     * 如果机器当前未激活，将其状态设为激活并更新激活的区块。
-     */
-    private void activateMachine() {
-        activated = true;
-    }
-
-    /**
-     * 处理设备的热量和水消耗。每20个时间单位执行一次检查。
-     * 如果设备的热量高于设定的阈值，则消耗一定量的水来调节热量。
-     * 每次调用此方法，设备的热量会根据设备的级别增加。如果设备正在工作，热量会减少。
-     */
-    private void handleHeatAndWater(int water) {
-        if (time > 0) {
-            if (heat > HEAT_THRESHOLD) {
-                handleCooling(water > 0);
-                adjustHeatWithWater(water);
-            }
-            heat += tier;
-            if (getRecipeLogic().isWorking()) heat--;
-        }
-    }
-
-    /**
-     * 更新水的状态。用于在客户端渲染时选取不同水位模型。
-     *
-     * @param water 当前水量
-     */
-    private void updateWaterState(int water) {
-        if (water > 0) {
-            if (water < 100) {
-                waterState = WaterState.HAS_LITTLE_WATER;
-            } else {
-                waterState = WaterState.HAS_ENOUGH_WATER;
-            }
-        } else {
-            waterState = WaterState.NO_WATER;
-        }
-        waterLevel = water;
-    }
-
-    private void handleCooling(boolean isCooling) {
-        waterState = isCooling ? WaterState.IS_COOLING : waterState;
-    }
-
-    /**
-     * 根据输入的水量调整设备的热度。
-     *
-     * @param water 输送到设备中的水量，水量大于0才能影响热度。水量大于100时减少热度，小于等于100时增加热度并减少时间。
-     */
-    private void adjustHeatWithWater(int water) {
-        if (water > 0) {
-            if (water > 100) {
-                heat -= water / 100;
-            } else {
-                heat += water / 20;
-                time -= water;
-            }
-            playCoolingSound();
-            consumeWater(water);
-        }
-    }
-
-    /**
-     * 如果配置允许机器播放声音且当前环境不为空时，播放冷却声音效果。
-     * 该方法主要在机器执行某些操作时调用，以模拟冷却过程中的音效，使其更具沉浸感。
-     */
-    private void playCoolingSound() {
-        if (shouldWorkingPlaySound() && getLevel() != null) {
-            getLevel().playSound(null, getPos(), SoundEvents.LAVA_EXTINGUISH, SoundSource.BLOCKS, 1.0F, 1.0F);
-        }
-    }
-
-    /**
-     * 停用当前的蒸馏塔机器。
-     * 如果机器当前处于激活状态，则将其状态设为非激活，并更新相关的活动块标志。
-     */
-    private void deactivateMachine() {
-        activated = false;
-    }
-
-    /**
-     * 检查设备的燃料状况并根据不同类型的燃料进行补充。
-     *
-     * @param offsetTimer 当前的时间偏移量，用于决定何时需要检查和补充燃料。
-     */
-    private void checkAndRefuel(long offsetTimer) {
-        if (isWorkingEnabled() && offsetTimer % 10 == 0) {
-            if (inputItem(Items.COAL, 1)) {
-                tier = TIER_INCREASE;
-                time += 1200;
-            } else if (inputItem(Items.COAL_BLOCK, 1)) {
-                tier = TIER_DECREASE;
-                time += 21600;
-            } else if (inputItem(COAL_DUST, 1)) {
-                tier = 4;
-                time += 500;
-            }
-        }
-    }
-
-    /**
-     * 调整设备的热度，根据传入的计时器偏移量每20次减少一次热度，当热度超过理想热度时生效。
-     *
-     * @param offsetTimer 计时器的偏移量，用于控制热度调整频率，每20次减少一次热度
-     */
-    private void adjustHeat(long offsetTimer) {
-        if (heat > IDEAL_HEAT && offsetTimer % 20 == 0) {
-            if (heat > 400) getRecipeLogic().updateTickSubscription();
-            heat--;
-        }
-    }
-
-    /**
-     * 根据给定的时间偏移量执行周期性的后置操作。
-     * 如果时间偏移量是20的倍数，检查当前热度并可能触发爆炸，同时更新传感器状态。
-     *
-     * @param offsetTimer 时间偏移量，通常基于周期性计时器的当前值。
-     */
-    private void postTickActions(long offsetTimer) {
-        if (offsetTimer % 20 == 0) {
-            if (heat > EXPLOSION) doExplosion(10);
-            if (sensorMachine != null) {
-                sensorMachine.update(heat);
-            }
-        }
+        return isFormed && heatMachineA != null && heatMachineB != null;
     }
 
     @Nullable
     @Override
     protected GTRecipe getRealRecipe(RecipeHandlerUnit unit, GTRecipe recipe) {
-        if (heat > 400) {
-            recipe.duration = (int) (recipe.duration * getDurationMultiplier());
+        if (heatMachineA != null && heatMachineB != null) {
+            var a = heatMachineA.getHeatContainer().getTemperature();
+            var b = heatMachineB.getHeatContainer().getTemperature();
+            if (b < 400) return null;
+            recipe.duration = (int) (recipe.duration * getDurationMultiplier(a, b));
             return recipe;
         }
         setIdleReason(IdleReason.INSUFFICIENT_TEMPERATURE);
         return null;
     }
 
-    /**
-     * 根据设备的当前热度和连续运行时间计算持续时间的倍数。
-     * 当热度高于400时，持续时间的倍数如下计算：
-     * 800 除以（热度乘以min(2, max(1, 连续运行时间 / 1000))）。
-     * 当热度不高于400时，持续时间的倍数为1。
-     *
-     * @return 当前设备持续时间的倍数
-     */
-    private double getDurationMultiplier() {
-        return heat > 400 ? 800.0 / (heat * Math.min(2, Math.max(1, getRecipeLogic().getTotalContinuousRunningTime() / 1000))) : 1;
+    @Override
+    public boolean handleTickRecipe(GTRecipe recipe) {
+        if (heatMachineA == null || heatMachineB == null) return false;
+        var a = heatMachineA.getHeatContainer().getTemperature();
+        var b = heatMachineB.getHeatContainer().getTemperature();
+        if (heatMachineB.getHeatContainer().removeHeatUnrestricted(1, false) == 1) {
+            if (getOffsetTimer() % 2 == 0 && a < b - 100) heatMachineA.getHeatContainer().addHeatUnrestricted(1, false);
+            return true;
+        } else {
+            return false;
+        }
     }
 
-    private final MagicProgressBarProWidget progressBarPro = new MagicProgressBarProWidget(4, 113, IDEAL_HEAT, 930).addStartColor(-16711936).addMilestone(HEAT_THRESHOLD, -16640, Component.translatable("gtocore.bar.distillation.1")).addMilestone(EXPLOSION, -65536, Component.translatable("gtocore.bar.exploration")).setLeftLabel(Component.translatable("gtocore.bar.heat"));
-
-    @Override
-    public Widget createUIWidget() {
-        var group = new WidgetGroup(0, 0, 190, 125);
-        group.addWidget(new DraggableScrollableWidgetGroup(4, 4, 182, 106).setBackground(getScreenTexture()).addWidget(new LabelWidget(4, 5, self().getBlockState().getBlock().getDescriptionId())).addWidget(new ComponentPanelWidget(4, 17, this::addDisplayText).textSupplier(Objects.requireNonNull(getLevel()).isClientSide ? null : this::addDisplayText).setMaxWidthLimit(200).clickHandler(this::handleDisplayClick)));
-        group.addWidget(progressBarPro);
-        group.setBackground(GuiTextures.BACKGROUND_INVERSE);
-        return group;
+    private double getDurationMultiplier(double temperatureA, double temperatureB) {
+        return temperatureB > 400 ? Math.sqrt(Math.max(1, temperatureA - 350D)) * 800 / (temperatureB * Math.clamp(getRecipeLogic().getTotalContinuousRunningTime() / 1000, 1, 2)) : 1;
     }
 
     @Override
     public void customText(List<Component> textList) {
         super.customText(textList);
-        textList.add(Component.translatable("gtocore.machine.rest_burn_time", time));
-        textList.add(Component.translatable("gtocore.machine.current_temperature", heat));
+        if (heatMachineA == null || heatMachineB == null) return;
+        var a = heatMachineA.getHeatContainer().getTemperature();
+        var b = heatMachineB.getHeatContainer().getTemperature();
+        textList.add(Component.translatable("gtocore.machine.current_temperature", a + " | " + b));
         textList.add(Component.translatable("gtocore.machine.total_time", getRecipeLogic().getTotalContinuousRunningTime()));
-        textList.add(Component.translatable("gtocore.machine.duration_multiplier.tooltip", FormattingUtil.formatNumbers(getDurationMultiplier())));
-        progressBarPro.setProgressSupplier(() -> heat);
-    }
-
-    @Override
-    public void addHandlerList(RecipeHandlerUnit handler) {
-        if (waterInputs == null && waterSources != null && waterSources.contains(handler.part.self().getPos())) {
-            waterInputs = RecipeHandlerUnit.of(IO.IN, handler.allHandlers);
-            return;
-        }
-        super.addHandlerList(handler);
+        textList.add(Component.translatable("gtocore.machine.duration_multiplier.tooltip", FormattingUtil.formatNumbers(getDurationMultiplier(a, b))));
     }
 
     @Override
     public void onPartScan(IMultiPart part) {
         super.onPartScan(part);
-        if (sensorMachine == null && part instanceof SensorPartMachine sensorPartMachine) {
-            sensorMachine = sensorPartMachine;
+        if (part instanceof IHeatContainerPart heatContainerPart) {
+            if (getMultiblockState().getMatchContext().getOrDefault(GTOPredicates.DataKeys.A, Collections.emptySet()).contains(heatContainerPart.self().getPos())) {
+                this.heatMachineA = heatContainerPart;
+            } else {
+                this.heatMachineB = heatContainerPart;
+            }
         }
     }
 
@@ -368,35 +110,17 @@ public final class PrimitiveDistillationTowerMachine extends NoEnergyMultiblockM
     }
 
     @Override
-    public void onStructureFormedClient() {
-        clientSubscription = subscribeClientTick(clientSubscription, this::scheduleRenderUpdate, 20);
-    }
-
-    @Override
     public void onStructureFormed() {
-        if (getSubFormedAmount() > 0) {
-            var subForm0 = getSubMultiblockState()[0];
-            if (subForm0 != null) {
-                this.waterSources = subForm0.getMatchContext().getOrDefault(WATER, Collections.emptySet());
-            }
-        }
         super.onStructureFormed();
         addOutputs();
-        tickSubs.initialize(getLevel());
-    }
-
-    @Override
-    public void onStructureInvalidClient() {
-        clientSubscription = ITickSubscription.unsubscribe(clientSubscription);
     }
 
     @Override
     public void onStructureInvalid() {
         super.onStructureInvalid();
-        sensorMachine = null;
+        heatMachineA = null;
+        heatMachineB = null;
         fluidOutputs.clear();
-        waterSources = null;
-        waterInputs = null;
     }
 
     @Override
@@ -409,58 +133,8 @@ public final class PrimitiveDistillationTowerMachine extends NoEnergyMultiblockM
         return false;
     }
 
-    public static int getMaxHeat() {
-        return EXPLOSION;
-    }
-
-    public static int getMaxWaterUsage() {
-        return MAX_WATER_USAGE;
-    }
-
     @Override
     public int getYOffset() {
         return 1;
     }
-
-    public enum WaterState {
-
-        NO_WATER(null),
-        HAS_LITTLE_WATER("block/multiblock/primitive_distillation_tower/water"),
-        HAS_ENOUGH_WATER("block/multiblock/primitive_distillation_tower/water"),
-        IS_COOLING("block/multiblock/primitive_distillation_tower/steam");
-
-        public final @Nullable ResourceLocation overlay;
-
-        WaterState(@Nullable String overlay) {
-            this.overlay = Optional.ofNullable(overlay)
-                    .map(GTOCore::id)
-                    .orElse(null);
-        }
-    }
-
-    public static final MemoizedSupplier<TraceabilityPredicate> WaterSupplyingPredicate = GTMemoizer.memoize(() -> new TraceabilityPredicate(blockWorldState -> {
-        if (abilities(IMPORT_FLUIDS).test(blockWorldState)) {
-            if (blockWorldState.getTileEntity() instanceof MetaMachineBlockEntity mbe && mbe.getMetaMachine() instanceof MultiblockPartMachine part) {
-                blockWorldState.getMatchContext().getOrCreate(WATER, OpenCacheHashSet::new).add(part.getPos());
-            }
-            return true;
-        }
-        return false;
-    }, () -> BlockInfo.fromBlock(GTBlocks.STEEL_HULL.get()), abilities(IMPORT_FLUIDS).common.getFirst().candidates) {
-
-        @Override
-        public boolean testOnly() {
-            return true;
-        }
-
-        @Override
-        public boolean isAny() {
-            return false;
-        }
-
-        @Override
-        public boolean isAir() {
-            return false;
-        }
-    });
 }

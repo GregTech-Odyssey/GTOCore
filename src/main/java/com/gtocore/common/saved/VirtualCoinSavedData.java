@@ -5,7 +5,7 @@ import com.gtolib.GTOCore;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.saveddata.SavedData;
 
-import com.fast.fastcollection.O2LOpenCacheHashMap;
+import com.gto.fastcollection.O2LOpenCacheHashMap;
 import it.unimi.dsi.fastutil.objects.Object2LongOpenHashMap;
 import org.jetbrains.annotations.NotNull;
 

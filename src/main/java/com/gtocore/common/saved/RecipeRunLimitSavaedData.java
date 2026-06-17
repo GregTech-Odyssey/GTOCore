@@ -7,8 +7,8 @@ import net.minecraft.nbt.ListTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.saveddata.SavedData;
 
-import com.fast.fastcollection.O2IOpenCacheHashMap;
-import com.fast.fastcollection.O2OOpenCacheHashMap;
+import com.gto.fastcollection.O2IOpenCacheHashMap;
+import com.gto.fastcollection.O2OOpenCacheHashMap;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import org.jetbrains.annotations.NotNull;

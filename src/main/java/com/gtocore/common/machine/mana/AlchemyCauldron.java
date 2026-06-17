@@ -2,14 +2,13 @@ package com.gtocore.common.machine.mana;
 
 import com.gtocore.common.data.GTORecipeDataKeys;
 
+import com.gtolib.api.machine.heat.HeatHandler;
 import com.gtolib.api.machine.heat.feature.IHeatContainerMachine;
-import com.gtolib.api.machine.heat.trait.NotifiableHeatContainer;
 import com.gtolib.api.recipe.IdleReason;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.content.Content;
-import com.gregtechceu.gtceu.api.recipe.handler.IO;
 import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
 
 import net.minecraft.core.Direction;
@@ -30,12 +29,13 @@ public class AlchemyCauldron extends SimpleManaMachine implements IHeatContainer
 
     @Getter
     @SaveToDisk
-    private final NotifiableHeatContainer heatContainer;
+    private final HeatHandler heatContainer;
 
     public AlchemyCauldron(MetaMachineBlockEntity holder) {
         super(holder, 3, t -> 16000);
-        heatContainer = new NotifiableHeatContainer(this, IO.IN, 1600, 0.5, 1.2, 0.02);
-        heatContainer.handler.setSideIOCondition(s -> s == Direction.DOWN);
+        heatContainer = new HeatHandler(holder, 1600, 0.5, 1.2, 0.02);
+        heatContainer.setSideIOCondition(s -> s == Direction.DOWN);
+        heatContainer.addChangedListener(getRecipeLogic()::updateTickSubscription);
     }
 
     @Nullable

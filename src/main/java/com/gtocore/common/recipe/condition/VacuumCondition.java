@@ -1,5 +1,7 @@
 package com.gtocore.common.recipe.condition;
 
+import com.gtocore.api.machine.part.IVacuumPartMachine;
+
 import com.gtolib.api.machine.feature.IVacuumMachine;
 
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
@@ -52,7 +54,7 @@ public final class VacuumCondition extends RecipeCondition {
 
     private boolean checkVacuumTier(IMultiPart[] parts) {
         for (IMultiPart part : parts) {
-            if (part instanceof IVacuumMachine vacuumMachine && vacuumMachine.getVacuumTier() >= tier) {
+            if (part instanceof IVacuumPartMachine vacuumMachine && vacuumMachine.getVacuumTier() >= tier) {
                 return true;
             }
         }

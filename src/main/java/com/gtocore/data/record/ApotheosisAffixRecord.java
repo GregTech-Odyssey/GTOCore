@@ -17,12 +17,20 @@ import java.util.Map;
 
 import static com.gtolib.utils.register.ItemRegisterUtils.item;
 
+/**
+ * Registration data for Apotheosis affix essence items.
+ */
 public record ApotheosisAffixRecord(String affixId, String enId, String cnId, int color, String processedId) {
 
     public static ApotheosisAffixRecord create(String apotheosisAffixId, String enId, String cnId) {
         int color = generateColorFromId(apotheosisAffixId);
-        String processedId = apotheosisAffixId.indexOf(':') > 0 ? apotheosisAffixId.substring(apotheosisAffixId.indexOf(':') + 1).replace("/", "_") : apotheosisAffixId;
+        String processedId = getProcessedId(apotheosisAffixId);
         return new ApotheosisAffixRecord(apotheosisAffixId, enId, cnId, color, processedId);
+    }
+
+    private static String getProcessedId(String apotheosisAffixId) {
+        int namespaceIndex = apotheosisAffixId.indexOf(':');
+        return namespaceIndex > 0 ? apotheosisAffixId.substring(namespaceIndex + 1).replace("/", "_") : apotheosisAffixId;
     }
 
     private static int generateColorFromId(String apotheosisAffixId) {
@@ -36,7 +44,7 @@ public record ApotheosisAffixRecord(String affixId, String enId, String cnId, in
         return (r << 16) | (g << 8) | b;
     }
 
-    private static List<ApotheosisAffixRecord> AFFIXS = new ArrayList<>();
+    private static List<ApotheosisAffixRecord> AFFIXES = new ArrayList<>();
 
     static {
         addRecord("original", "original", "原始");
@@ -129,14 +137,19 @@ public record ApotheosisAffixRecord(String affixId, String enId, String cnId, in
     }
 
     private static void addRecord(String affixId, String enId, String cnId) {
-        AFFIXS.add(ApotheosisAffixRecord.create(affixId, enId, cnId));
+        AFFIXES.add(ApotheosisAffixRecord.create(affixId, enId, cnId));
     }
 
     public final static Map<Item, ApotheosisAffixRecord> AFFIX_ITEM_MAP = new Reference2ReferenceOpenHashMap<>();
 
+    /**
+     * Registers every configured affix essence and records the reverse item lookup used by custom recipes.
+     *
+     * @return affix id to essence item entry
+     */
     public static Map<String, ItemEntry<ApothItem>> registerAffixEssence() {
         ImmutableMap.Builder<String, ItemEntry<ApothItem>> entries = ImmutableMap.builder();
-        for (var record : AFFIXS) {
+        for (var record : AFFIXES) {
             String itemId = "affix_essence_" + record.processedId();
             String cnName = "刻印精粹 (" + record.cnId() + ")";
             String enName = "Affix Essence (" + record.enId() + ")";
@@ -150,7 +163,7 @@ public record ApotheosisAffixRecord(String affixId, String enId, String cnId, in
                     .register();
             entries.put(record.affixId(), entry);
         }
-        AFFIXS = null;
+        AFFIXES = null;
         return entries.build();
     }
 }

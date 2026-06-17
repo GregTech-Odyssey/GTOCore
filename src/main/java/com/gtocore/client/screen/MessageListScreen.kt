@@ -15,35 +15,35 @@ import com.gtolib.api.annotation.DataGeneratorScanned
 import com.gtolib.api.annotation.language.RegisterLanguage
 
 @DataGeneratorScanned
-class MessageListScreen : Screen(Component.translatable(title_Key)) {
+class MessageListScreen : Screen(Component.translatable(TITLE_KEY)) {
     @DataGeneratorScanned
     companion object {
         @RegisterLanguage(cn = "消息列表", en = "Message List")
-        const val title_Key = "gto.message.list_title"
+        const val TITLE_KEY = "gto.message.list_title"
 
         @RegisterLanguage(cn = "返回", en = "Back")
-        const val back_Key = "gto.message.back"
+        const val BACK_KEY = "gto.message.back"
 
         @RegisterLanguage(cn = "关闭", en = "Close")
-        const val close_Key = "gto.message.close"
+        const val CLOSE_KEY = "gto.message.close"
 
         @RegisterLanguage(cn = "查看详情", en = "View Details")
-        const val viewDetails_Key = "gto.message.view_details"
+        const val VIEW_DETAILS_KEY = "gto.message.view_details"
 
         @RegisterLanguage(cn = "✅ 已读", en = "✅ Read")
-        const val read_Key = "gto.message.read"
+        const val READ_KEY = "gto.message.read"
 
         @RegisterLanguage(cn = "🔔 未读", en = "🔔 Unread")
-        const val unread_Key = "gto.message.unread"
+        const val UNREAD_KEY = "gto.message.unread"
 
         @RegisterLanguage(cn = "全部标记为已读", en = "Mark All as Read")
-        const val markAllRead_Key = "gto.message.mark_all_as_read"
+        const val MARK_ALL_READ_KEY = "gto.message.mark_all_as_read"
 
         @RegisterLanguage(cn = "消息确认，显示下一条...", en = "Message confirmed. Showing next message...")
-        const val confirmNext_Key = "gto.message.confirm_next"
+        const val CONFIRM_NEXT_KEY = "gto.message.confirm_next"
 
         @RegisterLanguage(cn = "没有待处理的消息。", en = "No pending messages.")
-        const val noPending_Key = "gto.message.no_pending"
+        const val NO_PENDING_KEY = "gto.message.no_pending"
     }
 
     private lateinit var messageList: MessageListWidget
@@ -81,8 +81,8 @@ class MessageListScreen : Screen(Component.translatable(title_Key)) {
 
         // 返回/关闭按钮 - 根据是否有未读消息决定行为
         val backButton = Button.builder(
-            Component.translatable(if (hasUnread) back_Key else close_Key),
-        ) { button ->
+            Component.translatable(if (hasUnread) BACK_KEY else CLOSE_KEY),
+        ) { _ ->
             if (hasUnread) {
                 // 有未读消息，跳转到最新未读消息
                 val latestUnread = unreadMessages.first()
@@ -119,8 +119,8 @@ class MessageListScreen : Screen(Component.translatable(title_Key)) {
 
         // 全部标记为已读按钮
         val markAllButton = Button.builder(
-            Component.translatable(markAllRead_Key),
-        ) { button ->
+            Component.translatable(MARK_ALL_READ_KEY),
+        ) { _ ->
             messages.forEach { msg ->
                 config.confirmMessage(msg.contentHash, msg.id)
             }
@@ -168,7 +168,7 @@ class MessageListScreen : Screen(Component.translatable(title_Key)) {
     override fun mouseScrolled(mouseX: Double, mouseY: Double, delta: Double): Boolean = messageList.mouseScrolled(mouseX, mouseY, delta) || super.mouseScrolled(mouseX, mouseY, delta)
 
     // 消息列表组件
-    class MessageListWidget(minecraft: Minecraft, width: Int, height: Int, top: Int, bottom: Int, itemHeight: Int, private val messages: List<ClientForge.MessageDefinition>, private val config: ClientForge.MessageConfig) : ObjectSelectionList<MessageListWidget.MessageEntry>(minecraft, width, height, top, bottom, itemHeight) {
+    class MessageListWidget(minecraft: Minecraft, width: Int, height: Int, top: Int, bottom: Int, itemHeight: Int, messages: List<ClientForge.MessageDefinition>, config: ClientForge.MessageConfig) : ObjectSelectionList<MessageListWidget.MessageEntry>(minecraft, width, height, top, bottom, itemHeight) {
 
         init {
             messages.forEach { msg ->
@@ -199,9 +199,9 @@ class MessageListScreen : Screen(Component.translatable(title_Key)) {
 
                 // 状态指示器
                 val statusText = if (isRead) {
-                    Component.translatable(read_Key).withStyle(Style.EMPTY.withColor(ChatFormatting.GRAY))
+                    Component.translatable(READ_KEY).withStyle(Style.EMPTY.withColor(ChatFormatting.GRAY))
                 } else {
-                    Component.translatable(unread_Key).withStyle(Style.EMPTY.withColor(ChatFormatting.GREEN))
+                    Component.translatable(UNREAD_KEY).withStyle(Style.EMPTY.withColor(ChatFormatting.GREEN))
                 }
                 guiGraphics.drawString(font, statusText, left + 5, top + 5, 0xFFFFFF)
 

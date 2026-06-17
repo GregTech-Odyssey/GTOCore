@@ -4,7 +4,7 @@ import com.gtocore.common.data.GTOMachines;
 
 import com.gtolib.api.annotation.DataGeneratorScanned;
 import com.gtolib.api.annotation.language.RegisterLanguage;
-import com.gtolib.api.machine.heat.trait.NotifiableHeatContainer;
+import com.gtolib.api.machine.heat.HeatHandler;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.ICleanroomReceiver;
@@ -14,6 +14,7 @@ import com.gregtechceu.gtceu.api.gui.widget.SlotWidget;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.feature.ICleanroomProvider;
 import com.gregtechceu.gtceu.api.machine.feature.IMachineModifyDrops;
+import com.gregtechceu.gtceu.api.machine.feature.IRecipeLogicMachine;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiController;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
 import com.gregtechceu.gtceu.api.recipe.handler.IO;
@@ -79,7 +80,7 @@ public class ModularHatchPartMachine extends ACMHatchPartMachine implements IMod
 
     @Getter
     @SaveToDisk
-    private final NotifiableHeatContainer heatContainer;
+    private final HeatHandler heatContainer;
 
     public ModularHatchPartMachine(MetaMachineBlockEntity metaTileEntityId) {
         super(metaTileEntityId);
@@ -99,8 +100,14 @@ public class ModularHatchPartMachine extends ACMHatchPartMachine implements IMod
         cleanroomModuleInv = new NotifiableItemStackHandler(this, 1, IO.NONE, IO.BOTH, SingleCustomItemStackHandler::new);
         cleanroomModuleInv.setFilter(stack -> Wrapper.CLEAN_CHECK.containsKey(stack.getItem()));
         cleanroomModuleInv.addChangedListener(this::onConditionChange);
-        heatContainer = new NotifiableHeatContainer(this, IO.IN, MAX_TEMPERATURE, 1, 24, 0.1);
-        heatContainer.handler.setSideIOCondition(s -> s == getFrontFacing());
+        heatContainer = new HeatHandler(holder, MAX_TEMPERATURE, 4, 8, 0.01);
+        heatContainer.setSideIOCondition(s -> s == getFrontFacing());
+        heatContainer.addChangedListener(() -> {
+            if (temperatureMode) heatContainer.setCurrentHeat(activeTemperature);
+            for (var c : getControllers()) {
+                if (c instanceof IRecipeLogicMachine machine) machine.getRecipeLogic().updateTickSubscription();
+            }
+        });
     }
 
     @Override
@@ -134,11 +141,11 @@ public class ModularHatchPartMachine extends ACMHatchPartMachine implements IMod
     @Override
     public @NotNull Widget createUIWidget() {
         WidgetGroup group;
-        int y = 0;
+        int y = 1;
         group = new DraggableScrollableWidgetGroup(0, 0, 200, 100);
         group.addWidget(new WidgetGroup(4, 4, 192, 190)
                 // Duration Multiplier
-                .addWidget(getConfigPanel(xlabel, ylabel + y++ * rowHeight,
+                .addWidget(getConfigPanel(xlabel, ylabel,
                         () -> getTextWidgetText(this::getDurationMultiplier),
                         () -> Component.translatable("gtceu.maintenance.configurable_duration.modify"),
                         this::incInternalMultiplier, this::decInternalMultiplier, () -> true, getMIN_DURATION_MULTIPLIER(), getMAX_DURATION_MULTIPLIER()))
@@ -257,6 +264,7 @@ public class ModularHatchPartMachine extends ACMHatchPartMachine implements IMod
 
     private void setActiveTemperature(int activeTemperature) {
         this.activeTemperature = Mth.clamp(activeTemperature, MIN_TEMPERATURE, MAX_TEMPERATURE);
+        heatContainer.setCurrentHeat(activeTemperature);
     }
 
     @Override
@@ -268,13 +276,13 @@ public class ModularHatchPartMachine extends ACMHatchPartMachine implements IMod
     }
 
     @Override
-    public void addedToController(IMultiController controller) {
+    public void addedToController(@NotNull IMultiController controller) {
         super.addedToController(controller);
         onConditionChange();
     }
 
     @Override
-    public void removedFromController(IMultiController controller) {
+    public void removedFromController(@NotNull IMultiController controller) {
         super.removedFromController(controller);
         if (controller instanceof ICleanroomReceiver receiver) {
             receiver.setCleanroom(null);
@@ -299,11 +307,6 @@ public class ModularHatchPartMachine extends ACMHatchPartMachine implements IMod
 
     private void setCurrentGravity(int gravity) {
         currentGravity = Mth.clamp(gravity, MIN_GRAVITY, MAX_GRAVITY);
-    }
-
-    @Override
-    public boolean showFancyTooltip() {
-        return super.showFancyTooltip();
     }
 
     private static class Wrapper {

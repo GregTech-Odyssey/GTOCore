@@ -3,8 +3,8 @@ package com.gtocore.common.machine.mana;
 import com.gtocore.common.data.GTOMaterials;
 import com.gtocore.common.data.GTORecipeTypes;
 
+import com.gtolib.api.machine.heat.HeatHandler;
 import com.gtolib.api.machine.heat.feature.IHeatContainerMachine;
-import com.gtolib.api.machine.heat.trait.NotifiableHeatContainer;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys;
@@ -12,7 +12,6 @@ import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeDefinition;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.api.recipe.handler.ICustomRecipeLogicHolder;
-import com.gregtechceu.gtceu.api.recipe.handler.IO;
 import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
 
 import net.minecraft.core.Direction;
@@ -36,13 +35,13 @@ public class ManaHeaterMachine extends SimpleManaMachine implements IHeatContain
     @Getter
     @SaveToDisk
     @SyncToClient
-    private final NotifiableHeatContainer heatContainer;
+    private final HeatHandler heatContainer;
 
     public ManaHeaterMachine(MetaMachineBlockEntity holder) {
         super(holder, 2, t -> 8000);
-        heatContainer = new NotifiableHeatContainer(this, IO.OUT, 2400, 4, 0.4, 0.01);
-        heatContainer.handler.setSideIOCondition(s -> s == Direction.UP);
-        heatContainer.handler.setCoolDownCondition(() -> !getRecipeLogic().isWorking());
+        heatContainer = new HeatHandler(holder, 2400, 4, 0.4, 0.01);
+        heatContainer.setSideIOCondition(s -> s == Direction.UP);
+        heatContainer.addChangedListener(getRecipeLogic()::updateTickSubscription);
     }
 
     @Override
@@ -59,10 +58,14 @@ public class ManaHeaterMachine extends SimpleManaMachine implements IHeatContain
     @Override
     public void onWorking() {
         super.onWorking();
-        if (getOffsetTimer() % 10 == 0 && heatContainer.getMaxTemperature() > heatContainer.getTemperature() + 10) {
-            var hasSalamander = inputFluid(SALAMANDER, 10);
-            this.salamanderInput = hasSalamander;
-            heatContainer.addHeatUnrestricted(hasSalamander ? 40 : 16, false);
+        if (getOffsetTimer() % 10 == 0) {
+            if (heatContainer.currentHeat + 80 < heatContainer.maxHeat) {
+                var hasSalamander = inputFluid(SALAMANDER, 10);
+                this.salamanderInput = hasSalamander;
+                heatContainer.addHeatUnrestricted(hasSalamander ? 80 : 16, false);
+            } else {
+                getRecipeLogic().markLastRecipeDirty();
+            }
         }
     }
 
@@ -72,12 +75,7 @@ public class ManaHeaterMachine extends SimpleManaMachine implements IHeatContain
 
     @Override
     public GTRecipeDefinition createCustomRecipe(RecipeHandlerUnit unit) {
-        if (heatContainer.getTemperature() >= heatContainer.getMaxTemperature()) return null;
+        if (heatContainer.currentHeat + 80 >= heatContainer.maxHeat) return null;
         return getRecipeBuilder().duration(20).MANAt(16).build();
-    }
-
-    @Override
-    public boolean alwaysSearchRecipe() {
-        return true;
     }
 }

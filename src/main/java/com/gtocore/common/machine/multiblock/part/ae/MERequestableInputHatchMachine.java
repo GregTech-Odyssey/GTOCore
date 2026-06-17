@@ -92,4 +92,12 @@ public class MERequestableInputHatchMachine extends MEInputHatchPartMachine impl
     public ImmutableSet<ICraftingLink> getRequestedJobs() {
         return craftingTracker.getRequestedJobs();
     }
+
+    @Override
+    public void onMachineRemoved() {
+        super.onMachineRemoved();
+        for (var link : craftingTracker.getRequestedJobs()) {
+            link.cancel();
+        }
+    }
 }

@@ -7,10 +7,6 @@ public abstract class AbstractRecipeInternalSlot extends MEPatternPartMachineKt.
 
     public abstract boolean isEmpty();
 
-    public abstract boolean isItemEmpty();
-
-    public abstract boolean isFluidEmpty();
-
     public final void markContentsChanged() {
         isContentsChanged = true;
         onContentsChanged.run();

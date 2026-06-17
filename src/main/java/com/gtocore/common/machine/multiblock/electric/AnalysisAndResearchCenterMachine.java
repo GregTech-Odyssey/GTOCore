@@ -105,7 +105,7 @@ public class AnalysisAndResearchCenterMachine extends ElectricMultiblockMachine 
     }
 
     @Override
-    public GTRecipe getRealRecipe(RecipeHandlerUnit unit, GTRecipe recipe) {
+    public GTRecipe getRealRecipe(@NotNull RecipeHandlerUnit unit, GTRecipe recipe) {
         // 1. 获取所有物品输出
         var itemOutputs = recipe.itemOutputs;
 

@@ -53,7 +53,7 @@ public abstract class WorkableElectricMultiblockMachineMixin extends WorkableMul
 
     @Unique
     @SaveToDisk
-    private VoidingMode voidingMode = VoidingMode.VOID_NONE;
+    private VoidingMode gtocore$voidingMode = VoidingMode.VOID_NONE;
 
     @Shadow(remap = false)
     protected EnergyContainerList energyContainer;
@@ -156,9 +156,9 @@ public abstract class WorkableElectricMultiblockMachineMixin extends WorkableMul
     @Override
     public void handleDisplayClick(String componentData, ClickData clickData) {
         if (!clickData.isRemote && componentData.equals("voidingMode")) {
-            if (voidingMode.ordinal() + 1 < VoidingMode.VALUES.length) {
-                voidingMode = VoidingMode.VALUES[voidingMode.ordinal() + 1];
-            } else voidingMode = VoidingMode.VALUES[0];
+            if (gtocore$voidingMode.ordinal() + 1 < VoidingMode.VALUES.length) {
+                gtocore$voidingMode = VoidingMode.VALUES[gtocore$voidingMode.ordinal() + 1];
+            } else gtocore$voidingMode = VoidingMode.VALUES[0];
         }
     }
 
@@ -209,14 +209,14 @@ public abstract class WorkableElectricMultiblockMachineMixin extends WorkableMul
 
     @Override
     public void setVoidingMode(VoidingMode mode) {
-        this.voidingMode = mode;
+        this.gtocore$voidingMode = mode;
     }
 
     @Override
     public VoidingMode getVoidingMode() {
-        var mode = this.voidingMode;
+        var mode = this.gtocore$voidingMode;
         if (mode == null) {
-            return this.voidingMode = VoidingMode.VOID_NONE;
+            return this.gtocore$voidingMode = VoidingMode.VOID_NONE;
         }
         return mode;
     }

@@ -1,6 +1,5 @@
 package com.gtocore.mixin.ae2.storage;
 
-import com.gtolib.api.ae2.stacks.IKeyCounter;
 import com.gtolib.api.ae2.storage.CellDataStorage;
 
 import com.gregtechceu.gtceu.GTCEu;
@@ -143,7 +142,7 @@ public abstract class BasicCellInventoryMixin implements StorageCell {
     private AEKeyMap<AEKey> gtolib$getCellStoredMap() {
         if (gtocore$aeKeyMap == null) {
             CellDataStorage storage = gtolib$getCellStorage();
-            if (storage == CellDataStorage.EMPTY) return CellDataStorage.EMPTY_MAP;
+            if (storage == CellDataStorage.EMPTY) return AEKeyMap.EMPTY;
             gtocore$aeKeyMap = storage.getStoredMap();
             if (gtocore$aeKeyMap == null) {
                 gtocore$aeKeyMap = new AEKeyMap<>();
@@ -275,7 +274,7 @@ public abstract class BasicCellInventoryMixin implements StorageCell {
     @Overwrite(remap = false)
     public void getAvailableStacks(KeyCounter out) {
         var map = gtolib$getCellStoredMap();
-        IKeyCounter.addAll(out, map.size(), m -> map.fastForEach(m::addTo));
+        out.addAll(map.size(), m -> map.fastForEach(m::addTo));
     }
 
     /**

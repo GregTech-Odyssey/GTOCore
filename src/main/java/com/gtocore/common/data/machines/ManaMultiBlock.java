@@ -14,6 +14,7 @@ import com.gtolib.GTOCore;
 import com.gtolib.api.annotation.NewDataAttributes;
 import com.gtolib.api.machine.ManaDistributorMachine;
 import com.gtolib.api.machine.MultiblockDefinition;
+import com.gtolib.api.recipe.GTORecipeModifiers;
 import com.gtolib.utils.MultiBlockFileReader;
 import com.gtolib.utils.RLUtils;
 import com.gtolib.utils.RegistriesUtils;
@@ -64,8 +65,9 @@ public final class ManaMultiBlock {
             .tooltipsText("符文编号：", "Rune number:")
             .tooltipsSupplier(() -> Collections.singletonList(ManaAlloyBlastSmelterMachine.getRunes()))
             .tooltips(NewDataAttributes.ALLOW_PARALLEL_NUMBER.create(16))
-            .recipeModifier(RecipeModifier.overclocking(0.5, 1, 0.5))
+            .recipeModifiers(GTORecipeModifiers.UPGRADE, GTORecipeModifiers.POWER_AMPLIFIER, RecipeModifier.overclocking(0.5, 1, 0.5))
             .recipeTypes(GTORecipeTypes.ALLOY_BLAST_RECIPES)
+            .upgradable()
             .block(GTOBlocks.MANASTEEL_CASING)
             .pattern(definition -> MultiBlockFileReader.start(definition)
                     .where('A', blocks(RegistriesUtils.getBlock("botania:livingrock")))
@@ -187,7 +189,7 @@ public final class ManaMultiBlock {
             .parallelizableTooltips()
             .perfectOCTooltips()
             .parallelizableManaOverclock()
-            .tooltipsSupplier(GTOMachineTooltips.INSTANCE.getManaCondenserTooltips().getSupplier())
+            .tooltipsSupplier(GTOMachineTooltips.ManaCondenserTooltips)
             .recipeTypes(GTORecipeTypes.MANA_CONDENSER_RECIPES)
             .block(GTOBlocks.MANASTEEL_CASING)
             .pattern(definition -> ManaCondenserMachine.getBlockPattern(0, definition))
@@ -207,7 +209,7 @@ public final class ManaMultiBlock {
             .parallelizableTooltips()
             .perfectOCTooltips()
             .parallelizableManaOverclock()
-            .tooltipsSupplier(GTOMachineTooltips.INSTANCE.getElfExchangeMachine().getSupplier())
+            .tooltipsSupplier(GTOMachineTooltips.ElfExchangeMachine)
             .recipeTypes(GTORecipeTypes.ELF_EXCHANGE_RECIPES)
             .block(GTOBlocks.MANASTEEL_CASING)
             .pattern(definition -> MultiBlockFileReader.start(definition)
@@ -371,8 +373,8 @@ public final class ManaMultiBlock {
     public static final MultiblockMachineDefinition LARGE_ALCHEMICAL_DEVICE = multiblock("large_alchemical_device", "大型炼金装置", LargeAlchemicalDeviceMachine::new)
             .nonYAxisRotation()
             .parallelizableTooltips()
-            .tooltipsSupplier(GTOMachineTooltips.INSTANCE.getAlchemicalDeviceTooltips().getSupplier())
-            .tooltipsSupplier(GTOMachineTooltips.INSTANCE.getLargeAlchemicalDeviceTooltips().getSupplier())
+            .tooltipsSupplier(GTOMachineTooltips.AlchemicalDeviceTooltips)
+            .tooltipsSupplier(GTOMachineTooltips.LargeAlchemicalDeviceTooltips)
             .moduleTooltips(new PartAbility[0])
             .recipeModifiers(RecipeModifier.HATCH_PARALLEL)
             .recipeTypes(GTORecipeTypes.ALCHEMY_CAULDRON_RECIPES)
@@ -455,7 +457,7 @@ public final class ManaMultiBlock {
 
     public static final MultiblockMachineDefinition THE_PRIMORDIAL_RECONSTRUCTOR = multiblock("the_primordial_reconstructor", "源初重构仪", ThePrimordialReconstructor::new)
             .nonYAxisRotation()
-            .tooltips(GTOMachineTooltips.INSTANCE.getThePrimordialReconstructorTooltips().getSupplier())
+            .tooltips(GTOMachineTooltips.ThePrimordialReconstructorTooltips)
             .recipeTypes(GTRecipeTypes.DUMMY_RECIPES)
             .block(GTOBlocks.SPELL_PRISM_CASING)
             .pattern(definition -> FactoryBlockPattern.start(definition)
@@ -496,7 +498,7 @@ public final class ManaMultiBlock {
             .register();
 
     public static final MultiblockMachineDefinition RESONANCE_FLOWER = multiblock("resonance_flower", "共鸣之花", ResonanceFlowerMachine::new)
-            .tooltips(GTOMachineTooltips.INSTANCE.getResonanceFlowerTooltips().getSupplier())
+            .tooltips(GTOMachineTooltips.ResonanceFlowerTooltips)
             .specialParallelizableTooltips()
             .parallelizableManaOverclock()
             .recipeTypes(GTORecipeTypes.ELEMENTAL_RESONANCE)
@@ -527,7 +529,7 @@ public final class ManaMultiBlock {
             .register();
 
     public static final MultiblockMachineDefinition COSMIC_CELESTIAL_SPIRE_OF_CONVERGENCE = multiblock("cosmic_celestial_spire_of_convergence", "寰宇星穹天体聚合圣坛", CosmicCelestialSpireOfConvergence::new)
-            .tooltips(GTOMachineTooltips.INSTANCE.getCosmicCelestialSpireOfConvergenceTooltips().getSupplier())
+            .tooltips(GTOMachineTooltips.CosmicCelestialSpireOfConvergenceTooltips)
             .recipeTypes(GTORecipeTypes.CELESTIAL_CONDENSER_RECIPES)
             .block(GTOBlocks.SPELL_PRISM_CASING)
             .pattern(definition -> MultiBlockFileReader.start(definition)
@@ -571,7 +573,7 @@ public final class ManaMultiBlock {
             .nonYAxisRotation()
             .recipeTypes(GTORecipeTypes.MANA_FLOW_ASSEMBLER_RECIPES)
             .block(GTOBlocks.MANASTEEL_CASING)
-            .tooltipsSupplier(GTOMachineTooltipsA.INSTANCE.getManaFlowAssemblerTooltips().getSupplier())
+            .tooltipsSupplier(GTOMachineTooltipsA.ManaFlowAssemblerTooltips)
             .pattern(definition -> FactoryBlockPattern.start(definition)
                     .aisle("HBBBI", "H   I", "D   D", "E   E")
                     .aisle("BFFFB", "     ", "     ", "     ")
@@ -598,7 +600,7 @@ public final class ManaMultiBlock {
             .nonYAxisRotation()
             .block(RegistriesUtils.getSupplierBlock("apotheosis:stoneshelf"))
             .recipeTypes(GTORecipeTypes.DUMMY_RECIPES)
-            .tooltips(GTOMachineTooltipsA.INSTANCE.getPulseMachineMaintenancePedestalTooltips().getSupplier())
+            .tooltips(GTOMachineTooltipsA.pulseMachineMaintenancePedestalTooltips)
             .pattern(definition -> FactoryBlockPattern.start(definition)
                     .aisle("   BB", "     ", "     ", "     ", "     ", "     ", "     ", "     ")
                     .aisle(" AABA", "     ", "     ", "     ", "     ", "     ", "     ", "     ")

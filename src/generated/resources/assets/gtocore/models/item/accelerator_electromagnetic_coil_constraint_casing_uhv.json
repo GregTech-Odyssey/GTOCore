@@ -1,3 +1,6 @@
 {
-  "parent": "gtocore:block/accelerator_electromagnetic_coil_constraint_casing_uhv"
+  "parent": "minecraft:block/cube_all",
+  "textures": {
+    "all": "gtocore:block/casings/accelerator/accelerator_electromagnetic_coil_constraint_casing_uhv"
+  }
 }

@@ -437,6 +437,7 @@ final class AssemblyLineA {
         ASSEMBLY_LINE_RECIPES.recipeBuilder("modular_maintenance_hatch")
                 .inputItems(GTMachines.HULL[GTValues.LuV].asItem())
                 .inputItems(GTOMachines.AUTO_CONFIGURATION_MAINTENANCE_HATCH, 4)
+                .inputItems(GTOMachines.ADVANCED_HEAT_HATCH, 4)
                 .inputItems(GTItems.CONVEYOR_MODULE_LuV, 8)
                 .inputItems(GTItems.ROBOT_ARM_LuV, 8)
                 .inputItems(CustomTags.LuV_CIRCUITS, 16)
@@ -451,7 +452,7 @@ final class AssemblyLineA {
                 .outputItems(GTOMachines.MODULAR_CONFIGURATION_MAINTENANCE_HATCH.asItem())
                 .EUt(GTValues.VA[GTValues.ZPM])
                 .duration(800)
-                .scanner(b -> b.researchStack(GTOMachines.TEMP_VACUUM_INTERFACE.asItem()).duration(1200).EUt(GTValues.VA[GTValues.ZPM]))
+                .scanner(b -> b.researchStack(GTOMachines.VACUUM_INTERFACE.asItem()).duration(1200).EUt(GTValues.VA[GTValues.ZPM]))
                 .save();
 
         ASSEMBLY_LINE_RECIPES.recipeBuilder("laserdrill")

@@ -27,6 +27,11 @@ public abstract class LargeBoilerMachineMixin extends WorkableMultiblockMachine 
         return true;
     }
 
+    @Override
+    public boolean alwaysSearchRecipe() {
+        return true;
+    }
+
     /**
      * @author .
      * @reason .
@@ -34,7 +39,7 @@ public abstract class LargeBoilerMachineMixin extends WorkableMultiblockMachine 
     @Overwrite(remap = false)
     public static @Nullable GTRecipe recipeModifier(IRecipeHandlerHolder machine, RecipeHandlerUnit unit, GTRecipe recipe) {
         if (machine instanceof LargeBoilerMachine largeBoilerMachine) {
-            if (recipe.data.getInt(GTORecipeDataKeys.TEMPERATURE) > largeBoilerMachine.getCurrentTemperature()) {
+            if (recipe.data.getInt(GTORecipeDataKeys.TEMPERATURE) > largeBoilerMachine.getCurrentTemperature() + 274) {
                 largeBoilerMachine.setIdleReason(IdleReason.INSUFFICIENT_TEMPERATURE::reason);
                 return null;
             }

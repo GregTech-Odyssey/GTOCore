@@ -4903,7 +4903,7 @@ public final class MaterialB {
                 .iconSet(BRIGHT)
                 .temp(5400)
                 .flags(GTOMaterialFlags.GENERATE_CERAMIC)
-                .buildAndRegister().setFormula("SiO2");
+                .buildAndRegister().setFormula("NqO");
 
         HydroxyapatiteCeramic = material("hydroxyapatite_ceramic", "羟基磷灰石陶瓷")
                 .dust()

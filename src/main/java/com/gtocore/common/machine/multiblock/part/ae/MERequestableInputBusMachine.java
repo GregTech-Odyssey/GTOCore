@@ -90,4 +90,12 @@ public class MERequestableInputBusMachine extends MEInputBusPartMachine implemen
     public ImmutableSet<ICraftingLink> getRequestedJobs() {
         return craftingTracker.getRequestedJobs();
     }
+
+    @Override
+    public void onMachineRemoved() {
+        super.onMachineRemoved();
+        for (var link : craftingTracker.getRequestedJobs()) {
+            link.cancel();
+        }
+    }
 }

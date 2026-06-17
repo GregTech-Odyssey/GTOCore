@@ -11,7 +11,6 @@ open class AutoInitialize<T> {
         OrganTranslation.init()
         GTOMachineStories.init()
         ComponentSlang.init()
-        EnumTranslation.init()
         MachineSlang.init()
         MultiblockSlang.init()
         GTOTarotArcanumTooltips.init()
@@ -27,7 +26,7 @@ open class AutoInitialize<T> {
                 try {
                     @Suppress("UNCHECKED_CAST")
                     property.get(this as T)
-                } catch (ignore: Exception) {
+                } catch (_: Exception) {
                 }
             }
     }
