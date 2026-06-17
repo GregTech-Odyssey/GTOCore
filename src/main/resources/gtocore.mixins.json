@@ -52,6 +52,7 @@
     "ae2.blockentity.StorageBusPartMixin",
     "ae2.crafting.CPUSelectionListMixin",
     "ae2.crafting.CraftingCPUClusterMixin",
+    "ae2.crafting.CraftingLinkNexusMixin",
     "ae2.crafting.CraftingServiceMixin",
     "ae2.crafting.ElapsedTimeTrackerMixin",
     "ae2.crafting.PatternContainerGroupMixin",
