@@ -159,6 +159,7 @@
     "gtm.chemical.MaterialMixin",
     "gtm.chemical.TagPrefixMixin",
     "gtm.item.ColorSprayBehaviourMixin",
+    "gtm.item.CoatedTurbineRotorBehaviourMixin",
     "gtm.item.DataItemBehaviorMixin",
     "gtm.item.MaterialBlockItemMixin",
     "gtm.item.MaterialPipeBlockItemMixin",
