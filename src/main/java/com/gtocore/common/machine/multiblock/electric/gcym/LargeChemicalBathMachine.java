@@ -14,13 +14,12 @@ import net.minecraft.world.level.material.Fluid;
 import com.gto.datasynclib.annotations.SyncToClient;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Collections;
 import java.util.Set;
 
 public final class LargeChemicalBathMachine extends GCYMMultiblockMachine implements IFluidRendererMachine {
 
     @SyncToClient(notifyUpdate = true, autoUpdate = false)
-    private Set<BlockPos> fluidBlockOffsets = Collections.emptySet();
+    private Set<BlockPos> fluidBlockOffsets = FluidRenderUtils.emptyFluidBlockOffsets();
     @SyncToClient
     private Fluid cachedFluid;
 
@@ -44,7 +43,7 @@ public final class LargeChemicalBathMachine extends GCYMMultiblockMachine implem
     @Override
     public void onStructureInvalid() {
         super.onStructureInvalid();
-        fluidBlockOffsets = Collections.emptySet();
+        fluidBlockOffsets = FluidRenderUtils.emptyFluidBlockOffsets();
         FluidRenderUtils.markFluidBlockOffsetsForSync(this);
     }
 

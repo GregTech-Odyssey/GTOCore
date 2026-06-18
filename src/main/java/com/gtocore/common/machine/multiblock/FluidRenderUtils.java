@@ -26,6 +26,10 @@ public final class FluidRenderUtils {
         machine.markFieldsForSync(FLUID_BLOCK_OFFSETS_FIELD);
     }
 
+    public static Set<BlockPos> emptyFluidBlockOffsets() {
+        return new OpenCacheHashSet<>();
+    }
+
     public static Set<BlockPos> loadFluidBlockOffsets(MultiblockControllerMachine machine, DataComponentKey<Set<BlockPos>> key) {
         Set<BlockPos> fluidBlockOffsets = new OpenCacheHashSet<>();
         BlockPos origin = machine.getPos();
