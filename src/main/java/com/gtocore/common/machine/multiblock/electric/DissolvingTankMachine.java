@@ -14,7 +14,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.material.Fluid;
 
 import com.gto.datasynclib.annotations.SyncToClient;
-import com.gto.fastcollection.OpenCacheHashSet;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -24,7 +23,7 @@ import java.util.Set;
 public final class DissolvingTankMachine extends ElectricMultiblockMachine implements IFluidRendererMachine {
 
     @SyncToClient(notifyUpdate = true, autoUpdate = false)
-    private final Set<BlockPos> fluidBlockOffsets = new OpenCacheHashSet<>();
+    private Set<BlockPos> fluidBlockOffsets = Collections.emptySet();
     @SyncToClient
     private Fluid cachedFluid;
 
@@ -41,13 +40,15 @@ public final class DissolvingTankMachine extends ElectricMultiblockMachine imple
     @Override
     public void onStructureFormed() {
         super.onStructureFormed();
-        FluidRenderUtils.loadFluidBlockOffsetsAndSync(this, fluidBlockOffsets);
+        fluidBlockOffsets = FluidRenderUtils.loadFluidBlockOffsets(this);
+        FluidRenderUtils.markFluidBlockOffsetsForSync(this);
     }
 
     @Override
     public void onStructureInvalid() {
         super.onStructureInvalid();
-        FluidRenderUtils.clearFluidBlockOffsetsAndSync(this, fluidBlockOffsets);
+        fluidBlockOffsets = Collections.emptySet();
+        FluidRenderUtils.markFluidBlockOffsetsForSync(this);
     }
 
     @Nullable
