@@ -366,5 +366,6 @@ public final class GTOPredicates {
         public static final DataComponentKey<Set<BlockPos>> WHITE = DataComponentKey.create("white", DataComponentKey.collectionBuilder(OpenCacheHashSet::new));
         public static final DataComponentKey<Set<BlockPos>> A = DataComponentKey.create("a", DataComponentKey.collectionBuilder(OpenCacheHashSet::new));
         public static final DataComponentKey<Set<BlockPos>> B = DataComponentKey.create("b", DataComponentKey.collectionBuilder(OpenCacheHashSet::new));
+        public static final DataComponentKey<Set<BlockPos>> C = DataComponentKey.create("c", DataComponentKey.collectionBuilder(OpenCacheHashSet::new));
     }
 }

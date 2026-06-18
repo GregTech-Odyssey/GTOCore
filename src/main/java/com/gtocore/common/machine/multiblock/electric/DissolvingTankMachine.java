@@ -1,9 +1,10 @@
 package com.gtocore.common.machine.multiblock.electric;
 
+import com.gtocore.common.machine.multiblock.FluidRenderUtils;
+
 import com.gtolib.api.machine.feature.multiblock.IFluidRendererMachine;
 import com.gtolib.api.machine.multiblock.ElectricMultiblockMachine;
 import com.gtolib.api.recipe.GTORecipeModifiers;
-import com.gtolib.utils.MachineUtils;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
@@ -40,15 +41,7 @@ public final class DissolvingTankMachine extends ElectricMultiblockMachine imple
     @Override
     public void onStructureFormed() {
         super.onStructureFormed();
-        if (!fluidBlockOffsets.isEmpty()) return;
-        BlockPos pos = MachineUtils.getOffsetPos(2, 1, getFrontFacing(), getPos());
-        for (int i = -1; i < 2; i++) {
-            for (int j = 0; j < 2; j++) {
-                for (int k = -1; k < 2; k++) {
-                    fluidBlockOffsets.add(pos.offset(i, j, k).subtract(getPos()));
-                }
-            }
-        }
+        FluidRenderUtils.loadFluidBlockOffsets(this, fluidBlockOffsets);
     }
 
     @Override

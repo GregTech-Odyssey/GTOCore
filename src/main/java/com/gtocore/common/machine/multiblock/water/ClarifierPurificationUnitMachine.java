@@ -1,10 +1,10 @@
 package com.gtocore.common.machine.multiblock.water;
 
 import com.gtocore.common.data.GTOItems;
+import com.gtocore.common.machine.multiblock.FluidRenderUtils;
 
 import com.gtolib.api.machine.feature.multiblock.IFluidRendererMachine;
 import com.gtolib.api.recipe.RecipeBuilder;
-import com.gtolib.utils.MachineUtils;
 import com.gtolib.utils.NumberUtils;
 
 import com.gregtechceu.gtceu.api.GTValues;
@@ -16,7 +16,6 @@ import com.gregtechceu.gtceu.common.data.GTMaterials;
 import net.minecraft.ChatFormatting;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
@@ -56,18 +55,7 @@ public final class ClarifierPurificationUnitMachine extends WaterPurificationUni
     @Override
     public void onStructureFormed() {
         super.onStructureFormed();
-        if (!fluidBlockOffsets.isEmpty()) return;
-        BlockPos pos = getPos();
-        Direction facing = getFrontFacing();
-        for (int i = 0; i < 2; i++) {
-            for (int j = 1; j < 7; j++) {
-                fluidBlockOffsets.add(MachineUtils.getOffsetPos(j, i, facing, pos).subtract(pos));
-            }
-            for (int j = -4; j < 5; j++) {
-                if (j == 0) continue;
-                fluidBlockOffsets.add(MachineUtils.getOffsetPos(1, i, j, facing, pos).subtract(pos));
-            }
-        }
+        FluidRenderUtils.loadFluidBlockOffsets(this, fluidBlockOffsets);
     }
 
     @Override
