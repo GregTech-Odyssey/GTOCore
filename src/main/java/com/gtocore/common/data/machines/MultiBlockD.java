@@ -720,6 +720,7 @@ public final class MultiBlockD {
                     .where('H', GTOPredicates.tierBlock(SEPMMAP, GTORecipeDataKeys.POWER_MODULE_TIER))
                     .where('I', air())
                     .where('J', blocks(GTOBlocks.SPACE_ELEVATOR_POWER_CORE.get()))
+                    .where('M', GTOPredicates.module(ASSEMBLER_MODULE, RESOURCE_COLLECTION_MODULE))
                     .where('X', blocks(GTOBlocks.SPACE_ELEVATOR_MECHANICAL_CASING.get())
                             .or(abilities(GTOPartAbility.ITEMS_INPUT_BUS).setExactLimit(1))
                             .or(abilities(INPUT_ENERGY).setExactLimit(1))

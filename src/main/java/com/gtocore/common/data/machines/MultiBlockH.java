@@ -684,7 +684,11 @@ public final class MultiBlockH {
                     .build())
             .workableCasingRenderer(GTOCore.id("block/casings/space_elevator_mechanical_casing"), GTCEu.id("block/multiblock/gcym/large_chemical_bath"))
             .register();
-    public static final MultiblockMachineDefinition MEGA_ASSEMBLY_LINE = multiblock("mega_se_assembly_line", "太空电梯装配线", (h) -> new MegaSpaceElevatorModuleMachine(h, true, m -> ((SpaceElevatorModuleMachine) m).getSpaceElevatorTier() > 7 ? (int) Math.pow(2, ((SpaceElevatorModuleMachine) m).getSpaceElevatorMachine().getCasingTier(GTORecipeDataKeys.POWER_MODULE_TIER) - 1) : 0))
+    public static final MultiblockMachineDefinition MEGA_ASSEMBLY_LINE = multiblock("mega_se_assembly_line", "太空电梯装配线", (h) -> new MegaSpaceElevatorModuleMachine(h, true, m -> {
+        var module = (SpaceElevatorModuleMachine) m;
+        var controller = module.getController();
+        return controller != null && module.getSpaceElevatorTier() > 7 ? (int) Math.pow(2, controller.getCasingTier(GTORecipeDataKeys.POWER_MODULE_TIER) - 1) : 0;
+    }))
             .langValue("Mega Space Elevator Assembly Line")
             .nonYAxisRotation()
             .specialParallelizableTooltips()

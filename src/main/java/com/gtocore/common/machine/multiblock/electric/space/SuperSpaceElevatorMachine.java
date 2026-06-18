@@ -3,12 +3,10 @@ package com.gtocore.common.machine.multiblock.electric.space;
 import com.gtolib.utils.MathUtil;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
-import com.gregtechceu.gtceu.api.machine.MetaMachine;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.level.Level;
 
 import com.gto.datasynclib.annotations.SyncToClient;
 import com.lowdragmc.lowdraglib.utils.DummyWorld;
@@ -68,29 +66,24 @@ public final class SuperSpaceElevatorMachine extends SpaceElevatorMachine {
     }
 
     @Override
-    protected void update(boolean promptly) {
-        super.update(promptly);
-        if (promptly || getOffsetTimer() % 80 == 0) {
-            megaModuleCount = 0;
-            Level level = getLevel();
-            if (level == null) return;
-            for (BlockPos blockPoss : megaPoss) {
-                MetaMachine metaMachine = getMachine(level, blockPoss);
-                if (metaMachine instanceof MegaSpaceElevatorModuleMachine moduleMachine && moduleMachine.isFormed()) {
-                    if (moduleMachine.spaceElevatorMachine != this) moduleMachine.getRecipeLogic().updateTickSubscription();
-                    moduleMachine.spaceElevatorMachine = this;
-                    moduleCount++;
-                    megaModuleCount++;
-                }
-            }
-        }
-    }
-
-    @Override
     public void customText(@NotNull List<Component> textList) {
         super.customText(textList);
         textList.add(Component.translatable("gtocore.machine.module.base", moduleCount - megaModuleCount));
         textList.add(Component.translatable("gtocore.machine.module.mega", megaModuleCount));
+    }
+
+    @Override
+    protected void updateModuleCount() {
+        moduleCount = 0;
+        megaModuleCount = 0;
+        for (var module : modules) {
+            if (module instanceof SpaceElevatorModuleMachine moduleMachine && moduleMachine.getController() == this && moduleMachine.isFormed()) {
+                moduleCount++;
+                if (moduleMachine instanceof MegaSpaceElevatorModuleMachine) {
+                    megaModuleCount++;
+                }
+            }
+        }
     }
 
     private @NotNull List<BlockPos> getMegaPossCornerA(BlockPos blockPos) {

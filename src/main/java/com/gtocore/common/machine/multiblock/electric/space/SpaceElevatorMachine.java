@@ -20,7 +20,6 @@ import com.gregtechceu.gtceu.api.blockentity.ITickSubscription;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.gui.fancy.ConfiguratorPanel;
 import com.gregtechceu.gtceu.api.gui.fancy.IFancyConfiguratorButton;
-import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.TickableSubscription;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeDefinition;
 import com.gregtechceu.gtceu.api.recipe.handler.ICustomRecipeLogicHolder;
@@ -105,15 +104,15 @@ public class SpaceElevatorMachine extends TierCasingMultiblockMachine implements
                 });
                 return;
             }
-            Level level = getLevel();
-            if (level == null) return;
-            for (BlockPos blockPoss : poss) {
-                MetaMachine metaMachine = getMachine(level, blockPoss);
-                if (metaMachine instanceof SpaceElevatorModuleMachine moduleMachine && moduleMachine.isFormed()) {
-                    if (moduleMachine.spaceElevatorMachine != this) moduleMachine.getRecipeLogic().updateTickSubscription();
-                    moduleMachine.spaceElevatorMachine = this;
-                    moduleCount++;
-                }
+            updateModuleCount();
+        }
+    }
+
+    protected void updateModuleCount() {
+        moduleCount = 0;
+        for (var module : modules) {
+            if (module instanceof SpaceElevatorModuleMachine moduleMachine && moduleMachine.getController() == this && moduleMachine.isFormed()) {
+                moduleCount++;
             }
         }
     }
