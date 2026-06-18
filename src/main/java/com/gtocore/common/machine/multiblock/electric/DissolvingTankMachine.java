@@ -23,7 +23,7 @@ import java.util.Set;
 
 public final class DissolvingTankMachine extends ElectricMultiblockMachine implements IFluidRendererMachine {
 
-    @SyncToClient(notifyUpdate = true)
+    @SyncToClient(notifyUpdate = true, autoUpdate = false)
     private final Set<BlockPos> fluidBlockOffsets = new OpenCacheHashSet<>();
     @SyncToClient
     private Fluid cachedFluid;
@@ -41,13 +41,13 @@ public final class DissolvingTankMachine extends ElectricMultiblockMachine imple
     @Override
     public void onStructureFormed() {
         super.onStructureFormed();
-        FluidRenderUtils.loadFluidBlockOffsets(this, fluidBlockOffsets);
+        FluidRenderUtils.loadFluidBlockOffsetsAndSync(this, fluidBlockOffsets);
     }
 
     @Override
     public void onStructureInvalid() {
         super.onStructureInvalid();
-        fluidBlockOffsets.clear();
+        FluidRenderUtils.clearFluidBlockOffsetsAndSync(this, fluidBlockOffsets);
     }
 
     @Nullable

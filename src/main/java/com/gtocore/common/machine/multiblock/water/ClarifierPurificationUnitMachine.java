@@ -37,7 +37,7 @@ public final class ClarifierPurificationUnitMachine extends WaterPurificationUni
 
     @SaveToDisk
     private int count;
-    @SyncToClient(notifyUpdate = true)
+    @SyncToClient(notifyUpdate = true, autoUpdate = false)
     private final Set<BlockPos> fluidBlockOffsets = new OpenCacheHashSet<>();
     @SyncToClient
     private Fluid cachedFluid;
@@ -55,13 +55,13 @@ public final class ClarifierPurificationUnitMachine extends WaterPurificationUni
     @Override
     public void onStructureFormed() {
         super.onStructureFormed();
-        FluidRenderUtils.loadFluidBlockOffsets(this, fluidBlockOffsets);
+        FluidRenderUtils.loadFluidBlockOffsetsAndSync(this, fluidBlockOffsets);
     }
 
     @Override
     public void onStructureInvalid() {
         super.onStructureInvalid();
-        fluidBlockOffsets.clear();
+        FluidRenderUtils.clearFluidBlockOffsetsAndSync(this, fluidBlockOffsets);
     }
 
     @Override

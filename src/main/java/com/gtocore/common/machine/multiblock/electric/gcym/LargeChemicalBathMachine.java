@@ -19,7 +19,7 @@ import java.util.Set;
 
 public final class LargeChemicalBathMachine extends GCYMMultiblockMachine implements IFluidRendererMachine {
 
-    @SyncToClient(notifyUpdate = true)
+    @SyncToClient(notifyUpdate = true, autoUpdate = false)
     private final Set<BlockPos> fluidBlockOffsets = new OpenCacheHashSet<>();
     @SyncToClient
     private Fluid cachedFluid;
@@ -37,13 +37,13 @@ public final class LargeChemicalBathMachine extends GCYMMultiblockMachine implem
     @Override
     public void onStructureFormed() {
         super.onStructureFormed();
-        FluidRenderUtils.loadFluidBlockOffsets(this, fluidBlockOffsets);
+        FluidRenderUtils.loadFluidBlockOffsetsAndSync(this, fluidBlockOffsets);
     }
 
     @Override
     public void onStructureInvalid() {
         super.onStructureInvalid();
-        fluidBlockOffsets.clear();
+        FluidRenderUtils.clearFluidBlockOffsetsAndSync(this, fluidBlockOffsets);
     }
 
     @Override
