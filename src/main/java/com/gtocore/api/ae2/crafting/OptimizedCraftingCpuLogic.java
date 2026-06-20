@@ -690,20 +690,23 @@ public class OptimizedCraftingCpuLogic extends CraftingCpuLogic {
         for (int x = 0; x < inputs.length; x++) {
             var list = inputHolder[x];
             var input = inputs[x];
-            long remainingMultiplier = input.getMultiplier();
-            for (var stack : input.getPossibleInputs()) {
-                var what = stack.what();
-                if (counter.contains(what)) {
-                    var amount = stack.amount();
-                    var extracted = sourceInv.extract(what, amount * remainingMultiplier, Actionable.MODULATE);
-                    if (extracted == 0) continue;
-                    list.add(what, extracted);
-                    remainingMultiplier -= (extracted / amount);
-                    if (remainingMultiplier == 0) break;
-                }
+            var possibleInputs = input.getPossibleInputs();
+            boolean combineSubstitutes = possibleInputs.length > 1 && hasSameTemplateAmount(possibleInputs);
+            long remaining = input.getMultiplier();
+            if (combineSubstitutes) {
+                remaining *= possibleInputs[0].amount();
+            }
+            for (var stack : possibleInputs) {
+                if (!counter.contains(stack.what())) continue;
+                long amount = combineSubstitutes ? 1 : stack.amount();
+                var extracted = sourceInv.extract(stack.what(), amount * remaining, Actionable.MODULATE);
+                if (extracted == 0) continue;
+                list.add(stack.what(), extracted);
+                remaining -= (extracted / amount);
+                if (remaining == 0) break;
             }
 
-            if (remainingMultiplier > 0) {
+            if (remaining > 0) {
                 found = false;
                 break;
             }
@@ -725,8 +728,11 @@ public class OptimizedCraftingCpuLogic extends CraftingCpuLogic {
         if (sourceInv.isEmpty()) return 0;
         for (IPatternDetails.IInput input : details.getInputs()) {
             long extracted = 0;
+            var seen = new ReferenceOpenHashSet<AEKey>();
             for (var stack : input.getPossibleInputs()) {
-                extracted += (sourceInv.getLong(stack.what()) / stack.amount());
+                if (seen.add(stack.what())) {
+                    extracted += sourceInv.getLong(stack.what()) / stack.amount();
+                }
             }
             maxParallel = Math.min(maxParallel, extracted / input.getMultiplier());
             if (maxParallel < 1) {
@@ -734,6 +740,14 @@ public class OptimizedCraftingCpuLogic extends CraftingCpuLogic {
             }
         }
         return maxParallel;
+    }
+
+    private static boolean hasSameTemplateAmount(GenericStack[] inputs) {
+        long amount = inputs[0].amount();
+        for (int i = 1; i < inputs.length; i++) {
+            if (inputs[i].amount() != amount) return false;
+        }
+        return true;
     }
 
     private static KeyCounter[] getInputHolder(IDetails details) {
