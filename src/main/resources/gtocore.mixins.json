@@ -11,6 +11,7 @@
     "adastra.PlanetsScreenMixin",
     "ae2.crafting.PendingCraftingJobsMixin",
     "ae2.eae.ExPATScreensMixin",
+    "ae2.eae.GuiExPatternTerminalGroupHeaderAccessor",
     "ae2.eae.GuiExPatternTerminalMixin",
     "ae2.eae.GuiPatternMixin",
     "ae2.eae.GuiTagExportBusMixin",
