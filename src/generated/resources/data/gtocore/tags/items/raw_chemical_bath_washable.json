@@ -1,0 +1,212 @@
+{
+  "values": [
+    {
+      "id": "#c:ores/aluminium",
+      "required": false
+    },
+    {
+      "id": "#c:raw_materials/aluminium",
+      "required": false
+    },
+    {
+      "id": "#c:ores/bauxite",
+      "required": false
+    },
+    {
+      "id": "#c:raw_materials/bauxite",
+      "required": false
+    },
+    {
+      "id": "#c:ores/bornite",
+      "required": false
+    },
+    {
+      "id": "#c:raw_materials/bornite",
+      "required": false
+    },
+    {
+      "id": "#c:ores/chalcopyrite",
+      "required": false
+    },
+    {
+      "id": "#c:raw_materials/chalcopyrite",
+      "required": false
+    },
+    {
+      "id": "#c:ores/cobalt",
+      "required": false
+    },
+    {
+      "id": "#c:raw_materials/cobalt",
+      "required": false
+    },
+    {
+      "id": "#c:ores/cobaltite",
+      "required": false
+    },
+    {
+      "id": "#c:raw_materials/cobaltite",
+      "required": false
+    },
+    {
+      "id": "#c:ores/cooperite",
+      "required": false
+    },
+    {
+      "id": "#c:raw_materials/cooperite",
+      "required": false
+    },
+    {
+      "id": "#c:ores/copper",
+      "required": false
+    },
+    {
+      "id": "#c:raw_materials/copper",
+      "required": false
+    },
+    {
+      "id": "#c:ores/gaia_core",
+      "required": false
+    },
+    {
+      "id": "#c:raw_materials/gaia_core",
+      "required": false
+    },
+    {
+      "id": "#c:ores/galena",
+      "required": false
+    },
+    {
+      "id": "#c:raw_materials/galena",
+      "required": false
+    },
+    {
+      "id": "#c:ores/gold",
+      "required": false
+    },
+    {
+      "id": "#c:raw_materials/gold",
+      "required": false
+    },
+    {
+      "id": "#c:ores/ilmenite",
+      "required": false
+    },
+    {
+      "id": "#c:raw_materials/ilmenite",
+      "required": false
+    },
+    {
+      "id": "#c:ores/iron",
+      "required": false
+    },
+    {
+      "id": "#c:raw_materials/iron",
+      "required": false
+    },
+    {
+      "id": "#c:ores/magnetite",
+      "required": false
+    },
+    {
+      "id": "#c:raw_materials/magnetite",
+      "required": false
+    },
+    {
+      "id": "#c:ores/malachite",
+      "required": false
+    },
+    {
+      "id": "#c:raw_materials/malachite",
+      "required": false
+    },
+    {
+      "id": "#c:ores/nether_ember",
+      "required": false
+    },
+    {
+      "id": "#c:raw_materials/nether_ember",
+      "required": false
+    },
+    {
+      "id": "#c:ores/nickel",
+      "required": false
+    },
+    {
+      "id": "#c:raw_materials/nickel",
+      "required": false
+    },
+    {
+      "id": "#c:ores/pentlandite",
+      "required": false
+    },
+    {
+      "id": "#c:raw_materials/pentlandite",
+      "required": false
+    },
+    {
+      "id": "#c:ores/platinum",
+      "required": false
+    },
+    {
+      "id": "#c:raw_materials/platinum",
+      "required": false
+    },
+    {
+      "id": "#c:ores/silver",
+      "required": false
+    },
+    {
+      "id": "#c:raw_materials/silver",
+      "required": false
+    },
+    {
+      "id": "#c:ores/sphalerite",
+      "required": false
+    },
+    {
+      "id": "#c:raw_materials/sphalerite",
+      "required": false
+    },
+    {
+      "id": "#c:ores/stibnite",
+      "required": false
+    },
+    {
+      "id": "#c:raw_materials/stibnite",
+      "required": false
+    },
+    {
+      "id": "#c:ores/tetrahedrite",
+      "required": false
+    },
+    {
+      "id": "#c:raw_materials/tetrahedrite",
+      "required": false
+    },
+    {
+      "id": "#c:ores/tin",
+      "required": false
+    },
+    {
+      "id": "#c:raw_materials/tin",
+      "required": false
+    },
+    {
+      "id": "#c:ores/tungstate",
+      "required": false
+    },
+    {
+      "id": "#c:raw_materials/tungstate",
+      "required": false
+    },
+    {
+      "id": "#c:ores/yellow_limonite",
+      "required": false
+    },
+    {
+      "id": "#c:raw_materials/yellow_limonite",
+      "required": false
+    }
+  ]
+}

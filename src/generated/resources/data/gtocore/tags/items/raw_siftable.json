@@ -1,0 +1,308 @@
+{
+  "values": [
+    {
+      "id": "#c:ores/almandine",
+      "required": false
+    },
+    {
+      "id": "#c:raw_materials/almandine",
+      "required": false
+    },
+    {
+      "id": "#c:ores/amethyst",
+      "required": false
+    },
+    {
+      "id": "#c:raw_materials/amethyst",
+      "required": false
+    },
+    {
+      "id": "#c:ores/apatite",
+      "required": false
+    },
+    {
+      "id": "#c:raw_materials/apatite",
+      "required": false
+    },
+    {
+      "id": "#c:ores/blue_topaz",
+      "required": false
+    },
+    {
+      "id": "#c:raw_materials/blue_topaz",
+      "required": false
+    },
+    {
+      "id": "#c:ores/certus_quartz",
+      "required": false
+    },
+    {
+      "id": "#c:raw_materials/certus_quartz",
+      "required": false
+    },
+    {
+      "id": "#c:ores/cinnabar",
+      "required": false
+    },
+    {
+      "id": "#c:raw_materials/cinnabar",
+      "required": false
+    },
+    {
+      "id": "#c:ores/coal",
+      "required": false
+    },
+    {
+      "id": "#c:raw_materials/coal",
+      "required": false
+    },
+    {
+      "id": "#c:ores/diamond",
+      "required": false
+    },
+    {
+      "id": "#c:raw_materials/diamond",
+      "required": false
+    },
+    {
+      "id": "#c:ores/dragonstone",
+      "required": false
+    },
+    {
+      "id": "#c:raw_materials/dragonstone",
+      "required": false
+    },
+    {
+      "id": "#c:ores/emerald",
+      "required": false
+    },
+    {
+      "id": "#c:raw_materials/emerald",
+      "required": false
+    },
+    {
+      "id": "#c:ores/green_sapphire",
+      "required": false
+    },
+    {
+      "id": "#c:raw_materials/green_sapphire",
+      "required": false
+    },
+    {
+      "id": "#c:ores/grossular",
+      "required": false
+    },
+    {
+      "id": "#c:raw_materials/grossular",
+      "required": false
+    },
+    {
+      "id": "#c:ores/jasper",
+      "required": false
+    },
+    {
+      "id": "#c:raw_materials/jasper",
+      "required": false
+    },
+    {
+      "id": "#c:ores/lapis",
+      "required": false
+    },
+    {
+      "id": "#c:raw_materials/lapis",
+      "required": false
+    },
+    {
+      "id": "#c:ores/lazurite",
+      "required": false
+    },
+    {
+      "id": "#c:raw_materials/lazurite",
+      "required": false
+    },
+    {
+      "id": "#c:ores/malachite",
+      "required": false
+    },
+    {
+      "id": "#c:raw_materials/malachite",
+      "required": false
+    },
+    {
+      "id": "#c:ores/mana_diamond",
+      "required": false
+    },
+    {
+      "id": "#c:raw_materials/mana_diamond",
+      "required": false
+    },
+    {
+      "id": "#c:ores/monazite",
+      "required": false
+    },
+    {
+      "id": "#c:raw_materials/monazite",
+      "required": false
+    },
+    {
+      "id": "#c:ores/nether_quartz",
+      "required": false
+    },
+    {
+      "id": "#c:raw_materials/nether_quartz",
+      "required": false
+    },
+    {
+      "id": "#c:ores/olivine",
+      "required": false
+    },
+    {
+      "id": "#c:raw_materials/olivine",
+      "required": false
+    },
+    {
+      "id": "#c:ores/opal",
+      "required": false
+    },
+    {
+      "id": "#c:raw_materials/opal",
+      "required": false
+    },
+    {
+      "id": "#c:ores/origin_core_crystal",
+      "required": false
+    },
+    {
+      "id": "#c:raw_materials/origin_core_crystal",
+      "required": false
+    },
+    {
+      "id": "#c:ores/pyrope",
+      "required": false
+    },
+    {
+      "id": "#c:raw_materials/pyrope",
+      "required": false
+    },
+    {
+      "id": "#c:ores/quartzite",
+      "required": false
+    },
+    {
+      "id": "#c:raw_materials/quartzite",
+      "required": false
+    },
+    {
+      "id": "#c:ores/realgar",
+      "required": false
+    },
+    {
+      "id": "#c:raw_materials/realgar",
+      "required": false
+    },
+    {
+      "id": "#c:ores/red_garnet",
+      "required": false
+    },
+    {
+      "id": "#c:raw_materials/red_garnet",
+      "required": false
+    },
+    {
+      "id": "#c:ores/remnant_spirit_stone",
+      "required": false
+    },
+    {
+      "id": "#c:raw_materials/remnant_spirit_stone",
+      "required": false
+    },
+    {
+      "id": "#c:ores/rock_salt",
+      "required": false
+    },
+    {
+      "id": "#c:raw_materials/rock_salt",
+      "required": false
+    },
+    {
+      "id": "#c:ores/ruby",
+      "required": false
+    },
+    {
+      "id": "#c:raw_materials/ruby",
+      "required": false
+    },
+    {
+      "id": "#c:ores/salt",
+      "required": false
+    },
+    {
+      "id": "#c:raw_materials/salt",
+      "required": false
+    },
+    {
+      "id": "#c:ores/sapphire",
+      "required": false
+    },
+    {
+      "id": "#c:raw_materials/sapphire",
+      "required": false
+    },
+    {
+      "id": "#c:ores/sodalite",
+      "required": false
+    },
+    {
+      "id": "#c:raw_materials/sodalite",
+      "required": false
+    },
+    {
+      "id": "#c:ores/soul_jade_crystal",
+      "required": false
+    },
+    {
+      "id": "#c:raw_materials/soul_jade_crystal",
+      "required": false
+    },
+    {
+      "id": "#c:ores/sourcegem",
+      "required": false
+    },
+    {
+      "id": "#c:raw_materials/sourcegem",
+      "required": false
+    },
+    {
+      "id": "#c:ores/spessartine",
+      "required": false
+    },
+    {
+      "id": "#c:raw_materials/spessartine",
+      "required": false
+    },
+    {
+      "id": "#c:ores/star_blood_crystal",
+      "required": false
+    },
+    {
+      "id": "#c:raw_materials/star_blood_crystal",
+      "required": false
+    },
+    {
+      "id": "#c:ores/topaz",
+      "required": false
+    },
+    {
+      "id": "#c:raw_materials/topaz",
+      "required": false
+    },
+    {
+      "id": "#c:ores/yellow_garnet",
+      "required": false
+    },
+    {
+      "id": "#c:raw_materials/yellow_garnet",
+      "required": false
+    }
+  ]
+}
