@@ -21,6 +21,7 @@ import com.gtocore.eio_travel.implementations.AnchorTravelTarget;
 import com.gtocore.eio_travel.implementations.PatternTravelTarget;
 import com.gtocore.integration.Mods;
 import com.gtocore.integration.ae.PatternContentAccessTerminalMenu;
+import com.gtocore.integration.ae.hooks.IPushResultsHandler;
 import com.gtocore.integration.ae.wtlib.WFTMenu;
 import com.gtocore.integration.ae.wtlib.WRTMenu;
 import com.gtocore.integration.construction_wand.ConstructionWandRegistrar;
@@ -108,6 +109,7 @@ public class CommonProxy {
         GTOCodecs.init();
         GTOCreativeModeTabs.init();
         GTOEntityTypes.init();
+        IPushResultsHandler.init();
         if (!GTCEu.isDataGen() && Mods.FTBQUESTS.isLoaded()) {
             GTOQuestTypes.init();
         }
