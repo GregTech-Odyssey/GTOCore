@@ -16,6 +16,8 @@ import com.gregtechceu.gtceu.utils.FormattingUtil;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.network.chat.Component;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -28,6 +30,8 @@ import javax.annotation.ParametersAreNonnullByDefault;
 public class SpaceElevatorModuleMachine extends CustomParallelMultiblockMachine implements IMultiModule<SpaceElevatorMachine> {
 
     @Nullable
+    @Setter
+    @Getter
     private SpaceElevatorMachine controller;
 
     private final boolean powerModuleTier;
@@ -90,19 +94,5 @@ public class SpaceElevatorModuleMachine extends CustomParallelMultiblockMachine 
             mul = controller.netMachineCache == null ? 1.0d : controller.netMachineCache.getDurationMultiplier();
         }
         return Math.sqrt(mul / ((getSpaceElevatorTier() - GTValues.ZPM) * (isSuper() ? 2 : 1)));
-    }
-
-    @Nullable
-    @Override
-    public SpaceElevatorMachine getController() {
-        return controller;
-    }
-
-    @Override
-    public void setController(@Nullable SpaceElevatorMachine controller) {
-        if (this.controller != controller) {
-            getRecipeLogic().updateTickSubscription();
-        }
-        this.controller = controller;
     }
 }
