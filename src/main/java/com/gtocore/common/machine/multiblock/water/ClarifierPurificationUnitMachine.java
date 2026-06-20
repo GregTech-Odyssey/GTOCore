@@ -22,6 +22,7 @@ import net.minecraft.world.level.material.Fluids;
 
 import com.gto.datasynclib.annotations.SaveToDisk;
 import com.gto.datasynclib.annotations.SyncToClient;
+import lombok.Getter;
 
 import java.util.List;
 import java.util.Set;
@@ -36,8 +37,10 @@ public final class ClarifierPurificationUnitMachine extends WaterPurificationUni
 
     @SaveToDisk
     private int count;
+    @Getter
     @SyncToClient(notifyUpdate = true, autoUpdate = false)
-    private Set<BlockPos> fluidBlockOffsets = FluidRenderUtils.emptyFluidBlockOffsets();
+    private final Set<BlockPos> fluidBlockOffsets = FluidRenderUtils.emptyFluidBlockOffsets();
+    @Getter
     @SyncToClient
     private Fluid cachedFluid;
 
@@ -54,15 +57,13 @@ public final class ClarifierPurificationUnitMachine extends WaterPurificationUni
     @Override
     public void onStructureFormed() {
         super.onStructureFormed();
-        fluidBlockOffsets = FluidRenderUtils.loadFluidBlockOffsets(this);
-        FluidRenderUtils.markFluidBlockOffsetsForSync(this);
+        FluidRenderUtils.loadFluidBlockOffsets(this);
     }
 
     @Override
     public void onStructureInvalid() {
         super.onStructureInvalid();
-        fluidBlockOffsets = FluidRenderUtils.emptyFluidBlockOffsets();
-        FluidRenderUtils.markFluidBlockOffsetsForSync(this);
+        FluidRenderUtils.clearFluidBlockOffsets(this);
     }
 
     @Override
@@ -114,15 +115,5 @@ public final class ClarifierPurificationUnitMachine extends WaterPurificationUni
             return 85;
         }
         return 70;
-    }
-
-    @Override
-    public Set<BlockPos> getFluidBlockOffsets() {
-        return this.fluidBlockOffsets;
-    }
-
-    @Override
-    public Fluid getCachedFluid() {
-        return this.cachedFluid;
     }
 }
