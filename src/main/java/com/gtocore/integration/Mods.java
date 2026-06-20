@@ -23,7 +23,8 @@ public enum Mods {
     JECHARACTERS("jecharacters"),
     LANG("moremorelang"),
     FACTORY_BLOCKS("factory_blocks"),
-    MYTHICBOTANY("mythicbotany");
+    MYTHICBOTANY("mythicbotany"),
+    MODERNFIX("modernfix");
 
     @Getter
     private final boolean loaded;

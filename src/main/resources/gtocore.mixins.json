@@ -31,6 +31,7 @@
     "mc.GuiGraphicsMixin",
     "mc.OpenContainerMixin",
     "merequester.NumberFieldMixin",
+    "modernfix.ItemRendererMixin",
     "sodium.SodiumWorldRendererMixin"
   ],
   "mixins": [
