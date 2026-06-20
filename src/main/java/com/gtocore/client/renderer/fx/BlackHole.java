@@ -35,9 +35,10 @@ public class BlackHole extends AbstractFX {
     private int shrinkEndAge = 0;
     private boolean markedEnding = false;
     private float endingFromScale = 0.0F;
-    private static final float DISTORTION_STRENGTH = 0.12F;
-    private static final float CORE_MASK_INSET_MIN = 1.5F;
-    private static final float CORE_MASK_INSET_MAX = 6.0F;
+    private static final float LENS_STRENGTH = 1.0F;
+    private static final float PHOTON_RING_WIDTH = 0.075F;
+    private static final float SHADOW_MASK_INSET_MIN = 1.5F;
+    private static final float SHADOW_MASK_INSET_MAX = 6.0F;
     private static final float MIN_VISIBLE_RADIUS = 0.001F;
     private static final SphereMesh[] CORE_MESHES = new SphereMesh[] {
             new SphereMesh(16, 32),
@@ -137,10 +138,13 @@ public class BlackHole extends AbstractFX {
         }
 
         shader.setSampler("DiffuseSampler", sceneTarget.getColorTextureId());
+        shader.setSampler("DepthSampler", sceneTarget.getDepthTextureId());
         shader.safeGetUniform("BlackHoleCenterScreen").set(screenSphere.centerX, screenSphere.centerY);
-        shader.safeGetUniform("BlackHoleRadiusScreen").set(getCoreMaskRadius(screenSphere));
-        shader.safeGetUniform("EventHorizonRadiusScreen").set(screenSphere.eventHorizonRadius);
-        shader.safeGetUniform("DistortionStrength").set(DISTORTION_STRENGTH);
+        shader.safeGetUniform("ShadowRadiusScreen").set(getShadowMaskRadius(screenSphere));
+        shader.safeGetUniform("LensingRadiusScreen").set(screenSphere.eventHorizonRadius);
+        shader.safeGetUniform("BlackHoleFrontDepth").set(screenSphere.frontDepth);
+        shader.safeGetUniform("LensStrength").set(LENS_STRENGTH);
+        shader.safeGetUniform("PhotonRingWidth").set(PHOTON_RING_WIDTH);
         shader.safeGetUniform("ScreenSize").set((float) sceneTarget.viewWidth, (float) sceneTarget.viewHeight);
 
         renderSphereMesh(poseStack, eventHorizonRadius, pickSphereMesh(EVENT_HORIZON_MESHES, screenSphere.eventHorizonRadius),
@@ -155,7 +159,7 @@ public class BlackHole extends AbstractFX {
             if (sceneTarget != null) {
                 sceneTarget.destroyBuffers();
             }
-            sceneTarget = new TextureTarget(mainTarget.width, mainTarget.height, false, Minecraft.ON_OSX);
+            sceneTarget = new TextureTarget(mainTarget.width, mainTarget.height, true, Minecraft.ON_OSX);
             sceneTarget.setClearColor(0.0F, 0.0F, 0.0F, 0.0F);
             sceneTarget.setFilterMode(9729);
         }
@@ -174,7 +178,7 @@ public class BlackHole extends AbstractFX {
         GlStateManager._glBlitFrameBuffer(
                 0, 0, outputTarget.width, outputTarget.height,
                 0, 0, sceneTarget.width, sceneTarget.height,
-                16384, 9728);
+                16640, 9728);
         GlStateManager._glBindFramebuffer(36160, 0);
         outputTarget.bindWrite(true);
         Minecraft minecraft = Minecraft.getInstance();
@@ -216,8 +220,8 @@ public class BlackHole extends AbstractFX {
         renderType.clearRenderState();
     }
 
-    private static float getCoreMaskRadius(ScreenSpaceSphere screenSphere) {
-        float inset = Mth.clamp(screenSphere.coreRadius * 0.01F, CORE_MASK_INSET_MIN, CORE_MASK_INSET_MAX);
+    private static float getShadowMaskRadius(ScreenSpaceSphere screenSphere) {
+        float inset = Mth.clamp(screenSphere.coreRadius * 0.01F, SHADOW_MASK_INSET_MIN, SHADOW_MASK_INSET_MAX);
         return Math.max(screenSphere.coreRadius - inset, MIN_VISIBLE_RADIUS);
     }
 
@@ -250,7 +254,7 @@ public class BlackHole extends AbstractFX {
         }
     }
 
-    private record ScreenSpaceSphere(float centerX, float centerY, float coreRadius, float eventHorizonRadius) {
+    private record ScreenSpaceSphere(float centerX, float centerY, float coreRadius, float eventHorizonRadius, float frontDepth) {
 
         private static ScreenSpaceSphere project(Vec3 center, float coreRadius, float eventHorizonRadius, Camera camera, PoseStack poseStack, Matrix4f projectionMatrix) {
             Minecraft minecraft = Minecraft.getInstance();
@@ -294,7 +298,14 @@ public class BlackHole extends AbstractFX {
                 return null;
             }
 
-            return new ScreenSpaceSphere(centerScreenX, centerScreenY, coreRadiusPixels, eventRadiusPixels);
+            Vector4f frontClip = createFrontPoint(cameraRelative, camera, eventHorizonRadius);
+            viewProjection.transform(frontClip);
+            float frontDepth = centerClip.z / centerClip.w * 0.5F + 0.5F;
+            if (frontClip.w > 0.0F) {
+                frontDepth = frontClip.z / frontClip.w * 0.5F + 0.5F;
+            }
+
+            return new ScreenSpaceSphere(centerScreenX, centerScreenY, coreRadiusPixels, eventRadiusPixels, Mth.clamp(frontDepth, 0.0F, 1.0F));
         }
 
         private static float projectRadiusPixels(Vec3 cameraRelative, Camera camera, float radius, Matrix4f viewProjection,
@@ -324,6 +335,13 @@ public class BlackHole extends AbstractFX {
             return new Vector4f((float) (cameraRelative.x + camera.getLeftVector().x() * radius),
                     (float) (cameraRelative.y + camera.getLeftVector().y() * radius),
                     (float) (cameraRelative.z + camera.getLeftVector().z() * radius), 1.0F);
+        }
+
+        private static Vector4f createFrontPoint(Vec3 cameraRelative, Camera camera, float radius) {
+            org.joml.Vector3f look = camera.getLookVector();
+            return new Vector4f((float) (cameraRelative.x - look.x() * radius),
+                    (float) (cameraRelative.y - look.y() * radius),
+                    (float) (cameraRelative.z - look.z() * radius), 1.0F);
         }
     }
 }

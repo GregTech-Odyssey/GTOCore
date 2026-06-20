@@ -2,7 +2,7 @@
   "vertex": "gtocore:black_hole_event_horizon",
   "fragment": "gtocore:black_hole_event_horizon",
   "attributes": ["Position", "Color"],
-  "samplers": [{ "name": "DiffuseSampler" }],
+  "samplers": [{ "name": "DiffuseSampler" }, { "name": "DepthSampler" }],
   "uniforms": [
     {
       "name": "ModelViewMat",
@@ -36,22 +36,34 @@
       "values": [0.5, 0.5]
     },
     {
-      "name": "BlackHoleRadiusScreen",
+      "name": "ShadowRadiusScreen",
       "type": "float",
       "count": 1,
       "values": [1.0]
     },
     {
-      "name": "EventHorizonRadiusScreen",
+      "name": "LensingRadiusScreen",
       "type": "float",
       "count": 1,
       "values": [1.0]
     },
     {
-      "name": "DistortionStrength",
+      "name": "BlackHoleFrontDepth",
       "type": "float",
       "count": 1,
-      "values": [0.12]
+      "values": [1.0]
+    },
+    {
+      "name": "LensStrength",
+      "type": "float",
+      "count": 1,
+      "values": [1.0]
+    },
+    {
+      "name": "PhotonRingWidth",
+      "type": "float",
+      "count": 1,
+      "values": [0.075]
     }
   ]
 }

@@ -28,9 +28,6 @@ import org.joml.Quaternionf;
 // 从GTNL特效修改而来，协议: LGPLv3
 public final class KerrNewmanHomogenizerRenderer extends WorkableCasingMachineRenderer {
 
-    private static final int RING_SEGMENTS = 64;
-    private static final int RING_SIDES = 16;
-
     public KerrNewmanHomogenizerRenderer() {
         super(GTOCore.id("block/casings/dimension_injection_casing"), GTCEu.id("block/multiblock/fusion_reactor"));
     }
@@ -71,15 +68,11 @@ public final class KerrNewmanHomogenizerRenderer extends WorkableCasingMachineRe
         VertexConsumer light = buffer.getBuffer(GTORenderTypes.LIGHT_TRIANGLES);
 
         float rotation = tick * 1.2F;
-        poseStack.mulPose(new Quaternionf().fromAxisAngleDeg(1.0F, 1.0F, 1.0F, rotation));
-        renderRainbowRing(poseStack, light, 20.0F, 0.9F, RING_SEGMENTS, RING_SIDES, 0.8F);
-
-        poseStack.mulPose(Axis.ZP.rotationDegrees(rotation));
-        renderRainbowRing(poseStack, light, 24.0F, 0.9F, RING_SEGMENTS, RING_SIDES, 0.8F);
-
-        poseStack.mulPose(Axis.ZN.rotationDegrees(rotation));
-        poseStack.mulPose(Axis.XP.rotationDegrees(rotation));
-        renderRainbowRing(poseStack, light, 28.0F, 0.9F, RING_SEGMENTS, RING_SIDES, 0.8F);
+        poseStack.mulPose(new Quaternionf().fromAxisAngleDeg(1.0F, 0.35F, 0.15F, rotation * 0.35F));
+        poseStack.mulPose(Axis.XP.rotationDegrees(68.0F));
+        poseStack.mulPose(Axis.ZP.rotationDegrees(rotation * 0.35F));
+        renderAccretionDisk(poseStack, light, 5.8F, 12.0F, 96, 0.42F);
+        renderAccretionDisk(poseStack, light, 12.0F, 15.0F, 96, 0.14F);
 
         poseStack.popPose();
     }
@@ -108,74 +101,37 @@ public final class KerrNewmanHomogenizerRenderer extends WorkableCasingMachineRe
     }
 
     @OnlyIn(Dist.CLIENT)
-    private static void renderRainbowRing(PoseStack poseStack, VertexConsumer buffer, float radius, float tubeRadius,
-                                          int segments, int sides, float alpha) {
+    private static void renderAccretionDisk(PoseStack poseStack, VertexConsumer buffer, float innerRadius,
+                                            float outerRadius, int segments, float alpha) {
         Matrix4f matrix = poseStack.last().pose();
         for (int segment = 0; segment < segments; segment++) {
             float theta0 = Mth.TWO_PI * segment / segments;
             float theta1 = Mth.TWO_PI * (segment + 1) / segments;
-            float hue = segment / (float) segments;
-            float red = Mth.sin(hue * Mth.TWO_PI) * 0.4F + 0.6F;
-            float green = Mth.sin((hue + 0.33F) * Mth.TWO_PI) * 0.4F + 0.6F;
-            float blue = Mth.sin((hue + 0.66F) * Mth.TWO_PI) * 0.4F + 0.6F;
+            float thetaMid = (theta0 + theta1) * 0.5F;
+            float doppler = Mth.sin(thetaMid + 0.7F) * 0.5F + 0.5F;
+            float brightness = 0.45F + 0.55F * doppler;
+            float red = 1.0F;
+            float green = 0.38F + 0.42F * brightness;
+            float blue = 0.10F + 0.18F * brightness;
+            float segmentAlpha = alpha * (0.55F + 0.45F * brightness);
 
-            for (int side = 0; side < sides; side++) {
-                float phi0 = Mth.TWO_PI * side / sides;
-                float phi1 = Mth.TWO_PI * (side + 1) / sides;
+            diskVertex(buffer, matrix, innerRadius, theta0, red, green, blue, segmentAlpha * 0.68F);
+            diskVertex(buffer, matrix, outerRadius, theta0, red, green, blue, segmentAlpha * 0.24F);
+            diskVertex(buffer, matrix, outerRadius, theta1, red, green, blue, segmentAlpha * 0.24F);
 
-                ringVertex(buffer, matrix, radius, tubeRadius, theta0, phi0, red, green, blue, alpha);
-                ringVertex(buffer, matrix, radius, tubeRadius, theta1, phi0, red, green, blue, alpha);
-                ringVertex(buffer, matrix, radius, tubeRadius, theta1, phi1, red, green, blue, alpha);
-
-                ringVertex(buffer, matrix, radius, tubeRadius, theta0, phi0, red, green, blue, alpha);
-                ringVertex(buffer, matrix, radius, tubeRadius, theta1, phi1, red, green, blue, alpha);
-                ringVertex(buffer, matrix, radius, tubeRadius, theta0, phi1, red, green, blue, alpha);
-            }
+            diskVertex(buffer, matrix, innerRadius, theta0, red, green, blue, segmentAlpha * 0.68F);
+            diskVertex(buffer, matrix, outerRadius, theta1, red, green, blue, segmentAlpha * 0.24F);
+            diskVertex(buffer, matrix, innerRadius, theta1, red, green, blue, segmentAlpha * 0.68F);
         }
     }
 
     @OnlyIn(Dist.CLIENT)
-    private static void ringVertex(VertexConsumer buffer, Matrix4f matrix, float radius, float tubeRadius,
-                                   float theta, float phi, float red, float green, float blue, float alpha) {
-        float ringRadius = radius + tubeRadius * Mth.cos(phi);
+    private static void diskVertex(VertexConsumer buffer, Matrix4f matrix, float radius, float theta,
+                                   float red, float green, float blue, float alpha) {
         buffer.vertex(matrix,
-                ringRadius * Mth.cos(theta),
-                tubeRadius * Mth.sin(phi),
-                ringRadius * Mth.sin(theta))
-                .color(red, green, blue, alpha)
-                .endVertex();
-    }
-
-    @OnlyIn(Dist.CLIENT)
-    private static void renderSphere(PoseStack poseStack, VertexConsumer buffer, float radius, int segments, int rings,
-                                     float red, float green, float blue, float alpha) {
-        Matrix4f matrix = poseStack.last().pose();
-        for (int ring = 0; ring < rings; ring++) {
-            float phi0 = (float) Math.PI * ring / rings;
-            float phi1 = (float) Math.PI * (ring + 1) / rings;
-            for (int segment = 0; segment < segments; segment++) {
-                float theta0 = Mth.TWO_PI * segment / segments;
-                float theta1 = Mth.TWO_PI * (segment + 1) / segments;
-
-                vertex(buffer, matrix, radius, phi0, theta0, red, green, blue, alpha);
-                vertex(buffer, matrix, radius, phi1, theta0, red, green, blue, alpha);
-                vertex(buffer, matrix, radius, phi1, theta1, red, green, blue, alpha);
-
-                vertex(buffer, matrix, radius, phi0, theta0, red, green, blue, alpha);
-                vertex(buffer, matrix, radius, phi1, theta1, red, green, blue, alpha);
-                vertex(buffer, matrix, radius, phi0, theta1, red, green, blue, alpha);
-            }
-        }
-    }
-
-    @OnlyIn(Dist.CLIENT)
-    private static void vertex(VertexConsumer buffer, Matrix4f matrix, float radius, float phi, float theta,
-                               float red, float green, float blue, float alpha) {
-        float sinPhi = Mth.sin(phi);
-        buffer.vertex(matrix,
-                radius * sinPhi * Mth.cos(theta),
-                radius * Mth.cos(phi),
-                radius * sinPhi * Mth.sin(theta))
+                radius * Mth.cos(theta),
+                0.0F,
+                radius * Mth.sin(theta))
                 .color(red, green, blue, alpha)
                 .endVertex();
     }
