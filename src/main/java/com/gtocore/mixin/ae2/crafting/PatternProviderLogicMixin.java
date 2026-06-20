@@ -136,7 +136,8 @@ public abstract class PatternProviderLogicMixin implements IPatternProviderLogic
             var adjacentPos = blockEntity.getBlockPos().relative(side);
             var group = PatternContainerGroupHelper.fromMachine(level, adjacentPos, extraSuffix);
             if (group == null) {
-                group = PatternContainerGroup.fromMachine(level, adjacentPos, side.getOpposite());
+                var fallbackGroup = PatternContainerGroup.fromMachine(level, adjacentPos, side.getOpposite());
+                group = new PatternContainerGroup(fallbackGroup.icon(), fallbackGroup.name().copy().append(suffix), fallbackGroup.tooltip());
             }
             if (group != null) {
                 groups.add(group);
