@@ -204,6 +204,7 @@
     "gtocore:plasma_field_glass",
     "gtocore:electromagnetic_shielding_glass",
     "gtocore:chaos_shielding_glass",
+    "gtocore:coprocessor_computing_casing",
     "gtocore:force_field_glass",
     "gtocore:spatially_transcendent_gravitational_lens_block",
     "gtocore:naquadria_charge",

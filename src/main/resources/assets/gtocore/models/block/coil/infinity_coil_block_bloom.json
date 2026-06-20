@@ -1,7 +1,23 @@
 {
-  "parent": "gtceu:block/cube_2_layer/all",
+  "parent": "minecraft:block/cube_all",
   "textures": {
-    "bot_all": "gtocore:block/coil/infinity_coil_block",
-    "top_all": "gtocore:block/coil/infinity_coil_block_bloom"
+    "all": "gtocore:block/coil/coil_frame"
+  },
+  "loader": "gtocore:y_layered",
+  "y_layered": {
+    "layers": [
+      {
+        "source": "all",
+        "texture": "gtocore:block/coil/infinity_coil_block_bloom_layer",
+        "replace": true,
+        "rows": 4,
+        "columns": 4
+      },
+      {
+        "source": "all",
+        "texture": "#all",
+        "replace": false
+      }
+    ]
   }
 }

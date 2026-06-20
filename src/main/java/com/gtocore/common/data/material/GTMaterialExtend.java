@@ -23,6 +23,7 @@ import static com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialFlag
 import static com.gregtechceu.gtceu.api.data.chemical.material.properties.PropertyKey.*;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
 import static com.gtocore.api.data.material.GTOMaterialFlags.*;
+import static com.gtocore.api.data.material.GTOMaterialIconSet.WROUGHT_IRON;
 import static com.gtocore.common.data.GTOMaterials.*;
 import static com.gtolib.utils.register.MaterialsRegisterUtils.material;
 
@@ -77,6 +78,7 @@ public final class GTMaterialExtend {
                 .iconSet(MaterialIconSet.LIGNITE)
                 .buildAndRegister();
 
+        WroughtIron.setMaterialIconSet(WROUGHT_IRON);
         Cooperite.setComponents(new MaterialStack(PlatinumMetal, 3), new MaterialStack(Nickel, 1), new MaterialStack(Sulfur, 1), new MaterialStack(PalladiumMetal, 1));
         RutheniumTriniumAmericiumNeutronate.setComponents(new MaterialStack(Ruthenium, 1), new MaterialStack(Trinium, 2), new MaterialStack(Americium, 1), new MaterialStack(Amprosium, 2), new MaterialStack(Oxygen, 8));
         Clay.addFlags(GTOMaterialFlags.GENERATE_SMALL_DUST);

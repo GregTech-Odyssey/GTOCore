@@ -8,6 +8,7 @@ import com.gtolib.utils.GTOUtils;
 import net.minecraft.ChatFormatting;
 
 import appeng.api.stacks.AEKey;
+import appeng.api.stacks.GenericStack;
 import appeng.client.gui.me.common.PendingCraftingJobs;
 import appeng.core.localization.GuiText;
 import appeng.core.sync.packets.CraftingJobStatusPacket;
@@ -25,6 +26,11 @@ public class PendingCraftingJobsMixin {
     @Inject(method = "jobStatus", at = @At(value = "INVOKE", target = "Lappeng/core/AEConfig;isNotifyForFinishedCraftingJobs()Z"), remap = false)
     private static void notify(UUID id, AEKey what, long requestedAmount, long remainingAmount, CraftingJobStatusPacket.Status status, CallbackInfo ci) {
         if (!GTOConfig.INSTANCE.client.craftingJobFinishedNotification) return;
-        GTOUtils.asyncExecute(() -> NotificationUtils.notify(GuiText.ToastCraftingJobFinishedTitle.text().getString(), null, ChatFormatting.stripFormatting(what.getDisplayName().getString()), NotificationUtils.Type.INFO, "assets/ae2/textures/block/controller.png"));
+        GTOUtils.asyncExecute(() -> NotificationUtils.notify(
+                GuiText.ToastCraftingJobFinishedTitle.text().getString(),
+                null,
+                ChatFormatting.stripFormatting(what.getDisplayName().getString()),
+                NotificationUtils.Type.INFO,
+                new GenericStack(what, requestedAmount)));
     }
 }

@@ -473,6 +473,19 @@ public final class LangHandler {
         addCNEN("gtocore.emi.search_text.how_to_use", "将它拖拽至文本框以快速填入搜索栏", "Drag it to the text box to quickly fill in the search bar");
         addCNEN("gtocore.emi.insert_item_into_ae", "§a将光标上的物品置入已有的ME网络中§r", "Insert the item on the cursor into the existing ME network");
 
+        addCNEN("gtocore.emi.primordial_reconstructor.disassembly.title", "源初重构仪拆解模式", "Reconstructor Disassembly");
+        addCNEN("gtocore.emi.primordial_reconstructor.disassembly.note_1", "主物品可替换为任意同类物品", "Main inputs can be replaced by any matching item type");
+        addCNEN("gtocore.emi.primordial_reconstructor.disassembly.note_2", "输出包含书/布/宝石时需输入对应的额外物品", "When outputs include books/canvases/gems, input the matching extra item");
+        addCNEN("gtocore.emi.primordial_reconstructor.disassembly.note_3", "输入装备会被消耗，附魔书和铭刻之布会返回普通书/布", "Equipment inputs are consumed; enchanted books and affix canvases return normal books/canvases");
+        addCNEN("gtocore.emi.primordial_reconstructor.disassembly.input_group", "输入", "Input");
+        addCNEN("gtocore.emi.primordial_reconstructor.disassembly.output_group", "输出", "Output");
+        addCNEN("gtocore.emi.primordial_reconstructor.disassembly.circuit", "电路", "Circuit");
+        addCNEN("gtocore.emi.primordial_reconstructor.disassembly.input", "主物品", "Main");
+        addCNEN("gtocore.emi.primordial_reconstructor.disassembly.extra", "额外物品", "Extra");
+        addCNEN("gtocore.emi.primordial_reconstructor.disassembly.enchantment", "附魔", "Enchant.");
+        addCNEN("gtocore.emi.primordial_reconstructor.disassembly.affix", "刻印", "Affix");
+        addCNEN("gtocore.emi.primordial_reconstructor.disassembly.gem", "宝石", "Gem");
+
         addCNEN("emi.category.gtocore.alfheim_entry_requirements", "亚尔夫海姆准入条件", "Alfheim Access Requirements");
         addCNEN("gtocore.entry_alfheim.0.c", "§a你已完全满足进入亚尔夫海姆的条件", "§aYou have fully met the requirements to enter Alfheim");
         addCNEN("gtocore.entry_alfheim.1", "你需要饮下诗之蜜酒", "You must drink Kvasir’s Mead");
@@ -522,6 +535,8 @@ public final class LangHandler {
         addCNEN("spatial_storage.ae2.name", "封闭空间", "Spatial Storage");
 
         addCNEN("tag.fluid.gtocore.purify_water", "净化水", "Purify Water");
+        addCNEN("tag.item.gtocore.enchantment_essence", "附魔精粹", "Enchantment Essence");
+        addCNEN("tag.item.gtocore.affix_essence", "刻印精粹", "Affix Essence");
 
         addCNEN("gtocore.message.otherside_pass_required", "你感受到来自幽冥的隔绝感...", "You feel a sense of isolation from the Other Side...");
         addCNEN("gtocore.message.otherside_pass_required.1", "似乎需要伪装成幽冥中最强大的生物之一，才能通过这里。", "It seems you need to disguise yourself as one of the most powerful beings in the Other Side to pass through here.");

@@ -1,0 +1,8 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "gtocore:item/material_sets/wrought_iron/rod",
+    "layer1": "#layer0",
+    "layer2": "#layer0"
+  }
+}

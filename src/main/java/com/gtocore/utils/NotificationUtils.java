@@ -1,12 +1,33 @@
 package com.gtocore.utils;
 
+import com.gtolib.GTOCore;
+
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraftforge.fml.ModList;
+
+import appeng.api.client.AEKeyRendering;
+import appeng.api.stacks.AmountFormat;
+import appeng.api.stacks.GenericStack;
+import appeng.client.gui.me.common.StackSizeRenderer;
+
+import com.mojang.blaze3d.pipeline.RenderTarget;
+import com.mojang.blaze3d.pipeline.TextureTarget;
+import com.mojang.blaze3d.platform.Lighting;
+import com.mojang.blaze3d.platform.NativeImage;
+import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexSorting;
+import org.joml.Matrix4f;
 
 import java.awt.image.BufferedImage;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.TimeUnit;
 
 import javax.imageio.ImageIO;
 
@@ -58,6 +79,7 @@ public final class NotificationUtils {
      */
     public static final String DEFAULT_ICON = "assets/gtocore/textures/item/tools/iv_vajra.png";
     private static final int MIN_ICON_SIZE = 64;
+    private static final int RENDER_ICON_SIZE = 64;
 
     private static final boolean LOADED = loadNative();
     private static long handle;
@@ -130,6 +152,35 @@ public final class NotificationUtils {
         if (!LOADED) return false;
         if (handle == 0 && !init(null, DEFAULT_APP_NAME)) return false;
         Icon icon = loadIcon(iconResource);
+        return notifyWithIcon(title, subtitle, text, type, icon);
+    }
+
+    public static boolean notify(String title, String subtitle, String text, Type type, GenericStack renderStack) {
+        if (!LOADED) return false;
+        if (renderStack == null || renderStack.what() == null) {
+            return notify(title, subtitle, text, type, DEFAULT_ICON);
+        }
+
+        Minecraft minecraft = Minecraft.getInstance();
+
+        CompletableFuture<Boolean> result = new CompletableFuture<>();
+        Runnable task = () -> result.complete(notifyRenderedStackInternal(title, subtitle, text, type, renderStack));
+        if (minecraft.isSameThread()) {
+            task.run();
+        } else {
+            minecraft.tell(task);
+        }
+        try {
+            return result.get(5, TimeUnit.SECONDS);
+        } catch (Exception e) {
+            GTOCore.LOGGER.debug("Timed out waiting for rendered notification icon", e);
+            return notify(title, subtitle, text, type, DEFAULT_ICON);
+        }
+    }
+
+    private static synchronized boolean notifyWithIcon(String title, String subtitle, String text, Type type, Icon icon) {
+        if (!LOADED) return false;
+        if (handle == 0 && !init(null, DEFAULT_APP_NAME)) return false;
         int flag = type == null ? Type.INFO.flag : type.flag;
         try {
             return icon == null ? nativeNotify(handle, safe(title), safe(subtitle), safe(text), flag, null, 0, 0) : nativeNotify(handle, safe(title), safe(subtitle), safe(text), flag, icon.argb(), icon.width(), icon.height());
@@ -242,6 +293,103 @@ public final class NotificationUtils {
             return true;
         } catch (Throwable t) {
             return false;
+        }
+    }
+
+    private static boolean notifyRenderedStackInternal(String title, String subtitle, String text, Type type, GenericStack renderStack) {
+        Icon renderedIcon = renderIcon(renderStack);
+        if (renderedIcon != null) {
+            return notifyWithIcon(title, subtitle, text, type, renderedIcon);
+        }
+        return notify(title, subtitle, text, type, DEFAULT_ICON);
+    }
+
+    private static Icon renderIcon(GenericStack renderStack) {
+        Minecraft minecraft = Minecraft.getInstance();
+        if (renderStack == null || renderStack.what() == null) return null;
+
+        RenderTarget fbo = new TextureTarget(RENDER_ICON_SIZE, RENDER_ICON_SIZE, true, Minecraft.ON_OSX);
+        try {
+            BufferedImage image = captureAeStackIcon(minecraft, renderStack, fbo);
+            if (image == null) return null;
+            int[] argb = image.getRGB(0, 0, image.getWidth(), image.getHeight(), null, 0, image.getWidth());
+            return upscaleSmallIcon(new Icon(argb, image.getWidth(), image.getHeight()));
+        } catch (Throwable t) {
+            GTOCore.LOGGER.debug("Failed to render notification icon for stack {}", renderStack, t);
+            return null;
+        } finally {
+            fbo.destroyBuffers();
+            minecraft.getMainRenderTarget().bindWrite(true);
+        }
+    }
+
+    private static BufferedImage captureAeStackIcon(Minecraft minecraft, GenericStack renderStack, RenderTarget fbo) {
+        Matrix4f previousProjection = new Matrix4f(RenderSystem.getProjectionMatrix());
+        PoseStack modelViewStack = RenderSystem.getModelViewStack();
+        boolean pushedModelView = false;
+        RenderTarget previousTarget = minecraft.getMainRenderTarget();
+        try {
+            fbo.setClearColor(0f, 0f, 0f, 0f);
+            fbo.clear(Minecraft.ON_OSX);
+            fbo.bindWrite(true);
+
+            Matrix4f projection = new Matrix4f().setOrtho(0, RENDER_ICON_SIZE, RENDER_ICON_SIZE, 0, 1000.0f, 21000.0f);
+            RenderSystem.setProjectionMatrix(projection, VertexSorting.DISTANCE_TO_ORIGIN);
+
+            modelViewStack.pushPose();
+            pushedModelView = true;
+            modelViewStack.setIdentity();
+            modelViewStack.translate(0, 0, -11000.0f);
+            RenderSystem.applyModelViewMatrix();
+
+            Lighting.setupFor3DItems();
+
+            MultiBufferSource.BufferSource bufferSource = minecraft.renderBuffers().bufferSource();
+            GuiGraphics guiGraphics = new GuiGraphics(minecraft, bufferSource);
+            float scale = RENDER_ICON_SIZE / 16.0f;
+            guiGraphics.pose().scale(scale, scale, scale);
+            AEKeyRendering.drawInGui(minecraft, guiGraphics, 0, 0, renderStack.what());
+            if (renderStack.amount() > 0) {
+                String amountText = renderStack.what().formatAmount(renderStack.amount(), AmountFormat.SLOT);
+                StackSizeRenderer.renderSizeLabel(guiGraphics, minecraft.font, 0, 0, amountText, false);
+            }
+            guiGraphics.flush();
+
+            return readFBOPixels(fbo);
+        } catch (Throwable t) {
+            GTOCore.LOGGER.debug("Failed to capture AE notification stack {}", renderStack, t);
+            return null;
+        } finally {
+            if (pushedModelView) {
+                modelViewStack.popPose();
+                RenderSystem.applyModelViewMatrix();
+            }
+            RenderSystem.setProjectionMatrix(previousProjection, VertexSorting.DISTANCE_TO_ORIGIN);
+            previousTarget.bindWrite(true);
+        }
+    }
+
+    private static BufferedImage readFBOPixels(RenderTarget fbo) {
+        try (NativeImage nativeImage = new NativeImage(fbo.width, fbo.height, false)) {
+            RenderSystem.bindTexture(fbo.getColorTextureId());
+            nativeImage.downloadTexture(0, false);
+            nativeImage.flipY();
+
+            BufferedImage image = new BufferedImage(fbo.width, fbo.height, BufferedImage.TYPE_INT_ARGB);
+            for (int y = 0; y < fbo.height; y++) {
+                for (int x = 0; x < fbo.width; x++) {
+                    int pixel = nativeImage.getPixelRGBA(x, y);
+                    int a = (pixel >> 24) & 0xFF;
+                    int b = (pixel >> 16) & 0xFF;
+                    int g = (pixel >> 8) & 0xFF;
+                    int r = pixel & 0xFF;
+                    image.setRGB(x, y, (a << 24) | (r << 16) | (g << 8) | b);
+                }
+            }
+            return image;
+        } catch (Throwable t) {
+            GTOCore.LOGGER.debug("Failed to read notification icon FBO", t);
+            return null;
         }
     }
 }

@@ -14,6 +14,13 @@ public final class GTORenderTypes extends RenderType {
                     .setCullState(NO_CULL)
                     .setShaderState(RenderStateShard.POSITION_COLOR_SHADER)
                     .createCompositeState(false));
+    public static final RenderType LIGHT_TRIANGLES = RenderType.create("light_triangles",
+            DefaultVertexFormat.POSITION_COLOR, VertexFormat.Mode.TRIANGLES, 131072, false, false,
+            RenderType.CompositeState.builder()
+                    .setTransparencyState(TRANSLUCENT_TRANSPARENCY)
+                    .setCullState(CULL)
+                    .setShaderState(RenderStateShard.POSITION_COLOR_SHADER)
+                    .createCompositeState(false));
     public static final RenderType LIGHT_CYLINDER_TEXTURED = RenderType.create("light_cylinder_textured",
             DefaultVertexFormat.POSITION_TEX, VertexFormat.Mode.TRIANGLE_STRIP, 131072, true, false,
             RenderType.CompositeState.builder()

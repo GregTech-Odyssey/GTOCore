@@ -30,6 +30,7 @@ import com.gtolib.api.ae2.me2in1.emi.CategoryMappingSubMenu;
 import com.gtolib.api.ae2.me2in1.emi.CategoryMappingSubScreen;
 import com.gtolib.api.ae2.stacks.TagPrefixKey;
 import com.gtolib.api.ae2.stacks.TagPrefixKeyType;
+import com.gtolib.api.client.YLayeredModelLoader;
 import com.gtolib.api.emi.stack.TagPrefixRenderer;
 
 import com.gregtechceu.gtceu.GTCEu;
@@ -80,6 +81,7 @@ public final class ClientProxy extends CommonProxy {
         eventBus.addListener(ClientProxy::registerItemDeco);
         eventBus.addListener(ClientProxy::registerGuiOverlays);
         eventBus.addListener(ClientProxy::registerAdditionalModels);
+        eventBus.addListener(ClientProxy::registerGeometryLoaders);
         eventBus.addListener(ClientProxy::registerMenuScreen);
         eventBus.addListener(ClientProxy::registerItemColors);
         eventBus.register(GTOComponentRegistry.class);
@@ -184,6 +186,10 @@ public final class ClientProxy extends CommonProxy {
         for (TagPrefix tagPrefix : TagPrefix.values()) {
             evt.register(GTOCore.id("item/" + tagPrefix.getLowerCaseName()));
         }
+    }
+
+    private static void registerGeometryLoaders(ModelEvent.RegisterGeometryLoaders event) {
+        event.register("y_layered", YLayeredModelLoader.INSTANCE);
     }
 
     private static void registerAEModels() {

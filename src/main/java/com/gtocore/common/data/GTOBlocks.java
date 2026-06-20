@@ -7,18 +7,16 @@ import com.gtocore.common.pipe.heat.HeatPipeType;
 import com.gtocore.common.pipe.mana.ManaPipeType;
 
 import com.gtolib.GTOCore;
+import com.gtolib.api.client.YLayeredModelBuilder;
 import com.gtolib.utils.RLUtils;
 
-import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.block.ActiveBlock;
 import com.gregtechceu.gtceu.api.item.ITagPrefixItem;
-import com.gregtechceu.gtceu.api.item.tool.GTToolType;
 import com.gregtechceu.gtceu.common.block.CoilBlock;
 import com.gregtechceu.gtceu.data.recipe.CustomTags;
 
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.level.block.Block;
@@ -27,7 +25,6 @@ import net.minecraft.world.level.block.RotatedPillarBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 import net.minecraft.world.level.material.MapColor;
-import net.minecraftforge.client.model.generators.ModelFile;
 
 import com.gto.registrate.util.entry.BlockEntry;
 import com.gto.registrate.util.nullness.NonNullBiConsumer;
@@ -353,6 +350,22 @@ public final class GTOBlocks {
     public static final BlockEntry<Block> PLASMA_FIELD_GLASS = createGlassCasingBlock("plasma_field_glass", "等离子体场玻璃", GTOCore.id("block/casings/plasma_field_glass"));
     public static final BlockEntry<Block> ELECTROMAGNETIC_SHIELDING_GLASS = createGlassCasingBlock("electromagnetic_shielding_glass", "电磁屏蔽玻璃", GTOCore.id("block/casings/electromagnetic_shielding_glass"));
     public static final BlockEntry<Block> CHAOS_SHIELDING_GLASS = createGlassCasingBlock("chaos_shielding_glass", "混沌屏蔽玻璃", GTOCore.id("block/casings/chaos_shielding_glass"));
+    public static final BlockEntry<Block> COPROCESSOR_COMPUTING_CASING = createCustomModelCasingBlock("coprocessor_computing_casing",
+            "Coprocessor Computing Casing",
+            "协处理器计算机械方块",
+            (ctx, prov) -> prov.simpleBlock(ctx.getEntry(),
+                    prov.models()
+                            .cubeAll("coprocessor_computing_casing", GTOCore.id("block/casings/about_computer/computer_frame"))
+                            .customLoader(YLayeredModelBuilder::begin)
+                            .layer("all", GTOCore.id("block/casings/about_computer/coprocessor_computing_casing_layer"))
+                            .grid(6, 6)
+                            .replace(true)
+                            .end()
+                            .layer("all", GTOCore.id("block/casings/about_computer/computer_frame"))
+                            .replace(false)
+                            .end()
+                            .end()),
+            () -> RenderType::cutoutMipped);
 
     public static final BlockEntry<Block> FORCE_FIELD_GLASS = createGlassCasingBlock("force_field_glass", "力场玻璃", GTOCore.id("block/force_field_glass"));
     public static final BlockEntry<Block> SPATIALLY_TRANSCENDENT_GRAVITATIONAL_LENS_BLOCK = createGlassCasingBlock("spatially_transcendent_gravitational_lens_block", "超空间引力透镜块", GTOCore.id("block/spatially_transcendent_gravitational_lens_block"));
@@ -681,24 +694,5 @@ public final class GTOBlocks {
                     .register();
             MANA_PIPES[i] = entry;
         }
-    }
-
-    private static BlockEntry<ActiveBlock> createAcceleratorCoil(String name, String cnName, ResourceLocation texture) {
-        return block(name, cnName, ActiveBlock::new)
-                .initialProperties(() -> Blocks.IRON_BLOCK)
-                .properties(p -> p.isValidSpawn((state, level, pos, ent) -> false))
-                .addLayer(() -> RenderType::cutoutMipped)
-                .blockstate((ctx, prov) -> {
-                    ActiveBlock block = ctx.getEntry();
-                    ModelFile inactive = prov.models().cubeAll(ctx.getName(), texture);
-                    ModelFile active = prov.models().withExistingParent(ctx.getName() + "_active", GTCEu.id("block/cube_2_layer/all"))
-                            .texture("bot_all", texture).texture("top_all", texture.withSuffix("_bloom"));
-                    prov.getVariantBuilder(block).partialState().with(ActiveBlock.ACTIVE, false).modelForState().modelFile(inactive).addModel().partialState().with(ActiveBlock.ACTIVE, true).modelForState().modelFile(active).addModel();
-                })
-                .tag(GTToolType.WRENCH.harvestTags.getFirst(), BlockTags.MINEABLE_WITH_PICKAXE)
-                .item(BlockItem::new)
-                .model((ctx, prov) -> prov.cubeAll(prov.name(ctx), texture))
-                .build()
-                .register();
     }
 }

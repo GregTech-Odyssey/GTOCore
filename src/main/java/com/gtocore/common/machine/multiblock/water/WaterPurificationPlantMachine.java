@@ -86,7 +86,6 @@ public final class WaterPurificationPlantMachine extends ElectricMultiblockMachi
         for (var entry : waterPurificationUnitMachineMap.object2BooleanEntrySet()) {
             if (entry.getBooleanValue() && entry.getKey().getRecipeLogic().getLastRecipe() != null) {
                 entry.getKey().getRecipeLogic().onRecipeFinish();
-                entry.getKey().afterWorking();
                 entry.setValue(false);
             }
         }
