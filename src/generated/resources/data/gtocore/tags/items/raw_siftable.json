@@ -169,14 +169,6 @@
       "required": false
     },
     {
-      "id": "#c:ores/origin_core_crystal",
-      "required": false
-    },
-    {
-      "id": "#c:raw_materials/origin_core_crystal",
-      "required": false
-    },
-    {
       "id": "#c:ores/pyrope",
       "required": false
     },
@@ -206,14 +198,6 @@
     },
     {
       "id": "#c:raw_materials/red_garnet",
-      "required": false
-    },
-    {
-      "id": "#c:ores/remnant_spirit_stone",
-      "required": false
-    },
-    {
-      "id": "#c:raw_materials/remnant_spirit_stone",
       "required": false
     },
     {
@@ -257,14 +241,6 @@
       "required": false
     },
     {
-      "id": "#c:ores/soul_jade_crystal",
-      "required": false
-    },
-    {
-      "id": "#c:raw_materials/soul_jade_crystal",
-      "required": false
-    },
-    {
       "id": "#c:ores/sourcegem",
       "required": false
     },
@@ -278,14 +254,6 @@
     },
     {
       "id": "#c:raw_materials/spessartine",
-      "required": false
-    },
-    {
-      "id": "#c:ores/star_blood_crystal",
-      "required": false
-    },
-    {
-      "id": "#c:raw_materials/star_blood_crystal",
       "required": false
     },
     {

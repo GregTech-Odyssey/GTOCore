@@ -119,7 +119,8 @@ public final class TagsHandler {
                 GTOItems.WIRELESS_ME2IN1.asItem());
         create(provider, ItemTags.create(ResourceLocation.parse("forge:ingots/redstone_alloy")),
                 ChemicalHelper.getItem(TagPrefix.ingot, GTMaterials.RedAlloy));
-        createRawOreTag(provider, Tags.RAW_SIFTABLE, material -> material.hasProperty(PropertyKey.GEM));
+        createRawOreTag(provider, Tags.RAW_SIFTABLE,
+                material -> material.hasProperty(PropertyKey.GEM) && !material.hasFlag(GTOMaterialFlags.DISABLE_GEM_RECIPES));
         createRawOreTag(provider, Tags.RAW_CHEMICAL_BATH_WASHABLE,
                 material -> !material.getProperty(PropertyKey.ORE).getWashedIn().first().isNull());
         Item[] isaProcessableItems = GTCEuAPI.materialManager.getRegistries().stream()
