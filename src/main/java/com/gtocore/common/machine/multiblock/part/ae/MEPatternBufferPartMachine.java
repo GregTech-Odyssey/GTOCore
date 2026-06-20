@@ -4,6 +4,7 @@ import com.gtocore.api.gui.configurators.MultiMachineModeFancyConfigurator;
 import com.gtocore.common.data.GTORecipeTypes;
 import com.gtocore.common.data.machines.GTAEMachines;
 import com.gtocore.common.machine.trait.InternalSlotRecipeHandler;
+import com.gtocore.integration.ae.PatternContainerGroupHelper;
 
 import com.gtolib.api.ae2.MyPatternDetailsHelper;
 import com.gtolib.api.annotation.DataGeneratorScanned;
@@ -12,7 +13,6 @@ import com.gtolib.api.machine.trait.NotifiableNotConsumableFluidHandler;
 import com.gtolib.api.machine.trait.NotifiableNotConsumableItemHandler;
 import com.gtolib.api.recipe.RecipeBuilder;
 import com.gtolib.api.recipe.RecipeType;
-import com.gtolib.utils.GTOUtils;
 import com.gtolib.utils.RLUtils;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
@@ -20,7 +20,6 @@ import com.gregtechceu.gtceu.api.capability.IWailaDisplayProvider;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.gui.fancy.ConfiguratorPanel;
 import com.gregtechceu.gtceu.api.gui.fancy.TabsWidget;
-import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
 import com.gregtechceu.gtceu.api.machine.fancyconfigurator.ButtonConfigurator;
 import com.gregtechceu.gtceu.api.machine.fancyconfigurator.CircuitFancyConfigurator;
 import com.gregtechceu.gtceu.api.machine.fancyconfigurator.FancyInvConfigurator;
@@ -50,7 +49,6 @@ import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.*;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -92,7 +90,6 @@ import snownee.jade.api.fluid.JadeFluidObject;
 import snownee.jade.api.ui.IElementHelper;
 
 import java.util.*;
-import java.util.stream.Stream;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
@@ -380,32 +377,10 @@ public abstract class MEPatternBufferPartMachine extends MEPatternPartMachineKt<
     public PatternContainerGroup getTerminalGroup() {
         if (isFormed()) {
             IMultiController controller = getController();
-            MultiblockMachineDefinition controllerDefinition = controller.self().getDefinition();
-            GTRecipeType rt = this.recipeType;
-            MutableComponent lidComp = null;
-
-            if (rt == null)
-                rt = controller instanceof IRecipeLogicMachine rlm ? rlm.getRecipeType() : null;
-            if (rt == null || rt == GTORecipeTypes.HATCH_COMBINED) {
-                rt = null;
-                lidComp = (controller instanceof IRecipeLogicMachine rlm ? Stream.of(rlm.getAvailableRecipeTypes()) : Stream.<GTRecipeType>empty())
-                        .map(r -> Component.translatable("gtceu." + r.registryName.getPath()))
-                        .collect(GTOUtils.joiningComponent(Component.literal("/")));
-
-            }
-
-            String lid = rt != null ? rt.registryName.toLanguageKey() : controllerDefinition.getDescriptionId();
-
-            if (!getCustomName().isEmpty()) {
-                return new PatternContainerGroup(AEItemKey.of(controllerDefinition.asStack()), Component.literal(getCustomName()), Collections.emptyList());
-            } else {
-                ItemStack circuitStack = circuitInventorySimulated.storage.getStackInSlot(0);
-                int circuitConfiguration = circuitStack.isEmpty() ? -1 : IntCircuitBehaviour.getCircuitConfiguration(circuitStack);
-                MutableComponent groupName = lidComp != null ? lidComp : Component.translatable(lid);
-                if (circuitConfiguration != -1) groupName = groupName.append(" - " + circuitConfiguration);
-                return new PatternContainerGroup(AEItemKey.of(controllerDefinition.asStack()), groupName,
-                        lidComp != null ? List.of(Component.translatable(lid)) : Collections.emptyList());
-            }
+            Collection<GTRecipeType> availableRecipeTypes = controller instanceof IRecipeLogicMachine recipeMachine ?
+                    Arrays.asList(recipeMachine.getAvailableRecipeTypes()) : List.of();
+            return PatternContainerGroupHelper.forPatternAssembly(
+                    controller.self(), this, getCustomName(), recipeType, availableRecipeTypes);
         } else {
             if (!getCustomName().isEmpty()) {
                 return new PatternContainerGroup(AEItemKey.of(GTAEMachines.ME_PATTERN_BUFFER.asItem()), Component.literal(getCustomName()), Collections.emptyList());
