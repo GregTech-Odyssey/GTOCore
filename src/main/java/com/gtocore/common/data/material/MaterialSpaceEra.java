@@ -546,7 +546,7 @@ public class MaterialSpaceEra {
                 .ingot().fluid()
                 .color(0x7a4c9a)
                 .secondaryColor(0xaa7aca)
-                .iconSet(DULL)
+                .iconSet(CRUPTIX)
                 .element(GTOElements.CRUPTIX)
                 .blastTemp(3420, HIGH, GTValues.VA[GTValues.EV], 1200)
                 .flags(

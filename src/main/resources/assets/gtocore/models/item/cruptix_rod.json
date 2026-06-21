@@ -1,0 +1,11 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "gtceu:item/material_sets/dull/rod"
+  },
+  "loader": "gtocore:custom_shader",
+  "custom_shader": {
+    "shader": "gtocore:cruptix",
+    "params": {}
+  }
+}

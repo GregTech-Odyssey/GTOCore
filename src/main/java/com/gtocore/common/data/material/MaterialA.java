@@ -840,7 +840,7 @@ public final class MaterialA {
                 .ingot()
                 .radioactiveHazard(100)
                 .liquid(new FluidBuilder().customStill())
-                .color(0x000000)
+                .color(0x1f0f1f)
                 .blastTemp(32000, HIGHEST)
                 .element(GTOElements.INFINITY)
                 .iconSet(INFINITY_CHAOS)

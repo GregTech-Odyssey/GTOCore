@@ -12,11 +12,15 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.VertexFormat;
 
+import java.util.Map;
 import java.util.Objects;
+import java.util.concurrent.ConcurrentHashMap;
 
 public final class GTORenderTypes extends RenderType {
 
     private static ShaderInstance blackHoleEventHorizonShader;
+    private static ShaderInstance customShader;
+    private static final Map<ResourceLocation, ShaderInstance> SHADERS = new ConcurrentHashMap<>();
 
     private static final ShaderStateShard BLACK_HOLE_EVENT_HORIZON_SHADER = new ShaderStateShard(() -> Objects.requireNonNull(blackHoleEventHorizonShader, "Black hole shader not loaded"));
 
@@ -61,17 +65,29 @@ public final class GTORenderTypes extends RenderType {
         super(name, format, mode, bufferSize, affectsCrumbling, sortOnUpload, setupState, clearState);
     }
 
-    public static ResourceLocation blackHoleEventHorizonShaderLocation() {
-        return GTOCore.id("black_hole_event_horizon");
-    }
+    public static final ResourceLocation BLACK_HOLE_EVENT_HORIZON_SHADER_LOCATION = GTOCore.id("black_hole_event_horizon");
+
+    public static final ResourceLocation CRUPTIX = GTOCore.id("cruptix");
 
     @OnlyIn(Dist.CLIENT)
     public static void setBlackHoleEventHorizonShader(ShaderInstance shader) {
         blackHoleEventHorizonShader = shader;
+        SHADERS.put(BLACK_HOLE_EVENT_HORIZON_SHADER_LOCATION, shader);
     }
 
     @OnlyIn(Dist.CLIENT)
     public static ShaderInstance getBlackHoleEventHorizonShader() {
         return blackHoleEventHorizonShader;
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    public static void setCruptix(ShaderInstance shader) {
+        customShader = shader;
+        SHADERS.put(CRUPTIX, shader);
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    public static ShaderInstance getShader(ResourceLocation shaderLocation) {
+        return SHADERS.get(shaderLocation);
     }
 }

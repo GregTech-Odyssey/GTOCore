@@ -29,6 +29,7 @@
     "inventoryessentials.ClientOnlyInventoryControlsMixin",
     "mc.GameRendererMixin",
     "mc.GuiGraphicsMixin",
+    "mc.ItemRendererMixin",
     "mc.OpenContainerMixin",
     "merequester.NumberFieldMixin",
     "sodium.SodiumWorldRendererMixin"

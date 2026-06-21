@@ -11,9 +11,9 @@ import com.gregtechceu.gtceu.api.machine.TickableSubscription;
 
 import net.minecraft.world.phys.Vec3;
 
-public class KerrNewmanHomogenizer extends CrossRecipeMultiblockMachine {
+public final class KerrNewmanHomogenizer extends CrossRecipeMultiblockMachine {
 
-    TickableSubscription clientTicker;
+    private TickableSubscription clientTicker;
     private boolean fxActive = false;
 
     public KerrNewmanHomogenizer(MetaMachineBlockEntity holder) {

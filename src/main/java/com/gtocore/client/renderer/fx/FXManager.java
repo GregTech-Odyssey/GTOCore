@@ -4,6 +4,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.RenderLevelStageEvent;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -20,14 +21,16 @@ public class FXManager {
     }
 
     public static void tickFXs() {
+        List<AbstractFX> discarded = new ArrayList<>();
         FX_LIST.removeIf(fx -> {
             fx.tick();
             if (fx.shouldDiscard()) {
-                fx.onDiscard();
+                discarded.add(fx);
                 return true;
             }
             return false;
         });
+        discarded.forEach(AbstractFX::onDiscard);
     }
 
     public static void addFX(AbstractFX fx) {
@@ -35,6 +38,8 @@ public class FXManager {
     }
 
     public static void clearFXs() {
+        List<AbstractFX> discarded = new ArrayList<>(FX_LIST);
         FX_LIST.clear();
+        discarded.forEach(AbstractFX::onDiscard);
     }
 }

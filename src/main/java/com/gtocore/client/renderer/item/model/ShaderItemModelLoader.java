@@ -1,0 +1,132 @@
+package com.gtocore.client.renderer.item.model;
+
+import com.gtolib.utils.RLUtils;
+
+import net.minecraft.client.renderer.block.model.BlockModel;
+import net.minecraft.client.renderer.block.model.ItemOverrides;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.client.resources.model.BakedModel;
+import net.minecraft.client.resources.model.Material;
+import net.minecraft.client.resources.model.ModelBaker;
+import net.minecraft.client.resources.model.ModelState;
+import net.minecraft.client.resources.model.UnbakedModel;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.GsonHelper;
+import net.minecraftforge.client.model.geometry.IGeometryBakingContext;
+import net.minecraftforge.client.model.geometry.IGeometryLoader;
+import net.minecraftforge.client.model.geometry.IUnbakedGeometry;
+
+import com.google.gson.JsonArray;
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
+
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.function.Function;
+
+public class ShaderItemModelLoader implements IGeometryLoader<ShaderItemModelLoader.ShaderItemGeometry> {
+
+    public static final ShaderItemModelLoader INSTANCE = new ShaderItemModelLoader();
+
+    private ShaderItemModelLoader() {}
+
+    @Override
+    public ShaderItemGeometry read(JsonObject jsonObject, JsonDeserializationContext context) throws JsonParseException {
+        JsonObject glslItem = jsonObject.getAsJsonObject("custom_shader");
+        if (glslItem == null) {
+            throw new IllegalStateException("Missing 'custom_shader' object.");
+        }
+        if (!glslItem.has("shader")) {
+            throw new IllegalStateException("Missing 'custom_shader.shader' property.");
+        }
+
+        ResourceLocation fallbackMask = readLayer0Texture(jsonObject);
+        ResourceLocation mask = glslItem.has("mask") ? RLUtils.parse(GsonHelper.getAsString(glslItem, "mask")) : fallbackMask;
+        ResourceLocation shader = RLUtils.parse(GsonHelper.getAsString(glslItem, "shader"));
+        Map<String, UniformValue> params = readParams(glslItem);
+
+        JsonObject baseModelJson = jsonObject.deepCopy();
+        baseModelJson.remove("custom_shader");
+        baseModelJson.remove("loader");
+        BlockModel baseModel = context.deserialize(baseModelJson, BlockModel.class);
+        return new ShaderItemGeometry(baseModel, toTextureLocation(mask), shader, params);
+    }
+
+    private static ResourceLocation readLayer0Texture(JsonObject jsonObject) {
+        JsonObject textures = GsonHelper.getAsJsonObject(jsonObject, "textures");
+        if (!textures.has("layer0")) {
+            throw new IllegalStateException("Missing 'textures.layer0' fallback for custom_shader mask.");
+        }
+        return RLUtils.parse(GsonHelper.getAsString(textures, "layer0"));
+    }
+
+    private static ResourceLocation toTextureLocation(ResourceLocation location) {
+        String path = location.getPath();
+        if (!path.startsWith("textures/")) {
+            path = "textures/" + path;
+        }
+        if (!path.endsWith(".png")) {
+            path = path + ".png";
+        }
+        return RLUtils.fromNamespaceAndPath(location.getNamespace(), path);
+    }
+
+    private static Map<String, UniformValue> readParams(JsonObject glslItem) {
+        Map<String, UniformValue> params = new LinkedHashMap<>();
+        if (!glslItem.has("params")) {
+            return params;
+        }
+        JsonObject jsonParams = GsonHelper.getAsJsonObject(glslItem, "params");
+        for (Map.Entry<String, JsonElement> entry : jsonParams.entrySet()) {
+            params.put(entry.getKey(), UniformValue.fromJson(entry.getValue()));
+        }
+        return params;
+    }
+
+    public static class ShaderItemGeometry implements IUnbakedGeometry<ShaderItemGeometry> {
+
+        private final BlockModel baseModel;
+        private final ResourceLocation maskTexture;
+        private final ResourceLocation shaderLocation;
+        private final Map<String, UniformValue> params;
+
+        public ShaderItemGeometry(BlockModel baseModel, ResourceLocation maskTexture, ResourceLocation shaderLocation, Map<String, UniformValue> params) {
+            this.baseModel = baseModel;
+            this.maskTexture = maskTexture;
+            this.shaderLocation = shaderLocation;
+            this.params = params;
+        }
+
+        @Override
+        public BakedModel bake(IGeometryBakingContext context, ModelBaker baker, Function<Material, TextureAtlasSprite> spriteGetter,
+                               ModelState modelState, ItemOverrides overrides, ResourceLocation modelLocation) {
+            BakedModel bakedBase = baseModel.bake(baker, baseModel, spriteGetter, modelState, modelLocation, true);
+            return new ShaderItemBakedModel(bakedBase, maskTexture, shaderLocation, params);
+        }
+
+        @Override
+        public void resolveParents(Function<ResourceLocation, UnbakedModel> resolver, IGeometryBakingContext context) {
+            baseModel.resolveParents(resolver);
+        }
+    }
+
+    public record UniformValue(float[] values) {
+
+        public static UniformValue fromJson(JsonElement jsonElement) {
+            if (jsonElement.isJsonPrimitive() && jsonElement.getAsJsonPrimitive().isNumber()) {
+                return new UniformValue(new float[] { jsonElement.getAsFloat() });
+            }
+            if (jsonElement.isJsonArray()) {
+                JsonArray array = jsonElement.getAsJsonArray();
+                float[] values = new float[array.size()];
+                for (int i = 0; i < array.size(); i++) {
+                    values[i] = array.get(i).getAsFloat();
+                }
+                return new UniformValue(values);
+            }
+            throw new IllegalStateException("Only numeric uniforms are currently supported in custom_shader.params");
+        }
+    }
+}
