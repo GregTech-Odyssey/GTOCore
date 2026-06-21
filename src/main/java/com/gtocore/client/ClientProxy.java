@@ -203,17 +203,18 @@ public final class ClientProxy extends CommonProxy {
                     event.getResourceProvider(),
                     GTORenderTypes.BLACK_HOLE_EVENT_HORIZON_SHADER_LOCATION,
                     com.mojang.blaze3d.vertex.DefaultVertexFormat.POSITION_COLOR), GTORenderTypes::setBlackHoleEventHorizonShader);
-            event.registerShader(new net.minecraft.client.renderer.ShaderInstance(
-                    event.getResourceProvider(),
-                    GTORenderTypes.CRUPTIX,
-                    com.mojang.blaze3d.vertex.DefaultVertexFormat.POSITION_TEX), GTORenderTypes::setCruptix);
-            event.registerShader(new net.minecraft.client.renderer.ShaderInstance(
-                    event.getResourceProvider(),
-                    GTORenderTypes.ITEM_RESONANCE_WAVE,
-                    com.mojang.blaze3d.vertex.DefaultVertexFormat.POSITION_TEX), GTORenderTypes::setItemResonanceWave);
+            registerCustomItemShader(event, GTORenderTypes.CRUPTIX);
+            registerCustomItemShader(event, GTORenderTypes.ITEM_RESONANCE_WAVE);
         } catch (java.io.IOException e) {
             throw new RuntimeException("Failed to register client shaders", e);
         }
+    }
+
+    private static void registerCustomItemShader(RegisterShadersEvent event, net.minecraft.resources.ResourceLocation shaderLocation) throws java.io.IOException {
+        event.registerShader(new net.minecraft.client.renderer.ShaderInstance(
+                event.getResourceProvider(),
+                shaderLocation,
+                com.mojang.blaze3d.vertex.DefaultVertexFormat.POSITION_TEX), shader -> GTORenderTypes.setShader(shaderLocation, shader));
     }
 
     private static void registerAEModels() {

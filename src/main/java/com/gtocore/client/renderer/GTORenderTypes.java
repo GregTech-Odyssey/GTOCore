@@ -19,7 +19,6 @@ import java.util.concurrent.ConcurrentHashMap;
 public final class GTORenderTypes extends RenderType {
 
     private static ShaderInstance blackHoleEventHorizonShader;
-    private static ShaderInstance customShader;
     private static final Map<ResourceLocation, ShaderInstance> SHADERS = new ConcurrentHashMap<>();
 
     private static final ShaderStateShard BLACK_HOLE_EVENT_HORIZON_SHADER = new ShaderStateShard(() -> Objects.requireNonNull(blackHoleEventHorizonShader, "Black hole shader not loaded"));
@@ -82,14 +81,8 @@ public final class GTORenderTypes extends RenderType {
     }
 
     @OnlyIn(Dist.CLIENT)
-    public static void setCruptix(ShaderInstance shader) {
-        customShader = shader;
-        SHADERS.put(CRUPTIX, shader);
-    }
-
-    @OnlyIn(Dist.CLIENT)
-    public static void setItemResonanceWave(ShaderInstance shader) {
-        SHADERS.put(ITEM_RESONANCE_WAVE, shader);
+    public static void setShader(ResourceLocation shaderLocation, ShaderInstance shader) {
+        SHADERS.put(shaderLocation, shader);
     }
 
     @OnlyIn(Dist.CLIENT)
