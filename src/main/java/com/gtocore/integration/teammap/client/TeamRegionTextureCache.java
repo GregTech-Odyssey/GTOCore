@@ -84,6 +84,7 @@ public final class TeamRegionTextureCache {
         if (!result.hasContent()) {
             close(cached == null ? null : cached.texture());
             CACHE.put(key, new CachedTexture(null, terrainRevision, gtRevision, highlightMode, null));
+            trim();
             return -1;
         }
         return upload(key, result.pixels(), terrainRevision, gtRevision, highlightMode, cached);

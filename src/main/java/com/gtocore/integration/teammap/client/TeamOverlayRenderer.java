@@ -38,6 +38,11 @@ public final class TeamOverlayRenderer {
         int minRegionZ = (int) Math.floor((cameraZ - halfWorldZ) / REGION_BLOCKS);
         int maxRegionZ = (int) Math.floor((cameraZ + halfWorldZ) / REGION_BLOCKS);
 
+        // Keep Xaero's personal map visible when the team overlay would require
+        // too many region submissions at the current zoom level.
+        long visibleRegionCount = (long) (maxRegionX - minRegionX + 1) * (maxRegionZ - minRegionZ + 1);
+        if (visibleRegionCount > 32) return;
+
         // The injection point already has Xaero's map scale on the pose stack.
         // Covering the viewport here replaces the personal base while leaving
         // map elements, buttons and tooltips (rendered later) untouched.
@@ -47,9 +52,6 @@ public final class TeamOverlayRenderer {
         int coverBottom = (int) Math.ceil(halfWorldZ) + 2;
         graphics.fill(coverLeft, coverTop, coverRight, coverBottom, 0xFF000000);
         graphics.flush();
-
-        long visibleRegionCount = (long) (maxRegionX - minRegionX + 1) * (maxRegionZ - minRegionZ + 1);
-        if (visibleRegionCount > 32) return;
 
         MultiTextureRenderTypeRendererProvider provider = map.getMapProcessor().getMultiTextureRenderTypeRenderers();
         MultiTextureRenderTypeRenderer renderer = provider.getRenderer(
