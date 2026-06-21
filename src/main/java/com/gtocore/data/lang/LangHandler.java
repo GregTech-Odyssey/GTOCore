@@ -167,6 +167,7 @@ public final class LangHandler {
         addCNEN("gtocore.multiblock_preview.pattern_control", "左键：下一形态；右键：上一形态；中键：重置", "Left: Next shape; Right: Previous shape; Middle: Reset");
         addCNEN("gtocore.multiblock_preview.layer_control", "左键：下一层；右键：上一层；中键：显示全部", "Left: Next layer; Right: Previous layer; Middle: Show all");
         addCNEN("gtocore.multiblock_preview.highlight_control", "切换多方块部件高亮", "Toggle multiblock part highlighting");
+        addCNEN("gtocore.multiblock_preview.modules_control", "切换显示当前形态/叠加至当前模块", "Toggle current shape/stack up to current module");
         addCNEN("gtocore.multiblock_preview.controls", "左键拖动旋转 · 滚轮缩放 · 右键拖动平移 · 点击方块查看候选 · Esc 返回", "Left-drag rotate · Wheel zoom · Right-drag pan · Click blocks for candidates · Esc to return");
 
         addCNEN("item.gtocore.pattern_modifier_pro.name", "样板修改器 Pro", "Pattern Modifier Pro");

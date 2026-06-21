@@ -83,6 +83,7 @@ public final class MultiblockPreviewScreen extends ModularWrapper<PatternPreview
 
     @Override
     public void onClose() {
+        getWidget().restoreOverlayBlocks();
         minecraft.setScreen(parent);
     }
 

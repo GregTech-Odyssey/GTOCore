@@ -2,6 +2,7 @@ package com.gtocore.client.gui;
 
 import com.gtocore.integration.emi.multipage.MultiblockInfoEmiRecipe;
 
+import com.gtolib.api.annotation.NewDataAttributes;
 import com.gtolib.api.gui.PatternSlotWidget;
 import com.gtolib.api.gui.SelectedSlotWidget;
 import com.gtolib.api.item.ItemStackHandler;
@@ -28,10 +29,12 @@ import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.contents.TranslatableContents;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
@@ -57,12 +60,12 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
 import dev.emi.emi.screen.RecipeScreen;
 import it.unimi.dsi.fastutil.longs.*;
+import it.unimi.dsi.fastutil.objects.Object2ReferenceOpenHashMap;
 import it.unimi.dsi.fastutil.objects.Reference2ReferenceOpenHashMap;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Vector3f;
 
 import java.util.*;
-import java.util.stream.Collectors;
 import java.util.stream.LongStream;
 
 @OnlyIn(Dist.CLIENT)
@@ -89,11 +92,15 @@ public final class PatternPreview extends WidgetGroup {
     private ButtonWidget patternButton;
     private ButtonWidget layerButton;
     private ButtonWidget highlightButton;
+    private ButtonWidget modulesButton;
     private ButtonWidget fullscreenToggleButton;
     private final MBPattern[] patterns;
+    private final boolean moduleOverlayAvailable;
     private final List<SimplePredicate> predicates = new ArrayList<>();
     private int index;
     private int layer;
+    private boolean showAllModules;
+    private final Map<BlockPos, OverlayOriginalBlock> overlayOriginalBlocks = new Object2ReferenceOpenHashMap<>();
     private PatternSlotWidget[] slotWidgets;
     private SlotWidget[] candidates;
 
@@ -159,6 +166,7 @@ public final class PatternPreview extends WidgetGroup {
             CACHE.put(controllerDefinition, patterns);
             definition.clear();
         }
+        moduleOverlayAvailable = fullscreen && patterns.length > 1 && controllerDefinition.getSubPatternFactory() != null && hasModuleTooltip(controllerDefinition);
         index = Math.max(0, Math.min(recipe.i, patterns.length - 1));
 
         int firstControlY = fullscreen ? 28 : 30;
@@ -173,10 +181,19 @@ public final class PatternPreview extends WidgetGroup {
                 () -> isPartHighlighting ? "H:ON" : "H:OFF",
                 cd -> isPartHighlighting = !isPartHighlighting,
                 "gtocore.multiblock_preview.highlight_control"));
+        if (moduleOverlayAvailable) {
+            addWidget(modulesButton = createControlButton(controlsX, firstControlY + controlSpacing * 3,
+                    () -> showAllModules ? "M:*" : "M:1",
+                    cd -> {
+                        showAllModules = !showAllModules;
+                        setPage();
+                    },
+                    "gtocore.multiblock_preview.modules_control"));
+        }
 
         if (fullscreen) {
             Runnable exitFullscreen = Objects.requireNonNull(closeAction);
-            addWidget(fullscreenToggleButton = createControlButton(controlsX, 4, () -> "X", cd -> exitFullscreen.run(),
+            addWidget(fullscreenToggleButton = createControlButton(controlsX, 4, () -> "X", cd -> closeFullscreen(exitFullscreen),
                     "gtocore.multiblock_preview.exit_fullscreen"));
             controlsHintTexture = new TextTexture("gtocore.multiblock_preview.controls", -1)
                     .setType(TextTexture.TextType.ROLL)
@@ -191,56 +208,60 @@ public final class PatternPreview extends WidgetGroup {
 
         sceneWidget.setAfterWorldRender((w) -> {
             if (!isPartHighlighting) return;
-            patterns[index].partsSet.forEach(
-                    pos -> {
-                        var pos0 = BlockPos.of(pos);
-                        if (layer != -1 && layer + patterns[index].minY != pos0.getY()) return;
-                        var poseStack = new PoseStack();
-                        RenderSystem.disableDepthTest();
-                        // RenderSystem.disableCull();
-                        RenderSystem.enableBlend();
-                        RenderSystem.blendFunc(770, 1);
-                        poseStack.pushPose();
-                        poseStack.translate((double) pos0.getX() + (double) 0.5F, (double) pos0.getY() + (double) 0.5F, (double) pos0.getZ() + (double) 0.5F);
-                        poseStack.scale(1.02f, 1.02f, 1.02f);
-                        Tesselator tesselator = Tesselator.getInstance();
-                        BufferBuilder buffer = tesselator.getBuilder();
-                        RenderSystem.setShader(GameRenderer::getPositionColorShader);
-                        buffer.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR);
-                        RenderUtils.renderCubeFace(poseStack, buffer, -0.5F, -0.5F, -0.5F, 0.5F, 0.5F, 0.5F, 0.2f, 0.6f, 0.2f, 0.3f);
-                        tesselator.end();
-                        poseStack.popPose();
-                        RenderSystem.blendFunc(770, 771);
-                        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-                        // RenderSystem.enableCull();
-                        RenderSystem.enableDepthTest();
-                    });
-            patterns[index].placeHolderSet.forEach(
-                    pos -> {
-                        var poseStack = new PoseStack();
-                        var pos0 = BlockPos.of(pos);
-                        RenderSystem.disableDepthTest();
-                        // RenderSystem.disableCull();
-                        RenderSystem.enableBlend();
-                        RenderSystem.blendFunc(770, 1);
-                        poseStack.pushPose();
-                        poseStack.translate((double) pos0.getX() + (double) 0.5F, (double) pos0.getY() + (double) 0.5F, (double) pos0.getZ() + (double) 0.5F);
-                        poseStack.scale(1.02f, 1.02f, 1.02f);
-                        Tesselator tesselator = Tesselator.getInstance();
-                        BufferBuilder buffer = tesselator.getBuilder();
-                        RenderSystem.setShader(GameRenderer::getRendertypeLinesShader);
-                        RenderSystem.lineWidth(6);
-                        buffer.begin(VertexFormat.Mode.LINES, DefaultVertexFormat.POSITION_COLOR_NORMAL);
-                        // RenderUtils.renderCubeFace(poseStack, buffer, -0.5F, -0.5F, -0.5F, 0.5F, 0.5F, 0.5F, 0.2f,
-                        // 0.2f, 0.6f, 0.3f);
-                        RenderBufferUtils.drawCubeFrame(poseStack, buffer, -0.5F, -0.5F, -0.5F, 0.5F, 0.5F, 0.5F, 0.2f, 0.2f, 0.6f, 0.8f);
-                        tesselator.end();
-                        poseStack.popPose();
-                        RenderSystem.blendFunc(770, 771);
-                        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-                        // RenderSystem.enableCull();
-                        RenderSystem.enableDepthTest();
-                    });
+            for (MBPattern pattern : getVisiblePatterns()) {
+                pattern.partsSet.forEach(
+                        pos -> {
+                            var pos0 = toRenderedPos(pattern, pos);
+                            if (!isLayerVisible(pos0.getY())) return;
+                            var poseStack = new PoseStack();
+                            RenderSystem.disableDepthTest();
+                            // RenderSystem.disableCull();
+                            RenderSystem.enableBlend();
+                            RenderSystem.blendFunc(770, 1);
+                            poseStack.pushPose();
+                            poseStack.translate((double) pos0.getX() + (double) 0.5F, (double) pos0.getY() + (double) 0.5F, (double) pos0.getZ() + (double) 0.5F);
+                            poseStack.scale(1.02f, 1.02f, 1.02f);
+                            Tesselator tesselator = Tesselator.getInstance();
+                            BufferBuilder buffer = tesselator.getBuilder();
+                            RenderSystem.setShader(GameRenderer::getPositionColorShader);
+                            buffer.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR);
+                            RenderUtils.renderCubeFace(poseStack, buffer, -0.5F, -0.5F, -0.5F, 0.5F, 0.5F, 0.5F, 0.2f, 0.6f, 0.2f, 0.3f);
+                            tesselator.end();
+                            poseStack.popPose();
+                            RenderSystem.blendFunc(770, 771);
+                            RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+                            // RenderSystem.enableCull();
+                            RenderSystem.enableDepthTest();
+                        });
+                pattern.placeHolderSet.forEach(
+                        pos -> {
+                            var poseStack = new PoseStack();
+                            var pos0 = toRenderedPos(pattern, pos);
+                            if (!isLayerVisible(pos0.getY())) return;
+                            RenderSystem.disableDepthTest();
+                            // RenderSystem.disableCull();
+                            RenderSystem.enableBlend();
+                            RenderSystem.blendFunc(770, 1);
+                            poseStack.pushPose();
+                            poseStack.translate((double) pos0.getX() + (double) 0.5F, (double) pos0.getY() + (double) 0.5F, (double) pos0.getZ() + (double) 0.5F);
+                            poseStack.scale(1.02f, 1.02f, 1.02f);
+                            Tesselator tesselator = Tesselator.getInstance();
+                            BufferBuilder buffer = tesselator.getBuilder();
+                            RenderSystem.setShader(GameRenderer::getRendertypeLinesShader);
+                            RenderSystem.lineWidth(6);
+                            buffer.begin(VertexFormat.Mode.LINES, DefaultVertexFormat.POSITION_COLOR_NORMAL);
+                            // RenderUtils.renderCubeFace(poseStack, buffer, -0.5F, -0.5F, -0.5F, 0.5F, 0.5F, 0.5F,
+                            // 0.2f,
+                            // 0.2f, 0.6f, 0.3f);
+                            RenderBufferUtils.drawCubeFrame(poseStack, buffer, -0.5F, -0.5F, -0.5F, 0.5F, 0.5F, 0.5F, 0.2f, 0.2f, 0.6f, 0.8f);
+                            tesselator.end();
+                            poseStack.popPose();
+                            RenderSystem.blendFunc(770, 771);
+                            RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+                            // RenderSystem.enableCull();
+                            RenderSystem.enableDepthTest();
+                        });
+            }
         });
         setPage();
         recipe.patterns = patterns;
@@ -256,6 +277,11 @@ public final class PatternPreview extends WidgetGroup {
                 .setHoverBorderTexture(1, -1);
         button.setHoverTooltips(Component.translatable(tooltipKey));
         return button;
+    }
+
+    void closeFullscreen(Runnable closeAction) {
+        restoreOverlayBlocks();
+        closeAction.run();
     }
 
     private void openFullscreen() {
@@ -282,6 +308,9 @@ public final class PatternPreview extends WidgetGroup {
         patternButton.setSelfPosition(controlsX, 28);
         layerButton.setSelfPosition(controlsX, 52);
         highlightButton.setSelfPosition(controlsX, 76);
+        if (modulesButton != null) {
+            modulesButton.setSelfPosition(controlsX, 100);
+        }
         fullscreenToggleButton.setSelfPosition(controlsX, 4);
 
         if (controlsHintWidget != null) {
@@ -310,7 +339,7 @@ public final class PatternPreview extends WidgetGroup {
 
     private void updateLayer(ClickData clickData) {
         MBPattern pattern = patterns[index];
-        int maxLayerIndex = pattern.maxY - pattern.minY;
+        int maxLayerIndex = getVisibleMaxY() - getVisibleMinY();
 
         // 根据鼠标按键更新 layer 的值
         switch (clickData.button) {
@@ -348,18 +377,108 @@ public final class PatternPreview extends WidgetGroup {
     }
 
     private void setupScene(MBPattern pattern) {
+        restoreOverlayBlocks();
+        if (showAllModules && moduleOverlayAvailable) {
+            LongSet poses = new LongOpenHashSet();
+            for (MBPattern visiblePattern : getVisiblePatterns()) {
+                addAlignedPatternBlocks(visiblePattern, poses);
+            }
+            sceneWidget.setRenderedCore(poses.longStream().mapToObj(BlockPos::of).toList(), null);
+            sceneWidget.setCenter(patterns[0].center.getCenter().toVector3f());
+            return;
+        }
+        sceneWidget.setRenderedCore(renderedPositions(pattern).mapToObj(BlockPos::of).toList(), null);
+        sceneWidget.setCenter(pattern.center.getCenter().toVector3f());
+    }
+
+    private LongStream renderedPositions(MBPattern pattern) {
         LongStream longStream = pattern.predicateMap.keySet().longStream();
         if (pattern.controllerBase.isFormed()) {
             LongSet set = pattern.controllerBase.getMultiblockState().getMatchContext().getOrDefault(Predicates.DataKey.RENDER_MASK, LongSets.EMPTY_SET);
             if (!set.isEmpty()) {
-                sceneWidget.setRenderedCore(longStream.filter(pos -> !set.contains(pos)).mapToObj(BlockPos::of).filter(pos -> layer == -1 || layer + pattern.minY == pos.getY()).collect(Collectors.toList()), null);
-            } else {
-                sceneWidget.setRenderedCore(longStream.mapToObj(BlockPos::of).filter(pos -> layer == -1 || layer + pattern.minY == pos.getY()).toList(), null);
+                longStream = longStream.filter(pos -> !set.contains(pos));
             }
-        } else {
-            sceneWidget.setRenderedCore(longStream.mapToObj(BlockPos::of).filter(pos -> layer == -1 || layer + pattern.minY == pos.getY()).toList(), null);
         }
-        sceneWidget.setCenter(pattern.center.getCenter().toVector3f());
+        return longStream.filter(pos -> layer == -1 || layer + pattern.minY == BlockPos.getY(pos));
+    }
+
+    private void addAlignedPatternBlocks(MBPattern pattern, LongSet poses) {
+        BlockPos baseCenter = patterns[0].center;
+        int dx = baseCenter.getX() - pattern.center.getX();
+        int dy = baseCenter.getY() - pattern.center.getY();
+        int dz = baseCenter.getZ() - pattern.center.getZ();
+        int visibleMinY = getVisibleMinY();
+        for (var it = pattern.blockMap.long2ReferenceEntrySet().fastIterator(); it.hasNext();) {
+            var entry = it.next();
+            if (isRenderMasked(pattern, entry.getLongKey())) continue;
+            BlockPos pos = BlockPos.of(entry.getLongKey()).offset(dx, dy, dz);
+            if (layer != -1 && layer + visibleMinY != pos.getY()) continue;
+            recordOverlayOriginalBlock(pos);
+            LEVEL.addBlock(pos, entry.getValue());
+            poses.add(pos.asLong());
+        }
+    }
+
+    private void recordOverlayOriginalBlock(BlockPos pos) {
+        if (!overlayOriginalBlocks.containsKey(pos)) {
+            overlayOriginalBlocks.put(pos.immutable(), new OverlayOriginalBlock(LEVEL.renderedBlocks.get(pos), LEVEL.blockEntities.get(pos)));
+        }
+    }
+
+    void restoreOverlayBlocks() {
+        if (overlayOriginalBlocks.isEmpty()) return;
+        overlayOriginalBlocks.forEach((pos, originalBlock) -> {
+            if (originalBlock.blockInfo() == null) {
+                LEVEL.removeBlock(pos);
+            } else {
+                LEVEL.addBlock(pos, originalBlock.blockInfo());
+            }
+            if (originalBlock.blockEntity() == null) {
+                LEVEL.blockEntities.remove(pos);
+            } else {
+                LEVEL.blockEntities.put(pos, originalBlock.blockEntity());
+            }
+        });
+        overlayOriginalBlocks.clear();
+    }
+
+    private BlockPos toRenderedPos(MBPattern pattern, long pos) {
+        BlockPos blockPos = BlockPos.of(pos);
+        if (!showAllModules || !moduleOverlayAvailable) return blockPos;
+        return blockPos.offset(
+                patterns[0].center.getX() - pattern.center.getX(),
+                patterns[0].center.getY() - pattern.center.getY(),
+                patterns[0].center.getZ() - pattern.center.getZ());
+    }
+
+    private BlockPos fromRenderedPos(MBPattern pattern, BlockPos pos) {
+        if (!showAllModules || !moduleOverlayAvailable) return pos;
+        return pos.offset(
+                pattern.center.getX() - patterns[0].center.getX(),
+                pattern.center.getY() - patterns[0].center.getY(),
+                pattern.center.getZ() - patterns[0].center.getZ());
+    }
+
+    private boolean isLayerVisible(int renderedY) {
+        return layer == -1 || layer + getVisibleMinY() == renderedY;
+    }
+
+    private int getVisibleMinY() {
+        if (!showAllModules || !moduleOverlayAvailable) return patterns[index].minY;
+        int minY = Integer.MAX_VALUE;
+        for (MBPattern pattern : getVisiblePatterns()) {
+            minY = Math.min(minY, pattern.minY + patterns[0].center.getY() - pattern.center.getY());
+        }
+        return minY;
+    }
+
+    private int getVisibleMaxY() {
+        if (!showAllModules || !moduleOverlayAvailable) return patterns[index].maxY;
+        int maxY = Integer.MIN_VALUE;
+        for (MBPattern pattern : getVisiblePatterns()) {
+            maxY = Math.max(maxY, pattern.maxY + patterns[0].center.getY() - pattern.center.getY());
+        }
+        return maxY;
     }
 
     public static PatternPreview getPatternWidget(MultiblockInfoEmiRecipe recipe, MultiblockMachineDefinition controllerDefinition) {
@@ -389,7 +508,7 @@ public final class PatternPreview extends WidgetGroup {
             layer = -1;
             MBPattern pattern = patterns[index];
             setupScene(pattern);
-            itemList = pattern.parts;
+            itemList = getVisibleParts(pattern);
             recipe.i = index;
         } else {
             return;
@@ -432,7 +551,7 @@ public final class PatternPreview extends WidgetGroup {
 
     private void onPosSelected(BlockPos pos, Direction facing) {
         if (index >= patterns.length || index < 0) return;
-        TraceabilityPredicate predicate = patterns[index].predicateMap.get(pos.asLong());
+        TraceabilityPredicate predicate = getSelectedPredicate(pos);
         if (predicate != null) {
             predicates.clear();
             predicates.addAll(predicate.common);
@@ -473,6 +592,110 @@ public final class PatternPreview extends WidgetGroup {
                 addWidget(candidates[i]);
             }
         }
+    }
+
+    private TraceabilityPredicate getSelectedPredicate(BlockPos pos) {
+        if (!showAllModules || !moduleOverlayAvailable) {
+            return patterns[index].predicateMap.get(pos.asLong());
+        }
+        List<MBPattern> visiblePatterns = getVisiblePatterns();
+        for (int i = visiblePatterns.size() - 1; i >= 0; i--) {
+            MBPattern pattern = visiblePatterns.get(i);
+            TraceabilityPredicate predicate = pattern.predicateMap.get(fromRenderedPos(pattern, pos).asLong());
+            if (predicate != null) return predicate;
+        }
+        return null;
+    }
+
+    private List<MBPattern> getVisiblePatterns() {
+        if (!showAllModules || !moduleOverlayAvailable) {
+            return List.of(patterns[index]);
+        }
+        return Arrays.asList(patterns).subList(0, index + 1);
+    }
+
+    private List<ItemStack> getVisibleParts(MBPattern pattern) {
+        if (!showAllModules || !moduleOverlayAvailable) return pattern.parts;
+        Long2ReferenceOpenHashMap<BlockInfo> visibleBlocks = new Long2ReferenceOpenHashMap<>();
+        for (MBPattern visiblePattern : getVisiblePatterns()) {
+            addAlignedPatternBlocks(visiblePattern, visibleBlocks);
+        }
+        List<ItemStack> countedItems = new ArrayList<>();
+        for (var it = visibleBlocks.long2ReferenceEntrySet().fastIterator(); it.hasNext();) {
+            ItemStack stack = it.next().getValue().getItemStackForm();
+            if (!stack.isEmpty()) mergeItemStack(countedItems, stack);
+        }
+        List<ItemStack> itemList = new ArrayList<>();
+        for (MBPattern visiblePattern : getVisiblePatterns()) {
+            for (ItemStack stack : visiblePattern.parts) {
+                int itemIndex = indexOfItemStack(countedItems, stack);
+                if (itemIndex >= 0) {
+                    itemList.add(countedItems.remove(itemIndex));
+                }
+            }
+        }
+        itemList.addAll(countedItems);
+        return itemList;
+    }
+
+    private void addAlignedPatternBlocks(MBPattern pattern, Long2ReferenceOpenHashMap<BlockInfo> blocks) {
+        BlockPos baseCenter = patterns[0].center;
+        int dx = baseCenter.getX() - pattern.center.getX();
+        int dy = baseCenter.getY() - pattern.center.getY();
+        int dz = baseCenter.getZ() - pattern.center.getZ();
+        int visibleMinY = getVisibleMinY();
+        for (var it = pattern.blockMap.long2ReferenceEntrySet().fastIterator(); it.hasNext();) {
+            var entry = it.next();
+            if (isRenderMasked(pattern, entry.getLongKey())) continue;
+            BlockPos pos = BlockPos.of(entry.getLongKey()).offset(dx, dy, dz);
+            if (layer != -1 && layer + visibleMinY != pos.getY()) continue;
+            blocks.put(pos.asLong(), entry.getValue());
+        }
+    }
+
+    private boolean isRenderMasked(MBPattern pattern, long pos) {
+        if (layer != -1) return false;
+        if (!pattern.controllerBase.isFormed()) return false;
+        LongSet set = pattern.controllerBase.getMultiblockState().getMatchContext().getOrDefault(Predicates.DataKey.RENDER_MASK, LongSets.EMPTY_SET);
+        return set.contains(pos);
+    }
+
+    private static void mergeItemStack(List<ItemStack> itemList, ItemStack stack) {
+        for (ItemStack itemStack : itemList) {
+            if (ItemStack.isSameItemSameTags(itemStack, stack)) {
+                itemStack.grow(stack.getCount());
+                return;
+            }
+        }
+        itemList.add(stack.copy());
+    }
+
+    private static int indexOfItemStack(List<ItemStack> itemList, ItemStack stack) {
+        for (int i = 0; i < itemList.size(); i++) {
+            if (ItemStack.isSameItemSameTags(itemList.get(i), stack)) return i;
+        }
+        return -1;
+    }
+
+    private record OverlayOriginalBlock(BlockInfo blockInfo, BlockEntity blockEntity) {}
+
+    private static boolean hasModuleTooltip(MultiblockMachineDefinition definition) {
+        var tooltipBuilder = definition.getTooltipBuilder();
+        if (tooltipBuilder == null) return false;
+        List<Component> tooltips = new ArrayList<>();
+        tooltipBuilder.accept(definition.asStack(), tooltips);
+        return tooltips.stream().anyMatch(PatternPreview::hasModuleTooltipKey);
+    }
+
+    private static boolean hasModuleTooltipKey(Component component) {
+        String moduleTooltipKeyPrefix = NewDataAttributes.PREFIX_TEMPLATE + "." + NewDataAttributes.ALLOW_MODULE.getKey();
+        if (component.getContents() instanceof TranslatableContents contents && contents.getKey().startsWith(moduleTooltipKeyPrefix)) {
+            return true;
+        }
+        for (Component sibling : component.getSiblings()) {
+            if (hasModuleTooltipKey(sibling)) return true;
+        }
+        return false;
     }
 
     private void updateCandidatePositions() {
@@ -582,6 +805,8 @@ public final class PatternPreview extends WidgetGroup {
         private final Long2ObjectOpenHashMap<TraceabilityPredicate> predicateMap;
         @NotNull
         private final IMultiController controllerBase;
+        @NotNull
+        private final Long2ReferenceOpenHashMap<BlockInfo> blockMap;
         private final LongSet partsSet;
         private final LongSet placeHolderSet;
         private final int maxY;
@@ -594,6 +819,7 @@ public final class PatternPreview extends WidgetGroup {
             this.placeHolderSet = new LongOpenHashSet();
             this.predicateMap = predicateMap;
             this.controllerBase = controllerBase;
+            this.blockMap = blockMap;
             this.center = controllerBase.self().getPos();
             for (var entry : predicateMap.long2ObjectEntrySet()) {
                 var pos = entry.getLongKey();
