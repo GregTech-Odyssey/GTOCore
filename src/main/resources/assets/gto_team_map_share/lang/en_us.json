@@ -1,0 +1,5 @@
+{
+  "gui.gto_team_map_share.team_map_off": "Team map: off (click for standalone team map)",
+  "gui.gto_team_map_share.team_map_on": "Team map: on (personal base hidden)",
+  "gui.gto_team_map_share.no_team": "Team map: no current FTB team"
+}

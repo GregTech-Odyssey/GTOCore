@@ -29,6 +29,7 @@ import com.gtocore.integration.emi.GTEMIPlugin;
 import com.gtocore.integration.ftbquests.EMIRecipeModHelper;
 import com.gtocore.integration.ftbquests.GTOQuestTypes;
 import com.gtocore.integration.ftbu.AreaShape;
+import com.gtocore.integration.teammap.TeamMapShare;
 
 import com.gtolib.GTOCore;
 import com.gtolib.api.ae2.me2in1.Me2in1Menu;
@@ -88,6 +89,7 @@ import static de.mari_023.ae2wtlib.wut.WUTHandler.wirelessTerminals;
 public class CommonProxy {
 
     public CommonProxy() {
+        TeamMapShare.initCommon();
         init();
         IEventBus eventBus = FMLJavaModLoadingContext.get().getModEventBus();
         GTO.registerEventListeners(eventBus);

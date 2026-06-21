@@ -41,6 +41,10 @@ public final class GTOConfig {
     public Client client = new Client();
 
     @Configurable
+    @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Team Map Share", cn = "团队地图共享")
+    public TeamMapShareConfig teamMapShare = new TeamMapShareConfig();
+
+    @Configurable
     @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Misc", cn = "杂项")
     public Misc misc = new Misc();
 
@@ -387,6 +391,28 @@ public final class GTOConfig {
             @Configurable.Gui.ColorValue
             public String wirelessEnergyHUDLineColor = "#ECEC71";
         }
+    }
+
+    @DataGeneratorScanned
+    public static class TeamMapShareConfig {
+
+        @Configurable
+        @Configurable.Range(min = 0, max = 3600)
+        @Configurable.Comment({
+                "服务端批量收集、去重、合并并广播团队地图和探矿数据的间隔（秒），0 表示每 tick",
+                "Server interval in seconds for collecting, deduplicating, merging and broadcasting team map and prospection data; 0 means every tick"
+        })
+        @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Server Team Map Merge Interval (seconds)", cn = "服务端团队地图合并间隔（秒）")
+        public int serverMergeIntervalSeconds = 30;
+
+        @Configurable
+        @Configurable.Range(min = 0, max = 3600)
+        @Configurable.Comment({
+                "客户端批量应用团队地图和探矿更新的间隔（秒），0 表示每 tick",
+                "Client interval in seconds for applying received team map and prospection updates; 0 means every tick"
+        })
+        @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Client Team Map Refresh Interval (seconds)", cn = "客户端团队地图刷新间隔（秒）")
+        public int clientRefreshIntervalSeconds = 30;
     }
 
     @DataGeneratorScanned

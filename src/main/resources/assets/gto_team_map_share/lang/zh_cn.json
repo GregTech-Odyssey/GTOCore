@@ -1,0 +1,5 @@
+{
+  "gui.gto_team_map_share.team_map_off": "团队地图：关闭（点击切换到独立团队地图）",
+  "gui.gto_team_map_share.team_map_on": "团队地图：开启（个人底图已隐藏）",
+  "gui.gto_team_map_share.no_team": "团队地图：当前没有 FTB 队伍"
+}

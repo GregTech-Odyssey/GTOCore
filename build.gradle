@@ -104,6 +104,15 @@ jar {
 java {
     withSourcesJar()
 }
+
+tasks.named('test').configure {
+    useJUnitPlatform()
+    classpath += sourceSets.main.compileClasspath
+}
+
+tasks.named('compileTestJava', JavaCompile).configure {
+    classpath += sourceSets.main.compileClasspath
+}
 afterEvaluate {
     tasks.register("signJar") {
         doLast {

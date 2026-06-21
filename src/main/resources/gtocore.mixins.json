@@ -30,7 +30,11 @@
     "mc.GuiGraphicsMixin",
     "mc.OpenContainerMixin",
     "merequester.NumberFieldMixin",
-    "sodium.SodiumWorldRendererMixin"
+    "sodium.SodiumWorldRendererMixin",
+    "teammap.GTClientCacheMixin",
+    "teammap.GTOreVeinElementMixin",
+    "teammap.GuiMapMixin",
+    "teammap.MapTileChunkMixin"
   ],
   "mixins": [
     "adastra.GasTankItemMixin",

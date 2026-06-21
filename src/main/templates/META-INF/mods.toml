@@ -28,3 +28,24 @@ mandatory = false
 versionRange = "[1,)"
 ordering = "AFTER"
 side = "BOTH"
+
+[[dependencies.${mod_id}]]
+modId = "ftbteams"
+mandatory = true
+versionRange = "[2001.3.2,2001.3.3)"
+ordering = "AFTER"
+side = "BOTH"
+
+[[dependencies.${mod_id}]]
+modId = "xaeroworldmap"
+mandatory = true
+versionRange = "[1.40.16,1.40.17)"
+ordering = "AFTER"
+side = "CLIENT"
+
+[[dependencies.${mod_id}]]
+modId = "xaerominimap"
+mandatory = true
+versionRange = "[25.3.13,25.3.14)"
+ordering = "AFTER"
+side = "CLIENT"
