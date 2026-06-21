@@ -51,7 +51,6 @@ import net.minecraft.world.level.block.Blocks;
 import com.hepdd.gtmthings.data.CustomMachines;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import static com.gregtechceu.gtceu.api.pattern.Predicates.*;
 import static com.gtocore.api.machine.part.GTOPartAbility.*;
@@ -907,9 +906,9 @@ public final class MultiBlockC {
             .block(GTOBlocks.NAQUADAH_REINFORCED_PLANT_CASING)
             .pattern(definition -> NeutronVortexMachine.getBlockPattern(0, definition))
             .shapeInfos(definition -> {
-                List<MultiblockShapeInfo> shapeInfos = new ArrayList<>();
+                var shapeInfos = new ArrayList<MultiblockShapeInfo>();
                 for (int i = 0; i < 2; i++) {
-                    shapeInfos.addAll(MultiblockDefinition.getMatchingShapes(false, NeutronVortexMachine.getBlockPattern(i, definition)));
+                    MultiblockDefinition.addMatchingShapes(true, NeutronVortexMachine.getBlockPattern(i, definition), shapeInfos);
                 }
                 return shapeInfos;
             })

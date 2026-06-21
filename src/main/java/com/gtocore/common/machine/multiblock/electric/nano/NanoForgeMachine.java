@@ -6,7 +6,6 @@ import com.gtocore.common.data.GTOBlocks;
 import com.gtocore.common.data.GTOMaterials;
 import com.gtocore.common.data.GTORecipeDataKeys;
 
-import com.gtolib.api.machine.feature.multiblock.IMultiStructureMachine;
 import com.gtolib.api.machine.feature.multiblock.IParallelMachine;
 import com.gtolib.api.machine.multiblock.StorageMultiblockMachine;
 
@@ -31,7 +30,7 @@ import com.gto.datasynclib.annotations.SyncToClient;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.List;
+import java.util.function.Supplier;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
@@ -40,7 +39,7 @@ import static com.gregtechceu.gtceu.api.pattern.Predicates.*;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public final class NanoForgeMachine extends StorageMultiblockMachine implements IParallelMachine, IMultiStructureMachine {
+public final class NanoForgeMachine extends StorageMultiblockMachine implements IParallelMachine {
 
     private static final Int2ObjectOpenHashMap<BlockPattern> PATTERNS = new Int2ObjectOpenHashMap<>(4, 0.9F);
 
@@ -76,7 +75,7 @@ public final class NanoForgeMachine extends StorageMultiblockMachine implements 
         } else if (material == GTOMaterials.Draconium) {
             machineTier = 3;
         }
-        updateCheck();
+        requestCheck();
     }
 
     public static BlockPattern getBlockPattern(int tier, MultiblockMachineDefinition definition) {
@@ -151,8 +150,8 @@ public final class NanoForgeMachine extends StorageMultiblockMachine implements 
     }
 
     @Override
-    public BlockPattern getPattern() {
-        return getBlockPattern(machineTier, getDefinition());
+    public Supplier<BlockPattern>[] getPattern() {
+        return new Supplier[] { () -> getBlockPattern(machineTier, getDefinition()) };
     }
 
     @Override
@@ -163,10 +162,5 @@ public final class NanoForgeMachine extends StorageMultiblockMachine implements 
     @Override
     public long getMinParallel() {
         return Math.min(IParallelMachine.MIN_PARALLEL, getMaxParallel());
-    }
-
-    @Override
-    public List<BlockPattern> getMultiPattern() {
-        return List.of(getBlockPattern(1, getDefinition()), getBlockPattern(2, getDefinition()), getBlockPattern(3, getDefinition()));
     }
 }

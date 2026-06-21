@@ -24,7 +24,6 @@ import com.gregtechceu.gtceu.api.recipe.modifier.RecipeModifier;
 import com.gregtechceu.gtceu.common.data.*;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import static com.gregtechceu.gtceu.api.machine.multiblock.PartAbility.*;
 import static com.gregtechceu.gtceu.api.pattern.Predicates.*;
@@ -111,9 +110,9 @@ public final class MultiBlockF {
             .block(GTBlocks.CASING_ALUMINIUM_FROSTPROOF)
             .pattern(definition -> CompoundExtremeCoolingMachine.getBlockPattern(0, definition))
             .shapeInfos(definition -> {
-                List<MultiblockShapeInfo> shapeInfos = new ArrayList<>();
+                var shapeInfos = new ArrayList<MultiblockShapeInfo>();
                 for (int i = 0; i < 2; i++) {
-                    shapeInfos.addAll(MultiblockDefinition.getMatchingShapes(false, CompoundExtremeCoolingMachine.getBlockPattern(i, definition)));
+                    MultiblockDefinition.addMatchingShapes(false, CompoundExtremeCoolingMachine.getBlockPattern(i, definition), shapeInfos);
                 }
                 return shapeInfos;
             })

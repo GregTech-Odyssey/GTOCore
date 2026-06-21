@@ -4,7 +4,6 @@ import com.gtocore.api.pattern.GTOPredicates;
 import com.gtocore.common.data.GTOBlocks;
 import com.gtocore.common.data.GTORecipeTypes;
 
-import com.gtolib.api.machine.feature.multiblock.IMultiStructureMachine;
 import com.gtolib.api.machine.multiblock.CrossRecipeMultiblockMachine;
 import com.gtolib.utils.MachineUtils;
 
@@ -21,13 +20,13 @@ import com.gregtechceu.gtceu.common.data.GTMaterials;
 
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 
-import java.util.List;
+import java.util.function.Supplier;
 
 import static com.gregtechceu.gtceu.api.machine.multiblock.PartAbility.MAINTENANCE;
 import static com.gregtechceu.gtceu.api.machine.multiblock.PartAbility.PARALLEL_HATCH;
 import static com.gregtechceu.gtceu.api.pattern.Predicates.*;
 
-public final class CompoundExtremeCoolingMachine extends CrossRecipeMultiblockMachine implements IMultiStructureMachine {
+public final class CompoundExtremeCoolingMachine extends CrossRecipeMultiblockMachine {
 
     private static final Int2ObjectOpenHashMap<BlockPattern> PATTERNS = new Int2ObjectOpenHashMap<>(3, 0.9F);
 
@@ -38,7 +37,7 @@ public final class CompoundExtremeCoolingMachine extends CrossRecipeMultiblockMa
     @Override
     public void setActiveRecipeType(int activeRecipeType) {
         if (this.activeRecipeType != activeRecipeType) {
-            updateCheck();
+            requestCheck();
             super.setActiveRecipeType(activeRecipeType);
         }
     }
@@ -126,12 +125,7 @@ public final class CompoundExtremeCoolingMachine extends CrossRecipeMultiblockMa
     }
 
     @Override
-    public BlockPattern getPattern() {
-        return getBlockPattern(getRecipeType() == GTORecipeTypes.PLASMA_CONDENSER_RECIPES ? 1 : 0, getDefinition());
-    }
-
-    @Override
-    public List<BlockPattern> getMultiPattern() {
-        return List.of(getBlockPattern(0, getDefinition()), getBlockPattern(1, getDefinition()));
+    public Supplier<BlockPattern>[] getPattern() {
+        return new Supplier[] { () -> getBlockPattern(getRecipeType() == GTORecipeTypes.PLASMA_CONDENSER_RECIPES ? 1 : 0, getDefinition()) };
     }
 }

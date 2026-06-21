@@ -386,7 +386,7 @@ public final class ExResearchMachines {
                     .where('E', GTMachines.ENERGY_INPUT_HATCH[GTValues.LuV], Direction.SOUTH)
                     .where('M', GTMachines.MAINTENANCE_HATCH.get(), Direction.SOUTH)
                     .where('H', SCANNING_HOLDER.get(), Direction.SOUTH)
-                    .build())
+                    .build(definition))
             .workableCasingRenderer(GTCEu.id("block/casings/hpca/advanced_computer_casing/front"), GTCEu.id("block/multiblock/research_station"))
             .register();
 
@@ -457,10 +457,10 @@ public final class ExResearchMachines {
                         .where('L', GTMachines.ENERGY_INPUT_HATCH[ZPM], Direction.NORTH);
                 shapeInfo.add(builder.shallowCopy()
                         .where('H', ANALYZE_HOLDER.get(), Direction.NORTH)
-                        .build());
+                        .build(definition));
                 shapeInfo.add(builder.shallowCopy()
                         .where('H', RESEARCH_HOLDER.get(), Direction.NORTH)
-                        .build());
+                        .build(definition));
                 return shapeInfo;
             })
             .workableCasingRenderer(GTCEu.id("block/casings/hpca/high_power_casing"), GTCEu.id("block/multiblock/research_station"))
@@ -525,7 +525,7 @@ public final class ExResearchMachines {
                     .where('H', GTResearchMachines.COMPUTATION_HATCH_RECEIVER, Direction.NORTH)
                     .where('I', GTMachines.ENERGY_INPUT_HATCH[ZPM], Direction.NORTH)
                     .where('J', GTMachines.MAINTENANCE_HATCH.get(), Direction.NORTH)
-                    .build())
+                    .build(definition))
             .workableCasingRenderer(GTCEu.id("block/casings/hpca/high_power_casing"), GTCEu.id("block/multiblock/research_station"))
             .register();
 }

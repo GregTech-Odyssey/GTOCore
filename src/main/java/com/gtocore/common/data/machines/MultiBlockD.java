@@ -293,9 +293,9 @@ public final class MultiBlockD {
             .block(GTOBlocks.IRIDIUM_CASING)
             .pattern(definition -> PCBFactoryMachine.getBlockPattern(1, definition))
             .shapeInfos(definition -> {
-                List<MultiblockShapeInfo> shapeInfos = new ArrayList<>();
+                var shapeInfos = new ArrayList<MultiblockShapeInfo>();
                 for (int i = 1; i < 4; i++) {
-                    shapeInfos.addAll(MultiblockDefinition.getMatchingShapes(false, PCBFactoryMachine.getBlockPattern(i, definition)));
+                    MultiblockDefinition.addMatchingShapes(true, PCBFactoryMachine.getBlockPattern(i, definition), shapeInfos);
                 }
                 return shapeInfos;
             })
@@ -528,9 +528,9 @@ public final class MultiBlockD {
             .block(GTOBlocks.NAQUADAH_ALLOY_CASING)
             .pattern(definition -> NanoForgeMachine.getBlockPattern(1, definition))
             .shapeInfos(definition -> {
-                List<MultiblockShapeInfo> shapeInfos = new ArrayList<>();
+                var shapeInfos = new ArrayList<MultiblockShapeInfo>();
                 for (int i = 1; i < 4; i++) {
-                    shapeInfos.addAll(MultiblockDefinition.getMatchingShapes(false, NanoForgeMachine.getBlockPattern(i, definition)));
+                    MultiblockDefinition.addMatchingShapes(true, NanoForgeMachine.getBlockPattern(i, definition), shapeInfos);
                 }
                 return shapeInfos;
             })
@@ -795,7 +795,7 @@ public final class MultiBlockD {
                                 .where('#', any())
                                 .build();
                     })
-                    .shapeInfos((controller) -> {
+                    .shapeInfos(definition -> {
                         List<MultiblockShapeInfo> shapeInfos = new ArrayList<>();
 
                         MultiblockShapeInfo.ShapeInfoBuilder baseBuilder = MultiblockShapeInfo.builder()
@@ -814,7 +814,7 @@ public final class MultiBlockD {
                                 .aisle("####CC###CC####", "###w##NGN##e###", "####CC###CC####")
                                 .aisle("######DCD######", "####GG###GG####", "######UCU######")
                                 .aisle("###############", "######SGS######", "###############")
-                                .where('M', controller, Direction.NORTH)
+                                .where('M', definition, Direction.NORTH)
                                 .where('C', FusionCasings.getCasingState(tier))
                                 .where('G', GTBlocks.FUSION_GLASS.get())
                                 .where('K', FusionCasings.getCoilState(tier))
@@ -832,8 +832,8 @@ public final class MultiBlockD {
 
                         shapeInfos.add(baseBuilder.shallowCopy()
                                 .where('G', FusionCasings.getCasingState(tier))
-                                .build());
-                        shapeInfos.add(baseBuilder.build());
+                                .build(definition));
+                        shapeInfos.add(baseBuilder.build(definition));
                         return shapeInfos;
                     })
                     .renderer(() -> new FusionReactorRenderer(FusionCasings.getCasingType(tier).getTexture(),

@@ -17,6 +17,7 @@ import com.gtocore.common.machine.multiblock.electric.space.spacestaion.recipe.S
 
 import com.gtolib.GTOCore;
 import com.gtolib.api.annotation.NewDataAttributes;
+import com.gtolib.api.machine.MultiblockDefinition;
 import com.gtolib.utils.MultiBlockFileReader;
 
 import com.gregtechceu.gtceu.GTCEu;
@@ -37,6 +38,7 @@ import net.minecraft.world.level.block.Blocks;
 
 import com.google.common.collect.ImmutableSet;
 
+import java.util.ArrayList;
 import java.util.Set;
 import java.util.stream.Stream;
 
@@ -47,7 +49,6 @@ import static com.gtocore.api.machine.part.GTOPartAbility.DRONE_HATCH;
 import static com.gtocore.api.pattern.GTOPredicates.autoSpaceMachineAbilities;
 import static com.gtocore.api.pattern.GTOPredicates.light;
 import static com.gtocore.utils.register.MachineRegisterUtils.multiblock;
-import static com.gtolib.api.machine.MultiblockDefinition.getBlockInfos;
 
 public class SpaceMultiblock {
 
@@ -242,8 +243,12 @@ public class SpaceMultiblock {
             .tooltips(GTOMachineTooltips.SpaceStationWorkspaceExtensionTooltips)
             .recipeTypes(GTORecipeTypes.DUMMY_RECIPES)
             .block(GTOBlocks.SPACE_STATION_CONTROL_CASING)
-            .pattern(WorkspaceExtension.patternAtLength(2))
-            .shapeInfos(d -> Stream.of(2, 9).map(i -> new MultiblockShapeInfo(getBlockInfos(WorkspaceExtension.patternAtLength(i).apply(d)))).toList())
+            .pattern(d -> WorkspaceExtension.patternAtLength(d, 2))
+            .shapeInfos(d -> {
+                var list = new ArrayList<MultiblockShapeInfo>();
+                Stream.of(2, 9).forEach(i -> MultiblockDefinition.addMatchingShapes(true, WorkspaceExtension.patternAtLength(d, i), list));
+                return list;
+            })
             .workableCasingRenderer(GTOCore.id("block/casings/space_station_control_casing"), GTCEu.id("block/multiblock/fusion_reactor"))
             .register();
     // 工业空间站六向衔接舱

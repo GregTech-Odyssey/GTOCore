@@ -59,7 +59,7 @@ public final class GTMachineModify {
         GTMultiMachines.DISTILLATION_TOWER.setRecipeModifier(GTORecipeModifiers.UPGRADE_OVERCLOCK);
         GTMultiMachines.VACUUM_FREEZER.setRecipeModifier(GTORecipeModifiers.UPGRADE_OVERCLOCK);
         GTMultiMachines.ASSEMBLY_LINE.setRecipeModifier(GTORecipeModifiers.UPGRADE_OVERCLOCK);
-        GTMultiMachines.STEAM_GRINDER.setPatternFactory(definition -> FactoryBlockPattern.start(definition)
+        GTMultiMachines.STEAM_GRINDER.setPatternFactory(List.of(definition -> FactoryBlockPattern.start(definition)
                 .aisle("XXX", "XXX", "XXX")
                 .aisle("XXX", "X#X", "XXX")
                 .aisle("XXX", "XSX", "XXX")
@@ -70,9 +70,9 @@ public final class GTMachineModify {
                         .or(abilities(PartAbility.STEAM_EXPORT_ITEMS).setMaxGlobalLimited(1).setPreviewCount(1))
                         .or(abilities(PartAbility.STEAM).setExactLimit(1))
                         .or(blocks(GTOMachines.STEAM_VENT_HATCH.get()).setExactLimit(1)))
-                .build());
+                .build()));
 
-        GTMultiMachines.STEAM_OVEN.setPatternFactory(definition -> FactoryBlockPattern.start(definition)
+        GTMultiMachines.STEAM_OVEN.setPatternFactory(List.of(definition -> FactoryBlockPattern.start(definition)
                 .aisle("FFF", "XXX", " X ")
                 .aisle("FFF", "X#X", " X ")
                 .aisle("FFF", "XSX", " X ")
@@ -85,18 +85,18 @@ public final class GTMachineModify {
                 .where('F', blocks(FIREBOX_BRONZE.get())
                         .or(Predicates.abilities(PartAbility.STEAM).setExactLimit(1))
                         .or(blocks(GTOMachines.STEAM_VENT_HATCH.get()).setExactLimit(1)))
-                .build());
+                .build()));
 
-        GTMultiMachines.PRIMITIVE_BLAST_FURNACE.setPatternFactory(definition -> FactoryBlockPattern.start(definition)
+        GTMultiMachines.PRIMITIVE_BLAST_FURNACE.setPatternFactory(List.of(definition -> FactoryBlockPattern.start(definition)
                 .aisle("XXX", "XXX", "XXX", "XXX")
                 .aisle("XXX", "X#X", "X#X", "X#X")
                 .aisle("XXX", "XYX", "XXX", "XXX")
                 .where('X', blocks(CASING_PRIMITIVE_BRICKS.get()).or(blocks(PRIMITIVE_BLAST_FURNACE_HATCH.get()).setMaxGlobalLimited(5)))
                 .where('#', air())
                 .where('Y', controller(definition))
-                .build());
+                .build()));
 
-        GTMultiMachines.LARGE_BOILER_BRONZE.setPatternFactory(definition -> FactoryBlockPattern.start(definition)
+        GTMultiMachines.LARGE_BOILER_BRONZE.setPatternFactory(List.of(definition -> FactoryBlockPattern.start(definition)
                 .aisle("XXX", "CCC", "CCC", "CCC")
                 .aisle("XXX", "CPC", "CPC", "CCC")
                 .aisle("XXX", "CSC", "CCC", "CCC")
@@ -106,9 +106,9 @@ public final class GTMachineModify {
                         .or(Predicates.abilities(PartAbility.IMPORT_FLUIDS).setMinGlobalLimited(1).setPreviewCount(1))
                         .or(Predicates.abilities(PartAbility.IMPORT_ITEMS).setMaxGlobalLimited(1).setPreviewCount(1)))
                 .where('C', blocks(CASING_BRONZE_BRICKS.get()).setMinGlobalLimited(20).or(Predicates.abilities(PartAbility.EXPORT_FLUIDS).setMinGlobalLimited(1).setPreviewCount(1)))
-                .build());
+                .build()));
 
-        GTMultiMachines.DISTILLATION_TOWER.setPatternFactory(definition -> {
+        GTMultiMachines.DISTILLATION_TOWER.setPatternFactory(List.of(definition -> {
             TraceabilityPredicate exportPredicate = abilities(PartAbility.EXPORT_FLUIDS_1X).or(blocks(GTAEMachines.FLUID_EXPORT_HATCH_ME.get())).setMaxLayerLimited(1);
             TraceabilityPredicate maint = autoAbilities(true, false, false).setMaxGlobalLimited(1);
             return FactoryBlockPattern.start(definition, RIGHT, BACK, UP)
@@ -128,7 +128,7 @@ public final class GTMachineModify {
                     .where('X', blocks(CASING_STAINLESS_CLEAN.get()).or(exportPredicate))
                     .where('#', Predicates.air())
                     .build();
-        });
+        }));
         // GTMultiMachines.DISTILLATION_TOWER.setRecoveryItems(GTMachineModify::tinydustFromDustOutput);
 
         GTMultiMachines.ELECTRIC_BLAST_FURNACE.setSubPatternFactory(List.of(definition -> FactoryBlockPattern.start(definition)

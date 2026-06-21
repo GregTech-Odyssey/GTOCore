@@ -31,7 +31,9 @@ import dev.emi.emi.api.stack.EmiIngredient;
 import dev.emi.emi.api.stack.EmiStack;
 import dev.emi.emi.api.widget.SlotWidget;
 import dev.emi.emi.api.widget.WidgetHolder;
+import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import it.unimi.dsi.fastutil.objects.ReferenceOpenHashSet;
+import org.apache.commons.lang3.ArrayUtils;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
@@ -63,26 +65,31 @@ public final class MultiblockInfoEmiRecipe extends ModularEmiRecipe<Widget> {
         if (FMLLoader.isProduction() && file.exists() && file.canRead()) {
             FileUtils.loadFromFile(file, IOStreamDecoder.list(IOStreamDecoder.list(ItemUtils.IO_CODEC))).forEach(action);
         } else {
-            var pattern = definition.getPatternFactory().get();
-            if (pattern != null && pattern.predicates != null) {
-                Collection<Collection<Item>> parts = new ReferenceOpenHashSet<>();
-                for (var predicate : pattern.predicates) {
-                    ArrayList<SimplePredicate> predicates = new ArrayList<>(predicate.common);
-                    predicates.addAll(predicate.limited);
-                    for (SimplePredicate simplePredicate : predicates) {
-                        if (simplePredicate == null || simplePredicate.candidates == null) continue;
-                        Set<Item> items = new ReferenceOpenHashSet<>();
-                        for (var itemStack : simplePredicate.getCandidates()) {
-                            var item = itemStack.getItem();
-                            if (item == Items.AIR || item == Items.BARRIER) continue;
-                            items.add(item);
+            Collection<Collection<Item>> parts = new ObjectOpenHashSet<>();
+            var patterns = definition.getPatternFactory();
+            var subPatterns = definition.getSubPatternFactory();
+            if (subPatterns != null) patterns = ArrayUtils.addAll(patterns, subPatterns);
+            for (var p : patterns) {
+                var pattern = p.get();
+                if (pattern != null && pattern.predicates != null) {
+                    for (var predicate : pattern.predicates) {
+                        ArrayList<SimplePredicate> predicates = new ArrayList<>(predicate.common);
+                        predicates.addAll(predicate.limited);
+                        for (SimplePredicate simplePredicate : predicates) {
+                            if (simplePredicate == null || simplePredicate.candidates == null) continue;
+                            Set<Item> items = new ReferenceOpenHashSet<>();
+                            for (var itemStack : simplePredicate.getCandidates()) {
+                                var item = itemStack.getItem();
+                                if (item == Items.AIR || item == Items.BARRIER) continue;
+                                items.add(item);
+                            }
+                            if (items.size() > 1) parts.add(items);
                         }
-                        if (items.size() > 1) parts.add(items);
                     }
                 }
-                if (FMLLoader.isProduction()) FileUtils.saveToFile(parts, file, IOStreamEncoder.collection(IOStreamEncoder.collection(ItemUtils.IO_CODEC)));
-                parts.forEach(action);
             }
+            if (FMLLoader.isProduction()) FileUtils.saveToFile(parts, file, IOStreamEncoder.collection(IOStreamEncoder.collection(ItemUtils.IO_CODEC)));
+            parts.forEach(action);
         }
         MultiblockDefinition.of(definition).getPatterns()[0].parts().forEach(i -> super.inputs.add(EmiStack.of(i)));
     }

@@ -7,7 +7,6 @@ import com.gtocore.common.data.GTOMaterials;
 
 import com.gtolib.api.annotation.DataGeneratorScanned;
 import com.gtolib.api.annotation.language.RegisterLanguage;
-import com.gtolib.api.machine.feature.multiblock.IMultiStructureMachine;
 import com.gtolib.api.machine.multiblock.StorageMultiblockMachine;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
@@ -32,6 +31,7 @@ import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+import java.util.function.Supplier;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
@@ -42,7 +42,7 @@ import static com.gregtechceu.gtceu.api.pattern.Predicates.*;
 @DataGeneratorScanned
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public final class PCBFactoryMachine extends StorageMultiblockMachine implements IMultiStructureMachine {
+public final class PCBFactoryMachine extends StorageMultiblockMachine {
 
     @RegisterLanguage(en = "PCB Factory Tier: ", cn = "PCB工厂等级：")
     public static final String TIER = "gtocore.pcb_factory.tier";
@@ -70,7 +70,7 @@ public final class PCBFactoryMachine extends StorageMultiblockMachine implements
         } else if (material == GTOMaterials.Enderium) {
             machineTier = 3;
         }
-        updateCheck();
+        requestCheck();
     }
 
     public static BlockPattern getBlockPattern(int tier, MultiblockMachineDefinition definition) {
@@ -246,13 +246,8 @@ public final class PCBFactoryMachine extends StorageMultiblockMachine implements
     }
 
     @Override
-    public BlockPattern getPattern() {
-        return getBlockPattern(machineTier, getDefinition());
-    }
-
-    @Override
-    public List<BlockPattern> getMultiPattern() {
-        return List.of(getBlockPattern(1, getDefinition()), getBlockPattern(2, getDefinition()), getBlockPattern(3, getDefinition()));
+    public Supplier<BlockPattern>[] getPattern() {
+        return new Supplier[] { () -> getBlockPattern(machineTier, getDefinition()) };
     }
 
     @Nullable

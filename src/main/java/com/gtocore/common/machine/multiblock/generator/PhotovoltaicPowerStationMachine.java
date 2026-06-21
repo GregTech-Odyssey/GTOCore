@@ -7,7 +7,6 @@ import com.gtocore.data.IdleReason;
 
 import com.gtolib.api.data.GTODimensions;
 import com.gtolib.api.machine.feature.multiblock.ICustomHighlightMachine;
-import com.gtolib.api.machine.feature.multiblock.IMultiStructureMachine;
 import com.gtolib.api.machine.mana.feature.IManaMultiblock;
 import com.gtolib.api.machine.mana.trait.ManaTrait;
 import com.gtolib.api.machine.multiblock.StorageMultiblockMachine;
@@ -56,13 +55,13 @@ import static com.gtocore.data.IdleReason.INCORRECT_DIRECTION_VOLTA;
 import static com.gtocore.data.IdleReason.OBSTRUCTED_VOLTA;
 import static net.minecraft.world.level.block.Blocks.AIR;
 
-public final class PhotovoltaicPowerStationMachine extends StorageMultiblockMachine implements IManaMultiblock, IMultiStructureMachine, ICustomHighlightMachine, ICustomRecipeLogicHolder {
+public final class PhotovoltaicPowerStationMachine extends StorageMultiblockMachine implements IManaMultiblock, ICustomHighlightMachine, ICustomRecipeLogicHolder {
 
     private final int basic_rate;
 
     private final ManaTrait manaTrait;
 
-    private final BlockPattern patternInSpace;
+    private final Supplier<BlockPattern> patternInSpace;
 
     private int refreshSky = 0;
     private boolean canSeeSky;
@@ -81,13 +80,13 @@ public final class PhotovoltaicPowerStationMachine extends StorageMultiblockMach
         super(holder, 64, i -> i.getItem() == BotaniaBlocks.motifDaybloom.asItem());
         basic_rate = basicRate;
         this.manaTrait = new ManaTrait(this);
-        this.patternInSpace = getPatternInSpace(getDefinition(), casing, photovoltaicBlock);
+        this.patternInSpace = () -> getPatternInSpace(getDefinition(), casing, photovoltaicBlock);
     }
 
     @Override
-    public BlockPattern getPattern() {
+    public Supplier<BlockPattern>[] getPattern() {
         if (isInSpace()) {
-            return patternInSpace;
+            return new Supplier[] { patternInSpace };
         }
         return super.getPattern();
     }
@@ -217,7 +216,7 @@ public final class PhotovoltaicPowerStationMachine extends StorageMultiblockMach
                 .where('q', MAINTENANCE_HATCH, Direction.WEST)
                 .where('~', definition, Direction.WEST)
                 .where(' ', AIR)
-                .build();
+                .build(definition);
     }
 
     public static BlockPattern getPatternInSpace(MultiblockMachineDefinition definition, Supplier<? extends Block> casing, BlockEntry<?> photovoltaicBlock) {
@@ -287,12 +286,7 @@ public final class PhotovoltaicPowerStationMachine extends StorageMultiblockMach
                 .where('q', MAINTENANCE_HATCH, Direction.UP)
                 .where('D', definition.defaultBlockState())
                 .where(' ', AIR)
-                .build();
-    }
-
-    @Override
-    public List<BlockPattern> getMultiPattern() {
-        return List.of(super.getPattern(), patternInSpace);
+                .build(() -> getPatternInSpace(definition, casing, photovoltaicBlock));
     }
 
     @Override

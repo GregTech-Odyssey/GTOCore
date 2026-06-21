@@ -40,7 +40,6 @@ import vazkii.botania.common.block.BotaniaBlocks;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 import java.util.Map;
 
 import static com.gregtechceu.gtceu.api.machine.multiblock.PartAbility.*;
@@ -194,9 +193,9 @@ public final class ManaMultiBlock {
             .block(GTOBlocks.MANASTEEL_CASING)
             .pattern(definition -> ManaCondenserMachine.getBlockPattern(0, definition))
             .shapeInfos(definition -> {
-                List<MultiblockShapeInfo> shapeInfos = new ArrayList<>();
+                var shapeInfos = new ArrayList<MultiblockShapeInfo>();
                 for (int i = 0; i < 2; i++) {
-                    shapeInfos.addAll(MultiblockDefinition.getMatchingShapes(false, ManaCondenserMachine.getBlockPattern(i, definition)));
+                    MultiblockDefinition.addMatchingShapes(true, ManaCondenserMachine.getBlockPattern(i, definition), shapeInfos);
                 }
                 return shapeInfos;
             })

@@ -685,7 +685,7 @@ public final class GCYMMachines {
                             .aisle(aisle3.toArray(String[]::new))
                             .aisle(aisle4.toArray(String[]::new))
                             .aisle(aisle5.toArray(String[]::new));
-                    shapeInfos.add(copy.build());
+                    shapeInfos.add(copy.build(definition));
                 }
                 return shapeInfos;
             })
