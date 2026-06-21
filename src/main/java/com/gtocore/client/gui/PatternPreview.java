@@ -6,7 +6,6 @@ import com.gtolib.api.gui.PatternSlotWidget;
 import com.gtolib.api.gui.SelectedSlotWidget;
 import com.gtolib.api.item.ItemStackHandler;
 import com.gtolib.api.machine.MultiblockDefinition;
-import com.gtolib.api.machine.feature.multiblock.IMultiStructureMachine;
 
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
@@ -281,7 +280,7 @@ public final class PatternPreview extends WidgetGroup {
         IMultiController controllerBase = pattern.controllerBase;
         if (isFormed) {
             layer = -1;
-            loadControllerFormed(pattern.predicateMap.keySet(), controllerBase, index);
+            loadControllerFormed(pattern.pattern, pattern.predicateMap.keySet(), controllerBase);
         } else {
             sceneWidget.setRenderedCore(pattern.predicateMap.keySet().longStream().mapToObj(BlockPos::of).toList(), null);
             controllerBase.onStructureInvalid();
@@ -328,18 +327,7 @@ public final class PatternPreview extends WidgetGroup {
         }
     }
 
-    private void loadControllerFormed(LongSet poses, IMultiController controllerBase, int index) {
-        BlockPattern pattern;
-        if (controllerBase instanceof IMultiStructureMachine machine) {
-            pattern = machine.getMultiPattern().get(index);
-        } else {
-            var subPattern = controllerBase.getSubPattern();
-            if (subPattern != null && index > 0) {
-                pattern = subPattern[index - 1].get();
-            } else {
-                pattern = controllerBase.getPattern();
-            }
-        }
+    private void loadControllerFormed(BlockPattern pattern, LongSet poses, IMultiController controllerBase) {
         var state = controllerBase.getMultiblockState();
         if (pattern != null && pattern.checkPatternAt(state, true)) {
             controllerBase.onStructureFormed();
@@ -358,9 +346,9 @@ public final class PatternPreview extends WidgetGroup {
     }
 
     private MBPattern initializePattern(MultiblockDefinition definition, MultiblockDefinition.Pattern pattern, int index) {
-        var pair = pattern.initialize(definition, index);
-        var patternMap = pair.getSecond();
-        var pos = pair.getFirst();
+        var triple = pattern.initialize(definition, index);
+        var patternMap = triple.getThird();
+        var pos = triple.getFirst();
         Long2ReferenceOpenHashMap<BlockInfo> blockMap = new Long2ReferenceOpenHashMap<>(patternMap.values().stream().mapToInt(LongOpenHashSet::size).sum());
         patternMap.forEach((b, i) -> i.forEach(p -> blockMap.put(p, b)));
         IMultiController controllerBase = blockMap.get(pos.asLong()).getBlockEntity(pos) instanceof MetaMachineBlockEntity blockEntity ? blockEntity.metaMachine instanceof IMultiController controller ? controller : null : null;
@@ -374,10 +362,10 @@ public final class PatternPreview extends WidgetGroup {
         }
         Long2ObjectOpenHashMap<TraceabilityPredicate> predicateMap = controllerBase == null ? null : new Long2ObjectOpenHashMap<>();
         if (controllerBase != null) {
-            loadControllerFormed(predicateMap.keySet(), controllerBase, index);
+            loadControllerFormed(triple.getSecond(), predicateMap.keySet(), controllerBase);
             predicateMap = controllerBase.getMultiblockState().getMatchContext().getPredicates();
         }
-        return controllerBase == null ? null : new MBPattern(blockMap, pattern.parts(), predicateMap, controllerBase);
+        return controllerBase == null ? null : new MBPattern(blockMap, pattern.parts(), triple.getSecond(), predicateMap, controllerBase);
     }
 
     @Override
@@ -417,6 +405,7 @@ public final class PatternPreview extends WidgetGroup {
 
         @NotNull
         public final List<ItemStack> parts;
+        private final BlockPattern pattern;
         @NotNull
         private final Long2ObjectOpenHashMap<TraceabilityPredicate> predicateMap;
         @NotNull
@@ -427,8 +416,9 @@ public final class PatternPreview extends WidgetGroup {
         private final int minY;
         private final BlockPos center;
 
-        private MBPattern(@NotNull Long2ReferenceOpenHashMap<BlockInfo> blockMap, @NotNull List<ItemStack> parts, @NotNull Long2ObjectOpenHashMap<TraceabilityPredicate> predicateMap, @NotNull IMultiController controllerBase) {
+        private MBPattern(@NotNull Long2ReferenceOpenHashMap<BlockInfo> blockMap, @NotNull List<ItemStack> parts, BlockPattern pattern, @NotNull Long2ObjectOpenHashMap<TraceabilityPredicate> predicateMap, @NotNull IMultiController controllerBase) {
             this.parts = parts;
+            this.pattern = pattern;
             this.partsSet = new LongOpenHashSet();
             this.placeHolderSet = new LongOpenHashSet();
             this.predicateMap = predicateMap;

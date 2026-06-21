@@ -1,11 +1,11 @@
 package com.gtocore.common.item;
 
 import com.gtocore.common.data.GTOItems;
+import com.gtocore.utils.PlayerNameUtils;
 
 import net.minecraft.nbt.*;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
@@ -43,24 +43,18 @@ public class GregMembershipCardItem extends Item {
         super.appendHoverText(stack, level, tooltip, flag);
 
         UUID ownerUuid = getSingleUuid(stack);
-        Component ownerNameComponent = Component.translatable("gtocore.gray_membership_card.hover_text.1");
-        if (ownerUuid != null && level != null) {
-            Player ownerPlayer = level.getPlayerByUUID(ownerUuid);
-            ownerNameComponent = (ownerPlayer != null) ? ownerPlayer.getName() :
-                    Component.translatable("gtocore.gray_membership_card.hover_text.2");
+        Component ownerNameComponent = Component.literal(PlayerNameUtils.UNKNOWN);
+        if (ownerUuid != null) {
+            ownerNameComponent = Component.literal(PlayerNameUtils.getLastKnownName(level, ownerUuid));
         }
 
         List<UUID> sharedUuids = getSharedUuids(stack);
         List<Component> sharedNameComponents = new ArrayList<>();
-        if (level != null) {
-            for (UUID sharedUuid : sharedUuids) {
-                Player sharedPlayer = level.getPlayerByUUID(sharedUuid);
-                sharedNameComponents.add((sharedPlayer != null) ? sharedPlayer.getName() :
-                        Component.translatable("gtocore.gray_membership_card.hover_text.2"));
-            }
+        for (UUID sharedUuid : sharedUuids) {
+            sharedNameComponents.add(Component.literal(PlayerNameUtils.getLastKnownName(level, sharedUuid)));
         }
 
-        tooltip.add(Component.translatable("gtocore.gray_membership_card.hover_text.3").append(ownerNameComponent));
+        tooltip.add(Component.translatable("gtocore.gray_membership_card.hover_text.1").append(ownerNameComponent));
         if (!sharedNameComponents.isEmpty()) {
             MutableComponent sharedNamesJoined = Component.empty();
             for (int i = 0; i < sharedNameComponents.size(); i++) {
@@ -69,7 +63,7 @@ public class GregMembershipCardItem extends Item {
                 }
                 sharedNamesJoined.append(sharedNameComponents.get(i));
             }
-            tooltip.add(Component.translatable("gtocore.gray_membership_card.hover_text.4").append(sharedNamesJoined));
+            tooltip.add(Component.translatable("gtocore.gray_membership_card.hover_text.2").append(sharedNamesJoined));
         }
     }
 

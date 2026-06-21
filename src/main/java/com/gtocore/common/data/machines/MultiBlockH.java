@@ -532,7 +532,7 @@ public final class MultiBlockH {
                     .where('b', blocks(GTOBlocks.SOLAR_HEAT_COLLECTOR_PIPE_CASING.get()))
                     .where('~', controller(definition))
                     .build())
-            .shapeInfos((controller) -> {
+            .shapeInfos(definition -> {
                 var minBuilder = MultiblockShapeInfo.builder()
                         .aisle("ac~da")
                         .aisle("abbba")
@@ -544,7 +544,7 @@ public final class MultiBlockH {
                         .where('~', MultiBlockH.LARGE_STEAM_SOLAR_BOILER, Direction.NORTH)
                         .where('c', GTMachines.FLUID_IMPORT_HATCH[GTValues.LV], Direction.NORTH)
                         .where('d', GTMachines.FLUID_EXPORT_HATCH[GTValues.LV], Direction.NORTH);
-                MultiblockShapeInfo minShape = minBuilder.build();
+                MultiblockShapeInfo minShape = minBuilder.build(definition);
                 final int maxL = 63, maxR = 63, maxB = 125;
                 final int width = maxL + maxR + 1;
                 String controllerRowBuilder = "a".repeat(maxL) +
@@ -561,10 +561,10 @@ public final class MultiBlockH {
                     maxBuilder.aisle(middleRowBuilder.toString());
                 }
                 maxBuilder.aisle(boundaryRow)
-                        .where('~', controller.get())
+                        .where('~', definition.get())
                         .where('a', GTBlocks.STEEL_HULL.get())
                         .where('b', GTOBlocks.SOLAR_HEAT_COLLECTOR_PIPE_CASING.get());
-                MultiblockShapeInfo maxShape = maxBuilder.build();
+                MultiblockShapeInfo maxShape = maxBuilder.build(definition);
                 return List.of(minShape, maxShape);
             })
             .workableCasingRenderer(GTCEu.id("block/casings/steam/steel/side"), GTCEu.id("block/multiblock/multiblock_tank"))

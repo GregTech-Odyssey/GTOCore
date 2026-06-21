@@ -8,7 +8,6 @@ import com.gtocore.common.data.GTOMaterials;
 
 import com.gtolib.api.annotation.DataGeneratorScanned;
 import com.gtolib.api.annotation.language.RegisterLanguage;
-import com.gtolib.api.machine.feature.multiblock.IMultiStructureMachine;
 
 import com.gregtechceu.gtceu.api.block.MetaMachineBlock;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
@@ -29,18 +28,20 @@ import com.gto.datasynclib.annotations.SyncToClient;
 import com.lowdragmc.lowdraglib.gui.texture.IGuiTexture;
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
+import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.List;
 import java.util.Set;
-import java.util.function.Function;
+import java.util.function.Supplier;
 import java.util.stream.Stream;
 
 import static com.gregtechceu.gtceu.api.pattern.Predicates.*;
 import static com.gtocore.api.machine.ILargeSpaceStationMachine.ConnectType.MODULE;
 
 @DataGeneratorScanned
-public class WorkspaceExtension extends Extension implements IMultiStructureMachine {
+public class WorkspaceExtension extends Extension {
+
+    private static final Int2ObjectOpenHashMap<BlockPattern> PATTERNS = new Int2ObjectOpenHashMap<>();
 
     @SaveToDisk
     @SyncToClient
@@ -51,13 +52,8 @@ public class WorkspaceExtension extends Extension implements IMultiStructureMach
     }
 
     @Override
-    public List<BlockPattern> getMultiPattern() {
-        return Stream.of(2, 9).map(i -> patternAtLength(i).apply(getDefinition())).toList();
-    }
-
-    @Override
-    public BlockPattern getPattern() {
-        return patternAtLength(length).apply(getDefinition());
+    public Supplier<BlockPattern>[] getPattern() {
+        return new Supplier[] { () -> patternAtLength(getDefinition(), length) };
     }
 
     @Override
@@ -164,16 +160,16 @@ public class WorkspaceExtension extends Extension implements IMultiStructureMach
             { "          ", "          ", "          ", "          ", "          ", "          ", "          ", "F         ", "          ", "          ", "          ", "F         ", "          ", "          ", "          ", "          ", "          ", "          ", "          " },
     };
 
-    public static Function<MultiblockMachineDefinition, BlockPattern> patternAtLength(int length) {
-        String[][] pattern = new String[19][19];
-        for (int i = 0; i < 19; i++) {
-            for (int j = 0; j < 19; j++) {
-                pattern[i][j] = HEAD[i][j] +
-                        String.valueOf(BLOCK[i][j]).repeat(length) +
-                        TAIL[i][j];
+    public static BlockPattern patternAtLength(MultiblockMachineDefinition definition, int length) {
+        return PATTERNS.computeIfAbsent(length, l -> {
+            String[][] pattern = new String[19][19];
+            for (int i = 0; i < 19; i++) {
+                for (int j = 0; j < 19; j++) {
+                    pattern[i][j] = HEAD[i][j] +
+                            String.valueOf(BLOCK[i][j]).repeat(l) +
+                            TAIL[i][j];
+                }
             }
-        }
-        return definition -> {
             var builder = FactoryBlockPattern.start(definition);
             for (String[] aisle : pattern) {
                 builder = builder.aisle(aisle);
@@ -198,7 +194,7 @@ public class WorkspaceExtension extends Extension implements IMultiStructureMach
                     .where('p', ISpacePredicateMachine.innerBlockPredicate.get())
                     .where(' ', any())
                     .build();
-        };
+        });
     }
 
     @RegisterLanguage(cn = "工作区扩展舱长度", en = "Workspace Extension Length")

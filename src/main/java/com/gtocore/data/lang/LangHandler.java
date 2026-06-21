@@ -32,7 +32,6 @@ import com.gtolib.utils.register.MaterialsRegisterUtils;
 import com.gtolib.utils.register.RecipeTypeRegisterUtils;
 
 import com.gregtechceu.gtceu.api.GTValues;
-import com.gregtechceu.gtceu.api.pattern.MultiblockState;
 
 import net.minecraftforge.common.data.LanguageProvider;
 
@@ -438,10 +437,10 @@ public final class LangHandler {
 
         addCNEN("gtocore.source", "结构来源：%s", "Structure From: %s");
 
-        addCNEN(MultiblockState.UNLOAD_ERROR.translateKey, "有区块未加载", "There are chunk not loaded");
-        addCNEN(MultiblockState.UNINIT_ERROR.translateKey, "机器未初始化", "Machine not initialized");
-        addCNEN(MultiblockState.SHARE_ERROR.translateKey, "该方块不能共享", "This block cannot be shared");
-        addCNEN(MultiblockState.BANNED_ERROR.translateKey, "该方块被禁止", "This block is banned");
+        addCNEN("multiblocked.pattern.error.chunk", "有区块未加载", "There are chunk not loaded");
+        addCNEN("multiblocked.pattern.error.init", "机器未初始化", "Machine not initialized");
+        addCNEN("multiblocked.pattern.error.share", "该方块不能共享", "This block cannot be shared");
+        addCNEN("multiblocked.pattern.error.banned", "该方块被禁止", "This block is banned");
 
         addCNEN("gtocore.multiblock.invalid.message", "多方块%s位于(%s)未成型！运行 /" + GTOCore.MOD_ID + "c multiblock on 查看详情。", "Multiblock %s at (%s) is not formed! Run /" + GTOCore.MOD_ID + "c multiblock on for details.");
 

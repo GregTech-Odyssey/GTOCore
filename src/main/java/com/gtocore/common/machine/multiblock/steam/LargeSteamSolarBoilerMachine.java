@@ -32,6 +32,7 @@ import net.minecraft.world.level.material.Fluids;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
+import java.util.function.Supplier;
 
 import static com.gregtechceu.gtceu.api.machine.multiblock.PartAbility.EXPORT_FLUIDS;
 import static com.gregtechceu.gtceu.api.machine.multiblock.PartAbility.IMPORT_FLUIDS;
@@ -128,7 +129,7 @@ public class LargeSteamSolarBoilerMachine extends WorkableMultiblockMachine impl
 
     @NotNull
     @Override
-    public BlockPattern getPattern() {
+    public Supplier<BlockPattern>[] getPattern() {
         if (getLevel() != null) updateStructureDimensions();
 
         int safeLDist = formed ? lDist : MIN_LR_DIST;
@@ -141,14 +142,14 @@ public class LargeSteamSolarBoilerMachine extends WorkableMultiblockMachine impl
         String middleRow = "a" + "b".repeat(totalWidth - 2) + "a";
         String controllerRow = "a".repeat(safeLDist + 1) + "~" + "a".repeat(safeRDist + 1);
 
-        return FactoryBlockPattern.start(RelativeDirection.LEFT, RelativeDirection.UP, RelativeDirection.FRONT)
+        return new Supplier[] { () -> FactoryBlockPattern.start(RelativeDirection.LEFT, RelativeDirection.UP, RelativeDirection.FRONT)
                 .aisle(boundaryRow)
                 .aisle(middleRow).setRepeatable(safeBDist)
                 .aisle(controllerRow)
                 .where('a', blocks(GTBlocks.STEEL_HULL.get()).or(abilities(EXPORT_FLUIDS)).or(abilities(IMPORT_FLUIDS)))
                 .where('b', blocks(GTOBlocks.SOLAR_HEAT_COLLECTOR_PIPE_CASING.get()))
                 .where('~', controller(this.getDefinition()))
-                .build();
+                .build() };
     }
 
     @Override
