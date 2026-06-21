@@ -68,14 +68,28 @@ import java.util.stream.LongStream;
 @OnlyIn(Dist.CLIENT)
 public final class PatternPreview extends WidgetGroup {
 
+    private static final int COMPACT_WIDTH = 160;
+    private static final int COMPACT_HEIGHT = 160;
+    private static final int PARTS_SCROLL_BAR_HEIGHT = 4;
+
     private static boolean isPartHighlighting = false;
 
     private final MultiblockInfoEmiRecipe recipe;
+    private final boolean fullscreen;
+    private int partsY;
     private boolean isLoaded;
     private static TrackedDummyWorld LEVEL;
     private static final Map<MultiblockMachineDefinition, MBPattern[]> CACHE = new Reference2ReferenceOpenHashMap<>();
     private final SceneWidget sceneWidget;
     private final DraggableScrollableWidgetGroup scrollableWidgetGroup;
+    private final ImageWidget titleWidget;
+    private final TextTexture titleTexture;
+    private ImageWidget controlsHintWidget;
+    private TextTexture controlsHintTexture;
+    private ButtonWidget patternButton;
+    private ButtonWidget layerButton;
+    private ButtonWidget highlightButton;
+    private ButtonWidget fullscreenToggleButton;
     private final MBPattern[] patterns;
     private final List<SimplePredicate> predicates = new ArrayList<>();
     private int index;
@@ -84,12 +98,36 @@ public final class PatternPreview extends WidgetGroup {
     private SlotWidget[] candidates;
 
     private PatternPreview(MultiblockInfoEmiRecipe recipe, MultiblockMachineDefinition controllerDefinition) {
-        super(0, 0, 160, 160);
+        this(recipe, controllerDefinition, COMPACT_WIDTH, COMPACT_HEIGHT, false, null);
+    }
+
+    private PatternPreview(MultiblockInfoEmiRecipe recipe, MultiblockMachineDefinition controllerDefinition,
+                           int width, int height, boolean fullscreen, Runnable closeAction) {
+        super(0, 0, width, height);
         this.recipe = recipe;
+        this.fullscreen = fullscreen;
         setClientSideWidget();
         layer = -1;
-        addWidget(sceneWidget = new MySceneWidget().setOnSelected(this::onPosSelected).setRenderFacing(false).setRenderFacing(false));
-        scrollableWidgetGroup = new DraggableScrollableWidgetGroup(3, 132, 154, 22).setXScrollBarHeight(4).setXBarStyle(GuiTextures.SLIDER_BACKGROUND, GuiTextures.BUTTON).setScrollable(true).setDraggable(true).setScrollWheelDirection(DraggableScrollableWidgetGroup.ScrollWheelDirection.HORIZONTAL);
+        int sceneX = fullscreen ? 8 : 3;
+        int sceneY = fullscreen ? 22 : 3;
+        int controlsX = fullscreen ? width - 28 : 138;
+        int sceneWidth = fullscreen ? width - 44 : 150;
+        int sceneHeight = fullscreen ? height - 70 : 150;
+        partsY = fullscreen ? height - 27 : 132;
+
+        addWidget(sceneWidget = new MySceneWidget(sceneX, sceneY, sceneWidth, sceneHeight)
+                .setOnSelected(this::onPosSelected)
+                .setRenderFacing(false));
+        scrollableWidgetGroup = new DraggableScrollableWidgetGroup(
+                fullscreen ? 8 : 3,
+                partsY,
+                fullscreen ? width - 16 : 154,
+                22)
+                .setXScrollBarHeight(PARTS_SCROLL_BAR_HEIGHT)
+                .setXBarStyle(GuiTextures.SLIDER_BACKGROUND, GuiTextures.BUTTON)
+                .setScrollable(true)
+                .setDraggable(true)
+                .setScrollWheelDirection(DraggableScrollableWidgetGroup.ScrollWheelDirection.HORIZONTAL);
         scrollableWidgetGroup.setScrollYOffset(0);
         addWidget(scrollableWidgetGroup);
         if (ConfigHolder.INSTANCE.client.useVBO) {
@@ -99,7 +137,16 @@ public final class PatternPreview extends WidgetGroup {
                 sceneWidget.useCacheBuffer();
             }
         }
-        addWidget(new ImageWidget(3, 3, 160, 10, new TextTexture(controllerDefinition.getDescriptionId(), -1).setType(TextTexture.TextType.ROLL).setWidth(170).setDropShadow(true)));
+        titleTexture = new TextTexture(controllerDefinition.getDescriptionId(), -1)
+                .setType(TextTexture.TextType.ROLL)
+                .setWidth(fullscreen ? width - 48 : 132)
+                .setDropShadow(true);
+        addWidget(titleWidget = new ImageWidget(
+                fullscreen ? 8 : 3,
+                fullscreen ? 6 : 3,
+                fullscreen ? width - 44 : 132,
+                10,
+                titleTexture));
         if (CACHE.containsKey(controllerDefinition)) {
             patterns = CACHE.get(controllerDefinition);
         } else {
@@ -112,9 +159,35 @@ public final class PatternPreview extends WidgetGroup {
             CACHE.put(controllerDefinition, patterns);
             definition.clear();
         }
-        addWidget(new ButtonWidget(138, 30, 18, 18, new GuiTextureGroup(ColorPattern.T_GRAY.rectTexture(), new TextTexture("1").setSupplier(() -> "P:" + index)), this::updatePatternIndex).setHoverBorderTexture(1, -1));
-        addWidget(new ButtonWidget(138, 50, 18, 18, new GuiTextureGroup(ColorPattern.T_GRAY.rectTexture(), new TextTexture("1").setSupplier(() -> layer >= 0 ? "L:" + layer : "ALL")), this::updateLayer).setHoverBorderTexture(1, -1));
-        addWidget(new ButtonWidget(138, 70, 18, 18, new GuiTextureGroup(ColorPattern.T_GRAY.rectTexture(), new TextTexture("1").setSupplier(() -> isPartHighlighting ? "H:ON" : "H:OFF")), cd -> isPartHighlighting = !isPartHighlighting).setHoverBorderTexture(1, -1));
+        index = Math.max(0, Math.min(recipe.i, patterns.length - 1));
+
+        int firstControlY = fullscreen ? 28 : 30;
+        int controlSpacing = fullscreen ? 24 : 20;
+        addWidget(patternButton = createControlButton(controlsX, firstControlY,
+                () -> "P:" + index, this::updatePatternIndex,
+                "gtocore.multiblock_preview.pattern_control"));
+        addWidget(layerButton = createControlButton(controlsX, firstControlY + controlSpacing,
+                () -> layer >= 0 ? "L:" + layer : "ALL", this::updateLayer,
+                "gtocore.multiblock_preview.layer_control"));
+        addWidget(highlightButton = createControlButton(controlsX, firstControlY + controlSpacing * 2,
+                () -> isPartHighlighting ? "H:ON" : "H:OFF",
+                cd -> isPartHighlighting = !isPartHighlighting,
+                "gtocore.multiblock_preview.highlight_control"));
+
+        if (fullscreen) {
+            Runnable exitFullscreen = Objects.requireNonNull(closeAction);
+            addWidget(fullscreenToggleButton = createControlButton(controlsX, 4, () -> "X", cd -> exitFullscreen.run(),
+                    "gtocore.multiblock_preview.exit_fullscreen"));
+            controlsHintTexture = new TextTexture("gtocore.multiblock_preview.controls", -1)
+                    .setType(TextTexture.TextType.ROLL)
+                    .setWidth(width - 20)
+                    .setDropShadow(true);
+            addWidget(controlsHintWidget = new ImageWidget(8, height - 42, width - 16, 10, controlsHintTexture));
+        } else {
+            addWidget(fullscreenToggleButton = createControlButton(controlsX, firstControlY + controlSpacing * 3,
+                    () -> "F", cd -> openFullscreen(),
+                    "gtocore.multiblock_preview.fullscreen"));
+        }
 
         sceneWidget.setAfterWorldRender((w) -> {
             if (!isPartHighlighting) return;
@@ -171,6 +244,53 @@ public final class PatternPreview extends WidgetGroup {
         });
         setPage();
         recipe.patterns = patterns;
+    }
+
+    private ButtonWidget createControlButton(int x, int y, java.util.function.Supplier<String> label,
+                                             java.util.function.Consumer<ClickData> onClick, String tooltipKey) {
+        ButtonWidget button = new ButtonWidget(
+                x, y, 18, 18,
+                new GuiTextureGroup(ColorPattern.T_GRAY.rectTexture(),
+                        new TextTexture("1").setSupplier(label)),
+                onClick)
+                .setHoverBorderTexture(1, -1);
+        button.setHoverTooltips(Component.translatable(tooltipKey));
+        return button;
+    }
+
+    private void openFullscreen() {
+        Minecraft minecraft = Minecraft.getInstance();
+        if (minecraft.screen != null) {
+            minecraft.setScreen(new MultiblockPreviewScreen(
+                    MultiblockPreviewScreen.prepareParent(minecraft.screen), recipe));
+        }
+    }
+
+    void resizeFullscreen(int width, int height) {
+        if (!fullscreen) return;
+        setSize(width, height);
+
+        int controlsX = width - 28;
+        partsY = height - 27;
+
+        sceneWidget.setSize(width - 44, height - 70);
+        scrollableWidgetGroup.setSelfPosition(8, partsY);
+        scrollableWidgetGroup.setSize(width - 16, 22);
+        titleWidget.setSize(width - 44, 10);
+        titleTexture.setWidth(width - 48);
+
+        patternButton.setSelfPosition(controlsX, 28);
+        layerButton.setSelfPosition(controlsX, 52);
+        highlightButton.setSelfPosition(controlsX, 76);
+        fullscreenToggleButton.setSelfPosition(controlsX, 4);
+
+        if (controlsHintWidget != null) {
+            controlsHintWidget.setSelfPosition(8, height - 42);
+            controlsHintWidget.setSize(width - 16, 10);
+            controlsHintTexture.setWidth(width - 20);
+        }
+        updateCandidatePositions();
+        updatePartsScrollBar();
     }
 
     private void updatePatternIndex(ClickData clickData) {
@@ -243,6 +363,17 @@ public final class PatternPreview extends WidgetGroup {
     }
 
     public static PatternPreview getPatternWidget(MultiblockInfoEmiRecipe recipe, MultiblockMachineDefinition controllerDefinition) {
+        initializeLevel();
+        return new PatternPreview(recipe, controllerDefinition);
+    }
+
+    static PatternPreview getFullscreenPatternWidget(MultiblockInfoEmiRecipe recipe, int width, int height,
+                                                     Runnable closeAction) {
+        initializeLevel();
+        return new PatternPreview(recipe, recipe.definition, width, height, true, closeAction);
+    }
+
+    private static void initializeLevel() {
         if (LEVEL == null) {
             if (Minecraft.getInstance().level == null) {
                 GTCEu.LOGGER.error("Try to init pattern previews before level load");
@@ -250,7 +381,6 @@ public final class PatternPreview extends WidgetGroup {
             }
             LEVEL = new TrackedDummyWorld();
         }
-        return new PatternPreview(recipe, controllerDefinition);
     }
 
     private void setPage() {
@@ -269,11 +399,23 @@ public final class PatternPreview extends WidgetGroup {
                 scrollableWidgetGroup.removeWidget(slotWidget);
             }
         }
+        scrollableWidgetGroup.setScrollXOffset(0);
         slotWidgets = new PatternSlotWidget[itemList.size()];
         for (int i = 0; i < slotWidgets.length; i++) {
             slotWidgets[i] = new PatternSlotWidget(new ItemStackHandler(itemList.get(i)), i, 4 + i * 18, 0);
             scrollableWidgetGroup.addWidget(slotWidgets[i]);
         }
+        updatePartsScrollBar();
+    }
+
+    private void updatePartsScrollBar() {
+        int contentWidth = slotWidgets.length == 0 ? 0 : 4 + slotWidgets.length * 18;
+        boolean needsScrolling = contentWidth > scrollableWidgetGroup.getSizeWidth();
+        scrollableWidgetGroup.setScrollable(needsScrolling);
+        if (!needsScrolling) {
+            scrollableWidgetGroup.setScrollXOffset(0);
+        }
+        scrollableWidgetGroup.setXScrollBarHeight(needsScrolling ? PARTS_SCROLL_BAR_HEIGHT : 0);
     }
 
     private void onFormedSwitch(boolean isFormed) {
@@ -319,12 +461,25 @@ public final class PatternPreview extends WidgetGroup {
             }
             candidates = new SlotWidget[candidateStacks.size()];
             CycleItemStackHandler itemHandler = new CycleItemStackHandler(candidateStacks);
-            int maxCol = (132 - (((slotWidgets.length - 1) / 9 + 1) * 18) - 35) % 18;
+            int maxRows = Math.max(1, (partsY - 6) / 18);
             for (int i = 0; i < candidateStacks.size(); i++) {
                 int finalI = i;
-                candidates[i] = new SelectedSlotWidget(candidateStacks.get(i), itemHandler, i, 3 + (i / maxCol) * 18, 3 + (i % maxCol) * 18).setBackgroundTexture(new ColorRectTexture(1342177279)).setOnAddedTooltips((slot, list) -> list.addAll(predicateTips.get(finalI)));
+                candidates[i] = new SelectedSlotWidget(
+                        candidateStacks.get(i), itemHandler, i,
+                        3 + (i / maxRows) * 18,
+                        3 + (i % maxRows) * 18)
+                        .setBackgroundTexture(new ColorRectTexture(1342177279))
+                        .setOnAddedTooltips((slot, list) -> list.addAll(predicateTips.get(finalI)));
                 addWidget(candidates[i]);
             }
+        }
+    }
+
+    private void updateCandidatePositions() {
+        if (candidates == null) return;
+        int maxRows = Math.max(1, (partsY - 6) / 18);
+        for (int i = 0; i < candidates.length; i++) {
+            candidates[i].setSelfPosition(3 + (i / maxRows) * 18, 3 + (i % maxRows) * 18);
         }
     }
 
@@ -383,9 +538,11 @@ public final class PatternPreview extends WidgetGroup {
     @Override
     @OnlyIn(Dist.CLIENT)
     public boolean mouseDragged(double mouseX, double mouseY, int button, double dragX, double dragY) {
-        if (button == 1/* right button */) {
-            dragX *= 0.1;
-            dragY *= 0.1;
+        if (button == 1/* right button */ && sceneWidget.isMouseOverElement(mouseX, mouseY)) {
+            double panScale = sceneWidget.getZoom() /
+                    Math.max(1, Math.min(sceneWidget.getSizeWidth(), sceneWidget.getSizeHeight()));
+            dragX *= panScale;
+            dragY *= panScale;
             double rotationPitch = Math.toRadians(sceneWidget.getRotationPitch());
             double rotationYaw = Math.toRadians(sceneWidget.getRotationYaw());
             float moveX = -(float) (dragY * Math.sin(rotationYaw) * Math.cos(rotationPitch) + dragX * Math.sin(rotationPitch));
@@ -401,6 +558,10 @@ public final class PatternPreview extends WidgetGroup {
     @Override
     public void updateScreen() {
         super.updateScreen();
+        if (!fullscreen && recipe.i != index && recipe.i >= 0 && recipe.i < patterns.length) {
+            index = recipe.i;
+            setPage();
+        }
         if (!isLoaded && Minecraft.getInstance().screen instanceof RecipeScreen) {
             setPage();
             isLoaded = true;
@@ -464,8 +625,8 @@ public final class PatternPreview extends WidgetGroup {
 
     private static final class MySceneWidget extends SceneWidget {
 
-        private MySceneWidget() {
-            super(3, 3, 150, 150, LEVEL);
+        private MySceneWidget(int x, int y, int width, int height) {
+            super(x, y, width, height, LEVEL);
         }
 
         @Override
