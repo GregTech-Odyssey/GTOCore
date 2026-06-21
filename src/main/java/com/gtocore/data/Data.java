@@ -40,7 +40,7 @@ import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.api.recipe.category.GTRecipeCategory;
 import com.gregtechceu.gtceu.api.registry.GTRegistries;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
-import com.gregtechceu.gtceu.core.MixinHelpers;
+import com.gregtechceu.gtceu.common.data.GTTags;
 import com.gregtechceu.gtceu.data.recipe.MaterialInfoLoader;
 import com.gregtechceu.gtceu.data.recipe.misc.RecyclingRecipes;
 import com.gregtechceu.gtceu.data.recipe.misc.StoneMachineRecipes;
@@ -170,7 +170,7 @@ public final class Data {
             }
         });
         GTOLoots.init();
-        MixinHelpers.registryGTDynamicTags();
+        GTTags.registryGTDynamicTags();
 
         GTOTrade.init();
 

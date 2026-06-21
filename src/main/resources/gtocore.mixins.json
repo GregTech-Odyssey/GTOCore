@@ -211,6 +211,7 @@
     "mc.mob.MobMixin",
     "merequester.RequesterBlockEntityMixin",
     "merequester.RequestMixin",
+    "modernfix.SimpleItemModelViewMixin",
     "opac.ChunkProtectionMixin",
     "opac.CommonEventsMixin",
     "patchouli.BookCategoryMixin",
