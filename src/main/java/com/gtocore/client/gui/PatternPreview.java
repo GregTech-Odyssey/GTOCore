@@ -87,6 +87,8 @@ public final class PatternPreview extends WidgetGroup {
     private final DraggableScrollableWidgetGroup scrollableWidgetGroup;
     private final ImageWidget titleWidget;
     private final TextTexture titleTexture;
+    private ImageWidget structureSizeWidget;
+    private TextTexture structureSizeTexture;
     private ImageWidget controlsHintWidget;
     private TextTexture controlsHintTexture;
     private ButtonWidget patternButton;
@@ -119,7 +121,7 @@ public final class PatternPreview extends WidgetGroup {
         int sceneY = fullscreen ? 22 : 3;
         int controlsX = fullscreen ? width - 28 : 138;
         int sceneWidth = fullscreen ? width - 44 : 150;
-        int sceneHeight = fullscreen ? height - 70 : 150;
+        int sceneHeight = fullscreen ? height - 82 : 150;
         partsY = fullscreen ? height - 27 : 132;
 
         addWidget(sceneWidget = new MySceneWidget(sceneX, sceneY, sceneWidth, sceneHeight)
@@ -192,6 +194,12 @@ public final class PatternPreview extends WidgetGroup {
         }
 
         if (fullscreen) {
+            structureSizeTexture = new TextTexture("1", -1)
+                    .setSupplier(this::getVisibleStructureSizeLine)
+                    .setWidth(width - 20)
+                    .setDropShadow(true);
+            addWidget(structureSizeWidget = new ImageWidget(8, height - 54, width - 16, 10, structureSizeTexture));
+
             Runnable exitFullscreen = Objects.requireNonNull(closeAction);
             addWidget(fullscreenToggleButton = createControlButton(controlsX, 4, () -> "X", cd -> closeFullscreen(exitFullscreen),
                     "gtocore.multiblock_preview.exit_fullscreen"));
@@ -299,7 +307,7 @@ public final class PatternPreview extends WidgetGroup {
         int controlsX = width - 28;
         partsY = height - 27;
 
-        sceneWidget.setSize(width - 44, height - 70);
+        sceneWidget.setSize(width - 44, height - 82);
         scrollableWidgetGroup.setSelfPosition(8, partsY);
         scrollableWidgetGroup.setSize(width - 16, 22);
         titleWidget.setSize(width - 44, 10);
@@ -317,6 +325,11 @@ public final class PatternPreview extends WidgetGroup {
             controlsHintWidget.setSelfPosition(8, height - 42);
             controlsHintWidget.setSize(width - 16, 10);
             controlsHintTexture.setWidth(width - 20);
+        }
+        if (structureSizeWidget != null) {
+            structureSizeWidget.setSelfPosition(8, height - 54);
+            structureSizeWidget.setSize(width - 16, 10);
+            structureSizeTexture.setWidth(width - 20);
         }
         updateCandidatePositions();
         updatePartsScrollBar();
@@ -479,6 +492,42 @@ public final class PatternPreview extends WidgetGroup {
             maxY = Math.max(maxY, pattern.maxY + patterns[0].center.getY() - pattern.center.getY());
         }
         return maxY;
+    }
+
+    private String getVisibleStructureSize() {
+        StructureBounds bounds = getVisibleStructureBounds();
+        return (bounds.maxX() - bounds.minX() + 1) + "x" +
+                (bounds.maxY() - bounds.minY() + 1) + "x" +
+                (bounds.maxZ() - bounds.minZ() + 1);
+    }
+
+    private String getVisibleStructureSizeLine() {
+        return Component.translatable("gtocore.multiblock_preview.structure_size").getString() + "：" + getVisibleStructureSize();
+    }
+
+    private StructureBounds getVisibleStructureBounds() {
+        if (!showAllModules || !moduleOverlayAvailable) {
+            MBPattern pattern = patterns[index];
+            return new StructureBounds(pattern.minX, pattern.maxX, pattern.minY, pattern.maxY, pattern.minZ, pattern.maxZ);
+        }
+        int minX = Integer.MAX_VALUE;
+        int maxX = Integer.MIN_VALUE;
+        int minY = Integer.MAX_VALUE;
+        int maxY = Integer.MIN_VALUE;
+        int minZ = Integer.MAX_VALUE;
+        int maxZ = Integer.MIN_VALUE;
+        for (MBPattern pattern : getVisiblePatterns()) {
+            int dx = patterns[0].center.getX() - pattern.center.getX();
+            int dy = patterns[0].center.getY() - pattern.center.getY();
+            int dz = patterns[0].center.getZ() - pattern.center.getZ();
+            minX = Math.min(minX, pattern.minX + dx);
+            maxX = Math.max(maxX, pattern.maxX + dx);
+            minY = Math.min(minY, pattern.minY + dy);
+            maxY = Math.max(maxY, pattern.maxY + dy);
+            minZ = Math.min(minZ, pattern.minZ + dz);
+            maxZ = Math.max(maxZ, pattern.maxZ + dz);
+        }
+        return new StructureBounds(minX, maxX, minY, maxY, minZ, maxZ);
     }
 
     public static PatternPreview getPatternWidget(MultiblockInfoEmiRecipe recipe, MultiblockMachineDefinition controllerDefinition) {
@@ -679,6 +728,8 @@ public final class PatternPreview extends WidgetGroup {
 
     private record OverlayOriginalBlock(BlockInfo blockInfo, BlockEntity blockEntity) {}
 
+    private record StructureBounds(int minX, int maxX, int minY, int maxY, int minZ, int maxZ) {}
+
     private static boolean hasModuleTooltip(MultiblockMachineDefinition definition) {
         var tooltipBuilder = definition.getTooltipBuilder();
         if (tooltipBuilder == null) return false;
@@ -809,8 +860,12 @@ public final class PatternPreview extends WidgetGroup {
         private final Long2ReferenceOpenHashMap<BlockInfo> blockMap;
         private final LongSet partsSet;
         private final LongSet placeHolderSet;
+        private final int minX;
+        private final int maxX;
         private final int maxY;
         private final int minY;
+        private final int minZ;
+        private final int maxZ;
         private final BlockPos center;
 
         private MBPattern(@NotNull Long2ReferenceOpenHashMap<BlockInfo> blockMap, @NotNull List<ItemStack> parts, @NotNull Long2ObjectOpenHashMap<TraceabilityPredicate> predicateMap, @NotNull IMultiController controllerBase) {
@@ -836,16 +891,31 @@ public final class PatternPreview extends WidgetGroup {
                             if (s.getItemStackForm().is(Items.BARRIER)) placeHolderSet.add(pos);
                         });
             }
-            int min = Integer.MAX_VALUE;
-            int max = Integer.MIN_VALUE;
+            int minX = Integer.MAX_VALUE;
+            int maxX = Integer.MIN_VALUE;
+            int minY = Integer.MAX_VALUE;
+            int maxY = Integer.MIN_VALUE;
+            int minZ = Integer.MAX_VALUE;
+            int maxZ = Integer.MIN_VALUE;
             for (var it = blockMap.long2ReferenceEntrySet().fastIterator(); it.hasNext();) {
-                var y = BlockPos.getY(it.next().getLongKey());
-                min = Math.min(min, y);
-                max = Math.max(max, y);
+                long pos = it.next().getLongKey();
+                int x = BlockPos.getX(pos);
+                int y = BlockPos.getY(pos);
+                int z = BlockPos.getZ(pos);
+                minX = Math.min(minX, x);
+                maxX = Math.max(maxX, x);
+                minY = Math.min(minY, y);
+                maxY = Math.max(maxY, y);
+                minZ = Math.min(minZ, z);
+                maxZ = Math.max(maxZ, z);
             }
 
-            minY = min;
-            maxY = max;
+            this.minX = minX;
+            this.maxX = maxX;
+            this.minY = minY;
+            this.maxY = maxY;
+            this.minZ = minZ;
+            this.maxZ = maxZ;
         }
     }
 
