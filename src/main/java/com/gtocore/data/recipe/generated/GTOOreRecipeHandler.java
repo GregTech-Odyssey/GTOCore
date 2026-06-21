@@ -1,6 +1,7 @@
 package com.gtocore.data.recipe.generated;
 
 import com.gtocore.common.data.GTOMaterials;
+import com.gtocore.data.tag.Tags;
 
 import com.gtolib.GTOCore;
 import com.gtolib.api.recipe.RecipeBuilder;
@@ -15,10 +16,14 @@ import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.item.tool.ToolHelper;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.common.data.GTRecipeCategories;
+import com.gregtechceu.gtceu.core.MixinHelpers;
 import com.gregtechceu.gtceu.data.recipe.VanillaRecipeHelper;
 import com.gregtechceu.gtceu.utils.GTUtil;
 
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
+import net.minecraft.tags.TagLoader;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
@@ -26,7 +31,10 @@ import net.minecraft.world.item.crafting.Ingredient;
 import it.unimi.dsi.fastutil.objects.ObjectIntPair;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static com.gregtechceu.gtceu.api.GTValues.*;
 import static com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialFlags.HIGH_SIFTER_OUTPUT;
@@ -36,6 +44,17 @@ import static com.gtocore.api.data.material.GTOMaterialFlags.DISABLE_GEM_RECIPES
 import static com.gtocore.common.data.GTORecipeTypes.*;
 
 public final class GTOOreRecipeHandler {
+
+    private static final Map<ResourceLocation, List<TagLoader.EntryWithSource>> DYNAMIC_TAGS = new HashMap<>();
+
+    static {
+        MixinHelpers.TAG_LOAD_EVENT.addListener(GTOOreRecipeHandler.class, pair -> {
+            if (pair.second() != BuiltInRegistries.ITEM) return;
+            DYNAMIC_TAGS.forEach((tag, entries) -> pair.first()
+                    .computeIfAbsent(tag, $ -> new ArrayList<>())
+                    .addAll(entries));
+        });
+    }
 
     private static boolean doesMaterialUseNormalFurnace(Material material) {
         return !material.hasProperty(PropertyKey.BLAST) && !material.hasFlag(MaterialFlags.NO_ORE_SMELTING);
@@ -639,6 +658,7 @@ public final class GTOOreRecipeHandler {
                     .duration(200).EUt(VA[LV])
                     .category(GTRecipeCategories.ORE_BATHING)
                     .save();
+            addRawOreTag(Tags.RAW_CHEMICAL_BATH_WASHABLE, material);
         }
 
         processMetalSmelting(property, crushed, material);
@@ -744,8 +764,18 @@ public final class GTOOreRecipeHandler {
 
                 builder.save();
             }
+            addRawOreTag(Tags.RAW_SIFTABLE, material);
         }
         processMetalSmelting(property, crushedPurified, material);
+    }
+
+    private static void addRawOreTag(TagKey<Item> tag, Material material) {
+        var entries = DYNAMIC_TAGS.computeIfAbsent(tag.location(), $ -> new ArrayList<>());
+        material.MATERIAL_ENTRY_ITEM_MAP.forEach((prefix, items) -> {
+            if (prefix == rawOre || ORES.containsKey(prefix)) {
+                items.stream().map(MixinHelpers::makeItemEntry).forEach(entries::add);
+            }
+        });
     }
 
     private static void processDirtyDust(@NotNull OreProperty property,

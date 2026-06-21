@@ -7,8 +7,6 @@ import com.gtolib.utils.TagUtils;
 
 import com.gregtechceu.gtceu.api.GTCEuAPI;
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
-import com.gregtechceu.gtceu.api.data.chemical.material.Material;
-import com.gregtechceu.gtceu.api.data.chemical.material.properties.PropertyKey;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.common.data.GTBlocks;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
@@ -35,7 +33,6 @@ import vazkii.botania.common.block.BotaniaBlocks;
 import vazkii.botania.common.lib.BotaniaTags;
 
 import java.util.Comparator;
-import java.util.function.Predicate;
 
 public final class TagsHandler {
 
@@ -119,10 +116,6 @@ public final class TagsHandler {
                 GTOItems.WIRELESS_ME2IN1.asItem());
         create(provider, ItemTags.create(ResourceLocation.parse("forge:ingots/redstone_alloy")),
                 ChemicalHelper.getItem(TagPrefix.ingot, GTMaterials.RedAlloy));
-        createRawOreTag(provider, Tags.RAW_SIFTABLE,
-                material -> material.hasProperty(PropertyKey.GEM) && !material.hasFlag(GTOMaterialFlags.DISABLE_GEM_RECIPES));
-        createRawOreTag(provider, Tags.RAW_CHEMICAL_BATH_WASHABLE,
-                material -> !material.getProperty(PropertyKey.ORE).getWashedIn().first().isNull());
         Item[] isaProcessableItems = GTCEuAPI.materialManager.getRegistries().stream()
                 .flatMap(registry -> registry.getAllMaterials().stream())
                 .filter(material -> material.hasFlag(GTOMaterialFlags.GENERATE_MILLED))
@@ -130,20 +123,6 @@ public final class TagsHandler {
                 .sorted(Comparator.comparing(Item::toString))
                 .toArray(Item[]::new);
         create(provider, TagUtils.createTGItemTag("isa_processable"), isaProcessableItems);
-    }
-
-    private static void createRawOreTag(RegistrateTagsProvider<Item> provider, TagKey<Item> tag,
-                                        Predicate<Material> predicate) {
-        var builder = provider.addTag(tag);
-        GTCEuAPI.materialManager.getRegistries().stream()
-                .flatMap(registry -> registry.getAllMaterials().stream())
-                .filter(material -> material.hasProperty(PropertyKey.ORE))
-                .filter(predicate)
-                .sorted(Comparator.comparing(Material::getName))
-                .forEach(material -> {
-                    builder.addOptionalTag(ChemicalHelper.getTag(TagPrefix.ore, material).location());
-                    builder.addOptionalTag(ChemicalHelper.getTag(TagPrefix.rawOre, material).location());
-                });
     }
 
     public static void initFluid(RegistrateTagsProvider<Fluid> provider) {
