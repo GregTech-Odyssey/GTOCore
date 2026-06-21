@@ -62,6 +62,7 @@ import it.unimi.dsi.fastutil.longs.*;
 import it.unimi.dsi.fastutil.objects.Object2ReferenceOpenHashMap;
 import it.unimi.dsi.fastutil.objects.Reference2ReferenceOpenHashMap;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3f;
 
 import java.util.*;
@@ -90,11 +91,11 @@ public final class PatternPreview extends WidgetGroup {
     private TextTexture structureSizeTexture;
     private ImageWidget controlsHintWidget;
     private TextTexture controlsHintTexture;
-    private ButtonWidget patternButton;
-    private ButtonWidget layerButton;
-    private ButtonWidget highlightButton;
-    private ButtonWidget modulesButton;
-    private ButtonWidget fullscreenToggleButton;
+    private final ButtonWidget patternButton;
+    private final ButtonWidget layerButton;
+    private final ButtonWidget highlightButton;
+    private final ButtonWidget modulesButton;
+    private final ButtonWidget fullscreenToggleButton;
     private final MBPattern[] patterns;
     private final boolean moduleOverlayAvailable;
     private final List<SimplePredicate> predicates = new ArrayList<>();
@@ -155,6 +156,7 @@ public final class PatternPreview extends WidgetGroup {
                 fullscreen ? width - 44 : 132,
                 10,
                 titleTexture));
+        var hasModule = controllerDefinition.getSubPatternFactory() != null && controllerDefinition.getSubPatternFactory().length > 0 && hasModuleTooltip(controllerDefinition);;
         if (CACHE.containsKey(controllerDefinition)) {
             patterns = CACHE.get(controllerDefinition);
         } else {
@@ -162,13 +164,13 @@ public final class PatternPreview extends WidgetGroup {
             MultiblockDefinition.Pattern[] pattern = definition.getPatterns();
             patterns = new MBPattern[pattern.length];
             for (int i = 0; i < pattern.length; i++) {
-                patterns[i] = initializePattern(definition, pattern[i], i);
+                patterns[i] = initializePattern(definition, pattern[i], i, hasModule);
             }
             CACHE.put(controllerDefinition, patterns);
             definition.clear();
         }
-        moduleOverlayAvailable = fullscreen && patterns.length > 1 && controllerDefinition.getSubPatternFactory() != null && hasModuleTooltip(controllerDefinition);
-        index = Math.max(0, Math.min(recipe.i, patterns.length - 1));
+        moduleOverlayAvailable = fullscreen && patterns.length > 1 && hasModule;
+        index = Math.clamp(recipe.i, 0, patterns.length - 1);
 
         int firstControlY = fullscreen ? 28 : 30;
         int controlSpacing = fullscreen ? 24 : 20;
@@ -187,9 +189,11 @@ public final class PatternPreview extends WidgetGroup {
                     () -> showAllModules ? "M:*" : "M:1",
                     cd -> {
                         showAllModules = !showAllModules;
-                        setPage();
+                        setPage(true);
                     },
                     "gtocore.multiblock_preview.modules_control"));
+        } else {
+            modulesButton = null;
         }
 
         if (fullscreen) {
@@ -270,7 +274,7 @@ public final class PatternPreview extends WidgetGroup {
                         });
             }
         });
-        setPage();
+        setPage(false);
         recipe.patterns = patterns;
     }
 
@@ -346,7 +350,7 @@ public final class PatternPreview extends WidgetGroup {
                 index = 0;
                 break;
         }
-        setPage(); // 在改变 index 后更新页面
+        setPage(false); // 在改变 index 后更新页面
     }
 
     private void updateLayer(ClickData clickData) {
@@ -371,7 +375,10 @@ public final class PatternPreview extends WidgetGroup {
                 layer = -1; // 直接回到 "ALL"
                 break;
         }
+        setupScene(pattern, false);
+    }
 
+    private void updateFormed(MBPattern pattern, boolean switchShowAllModules) {
         // 在 layer 值更新后，处理相关的状态切换逻辑
         // 这段逻辑是从您原来的方法中平移过来的，现在它能正确处理所有情况
         if (layer == -1) {
@@ -385,20 +392,21 @@ public final class PatternPreview extends WidgetGroup {
                 onFormedSwitch(false);
             }
         }
-        setupScene(pattern);
     }
 
-    private void setupScene(MBPattern pattern) {
+    private void setupScene(MBPattern pattern, boolean switchShowAllModules) {
         restoreOverlayBlocks();
         if (showAllModules && moduleOverlayAvailable) {
             LongSet poses = new LongOpenHashSet();
             for (MBPattern visiblePattern : getVisiblePatterns()) {
                 addAlignedPatternBlocks(visiblePattern, poses);
             }
+            updateFormed(pattern, switchShowAllModules);
             sceneWidget.setRenderedCore(poses.longStream().mapToObj(BlockPos::of).toList(), null);
             sceneWidget.setCenter(patterns[0].center.getCenter().toVector3f());
             return;
         }
+        updateFormed(pattern, false);
         sceneWidget.setRenderedCore(renderedPositions(pattern).mapToObj(BlockPos::of).toList(), null);
         sceneWidget.setCenter(pattern.center.getCenter().toVector3f());
     }
@@ -415,6 +423,7 @@ public final class PatternPreview extends WidgetGroup {
     }
 
     private void addAlignedPatternBlocks(MBPattern pattern, LongSet poses) {
+        if (pattern.blockMap == null) return;
         BlockPos baseCenter = patterns[0].center;
         int dx = baseCenter.getX() - pattern.center.getX();
         int dy = baseCenter.getY() - pattern.center.getY();
@@ -550,12 +559,12 @@ public final class PatternPreview extends WidgetGroup {
         }
     }
 
-    private void setPage() {
+    private void setPage(boolean switchShowAllModules) {
         List<ItemStack> itemList;
         if (index < patterns.length && index >= 0) {
             layer = -1;
             MBPattern pattern = patterns[index];
-            setupScene(pattern);
+            setupScene(pattern, switchShowAllModules);
             itemList = getVisibleParts(pattern);
             recipe.i = index;
         } else {
@@ -589,8 +598,7 @@ public final class PatternPreview extends WidgetGroup {
         MBPattern pattern = patterns[index];
         IMultiController controllerBase = pattern.controllerBase;
         if (isFormed) {
-            layer = -1;
-            loadControllerFormed(pattern.pattern, pattern.predicateMap.keySet(), controllerBase, index);
+            loadControllerFormed(pattern.pattern, pattern.predicateMap.keySet(), controllerBase);
         } else {
             sceneWidget.setRenderedCore(pattern.predicateMap.keySet().longStream().mapToObj(BlockPos::of).toList(), null);
             controllerBase.onStructureInvalid();
@@ -687,6 +695,7 @@ public final class PatternPreview extends WidgetGroup {
     }
 
     private void addAlignedPatternBlocks(MBPattern pattern, Long2ReferenceOpenHashMap<BlockInfo> blocks) {
+        if (pattern.blockMap == null) return;
         BlockPos baseCenter = patterns[0].center;
         int dx = baseCenter.getX() - pattern.center.getX();
         int dy = baseCenter.getY() - pattern.center.getY();
@@ -756,8 +765,10 @@ public final class PatternPreview extends WidgetGroup {
         }
     }
 
-    private void loadControllerFormed(BlockPattern pattern, LongSet poses, IMultiController controllerBase, int index) {
+    private void loadControllerFormed(BlockPattern pattern, LongSet poses, IMultiController controllerBase) {
         var state = controllerBase.getMultiblockState();
+        state.clearCache();
+        if (controllerBase.isFormed()) controllerBase.onStructureInvalid();
         if (pattern != null && pattern.checkPatternAt(state, true)) {
             controllerBase.onStructureFormed();
         }
@@ -774,7 +785,7 @@ public final class PatternPreview extends WidgetGroup {
         }
     }
 
-    private MBPattern initializePattern(MultiblockDefinition definition, MultiblockDefinition.Pattern pattern, int index) {
+    private MBPattern initializePattern(MultiblockDefinition definition, MultiblockDefinition.Pattern pattern, int index, boolean hasModule) {
         var triple = pattern.initialize(definition, index);
         var patternMap = triple.getThird();
         var pos = triple.getFirst();
@@ -791,10 +802,10 @@ public final class PatternPreview extends WidgetGroup {
         }
         Long2ObjectOpenHashMap<TraceabilityPredicate> predicateMap = controllerBase == null ? null : new Long2ObjectOpenHashMap<>();
         if (controllerBase != null) {
-            loadControllerFormed(triple.getSecond(), predicateMap.keySet(), controllerBase, index);
+            loadControllerFormed(triple.getSecond(), predicateMap.keySet(), controllerBase);
             predicateMap = controllerBase.getMultiblockState().getMatchContext().getPredicates();
         }
-        return controllerBase == null ? null : new MBPattern(blockMap, pattern.parts(), triple.getSecond(), predicateMap, controllerBase);
+        return controllerBase == null ? null : new MBPattern(hasModule, blockMap, pattern.parts(), triple.getSecond(), predicateMap, controllerBase);
     }
 
     @Override
@@ -802,7 +813,7 @@ public final class PatternPreview extends WidgetGroup {
     public boolean mouseDragged(double mouseX, double mouseY, int button, double dragX, double dragY) {
         if (button == 1/* right button */ && sceneWidget.isMouseOverElement(mouseX, mouseY)) {
             double panScale = sceneWidget.getZoom() /
-                    Math.max(1, Math.min(sceneWidget.getSizeWidth(), sceneWidget.getSizeHeight()));
+                    Math.clamp(sceneWidget.getSizeWidth(), 1, sceneWidget.getSizeHeight());
             dragX *= panScale;
             dragY *= panScale;
             double rotationPitch = Math.toRadians(sceneWidget.getRotationPitch());
@@ -822,10 +833,10 @@ public final class PatternPreview extends WidgetGroup {
         super.updateScreen();
         if (!fullscreen && recipe.i != index && recipe.i >= 0 && recipe.i < patterns.length) {
             index = recipe.i;
-            setPage();
+            setPage(false);
         }
         if (!isLoaded && Minecraft.getInstance().screen instanceof RecipeScreen) {
-            setPage();
+            setPage(false);
             isLoaded = true;
         }
     }
@@ -836,16 +847,17 @@ public final class PatternPreview extends WidgetGroup {
         super.drawInBackground(graphics, mouseX, mouseY, partialTicks);
     }
 
-    public static class MBPattern {
+    public static final class MBPattern {
 
         @NotNull
         public final List<ItemStack> parts;
+        @NotNull
         private final BlockPattern pattern;
         @NotNull
         private final Long2ObjectOpenHashMap<TraceabilityPredicate> predicateMap;
         @NotNull
         private final IMultiController controllerBase;
-        @NotNull
+        @Nullable
         private final Long2ReferenceOpenHashMap<BlockInfo> blockMap;
         private final LongSet partsSet;
         private final LongSet placeHolderSet;
@@ -857,14 +869,14 @@ public final class PatternPreview extends WidgetGroup {
         private final int maxZ;
         private final BlockPos center;
 
-        private MBPattern(@NotNull Long2ReferenceOpenHashMap<BlockInfo> blockMap, @NotNull List<ItemStack> parts, BlockPattern pattern, @NotNull Long2ObjectOpenHashMap<TraceabilityPredicate> predicateMap, @NotNull IMultiController controllerBase) {
+        private MBPattern(boolean hasModule, @NotNull Long2ReferenceOpenHashMap<BlockInfo> blockMap, @NotNull List<ItemStack> parts, BlockPattern pattern, @NotNull Long2ObjectOpenHashMap<TraceabilityPredicate> predicateMap, @NotNull IMultiController controllerBase) {
             this.parts = parts;
             this.pattern = pattern;
             this.partsSet = new LongOpenHashSet();
             this.placeHolderSet = new LongOpenHashSet();
             this.predicateMap = predicateMap;
             this.controllerBase = controllerBase;
-            this.blockMap = blockMap;
+            this.blockMap = hasModule ? blockMap : null;
             this.center = controllerBase.self().getPos();
             for (var entry : predicateMap.long2ObjectEntrySet()) {
                 var pos = entry.getLongKey();
