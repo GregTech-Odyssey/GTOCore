@@ -1,6 +1,7 @@
 package com.gtocore.data.recipe.generated;
 
 import com.gtocore.common.data.GTOMaterials;
+import com.gtocore.data.tag.Tags;
 
 import com.gtolib.GTOCore;
 import com.gtolib.api.recipe.RecipeBuilder;
@@ -15,6 +16,7 @@ import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.item.tool.ToolHelper;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.common.data.GTRecipeCategories;
+import com.gregtechceu.gtceu.common.data.GTTags;
 import com.gregtechceu.gtceu.data.recipe.VanillaRecipeHelper;
 import com.gregtechceu.gtceu.utils.GTUtil;
 
@@ -639,6 +641,7 @@ public final class GTOOreRecipeHandler {
                     .duration(200).EUt(VA[LV])
                     .category(GTRecipeCategories.ORE_BATHING)
                     .save();
+            addRawOreTag(Tags.RAW_CHEMICAL_BATH_WASHABLE, material);
         }
 
         processMetalSmelting(property, crushed, material);
@@ -744,8 +747,17 @@ public final class GTOOreRecipeHandler {
 
                 builder.save();
             }
+            addRawOreTag(Tags.RAW_SIFTABLE, material);
         }
         processMetalSmelting(property, crushedPurified, material);
+    }
+
+    private static void addRawOreTag(TagKey<Item> tag, Material material) {
+        material.MATERIAL_ENTRY_ITEM_MAP.forEach((prefix, items) -> {
+            if (prefix == rawOre || ORES.containsKey(prefix)) {
+                items.forEach(i -> GTTags.addItemEntry(i.get(), tag.location()));
+            }
+        });
     }
 
     private static void processDirtyDust(@NotNull OreProperty property,
