@@ -102,6 +102,8 @@ public final class PatternPreview extends WidgetGroup {
     private int index;
     private int layer;
     private boolean showAllModules;
+    @Nullable
+    private IMultiController overlayController;
     private final Map<BlockPos, OverlayOriginalBlock> overlayOriginalBlocks = new Object2ReferenceOpenHashMap<>();
     private PatternSlotWidget[] slotWidgets;
     private SlotWidget[] candidates;
@@ -401,14 +403,44 @@ public final class PatternPreview extends WidgetGroup {
             for (MBPattern visiblePattern : getVisiblePatterns()) {
                 addAlignedPatternBlocks(visiblePattern, poses);
             }
-            updateFormed(pattern, switchShowAllModules);
-            sceneWidget.setRenderedCore(poses.longStream().mapToObj(BlockPos::of).toList(), null);
+            IMultiController overlayController = updateOverlayFormed();
+            LongStream renderedPoses = poses.longStream();
+            if (overlayController != null && overlayController.isFormed() && layer == -1) {
+                LongSet renderMask = overlayController.getMultiblockState().getMatchContext().getOrDefault(Predicates.DataKey.RENDER_MASK, LongSets.EMPTY_SET);
+                if (!renderMask.isEmpty()) {
+                    renderedPoses = renderedPoses.filter(pos -> !renderMask.contains(pos));
+                }
+            }
+            sceneWidget.setRenderedCore(renderedPoses.mapToObj(BlockPos::of).toList(), null);
             sceneWidget.setCenter(patterns[0].center.getCenter().toVector3f());
             return;
         }
         updateFormed(pattern, false);
         sceneWidget.setRenderedCore(renderedPositions(pattern).mapToObj(BlockPos::of).toList(), null);
         sceneWidget.setCenter(pattern.center.getCenter().toVector3f());
+    }
+
+    @Nullable
+    private IMultiController updateOverlayFormed() {
+        if (!(LEVEL.getBlockEntity(patterns[0].center) instanceof MetaMachineBlockEntity blockEntity) ||
+                !(blockEntity.metaMachine instanceof IMultiController controller)) {
+            return null;
+        }
+        if (controller.isFormed()) {
+            controller.onStructureInvalid();
+        }
+        if (layer != -1) {
+            return controller;
+        }
+        controller.setWaitingTime(0);
+        if (controller.checkPattern()) {
+            controller.onStructureFormed();
+            overlayController = controller;
+        } else {
+            GTCEu.LOGGER.warn("Pattern formed checking failed: {}", controller.self().getDefinition());
+            overlayController = null;
+        }
+        return controller;
     }
 
     private LongStream renderedPositions(MBPattern pattern) {
@@ -447,6 +479,7 @@ public final class PatternPreview extends WidgetGroup {
     }
 
     void restoreOverlayBlocks() {
+        invalidateOverlayController();
         if (overlayOriginalBlocks.isEmpty()) return;
         overlayOriginalBlocks.forEach((pos, originalBlock) -> {
             if (originalBlock.blockInfo() == null) {
@@ -461,6 +494,14 @@ public final class PatternPreview extends WidgetGroup {
             }
         });
         overlayOriginalBlocks.clear();
+    }
+
+    private void invalidateOverlayController() {
+        if (overlayController == null) return;
+        if (overlayController.isFormed()) {
+            overlayController.onStructureInvalid();
+        }
+        overlayController = null;
     }
 
     private BlockPos toRenderedPos(MBPattern pattern, long pos) {

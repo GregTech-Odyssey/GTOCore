@@ -27,6 +27,12 @@ import com.lowdragmc.lowdraglib.side.fluid.FluidHelper
 object GTOMachineTooltips {
 
     @JvmField
+    var deprecatedStructureTooltips: ComponentListSupplier = ComponentListSupplier {
+        setTranslationPrefix("multiblock_structure")
+        error("该结构已弃用" translatedTo "This structure has been deprecated")
+    }
+
+    @JvmField
     var experienceObeliskTooltips: ComponentListSupplier = ComponentListSupplier {
         setTranslationPrefix("experience_obelisk")
         section(ComponentSlang.MainFunction)

@@ -1,8 +1,9 @@
 package com.gtocore.mixin.ae2.pattern;
 
+import com.gtocore.utils.PlayerNameUtils;
+
 import com.gtolib.api.ae2.MyPatternDetailsHelper;
 import com.gtolib.utils.RLUtils;
-import com.gtocore.utils.PlayerNameUtils;
 
 import net.minecraft.nbt.*;
 import net.minecraft.network.chat.Component;

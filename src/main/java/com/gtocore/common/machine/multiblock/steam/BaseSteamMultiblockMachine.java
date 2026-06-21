@@ -113,6 +113,7 @@ public class BaseSteamMultiblockMachine extends SteamParallelMultiblockMachine {
     @Override
     public void addDisplayText(List<Component> textList) {
         super.addDisplayText(textList);
+        addPatternText(textList);
         if (isFormed() && maxOCamount > 0) {
             textList.add(Component.translatable("gtocore.machine.oc_amount", amountOC)
                     .withStyle(Style.EMPTY.withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
