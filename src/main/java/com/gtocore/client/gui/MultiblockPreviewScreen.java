@@ -19,6 +19,7 @@ public final class MultiblockPreviewScreen extends ModularWrapper<PatternPreview
 
     private final Screen parent;
     private final MultiblockInfoEmiRecipe recipe;
+    private boolean cleanedUp;
 
     public MultiblockPreviewScreen(Screen parent, MultiblockInfoEmiRecipe recipe) {
         super(createPreview(parent, recipe));
@@ -83,8 +84,20 @@ public final class MultiblockPreviewScreen extends ModularWrapper<PatternPreview
 
     @Override
     public void onClose() {
-        getWidget().restoreOverlayBlocks();
+        cleanupOverlay();
         minecraft.setScreen(parent);
+    }
+
+    @Override
+    public void removed() {
+        cleanupOverlay();
+        super.removed();
+    }
+
+    private void cleanupOverlay() {
+        if (cleanedUp) return;
+        cleanedUp = true;
+        getWidget().restoreOverlayBlocks();
     }
 
     @Override
