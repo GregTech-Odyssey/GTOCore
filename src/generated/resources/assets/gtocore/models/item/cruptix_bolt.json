@@ -1,0 +1,18 @@
+{
+  "parent": "minecraft:item/generated",
+  "custom_shader": {
+    "params": {
+      "resolution": [
+        64.0,
+        64.0
+      ]
+    },
+    "shader": "gtocore:cruptix"
+  },
+  "loader": "gtocore:custom_shader",
+  "textures": {
+    "layer0": "gtceu:item/material_sets/dull/bolt",
+    "layer1": "gtceu:item/material_sets/dull/bolt_secondary",
+    "layer2": "gtceu:item/material_sets/dull/bolt_overlay"
+  }
+}

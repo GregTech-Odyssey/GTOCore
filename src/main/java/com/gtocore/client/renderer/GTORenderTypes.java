@@ -68,6 +68,7 @@ public final class GTORenderTypes extends RenderType {
     public static final ResourceLocation BLACK_HOLE_EVENT_HORIZON_SHADER_LOCATION = GTOCore.id("black_hole_event_horizon");
 
     public static final ResourceLocation CRUPTIX = GTOCore.id("cruptix");
+    public static final ResourceLocation ITEM_RESONANCE_WAVE = GTOCore.id("item_resonance_wave");
 
     @OnlyIn(Dist.CLIENT)
     public static void setBlackHoleEventHorizonShader(ShaderInstance shader) {
@@ -84,6 +85,11 @@ public final class GTORenderTypes extends RenderType {
     public static void setCruptix(ShaderInstance shader) {
         customShader = shader;
         SHADERS.put(CRUPTIX, shader);
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    public static void setItemResonanceWave(ShaderInstance shader) {
+        SHADERS.put(ITEM_RESONANCE_WAVE, shader);
     }
 
     @OnlyIn(Dist.CLIENT)

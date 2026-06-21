@@ -107,7 +107,7 @@ public final class GTOItems {
 
     public static final ItemEntry<Item> PULSATING_CRYSTAL = register("pulsating_crystal", "脉冲水晶");
     public static final ItemEntry<Item> VIBRANT_CRYSTAL = register("vibrant_crystal", "振动水晶");
-    public static final ItemEntry<Item> ENDER_CRYSTAL = register("ender_crystal", "末影水晶");
+    public static final ItemEntry<Item> ENDER_CRYSTAL = registerCustomModel("ender_crystal", "末影水晶");
     public static final ItemEntry<Item> PRESCIENT_CRYSTAL = register("prescient_crystal", "预知水晶");
 
     public static final ItemEntry<Item> SHAPE_EXTRUDER_ROD_LONG = GTM.item("long_rod_extruder_mold", Item::new).onRegister(materialInfo(new ItemMaterialInfo(new MaterialStack(GTMaterials.Steel, GTValues.M << 2)))).register();

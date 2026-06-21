@@ -207,6 +207,10 @@ public final class ClientProxy extends CommonProxy {
                     event.getResourceProvider(),
                     GTORenderTypes.CRUPTIX,
                     com.mojang.blaze3d.vertex.DefaultVertexFormat.POSITION_TEX), GTORenderTypes::setCruptix);
+            event.registerShader(new net.minecraft.client.renderer.ShaderInstance(
+                    event.getResourceProvider(),
+                    GTORenderTypes.ITEM_RESONANCE_WAVE,
+                    com.mojang.blaze3d.vertex.DefaultVertexFormat.POSITION_TEX), GTORenderTypes::setItemResonanceWave);
         } catch (java.io.IOException e) {
             throw new RuntimeException("Failed to register client shaders", e);
         }
