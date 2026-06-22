@@ -33,6 +33,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import java.util.Locale;
 
 public final class PatternContainerGroupHelper {
 
@@ -101,9 +102,10 @@ public final class PatternContainerGroupHelper {
                                                      boolean showAllRecipeTypes,
                                                      List<Component> tooltip) {
         MutableComponent name = getMachineName(displayMachine);
+        Component recipeTypeName = getRecipeTypeName(name, selectedRecipeType, availableRecipeTypes, showAllRecipeTypes);
         appendField(name, getMachineTier(displayMachine));
         appendField(name, extraSuffix.isBlank() ? null : Component.literal(extraSuffix.strip()));
-        appendField(name, getRecipeTypeName(selectedRecipeType, availableRecipeTypes, showAllRecipeTypes));
+        appendField(name, recipeTypeName);
         return new PatternContainerGroup(AEItemKey.of(displayMachine.getDefinition().asStack()), name, tooltip);
     }
 
@@ -155,32 +157,45 @@ public final class PatternContainerGroupHelper {
         return tierCasingMachine.getCasingTier(GTORecipeDataKeys.INTEGRAL_FRAMEWORK_TIER);
     }
 
-    private static @Nullable Component getRecipeTypeName(@Nullable GTRecipeType selectedRecipeType,
+    private static @Nullable Component getRecipeTypeName(Component machineName,
+                                                         @Nullable GTRecipeType selectedRecipeType,
                                                          Collection<GTRecipeType> availableRecipeTypes,
                                                          boolean showAllRecipeTypes) {
-        long displayableRecipeTypeCount = availableRecipeTypes.stream()
+        List<GTRecipeType> displayableRecipeTypes = availableRecipeTypes.stream()
                 .filter(PatternContainerGroupHelper::isDisplayableRecipeType)
-                .count();
-        if (displayableRecipeTypeCount <= 1) {
+                .toList();
+        if (displayableRecipeTypes.size() == 1) {
+            GTRecipeType recipeType = displayableRecipeTypes.get(0);
+            Component recipeTypeName = getRecipeTypeDisplayName(recipeType);
+            return containsText(machineName, recipeTypeName) ? null : recipeTypeName;
+        }
+        if (displayableRecipeTypes.isEmpty()) {
             return null;
         }
 
         if (!showAllRecipeTypes) {
             return isDisplayableRecipeType(selectedRecipeType) ?
-                    Component.translatable(selectedRecipeType.registryName.toLanguageKey()) : null;
+                    getRecipeTypeDisplayName(selectedRecipeType) : null;
         }
 
         MutableComponent result = Component.empty();
-        for (GTRecipeType recipeType : availableRecipeTypes) {
-            if (!isDisplayableRecipeType(recipeType)) {
-                continue;
-            }
+        for (GTRecipeType recipeType : displayableRecipeTypes) {
             if (!result.getString().isEmpty()) {
                 result.append("/");
             }
-            result.append(Component.translatable(recipeType.registryName.toLanguageKey()));
+            result.append(getRecipeTypeDisplayName(recipeType));
         }
         return result.getString().isEmpty() ? null : result;
+    }
+
+    private static Component getRecipeTypeDisplayName(GTRecipeType recipeType) {
+        return Component.translatable(recipeType.registryName.toLanguageKey());
+    }
+
+    private static boolean containsText(Component container, Component content) {
+        String containerText = container.getString().strip().toLowerCase(Locale.ROOT);
+        String contentText = content.getString().strip().toLowerCase(Locale.ROOT);
+        return !contentText.isEmpty() && containerText.contains(contentText);
     }
 
     private static boolean isDisplayableRecipeType(@Nullable GTRecipeType recipeType) {
