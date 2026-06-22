@@ -147,6 +147,15 @@ public final class LangHandler {
         addCNEN("gtocore.pattern.tooltip.divide", "将样板材料数量 ÷ %s", "Divide Pattern materials amount by %s");
         addCNEN("gtocore.pattern.clearSecOutput", "清除样板副产物", "Clear pattern byproducts");
         addCNEN("gtocore.pattern.tooltip.clearSecOutput", "清除样板副产物", "Clear pattern byproducts");
+        addCNEN("gtocore.pattern_encoder_stats.button", "样板编码者统计", "Pattern Encoder Stats");
+        addCNEN("gtocore.pattern_encoder_stats.title", "样板编码者统计", "Pattern Encoder Stats");
+        addCNEN("gtocore.pattern_encoder_stats.empty", "没有可统计的已编码样板", "No encoded patterns to count");
+        addCNEN("gtocore.pattern_encoder_stats.no_encoder", "未找到编码者信息", "No encoder information found");
+        addCNEN("gtocore.pattern_encoder_stats.total", "样板总数：%s", "Total Patterns: %s");
+        addCNEN("gtocore.pattern_encoder_stats.encoder_line", "%s 编码样板：%s 个", "%s encoded patterns: %s");
+        addCNEN("gtocore.pattern_encoder_stats.non_processing", "合成/非处理样板：%s 个", "Crafting/non-processing patterns: %s");
+        addCNEN("gtocore.pattern_encoder_stats.without_encoder", "无编码者信息处理样板：%s 个", "Processing patterns without encoder: %s");
+        addCNEN("gtocore.pattern_encoder_stats.hidden", "还有 %s 行未显示", "%s more lines hidden");
 
         addCNEN("gtocore.gtm", "整合包使用的GregTech-Modern模组，以及Applied Energistics 2模组均为非官方版本，如果您遇到任何问题或有任何建议，请前往%s提供反馈，而不是模组官方渠道", "The GregTech-Modern and Applied Energistics 2 mod used in the modpack is an unofficial version. If you encounter any issues or have any suggestions, please go to %s to provide feedback instead of the official mod channel.");
         addCNEN("gtocore.dev", "当前版本是开发测试版本，不能保证内容的稳定性和完整性。如果您遇到任何问题或有任何建议，请前往%s提供反馈。", "The current version is a development test version and cannot guarantee the stability and completeness of the content. If you encounter any issues or have any suggestions, please go to %s to provide feedback.");

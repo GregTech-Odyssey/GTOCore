@@ -23,6 +23,7 @@
     "ae2.screen.AEBaseScreenMixin",
     "ae2.screen.CraftingCPUScreenMixin",
     "ae2.screen.FacilityManagementScreenMixin",
+    "ae2.screen.PatternAccessTermScreenMixin",
     "ae2.screen.PatternProviderScreenMixin",
     "ae2.search.RepoSearchMixin",
     "gtm.renderer.TagPrefixItemRendererMixin",

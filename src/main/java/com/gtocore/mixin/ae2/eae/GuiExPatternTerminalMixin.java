@@ -3,6 +3,9 @@ package com.gtocore.mixin.ae2.eae;
 import com.gtolib.api.ae2.gui.hooks.IExtendedGuiEx;
 import com.gtolib.api.ae2.me2in1.Me2in1Menu;
 import com.gtolib.api.ae2.me2in1.Me2in1Screen;
+import com.gtocore.integration.ae.PatternEncoderStats;
+import com.gtocore.integration.ae.client.PatternEncoderStatsButton;
+import com.gtocore.integration.ae.client.PatternEncoderStatsScreen;
 
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.core.BlockPos;
@@ -101,6 +104,8 @@ public abstract class GuiExPatternTerminalMixin<T extends ContainerExPatternTerm
         gtolib$showMolecularAssembler = new ServerSettingToggleButton<>(ExtendedSettings.TERMINAL_SHOW_MOLECULAR_ASSEMBLERS,
                 ShowMolecularAssembler.ALL);
         this.addToLeftToolbar(gtolib$showMolecularAssembler);
+        this.addToLeftToolbar(new PatternEncoderStatsButton(btn -> switchToScreen(
+                new PatternEncoderStatsScreen<>(this, PatternEncoderStats.collect(byId.values())))));
 
         if (((AEBaseScreen<?>) this) instanceof Me2in1Screen<?>) {
             this.searchInField.setTooltipMessage(Collections.singletonList(Component.translatable("gtocore.ae.appeng.me2in1.search_in")));
