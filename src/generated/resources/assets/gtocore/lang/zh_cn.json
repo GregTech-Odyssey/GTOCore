@@ -1803,6 +1803,7 @@
   "config.gtocore.option.mobConfig": "生物设置",
   "config.gtocore.option.naturalRegeneration": "生物自然回血",
   "config.gtocore.option.nonCheatEmiInteraction": "非作弊时EMI交互",
+  "config.gtocore.option.patternContainerNameFormat": "样板容器名称格式",
   "config.gtocore.option.recipeCheck": "[调试] 配方冲突检查",
   "config.gtocore.option.renamePatternDefaultString": "重命名样板的默认值",
   "config.gtocore.option.selfRestraint": "自我约束模式",

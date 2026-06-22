@@ -261,7 +261,7 @@ public abstract class PatternEncodingTermMenuMixin extends MEStorageMenu impleme
             return Comparator.comparing((IExtendedPatternContainer p) -> gto$canAddPattern(p, patternStack));
         }
         var c = Comparator.comparing((IExtendedPatternContainer p) -> gto$canAddPattern(p, patternStack))
-                .thenComparing((IExtendedPatternContainer p) -> p.getSupportedRecipeTypes().contains(recipeType));
+                .thenComparing((IExtendedPatternContainer p) -> p.gto$supportsRecipeType(recipeType));
         if (recipeLocName != null && !recipeLocName.isEmpty()) {
             c = c.thenComparing((IExtendedPatternContainer p) -> gto$matchesRecipeName(p, recipeLocName));
         }
@@ -270,9 +270,9 @@ public abstract class PatternEncodingTermMenuMixin extends MEStorageMenu impleme
 
     @Unique
     private static boolean gto$matchesRecipeName(IExtendedPatternContainer container, String recipeType) {
-        var name = container.getTerminalGroup().name().getString().toLowerCase(Locale.ROOT);
         var recipeNames = new LinkedHashSet<String>();
         recipeNames.add(recipeType.toLowerCase(Locale.ROOT));
+        var name = container.gto$getTerminalGroupSearchName().getString().toLowerCase(Locale.ROOT);
         for (var recipeName : recipeNames) {
             if (!recipeName.isEmpty() && name.contains(recipeName)) {
                 return true;

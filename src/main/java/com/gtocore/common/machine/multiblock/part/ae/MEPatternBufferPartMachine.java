@@ -391,6 +391,21 @@ public abstract class MEPatternBufferPartMachine extends MEPatternPartMachineKt<
     }
 
     @Override
+    public Component gto$getTerminalGroupSearchName() {
+        if (!isFormed()) {
+            return getTerminalGroup().name();
+        }
+        if (!getCustomName().isEmpty() && !getCustomName().startsWith("+")) {
+            return Component.literal(getCustomName());
+        }
+        IMultiController controller = getController();
+        Collection<GTRecipeType> availableRecipeTypes = controller instanceof IRecipeLogicMachine recipeMachine ?
+                Arrays.asList(recipeMachine.getAvailableRecipeTypes()) : List.of();
+        String extraSuffix = getCustomName().startsWith("+") ? getCustomName().substring(1).strip() : "";
+        return PatternContainerGroupHelper.getSearchName(controller.self(), extraSuffix, recipeType, availableRecipeTypes);
+    }
+
+    @Override
     public void attachConfigurators(ConfiguratorPanel configuratorPanel) {
         this.configuratorPanel = configuratorPanel;
         configuratorPanel.attachConfigurators(new ButtonConfigurator(new GuiTextureGroup(GuiTextures.BUTTON, GuiTextures.REFUND_OVERLAY), this::refundAll).setTooltips(List.of(Component.translatable("gui.gtceu.refund_all.desc"))));

@@ -1675,6 +1675,7 @@
   "config.gtocore.option.mobConfig": "Mob Settings",
   "config.gtocore.option.naturalRegeneration": "Mob Natural Regeneration",
   "config.gtocore.option.nonCheatEmiInteraction": "Non-Cheat EMI Interaction",
+  "config.gtocore.option.patternContainerNameFormat": "Pattern Container Name Format",
   "config.gtocore.option.recipeCheck": "[Debug] Recipe Conflict Check",
   "config.gtocore.option.renamePatternDefaultString": "Default Value for Rename Pattern",
   "config.gtocore.option.selfRestraint": "Self Restraint Mode",

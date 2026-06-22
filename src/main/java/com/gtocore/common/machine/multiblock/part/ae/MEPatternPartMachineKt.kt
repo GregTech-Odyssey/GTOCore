@@ -279,6 +279,26 @@ abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.AbstractInterna
         return PatternContainerGroup(itemKey, description, emptyList())
     }
 
+    override fun `gto$getTerminalGroupSearchName`(): Component {
+        if (!isFormed) {
+            return getTerminalGroup().name()
+        }
+        if (customName.isNotEmpty() && !customName.startsWith("+")) {
+            return Component.literal(customName)
+        }
+
+        val controller = getController()
+        val availableRecipeTypes =
+            if (controller is IRecipeLogicMachine) controller.availableRecipeTypes.asList() else emptyList()
+        val extraSuffix = if (customName.startsWith("+")) customName.substring(1).trim() else ""
+        return PatternContainerGroupHelper.getSearchName(
+            controller.self(),
+            extraSuffix,
+            null,
+            availableRecipeTypes,
+        )
+    }
+
     // ==================== 其他接口实现 ====================
     override fun getGrid(): IGrid? = mainNode.grid
 
