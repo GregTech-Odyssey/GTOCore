@@ -8,6 +8,8 @@ import com.gtocore.config.GTOConfig;
 import com.gtocore.integration.Mods;
 import com.gtocore.integration.botania.IEntropinnyum;
 import com.gtocore.integration.ftbquests.AdditionalTeamData;
+import com.gtocore.integration.teammap.command.TeamMapCommands;
+import com.gtocore.integration.teammap.server.TeamMapServerEvents;
 import com.gtocore.utils.OrganUtilsKt;
 
 import com.gtolib.GTOCore;
@@ -79,6 +81,7 @@ import net.minecraftforge.event.level.BlockEvent;
 import net.minecraftforge.event.level.LevelEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.event.server.ServerStoppedEvent;
+import net.minecraftforge.event.server.ServerStoppingEvent;
 import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;
@@ -373,6 +376,7 @@ public final class ForgeCommonEvent {
 
     @SubscribeEvent
     public static void onServerTick(TickEvent.ServerTickEvent event) {
+        if (event.phase == TickEvent.Phase.END) TeamMapServerEvents.tick(event.getServer());
         if (event.phase != TickEvent.Phase.END || !VoidWorldTimeSavedData.INSTANCE.isFixedTime() || event.getServer().getTickCount() % VOID_TIME_FIX_INTERVAL != 0) {
             return;
         }
@@ -433,6 +437,12 @@ public final class ForgeCommonEvent {
     @SubscribeEvent
     public static void onCommandRegister(RegisterCommandsEvent event) {
         GTOCommands.init(event.getDispatcher());
+        TeamMapCommands.register(event.getDispatcher());
+    }
+
+    @SubscribeEvent
+    public static void onServerStopping(ServerStoppingEvent event) {
+        TeamMapServerEvents.stop(event.getServer());
     }
 
     @SubscribeEvent

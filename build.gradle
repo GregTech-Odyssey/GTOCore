@@ -107,7 +107,9 @@ java {
 
 tasks.named('test').configure {
     useJUnitPlatform()
-    classpath += sourceSets.main.compileClasspath
+    // Forge 47 still exposes an obsolete SLF4J API on compileClasspath, while
+    // Minecraft 1.20.1 and LogUtils require SLF4J 2 at runtime.
+    classpath += sourceSets.main.compileClasspath.filter { !it.name.startsWith('slf4j-api-') }
 }
 
 tasks.named('compileTestJava', JavaCompile).configure {

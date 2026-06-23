@@ -2,6 +2,7 @@ dependencies {
     compileOnly libs.jetbrains.annotations
     testImplementation 'org.junit.jupiter:junit-jupiter:5.10.2'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher:1.10.2'
+    testRuntimeOnly 'org.slf4j:slf4j-api:2.0.1'
 
     implementation("org.lwjgl:lwjgl:3.3.2")
     implementation("org.lwjgl:lwjgl-opengl:3.3.2")

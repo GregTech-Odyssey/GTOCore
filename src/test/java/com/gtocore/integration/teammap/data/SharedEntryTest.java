@@ -13,7 +13,7 @@ class SharedEntryTest {
         payload.putString("fluid", "gtceu:oil");
         payload.putInt("yield", 120);
         SharedEntry original = new SharedEntry(SharedKind.BEDROCK_FLUID,
-                new ResourceLocation("minecraft", "overworld"), -17, 34, "-17,34",
+                ResourceLocation.fromNamespaceAndPath("minecraft", "overworld"), -17, 34, "-17,34",
                 SharedEntry.hash(payload), 42, payload);
 
         SharedEntry decoded = SharedEntry.fromTag(original.toTag());

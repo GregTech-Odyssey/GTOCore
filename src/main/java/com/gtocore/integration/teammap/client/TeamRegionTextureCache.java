@@ -6,11 +6,13 @@ import com.gregtechceu.gtceu.integration.map.GroupingMapRenderer;
 import com.gregtechceu.gtceu.integration.map.xaeros.worldmap.bedrockore.BedrockOreChunkHighlighter;
 import com.gregtechceu.gtceu.integration.map.xaeros.worldmap.fluid.FluidChunkHighlighter;
 
+import net.minecraft.Util;
 import net.minecraft.client.renderer.texture.AbstractTexture;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceManager;
+import net.minecraft.util.thread.ProcessorMailbox;
 import net.minecraft.world.level.Level;
 
 import com.mojang.blaze3d.platform.TextureUtil;
@@ -24,8 +26,6 @@ import java.nio.ByteBuffer;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 /** Async CPU assembly plus render-thread upload of Xaero-format team regions. */
 public final class TeamRegionTextureCache {
@@ -38,11 +38,8 @@ public final class TeamRegionTextureCache {
     private static final BedrockOreChunkHighlighter BEDROCK_ORE_HIGHLIGHTER = new BedrockOreChunkHighlighter();
     private static final Map<RegionKey, CachedTexture> CACHE = new LinkedHashMap<>(16, 0.75f, true);
     private static final Map<RegionKey, PendingBuild> PENDING = new LinkedHashMap<>();
-    private static final ExecutorService BUILDER = Executors.newSingleThreadExecutor(runnable -> {
-        Thread thread = new Thread(runnable, "GTO Team Map Texture Builder");
-        thread.setDaemon(true);
-        return thread;
-    });
+    private static final ProcessorMailbox<Runnable> BUILDER = ProcessorMailbox.create(
+            Util.backgroundExecutor(), "GTO Team Map Texture Builder");
     private static int uploadBudget;
 
     public static void beginFrame() {
@@ -67,8 +64,7 @@ public final class TeamRegionTextureCache {
         PendingBuild pending = PENDING.get(key);
         if (pending == null || pending.terrainRevision() != terrainRevision) {
             if (pending != null) pending.future().cancel(false);
-            pending = new PendingBuild(terrainRevision,
-                    CompletableFuture.supplyAsync(() -> buildBase(key), BUILDER));
+            pending = new PendingBuild(terrainRevision, scheduleBuild(key));
             PENDING.put(key, pending);
             trimPending();
         }
@@ -105,7 +101,13 @@ public final class TeamRegionTextureCache {
                 int chunkX = key.regionX() * REGION_CHUNKS + localX;
                 int chunkZ = key.regionZ() * REGION_CHUNKS + localZ;
                 SharedEntry entry = ClientTeamData.terrain(key.dimension(), chunkX, chunkZ);
-                if (entry == null) continue;
+                if (entry == null) {
+                    if (ClientTeamData.hasBedrockProspection(key.dimension(), chunkX, chunkZ)) {
+                        content = true;
+                        fillChunk(pixels, localX, localZ, 0x000000FF);
+                    }
+                    continue;
+                }
                 int[] colors = colors(entry);
                 if (colors.length != 256) continue;
                 content = true;
@@ -117,6 +119,19 @@ public final class TeamRegionTextureCache {
             }
         }
         return new BuildResult(pixels, content);
+    }
+
+    private static CompletableFuture<BuildResult> scheduleBuild(RegionKey key) {
+        CompletableFuture<BuildResult> future = new CompletableFuture<>();
+        BUILDER.tell(() -> {
+            if (future.isCancelled()) return;
+            try {
+                future.complete(buildBase(key));
+            } catch (RuntimeException exception) {
+                future.completeExceptionally(exception);
+            }
+        });
+        return future;
     }
 
     private static int upload(RegionKey key, int[] basePixels, long terrainRevision, long gtRevision,
@@ -136,7 +151,6 @@ public final class TeamRegionTextureCache {
             for (int localX = 0; localX < REGION_CHUNKS; localX++) {
                 int chunkX = key.regionX() * REGION_CHUNKS + localX;
                 int chunkZ = key.regionZ() * REGION_CHUNKS + localZ;
-                if (ClientTeamData.terrain(key.dimension(), chunkX, chunkZ) == null) continue;
                 applyHighlight(pixels, localX, localZ,
                         FLUID_HIGHLIGHTER.getChunkHighlitColor(dimension, chunkX, chunkZ));
                 applyHighlight(pixels, localX, localZ,
@@ -176,6 +190,13 @@ public final class TeamRegionTextureCache {
             int green = Math.min(255, (int) (((base >>> 16) & 255) * background + ((color >>> 16) & 255) * foreground));
             int blue = Math.min(255, (int) (((base >>> 24) & 255) * background + ((color >>> 24) & 255) * foreground));
             pixels[offset] = blue << 24 | green << 16 | red << 8 | (base & 255);
+        }
+    }
+
+    private static void fillChunk(int[] pixels, int localChunkX, int localChunkZ, int color) {
+        for (int z = 0; z < 16; z++) {
+            int from = (localChunkZ * 16 + z) * TEXTURE_SIZE + localChunkX * 16;
+            java.util.Arrays.fill(pixels, from, from + 16, color);
         }
     }
 

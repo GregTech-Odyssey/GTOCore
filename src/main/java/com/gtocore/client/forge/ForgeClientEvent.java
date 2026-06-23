@@ -12,6 +12,7 @@ import com.gtocore.common.item.StructureWriteBehavior;
 import com.gtocore.common.machine.multiblock.part.ae.widget.slot.AEPatternViewSlotWidgetKt;
 import com.gtocore.common.saved.WirelessNetworkSavedData;
 import com.gtocore.integration.ae.wireless.WirelessClientHandler;
+import com.gtocore.integration.teammap.client.TeamMapClient;
 
 import com.gtolib.GTOCore;
 import com.gtolib.api.item.IItem;
@@ -75,6 +76,7 @@ public final class ForgeClientEvent {
     @SubscribeEvent
     public static void onClientTickEvent(TickEvent.ClientTickEvent event) {
         if (event.phase == TickEvent.Phase.END) {
+            TeamMapClient.tick();
             if (highlightingTime > 0) {
                 highlightingTime--;
             }
@@ -230,7 +232,13 @@ public final class ForgeClientEvent {
 
     @SubscribeEvent
     public static void onClientDisconnect(ClientPlayerNetworkEvent.LoggingOut event) {
+        TeamMapClient.logout();
         WirelessNetworkSavedData.setCLIENT_INSTANCE(new WirelessNetworkSavedData());
+    }
+
+    @SubscribeEvent
+    public static void onClientLogin(ClientPlayerNetworkEvent.LoggingIn event) {
+        TeamMapClient.login();
     }
 
     /**

@@ -21,13 +21,20 @@ class TeamRegionStoreTest {
         CompoundTag payload = new CompoundTag();
         payload.putString("definition", "gtceu:magnetite");
         SharedEntry entry = new SharedEntry(SharedKind.ORE_VEIN,
-                new ResourceLocation("minecraft", "overworld"), -33, 65, "vein-1",
+                ResourceLocation.fromNamespaceAndPath("minecraft", "overworld"), -33, 65, "vein-1",
                 SharedEntry.hash(payload), 0, payload);
 
         TeamRegionStore first = new TeamRegionStore(directory);
         SharedEntry accepted = first.put(team, entry);
         SharedEntry duplicate = first.put(team, entry);
         assertEquals(accepted.revision(), duplicate.revision());
+
+        CompoundTag stalePayload = new CompoundTag();
+        stalePayload.putString("definition", "gtceu:stale");
+        SharedEntry staleImport = new SharedEntry(SharedKind.ORE_VEIN, entry.dimension(),
+                entry.chunkX(), entry.chunkZ(), entry.stableKey(), SharedEntry.hash(stalePayload), 0, stalePayload);
+        SharedEntry importResult = first.putIfAbsent(team, staleImport);
+        assertEquals(accepted, importResult);
         assertEquals(1, first.all(team).size());
         first.flush();
 

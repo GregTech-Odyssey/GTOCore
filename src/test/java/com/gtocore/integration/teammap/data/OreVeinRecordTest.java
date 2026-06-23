@@ -9,8 +9,8 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 class OreVeinRecordTest {
     @Test
     void sameDefinitionAtDifferentCentersHasDifferentStableKeys() {
-        ResourceLocation dimension = new ResourceLocation("minecraft", "overworld");
-        ResourceLocation definition = new ResourceLocation("gtceu", "magnetite_vein");
+        ResourceLocation dimension = ResourceLocation.fromNamespaceAndPath("minecraft", "overworld");
+        ResourceLocation definition = ResourceLocation.fromNamespaceAndPath("gtceu", "magnetite_vein");
         CompoundTag firstData = new CompoundTag();
         firstData.putLong("center", 1234L);
         CompoundTag secondData = new CompoundTag();

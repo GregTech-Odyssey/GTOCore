@@ -5,6 +5,7 @@ import com.gtocore.integration.teammap.data.SharedEntry;
 import com.gtocore.integration.teammap.data.SharedKind;
 import com.gtocore.integration.teammap.network.ModNetwork;
 
+import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
 
 import java.util.*;
@@ -12,17 +13,15 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public final class ClientTeamData {
 
-    private static final UUID NONE = new UUID(0, 0);
+    private static final UUID NONE = Util.NIL_UUID;
     private static final Map<String, SharedEntry> ENTRIES = new ConcurrentHashMap<>();
     private static final Map<String, SharedEntry> GT_ENTRIES = new ConcurrentHashMap<>();
     private static final Map<net.minecraft.resources.ResourceLocation, Map<Long, SharedEntry>> TERRAIN = new ConcurrentHashMap<>();
     private static final Map<String, Long> TERRAIN_REGION_REVISIONS = new ConcurrentHashMap<>();
     private static volatile UUID serverId = NONE;
     private static volatile UUID teamId = NONE;
-    private static volatile long serverRevision;
-    private static final ThreadLocal<Boolean> REMOTE_APPLY = ThreadLocal.withInitial(() -> false);
 
-    public static void acceptTeam(UUID newServer, UUID newTeam, long revision) {
+    public static void acceptTeam(UUID newServer, UUID newTeam) {
         if (!serverId.equals(newServer) || !teamId.equals(newTeam)) {
             ClientUpdateScheduler.clear();
             ClientDiskCache.save(serverId, teamId, ENTRIES.values());
@@ -37,45 +36,49 @@ public final class ClientTeamData {
         }
         serverId = newServer;
         teamId = newTeam;
-        serverRevision = revision;
         NativeGtTeamOverlay.markDirty();
     }
 
     public static void accept(Collection<SharedEntry> entries) {
-        entries.forEach(entry -> {
+        boolean anyChanged = false;
+        for (SharedEntry entry : entries) {
             if (entry.kind() == SharedKind.ORE_VEIN) {
                 String id = entry.payload().getString("id");
                 String spatialKey = SharedKind.ORE_VEIN.name() + '|' + entry.dimension() + '|' + OreVeinRecord.stableKey(id, entry.payload().getLong("center"));
                 boolean legacy = entry.stableKey().equals(id);
-                if (legacy && ENTRIES.containsKey(spatialKey)) return;
+                if (legacy && ENTRIES.containsKey(spatialKey)) continue;
                 if (!legacy) {
                     String legacyKey = SharedKind.ORE_VEIN.name() + '|' + entry.dimension() + '|' + id;
-                    ENTRIES.remove(legacyKey);
+                    if (ENTRIES.remove(legacyKey) != null) anyChanged = true;
                     GT_ENTRIES.remove(legacyKey);
                 }
             }
-            boolean[] changed = { false };
-            SharedEntry accepted = ENTRIES.compute(entry.mapKey(), (ignored, oldValue) -> {
-                if (oldValue != null && (oldValue.revision() > entry.revision() || oldValue.revision() == entry.revision() && oldValue.contentHash() == entry.contentHash()))
-                    return oldValue;
-                changed[0] = true;
-                return entry;
-            });
-            if (!changed[0]) return;
-            if (accepted.kind() == SharedKind.TERRAIN) {
-                TERRAIN.computeIfAbsent(accepted.dimension(), ignored -> new ConcurrentHashMap<>())
-                        .put(net.minecraft.world.level.ChunkPos.asLong(accepted.chunkX(), accepted.chunkZ()), accepted);
-                TERRAIN_REGION_REVISIONS.merge(regionKey(accepted.dimension(),
-                        Math.floorDiv(accepted.chunkX(), 32), Math.floorDiv(accepted.chunkZ(), 32)), 1L, Long::sum);
-            } else GT_ENTRIES.put(accepted.mapKey(), accepted);
-        });
+            SharedEntry previous = ENTRIES.get(entry.mapKey());
+            if (previous != null && (previous.revision() > entry.revision() ||
+                    previous.revision() == entry.revision() && previous.contentHash() == entry.contentHash()))
+                continue;
+            ENTRIES.put(entry.mapKey(), entry);
+            anyChanged = true;
+            if (entry.kind() == SharedKind.TERRAIN) {
+                TERRAIN.computeIfAbsent(entry.dimension(), ignored -> new ConcurrentHashMap<>())
+                        .put(net.minecraft.world.level.ChunkPos.asLong(entry.chunkX(), entry.chunkZ()), entry);
+                TERRAIN_REGION_REVISIONS.merge(regionKey(entry.dimension(),
+                        Math.floorDiv(entry.chunkX(), 32), Math.floorDiv(entry.chunkZ(), 32)), 1L, Long::sum);
+            } else GT_ENTRIES.put(entry.mapKey(), entry);
+        }
+        if (!anyChanged) return;
         ClientDiskCache.markDirty();
         NativeGtTeamOverlay.markDirty();
     }
 
     public static void upload(SharedEntry entry) {
         Minecraft mc = Minecraft.getInstance();
-        if (!REMOTE_APPLY.get() && mc.getConnection() != null && !teamId.equals(NONE)) ModNetwork.upload(entry);
+        if (mc.getConnection() != null && !teamId.equals(NONE)) ModNetwork.upload(entry, false);
+    }
+
+    public static void uploadImport(SharedEntry entry) {
+        Minecraft mc = Minecraft.getInstance();
+        if (mc.getConnection() != null && !teamId.equals(NONE)) ModNetwork.upload(entry, true);
     }
 
     public static Collection<SharedEntry> entries() {
@@ -96,6 +99,12 @@ public final class ClientTeamData {
         return dimensionTerrain == null ? null : dimensionTerrain.get(net.minecraft.world.level.ChunkPos.asLong(chunkX, chunkZ));
     }
 
+    public static boolean hasBedrockProspection(net.minecraft.resources.ResourceLocation dimension,
+                                                int chunkX, int chunkZ) {
+        return gtEntry(SharedKind.BEDROCK_FLUID, dimension, chunkX, chunkZ) != null ||
+                gtEntry(SharedKind.BEDROCK_ORE, dimension, chunkX, chunkZ) != null;
+    }
+
     public static long terrainRegionRevision(net.minecraft.resources.ResourceLocation dimension, int regionX, int regionZ) {
         return TERRAIN_REGION_REVISIONS.getOrDefault(regionKey(dimension, regionX, regionZ), 0L);
     }
@@ -106,10 +115,6 @@ public final class ClientTeamData {
 
     public static UUID teamId() {
         return teamId;
-    }
-
-    public static long serverRevision() {
-        return serverRevision;
     }
 
     public static boolean hasTeam() {
@@ -123,7 +128,6 @@ public final class ClientTeamData {
         TERRAIN.clear();
         TERRAIN_REGION_REVISIONS.clear();
         teamId = NONE;
-        serverRevision = 0;
         TeamRegionTextureCache.clear();
         ClientUpdateScheduler.clear();
         TerrainCapture.reset();

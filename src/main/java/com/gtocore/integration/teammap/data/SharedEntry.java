@@ -41,7 +41,7 @@ public record SharedEntry(SharedKind kind, ResourceLocation dimension, int chunk
         if (ordinal < 0 || ordinal >= SharedKind.values().length) {
             throw new IllegalArgumentException("Unknown shared entry kind " + ordinal);
         }
-        return new SharedEntry(SharedKind.values()[ordinal], new ResourceLocation(tag.getString("dimension")),
+        return new SharedEntry(SharedKind.values()[ordinal], ResourceLocation.parse(tag.getString("dimension")),
                 tag.getInt("chunk_x"), tag.getInt("chunk_z"), tag.getString("key"),
                 tag.getLong("hash"), tag.getLong("revision"), tag.getCompound("payload"));
     }

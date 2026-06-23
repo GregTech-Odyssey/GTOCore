@@ -5,6 +5,7 @@ import com.gtocore.integration.teammap.data.SharedKind;
 
 import com.gtolib.GTOCore;
 
+import net.minecraft.Util;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.NbtIo;
@@ -15,7 +16,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.StandardCopyOption;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -31,14 +31,22 @@ public final class TeamRegionStore {
     }
 
     public synchronized SharedEntry put(UUID teamId, SharedEntry incoming) {
+        return put(teamId, incoming, true);
+    }
+
+    public synchronized SharedEntry putIfAbsent(UUID teamId, SharedEntry incoming) {
+        return put(teamId, incoming, false);
+    }
+
+    private SharedEntry put(UUID teamId, SharedEntry incoming, boolean replaceExisting) {
         ensureTeamLoaded(teamId);
         Bucket bucket = buckets.computeIfAbsent(BucketKey.of(teamId, incoming), ignored -> new Bucket());
+        SharedEntry previous = bucket.entries.get(incoming.mapKey());
+        if (previous != null && (!replaceExisting || previous.contentHash() == incoming.contentHash())) return previous;
         if (incoming.kind() == SharedKind.ORE_VEIN && !incoming.stableKey().equals(incoming.payload().getString("id"))) {
             String legacyKey = SharedKind.ORE_VEIN.name() + '|' + incoming.dimension() + '|' + incoming.payload().getString("id");
             if (bucket.entries.remove(legacyKey) != null) bucket.dirty = true;
         }
-        SharedEntry previous = bucket.entries.get(incoming.mapKey());
-        if (previous != null && previous.contentHash() == incoming.contentHash()) return previous;
         SharedEntry accepted = incoming.withRevision(revision.incrementAndGet());
         bucket.entries.put(accepted.mapKey(), accepted);
         bucket.dirty = true;
@@ -51,16 +59,6 @@ public final class TeamRegionStore {
         buckets.forEach((key, value) -> { if (key.teamId.equals(teamId)) result.addAll(value.entries.values()); });
         result.sort(Comparator.comparingLong(SharedEntry::revision));
         return result;
-    }
-
-    public synchronized long latestRevision(UUID teamId) {
-        ensureTeamLoaded(teamId);
-        long latest = 0;
-        for (var bucket : buckets.entrySet()) {
-            if (!bucket.getKey().teamId.equals(teamId)) continue;
-            for (SharedEntry entry : bucket.getValue().entries.values()) latest = Math.max(latest, entry.revision());
-        }
-        return latest;
     }
 
     public synchronized void flush() {
@@ -133,11 +131,8 @@ public final class TeamRegionStore {
         try (OutputStream output = Files.newOutputStream(temp)) {
             NbtIo.writeCompressed(tag, output);
         }
-        try {
-            Files.move(temp, target, StandardCopyOption.ATOMIC_MOVE, StandardCopyOption.REPLACE_EXISTING);
-        } catch (IOException ignored) {
-            Files.move(temp, target, StandardCopyOption.REPLACE_EXISTING);
-        }
+        Util.safeReplaceFile(target, temp, target.resolveSibling(target.getFileName() + ".old"));
+        if (Files.exists(temp)) throw new IOException("Could not replace " + target);
     }
 
     private record BucketKey(UUID teamId, String dimension, int regionX, int regionZ) {

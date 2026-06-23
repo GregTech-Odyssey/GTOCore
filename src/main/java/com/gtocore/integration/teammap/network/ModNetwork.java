@@ -8,7 +8,9 @@ import com.gtocore.integration.teammap.server.TeamMapServer;
 
 import com.gtolib.api.network.NetworkPack;
 
+import net.minecraft.Util;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtAccounter;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
@@ -26,17 +28,18 @@ import java.util.UUID;
 
 public final class ModNetwork {
 
+    private static final long MAX_ENTRY_NBT_BYTES = 1_500_000L;
     private static final int SYNC_BATCH_SIZE = 8;
     private static final int SYNC_BATCHES_PER_TICK = 2;
     private static final Map<UUID, ArrayDeque<SharedEntry>> PENDING_SYNCS = new HashMap<>();
-    private static final Map<UUID, LinkedHashMap<String, SharedEntry>> PENDING_UPLOADS = new HashMap<>();
+    private static final Map<UUID, LinkedHashMap<String, PendingUpload>> PENDING_UPLOADS = new HashMap<>();
     private static final NetworkPack REQUEST_SYNC = NetworkPack.registerC2S(
             "gtocore:team_map_request_sync", (player, buf) -> sync(player));
     private static final NetworkPack UPLOAD_ENTRY = NetworkPack.registerC2S(
             "gtocore:team_map_upload", ModNetwork::handleUpload);
     private static final NetworkPack TEAM_STATE = NetworkPack.registerS2C(
             "gtocore:team_map_state", (player, buf) -> ClientTeamData.acceptTeam(
-                    buf.readUUID(), buf.readUUID(), buf.readVarLong()));
+                    buf.readUUID(), buf.readUUID()));
     private static final NetworkPack ENTRY_BATCH = NetworkPack.registerS2C(
             "gtocore:team_map_batch", (player, buf) -> ClientUpdateScheduler.enqueue(readBatch(buf)));
     private static final NetworkPack RUN_IMPORT = NetworkPack.registerS2C(
@@ -50,8 +53,11 @@ public final class ModNetwork {
         REQUEST_SYNC.send(buf -> {});
     }
 
-    public static void upload(SharedEntry entry) {
-        UPLOAD_ENTRY.send(buf -> writeEntry(buf, entry));
+    public static void upload(SharedEntry entry, boolean importOnly) {
+        UPLOAD_ENTRY.send(buf -> {
+            buf.writeBoolean(importOnly);
+            writeEntry(buf, entry);
+        });
     }
 
     public static void runImport(ServerPlayer player) {
@@ -61,12 +67,10 @@ public final class ModNetwork {
     public static void sync(ServerPlayer player) {
         TeamMapServer service = TeamMapServer.get(player.server);
         Team team = service.team(player).orElse(null);
-        UUID teamId = team == null ? new UUID(0, 0) : team.getId();
-        long revision = team == null ? 0 : service.store().latestRevision(teamId);
+        UUID teamId = team == null ? Util.NIL_UUID : team.getId();
         TEAM_STATE.send(buf -> {
             buf.writeUUID(service.serverId());
             buf.writeUUID(teamId);
-            buf.writeVarLong(revision);
         }, player);
         if (team == null) PENDING_SYNCS.remove(player.getUUID());
         else PENDING_SYNCS.put(player.getUUID(), new ArrayDeque<>(service.store().all(teamId)));
@@ -98,11 +102,11 @@ public final class ModNetwork {
     public static void flushServer(MinecraftServer server) {
         if (PENDING_UPLOADS.isEmpty()) return;
         TeamMapServer service = TeamMapServer.get(server);
-        Map<UUID, LinkedHashMap<String, SharedEntry>> batches = new HashMap<>(PENDING_UPLOADS);
+        Map<UUID, LinkedHashMap<String, PendingUpload>> batches = new HashMap<>(PENDING_UPLOADS);
         PENDING_UPLOADS.clear();
         batches.forEach((teamId, pending) -> {
             ArrayList<SharedEntry> accepted = new ArrayList<>(pending.size());
-            pending.values().forEach(entry -> accepted.add(service.store().put(teamId, entry)));
+            pending.values().forEach(upload -> accepted.add(upload.importOnly() ? service.store().putIfAbsent(teamId, upload.entry()) : service.store().put(teamId, upload.entry())));
             for (ServerPlayer player : server.getPlayerList().getPlayers()) {
                 boolean member = service.team(player).map(team -> team.getId().equals(teamId)).orElse(false);
                 if (!member) continue;
@@ -126,19 +130,20 @@ public final class ModNetwork {
     }
 
     private static SharedEntry readEntry(FriendlyByteBuf buf) {
-        CompoundTag tag = buf.readNbt();
+        CompoundTag tag = buf.readNbt(new NbtAccounter(MAX_ENTRY_NBT_BYTES));
         if (tag == null) throw new IllegalArgumentException("Missing team map entry");
         return SharedEntry.fromTag(tag);
     }
 
     private static void handleUpload(ServerPlayer sender, FriendlyByteBuf buf) {
+        boolean importOnly = buf.readBoolean();
         SharedEntry entry = readEntry(buf);
-        if (entry.payload().toString().length() > 1_500_000) return;
         TeamMapServer service = TeamMapServer.get(sender.server);
         Team team = service.team(sender).orElse(null);
         if (team != null) {
             PENDING_UPLOADS.computeIfAbsent(team.getId(), ignored -> new LinkedHashMap<>())
-                    .put(entry.mapKey(), entry);
+                    .merge(entry.mapKey(), new PendingUpload(entry, importOnly),
+                            (oldValue, newValue) -> newValue.importOnly() ? oldValue : newValue);
         }
     }
 
@@ -151,9 +156,11 @@ public final class ModNetwork {
 
     private static List<SharedEntry> readBatch(FriendlyByteBuf buf) {
         int count = buf.readVarInt();
-        if (count < 0 || count > 64) throw new IllegalArgumentException("Bad team map batch size " + count);
+        if (count < 0 || count > SYNC_BATCH_SIZE) throw new IllegalArgumentException("Bad team map batch size " + count);
         List<SharedEntry> entries = new ArrayList<>(count);
         for (int i = 0; i < count; i++) entries.add(readEntry(buf));
         return entries;
     }
+
+    private record PendingUpload(SharedEntry entry, boolean importOnly) {}
 }

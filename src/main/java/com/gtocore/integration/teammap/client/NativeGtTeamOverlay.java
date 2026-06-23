@@ -136,11 +136,11 @@ public final class NativeGtTeamOverlay {
     }
 
     private static void addOre(SharedEntry entry, ResourceKey<Level> dimension) {
-        ResourceLocation definitionId = new ResourceLocation(entry.payload().getString("definition"));
+        ResourceLocation definitionId = ResourceLocation.parse(entry.payload().getString("definition"));
         GTOreDefinition definition = GTRegistries.ORE_VEINS.get(definitionId);
         if (definition == null) return;
         GeneratedVeinMetadata vein = new GeneratedVeinMetadata(
-                new ResourceLocation(entry.payload().getString("id")),
+                ResourceLocation.parse(entry.payload().getString("id")),
                 new ChunkPos(entry.payload().getLong("origin")),
                 BlockPos.of(entry.payload().getLong("center")), definition,
                 entry.payload().getBoolean("depleted"));
@@ -169,7 +169,7 @@ public final class NativeGtTeamOverlay {
     }
 
     private static ProspectorMode.FluidInfo decodeFluid(SharedEntry entry) {
-        Fluid fluid = BuiltInRegistries.FLUID.get(new ResourceLocation(entry.payload().getString("fluid")));
+        Fluid fluid = BuiltInRegistries.FLUID.get(ResourceLocation.parse(entry.payload().getString("fluid")));
         return new ProspectorMode.FluidInfo(fluid,
                 entry.payload().getInt("yield"), entry.payload().getInt("left"));
     }

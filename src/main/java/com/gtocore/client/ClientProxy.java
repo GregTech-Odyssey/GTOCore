@@ -19,7 +19,6 @@ import com.gtocore.integration.ae.PatternContentAccessTerminalPart;
 import com.gtocore.integration.ae.PatternContentAccessTerminalScreen;
 import com.gtocore.integration.ae.wtlib.WFTMenu;
 import com.gtocore.integration.ae.wtlib.WRTMenu;
-import com.gtocore.integration.teammap.TeamMapShare;
 
 import com.gtolib.GTOCore;
 import com.gtolib.api.ae2.gui.GTOButtonAppearance;
@@ -75,7 +74,6 @@ public final class ClientProxy extends CommonProxy {
 
     public ClientProxy() {
         super();
-        TeamMapShare.initClient();
         init();
         IEventBus eventBus = FMLJavaModLoadingContext.get().getModEventBus();
         eventBus.addListener(ClientProxy::clientSetup);

@@ -12,11 +12,11 @@ import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.NbtIo;
 import net.minecraft.nbt.Tag;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -94,11 +94,8 @@ public final class ClientDiskCache {
             try (OutputStream output = Files.newOutputStream(temp)) {
                 NbtIo.writeCompressed(root, output);
             }
-            try {
-                Files.move(temp, file, StandardCopyOption.ATOMIC_MOVE, StandardCopyOption.REPLACE_EXISTING);
-            } catch (Exception ignored) {
-                Files.move(temp, file, StandardCopyOption.REPLACE_EXISTING);
-            }
+            Util.safeReplaceFile(file, temp, file.resolveSibling(file.getFileName() + ".old"));
+            if (Files.exists(temp)) throw new IOException("Could not replace " + file);
         }
     }
 

@@ -54,7 +54,7 @@ public final class ClientHistoryImporter {
             importGt();
         }
         for (int count = 0; count < 8 && !GT_ENTRIES.isEmpty(); count++)
-            ClientTeamData.upload(GT_ENTRIES.removeFirst());
+            ClientTeamData.uploadImport(GT_ENTRIES.removeFirst());
         importOneXaeroRegion();
     }
 

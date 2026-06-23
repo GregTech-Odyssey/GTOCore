@@ -2,6 +2,9 @@ package com.gtocore.integration.teammap.server;
 
 import com.gtocore.integration.teammap.TeamMapShare;
 
+import com.gtolib.GTOCore;
+import com.gtolib.utils.ServerUtils;
+
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.storage.LevelResource;
@@ -9,7 +12,6 @@ import net.minecraft.world.level.storage.LevelResource;
 import dev.ftb.mods.ftbteams.api.FTBTeamsAPI;
 import dev.ftb.mods.ftbteams.api.Team;
 
-import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Map;
@@ -51,15 +53,14 @@ public final class TeamMapServer {
     }
 
     private static UUID loadServerId(Path root) {
+        // Standalone bridge worlds used this file. Prefer it when present so
+        // upgrading to the integrated implementation keeps the same team data.
         Path file = root.resolve("server-id.txt");
         try {
-            Files.createDirectories(root);
             if (Files.exists(file)) return UUID.fromString(Files.readString(file).trim());
-            UUID id = UUID.randomUUID();
-            Files.writeString(file, id.toString());
-            return id;
-        } catch (IOException e) {
-            throw new IllegalStateException("Unable to create GTO Team Map Share server identity", e);
+        } catch (Exception exception) {
+            GTOCore.LOGGER.warn("Ignoring invalid legacy team map server identity {}", file, exception);
         }
+        return ServerUtils.getServerIdentifier();
     }
 }
