@@ -63,9 +63,20 @@ public final class ClientHistoryImporter {
             // Import from GTCEu's public Xaero renderer tables. These already
             // contain the loaded personal cache and avoid private cache fields,
             // reflection, accessors and the nested-jar class-loader problem.
-            XaerosRenderer.oreElements.getMap().forEach((dimension, values) -> values.values().forEach(element -> queueGt(GTRecordAdapter.ore(dimension, element.getVein()))));
-            XaerosRenderer.fluidElements.getMap().forEach((dimension, values) -> values.forEach((pos, fluid) -> queueGt(GTRecordAdapter.fluid(dimension, pos.x, pos.z, fluid))));
-            XaerosRenderer.bedrockOreElements.getMap().forEach((dimension, values) -> values.forEach((pos, ores) -> queueGt(GTRecordAdapter.bedrockOre(dimension, pos.x, pos.z, ores))));
+            // The same tables also contain our injected team elements, which
+            // must never be re-uploaded as authoritative personal history.
+            XaerosRenderer.oreElements.getMap().forEach((dimension, values) -> values.forEach((id, element) -> {
+                if (!NativeGtTeamOverlay.isTeamOre(dimension, id, element))
+                    queueGt(GTRecordAdapter.ore(dimension, element.getVein()));
+            }));
+            XaerosRenderer.fluidElements.getMap().forEach((dimension, values) -> values.forEach((pos, fluid) -> {
+                if (!NativeGtTeamOverlay.isTeamFluid(dimension, pos, fluid))
+                    queueGt(GTRecordAdapter.fluid(dimension, pos.x, pos.z, fluid));
+            }));
+            XaerosRenderer.bedrockOreElements.getMap().forEach((dimension, values) -> values.forEach((pos, ores) -> {
+                if (!NativeGtTeamOverlay.isTeamBedrockOre(dimension, pos, ores))
+                    queueGt(GTRecordAdapter.bedrockOre(dimension, pos.x, pos.z, ores));
+            }));
         } catch (RuntimeException ignored) {
             // A renderer table can be changing while GTCEu reloads. The periodic
             // scan retries without discarding entries already queued.

@@ -5,6 +5,7 @@ import com.gtocore.integration.teammap.data.SharedEntry;
 
 import com.gtolib.GTOCore;
 
+import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -21,17 +22,10 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 public final class ClientDiskCache {
 
     private static final Object WRITE_LOCK = new Object();
-    private static final ExecutorService IO = Executors.newSingleThreadExecutor(runnable -> {
-        Thread thread = new Thread(runnable, "GTO Team Map Cache IO");
-        thread.setDaemon(true);
-        return thread;
-    });
     private static volatile boolean dirty;
     private static volatile boolean saving;
     private static int timer;
@@ -48,7 +42,7 @@ public final class ClientDiskCache {
         dirty = false;
         saving = true;
         timer = 0;
-        IO.execute(() -> {
+        Util.ioPool().execute(() -> {
             try {
                 write(target, snapshot);
             } catch (Exception e) {

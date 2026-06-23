@@ -88,6 +88,18 @@ public final class NativeGtTeamOverlay {
         }
     }
 
+    static boolean isTeamOre(ResourceKey<Level> dimension, String id, OreVeinElement element) {
+        return TEAM_ORES.get(new OreKey(dimension, id)) == element;
+    }
+
+    static boolean isTeamFluid(ResourceKey<Level> dimension, ChunkPos pos, ProspectorMode.FluidInfo fluid) {
+        return TEAM_FLUIDS.get(new ChunkKey(dimension, pos)) == fluid;
+    }
+
+    static boolean isTeamBedrockOre(ResourceKey<Level> dimension, ChunkPos pos, ProspectorMode.OreInfo[] ores) {
+        return TEAM_BEDROCK_ORES.get(new ChunkKey(dimension, pos)) == ores;
+    }
+
     public static ProspectorMode.OreInfo[] teamBedrockOre(ResourceKey<Level> dimension, int chunkX, int chunkZ) {
         SharedEntry entry = ClientTeamData.gtEntry(SharedKind.BEDROCK_ORE, dimension.location(), chunkX, chunkZ);
         if (entry == null) return null;
