@@ -250,33 +250,31 @@ abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.AbstractInterna
     override fun getTerminalPatternInventory(): InternalInventory = internalPatternInventory
 
     override fun getTerminalGroup(): PatternContainerGroup {
-        val (itemKey, description) = when {
+        return when {
             isFormed -> {
                 val controller = getController()
                 val availableRecipeTypes =
                     if (controller is IRecipeLogicMachine) controller.availableRecipeTypes.asList() else emptyList()
-                val group =
-                    PatternContainerGroupHelper.forPatternAssembly(
-                        controller.self(),
-                        this,
-                        customName,
-                        null,
-                        availableRecipeTypes,
-                    )
-                group.icon() to group.name()
+                PatternContainerGroupHelper.forPatternAssembly(
+                    controller.self(),
+                    this,
+                    customName,
+                    null,
+                    availableRecipeTypes,
+                )
             }
 
             else -> {
-                AEItemKey.of(GTAEMachines.ME_PATTERN_BUFFER.asItem()) to
+                val itemKey = AEItemKey.of(GTAEMachines.ME_PATTERN_BUFFER.asItem())
+                val description =
                     if (customName.isNotEmpty()) {
                         Component.literal(customName)
                     } else {
                         GTAEMachines.ME_PATTERN_BUFFER.get().definition.asItem().description
                     }
+                PatternContainerGroup(itemKey, description, emptyList())
             }
         }
-
-        return PatternContainerGroup(itemKey, description, emptyList())
     }
 
     override fun `gto$getTerminalGroupSearchName`(): Component {
