@@ -32,7 +32,7 @@ public final class TeamRegionTextureCache {
 
     private static final int REGION_CHUNKS = 32;
     private static final int TEXTURE_SIZE = REGION_CHUNKS * 16;
-    private static final int MAX_TEXTURES = 16;
+    private static final int MAX_TEXTURES = TeamOverlayRenderer.MAX_VISIBLE_REGIONS;
     private static final int MAX_PENDING = 8;
     private static final FluidChunkHighlighter FLUID_HIGHLIGHTER = new FluidChunkHighlighter();
     private static final BedrockOreChunkHighlighter BEDROCK_ORE_HIGHLIGHTER = new BedrockOreChunkHighlighter();

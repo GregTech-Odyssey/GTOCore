@@ -19,6 +19,7 @@ import xaero.map.gui.GuiMap;
 public final class TeamOverlayRenderer {
 
     private static final int REGION_BLOCKS = 32 * 16;
+    static final int MAX_VISIBLE_REGIONS = 32;
 
     public static void render(GuiGraphics graphics, GuiMap map) {
         Minecraft mc = Minecraft.getInstance();
@@ -31,8 +32,8 @@ public final class TeamOverlayRenderer {
 
         double cameraX = access.gtoTeamMap$getCameraX();
         double cameraZ = access.gtoTeamMap$getCameraZ();
-        double halfWorldX = mc.getWindow().getWidth() / (2.0 * scale);
-        double halfWorldZ = mc.getWindow().getHeight() / (2.0 * scale);
+        double halfWorldX = mc.getWindow().getGuiScaledWidth() / (2.0 * scale);
+        double halfWorldZ = mc.getWindow().getGuiScaledHeight() / (2.0 * scale);
         int minRegionX = (int) Math.floor((cameraX - halfWorldX) / REGION_BLOCKS);
         int maxRegionX = (int) Math.floor((cameraX + halfWorldX) / REGION_BLOCKS);
         int minRegionZ = (int) Math.floor((cameraZ - halfWorldZ) / REGION_BLOCKS);
@@ -41,7 +42,7 @@ public final class TeamOverlayRenderer {
         // Keep Xaero's personal map visible when the team overlay would require
         // too many region submissions at the current zoom level.
         long visibleRegionCount = (long) (maxRegionX - minRegionX + 1) * (maxRegionZ - minRegionZ + 1);
-        if (visibleRegionCount > 32) return;
+        if (visibleRegionCount > MAX_VISIBLE_REGIONS) return;
 
         // The injection point already has Xaero's map scale on the pose stack.
         // Covering the viewport here replaces the personal base while leaving
