@@ -81,7 +81,7 @@ public final class PatternContainerGroupHelper {
                                                      List<Component> tooltip) {
         NameParts parts = getNameParts(displayMachine, extraSuffix, selectedRecipeType, availableRecipeTypes,
                 showAllRecipeTypes);
-        MutableComponent name = formatName(parts, GTOConfig.INSTANCE.client.patternContainerNameFormat);
+        MutableComponent name = formatName(parts, GTOConfig.INSTANCE.misc.patternContainerNameFormat);
         return new PatternContainerGroup(AEItemKey.of(displayMachine.getDefinition().asStack()), name, tooltip);
     }
 

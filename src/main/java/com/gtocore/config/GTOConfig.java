@@ -335,15 +335,6 @@ public final class GTOConfig {
         public boolean craftingJobFinishedNotification = true;
 
         @Configurable
-        @Configurable.Comment({
-                "样板供应器/样板总成显示名称格式。可用占位符：%m 机器名，%t 等级，%s 自定义后缀，%r 配方类型（仅多配方类型机器），%R 配方类型（始终显示）。移除占位符即可隐藏对应部分。",
-                "Pattern Provider/Pattern Assembly display name format. Placeholders: %m machine name, %t tier, %s custom suffix, %r recipe type (multi-recipe machines only), %R recipe type (always). Remove a placeholder to hide that part."
-        })
-        @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Pattern Container Name Format", cn = "样板容器名称格式")
-        @Configurable.Gui.CharacterLimit(256)
-        public String patternContainerNameFormat = "%m %t %s %r";
-
-        @Configurable
         @RegisterLanguage(namePrefix = "config.gtocore.option", en = "HUD Settings", cn = "HUD 设置")
         public HUDConfig hud = new HUDConfig();
 
@@ -443,6 +434,15 @@ public final class GTOConfig {
         @Configurable.Comment({ "启用后，进入游戏时，若多方块结构未能成型，则将错误信息将发送给机器的所有者", "When enabled, if the multiblock structure fails to form when entering the game, the error message will be sent to the owner of the machine" })
         @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Send Multiblock Error Messages", cn = "发送多方块错误信息")
         public boolean sendMultiblockErrorMessages = true;
+
+        @Configurable
+        @Configurable.Comment({
+                "样板供应器/样板总成显示名称格式。可用占位符：%m 机器名，%t 等级，%s 自定义后缀，%r 配方类型（仅多配方类型机器），%R 配方类型（始终显示）。移除占位符即可隐藏对应部分。",
+                "Pattern Provider/Pattern Assembly display name format. Placeholders: %m machine name, %t tier, %s custom suffix, %r recipe type (multi-recipe machines only), %R recipe type (always). Remove a placeholder to hide that part."
+        })
+        @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Pattern Container Name Format", cn = "样板容器名称格式")
+        @Configurable.Gui.CharacterLimit(256)
+        public String patternContainerNameFormat = "%m %t %s %r";
 
         @Configurable
         @Configurable.Comment({ "一些机器内容会以服务器语言的翻译呈现", "Some machine contents will be presented in the server language translation" })
