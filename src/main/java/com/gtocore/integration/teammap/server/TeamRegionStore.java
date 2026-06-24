@@ -45,7 +45,12 @@ public final class TeamRegionStore {
         if (previous != null && (!replaceExisting || previous.contentHash() == incoming.contentHash())) return previous;
         if (incoming.kind() == SharedKind.ORE_VEIN && !incoming.stableKey().equals(incoming.payload().getString("id"))) {
             String legacyKey = SharedKind.ORE_VEIN.name() + '|' + incoming.dimension() + '|' + incoming.payload().getString("id");
-            if (bucket.entries.remove(legacyKey) != null) bucket.dirty = true;
+            SharedEntry legacy = bucket.entries.get(legacyKey);
+            if (legacy != null) {
+                if (!replaceExisting) return legacy;
+                bucket.entries.remove(legacyKey);
+                bucket.dirty = true;
+            }
         }
         SharedEntry accepted = incoming.withRevision(revision.incrementAndGet());
         bucket.entries.put(accepted.mapKey(), accepted);

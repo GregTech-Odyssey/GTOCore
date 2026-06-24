@@ -1,5 +1,6 @@
 package com.gtocore.integration.teammap.server;
 
+import com.gtocore.integration.teammap.data.OreVeinRecord;
 import com.gtocore.integration.teammap.data.SharedEntry;
 import com.gtocore.integration.teammap.data.SharedKind;
 import net.minecraft.nbt.CompoundTag;
@@ -8,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
 import java.nio.file.Path;
+import java.util.List;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -42,5 +44,32 @@ class TeamRegionStoreTest {
         assertEquals(1, reloaded.all(team).size());
         assertEquals(accepted, reloaded.all(team).get(0));
         assertTrue(directory.resolve(team.toString()).resolve("minecraft_overworld").resolve("-2_2.dat").toFile().isFile());
+    }
+
+    @Test
+    void importDoesNotReplaceLegacyOreKey() {
+        UUID team = UUID.randomUUID();
+        ResourceLocation dimension = ResourceLocation.fromNamespaceAndPath("minecraft", "overworld");
+        CompoundTag legacyPayload = new CompoundTag();
+        legacyPayload.putString("id", "gtceu:test_vein");
+        legacyPayload.putLong("center", 42L);
+        SharedEntry legacy = new SharedEntry(SharedKind.ORE_VEIN, dimension, 1, 2,
+                "gtceu:test_vein", SharedEntry.hash(legacyPayload), 0, legacyPayload);
+
+        TeamRegionStore store = new TeamRegionStore(directory.resolve("legacy"));
+        SharedEntry acceptedLegacy = store.put(team, legacy);
+
+        CompoundTag importedPayload = legacyPayload.copy();
+        importedPayload.putBoolean("depleted", true);
+        SharedEntry imported = new SharedEntry(SharedKind.ORE_VEIN, dimension, 1, 2,
+                OreVeinRecord.stableKey("gtceu:test_vein", 42L), SharedEntry.hash(importedPayload), 0,
+                importedPayload);
+
+        assertEquals(acceptedLegacy, store.putIfAbsent(team, imported));
+        assertEquals(List.of(acceptedLegacy), store.all(team));
+
+        SharedEntry acceptedLiveUpdate = store.put(team, imported);
+        assertEquals(imported.stableKey(), acceptedLiveUpdate.stableKey());
+        assertEquals(List.of(acceptedLiveUpdate), store.all(team));
     }
 }
