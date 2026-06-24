@@ -41,7 +41,9 @@ import appeng.items.parts.PartModels;
 import appeng.me.GridNode;
 import appeng.me.service.EnergyService;
 import appeng.me.service.StorageService;
+import appeng.me.service.TickManagerService;
 import appeng.me.storage.CompositeStorage;
+import appeng.me.storage.ITickingMonitor;
 import appeng.me.storage.MEInventoryHandler;
 import appeng.me.storage.NullInventory;
 import appeng.menu.me.items.CraftingTermMenu;
@@ -154,6 +156,9 @@ public class SimpleCraftingTerminal extends AbstractTerminalPart
             StorageService storageService = (StorageService) node.getGrid().getStorageService();
             storageService.addNode(node, null);
             energyService.addNode(node, null);
+            // IGridTickable 是事后 addService 补上的，须手动登记 TickManager，否则节点不会 tick、onTick 不执行。
+            TickManagerService tickManager = (TickManagerService) node.getGrid().getTickManager();
+            tickManager.addNode(node, null);
         }
     }
 
@@ -165,8 +170,9 @@ public class SimpleCraftingTerminal extends AbstractTerminalPart
 
     @Override
     public TickRateModulation tickingRequest(IGridNode node, int ticksSinceLastCall) {
-        if (this.handler.getDelegate() instanceof CompositeStorage compositeStorage) {
-            compositeStorage.onTick();
+        // 对齐 AE2 StorageBusPart：对任何 ITickingMonitor 调用 onTick 并回传其 tick 速率。
+        if (this.handler.getDelegate() instanceof ITickingMonitor monitor) {
+            return monitor.onTick();
         }
         return TickRateModulation.SAME;
     }
@@ -187,7 +193,8 @@ public class SimpleCraftingTerminal extends AbstractTerminalPart
                 return;
             }
             if (!foundExternalApi.isEmpty()) {
-                newInventory = foundExternalApi.size() > 1 ? new CompositeStorage(foundExternalApi) : foundExternalApi.reference2ReferenceEntrySet().fastIterator().next().getValue();
+                // 一律包成 CompositeStorage（含单一容器），使 delegate 可被 onTick 轮询刷新。
+                newInventory = new CompositeStorage(foundExternalApi);
             } else {
                 newInventory = NullInventory.of();
             }
