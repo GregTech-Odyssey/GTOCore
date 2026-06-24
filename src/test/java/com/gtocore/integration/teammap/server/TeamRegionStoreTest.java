@@ -8,9 +8,12 @@ import net.minecraft.resources.ResourceLocation;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -18,7 +21,7 @@ class TeamRegionStoreTest {
     @TempDir Path directory;
 
     @Test
-    void deduplicatesAndPersistsRegionBuckets() {
+    void deduplicatesAndPersistsRegionBuckets() throws Exception {
         UUID team = UUID.randomUUID();
         CompoundTag payload = new CompoundTag();
         payload.putString("definition", "gtceu:magnetite");
@@ -40,10 +43,19 @@ class TeamRegionStoreTest {
         assertEquals(1, first.all(team).size());
         first.flush();
 
+        Path saved;
+        try (var files = Files.walk(directory.resolve(team.toString()))) {
+            saved = files.filter(path -> path.getFileName().toString().endsWith(".dat"))
+                    .findFirst().orElseThrow();
+        }
+        Path legacy = directory.resolve(team.toString()).resolve("minecraft_overworld").resolve("-2_2.dat");
+        Files.createDirectories(legacy.getParent());
+        Files.move(saved, legacy);
+
         TeamRegionStore reloaded = new TeamRegionStore(directory);
         assertEquals(1, reloaded.all(team).size());
         assertEquals(accepted, reloaded.all(team).get(0));
-        assertTrue(directory.resolve(team.toString()).resolve("minecraft_overworld").resolve("-2_2.dat").toFile().isFile());
+        assertTrue(legacy.toFile().isFile());
     }
 
     @Test
@@ -71,5 +83,30 @@ class TeamRegionStoreTest {
         SharedEntry acceptedLiveUpdate = store.put(team, imported);
         assertEquals(imported.stableKey(), acceptedLiveUpdate.stableKey());
         assertEquals(List.of(acceptedLiveUpdate), store.all(team));
+    }
+
+    @Test
+    void dimensionFoldersDoNotCollide() throws Exception {
+        UUID team = UUID.randomUUID();
+        CompoundTag payload = new CompoundTag();
+        payload.putString("fluid", "gtceu:oil");
+        TeamRegionStore store = new TeamRegionStore(directory.resolve("dimensions"));
+        ResourceLocation firstDimension = ResourceLocation.fromNamespaceAndPath("foo", "bar_baz");
+        ResourceLocation secondDimension = ResourceLocation.fromNamespaceAndPath("foo_bar", "baz");
+
+        store.put(team, new SharedEntry(SharedKind.BEDROCK_FLUID, firstDimension,
+                0, 0, "0,0", SharedEntry.hash(payload), 0, payload));
+        store.put(team, new SharedEntry(SharedKind.BEDROCK_FLUID, secondDimension,
+                0, 0, "0,0", SharedEntry.hash(payload), 0, payload));
+        store.flush();
+
+        Path teamRoot = directory.resolve("dimensions").resolve(team.toString());
+        try (var files = Files.walk(teamRoot)) {
+            assertEquals(2, files.filter(path -> path.getFileName().toString().endsWith(".dat")).count());
+        }
+        TeamRegionStore reloaded = new TeamRegionStore(directory.resolve("dimensions"));
+        Set<ResourceLocation> dimensions = reloaded.all(team).stream()
+                .map(SharedEntry::dimension).collect(Collectors.toSet());
+        assertEquals(Set.of(firstDimension, secondDimension), dimensions);
     }
 }

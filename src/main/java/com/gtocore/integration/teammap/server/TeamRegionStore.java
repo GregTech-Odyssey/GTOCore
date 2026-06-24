@@ -14,6 +14,7 @@ import net.minecraft.nbt.Tag;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
@@ -97,13 +98,13 @@ public final class TeamRegionStore {
         Path teamRoot = root.resolve(teamId.toString());
         if (!Files.isDirectory(teamRoot)) return;
         try (var files = Files.walk(teamRoot)) {
-            files.filter(path -> path.getFileName().toString().endsWith(".dat")).forEach(path -> readBucket(teamId, teamRoot, path));
+            files.filter(path -> path.getFileName().toString().endsWith(".dat")).forEach(path -> readBucket(teamId, path));
         } catch (IOException e) {
             GTOCore.LOGGER.error("Could not load team map data for {}", teamId, e);
         }
     }
 
-    private void readBucket(UUID teamId, Path teamRoot, Path path) {
+    private void readBucket(UUID teamId, Path path) {
         try (InputStream input = Files.newInputStream(path)) {
             CompoundTag tag = NbtIo.readCompressed(input);
             String dimension = tag.getString("dimension");
@@ -113,7 +114,8 @@ public final class TeamRegionStore {
             ListTag list = tag.getList("entries", Tag.TAG_COMPOUND);
             for (int i = 0; i < list.size(); i++) {
                 SharedEntry entry = SharedEntry.fromTag(list.getCompound(i));
-                bucket.entries.put(entry.mapKey(), entry);
+                bucket.entries.merge(entry.mapKey(), entry,
+                        (oldValue, newValue) -> newValue.revision() > oldValue.revision() ? newValue : oldValue);
                 revision.accumulateAndGet(entry.revision(), Math::max);
             }
         } catch (Exception e) {
@@ -122,7 +124,7 @@ public final class TeamRegionStore {
     }
 
     private void writeBucket(BucketKey key, Bucket bucket) throws IOException {
-        Path folder = root.resolve(key.teamId.toString()).resolve(key.dimension.replace(':', '_').replace('/', '_'));
+        Path folder = dimensionFolder(root.resolve(key.teamId.toString()), key.dimension);
         Files.createDirectories(folder);
         Path target = folder.resolve(key.regionX + "_" + key.regionZ + ".dat");
         Path temp = target.resolveSibling(target.getFileName() + ".tmp");
@@ -138,6 +140,16 @@ public final class TeamRegionStore {
         }
         Util.safeReplaceFile(target, temp, target.resolveSibling(target.getFileName() + ".old"));
         if (Files.exists(temp)) throw new IOException("Could not replace " + target);
+    }
+
+    private static Path dimensionFolder(Path teamRoot, String dimension) {
+        String encoded = Base64.getUrlEncoder().withoutPadding()
+                .encodeToString(dimension.getBytes(StandardCharsets.UTF_8));
+        Path folder = teamRoot.resolve("dimensions");
+        for (int start = 0; start < encoded.length(); start += 120) {
+            folder = folder.resolve(encoded.substring(start, Math.min(start + 120, encoded.length())));
+        }
+        return folder;
     }
 
     private record BucketKey(UUID teamId, String dimension, int regionX, int regionZ) {

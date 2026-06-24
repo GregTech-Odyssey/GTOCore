@@ -117,7 +117,15 @@ public final class ClientHistoryImporter {
             if (processor.getMapSaveLoad().getSizeOfToLoad() > 2) return;
             int[] pos = XAERO_REGIONS.removeFirst();
             MapRegion region = processor.getLeafMapRegion(0, pos[0], pos[1], true);
-            if (region != null) processor.getMapSaveLoad().requestLoad(region, "gto_team_map_import", false);
+            if (region != null) {
+                TerrainCapture.beginImport(region);
+                try {
+                    processor.getMapSaveLoad().requestLoad(region, "gto_team_map_import", false);
+                } catch (RuntimeException exception) {
+                    TerrainCapture.endImport(region);
+                    throw exception;
+                }
+            }
         } catch (Exception ignored) {
             // A bad legacy region must not stop the rest of the import queue.
         }

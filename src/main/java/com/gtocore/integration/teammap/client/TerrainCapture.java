@@ -8,19 +8,32 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 
 import xaero.map.region.MapBlock;
+import xaero.map.region.MapRegion;
 import xaero.map.region.MapTile;
 import xaero.map.region.MapTileChunk;
 
 import java.nio.ByteBuffer;
 import java.util.ArrayDeque;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.IdentityHashMap;
 import java.util.Map;
+import java.util.Set;
 
 /** Captures Xaero's completed 4x4-tile texture buffer, not its intermediate pixels. */
 public final class TerrainCapture {
 
-    private static final ArrayDeque<SharedEntry> UPLOADS = new ArrayDeque<>();
+    private static final ArrayDeque<TerrainUpload> UPLOADS = new ArrayDeque<>();
     private static final Map<String, Long> LAST_HASHES = new HashMap<>();
+    private static final Set<MapRegion> IMPORTING_REGIONS = Collections.newSetFromMap(new IdentityHashMap<>());
+
+    public static synchronized void beginImport(MapRegion region) {
+        IMPORTING_REGIONS.add(region);
+    }
+
+    public static synchronized void endImport(MapRegion region) {
+        IMPORTING_REGIONS.remove(region);
+    }
 
     public static synchronized void queueChunk(MapTileChunk tileChunk) {
         Minecraft mc = Minecraft.getInstance();
@@ -28,6 +41,7 @@ public final class TerrainCapture {
         ByteBuffer colors = tileChunk.getLeafTexture().getDirectColorBuffer();
         if (colors == null || colors.capacity() < 64 * 64 * 4) return;
         ResourceLocation dimension = tileChunk.getInRegion().getDim().getDimId().location();
+        boolean importOnly = IMPORTING_REGIONS.contains(tileChunk.getInRegion());
 
         for (int tileZ = 0; tileZ < 4; tileZ++) for (int tileX = 0; tileX < 4; tileX++) {
             MapTile tile = tileChunk.getTile(tileX, tileZ);
@@ -35,17 +49,23 @@ public final class TerrainCapture {
             SharedEntry entry = capture(tile, colors, tileX, tileZ, dimension);
             String key = entry.dimension() + ":" + entry.chunkX() + ":" + entry.chunkZ();
             Long previous = LAST_HASHES.put(key, entry.contentHash());
-            if (previous == null || previous.longValue() != entry.contentHash()) UPLOADS.add(entry);
+            if (previous == null || previous.longValue() != entry.contentHash())
+                UPLOADS.add(new TerrainUpload(entry, importOnly));
         }
     }
 
     public static synchronized void flush() {
-        for (int count = 0; count < 2 && !UPLOADS.isEmpty(); count++) ClientTeamData.upload(UPLOADS.removeFirst());
+        for (int count = 0; count < 2 && !UPLOADS.isEmpty(); count++) {
+            TerrainUpload upload = UPLOADS.removeFirst();
+            if (upload.importOnly()) ClientTeamData.uploadImport(upload.entry());
+            else ClientTeamData.upload(upload.entry());
+        }
     }
 
     public static synchronized void reset() {
         UPLOADS.clear();
         LAST_HASHES.clear();
+        IMPORTING_REGIONS.clear();
     }
 
     private static SharedEntry capture(MapTile tile, ByteBuffer nativeBuffer, int tileX, int tileZ,
@@ -70,4 +90,6 @@ public final class TerrainCapture {
         return new TerrainChunkRecord(dimension, tile.getChunkX(), tile.getChunkZ(),
                 surface, hash, 0).asEntry();
     }
+
+    private record TerrainUpload(SharedEntry entry, boolean importOnly) {}
 }

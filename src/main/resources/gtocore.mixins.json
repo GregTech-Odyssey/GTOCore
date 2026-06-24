@@ -34,6 +34,7 @@
     "teammap.GTClientCacheMixin",
     "teammap.GTOreVeinElementMixin",
     "teammap.GuiMapMixin",
+    "teammap.MapRegionMixin",
     "teammap.MapTileChunkMixin"
   ],
   "mixins": [
