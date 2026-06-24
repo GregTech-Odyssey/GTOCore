@@ -164,8 +164,9 @@ public class SimpleCraftingTerminal extends AbstractTerminalPart
 
     @Override
     public TickingRequest getTickingRequest(IGridNode node) {
-        // 请求 AE2 网络每隔 10 tick 稳定调用一次
-        return new TickingRequest(10, 10, false, false);
+        // 每 10 tick 稳定 tick；canBeAlerted=true 让节点进入 alertable，
+        // 使 invalidateOnExternalStorageChange 的 alertDevice 不会抛 IllegalArgumentException（对齐 AE2 StorageBusPart）。
+        return new TickingRequest(10, 10, false, true);
     }
 
     @Override
