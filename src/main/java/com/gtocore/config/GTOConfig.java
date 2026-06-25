@@ -338,6 +338,26 @@ public final class GTOConfig {
         @RegisterLanguage(namePrefix = "config.gtocore.option", en = "HUD Settings", cn = "HUD 设置")
         public HUDConfig hud = new HUDConfig();
 
+        @Configurable
+        @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Minimap Settings", cn = "小地图设置")
+        public MinimapConfig minimap = new MinimapConfig();
+
+        @DataGeneratorScanned
+        public static class MinimapConfig {
+
+            @Configurable
+            @Configurable.Comment({ "在地图的矿脉图标上显示矿脉名称", "Show the ore vein name on top of the ore vein icon on the map" })
+            @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Show Ore Vein Name", cn = "显示矿脉名称")
+            public boolean showOreVeinName = true;
+
+            @Configurable
+            @Configurable.Comment({ "矿脉名称的文字大小（百分比，100 为原始大小）", "Ore vein name text size (percentage, 100 is the original size)" })
+            @Configurable.Range(min = 25, max = 400)
+            @Configurable.Gui.Slider
+            @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Ore Vein Name Text Size", cn = "矿脉名称文字大小")
+            public int oreVeinNameScale = 200;
+        }
+
         @DataGeneratorScanned
         public static class HUDConfig {
 
