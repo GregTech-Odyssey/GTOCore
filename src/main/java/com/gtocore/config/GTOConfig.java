@@ -356,6 +356,11 @@ public final class GTOConfig {
             @Configurable.Gui.Slider
             @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Ore Vein Name Text Size", cn = "矿脉名称文字大小")
             public int oreVeinNameScale = 200;
+
+            @Configurable
+            @Configurable.Comment({ "在地图上隐藏的矿脉列表（矿脉内部名）。建议通过世界地图上的矿脉过滤按钮管理，而非手动编辑", "List of ore veins (internal names) hidden on the map. Manage it via the ore vein filter button on the world map instead of editing manually" })
+            @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Hidden Ore Veins", cn = "隐藏的矿脉")
+            public String[] hiddenOreVeins = new String[0];
         }
 
         @DataGeneratorScanned
