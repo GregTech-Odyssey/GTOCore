@@ -118,11 +118,11 @@ public final class ClientHistoryImporter {
             int[] pos = XAERO_REGIONS.removeFirst();
             MapRegion region = processor.getLeafMapRegion(0, pos[0], pos[1], true);
             if (region != null) {
-                TerrainCapture.beginImport(region);
+                TerrainCapture.ImportMarker marker = TerrainCapture.beginImport(region);
                 try {
                     processor.getMapSaveLoad().requestLoad(region, "gto_team_map_import", false);
                 } catch (RuntimeException exception) {
-                    TerrainCapture.endImport(region);
+                    TerrainCapture.cancelImport(region, marker);
                     throw exception;
                 }
             }

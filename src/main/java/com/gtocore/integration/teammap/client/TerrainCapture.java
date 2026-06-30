@@ -14,6 +14,7 @@ import xaero.map.region.MapTileChunk;
 
 import java.nio.ByteBuffer;
 import java.util.ArrayDeque;
+import java.util.Deque;
 import java.util.HashMap;
 import java.util.IdentityHashMap;
 import java.util.Map;
@@ -23,15 +24,28 @@ public final class TerrainCapture {
 
     private static final ArrayDeque<TerrainUpload> UPLOADS = new ArrayDeque<>();
     private static final Map<String, Long> LAST_HASHES = new HashMap<>();
-    private static final Map<MapRegion, Long> IMPORTING_REGIONS = new IdentityHashMap<>();
+    private static final Map<MapRegion, Deque<ImportMarker>> IMPORTING_REGIONS = new IdentityHashMap<>();
     private static long importGeneration;
+    private static long nextImportToken;
 
-    public static synchronized void beginImport(MapRegion region) {
-        IMPORTING_REGIONS.put(region, importGeneration);
+    public static synchronized ImportMarker beginImport(MapRegion region) {
+        ImportMarker marker = new ImportMarker(++nextImportToken, importGeneration);
+        IMPORTING_REGIONS.computeIfAbsent(region, ignored -> new ArrayDeque<>()).addLast(marker);
+        return marker;
     }
 
     public static synchronized void endImport(MapRegion region) {
-        IMPORTING_REGIONS.remove(region);
+        Deque<ImportMarker> markers = IMPORTING_REGIONS.get(region);
+        if (markers == null) return;
+        markers.pollFirst();
+        if (markers.isEmpty()) IMPORTING_REGIONS.remove(region);
+    }
+
+    public static synchronized void cancelImport(MapRegion region, ImportMarker marker) {
+        Deque<ImportMarker> markers = IMPORTING_REGIONS.get(region);
+        if (markers == null) return;
+        markers.remove(marker);
+        if (markers.isEmpty()) IMPORTING_REGIONS.remove(region);
     }
 
     public static synchronized void queueChunk(MapTileChunk tileChunk) {
@@ -40,9 +54,10 @@ public final class TerrainCapture {
         ByteBuffer colors = tileChunk.getLeafTexture().getDirectColorBuffer();
         if (colors == null || colors.capacity() < 64 * 64 * 4) return;
         ResourceLocation dimension = tileChunk.getInRegion().getDim().getDimId().location();
-        Long regionImportGeneration = IMPORTING_REGIONS.get(tileChunk.getInRegion());
-        if (regionImportGeneration != null && regionImportGeneration.longValue() != importGeneration) return;
-        boolean importOnly = regionImportGeneration != null;
+        Deque<ImportMarker> markers = IMPORTING_REGIONS.get(tileChunk.getInRegion());
+        ImportMarker currentImport = markers == null ? null : markers.peekFirst();
+        if (currentImport != null && currentImport.generation() != importGeneration) return;
+        boolean importOnly = currentImport != null;
 
         for (int tileZ = 0; tileZ < 4; tileZ++) for (int tileX = 0; tileX < 4; tileX++) {
             MapTile tile = tileChunk.getTile(tileX, tileZ);
@@ -95,4 +110,6 @@ public final class TerrainCapture {
     }
 
     private record TerrainUpload(SharedEntry entry, boolean importOnly) {}
+
+    public record ImportMarker(long token, long generation) {}
 }
