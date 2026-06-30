@@ -9,7 +9,7 @@ import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 public final class PrecisionAssemblerMachine extends TierCasingParallelMultiblockMachine {
 
     public PrecisionAssemblerMachine(MetaMachineBlockEntity holder) {
-        super(holder, true, m -> 1L << (2 * (m.getCasingTier(GTORecipeDataKeys.GLASS_TIER))), GTORecipeDataKeys.GLASS_TIER, GTORecipeDataKeys.MACHINE_CASING_TIER);
+        super(holder, m -> 1L << (2 * (m.getCasingTier(GTORecipeDataKeys.GLASS_TIER))), GTORecipeDataKeys.GLASS_TIER, GTORecipeDataKeys.MACHINE_CASING_TIER);
     }
 
     @Override

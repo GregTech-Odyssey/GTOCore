@@ -4,6 +4,7 @@ import com.gtocore.common.data.machines.GTAEMachines
 import com.gtocore.common.machine.multiblock.part.ae.widget.slot.AEPatternViewSlotWidgetKt
 import com.gtocore.eio_travel.logic.TravelSavedData
 import com.gtocore.eio_travel.logic.TravelUtils
+import com.gtocore.integration.ae.PatternContainerGroupHelper
 import com.gtocore.integration.ae.hooks.IExtendedPatternContainer
 import com.gtocore.integration.ae.wireless.WirelessMachine
 
@@ -13,7 +14,6 @@ import net.minecraft.nbt.CompoundTag
 import net.minecraft.nbt.ListTag
 import net.minecraft.nbt.Tag
 import net.minecraft.network.chat.Component
-import net.minecraft.network.chat.MutableComponent
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.world.InteractionHand
 import net.minecraft.world.InteractionResult
@@ -42,8 +42,8 @@ import com.gregtechceu.gtceu.api.gui.fancy.IFancyConfiguratorButton
 import com.gregtechceu.gtceu.api.machine.TickableSubscription
 import com.gregtechceu.gtceu.api.machine.feature.IDropSaveMachine
 import com.gregtechceu.gtceu.api.machine.feature.IInteractedMachine
+import com.gregtechceu.gtceu.api.machine.feature.IRecipeLogicMachine
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiController
-import com.gregtechceu.gtceu.api.recipe.GTRecipeType
 import com.gregtechceu.gtceu.api.recipe.handler.IO
 import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit
 import com.gregtechceu.gtceu.api.transfer.item.CustomItemStackHandler
@@ -52,25 +52,19 @@ import com.gregtechceu.gtceu.utils.asm.EmptyMethodChecker
 import com.gto.datasynclib.annotations.SaveToDisk
 import com.gto.datasynclib.annotations.SyncToClient
 import com.gto.datasynclib.listener.IntNotifiableHolder
-import com.gto.datasynclib.util.DataCodecs
 import com.gtolib.api.ae2.MyPatternDetailsHelper
 import com.gtolib.api.ae2.pattern.IParallelPatternDetails
 import com.gtolib.api.annotation.DataGeneratorScanned
 import com.gtolib.api.annotation.language.RegisterLanguage
 import com.gtolib.api.gui.ktflexible.*
-import com.gtolib.api.machine.feature.IEnhancedRecipeLogicMachine
 import com.lowdragmc.lowdraglib.gui.texture.GuiTextureGroup
 import com.lowdragmc.lowdraglib.gui.util.ClickData
 import com.lowdragmc.lowdraglib.gui.widget.Widget
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup
 import com.lowdragmc.lowdraglib.syncdata.IContentChangeAware
 import com.lowdragmc.lowdraglib.syncdata.ITagSerializable
-import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted
 
-import java.util.function.BiConsumer
 import java.util.function.IntSupplier
-import java.util.stream.Stream
 import javax.annotation.ParametersAreNonnullByDefault
 
 @ParametersAreNonnullByDefault
@@ -100,7 +94,7 @@ abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.AbstractInterna
         const val AE_NAME: String = "gtceu.ae.pattern_part_machine.ae_name"
 
         @RegisterLanguage(cn = "仅在简单游戏难度下启用", en = "Enable only in Easy Game Mode")
-        const val NOT_simple: String = "gtceu.ae.pattern_part_machine.not_simple"
+        const val NOT_SIMPLE: String = "gtceu.ae.pattern_part_machine.not_simple"
 
         @RegisterLanguage(cn = "不在旅行网络中显示", en = "Do not show in Travel Network")
         const val NOT_SHOW_IN_TRAVEL: String = "gtceu.ae.pattern_part_machine.not_show_in_travel"
@@ -191,15 +185,13 @@ abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.AbstractInterna
     open fun appendHoverTooltips(index: Int): Component? = null
     open fun onMouseClicked(index: Int) {}
     open fun getApplyIndex(): IntSupplier = IntSupplier { -1 }
-    open fun onPageNext() {}
-    open fun onPagePrev() {}
     open fun runOnUpdate() {}
     open fun addWidget(group: WidgetGroup) {}
     open fun onDetailsPostInit() {}
 
     // ==================== 生命周期方法 ====================
     @SyncToClient
-    val newPageField = IntNotifiableHolder.create()
+    val newPageField: IntNotifiableHolder = IntNotifiableHolder.create()
 
     override fun onLoad() {
         super.onLoad()
@@ -257,61 +249,50 @@ abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.AbstractInterna
     // ==================== PatternContainer 接口实现 ====================
     override fun getTerminalPatternInventory(): InternalInventory = internalPatternInventory
 
-    override fun getTerminalGroup(): PatternContainerGroup {
-        val (itemKey, description) = when {
-            isFormed -> {
-                val controller = getController()
-                val controllerDefinition = controller.self().definition
-                AEItemKey.of(controllerDefinition.asStack()) to
-                    if (customName.isNotEmpty()) {
-                        Component.literal(customName)
-                    } else {
-                        Component.translatable(controllerDefinition.descriptionId)
-                            .append("-")
-                            .append(
-                                (
-                                    if (controller is IEnhancedRecipeLogicMachine) {
-                                        Stream.of(
-                                            *controller.availableRecipeTypes,
-                                        )
-                                            .map { r: GTRecipeType? -> Component.translatable("gtceu." + r!!.registryName.path) }
-                                            .collect(
-                                                { Component.empty() },
-                                                BiConsumer { c: MutableComponent?, t: MutableComponent? ->
-                                                    c!!.append(
-                                                        (if (c.string.isEmpty()) t else Component.literal("/").append(t as Component)) as Component,
-                                                    )
-                                                },
-                                                { c1: MutableComponent?, c2: MutableComponent? ->
-                                                    c1!!.append(
-                                                        if (c2!!.string.isEmpty()) {
-                                                            c2
-                                                        } else {
-                                                            Component.literal("/")
-                                                                .append(c2)
-                                                        },
-                                                    )
-                                                },
-                                            )
-                                    } else {
-                                        Component.empty()
-                                    }
-                                    ),
-                            )
-                    }
-            }
-
-            else -> {
-                AEItemKey.of(GTAEMachines.ME_PATTERN_BUFFER.asItem()) to
-                    if (customName.isNotEmpty()) {
-                        Component.literal(customName)
-                    } else {
-                        GTAEMachines.ME_PATTERN_BUFFER.get().definition.asItem().description
-                    }
-            }
+    override fun getTerminalGroup(): PatternContainerGroup = when {
+        isFormed -> {
+            val controller = getController()
+            val availableRecipeTypes =
+                if (controller is IRecipeLogicMachine) controller.availableRecipeTypes.asList() else emptyList()
+            PatternContainerGroupHelper.forPatternBuffer(
+                controller.self(),
+                this,
+                customName,
+                null,
+                availableRecipeTypes,
+            )
         }
 
-        return PatternContainerGroup(itemKey, description, emptyList())
+        else -> {
+            val itemKey = AEItemKey.of(GTAEMachines.ME_PATTERN_BUFFER.asItem())
+            val description =
+                if (customName.isNotEmpty()) {
+                    Component.literal(customName)
+                } else {
+                    GTAEMachines.ME_PATTERN_BUFFER.get().definition.asItem().description
+                }
+            PatternContainerGroup(itemKey, description, emptyList())
+        }
+    }
+
+    override fun `gto$getTerminalGroupSearchName`(): Component {
+        if (!isFormed) {
+            return getTerminalGroup().name()
+        }
+        if (customName.isNotEmpty() && !customName.startsWith("+")) {
+            return Component.literal(customName)
+        }
+
+        val controller = getController()
+        val availableRecipeTypes =
+            if (controller is IRecipeLogicMachine) controller.availableRecipeTypes.asList() else emptyList()
+        val extraSuffix = if (customName.startsWith("+")) customName.substring(1).trim() else ""
+        return PatternContainerGroupHelper.getSearchName(
+            controller.self(),
+            extraSuffix,
+            null,
+            availableRecipeTypes,
+        )
     }
 
     // ==================== 其他接口实现 ====================
@@ -362,7 +343,7 @@ abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.AbstractInterna
                         machine = this@MEPatternPartMachineKt,
                         pageHeight = height1,
                         buildToolBoxContent = { buildToolBoxContent() },
-                        emptyPageTextSupplier = { Component.translatable(NOT_simple) },
+                        emptyPageTextSupplier = { Component.translatable(NOT_SIMPLE) },
                     )
                 val wid = this@vBox.availableWidth - 2 * 2
                 if (pageWidget.getMaxPageSize() > 1) {
@@ -371,7 +352,6 @@ abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.AbstractInterna
                             width = 30,
                             height = 13,
                             onClick = { _ ->
-                                onPagePrev()
                                 if (!isRemote) {
                                     newPageField.set((newPageField.get() - 1).coerceAtLeast(0))
                                     newPageField.markAsChanged()
@@ -385,7 +365,6 @@ abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.AbstractInterna
                             height = 13,
                             width = 30,
                             onClick = { _ ->
-                                onPageNext()
                                 if (!isRemote) {
                                     newPageField.set((newPageField.get() + 1).coerceAtMost(pageWidget.getMaxPageSize() - 1))
                                     newPageField.markAsChanged()

@@ -28,6 +28,7 @@ import com.hepdd.gtmthings.api.machine.IProgrammableMachine;
 import com.hepdd.gtmthings.common.item.VirtualItemProviderBehavior;
 import com.hepdd.gtmthings.data.CustomItems;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -133,6 +134,10 @@ public final class ProgrammableHatchPartMachine extends DualHatchPartMachine imp
                 }
             }
         }
+    }
+
+    public @Nullable GTRecipeType getRecipeType() {
+        return recipeType;
     }
 
     @Override

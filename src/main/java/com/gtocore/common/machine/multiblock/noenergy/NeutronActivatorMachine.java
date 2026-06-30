@@ -7,6 +7,7 @@ import com.gtocore.common.machine.multiblock.part.SensorPartMachine;
 
 import com.gtolib.api.gui.MagicProgressBarProWidget;
 import com.gtolib.api.machine.multiblock.NoEnergyMultiblockMachine;
+import com.gtolib.api.recipe.GTORecipeModifiers;
 import com.gtolib.api.recipe.IdleReason;
 import com.gtolib.utils.MachineUtils;
 import com.gtolib.utils.NumberUtils;
@@ -20,7 +21,6 @@ import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.handler.IO;
 import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
-import com.gregtechceu.gtceu.api.recipe.modifier.RecipeModifier;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.ItemBusPartMachine;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
@@ -108,7 +108,7 @@ public class NeutronActivatorMachine extends NoEnergyMultiblockMachine implement
     @Override
     protected GTRecipe getRealRecipe(RecipeHandlerUnit unit, GTRecipe recipe) {
         if ((eV > recipe.data.getInt(GTORecipeDataKeys.EV_MIN) * 1000000 && eV < recipe.data.getInt(GTORecipeDataKeys.EV_MAX) * 1000000)) {
-            recipe = RecipeModifier.hatchParallel(this, unit, recipe);
+            recipe = GTORecipeModifiers.parallel(this, unit, recipe);
             if (recipe == null) return null;
             recipe.duration = (int) Math.round(Math.max(recipe.duration * getEfficiencyFactor(), 1));
             return recipe;
@@ -161,7 +161,7 @@ public class NeutronActivatorMachine extends NoEnergyMultiblockMachine implement
             for (int i = 0; i < inv.getSlots(); i++) {
                 var stack = inv.getStackInSlot(i);
                 if (stack.is(dustBeryllium) || stack.is(dustGraphite)) {
-                    int consume = Math.min(Math.max(eV / (10 * 1000000), 1), stack.getCount());
+                    int consume = Math.clamp(eV / (10 * 1000000), 1, stack.getCount());
                     inv.extractItemInternal(i, consume, false);
                     eV -= 10 * 1000000 * consume;
                 }

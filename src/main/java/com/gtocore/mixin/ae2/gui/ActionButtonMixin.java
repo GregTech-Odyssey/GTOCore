@@ -13,6 +13,7 @@ import appeng.core.localization.LocalizationEnum;
 import gto_ae.hooks.gui.IActionItems;
 import gto_ae.hooks.gui.INoMouseRedirectionWidget;
 
+import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -51,7 +52,7 @@ public abstract class ActionButtonMixin extends IconButton implements INoMouseRe
     }
 
     @Override
-    public Component getMessage() {
+    public @NotNull Component getMessage() {
         if (gtocore$useOtherButton && gtocore$message != null) {
             return gtocore$message;
         }

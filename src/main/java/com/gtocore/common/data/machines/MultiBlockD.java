@@ -33,6 +33,7 @@ import com.gtolib.api.annotation.component_builder.StyleBuilder;
 import com.gtolib.api.lang.CNEN;
 import com.gtolib.api.machine.MultiblockDefinition;
 import com.gtolib.api.machine.multiblock.CoilCrossRecipeMultiblockMachine;
+import com.gtolib.api.recipe.GTORecipeModifiers;
 import com.gtolib.api.recipe.RecipeType;
 import com.gtolib.utils.MultiBlockFileReader;
 import com.gtolib.utils.RegistriesUtils;
@@ -78,7 +79,7 @@ public final class MultiBlockD {
     public static final MultiblockMachineDefinition GREENHOUSE = multiblock("greenhouse", "温室", GreenhouseMachine::new)
             .nonYAxisRotation()
             .recipeTypes(GTORecipeTypes.GREENHOUSE_RECIPES)
-            .tooltips(GTOMachineTooltips.INSTANCE.getGreenhouseTooltips().getSupplier())
+            .tooltips(GTOMachineTooltips.GreenhouseTooltips)
             .overclock()
             .block(GTBlocks.MACHINE_CASING_ULV)
             .pattern(definition -> MultiBlockFileReader.start(definition)
@@ -98,7 +99,7 @@ public final class MultiBlockD {
     public static final MultiblockMachineDefinition EYE_OF_HARMONY = multiblock("eye_of_harmony", "鸿蒙之眼", HarmonyMachine::new)
             .nonYAxisRotation()
             .recipeTypes(GTORecipeTypes.COSMOS_SIMULATION_RECIPES)
-            .tooltips(GTOMachineTooltips.INSTANCE.getEyeOfHarmonyTooltips().getSupplier())
+            .tooltips(GTOMachineTooltips.EyeOfHarmonyTooltips)
             .fromSourceTooltips("GregTech: New Horizon")
             .block(GTBlocks.HIGH_POWER_CASING)
             .pattern(definition -> MultiBlockFileReader.start(definition)
@@ -123,7 +124,7 @@ public final class MultiBlockD {
             .nonYAxisRotation()
             .workableInSpace()
             .recipeTypes(GTORecipeTypes.SPACE_PROBE_SURFACE_RECEPTION_RECIPES)
-            .tooltips(GTOMachineTooltips.INSTANCE.getSpaceProbeSurfaceReceptionTooltips().getSupplier())
+            .tooltips(GTOMachineTooltips.SpaceProbeSurfaceReceptionTooltips)
             .perfectOCTooltips()
             .block(GCYMBlocks.CASING_ATOMIC)
             .pattern(definition -> MultiBlockFileReader.start(definition)
@@ -185,13 +186,14 @@ public final class MultiBlockD {
                     .where('U', controller(definition))
                     .where(' ', any())
                     .build())
-            .workableCasingRenderer(GTOCore.id("block/casings/dimensionally_transcendent_casing"), GTOCore.id("block/multiblock/dimensionally_transcendent_plasma_forge"))
+            .renderer(DimensionallyTranscendentRenderer::new)
+            .hasTESR(true)
             .register();
 
     public static final MultiblockMachineDefinition CIRCUIT_ASSEMBLY_LINE = multiblock("circuit_assembly_line", "电路装配线", CircuitAssemblyLineMachine::new)
             .allRotation()
             .recipeTypes(CIRCUIT_ASSEMBLY_LINE_RECIPES)
-            .tooltips(GTOMachineStories.INSTANCE.getCircuitAssemblyLineTooltips().getSupplier())
+            .tooltips(GTOMachineStories.CircuitAssemblyLineTooltips)
             .specialParallelizableTooltips()
             .tooltips(NewDataAttributes.ALLOW_PARALLEL_NUMBER.create(h -> h.addLines("同配方机器人数量x2的并行", "Parallelism of x2 for the same recipe robots")))
             .block(GTOBlocks.PIKYONIUM_MACHINE_CASING)
@@ -248,7 +250,7 @@ public final class MultiBlockD {
     public static final MultiblockMachineDefinition BLOCK_CONVERSION_ROOM = multiblock("block_conversion_room", "方块转换室", holder -> new BlockConversionRoomMachine(holder, false))
             .noneRotation()
             .recipeTypes(GTORecipeTypes.BLOCK_CONVERSIONRECIPES)
-            .tooltips(GTOMachineTooltips.INSTANCE.getBlockConversionRoomTooltips().getSupplier())
+            .tooltips(GTOMachineTooltips.BlockConversionRoomTooltips)
             .block(GTOBlocks.ALUMINIUM_BRONZE_CASING)
             .pattern(definition -> MultiBlockFileReader.start(definition)
                     .where('a', controller(definition))
@@ -266,8 +268,8 @@ public final class MultiBlockD {
     public static final MultiblockMachineDefinition LARGE_BLOCK_CONVERSION_ROOM = multiblock("large_block_conversion_room", "大型方块转换室", holder -> new BlockConversionRoomMachine(holder, true))
             .noneRotation()
             .recipeTypes(GTORecipeTypes.BLOCK_CONVERSIONRECIPES)
-            .tooltips(GTOMachineStories.INSTANCE.getLargeBlockConversionRoomTooltips().getSupplier())
-            .tooltips(GTOMachineTooltips.INSTANCE.getLargeBlockConversionRoomTooltips().getSupplier())
+            .tooltips(GTOMachineStories.LargeBlockConversionRoomTooltips)
+            .tooltips(GTOMachineTooltips.LargeBlockConversionRoomTooltips)
             .block(GTOBlocks.ALUMINIUM_BRONZE_CASING)
             .pattern(definition -> MultiBlockFileReader.start(definition)
                     .where('a', controller(definition))
@@ -286,15 +288,15 @@ public final class MultiBlockD {
             .nonYAxisRotation()
             .recipeTypes(GTORecipeTypes.PCB_FACTORY_RECIPES)
             .parallelizableTooltips()
-            .tooltips(GTOMachineStories.INSTANCE.getPCBFactoryTooltips().getSupplier())
-            .tooltips(GTOMachineTooltips.INSTANCE.getPCBFactoryTooltips().getSupplier())
+            .tooltips(GTOMachineStories.PCBFactoryTooltips)
+            .tooltips(GTOMachineTooltips.PCBFactoryTooltips)
             .laserTooltips()
             .block(GTOBlocks.IRIDIUM_CASING)
             .pattern(definition -> PCBFactoryMachine.getBlockPattern(1, definition))
             .shapeInfos(definition -> {
-                List<MultiblockShapeInfo> shapeInfos = new ArrayList<>();
+                var shapeInfos = new ArrayList<MultiblockShapeInfo>();
                 for (int i = 1; i < 4; i++) {
-                    shapeInfos.addAll(MultiblockDefinition.getMatchingShapes(false, PCBFactoryMachine.getBlockPattern(i, definition)));
+                    MultiblockDefinition.addMatchingShapes(true, PCBFactoryMachine.getBlockPattern(i, definition), shapeInfos);
                 }
                 return shapeInfos;
             })
@@ -305,8 +307,8 @@ public final class MultiBlockD {
             .allRotation()
             .recipeTypes(GTRecipeTypes.BLAST_RECIPES)
             .durationMultiplierTooltips(0.5)
-            .tooltips(GTOMachineStories.INSTANCE.getBlazeBlastFurnaceTooltips().getSupplier())
-            .tooltips(GTOMachineTooltips.INSTANCE.getBlazeBlastFurnaceTooltips().getSupplier())
+            .tooltips(GTOMachineStories.BlazeBlastFurnaceTooltips)
+            .tooltips(GTOMachineTooltips.BlazeBlastFurnaceTooltips)
             .tooltips(NewDataAttributes.ALLOW_PARALLEL_NUMBER.create(64))
             .block(GTOBlocks.BLAZE_CASING)
             .upgradable()
@@ -331,10 +333,11 @@ public final class MultiBlockD {
             .moduleTooltips(new PartAbility[] { ACCELERATE_HATCH, EXTRA_ENERGY_HATCH }, new RecipeType[] { ATOMIZATION_CONDENSATION_RECIPES })
             .recipeTypes(GTRecipeTypes.VACUUM_RECIPES, ATOMIZATION_CONDENSATION_RECIPES)
             .durationMultiplierTooltips(0.5)
-            .tooltips(GTOMachineStories.INSTANCE.getColdIceFreezerTooltips().getSupplier())
-            .tooltips(GTOMachineTooltips.INSTANCE.getColdIceFreezerTooltips().getSupplier())
+            .tooltips(GTOMachineStories.ColdIceFreezerTooltips)
+            .tooltips(GTOMachineTooltips.ColdIceFreezerTooltips)
             .tooltips(NewDataAttributes.ALLOW_PARALLEL_NUMBER.create(64))
-            .recipeModifiers(RecipeModifier.overclocking(0.5, 1, 0.5))
+            .recipeModifiers(GTORecipeModifiers.UPGRADE, GTORecipeModifiers.POWER_AMPLIFIER, GTORecipeModifiers.PARALLEL, RecipeModifier.overclocking(0.5, 1, 0.5))
+            .upgradable()
             .block(GTOBlocks.COLD_ICE_CASING)
             .pattern(definition -> FactoryBlockPattern.start(definition, RelativeDirection.RIGHT, RelativeDirection.UP, RelativeDirection.BACK)
                     .aisle("AAAAA", " BBB ", " BGB ", " BBB ", "AAAAA")
@@ -389,8 +392,8 @@ public final class MultiBlockD {
     public static final MultiblockMachineDefinition BEDROCK_DRILLING_RIG = multiblock("bedrock_drilling_rig", "基岩钻机", BedrockDrillingRigMachine::new)
             .noneRotation()
             .recipeTypes(GTORecipeTypes.BEDROCK_DRILLING_RIG_RECIPES)
-            .tooltips(GTOMachineStories.INSTANCE.getBedrockDrillingRigTooltips().getSupplier())
-            .tooltips(GTOMachineTooltips.INSTANCE.getBedrockDrillingRigTooltips().getSupplier())
+            .tooltips(GTOMachineStories.BedrockDrillingRigTooltips)
+            .tooltips(GTOMachineTooltips.BedrockDrillingRigTooltips)
             .overclock()
             .block(GTOBlocks.ECHO_CASING)
             .pattern(definition -> MultiBlockFileReader.start(definition)
@@ -414,7 +417,7 @@ public final class MultiBlockD {
     public static final MultiblockMachineDefinition NYARLATHOTEPS_TENTACLE = multiblock("nyarlathoteps_tentacle", "奈亚拉托提普之触", CoilCrossRecipeMultiblockMachine::createCoilParallel)
             .allRotation()
             .recipeTypes(SUPRACHRONAL_ASSEMBLY_LINE_RECIPES, ASSEMBLY_LINE_RECIPES, CIRCUIT_ASSEMBLY_LINE_RECIPES)
-            .tooltips(GTOMachineStories.INSTANCE.getNyarlathotepsTentacleTooltips().getSupplier())
+            .tooltips(GTOMachineStories.NyarlathotepsTentacleTooltips)
             .coilParallelTooltips()
             .laserTooltips()
             .multipleRecipesTooltips()
@@ -465,8 +468,8 @@ public final class MultiBlockD {
             .recipeTypes(GTRecipeTypes.DUMMY_RECIPES)
             .eutMultiplierTooltips(0.9)
             .durationMultiplierTooltips(0.8)
-            .tooltips(GTOMachineStories.INSTANCE.getProcessingPlantTooltips().getSupplier())
-            .tooltips(GTOMachineTooltips.INSTANCE.getProcessingPlantTooltips().getSupplier())
+            .tooltips(GTOMachineStories.ProcessingPlantTooltips)
+            .tooltips(GTOMachineTooltips.ProcessingPlantTooltips)
             .specialParallelizableTooltips()
             .tooltips(NewDataAttributes.ALLOW_PARALLEL_NUMBER.create(
                     h -> h.addLines(
@@ -517,7 +520,7 @@ public final class MultiBlockD {
     public static final MultiblockMachineDefinition NANO_FORGE = multiblock("nano_forge", "纳米锻炉", NanoForgeMachine::new)
             .nonYAxisRotation()
             .recipeTypes(GTORecipeTypes.NANO_FORGE_RECIPES)
-            .tooltips(GTOMachineTooltips.INSTANCE.getNanoForgeTooltips().getSupplier())
+            .tooltips(GTOMachineTooltips.NanoForgeTooltips)
             .specialParallelizableTooltips()
             .tooltips(NewDataAttributes.ALLOW_PARALLEL_NUMBER.create(
                     h -> h.addLines("机器内纳米蜂群数量，机器等级每超过配方一级，获得的并行x2", "The number of Nano Swarms in the machine; for each machine tier above the recipe tier, the obtained parallel is doubled"),
@@ -527,9 +530,9 @@ public final class MultiBlockD {
             .block(GTOBlocks.NAQUADAH_ALLOY_CASING)
             .pattern(definition -> NanoForgeMachine.getBlockPattern(1, definition))
             .shapeInfos(definition -> {
-                List<MultiblockShapeInfo> shapeInfos = new ArrayList<>();
+                var shapeInfos = new ArrayList<MultiblockShapeInfo>();
                 for (int i = 1; i < 4; i++) {
-                    shapeInfos.addAll(MultiblockDefinition.getMatchingShapes(false, NanoForgeMachine.getBlockPattern(i, definition)));
+                    MultiblockDefinition.addMatchingShapes(true, NanoForgeMachine.getBlockPattern(i, definition), shapeInfos);
                 }
                 return shapeInfos;
             })
@@ -539,7 +542,7 @@ public final class MultiBlockD {
     public static final MultiblockMachineDefinition ISA_MILL = multiblock("isa_mill", "艾萨研磨机", IsaMillMachine::new)
             .allRotation()
             .recipeTypes(GTORecipeTypes.ISA_MILL_RECIPES)
-            .tooltips(GTOMachineStories.INSTANCE.getIsaMillTooltips().getSupplier())
+            .tooltips(GTOMachineStories.IsaMillTooltips)
             .perfectOCTooltips()
             .perfectOverclock()
             .fromSourceTooltips("GregTech: New Horizon")
@@ -567,8 +570,8 @@ public final class MultiBlockD {
 
     public static final MultiblockMachineDefinition NEUTRON_ACTIVATOR = multiblock("neutron_activator", "中子活化器", NeutronActivatorMachine::new)
             .nonYAxisRotation()
-            .tooltips(GTOMachineStories.INSTANCE.getNeutronActivatorTooltips().getSupplier())
-            .tooltips(GTOMachineTooltips.INSTANCE.getNeutronActivatorTooltips().getSupplier())
+            .tooltips(GTOMachineStories.NeutronActivatorTooltips)
+            .tooltips(GTOMachineTooltips.NeutronActivatorTooltips)
             .parallelizableTooltips()
             .fromSourceTooltips("GregTech: New Horizon")
             .recipeTypes(GTORecipeTypes.NEUTRON_ACTIVATOR_RECIPES)
@@ -601,8 +604,8 @@ public final class MultiBlockD {
 
     public static final MultiblockMachineDefinition HEAT_EXCHANGER = multiblock("heat_exchanger", "热交换机", HeatExchangerMachine::new)
             .allRotation()
-            .tooltips(GTOMachineStories.INSTANCE.getHeatExchangerTooltips().getSupplier())
-            .tooltips(GTOMachineTooltips.INSTANCE.getHeatExchangerTooltips().getSupplier())
+            .tooltips(GTOMachineStories.HeatExchangerTooltips)
+            .tooltips(GTOMachineTooltips.HeatExchangerTooltips)
             .recipeTypes(GTORecipeTypes.HEAT_EXCHANGER_RECIPES)
             .block(GTBlocks.CASING_TUNGSTENSTEEL_ROBUST)
             .pattern(definition -> MultiBlockFileReader.start(definition)
@@ -623,7 +626,7 @@ public final class MultiBlockD {
     public static final MultiblockMachineDefinition INFINITY_FLUID_DRILLING_RIG = multiblock("infinity_fluid_drilling_rig", "无尽流体钻机", holder -> new INFFluidDrillMachine(holder, GTValues.ZPM, 256))
             .allRotation()
             .recipeTypes(GTRecipeTypes.DUMMY_RECIPES)
-            .tooltips(GTOMachineStories.INSTANCE.getInfinityFluidDrillingRigTooltips().getSupplier())
+            .tooltips(GTOMachineStories.InfinityFluidDrillingRigTooltips)
             .tooltipsKey("gtceu.machine.fluid_drilling_rig.description")
             .tooltips(NewDataAttributes.EMPTY_WITH_BAR.create(c -> c.addLines("损耗率 : 0", "Deplition Rate : 0", s -> s.setColor(0xEED8AE))))
             .tooltips(NewDataAttributes.VOLTAGE.create(c -> c.addLines(GTValues.VNF[GTValues.ZPM] + " -> " + GTValues.VNF[GTValues.UV])))
@@ -644,8 +647,8 @@ public final class MultiBlockD {
     public static final MultiblockMachineDefinition ADVANCED_ASSEMBLY_LINE = multiblock("advanced_assembly_line", "进阶装配线", AdvancedAssemblyLineMachine::new)
             .allRotation()
             .recipeTypes(GTRecipeTypes.ASSEMBLY_LINE_RECIPES)
-            .tooltips(GTOMachineStories.INSTANCE.getAdvancedAssemblyLineTooltips().getSupplier())
-            .tooltips(GTOMachineTooltips.INSTANCE.getAdvancedAssemblyLineTooltips().getSupplier())
+            .tooltips(GTOMachineStories.AdvancedAssemblyLineTooltips)
+            .tooltips(GTOMachineTooltips.AdvancedAssemblyLineTooltips)
             .lossyOCTooltips()
             .parallelizableTooltips()
             .laserTooltips()
@@ -678,8 +681,8 @@ public final class MultiBlockD {
     public static final MultiblockMachineDefinition FISSION_REACTOR = multiblock("fission_reactor", "裂变反应堆", FissionReactorMachine::new)
             .nonYAxisRotation()
             .recipeTypes(GTORecipeTypes.FISSION_REACTOR_RECIPES)
-            .tooltips(GTOMachineStories.INSTANCE.getFissionReactorTooltips().getSupplier())
-            .tooltips(GTOMachineTooltips.INSTANCE.getFissionReactorTooltips().getSupplier())
+            .tooltips(GTOMachineStories.FissionReactorTooltips)
+            .tooltips(GTOMachineTooltips.FissionReactorTooltips)
             .specialParallelizableTooltips()
             .tooltips(NewDataAttributes.ALLOW_PARALLEL_NUMBER.create(CNEN.create("等于燃料组件数量", "Number of Fuel Components")).get().toArray(new Component[0]))
             .block(GTOBlocks.FISSION_REACTOR_CASING)
@@ -703,8 +706,8 @@ public final class MultiBlockD {
     public static final MultiblockMachineDefinition SPACE_ELEVATOR = multiblock("space_elevator", "太空电梯", SpaceElevatorMachine::new)
             .nonYAxisRotation()
             .recipeTypes(GTRecipeTypes.DUMMY_RECIPES)
-            .tooltips(GTOMachineStories.INSTANCE.getSpaceElevatorTooltips().getSupplier())
-            .tooltips(GTOMachineTooltips.INSTANCE.getSpaceElevatorTooltips().getSupplier())
+            .tooltips(GTOMachineStories.SpaceElevatorTooltips)
+            .tooltips(GTOMachineTooltips.SpaceElevatorTooltips)
             .fromSourceTooltips("GregTech: New Horizon")
             .block(GTOBlocks.SPACE_ELEVATOR_MECHANICAL_CASING)
             .pattern(definition -> MultiBlockFileReader.start(definition)
@@ -719,6 +722,7 @@ public final class MultiBlockD {
                     .where('H', GTOPredicates.tierBlock(SEPMMAP, GTORecipeDataKeys.POWER_MODULE_TIER))
                     .where('I', air())
                     .where('J', blocks(GTOBlocks.SPACE_ELEVATOR_POWER_CORE.get()))
+                    .where('M', GTOPredicates.module(ASSEMBLER_MODULE, RESOURCE_COLLECTION_MODULE))
                     .where('X', blocks(GTOBlocks.SPACE_ELEVATOR_MECHANICAL_CASING.get())
                             .or(abilities(GTOPartAbility.ITEMS_INPUT_BUS).setExactLimit(1))
                             .or(abilities(INPUT_ENERGY).setExactLimit(1))
@@ -731,8 +735,8 @@ public final class MultiBlockD {
 
     public static final MultiblockMachineDefinition SLAUGHTERHOUSE = multiblock("slaughterhouse", "工业屠宰场", SlaughterhouseMachine::new)
             .nonYAxisRotation()
-            .tooltipsSupplier(GTOMachineStories.INSTANCE.getSlaughterhouseTooltips().getSupplier())
-            .tooltipsSupplier(GTOMachineTooltips.INSTANCE.getSlaughterhouseTooltips().getSupplier())
+            .tooltipsSupplier(GTOMachineStories.SlaughterhouseTooltips)
+            .tooltipsSupplier(GTOMachineTooltips.SlaughterhouseTooltips)
             .recipeTypes(GTRecipeTypes.DUMMY_RECIPES)
             .block(GTBlocks.CASING_STEEL_SOLID)
             .pattern(definition -> MultiBlockFileReader.start(definition)
@@ -758,9 +762,10 @@ public final class MultiBlockD {
                     .allRotation()
                     .langValue("Fusion Reactor Computer MK %s".formatted(FormattingUtil.toRomanNumeral(tier - 5)))
                     .recipeTypes(GTRecipeTypes.FUSION_RECIPES)
+                    .recipeModifiers(FusionReactorMachine::recipeModifier)
                     .tooltipsKey("gtceu.machine.fusion_reactor.capacity", FusionReactorMachine.calculateEnergyStorageFactor(tier, 16) / 1000000L)
-                    .tooltipsKey("gtceu.machine.fusion_reactor.overclocking")
                     .tooltipsKey("gtocore.machine.%s_fusion_reactor.description".formatted(GTValues.VN[tier].toLowerCase(Locale.ROOT)))
+                    .perfectOCTooltips()
                     .block(() -> FusionCasings.getCasingState(tier))
                     .pattern(definition -> {
                         TraceabilityPredicate casing = blocks(FusionCasings.getCasingState(tier));
@@ -793,7 +798,7 @@ public final class MultiBlockD {
                                 .where('#', any())
                                 .build();
                     })
-                    .shapeInfos((controller) -> {
+                    .shapeInfos(definition -> {
                         List<MultiblockShapeInfo> shapeInfos = new ArrayList<>();
 
                         MultiblockShapeInfo.ShapeInfoBuilder baseBuilder = MultiblockShapeInfo.builder()
@@ -812,7 +817,7 @@ public final class MultiBlockD {
                                 .aisle("####CC###CC####", "###w##NGN##e###", "####CC###CC####")
                                 .aisle("######DCD######", "####GG###GG####", "######UCU######")
                                 .aisle("###############", "######SGS######", "###############")
-                                .where('M', controller, Direction.NORTH)
+                                .where('M', definition, Direction.NORTH)
                                 .where('C', FusionCasings.getCasingState(tier))
                                 .where('G', GTBlocks.FUSION_GLASS.get())
                                 .where('K', FusionCasings.getCoilState(tier))
@@ -830,8 +835,8 @@ public final class MultiBlockD {
 
                         shapeInfos.add(baseBuilder.shallowCopy()
                                 .where('G', FusionCasings.getCasingState(tier))
-                                .build());
-                        shapeInfos.add(baseBuilder.build());
+                                .build(definition));
+                        shapeInfos.add(baseBuilder.build(definition));
                         return shapeInfos;
                     })
                     .renderer(() -> new FusionReactorRenderer(FusionCasings.getCasingType(tier).getTexture(),
@@ -845,9 +850,9 @@ public final class MultiBlockD {
             .nonYAxisRotation()
             .langValue("Advanced Fusion Reactor MK-I")
             .recipeTypes(GTRecipeTypes.FUSION_RECIPES)
-            .tooltips(GTOMachineStories.INSTANCE.getKuangbiaoGiantNuclearFusionReactorTooltips().getSupplier())
-            .tooltips(GTOMachineTooltipsA.INSTANCE.getKuangbiaoGiantNuclearFusionReactorTooltips().getSupplier())
-            .tooltips(GTOMachineTooltipsA.INSTANCE.getKuangbiaoGiantNuclearFusionReactorEnergyStorageTooltip().invoke(FusionReactorMachine.calculateEnergyStorageFactor(LuV, 16) / 1000000L).getSupplier())
+            .tooltips(GTOMachineStories.KuangbiaoGiantNuclearFusionReactorTooltips)
+            .tooltips(GTOMachineTooltipsA.kuangbiaoGiantNuclearFusionReactorTooltips)
+            .tooltips(GTOMachineTooltipsA.KuangbiaoGiantNuclearFusionReactorEnergyStorageTooltip.invoke(FusionReactorMachine.calculateEnergyStorageFactor(LuV, 16) / 1000000L))
             .parallelizableTooltips()
             .moduleTooltips(THREAD_HATCH, OVERCLOCK_HATCH)
             .laserTooltips()
@@ -882,8 +887,8 @@ public final class MultiBlockD {
 
     public static final MultiblockMachineDefinition INCUBATOR = multiblock("incubator", "培养缸", IncubatorMachine::new)
             .nonYAxisRotation()
-            .tooltips(GTOMachineStories.INSTANCE.getCulturingTankTooltips().getSupplier())
-            .tooltips(GTOMachineTooltips.INSTANCE.getCulturingTankTooltips().getSupplier())
+            .tooltips(GTOMachineStories.CulturingTankTooltips)
+            .tooltips(GTOMachineTooltips.CulturingTankTooltips)
             .recipeTypes(GTORecipeTypes.INCUBATOR_RECIPES)
             .overclock()
             .block(GTBlocks.PLASTCRETE)
@@ -903,8 +908,8 @@ public final class MultiBlockD {
 
     public static final MultiblockMachineDefinition LARGE_INCUBATOR = multiblock("large_incubator", "大型培养缸", IncubatorMachine::new)
             .nonYAxisRotation()
-            .tooltips(GTOMachineStories.INSTANCE.getLargeCulturingTankTooltips().getSupplier())
-            .tooltips(GTOMachineTooltips.INSTANCE.getLargeCulturingTankTooltips().getSupplier())
+            .tooltips(GTOMachineStories.LargeCulturingTankTooltips)
+            .tooltips(GTOMachineTooltips.LargeCulturingTankTooltips)
             .recipeTypes(GTORecipeTypes.INCUBATOR_RECIPES)
             .parallelizableTooltips()
             .parallelizableOverclock()
@@ -929,17 +934,17 @@ public final class MultiBlockD {
 
     public static final MultiblockMachineDefinition DISSOLVING_TANK = multiblock("dissolving_tank", "溶解罐", DissolvingTankMachine::new)
             .nonYAxisRotation()
-            .tooltips(GTOMachineStories.INSTANCE.getDissolvingTankTooltips().getSupplier())
-            .tooltips(GTOMachineTooltipsA.INSTANCE.getDissolvingTankTooltips().getSupplier())
+            .tooltips(GTOMachineStories.DissolvingTankTooltips)
+            .tooltips(GTOMachineTooltipsA.DissolvingTankTooltips)
             .parallelizableTooltips()
             .moduleTooltips(ACCELERATE_HATCH, EXTRA_ENERGY_HATCH)
             .recipeTypes(GTORecipeTypes.DISSOLUTION_TREATMENT_RECIPES)
             .block(GTBlocks.CASING_STAINLESS_CLEAN)
             .pattern(definition -> FactoryBlockPattern.start(definition)
                     .aisle("X###X", "OOOOO", "XGGGX", "XGGGX", "#XXX#")
-                    .aisle("#####", "OKKKO", "G###G", "G###G", "XXXXX")
-                    .aisle("#####", "OKKKO", "G###G", "G###G", "XXXXX")
-                    .aisle("#####", "OKKKO", "G###G", "G###G", "XXXXX")
+                    .aisle("#####", "OKKKO", "GrrrG", "GrrrG", "XXXXX")
+                    .aisle("#####", "OKKKO", "GrrrG", "GrrrG", "XXXXX")
+                    .aisle("#####", "OKKKO", "GrrrG", "GrrrG", "XXXXX")
                     .aisle("X###X", "OOSOO", "XGGGX", "XGGGX", "#XXX#")
                     .where('S', controller(definition))
                     .where('X', blocks(GTBlocks.CASING_STAINLESS_CLEAN.get()))
@@ -948,6 +953,7 @@ public final class MultiBlockD {
                             .or(autoAbilities(definition.getRecipeTypes()))
                             .or(autoAbilities(true, false, true)))
                     .where('G', blocks(GTBlocks.CASING_TEMPERED_GLASS.get()))
+                    .where('r', GTOPredicates.recordPosition(GTOPredicates.DataKeys.A, any()))
                     .where('#', any())
                     .build())
             .addSubPattern(definition -> FactoryBlockPattern.start(definition)

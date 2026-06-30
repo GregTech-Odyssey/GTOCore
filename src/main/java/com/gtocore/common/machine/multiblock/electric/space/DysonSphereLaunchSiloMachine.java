@@ -28,7 +28,10 @@ public final class DysonSphereLaunchSiloMachine extends ElectricMultiblockMachin
     }
 
     private ResourceKey<Level> getDimension() {
-        if (dimension == null) dimension = Objects.requireNonNull(getLevel()).dimension();
+        if (dimension == null) {
+            var currentDimension = Objects.requireNonNull(getLevel()).dimension();
+            dimension = GTODimensions.isOverworld(currentDimension) ? Level.OVERWORLD : currentDimension;
+        }
         return dimension;
     }
 
@@ -44,7 +47,7 @@ public final class DysonSphereLaunchSiloMachine extends ElectricMultiblockMachin
     public void afterWorking() {
         super.afterWorking();
         IntIntImmutablePair pair = DysonSphereSavaedData.getDimensionData(getDimension());
-        if (pair.leftInt() < 10000) {
+        if (pair.leftInt() < 100000) {
             if (pair.rightInt() > 60) {
                 DysonSphereSavaedData.setDysonData(getDimension(), pair.leftInt(), 0);
             } else {

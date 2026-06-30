@@ -4,7 +4,6 @@ import com.gtocore.api.machine.part.GTOPartAbility;
 import com.gtocore.common.data.GTOBlocks;
 
 import com.gtolib.api.data.GTODimensions;
-import com.gtolib.api.machine.feature.multiblock.IMultiStructureMachine;
 import com.gtolib.utils.RegistriesUtils;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
@@ -18,12 +17,12 @@ import net.minecraft.world.level.block.Blocks;
 
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 
-import java.util.List;
+import java.util.function.Supplier;
 
 import static com.gregtechceu.gtceu.api.machine.multiblock.PartAbility.*;
 import static com.gregtechceu.gtceu.api.pattern.Predicates.*;
 
-public final class ManaCondenserMachine extends ManaMultiblockMachine implements IMultiStructureMachine {
+public final class ManaCondenserMachine extends ManaMultiblockMachine {
 
     private static final Int2ObjectOpenHashMap<BlockPattern> PATTERNS = new Int2ObjectOpenHashMap<>(3, 0.9F);
 
@@ -150,12 +149,7 @@ public final class ManaCondenserMachine extends ManaMultiblockMachine implements
     }
 
     @Override
-    public BlockPattern getPattern() {
-        return getBlockPattern(tier, getDefinition());
-    }
-
-    @Override
-    public List<BlockPattern> getMultiPattern() {
-        return List.of(getBlockPattern(0, getDefinition()), getBlockPattern(1, getDefinition()));
+    public Supplier<BlockPattern>[] getPattern() {
+        return new Supplier[] { () -> getBlockPattern(tier, getDefinition()) };
     }
 }

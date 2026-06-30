@@ -85,6 +85,10 @@ public class AESearchPatternProviderListBox extends AEListBox {
         exclusionZones.add(new Rect2i(getX() + getScreen().getGuiLeft(), getY() - 14 + getScreen().getGuiTop(), width(), 12));
     }
 
+    public boolean keyPressedSearchField(int keyCode, int scanCode, int modifiers) {
+        return isVisible() && searchField.keyPressed(keyCode, scanCode, modifiers);
+    }
+
     public void reset() {
         maxWidth.value = 0;
         getScrollbar().setCurrentScroll(0);

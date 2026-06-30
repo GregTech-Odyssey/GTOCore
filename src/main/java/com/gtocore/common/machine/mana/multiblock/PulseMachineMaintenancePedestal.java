@@ -154,6 +154,6 @@ public class PulseMachineMaintenancePedestal extends NoEnergyMultiblockMachine i
         }
     }
 
-    @RegisterLanguage(cn = "累计已解决：%s个问题", en = "Total Resolved: %s Problems")
+    @RegisterLanguage(cn = "总分发维护用魔力：%s 次", en = "Total mana used for maintenance: %s times")
     public static final String TIMES = "gtocore.pulse_machine_maintenance.times";
 }

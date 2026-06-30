@@ -11,6 +11,7 @@ import com.gtolib.api.machine.feature.multiblock.ITierCasingMachine;
 import com.gtolib.api.machine.multiblock.StorageMultiblockMachine;
 import com.gtolib.api.machine.trait.CustomParallelTrait;
 import com.gtolib.api.machine.trait.TierCasingTrait;
+import com.gtolib.api.recipe.GTORecipeModifiers;
 import com.gtolib.api.recipe.TierDataKey;
 import com.gtolib.utils.MachineUtils;
 
@@ -108,7 +109,7 @@ public final class ProcessingPlantMachine extends StorageMultiblockMachine imple
 
     public ProcessingPlantMachine(MetaMachineBlockEntity holder) {
         super(holder, 1, ProcessingPlantMachine::filter);
-        customParallelTrait = new CustomParallelTrait(this, true, machine -> {
+        customParallelTrait = new CustomParallelTrait(this, machine -> {
             ProcessingPlantMachine processingPlantMachine = (ProcessingPlantMachine) machine;
             if (processingPlantMachine.getTier() <= 0) return 0;
             return (long) processingPlantMachine.getTier() * getParallelPerTier(processingPlantMachine.getSubFormedAmount() > 0);
@@ -147,6 +148,8 @@ public final class ProcessingPlantMachine extends StorageMultiblockMachine imple
     @Override
     protected GTRecipe getRealRecipe(RecipeHandlerUnit unit, GTRecipe recipe) {
         if (!mismatched && !isEmpty()) {
+            recipe = GTORecipeModifiers.parallel(this, unit, recipe);
+            if (recipe == null) return null;
             return RecipeModifier.overclocking(this, unit, recipe, false, 0.9, 0.8, 0.5);
         }
         return null;

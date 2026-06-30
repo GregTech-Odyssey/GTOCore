@@ -57,23 +57,28 @@ public final class ParallelProvider implements IBlockComponentProvider, IServerD
             if (parallel > 0) {
                 compoundTag.putBoolean("exact", true);
             }
-            long originParallel = 1L;
-            if (machine instanceof IWorkableMultiController controller) {
-                if (controller instanceof IParallelMachine parallelHatch) {
-                    originParallel = parallelHatch.getParallel();
-                } else {
-                    var parallelHatch = controller.getParallelHatch();
-                    if (parallelHatch != null) {
-                        originParallel = parallelHatch.getCurrentParallel();
-                    }
-                }
-            }
-            if (originParallel < 1) originParallel = 1L;
-            if (parallel > 1) compoundTag.putLong("parallel", parallel);
+            long originParallel = getOriginParallel(machine);
+            if (parallel > 0) compoundTag.putLong("parallel", parallel);
             else if (originParallel > 1) compoundTag.putLong("parallel", originParallel);
             if (batchParallel > 1) compoundTag.putLong("batch_parallel", batchParallel);
             else if (parallel / originParallel > 1) compoundTag.putLong("batch_parallel", parallel / originParallel);
         }
+    }
+
+    private long getOriginParallel(MetaMachine machine) {
+        long originParallel = 1L;
+        if (machine instanceof IWorkableMultiController controller) {
+            if (controller instanceof IParallelMachine parallelHatch) {
+                originParallel = parallelHatch.getParallel();
+            } else {
+                var parallelHatch = controller.getParallelHatch();
+                if (parallelHatch != null) {
+                    originParallel = parallelHatch.getCurrentParallel();
+                }
+            }
+        }
+        if (originParallel < 1) originParallel = 1L;
+        return originParallel;
     }
 
     private static long[] getRecipeParallel(MetaMachine machine) {

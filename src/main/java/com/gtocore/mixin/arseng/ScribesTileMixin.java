@@ -43,7 +43,7 @@ public abstract class ScribesTileMixin extends ModdedTile {
 
     /// Replaces Ars Energistics' ME extraction with GTOCore's version
     /// Code under GNU LGPLv3 License
-    /// @see gripe._90.arseng.mixin.ScribesTileMixin#takeFromInterfaces
+    /// @see gripe._90.arseng.mixin.ScribesTileMixin
     @Inject(method = "takeNearby",
             at = @At("TAIL"))
     private void takeFromInterfaces(CallbackInfo ci) {

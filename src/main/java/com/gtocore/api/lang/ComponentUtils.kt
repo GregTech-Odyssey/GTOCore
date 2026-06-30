@@ -1,3 +1,5 @@
+@file:Suppress("unused")
+
 package com.gtocore.api.lang
 
 import com.gtocore.common.data.translation.ComponentSlang
@@ -6,14 +8,15 @@ import net.minecraft.ChatFormatting
 import net.minecraft.network.chat.Component
 import net.minecraft.network.chat.MutableComponent
 
-import com.google.common.base.Supplier
 import com.gregtechceu.gtceu.client.util.TooltipHelper
 import com.gtolib.api.annotation.NewDataAttributes
 import com.gtolib.api.annotation.component_builder.TranslationKeyProvider
 import com.gtolib.utils.StringUtils
 import dev.shadowsoffire.placebo.color.GradientColor
 
-class ComponentListSupplier(var list: MutableList<ComponentSupplier> = mutableListOf()) : Supplier<List<Component>> {
+import java.util.function.Supplier
+
+class ComponentListSupplier(var list: MutableList<ComponentSupplier> = mutableListOf()) : Supplier<@JvmSuppressWildcards List<Component>> {
     var translationPrefix: String = ""
         private set
     var line: Int = 0

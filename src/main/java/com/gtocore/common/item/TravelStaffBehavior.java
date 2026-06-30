@@ -5,7 +5,6 @@ import com.gtocore.config.GTOConfig;
 import com.gtocore.eio_travel.logic.TravelHandler;
 
 import com.gregtechceu.gtceu.api.capability.GTCapabilityHelper;
-import com.gregtechceu.gtceu.api.capability.IElectricItem;
 import com.gregtechceu.gtceu.api.item.component.ElectricStats;
 
 import net.minecraft.network.chat.Component;
@@ -113,13 +112,13 @@ public class TravelStaffBehavior extends ElectricStats {
     }
 
     public boolean hasResources(ItemStack stack) {
-        IElectricItem electricItem = GTCapabilityHelper.getElectricItem(stack);
+        var electricItem = GTCapabilityHelper.getElectricItem(stack);
         if (electricItem == null) return false;
         return electricItem.getCharge() >= EU_COST;
     }
 
     public void consumeResources(ItemStack stack) {
-        IElectricItem electricItem = GTCapabilityHelper.getElectricItem(stack);
+        var electricItem = GTCapabilityHelper.getElectricItem(stack);
         if (electricItem == null) return;
         electricItem.discharge(
                 EU_COST,

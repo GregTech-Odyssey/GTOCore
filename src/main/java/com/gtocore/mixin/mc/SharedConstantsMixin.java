@@ -11,8 +11,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public class SharedConstantsMixin {
 
     @Inject(method = "isAllowedChatCharacter", at = @At("RETURN"), cancellable = true)
-    private static void isAllowedCharacter(char c, CallbackInfoReturnable<Boolean> returnInfo) {
-        returnInfo.setReturnValue(c >= ' ' && c != 127);
+    private static void isAllowedCharacter(char character, CallbackInfoReturnable<Boolean> returnInfo) {
+        returnInfo.setReturnValue(character >= ' ' && character != 127);
         returnInfo.cancel();
     }
 }

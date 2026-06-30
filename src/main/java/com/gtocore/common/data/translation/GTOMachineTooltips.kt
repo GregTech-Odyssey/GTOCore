@@ -4,13 +4,8 @@ import com.gtocore.api.lang.ComponentListSupplier
 import com.gtocore.api.lang.ComponentSupplier
 import com.gtocore.api.lang.toComponentSupplier
 import com.gtocore.api.lang.toLiteralSupplier
-import com.gtocore.common.data.translation.ComponentSlang.AfterModuleInstallation
-import com.gtocore.common.machine.electric.ElectricHeaterMachine
 import com.gtocore.common.machine.multiblock.generator.TurbineMachine
 import com.gtocore.common.machine.multiblock.storage.MEStorageMachine
-import com.gtocore.common.machine.multiblock.storage.MultiblockCrateMachine
-import com.gtocore.common.machine.noenergy.BoilWaterMachine
-import com.gtocore.common.machine.noenergy.HeaterMachine
 
 import net.minecraft.network.chat.Component
 
@@ -27,11 +22,20 @@ import com.lowdragmc.lowdraglib.side.fluid.FluidHelper
  */
 object GTOMachineTooltips {
 
+    @JvmField
+    var deprecatedStructureTooltips: ComponentListSupplier = ComponentListSupplier {
+        setTranslationPrefix("multiblock_structure")
+        error("该结构已弃用" translatedTo "This structure has been deprecated")
+    }
+
+    @JvmField
     var experienceObeliskTooltips: ComponentListSupplier = ComponentListSupplier {
         setTranslationPrefix("experience_obelisk")
         section(ComponentSlang.MainFunction)
         content("存储并管理经验值，以便随时取用" translatedTo "Store and manage experience points for convenient access")
     }
+
+    @JvmField
     var AEManaInterfaceTooltips: ComponentListSupplier = ComponentListSupplier {
         setTranslationPrefix("me_mana_interface")
         section(ComponentSlang.MainFunction)
@@ -39,6 +43,7 @@ object GTOMachineTooltips {
     }
 
     // 区域破坏器
+    @JvmField
     val AreaDestructionToolsTooltips = ComponentListSupplier {
         setTranslationPrefix("area_destruction_tools")
 
@@ -64,6 +69,7 @@ object GTOMachineTooltips {
     }
 
     // 工业平台展开工具 - 物品描述
+    @JvmField
     val IndustrialPlatformDeploymentToolsTooltips = ComponentListSupplier {
         setTranslationPrefix("industrial_platform_deployment_tools")
 
@@ -113,6 +119,7 @@ object GTOMachineTooltips {
     }
 
     // 工业平台展开工具 — 详细介绍
+    @JvmField
     val IndustrialPlatformDeploymentToolsIntroduction = ComponentListSupplier {
         setTranslationPrefix("industrial_platform_deployment_tools.introduction")
 
@@ -179,6 +186,7 @@ object GTOMachineTooltips {
     }
 
     // 贸易站机器 - 物品描述
+    @JvmField
     val VillageTradingStationTooltips = ComponentListSupplier {
         setTranslationPrefix("village_trading_station")
 
@@ -217,6 +225,7 @@ object GTOMachineTooltips {
     }
 
     // 贸易站机器 — 详细介绍
+    @JvmField
     val VillageTradingStationIntroduction = ComponentListSupplier {
         setTranslationPrefix("village_trading_station.introduction")
 
@@ -319,6 +328,7 @@ object GTOMachineTooltips {
     }
 
     // 泛银河系格雷科技贸易终端 - 物品描述
+    @JvmField
     val PanGalaxyGregTechTradingStationTooltips = ComponentListSupplier {
         setTranslationPrefix("pan_galaxy_greg_tech_trading_station")
 
@@ -347,6 +357,7 @@ object GTOMachineTooltips {
     }
 
     // 泛银河系格雷科技贸易终端 - 详细介绍
+    @JvmField
     val PanGalaxyGregTechTradingStationIntroduction = ComponentListSupplier {
         setTranslationPrefix("pan_galaxy_greg_tech_trading_station.introduction")
 
@@ -427,6 +438,7 @@ object GTOMachineTooltips {
     }
 
     // 魔力增幅仓
+    @JvmField
     val ManaAmplifierHatchTooltips = ComponentListSupplier {
         setTranslationPrefix("mana_amplifier_hatch")
 
@@ -438,15 +450,16 @@ object GTOMachineTooltips {
     }
 
     // 魔力加热器
+    @JvmField
     val ManaHeaterTooltips = ComponentListSupplier {
         setTranslationPrefix("mana_heater")
 
         section(ComponentSlang.RunningRequirements)
         command("输入魔力加热" translatedTo "Input mana to heat")
         increase("如果输入§c火元素蒸汽§r，则加热速度翻5倍" translatedTo "If §cSalamander Vapor§r is input, the heating speed will be 5 times faster")
-        command(ComponentSlang.TemperatureMax(2400))
     }
 
+    @JvmField
     val ManaCondenserTooltips = ComponentListSupplier {
         setTranslationPrefix("mana_condenser")
 
@@ -457,6 +470,7 @@ object GTOMachineTooltips {
     }
 
     // 苍穹凝聚器
+    @JvmField
     val CelestialCondenserTooltips = ComponentListSupplier {
         setTranslationPrefix("celestial_condenser")
         content("凝聚苍穹之上的能量" translatedTo "Condenses energy from beyond the celestial vault")
@@ -472,6 +486,7 @@ object GTOMachineTooltips {
         command("运行配方时需要消耗这些能量" translatedTo "Consumes this energy when processing recipes")
     }
 
+    @JvmField
     val CosmicCelestialSpireOfConvergenceTooltips = ComponentListSupplier {
         setTranslationPrefix("cosmic_celestial_spire_of_convergence")
         story("星穹光刃裂维度之障，格雷魔导，启百年征航。" translatedTo "Blade of starry vault rends the dimensional veil, Greg Mages embark on a century-long sail.")
@@ -496,6 +511,7 @@ object GTOMachineTooltips {
         command("运行配方时需要消耗这些能量" translatedTo "Consumes this energy when processing recipes")
     }
 
+    @JvmField
     var spaceShieldHatchTooltips: ComponentListSupplier = ComponentListSupplier {
         setTranslationPrefix("space_shield_hatch")
 
@@ -508,6 +524,7 @@ object GTOMachineTooltips {
     }
 
     // 转子仓
+    @JvmField
     val RotorHatchTooltips = ComponentListSupplier {
         setTranslationPrefix("rotor_hatch")
 
@@ -516,6 +533,7 @@ object GTOMachineTooltips {
     }
 
     // 放射仓
+    @JvmField
     val RadiationHatchTooltips = ComponentListSupplier {
         setTranslationPrefix("radiation_hatch")
 
@@ -526,6 +544,7 @@ object GTOMachineTooltips {
     }
 
     // 模块化可配置维护仓
+    @JvmField
     val ModularConfigurationMaintenanceHatchTooltips = ComponentListSupplier {
         setTranslationPrefix("modular_configuration_maintenance_hatch")
 
@@ -533,15 +552,26 @@ object GTOMachineTooltips {
         function("插入不同的自动维护仓以启用不同的功能" translatedTo "Insert different auto-maintenance hatches to enable different functions.")
     }
 
-    // 温度/真空接口
-    val TempVacuumInterfaceTooltips = ComponentListSupplier {
+    // 温度接口
+    @JvmField
+    val TempInterfaceTooltips = ComponentListSupplier {
         setTranslationPrefix("temp_vacuum_interface")
 
         section(ComponentSlang.MainFunction)
-        content("与此部件连接可以为多方块机器传导热量并提供真空" translatedTo "Conduct heat and provide vacuum for multiblock machines through connections with this part")
+        content("与此部件连接可以为多方块机器传导热量" translatedTo "Conduct heat for multiblock machines through connections with this part")
+    }
+
+    // 真空接口
+    @JvmField
+    val VacuumInterfaceTooltips = ComponentListSupplier {
+        setTranslationPrefix("temp_vacuum_interface")
+
+        section(ComponentSlang.MainFunction)
+        content("与此部件连接可以为多方块机器提供真空" translatedTo "Provide vacuum for multiblock machines through connections with this part")
     }
 
     // 中子加速器
+    @JvmField
     val NeutronAcceleratorTooltips = { voltage: Long, voltageName: String, euConsume: Long, euCapacity: Long ->
         ComponentListSupplier {
             setTranslationPrefix("neutron_accelerator")
@@ -555,6 +585,7 @@ object GTOMachineTooltips {
     }
 
     // 传感器
+    @JvmField
     val SensorTooltips = ComponentListSupplier {
         setTranslationPrefix("sensor")
 
@@ -564,6 +595,7 @@ object GTOMachineTooltips {
     }
 
     // 催化剂仓
+    @JvmField
     val CatalystHatchTooltips = ComponentListSupplier {
         setTranslationPrefix("catalyst_hatch")
 
@@ -573,6 +605,7 @@ object GTOMachineTooltips {
     }
 
     // ME存储访问仓
+    @JvmField
     val MEStorageAccessHatchTooltips = ComponentListSupplier {
         setTranslationPrefix("me_storage_access_hatch")
 
@@ -582,6 +615,7 @@ object GTOMachineTooltips {
     }
 
     // 合成样板仓
+    @JvmField
     val MeCraftPatternHatchTooltips = ComponentListSupplier {
         setTranslationPrefix("me_craft_pattern_part_machine")
 
@@ -592,6 +626,7 @@ object GTOMachineTooltips {
     }
 
     // ME样板总成
+    @JvmField
     val MePatternHatchTooltips = { capacity: Int ->
         ComponentListSupplier {
             setTranslationPrefix("me_pattern_hatch")
@@ -607,6 +642,7 @@ object GTOMachineTooltips {
     }
 
     // ME催化剂样板总成
+    @JvmField
     val MeCatalystPatternBufferTooltips = ComponentListSupplier {
         setTranslationPrefix("me_catalyst_pattern_buffer")
 
@@ -615,6 +651,7 @@ object GTOMachineTooltips {
     }
 
     // ME催化剂样板总成
+    @JvmField
     val MeWildcardPatternBufferTooltips = ComponentListSupplier {
         setTranslationPrefix("me_wildcard_pattern_buffer")
 
@@ -630,6 +667,7 @@ object GTOMachineTooltips {
     }
 
     // ME自动连接
+    @JvmField
     val AutoConnectMETooltips = ComponentListSupplier {
         setTranslationPrefix("auto_connect_me")
 
@@ -638,16 +676,28 @@ object GTOMachineTooltips {
         guide("在机器内GUI界面收藏某个网络后，按下Shift放置以自动连接收藏的网络" translatedTo "After favoriting a network in the machine's GUI interface, place it while holding Shift to automatically connect to the favorited network")
     }
 
-    // 多方块板条箱
-    val MultiblockCrateMachineTooltips = ComponentListSupplier {
-        setTranslationPrefix("multiblock_crate_machine")
+    // 保险库
+    @JvmField
+    val VaultTooltips = ComponentListSupplier {
+        setTranslationPrefix("vault")
 
         section(ComponentSlang.MainFunction)
-        function("可以存储大量物品" translatedTo "Can store many many items")
-        guide("右键点击以打开界面" translatedTo "Right click to open the interface")
-        info(ComponentSlang.Capacity(MultiblockCrateMachine.Capacity.toString()))
+        function("可以存储大量资源" translatedTo "Can store many many resources")
+        guide("使用简易合成终端或者存储总线读取内部资源" translatedTo "Use a simple terminal or a storage bus to read internal resources")
+        info("容量由多方块大小决定" translatedTo "The capacity is determined by the multiblock size")
+        info("大小：3x3x3到15x15x15" translatedTo "Size: 3x3x3 to 15x15x15")
     }
 
+    @JvmField
+    val VaultHatchTooltips = ComponentListSupplier {
+        setTranslationPrefix("vault_hatch")
+
+        section(ComponentSlang.MainFunction)
+        content("可为保险库IO" translatedTo "Can serve as vault IO")
+        info("最大安装数 = 密封外壳数" translatedTo "Maximum installations = hermetic casing amount")
+    }
+
+    @JvmField
     val fishingFarmTooltips: ComponentListSupplier = ComponentListSupplier {
         setTranslationPrefix("fishing_farm")
 
@@ -659,17 +709,15 @@ object GTOMachineTooltips {
     }
 
     // 外置热源锅炉
+    @JvmField
     val BoilWaterMachineTooltips = ComponentListSupplier {
         setTranslationPrefix("boil_water_machine")
         section("需要外部热源工作" translatedTo "Requires external heat source to operate")
         error(("当蒸汽溢出后继续工作会" translatedTo "When steam overflows, continuing to work will ") + ComponentSlang.Explosion)
-        content(
-            ("可能发生爆炸的临界温度为" translatedTo "The critical temperature for explosion is ") +
-                BoilWaterMachine.DrawWaterExplosionLine.toLiteralSupplier().red(),
-        )
     }
 
     // 性能监控器
+    @JvmField
     val PerformanceMonitorMachineTooltips = ComponentListSupplier {
         setTranslationPrefix("performance_monitor_machine")
 
@@ -688,6 +736,7 @@ object GTOMachineTooltips {
     }
 
     // 基础监控器
+    @JvmField
     val BasicMonitorTooltips = monitor {
         section(ComponentSlang.MainFunction)
         function("是监控器的基础组成部分" translatedTo "Is the basic component of the monitor")
@@ -698,30 +747,35 @@ object GTOMachineTooltips {
     }
 
     // 监控器电网组件
+    @JvmField
     val MonitorPowerComponentTooltips = monitor {
         section(ComponentSlang.MainFunction)
         function("显示§6无线电网§r的数据" translatedTo "Display§6 wireless energy grid§r data")
     }
 
     // 监控器魔力组件
+    @JvmField
     val MonitorManaComponentTooltips = monitor {
         section(ComponentSlang.MainFunction)
         function("显示§6无线魔力网§r的数据" translatedTo "Display§6 wireless mana grid§r data")
     }
 
     // 监控器算力组件
+    @JvmField
     val MonitorComputingComponentTooltips = monitor {
         section(ComponentSlang.MainFunction)
         function("接入光缆网络以显示§6算力使用情况§r" translatedTo "Connect to the optical cable network to display §6computing power usage§r")
     }
 
     // 监控器ME吞吐量监控组件
+    @JvmField
     val MonitorMEThroughputComponentTooltips = monitor {
         section(ComponentSlang.MainFunction)
         function("显示ME中§6指定物品§r的吞吐量数据" translatedTo "Display the throughput data of §6specified items §rin ME")
     }
 
     // 监控器机器通用组件
+    @JvmField
     val MonitorMachineComponentTooltips = monitor {
         section(ComponentSlang.MainFunction)
         function("显示§6机器§r的通用数据" translatedTo "Display the general data of §6machines§r")
@@ -730,12 +784,14 @@ object GTOMachineTooltips {
     }
 
     // 监控器合成处理单元组件
+    @JvmField
     val MonitorCraftingComponentTooltips = monitor {
         section(ComponentSlang.MainFunction)
         function("显示§6ME合成处理单元§r的合成数据" translatedTo "Display the crafting data of §6crafting unit§r")
     }
 
     // 监控器自定义文本组件
+    @JvmField
     val MonitorCustomTextComponentTooltips = monitor {
         section(ComponentSlang.MainFunction)
         function("用于显示§6自定义文本§r在监控器上" translatedTo "Display§6 custom text§r")
@@ -743,6 +799,7 @@ object GTOMachineTooltips {
     }
 
     // 超立方体
+    @JvmField
     val HyperCubeMachineTooltips = ComponentListSupplier {
         setTranslationPrefix("hyper_cube_machine")
 
@@ -754,6 +811,7 @@ object GTOMachineTooltips {
     }
 
     // 进阶超立方体
+    @JvmField
     val AdvancedHyperCubeMachineTooltips = ComponentListSupplier {
         setTranslationPrefix("advanced_hyper_cube_machine")
 
@@ -766,6 +824,7 @@ object GTOMachineTooltips {
     }
 
     // 光伏电站
+    @JvmField
     val PhotovoltaicPlantTooltips = ComponentListSupplier {
         setTranslationPrefix("photovoltaic_plant")
 
@@ -783,28 +842,36 @@ object GTOMachineTooltips {
     }
 
     // 加热器
+    @JvmField
     val HeaterMachineTooltips = ComponentListSupplier {
         setTranslationPrefix("heater_machine")
 
         section("通过燃烧对四周机器进行加热" translatedTo "Burning to heat up around machines")
         content("前方被阻挡后停止加热" translatedTo "Stop heating after front side is blocked.")
-        content("根据温度发出红石信号" translatedTo "Emits redstone signal according to the temperature.")
-        command(ComponentSlang.TemperatureMax(HeaterMachine.MaxTemperature))
         error(("机器过热会" translatedTo "When machine is too hot, it will ") + ComponentSlang.Explosion)
         danger(ComponentSlang.BeAwareOfBurn)
     }
 
+    // 冷却器
+    @JvmField
+    val CoolerMachineTooltips = ComponentListSupplier {
+        setTranslationPrefix("cooler_machine")
+
+        section("通过消耗水对侧面机器冷却" translatedTo "Cooling the side machine by consuming water")
+    }
+
     // 电力加热器
+    @JvmField
     val ElectricHeaterMachineTooltips = ComponentListSupplier {
         setTranslationPrefix("electric_heater_machine")
 
-        section("使用电力对四周机器进行加热" translatedTo "Use electricity to heat up around machines")
-        command(ComponentSlang.TemperatureMax(ElectricHeaterMachine.MaxTemperature))
+        section("使用电力，热量仅从顶面输出" translatedTo "Uses electricity. Heat is output only from the top surface")
         ok("此机器不会爆炸" translatedTo "This machine will not explode")
         danger(ComponentSlang.BeAwareOfBurn)
     }
 
     // 裂变反应堆
+    @JvmField
     val FissionReactorTooltips = ComponentListSupplier {
         setTranslationPrefix("fission_reactor")
 
@@ -844,6 +911,7 @@ object GTOMachineTooltips {
     }
 
     // 计算中心
+    @JvmField
     val SupercomputingTooltips = ComponentListSupplier {
         setTranslationPrefix("supercomputing")
 
@@ -894,6 +962,7 @@ object GTOMachineTooltips {
     }
 
     // 数字型采矿机
+    @JvmField
     val DigitalMinerTooltips = ComponentListSupplier {
         setTranslationPrefix("digital_miner")
 
@@ -909,6 +978,7 @@ object GTOMachineTooltips {
     }
 
     // 超级分子装配室
+    @JvmField
     val SuperMolecularAssemblerTooltips = ComponentListSupplier {
         setTranslationPrefix("super_molecular_assembler")
 
@@ -921,6 +991,7 @@ object GTOMachineTooltips {
     }
 
     // ME 超算核心
+    @JvmField
     val MECPUTooltips = ComponentListSupplier {
         highlight("ME 网络超级 CPU" translatedTo "Super CPU in ME Network") { rainbowSlow() }
 
@@ -938,6 +1009,7 @@ object GTOMachineTooltips {
     }
 
     // 大型内燃机
+    @JvmField
     val LargeCombustionTooltips =
         { baseEUt: Long, oxygenBoost: Long, canExtremeBoost: Boolean, liquidOxygenBoost: Long ->
             ComponentListSupplier {
@@ -960,6 +1032,7 @@ object GTOMachineTooltips {
         }
 
     // 高速模式
+    @JvmField
     val TurbineHighSpeedTooltips = ComponentListSupplier {
         setTranslationPrefix("turbine_high_speed")
         section("高速模式" translatedTo "High-Speed Mode")
@@ -967,6 +1040,7 @@ object GTOMachineTooltips {
     }
 
     // 大型涡轮
+    @JvmField
     val LargeTurbineTooltips = { baseEUt: Long, rotorTier: Int ->
         ComponentListSupplier {
             setTranslationPrefix("large_turbine")
@@ -983,6 +1057,7 @@ object GTOMachineTooltips {
     }
 
     // 特大涡轮
+    @JvmField
     val MegaTurbineGenerateTooltips = { baseEUt: Long, rotorTier: Int ->
         ComponentListSupplier {
             setTranslationPrefix("mega_turbine")
@@ -1026,6 +1101,7 @@ object GTOMachineTooltips {
     }
 
     // 化学能吞噬者
+    @JvmField
     val ChemicalEnergyDevourerGenerateTooltips = ComponentListSupplier {
         setTranslationPrefix("chemical_energy_devourer")
 
@@ -1045,6 +1121,7 @@ object GTOMachineTooltips {
     }
 
     // 化工厂
+    @JvmField
     val ChemicalFactoryTooltips = ComponentListSupplier {
         setTranslationPrefix("chemical_factory")
 
@@ -1053,6 +1130,7 @@ object GTOMachineTooltips {
     }
 
     // 大型虚空采矿厂
+    @JvmField
     val LargeVoidMinerTooltips = ComponentListSupplier {
         setTranslationPrefix("large_void_miner")
 
@@ -1066,6 +1144,7 @@ object GTOMachineTooltips {
     }
 
     // 通用工厂
+    @JvmField
     val ProcessingPlantTooltips = ComponentListSupplier {
         setTranslationPrefix("processing_plant")
 
@@ -1081,6 +1160,7 @@ object GTOMachineTooltips {
     }
 
     // 培养缸
+    @JvmField
     val CulturingTankTooltips = ComponentListSupplier {
         setTranslationPrefix("culturing_tank")
 
@@ -1089,6 +1169,7 @@ object GTOMachineTooltips {
     }
 
     // 大型培养缸
+    @JvmField
     val LargeCulturingTankTooltips = ComponentListSupplier {
         setTranslationPrefix("large_culturing_tank")
 
@@ -1097,6 +1178,7 @@ object GTOMachineTooltips {
     }
 
     // 纳米锻炉
+    @JvmField
     val NanoForgeTooltips = ComponentListSupplier {
         setTranslationPrefix("nano_forge")
 
@@ -1107,6 +1189,7 @@ object GTOMachineTooltips {
     }
 
     // 中子活化器
+    @JvmField
     val NeutronActivatorTooltips = ComponentListSupplier {
         setTranslationPrefix("neutron_activator")
 
@@ -1121,6 +1204,7 @@ object GTOMachineTooltips {
     }
 
     // 热交换机
+    @JvmField
     val HeatExchangerTooltips = ComponentListSupplier {
         setTranslationPrefix("heat_exchanger")
 
@@ -1131,6 +1215,7 @@ object GTOMachineTooltips {
     }
 
     // 太空电梯
+    @JvmField
     val SpaceElevatorTooltips = ComponentListSupplier {
         setTranslationPrefix("space_elevator")
 
@@ -1141,6 +1226,7 @@ object GTOMachineTooltips {
     }
 
     // 工业屠宰场
+    @JvmField
     val SlaughterhouseTooltips = ComponentListSupplier {
         setTranslationPrefix("slaughterhouse")
 
@@ -1160,6 +1246,7 @@ object GTOMachineTooltips {
     }
 
     // 基岩钻机
+    @JvmField
     val BedrockDrillingRigTooltips = ComponentListSupplier {
         setTranslationPrefix("bedrock_drilling_rig")
 
@@ -1169,6 +1256,7 @@ object GTOMachineTooltips {
     }
 
     // 寒冰冷冻机
+    @JvmField
     val ColdIceFreezerTooltips = ComponentListSupplier {
         setTranslationPrefix("cold_ice_freezer")
 
@@ -1178,6 +1266,7 @@ object GTOMachineTooltips {
     }
 
     // 烈焰高炉
+    @JvmField
     val BlazeBlastFurnaceTooltips = ComponentListSupplier {
         setTranslationPrefix("blaze_blast_furnace")
 
@@ -1187,6 +1276,7 @@ object GTOMachineTooltips {
     }
 
     // PCB工厂
+    @JvmField
     val PCBFactoryTooltips = ComponentListSupplier {
         setTranslationPrefix("pcb_factory")
 
@@ -1197,6 +1287,7 @@ object GTOMachineTooltips {
     }
 
     // 进阶装配线
+    @JvmField
     val AdvancedAssemblyLineTooltips = ComponentListSupplier {
         setTranslationPrefix("advanced_assembly_line")
 
@@ -1207,6 +1298,7 @@ object GTOMachineTooltips {
     }
 
     // 方块转换室
+    @JvmField
     val BlockConversionRoomTooltips = ComponentListSupplier {
         setTranslationPrefix("block_conversion_room")
 
@@ -1218,6 +1310,7 @@ object GTOMachineTooltips {
     }
 
     // 大型方块转换室
+    @JvmField
     val LargeBlockConversionRoomTooltips = ComponentListSupplier {
         setTranslationPrefix("large_block_conversion_room")
 
@@ -1232,6 +1325,7 @@ object GTOMachineTooltips {
     }
 
     // 宇宙探测器地面接收单元
+    @JvmField
     val SpaceProbeSurfaceReceptionTooltips = ComponentListSupplier {
         setTranslationPrefix("space_probe_surface_reception")
 
@@ -1245,6 +1339,7 @@ object GTOMachineTooltips {
     }
 
     // 鸿蒙之眼
+    @JvmField
     val EyeOfHarmonyTooltips = ComponentListSupplier {
         setTranslationPrefix("eye_of_harmony")
 
@@ -1269,6 +1364,7 @@ object GTOMachineTooltips {
     }
 
     // 温室
+    @JvmField
     val GreenhouseTooltips = ComponentListSupplier {
         setTranslationPrefix("greenhouse")
 
@@ -1278,6 +1374,7 @@ object GTOMachineTooltips {
     }
 
     // 蜂群之心
+    @JvmField
     val SwarmCoreTooltips = ComponentListSupplier {
         setTranslationPrefix("swarm_core")
 
@@ -1287,6 +1384,7 @@ object GTOMachineTooltips {
     }
 
     // 藻类农场
+    @JvmField
     val AlgaeFarmTooltips = ComponentListSupplier {
         setTranslationPrefix("algae_farm")
 
@@ -1299,6 +1397,7 @@ object GTOMachineTooltips {
     }
 
     // 聚合反应器
+    @JvmField
     val PolymerizationReactorTooltips = ComponentListSupplier {
         setTranslationPrefix("polymerization_reactor")
 
@@ -1307,6 +1406,7 @@ object GTOMachineTooltips {
     }
 
     // 卫星控制中心
+    @JvmField
     val SatelliteControlCenterTooltips = ComponentListSupplier {
         setTranslationPrefix("satellite_control_center")
 
@@ -1314,6 +1414,7 @@ object GTOMachineTooltips {
     }
 
     // 原木拟生场
+    @JvmField
     val TreeGrowthSimulatorTooltips = ComponentListSupplier {
         setTranslationPrefix("tree_growth_simulator")
 
@@ -1323,6 +1424,7 @@ object GTOMachineTooltips {
     }
 
     // 大型温室
+    @JvmField
     val LargeGreenhouseTooltips = ComponentListSupplier {
         setTranslationPrefix("large_greenhouse")
 
@@ -1332,6 +1434,7 @@ object GTOMachineTooltips {
     }
 
     // 雕刻中心
+    @JvmField
     val CarvingCenterTooltips = ComponentListSupplier {
         setTranslationPrefix("carving_center")
 
@@ -1341,6 +1444,7 @@ object GTOMachineTooltips {
     }
 
     // BOSS召唤器
+    @JvmField
     val BossSummonerTooltips = ComponentListSupplier {
         setTranslationPrefix("boss_summoner")
 
@@ -1348,6 +1452,7 @@ object GTOMachineTooltips {
     }
 
     // 钻井控制中枢
+    @JvmField
     val DrillingControlCenterTooltips = ComponentListSupplier {
         setTranslationPrefix("drilling_control_center")
 
@@ -1356,6 +1461,7 @@ object GTOMachineTooltips {
     }
 
     // 无线能源塔
+    @JvmField
     val WirelessEnergySubstationTooltips = ComponentListSupplier {
         setTranslationPrefix("wireless_energy_substation")
 
@@ -1369,6 +1475,7 @@ object GTOMachineTooltips {
     }
 
     // 无线电网维度中继器
+    @JvmField
     val WirelessDimensionRepeaterTooltips = ComponentListSupplier {
         setTranslationPrefix("wireless_dimension_repeater")
 
@@ -1383,6 +1490,7 @@ object GTOMachineTooltips {
     }
 
     // 拉丝塔
+    @JvmField
     val DrawingTowerTooltips = ComponentListSupplier {
         setTranslationPrefix("drawing_tower")
 
@@ -1392,6 +1500,7 @@ object GTOMachineTooltips {
     }
 
     // ME存储器
+    @JvmField
     val MEStorageTooltips = ComponentListSupplier {
         setTranslationPrefix("me_storage")
 
@@ -1412,44 +1521,36 @@ object GTOMachineTooltips {
     }
 
     // 原始蒸馏塔
+    @JvmField
     val PrimitiveDistillationTowerTooltips = ComponentListSupplier {
         setTranslationPrefix("primitive_distillation_tower")
 
         section("运行机制" translatedTo "Operation Mechanics")
-        info("更高的温度和更长的连续运行时间能显著加快配方速度" translatedTo "Higher temperatures and longer continuous operation significantly speed up recipes")
+        info("更高的底部温度和更长的连续运行时间能显著加快配方速度" translatedTo "Higher bottom temperatures and longer continuous operation significantly speed up recipes")
         function("最高13层，每个产物都需要一个对应高度的输出仓" translatedTo "Each fluid product requires a Fluid Hatch at a corresponding Y-level")
+        info("每层都可以不安装输出仓，但是对应层会没有产物" translatedTo "Each layer can operate without installing an output hatch, but the corresponding layer will then produce no output")
         important("只能处理MV及以下的配方" translatedTo "Can only process recipes of MV tier or lower")
 
         section("热管理机制" translatedTo "Heat Management")
-        info("需要 >400K 的热量才能运行配方" translatedTo "Requires >400K heat to process recipes")
-        info("运行配方会消耗热量，有助于稳定温度" translatedTo "Processing recipes consumes heat, helping to stabilize temperature")
-        info("无燃料时，热量会缓慢散失至298K" translatedTo "Without fuel, it will slowly cool down to 298K (room temperature)")
-
-        command("使用燃料来升温：煤块产热慢但持久；煤/煤粉产热快但消耗快" translatedTo "Use fuel to increase heat: Coal Blocks provide slow, long-lasting heat; Coal/Dust provides fast, short-lived heat")
-
-        info("热量 > 373K 时会消耗水进行冷却" translatedTo "Consumes water for cooling when heat exceeds 373K")
-        function("足量的水(>100mb)才能有效降温" translatedTo "Sufficient water (>100mb) is required for effective cooling")
-        error("注意：水量不足(≤100mb)会适得其反，导致机器异常升温并加速燃料消耗！" translatedTo "Warning: Insufficient water (≤100mb) will backfire, causing extra heat gain and faster fuel consumption!")
-        error("热量超过 850K 将导致爆炸！" translatedTo "Heat exceeding 850K will cause an explosion!")
-
-        section(ComponentSlang.AfterModuleInstallation)
-        info("安装模块后，机器所使用的冷却用水将只会由模块提供" translatedTo "After installing modules, the machine will only use water provided by the modules for cooling")
-        info("机器本体所提供的水将不再参与冷却过程，而是被用于配方的输入" translatedTo "Water provided by the machine itself will no longer be used for cooling, but will instead be used as input for recipes")
+        info("需要 >400K 的温温度才能运行配方" translatedTo "Requires >400K Temperature to process recipes")
+        info("运行配方会按1HU/t速度消耗底部热量，按0.5HU/t速度产生顶部热量" translatedTo "Processing recipes will consume bottom heat at a speed of 1HU/t and generate top heat at a speed of 0.5HU/t")
     }
 
     // 化学气相沉积系统
+    @JvmField
     val ChemicalVaporDepositionTooltips = ComponentListSupplier {
         setTranslationPrefix("chemical_vapor_deposition")
 
         section(ComponentSlang.EfficiencyBonus)
         content("线圈温度越高，运行速度越快" translatedTo "Higher coil temperature → faster operation")
-        info("时间倍率: log(900) / log(温度)" translatedTo "Time Multiplier: log(900) / log(Temperature)")
+        info("时间倍率: 0.8x0.4^((线圈温度-5400)/9000)" translatedTo "Time Multiplier: 0.8x0.4^((Temperature-5400)/9000)")
         section(ComponentSlang.ParallelBonus)
         content("由电压等级决定" translatedTo "Determined by Voltage Tier")
         info("公式 : 4^(电压等级 - 1)" translatedTo "Formula: 4^(Voltage Tier - 1)")
     }
 
     // 物理气相沉积系统
+    @JvmField
     val PhysicalVaporDepositionTooltips = ComponentListSupplier {
         setTranslationPrefix("physical_vapor_deposition")
 
@@ -1462,6 +1563,7 @@ object GTOMachineTooltips {
     }
 
     // 等离子冷凝器
+    @JvmField
     val plasmaCondenserTooltips: ComponentListSupplier = ComponentListSupplier {
         setTranslationPrefix("plasma_condenser")
         section(ComponentSlang.EfficiencyBonus)
@@ -1470,6 +1572,7 @@ object GTOMachineTooltips {
     }
 
     // 生物提取机
+    @JvmField
     val BiochemicalExtractionTooltips = ComponentListSupplier {
         setTranslationPrefix("biochemical_extraction")
 
@@ -1485,6 +1588,7 @@ object GTOMachineTooltips {
     }
 
     // 星核钻机
+    @JvmField
     val PlanetCoreDrillingTooltips = ComponentListSupplier {
         setTranslationPrefix("planet_core_drilling")
 
@@ -1492,6 +1596,7 @@ object GTOMachineTooltips {
     }
 
     // 进阶无尽钻机
+    @JvmField
     val AdvancedInfiniteDrillerTooltips = ComponentListSupplier {
         setTranslationPrefix("advanced_infinite_driller")
 
@@ -1514,6 +1619,7 @@ object GTOMachineTooltips {
     }
 
     // 热力泵
+    @JvmField
     val ThermalPowerPumpTooltips = ComponentListSupplier {
         setTranslationPrefix("thermal_power_pump")
 
@@ -1522,6 +1628,7 @@ object GTOMachineTooltips {
     }
 
     // 虚空流体钻机
+    @JvmField
     val VoidFluidDrillTooltips = ComponentListSupplier {
         setTranslationPrefix("void_fluid_drilling_rig")
 
@@ -1553,6 +1660,8 @@ object GTOMachineTooltips {
         "gtocore.cosmic_neutronium", "UXV",
         "gtocore.eternity", "OpV",
     )
+
+    @JvmField
     val NanitesIntegratedProcessingCenterTooltips = ComponentListSupplier {
         setTranslationPrefix("nanites_integrated_processing_center")
 
@@ -1569,6 +1678,7 @@ object GTOMachineTooltips {
     }
 
     // 虚空采矿机
+    @JvmField
     val VoidMinerTooltips = ComponentListSupplier {
         setTranslationPrefix("void_miner")
 
@@ -1583,6 +1693,7 @@ object GTOMachineTooltips {
     }
 
     // 精密组装机
+    @JvmField
     val PrecisionAssemblerTooltips = ComponentListSupplier {
         setTranslationPrefix("precision_assembler")
 
@@ -1591,6 +1702,7 @@ object GTOMachineTooltips {
     }
 
     // 熔岩炉
+    @JvmField
     val LavaFurnaceTooltips = ComponentListSupplier {
         setTranslationPrefix("lava_furnace")
 
@@ -1599,6 +1711,7 @@ object GTOMachineTooltips {
     }
 
     // 激光蚀刻工厂
+    @JvmField
     val EngravingLaserPlantTooltips = ComponentListSupplier {
         setTranslationPrefix("engraving_laser_plant")
 
@@ -1607,6 +1720,7 @@ object GTOMachineTooltips {
     }
 
     // 集成矿石处理厂
+    @JvmField
     val IntegratedOreProcessorTooltips = ComponentListSupplier {
         setTranslationPrefix("integrated_ore_processor")
 
@@ -1621,11 +1735,12 @@ object GTOMachineTooltips {
         function("6号电路: 破碎-浸洗-研磨-离心" translatedTo "Circuit 6: Crusher → Chemical Bath → Macerator → Centrifuging")
         function("7号电路: 破碎-浸洗-筛选-离心" translatedTo "Circuit 7: Crusher → Chemical Bath → Sifter → Centrifuging")
 
-        section(AfterModuleInstallation)
+        section(ComponentSlang.AfterModuleInstallation)
         increase("解锁8线程处理" translatedTo "Unlock 8-thread processing")
     }
 
     // 大型蒸汽电路组装机
+    @JvmField
     val LargeSteamCircuitAssemblerTooltips = ComponentListSupplier {
         setTranslationPrefix("large_steam_circuit_assembler")
 
@@ -1644,19 +1759,22 @@ object GTOMachineTooltips {
     }
 
     // 大型蒸汽太阳能锅炉
+    @JvmField
     val LargeSteamSolarBoilerTooltips = ComponentListSupplier {
         setTranslationPrefix("large_steam_solar_boiler")
 
         section("蒸汽产出" translatedTo "Steam Production")
         content("根据集热管数量决定蒸汽产量" translatedTo "Steam production determined by number of collector tubes")
         important("只能在太阳下工作" translatedTo "Can only operate under the sun")
+        important("供水不足时将爆炸" translatedTo "It will explode when the water supply is insufficient")
 
         section("可用大小" translatedTo "Usable Size")
         command("最小：5x5" translatedTo "Minimum: 5x5")
-        command("最大：127x127" translatedTo "Maximum: 127x127")
+        command("最大：31x31" translatedTo "Maximum: 31x31")
     }
 
     // 部件组装机
+    @JvmField
     val ComponentAssemblerTooltips = ComponentListSupplier {
         setTranslationPrefix("component_assembler")
 
@@ -1671,6 +1789,7 @@ object GTOMachineTooltips {
     }
 
     // 蒸汽搅拌机
+    @JvmField
     val SteamMixerTooltips = ComponentListSupplier {
         setTranslationPrefix("steam_mixer")
 
@@ -1679,6 +1798,7 @@ object GTOMachineTooltips {
     }
 
     // 跃进一号高炉
+    @JvmField
     val LeapForwardOneBlastFurnaceTooltips = ComponentListSupplier {
         setTranslationPrefix("leap_forward_one_blast_furnace")
 
@@ -1697,6 +1817,7 @@ object GTOMachineTooltips {
     }
 
     // 中子旋涡
+    @JvmField
     val NeutronVortexTooltips = ComponentListSupplier {
         setTranslationPrefix("neutron_vortex")
 
@@ -1709,6 +1830,7 @@ object GTOMachineTooltips {
     }
 
     // 微生物之主
+    @JvmField
     val MicroorganismMasterTooltips = ComponentListSupplier {
         setTranslationPrefix("microorganism_master")
 
@@ -1717,6 +1839,7 @@ object GTOMachineTooltips {
     }
 
     // 拆解机
+    @JvmField
     val DisassemblyTooltips = ComponentListSupplier {
         setTranslationPrefix("disassembly")
 
@@ -1742,6 +1865,7 @@ object GTOMachineTooltips {
     }
 
     // 工业浮选机
+    @JvmField
     val IndustrialFlotationCellTooltips = ComponentListSupplier {
         setTranslationPrefix("industrial_flotation_cell")
 
@@ -1749,6 +1873,7 @@ object GTOMachineTooltips {
     }
 
     // 复合式极端冷却装置
+    @JvmField
     val CompoundExtremeCoolingUnitTooltips = ComponentListSupplier {
         setTranslationPrefix("compound_extreme_cooling_unit")
 
@@ -1760,6 +1885,7 @@ object GTOMachineTooltips {
     }
 
     // 恒星炎炀锻炉
+    @JvmField
     val StellarForgeTooltips = ComponentListSupplier {
         setTranslationPrefix("stellar_forge")
 
@@ -1768,7 +1894,7 @@ object GTOMachineTooltips {
         increase("首次运行后继续运行，后续配方时间减少50%" translatedTo "After first run, continue → 50% duration reduction on subsequent runs")
         error(("运行中供电不足会产生巨大" translatedTo "Power shortage during operation causes massive ") + ComponentSlang.Explosion)
 
-        section(AfterModuleInstallation)
+        section(ComponentSlang.AfterModuleInstallation)
         function("安装魔法模块后，可以运行魔法花朵的产魔配方" translatedTo "After installing the Magic Module, you can run magic flower producing recipes")
         increase("连续运行对数级提升魔力产出量" translatedTo "Continuous operation logarithmically increases magic output")
         command("产魔配方不执行超频" translatedTo "Magic producing recipes do not execute overclocking")
@@ -1776,6 +1902,7 @@ object GTOMachineTooltips {
     }
 
     // 通天之路
+    @JvmField
     val RoadOfHeavenTooltips = ComponentListSupplier {
         setTranslationPrefix("road_of_heaven")
 
@@ -1788,20 +1915,25 @@ object GTOMachineTooltips {
     }
 
     // 净化处理厂
+    @JvmField
     val WaterPurificationPlantTooltips = ComponentListSupplier {
         setTranslationPrefix("water_purification_plant")
+        section(ComponentSlang.MainFunction)
+        function("链接净化单元，同步所有净化单元的控制器的处理周期并供电" translatedTo "Link purification units, synchronize the processing cycles of all controllers, and provide power")
 
         section("处理单元链接系统" translatedTo "Processing Unit Link System")
-        function("可在§e32§r个方块半径内自由放置处理单元控制器" translatedTo "Processing unit controllers can be placed freely within a §e32§r block radius")
-        function("为链接的处理单元控制器提供电力" translatedTo "Provide power to linked processing unit controllers")
+        function("可在§e32§r个方块半径内自由放置净化单元的控制器" translatedTo "Purification unit controllers can be placed freely within a §e32§r block radius")
+        function("为链接的单元控制器提供电力" translatedTo "Provide power to linked unit controllers")
         info("默认耗能 = 输出水量 × 2^(净化水等级 - 2)" translatedTo "Default energy = output water × 2^(purification tier - 2)")
 
         section("处理周期系统" translatedTo "Processing Cycle System")
         content("固定处理周期: 120 秒" translatedTo "Fixed processing cycle: 120 seconds")
-        info("所有控制器同步周期，净化水输出 = 输入水量 × 0.9mB" translatedTo "All controllers sync cycle — purified output = input water × 0.9mB")
+        increase("所有控制器同步周期，净化水输出转化率 = 输入水量 × 90%" translatedTo "All controllers sync cycle — purified output = input water × 90%")
+        error("前三道净化工序概率判定失败时，返还90%的输入水；其余工序判定失败时不返还净化水" translatedTo "If the chance roll fails during the first three purification steps, 90% of the input water is returned; failed rolls in later steps return no purified water")
     }
 
     // 澄清器净化装置
+    @JvmField
     val ClarifierPurificationUnitTooltips = ComponentListSupplier {
         setTranslationPrefix("clarifier_purification_unit")
 
@@ -1819,6 +1951,7 @@ object GTOMachineTooltips {
     }
 
     // 臭氧净化装置
+    @JvmField
     val OzonationPurificationUnitTooltips = ComponentListSupplier {
         setTranslationPrefix("ozonation_purification_unit")
 
@@ -1835,6 +1968,7 @@ object GTOMachineTooltips {
     }
 
     // 絮凝净化装置
+    @JvmField
     val FlocculationPurificationUnitTooltips = ComponentListSupplier {
         setTranslationPrefix("flocculation_purification_unit")
 
@@ -1852,6 +1986,7 @@ object GTOMachineTooltips {
     }
 
     // pH中和净化装置
+    @JvmField
     val PHNeutralizationPurificationUnitTooltips = ComponentListSupplier {
         setTranslationPrefix("ph_neutralization_purification_unit")
 
@@ -1872,6 +2007,7 @@ object GTOMachineTooltips {
     }
 
     // 极端温度波动净化装置
+    @JvmField
     val ExtremeTemperatureFluctuationPurificationUnitTooltips = ComponentListSupplier {
         setTranslationPrefix("extreme_temperature_fluctuation_purification_unit")
 
@@ -1892,6 +2028,7 @@ object GTOMachineTooltips {
     }
 
     // 高能激光净化装置
+    @JvmField
     val HighEnergyLaserPurificationUnitTooltips = ComponentListSupplier {
         setTranslationPrefix("high_energy_laser_purification_unit")
 
@@ -1910,6 +2047,7 @@ object GTOMachineTooltips {
     }
 
     // 残余污染物脱气净化装置
+    @JvmField
     val ResidualDecontaminantDegasserPurificationUnitTooltips = ComponentListSupplier {
         setTranslationPrefix("residual_decontaminant_degasser_purification_unit")
 
@@ -1936,6 +2074,7 @@ object GTOMachineTooltips {
     }
 
     // 绝对重子完美净化装置
+    @JvmField
     val AbsoluteBaryonicPerfectionPurificationUnitTooltips = ComponentListSupplier {
         setTranslationPrefix("absolute_baryonic_perfection_purification_unit")
 
@@ -1953,6 +2092,7 @@ object GTOMachineTooltips {
     }
 
     // 源初重构仪
+    @JvmField
     val ThePrimordialReconstructorTooltips = ComponentListSupplier {
         setTranslationPrefix("the_primordial_reconstructor")
 
@@ -1988,6 +2128,7 @@ object GTOMachineTooltips {
     }
 
     // 共鸣之花
+    @JvmField
     val ResonanceFlowerTooltips = ComponentListSupplier {
         setTranslationPrefix("resonance_flower")
 
@@ -2023,6 +2164,7 @@ object GTOMachineTooltips {
     }
 
     // 炼金装置
+    @JvmField
     val AlchemicalDeviceTooltips = ComponentListSupplier {
         setTranslationPrefix("alchemical_device")
         add("炼金是一个神秘的过程" translatedTo "Alchemy is a mysterious process") { gold() }
@@ -2031,14 +2173,14 @@ object GTOMachineTooltips {
     }
 
     // 炼金锅
+    @JvmField
     val AlchemyCauldronTooltips = ComponentListSupplier {
         setTranslationPrefix("alchemy_cauldron")
-
-        command(ComponentSlang.TemperatureMax(1600))
         important("不要用它来做饭" translatedTo "Do not use it for cooking food")
     }
 
     // 大型炼金装置补充
+    @JvmField
     val LargeAlchemicalDeviceTooltips = ComponentListSupplier {
         setTranslationPrefix("large_alchemical_device")
 
@@ -2048,6 +2190,7 @@ object GTOMachineTooltips {
     }
 
     // 精灵交易所
+    @JvmField
     val ElfExchangeMachine = ComponentListSupplier {
         setTranslationPrefix("elf_exchange_machine")
 
@@ -2060,6 +2203,7 @@ object GTOMachineTooltips {
     }
 
     // 快中子增殖堆
+    @JvmField
     val FastNeutronBreederTooltips = ComponentListSupplier {
         setTranslationPrefix("fast_neutron_breeder")
 
@@ -2091,6 +2235,7 @@ object GTOMachineTooltips {
     }
 
     // 燃料电池发电机
+    @JvmField
     val FuelCellGeneratorTooltips = ComponentListSupplier {
         setTranslationPrefix("fuel_cell_generator")
 
@@ -2127,6 +2272,7 @@ object GTOMachineTooltips {
         command("且发电模式仅可使用特定电极膜" translatedTo "And the power generation mode can only use specific Electrode Membranes")
     }
 
+    @JvmField
     val SpaceStationTooltips = ComponentListSupplier {
         setTranslationPrefix("space_station")
 
@@ -2148,6 +2294,8 @@ object GTOMachineTooltips {
         info("当拥有更多蒸馏水供给时，空间站会尝试每秒向连接的光伏阵列各输送§b8mB 蒸馏水§r以冷却其太阳能板" translatedTo "When more distilled water supply is available, the space station will attempt to supply each connected photovoltaic array with §b8mB Distilled Water§r per second to cool its solar panels")
         info("运行时每10秒将排出30mB废水" translatedTo "When operating, it will discharge 30mB of Waste Water every 10 seconds")
     }
+
+    @JvmField
     val LargeSpaceStationTooltips = ComponentListSupplier {
         setTranslationPrefix("large_space_station")
 
@@ -2177,6 +2325,8 @@ object GTOMachineTooltips {
         info("§b衔接舱§r：用于连接核心舱/模块仓与其他拓展舱体" translatedTo "§bConnection Module§r: Used to connect the core module with other expansion modules")
         info("§b模块舱§r：提供额外的空间与功能" translatedTo "§bFunctional Module§r: Provides additional space and functions")
     }
+
+    @JvmField
     val SpaceStationWorkspaceExtensionTooltips = ComponentListSupplier {
         setTranslationPrefix("space_station_workspace_extension")
 
@@ -2186,6 +2336,8 @@ object GTOMachineTooltips {
         important(("该模块为变长模块" translatedTo "This module is a variable-length module").scrollExotic())
         important("在搭建模块前请在机器GUI内点击左下调整器调整模块的长度" translatedTo "Before building the module, please click the adjuster in the bottom left of the machine GUI to adjust the length of the module")
     }
+
+    @JvmField
     val SpaceStationEnvironmentalMaintenanceModuleTooltips = ComponentListSupplier {
         setTranslationPrefix("space_station_environmental_maintenance_module")
 
@@ -2198,10 +2350,14 @@ object GTOMachineTooltips {
         )
         highlight("提供无人机仓，可供无人机清理空间站内机器的垃圾，或自动维护机器" translatedTo "Provides a drone bay for drones to clean up machine waste or automatically maintain machines in the space station")
     }
+
+    @JvmField
     val NoExtensionAvailableTooltips = ComponentListSupplier {
         setTranslationPrefix("no_extension_available")
         error("该种类空间站舱段无法向外侧安装拓展舱体" translatedTo "This type of space station module cannot install expansion modules on the outside")
     }
+
+    @JvmField
     val RecipeExtensionTooltips = ComponentListSupplier {
         setTranslationPrefix("recipe_extension")
         section("配方拓展舱室" translatedTo "Recipe Extension Module")
@@ -2213,24 +2369,32 @@ object GTOMachineTooltips {
         )
         highlight("则解锁§d激光仓§r/§d超频仓§r/§d线程仓§r等高级舱体的使用权限" translatedTo "The use of advanced modules such as §dLaser Chamber§r/§dOverclocking Chamber§r/§dThread Chamber§r will be unlocked")
     }
+
+    @JvmField
     val CoreSpaceStationModuleTooltips = ComponentListSupplier {
         setTranslationPrefix("core_space_station_module")
         section("工业空间站太空舱种类" translatedTo "Types of Industrial Space Station Modules")
         info(ComponentSlang.IsWhatTypeSpaceModule(ComponentSlang.CoreModuleSpaceModule))
         info(ComponentSlang.CanConnectToWhatTypeSpaceModule(listOf(ComponentSlang.ConjunctionModuleSpaceModule)))
     }
+
+    @JvmField
     val ConjunctionSpaceStationModuleTooltips = ComponentListSupplier {
         setTranslationPrefix("conjunction_space_station_module")
         section("工业空间站太空舱种类" translatedTo "Types of Industrial Space Station Modules")
         info(ComponentSlang.IsWhatTypeSpaceModule(ComponentSlang.ConjunctionModuleSpaceModule))
         info(ComponentSlang.CanConnectToWhatTypeSpaceModule(listOf(ComponentSlang.ConjunctionModuleSpaceModule, ComponentSlang.FunctionModuleSpaceModule)))
     }
+
+    @JvmField
     val FunctionSpaceStationModuleTooltips = ComponentListSupplier {
         setTranslationPrefix("function_space_station_module")
         section("工业空间站太空舱种类" translatedTo "Types of Industrial Space Station Modules")
         info(ComponentSlang.IsWhatTypeSpaceModule(ComponentSlang.FunctionModuleSpaceModule))
         info(ComponentSlang.CanConnectToWhatTypeSpaceModule(listOf(ComponentSlang.ConjunctionModuleSpaceModule)))
     }
+
+    @JvmField
     val SpaceDroneDockTooltips = ComponentListSupplier {
         setTranslationPrefix("space_drone_dock")
         section(ComponentSlang.MainFunction)
@@ -2242,17 +2406,23 @@ object GTOMachineTooltips {
         increase("每消耗600,000EU，配方最大并行数+1" translatedTo "For every 600,000EU consumed, the maximum parallelism of the recipe +1")
         decrease("无人机/电池缺电时，配方无法运行" translatedTo "The recipe cannot run when the drone has no power")
     }
+
+    @JvmField
     val SpaceStationEnergyConversionModuleTooltips = ComponentListSupplier {
         setTranslationPrefix("space_station_energy_conversion_module")
         section(ComponentSlang.MainFunction)
         highlight("安装后，空间站内的其他拓展舱体将能够使用§d激光仓§r/§d超频仓§r/§d线程仓§r等高级舱体" translatedTo "When installed, other expansion modules in the space station will be able to use advanced modules such as §dLaser Chamber§r/§dOverclocking Chamber§r/§dThread Chamber§r")
     }
+
+    @JvmField
     val meRequestableInputBusTooltips: ComponentListSupplier = ComponentListSupplier {
         setTranslationPrefix("me_requestable_input_bus")
         section(ComponentSlang.MainFunction)
         content("将物品从ME网络中提取出来，放入机器中进行加工" translatedTo "Extract items from the ME network and insert them into machines for processing")
         content("提取不出来则会自己下单请求" translatedTo "If items cannot be extracted, it will place its own order request")
     }
+
+    @JvmField
     val meRequestableInputHatchTooltips: ComponentListSupplier = ComponentListSupplier {
         setTranslationPrefix("me_requestable_input_hatch")
         section(ComponentSlang.MainFunction)

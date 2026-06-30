@@ -50,10 +50,9 @@ public class HUDScreen extends Screen {
             hud.render(guiGraphics, mouseX, mouseY, partialTick);
         }
 
-        if (selectedHud == null || !selectedHud.isEnabled()) {
-            return;
+        if (selectedHud != null && selectedHud.isEnabled()) {
+            IMoveableHUD.drawOutline(guiGraphics, selectedHud.getPropertyAnchorBounds(width, height), 0xFF7FDBFF);
         }
-        IMoveableHUD.drawOutline(guiGraphics, selectedHud.getPropertyAnchorBounds(width, height), 0xFF7FDBFF);
 
         renderCornerButton(guiGraphics, mouseX, mouseY, hiddenHuds);
         if (dropdownOpen) {

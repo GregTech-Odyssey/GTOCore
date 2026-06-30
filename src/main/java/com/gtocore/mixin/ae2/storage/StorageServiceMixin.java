@@ -9,6 +9,7 @@ import net.minecraft.server.MinecraftServer;
 import appeng.api.stacks.KeyCounter;
 import appeng.me.service.StorageService;
 
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -19,6 +20,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(StorageService.class)
 public abstract class StorageServiceMixin implements IExpandedStorageService {
 
+    @Final
     @Shadow(remap = false)
     private KeyCounter cachedAvailableStacks;
 

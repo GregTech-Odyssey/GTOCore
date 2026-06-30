@@ -63,10 +63,10 @@ import net.minecraft.world.level.block.CraftingTableBlock;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraftforge.fluids.FluidStack;
 
-import com.fast.fastcollection.O2OOpenCacheHashMap;
-import com.fast.fastcollection.OpenCacheHashSet;
 import com.google.common.collect.Tables;
 import com.gto.datasynclib.datasream.DataComponentMap;
+import com.gto.fastcollection.O2OOpenCacheHashMap;
+import com.gto.fastcollection.OpenCacheHashSet;
 import com.lowdragmc.lowdraglib.gui.factory.HeldItemUIFactory;
 import com.lowdragmc.lowdraglib.gui.modular.ModularUI;
 import com.lowdragmc.lowdraglib.gui.texture.GuiTextureGroup;
@@ -82,6 +82,7 @@ import it.unimi.dsi.fastutil.objects.Reference2CharLinkedOpenHashMap;
 import it.unimi.dsi.fastutil.objects.Reference2ObjectOpenHashMap;
 
 import java.util.*;
+import java.util.function.BiPredicate;
 
 public final class RecipeEditorBehavior implements IItemUIFactory, IFancyUIProvider {
 
@@ -201,7 +202,7 @@ public final class RecipeEditorBehavior implements IItemUIFactory, IFancyUIProvi
         GTRecipeTypeUI recipeUI = new GTRecipeTypeUI(machine.recipeType) {
 
             @Override
-            protected WidgetGroup addInventorySlotGroup(boolean isOutputs, boolean isSteam, boolean isHighPressure) {
+            protected WidgetGroup addInventorySlotGroup(boolean isOutputs, boolean isSteam, boolean isHighPressure, BiPredicate<Boolean, RecipeInfo> predicate) {
                 int maxCount = 0;
                 int totalR = 0;
                 TreeMap<RecipeInfo, Integer> map = new TreeMap<>(RecipeInfo.COMPARATOR);
@@ -231,7 +232,7 @@ public final class RecipeEditorBehavior implements IItemUIFactory, IFancyUIProvi
                 WidgetGroup group = new WidgetGroup(0, 0, maxCount * 18 + 8, totalR * 18 + 8);
                 int index = 0;
                 for (var entry : map.entrySet()) {
-                    if (entry.getKey() instanceof ContentRecipeInfo cap) {
+                    if (entry.getKey() instanceof ContentRecipeInfo<?> cap) {
                         boolean i = cap == ItemRecipeInfo.INSTANCE;
                         if (i || isGT) {
                             if (cap.getWidgetClass() == null) {
@@ -257,8 +258,8 @@ public final class RecipeEditorBehavior implements IItemUIFactory, IFancyUIProvi
             @Override
             public IEditableUI<WidgetGroup, RecipeHolder> createEditableUITemplate(boolean isSteam, boolean isHighPressure) {
                 return new IEditableUI.Normal<>(() -> {
-                    var inputs = addInventorySlotGroup(false, isSteam, isHighPressure);
-                    var outputs = addInventorySlotGroup(true, isSteam, isHighPressure);
+                    var inputs = addInventorySlotGroup(false, isSteam, isHighPressure, (a, b) -> true);
+                    var outputs = addInventorySlotGroup(true, isSteam, isHighPressure, (a, b) -> true);
                     var maxWidth = Math.max(inputs.getSize().width, outputs.getSize().width);
                     var group = new WidgetGroup(0, 0, 2 * maxWidth + 40, Math.max(inputs.getSize().height, outputs.getSize().height));
                     var size = group.getSize();
@@ -415,7 +416,8 @@ public final class RecipeEditorBehavior implements IItemUIFactory, IFancyUIProvi
                 stringBuilder.append(".save();\n");
             } else {
                 String id = machine.id;
-                if (id.isEmpty()) id = ItemUtils.getIdLocation(machine.exportItems.getStackInSlot(0).getItem()).getPath();
+                if (id.isEmpty())
+                    id = ItemUtils.getIdLocation(machine.exportItems.getStackInSlot(0).getItem()).getPath();
                 stringBuilder.append("\nVanillaRecipeHelper.addShapedRecipe(");
                 stringBuilder.append("GTOCore.id(\"").append(id).append("\"), ");
                 stringBuilder.append(StringConverter.fromItem(ItemIngredient.of(machine.exportItems.getStackInSlot(0)), 0)).append(",\n\"");

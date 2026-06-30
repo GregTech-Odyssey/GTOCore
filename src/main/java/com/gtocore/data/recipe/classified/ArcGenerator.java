@@ -316,6 +316,7 @@ final class ArcGenerator {
                 .duration(200)
                 .save();
         ARC_GENERATOR_RECIPES.builder("icee_shard")
+                .circuitMeta(1)
                 .inputItems(TagPrefix.dust, GTOMaterials.FrozenVolatileIce, 8)
                 .outputItems("ad_astra:ice_shard", 4)
                 .chancedOutput(GTOMaterials.IceCrystalVolatiles.getFluid(1000), 2500, 0)

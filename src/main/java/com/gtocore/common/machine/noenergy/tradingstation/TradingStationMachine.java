@@ -188,7 +188,7 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
         mainGroup.addWidget(new DraggableScrollableWidgetGroup(4, 34, width - 90, height - 34)
                 .setYScrollBarWidth(2)
                 .setYBarStyle(null, ColorPattern.T_WHITE.rectTexture().setRadius(1))
-                .addWidget(new ComponentPanelWidget(0, 0, GTOMachineTooltips.INSTANCE.getPanGalaxyGregTechTradingStationIntroduction().get()).setMaxWidthLimit(width - 90)));
+                .addWidget(new ComponentPanelWidget(0, 0, GTOMachineTooltips.PanGalaxyGregTechTradingStationIntroduction.get()).setMaxWidthLimit(width - 90)));
 
         Level level = getLevel();
         ServerLevel serverLevel = getLevel() instanceof ServerLevel ? (ServerLevel) getLevel() : null;
@@ -891,7 +891,7 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
 
     private void updateAutoOutputSubscription() {
         if (getLevel() == null || isRemote()) return;
-        if ((autoOutputItems && !outputItem.isEmpty() && getOutputFacingItems() != null && blockEntityDirectionCache.hasAdjacentItemHandler(getLevel(), getPos(), getOutputFacingItems())) || (autoOutputFluids && !outputFluid.isEmpty() && getOutputFacingFluids() != null && blockEntityDirectionCache.hasAdjacentFluidHandler(getLevel(), getPos(), getOutputFacingFluids()))) {
+        if ((autoOutputItems && !outputItem.isEmpty() && getOutputFacingItems() != null && holder.blockEntityDirectionCache.hasAdjacentItemHandler(getLevel(), getPos(), getOutputFacingItems())) || (autoOutputFluids && !outputFluid.isEmpty() && getOutputFacingFluids() != null && holder.blockEntityDirectionCache.hasAdjacentFluidHandler(getLevel(), getPos(), getOutputFacingFluids()))) {
             autoOutputSubs = subscribeServerTick(autoOutputSubs, this::autoOutput, 20);
         } else if (autoOutputSubs != null) {
             autoOutputSubs.unsubscribe();

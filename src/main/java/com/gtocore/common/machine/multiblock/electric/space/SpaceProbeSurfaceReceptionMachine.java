@@ -103,6 +103,6 @@ public final class SpaceProbeSurfaceReceptionMachine extends ElectricMultiblockM
     @Override
     public void customText(@NotNull List<Component> textList) {
         super.customText(textList);
-        textList.add(Component.translatable("gtocore.machine.dyson_sphere.number", DysonSphereSavaedData.getDimensionData(getDimension()).leftInt()));
+        textList.add(Component.translatable("gtocore.machine.dyson_sphere.amount", DysonSphereSavaedData.getDimensionData(getDimension()).leftInt()));
     }
 }

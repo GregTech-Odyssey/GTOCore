@@ -118,7 +118,7 @@ public final class HugeBusPartMachine extends WorkableTieredIOPartMachine implem
 
     private void updateInventorySubscription() {
         var level = getLevel();
-        if (level != null && isWorkingEnabled() && blockEntityDirectionCache.hasAdjacentItemHandler(getLevel(), getPos(), getFrontFacing())) {
+        if (level != null && isWorkingEnabled() && holder.blockEntityDirectionCache.hasAdjacentItemHandler(getLevel(), getPos(), getFrontFacing())) {
             autoIOSubs = subscribeServerTick(autoIOSubs, this::autoIO, 40);
         } else if (autoIOSubs != null) {
             autoIOSubs.unsubscribe();
@@ -356,14 +356,12 @@ public final class HugeBusPartMachine extends WorkableTieredIOPartMachine implem
             var count = MathUtil.saturatedCast(this.count);
             if (amount == 0 || count < 1 || this.stack.isEmpty()) return 0;
             if (amount >= count) {
-                if (simulate) {
-                    return count;
-                } else {
+                if (!simulate) {
                     this.count = 0;
                     this.stack = ItemStack.EMPTY;
                     onContentsChanged(0);
-                    return count;
                 }
+                return count;
             } else {
                 if (!simulate) {
                     this.count -= amount;
@@ -380,10 +378,10 @@ public final class HugeBusPartMachine extends WorkableTieredIOPartMachine implem
         }
 
         @Override
-        public void writeBuf(LogicalSide side, @NotNull FriendlyByteBuf data) {}
+        public void writeBuf(LogicalSide side, FriendlyByteBuf data) {}
 
         @Override
-        public void readBuf(LogicalSide side, @NotNull FriendlyByteBuf data) {}
+        public void readBuf(LogicalSide side, FriendlyByteBuf data) {}
 
         @Override
         public Data writeData() {

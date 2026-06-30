@@ -149,10 +149,10 @@ public final class MachineRegisterUtils {
     }
 
     public static MachineDefinition[] registerSimpleGenerator(String name, String cn, GTRecipeType recipeType, Int2IntFunction tankScalingFunction, int... tiers) {
-        return registerTieredMachines(name, tier -> "%s%s %s".formatted(GTOValues.VLVHCN[tier], cn, VLVT[tier]),
+        return registerTieredMachines(name, tier -> "%s%s%s".formatted(GTOValues.VLVHCN[tier], cn, VLVT[tier]),
                 (holder, tier) -> new SimpleGeneratorMachine(holder, tier, 0.1F * tier, tankScalingFunction),
                 (tier, builder) -> builder
-                        .langValue("%s %s %s".formatted(VLVH[tier], FormattingUtil.toEnglishName(name), VLVT[tier]))
+                        .langValue("%s %s%s".formatted(VLVH[tier], FormattingUtil.toEnglishName(name), VLVT[tier]))
                         .editableUI(SimpleGeneratorMachine.EDITABLE_UI_CREATOR.apply(GTCEu.id(name), recipeType))
                         .allRotation()
                         .recipeType(recipeType)
@@ -168,10 +168,10 @@ public final class MachineRegisterUtils {
     }
 
     public static MachineDefinition[] registerRocketSimpleGenerator(String name, String cn, GTRecipeType recipeType, Int2IntFunction tankScalingFunction, int... tiers) {
-        return registerTieredMachines(name, tier -> "%s%s %s".formatted(GTOValues.VLVHCN[tier], cn, VLVT[tier]),
+        return registerTieredMachines(name, tier -> "%s%s%s".formatted(GTOValues.VLVHCN[tier], cn, VLVT[tier]),
                 (holder, tier) -> new SimpleGeneratorMachine(holder, tier, 0.1F * tier, tankScalingFunction),
                 (tier, builder) -> builder
-                        .langValue("%s %s %s".formatted(VLVH[tier], FormattingUtil.toEnglishName(name), VLVT[tier]))
+                        .langValue("%s %s%s".formatted(VLVH[tier], FormattingUtil.toEnglishName(name), VLVT[tier]))
                         .editableUI(SimpleGeneratorMachine.EDITABLE_UI_CREATOR.apply(GTCEu.id(name), recipeType))
                         .allRotation()
                         .workableInSpace()
@@ -203,11 +203,11 @@ public final class MachineRegisterUtils {
                                                              GTRecipeType recipeType,
                                                              Int2IntFunction tankScalingFunction,
                                                              ResourceLocation workableModel, int... tiers) {
-        return registerTieredMachines(name, tier -> "%s%s %s".formatted(GTOValues.VLVHCN[tier], cn, VLVT[tier]),
+        return registerTieredMachines(name, tier -> "%s%s%s".formatted(GTOValues.VLVHCN[tier], cn, VLVT[tier]),
                 (holder, tier) -> new SimpleTieredMachine(holder, tier, tankScalingFunction), (tier, builder) -> {
                     builder.recipeModifier(GTORecipeModifiers.UPGRADE_OVERCLOCK);
                     return builder
-                            .langValue("%s %s %s".formatted(VLVH[tier], FormattingUtil.toEnglishName(name), VLVT[tier]))
+                            .langValue("%s %s%s".formatted(VLVH[tier], FormattingUtil.toEnglishName(name), VLVT[tier]))
                             .editableUI(SimpleTieredMachine.EDITABLE_UI_CREATOR.apply(GTCEu.id(name), recipeType))
                             .nonYAxisRotation()
                             .recipeType(recipeType)
@@ -230,9 +230,9 @@ public final class MachineRegisterUtils {
                                                                       GTRecipeType recipeType,
                                                                       Int2IntFunction tankScalingFunction,
                                                                       ResourceLocation workableModel, int... tiers) {
-        return registerTieredMachines(name, tier -> "%s%s %s".formatted(GTOValues.VLVHCN[tier], cn, VLVT[tier]),
+        return registerTieredMachines(name, tier -> "%s%s%s".formatted(GTOValues.VLVHCN[tier], cn, VLVT[tier]),
                 (holder, tier) -> new SimpleNoEnergyMachine(holder, tier, tankScalingFunction), (tier, builder) -> builder
-                        .langValue("%s %s %s".formatted(VLVH[tier], FormattingUtil.toEnglishName(name), VLVT[tier]))
+                        .langValue("%s %s%s".formatted(VLVH[tier], FormattingUtil.toEnglishName(name), VLVT[tier]))
                         .editableUI(SimpleNoEnergyMachine.EDITABLE_UI_CREATOR.apply(GTCEu.id(name), recipeType))
                         .nonYAxisRotation()
                         .recipeType(recipeType)
@@ -301,9 +301,8 @@ public final class MachineRegisterUtils {
         MultiblockMachineBuilder builder = registrate.multiblock(name, holder -> new CombustionEngineMachine(holder, tier))
                 .nonYAxisRotation()
                 .recipeTypes(recipeType)
-                .tooltips(GTOMachineTooltips.INSTANCE.getLargeCombustionTooltips()
-                        .invoke(V[tier] << 1, V[tier] * 6, tier > EV, V[tier] << 3)
-                        .getSupplier())
+                .tooltips(GTOMachineTooltips.LargeCombustionTooltips
+                        .invoke(V[tier] << 1, V[tier] * 6, tier > EV, V[tier] << 3))
                 .moduleTooltips(new PartAbility[0])
                 .generator()
                 .block(casing)
@@ -399,8 +398,8 @@ public final class MachineRegisterUtils {
         if (!isGTM) addLang(name, cn);
         MultiblockMachineBuilder builder = registrate.multiblock(name, holder -> new TurbineMachine(holder, tier, special, false))
                 .addTooltipsFromClass(TurbineMachine.class)
-                .tooltips(GTOMachineTooltips.INSTANCE.getLargeTurbineTooltips().invoke((long) (V[tier] * (special ? 2.5 : 2)), tier).getSupplier())
-                .tooltips(GTOMachineTooltips.INSTANCE.getTurbineHighSpeedTooltips().getSupplier())
+                .tooltips(GTOMachineTooltips.LargeTurbineTooltips.invoke((long) (V[tier] * (special ? 2.5 : 2)), tier))
+                .tooltips(GTOMachineTooltips.TurbineHighSpeedTooltips)
                 .moduleTooltips(new PartAbility[0])
                 .nonYAxisRotation()
                 .recipeTypes(recipeType)
@@ -493,9 +492,9 @@ public final class MachineRegisterUtils {
                 .nonYAxisRotation()
                 .recipeTypes(recipeType)
                 .generator()
-                .tooltips(GTOMachineTooltips.INSTANCE.getMegaTurbineGenerateTooltips()
-                        .invoke(V[tier] * (special ? 12 : 8), tier).getSupplier())
-                .tooltips(GTOMachineTooltips.INSTANCE.getTurbineHighSpeedTooltips().getSupplier())
+                .tooltips(GTOMachineTooltips.MegaTurbineGenerateTooltips
+                        .invoke(V[tier] * (special ? 12 : 8), tier))
+                .tooltips(GTOMachineTooltips.TurbineHighSpeedTooltips)
                 .moduleTooltips(new PartAbility[0])
                 .addTooltipsFromClass(TurbineMachine.class)
                 .block(casing)

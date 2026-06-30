@@ -1,7 +1,7 @@
 package com.gtocore.client.renderer.machine;
 
 import com.gtolib.GTOCore;
-import com.gtolib.api.machine.feature.ITemperatureMachine;
+import com.gtolib.api.machine.heat.feature.IHeatContainerMachine;
 
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
@@ -59,12 +59,12 @@ public interface IHeaterRenderer {
     }
 
     default void renderHeater(List<BakedQuad> quads, MachineDefinition definition, @Nullable MetaMachine machine, Direction frontFacing, @Nullable Direction side, RandomSource rand, Direction modelFacing, ModelState modelState) {
-        if (!(machine instanceof ITemperatureMachine heater) || side == null) {
+        if (!(machine instanceof IHeatContainerMachine heater) || side == null) {
             return;
         }
-        int heatLevel = heater.getSignal(side);
-        var temp = heater.getTemperature();
-        var maxTemp = heater.getMaxTemperature();
+        int heatLevel = heater.getHeatContainer().getSignal();
+        var temp = heater.getHeatContainer().getTemperature();
+        var maxTemp = heater.getHeatContainer().getMaxTemperature();
         float tempRatio = Math.min(1.0f, (float) temp / maxTemp);
 
         var leftFacing = RelativeDirection.LEFT.getRelative(machine.getFrontFacing(), machine.getUpwardsFacing(), false);

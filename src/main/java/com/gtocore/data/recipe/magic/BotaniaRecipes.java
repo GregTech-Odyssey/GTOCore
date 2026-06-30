@@ -45,7 +45,7 @@ import vazkii.botania.common.brew.BotaniaBrews;
 import vazkii.botania.common.crafting.StateIngredientHelper;
 import vazkii.botania.common.item.BotaniaItems;
 import vazkii.botania.common.lib.BotaniaTags;
-import vectorwing.farmersdelight.common.tag.ForgeTags;
+import vectorwing.farmersdelight.common.tag.CommonTags;
 
 import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.*;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
@@ -114,7 +114,7 @@ public final class BotaniaRecipes {
 
         // 花药台
         {
-            ApothecaryRecipe("colorful_mystical_flower", Ingredient.of(ForgeTags.SEEDS), new ItemStack(COLORFUL_MYSTICAL_FLOWER),
+            ApothecaryRecipe("colorful_mystical_flower", Ingredient.of(CommonTags.Items.SEEDS), new ItemStack(COLORFUL_MYSTICAL_FLOWER),
                     new Ingredient[] { Ingredient.of(BotaniaItems.whitePetal), Ingredient.of(BotaniaItems.lightGrayPetal), Ingredient.of(BotaniaItems.grayPetal), Ingredient.of(BotaniaItems.blackPetal),
                             Ingredient.of(BotaniaItems.brownPetal), Ingredient.of(BotaniaItems.redPetal), Ingredient.of(BotaniaItems.orangePetal), Ingredient.of(BotaniaItems.yellowPetal),
                             Ingredient.of(BotaniaItems.limePetal), Ingredient.of(BotaniaItems.greenPetal), Ingredient.of(BotaniaItems.cyanPetal), Ingredient.of(BotaniaItems.lightBluePetal),
@@ -831,7 +831,7 @@ public final class BotaniaRecipes {
             IndustrialAltarRecipe3(2, "enchanter", 1, Items.WHEAT_SEEDS, new ItemStack(ExtrabotanyFlowerBlocks.enchanter), new Item[] { BotaniaItems.purplePetal, BotaniaItems.purplePetal, BotaniaItems.magentaPetal, BotaniaItems.limePetal, BotaniaItems.limePetal, BotaniaItems.runePride, BotaniaItems.runeGreed, BotaniaItems.runeGluttony, BotaniaItems.lifeEssence });
 
             INDUSTRIAL_ALTAR_RECIPES.builder("colorful_mystical_flower")
-                    .inputItems(ForgeTags.SEEDS, 8)
+                    .inputItems(CommonTags.Items.SEEDS, 8)
                     .inputFluids(Water, 8000)
                     .outputItems(COLORFUL_MYSTICAL_FLOWER, 8)
                     .duration(20)
@@ -1222,7 +1222,7 @@ public final class BotaniaRecipes {
 
         var build = INDUSTRIAL_ALTAR_RECIPES.builder(id);
         build
-                .inputItems(ForgeTags.SEEDS, 8)
+                .inputItems(CommonTags.Items.SEEDS, 8)
                 .inputFluids(Water, 8000)
                 .outputItems(output, 8)
                 .duration(20)

@@ -1,6 +1,23 @@
 {
   "parent": "minecraft:block/cube_all",
   "textures": {
-    "all": "gtocore:block/coil/infinity_coil_block"
+    "all": "gtocore:block/coil/coil_frame"
+  },
+  "loader": "gtocore:y_layered",
+  "y_layered": {
+    "layers": [
+      {
+        "source": "all",
+        "texture": "gtocore:block/coil/infinity_coil_block_layer",
+        "replace": true,
+        "rows": 4,
+        "columns": 4
+      },
+      {
+        "source": "all",
+        "texture": "#all",
+        "replace": false
+      }
+    ]
   }
 }

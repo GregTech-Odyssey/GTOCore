@@ -10,13 +10,11 @@ import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.common.data.GTBlocks;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
+import com.gregtechceu.gtceu.common.data.GTTags;
 import com.gregtechceu.gtceu.data.recipe.CustomTags;
 
-import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.data.tags.TagsProvider;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
-import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
@@ -24,7 +22,6 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.material.Fluid;
 
-import com.gto.registrate.providers.RegistrateTagsProvider;
 import com.hollingsworth.arsnouveau.setup.registry.BlockRegistry;
 import com.kyanite.deeperdarker.content.DDBlocks;
 import com.teamresourceful.resourcefullib.common.registry.RegistryEntry;
@@ -36,18 +33,17 @@ import java.util.Comparator;
 
 public final class TagsHandler {
 
-    public static void initBlock(RegistrateTagsProvider<Block> provider) {
-        provider.addTag(Tags.ALL_LAYER_STONE).addTag(BlockTags.STONE_ORE_REPLACEABLES).addTag(BlockTags.DEEPSLATE_ORE_REPLACEABLES).addTag(BlockTags.NETHER_CARVER_REPLACEABLES);
-        create(provider, Tags.ALL_LAYER_STONE, Blocks.END_STONE, ModBlocks.MOON_STONE.get(), ModBlocks.MARS_STONE.get(), ModBlocks.VENUS_STONE.get(),
+    public static void initBlock() {
+        create(Tags.ALL_LAYER_STONE, Blocks.END_STONE, ModBlocks.MOON_STONE.get(), ModBlocks.MARS_STONE.get(), ModBlocks.VENUS_STONE.get(),
                 ModBlocks.MERCURY_STONE.get(), ModBlocks.GLACIO_STONE.get(), GTOBlocks.TITAN_STONE.get(), GTOBlocks.PLUTO_STONE.get(),
                 GTOBlocks.IO_STONE.get(), GTOBlocks.GANYMEDE_STONE.get(), GTOBlocks.ENCELADUS_STONE.get(), GTOBlocks.CERES_STONE.get(),
                 DDBlocks.SCULK_STONE.get(), DDBlocks.GLOOMSLATE.get(), BotaniaBlocks.livingrock);
-        create(provider, Tags.ARCHWOOD_LOG,
+        create(Tags.ARCHWOOD_LOG,
                 BlockRegistry.BLAZING_LOG.get(), BlockRegistry.CASCADING_LOG.get(), BlockRegistry.VEXING_LOG.get(), BlockRegistry.FLOURISHING_LOG.get(),
                 BlockRegistry.BLAZING_WOOD.get(), BlockRegistry.CASCADING_WOOD.get(), BlockRegistry.FLOURISHING_WOOD.get(), BlockRegistry.VEXING_WOOD.get(),
                 BlockRegistry.STRIPPED_AWLOG_BLUE.get(), BlockRegistry.STRIPPED_AWWOOD_BLUE.get(), BlockRegistry.STRIPPED_AWLOG_GREEN.get(), BlockRegistry.STRIPPED_AWWOOD_GREEN.get(),
                 BlockRegistry.STRIPPED_AWLOG_RED.get(), BlockRegistry.STRIPPED_AWWOOD_RED.get(), BlockRegistry.STRIPPED_AWLOG_PURPLE.get(), BlockRegistry.STRIPPED_AWWOOD_PURPLE.get());
-        create(provider, CustomTags.MINEABLE_WITH_WRENCH,
+        create(CustomTags.MINEABLE_WITH_WRENCH,
                 BlockRegistry.SCRIBES_BLOCK.get(),
                 BlockRegistry.RELAY.get(),
                 BlockRegistry.ARCANE_CORE_BLOCK.get(),
@@ -94,27 +90,27 @@ public final class TagsHandler {
                 BlockRegistry.ITEM_DETECTOR.get(),
                 BlockRegistry.REPOSITORY.get());
 
-        create(provider, CustomTags.MINEABLE_WITH_WRENCH, GTOGlobes.GLOBE_ENTRIES.stream()
+        create(CustomTags.MINEABLE_WITH_WRENCH, GTOGlobes.GLOBE_ENTRIES.stream()
                 .sorted(Comparator.comparing(s -> s.get().getDescriptionId()))
                 .map(RegistryEntry::get).toArray(Block[]::new));
-        create(provider, BlockTags.MINEABLE_WITH_PICKAXE, GTOGlobes.GLOBE_ENTRIES.stream()
+        create(BlockTags.MINEABLE_WITH_PICKAXE, GTOGlobes.GLOBE_ENTRIES.stream()
                 .sorted(Comparator.comparing(s -> s.get().getDescriptionId()))
                 .map(RegistryEntry::get).toArray(Block[]::new));
-        create(provider, CustomTags.MINEABLE_WITH_WRENCH, GTOGlobes.Blocks.GTO_FLAG.get());
-        create(provider, BlockTags.MINEABLE_WITH_AXE, GTOGlobes.Blocks.GTO_FLAG.get());
+        create(CustomTags.MINEABLE_WITH_WRENCH, GTOGlobes.Blocks.GTO_FLAG.get());
+        create(BlockTags.MINEABLE_WITH_AXE, GTOGlobes.Blocks.GTO_FLAG.get());
 
-        create(provider, BotaniaTags.Blocks.UNETHICAL_TNT_CHECK,
+        create(BotaniaTags.Blocks.UNETHICAL_TNT_CHECK,
                 GTBlocks.INDUSTRIAL_TNT.get(),
                 GTBlocks.POWDERBARREL.get());
-        create(provider, CustomTags.CLEANROOM_FLOORS,
+        create(CustomTags.CLEANROOM_FLOORS,
                 GTOMachines.TRAVEL_ANCHOR.get());
     }
 
-    public static void initItem(RegistrateTagsProvider<Item> provider) {
-        create(provider, Tags.HUMAN_EGG, Items.VILLAGER_SPAWN_EGG, Items.WITCH_SPAWN_EGG);
-        create(provider, ItemTags.create(ResourceLocation.fromNamespaceAndPath("curios", "curio")),
+    public static void initItem() {
+        create(Tags.HUMAN_EGG, Items.VILLAGER_SPAWN_EGG, Items.WITCH_SPAWN_EGG);
+        create(ResourceLocation.fromNamespaceAndPath("curios", "curio"),
                 GTOItems.WIRELESS_ME2IN1.asItem());
-        create(provider, ItemTags.create(ResourceLocation.parse("forge:ingots/redstone_alloy")),
+        create(ResourceLocation.parse("forge:ingots/redstone_alloy"),
                 ChemicalHelper.getItem(TagPrefix.ingot, GTMaterials.RedAlloy));
         Item[] isaProcessableItems = GTCEuAPI.materialManager.getRegistries().stream()
                 .flatMap(registry -> registry.getAllMaterials().stream())
@@ -122,38 +118,53 @@ public final class TagsHandler {
                 .flatMap(material -> TagPrefix.ORES.keySet().stream().map(tagPrefix -> ChemicalHelper.getItem(tagPrefix, material)).filter(item -> item != Items.AIR))
                 .sorted(Comparator.comparing(Item::toString))
                 .toArray(Item[]::new);
-        create(provider, TagUtils.createTGItemTag("isa_processable"), isaProcessableItems);
+        create(TagUtils.createTGItemTag("isa_processable"), isaProcessableItems);
     }
 
-    public static void initFluid(RegistrateTagsProvider<Fluid> provider) {
-        create(provider, Tags.PURIFY_WATER, GTOMaterials.FilteredSater.getFluid());
-        create(provider, Tags.PURIFY_WATER, GTOMaterials.OzoneWater.getFluid());
-        create(provider, Tags.PURIFY_WATER, GTOMaterials.FlocculentWater.getFluid());
-        create(provider, Tags.PURIFY_WATER, GTOMaterials.PHNeutralWater.getFluid());
-        create(provider, Tags.PURIFY_WATER, GTOMaterials.ExtremeTemperatureWater.getFluid());
-        create(provider, Tags.PURIFY_WATER, GTOMaterials.ElectricEquilibriumWater.getFluid());
-        create(provider, Tags.PURIFY_WATER, GTOMaterials.DegassedWater.getFluid());
-        create(provider, Tags.PURIFY_WATER, GTOMaterials.BaryonicPerfectionWater.getFluid());
+    public static void initFluid() {
+        create(Tags.PURIFY_WATER, GTOMaterials.FilteredSater.getFluid());
+        create(Tags.PURIFY_WATER, GTOMaterials.OzoneWater.getFluid());
+        create(Tags.PURIFY_WATER, GTOMaterials.FlocculentWater.getFluid());
+        create(Tags.PURIFY_WATER, GTOMaterials.PHNeutralWater.getFluid());
+        create(Tags.PURIFY_WATER, GTOMaterials.ExtremeTemperatureWater.getFluid());
+        create(Tags.PURIFY_WATER, GTOMaterials.ElectricEquilibriumWater.getFluid());
+        create(Tags.PURIFY_WATER, GTOMaterials.DegassedWater.getFluid());
+        create(Tags.PURIFY_WATER, GTOMaterials.BaryonicPerfectionWater.getFluid());
     }
 
-    private static void create(RegistrateTagsProvider<Block> provider, TagKey<Block> tagKey, Block... rls) {
-        TagsProvider.TagAppender<Block> builder = provider.addTag(tagKey);
-        for (Block block : rls) {
-            builder.add(BuiltInRegistries.BLOCK.getResourceKey(block).get());
+    private static void create(ResourceLocation location, Block... rls) {
+        for (var block : rls) {
+            GTTags.addBlockEntry(block, location);
         }
     }
 
-    private static void create(RegistrateTagsProvider<Item> provider, TagKey<Item> tagKey, Item... rls) {
-        var builder = provider.addTag(tagKey);
-        for (Item item : rls) {
-            builder.add(BuiltInRegistries.ITEM.getResourceKey(item).get());
+    private static void create(ResourceLocation location, Item... rls) {
+        for (var item : rls) {
+            GTTags.addItemEntry(item, location);
         }
     }
 
-    private static void create(RegistrateTagsProvider<Fluid> provider, TagKey<Fluid> tagKey, Fluid... rls) {
-        var builder = provider.addTag(tagKey);
-        for (Fluid fluid : rls) {
-            builder.add(BuiltInRegistries.FLUID.getResourceKey(fluid).get());
+    private static void create(ResourceLocation location, Fluid... rls) {
+        for (var fluid : rls) {
+            GTTags.addFluidEntry(fluid, location);
+        }
+    }
+
+    private static void create(TagKey<Block> tagKey, Block... rls) {
+        for (var block : rls) {
+            GTTags.addBlockEntry(block, tagKey.location());
+        }
+    }
+
+    private static void create(TagKey<Item> tagKey, Item... rls) {
+        for (var item : rls) {
+            GTTags.addItemEntry(item, tagKey.location());
+        }
+    }
+
+    private static void create(TagKey<Fluid> tagKey, Fluid... rls) {
+        for (var fluid : rls) {
+            GTTags.addFluidEntry(fluid, tagKey.location());
         }
     }
 }

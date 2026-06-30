@@ -21,7 +21,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public final class ChiselMachine extends CustomParallelMultiblockMachine implements ICustomRecipeLogicHolder {
 
     public ChiselMachine(MetaMachineBlockEntity holder) {
-        super(holder, true, m -> 1L << (2 * (m.getTier() - 1)));
+        super(holder, m -> 1L << (2 * (m.getTier() - 1)));
     }
 
     @Override

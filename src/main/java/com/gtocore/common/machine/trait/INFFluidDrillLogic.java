@@ -38,27 +38,24 @@ public final class INFFluidDrillLogic extends RecipeLogic implements IFluidDrill
     }
 
     @Override
-    public void findAndHandleRecipe() {
+    public boolean findAndHandleRecipe() {
         if (getMachine().getLevel() instanceof ServerLevel serverLevel) {
             lastRecipe = null;
             var data = BedrockFluidVeinSavedData.getOrCreate(serverLevel);
             if (veinFluid == null) {
                 veinFluid = data.getFluidInChunk(getChunkX(), getChunkZ());
                 if (veinFluid == null) {
-                    if (subscription != null) {
-                        subscription.unsubscribe();
-                        subscription = null;
-                    }
-                    return;
+                    return false;
                 }
             }
             var match = getFluidDrillRecipe();
             if (match != null) {
                 if (machine.matchRecipeOutput(match) && machine.matchTickRecipe(match)) {
-                    setupRecipe(RecipeHandlerUnit.NO_DATA, match);
+                    return setupRecipe(RecipeHandlerUnit.NO_DATA, match);
                 }
             }
         }
+        return false;
     }
 
     @Nullable
@@ -97,21 +94,22 @@ public final class INFFluidDrillLogic extends RecipeLogic implements IFluidDrill
     }
 
     @Override
-    public void onRecipeFinish() {
+    public boolean onRecipeFinish() {
         machine.afterWorking();
-        if (lastRecipe != null) {
-            machine.handleRecipeOutput(lastRecipe);
-        }
-        var match = getFluidDrillRecipe();
-        if (match != null) {
-            if (machine.matchRecipeOutput(match) && machine.matchTickRecipe(match)) {
-                setupRecipe(RecipeHandlerUnit.NO_DATA, match);
-                return;
+        if (lastRecipe != null) machine.handleRecipeOutput(lastRecipe);
+        if (this.suspendAfterFinish) {
+            this.setStatus(SUSPEND);
+            this.suspendAfterFinish = false;
+        } else {
+            var match = getFluidDrillRecipe();
+            if (match != null) {
+                if (machine.matchRecipeOutput(match) && machine.matchTickRecipe(match)) {
+                    return setupRecipe(RecipeHandlerUnit.NO_DATA, match);
+                }
             }
+            setStatus(IDLE);
         }
-        setStatus(IDLE);
-        progress = 0;
-        duration = 0;
+        return false;
     }
 
     private boolean isOverclocked() {

@@ -14,6 +14,7 @@ public enum Mods {
     IMMERSIVE_AIRCRAFT("immersive_aircraft"),
     CHISEL("chisel"),
     SOPHISTICATEDBACKPACKS("sophisticatedbackpacks"),
+    SOPHISTICATEDSTORAGE("sophisticatedstorage"),
     BIOMESOPLENTY("biomesoplenty"),
     BIOMESWEVEGONE("biomeswevegone"),
     PIPEZ("pipez"),
@@ -21,6 +22,7 @@ public enum Mods {
     CONSTRUCTION_WAND("constructionwand"),
     JECHARACTERS("jecharacters"),
     LANG("moremorelang"),
+    EFFORTLESS("effortlessbuilding"),
     FACTORY_BLOCKS("factory_blocks"),
     MYTHICBOTANY("mythicbotany");
 

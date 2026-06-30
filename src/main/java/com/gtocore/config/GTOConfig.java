@@ -65,6 +65,7 @@ public final class GTOConfig {
         if (INSTANCE.devMode.dev) Configurator.setRootLevel(Level.INFO);
         if (INSTANCE.devMode.detailedLogging) Configurator.setRootLevel(Level.DEBUG);
         int difficulty = INSTANCE.gamePlay.difficulty.ordinal() + 1;
+        ConfigHolder.GENERATE_ENERGY_NO_MATCH = difficulty == 3;
         ConfigHolder.INSTANCE.recipes.generateLowQualityGems = false;
         ConfigHolder.INSTANCE.recipes.disableManualCompression = difficulty > 1;
         ConfigHolder.INSTANCE.recipes.harderRods = difficulty == 3;
@@ -333,8 +334,33 @@ public final class GTOConfig {
         public boolean gtmStyleVoltageDisplay = false;
 
         @Configurable
+        @Configurable.Comment({ "启用后，当游戏窗口未聚焦时，AE2 合成任务完成将发送系统桌面通知（仅支持 Windows 与 macOS）", "When enabled, a desktop notification is sent when an AE2 crafting job finishes while the game window is unfocused (Windows and macOS only)" })
+        @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Crafting Job Finished Notification", cn = "合成任务完成桌面通知")
+        public boolean craftingJobFinishedNotification = true;
+
+        @Configurable
         @RegisterLanguage(namePrefix = "config.gtocore.option", en = "HUD Settings", cn = "HUD 设置")
         public HUDConfig hud = new HUDConfig();
+
+        @Configurable
+        @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Minimap Settings", cn = "小地图设置")
+        public MinimapConfig minimap = new MinimapConfig();
+
+        @DataGeneratorScanned
+        public static class MinimapConfig {
+
+            @Configurable
+            @Configurable.Comment({ "在地图的矿脉图标上显示矿脉名称", "Show the ore vein name on top of the ore vein icon on the map" })
+            @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Show Ore Vein Name", cn = "显示矿脉名称")
+            public boolean showOreVeinName = true;
+
+            @Configurable
+            @Configurable.Comment({ "矿脉名称的文字大小（百分比，100 为原始大小）", "Ore vein name text size (percentage, 100 is the original size)" })
+            @Configurable.Range(min = 25, max = 400)
+            @Configurable.Gui.Slider
+            @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Ore Vein Name Text Size", cn = "矿脉名称文字大小")
+            public int oreVeinNameScale = 200;
+        }
 
         @DataGeneratorScanned
         public static class HUDConfig {
@@ -371,11 +397,16 @@ public final class GTOConfig {
             public int clientAttributesHUDDefaultX = 8;
 
             @Configurable
-            @Configurable.Comment({ "客户端属性 HUD 的默认 Y 相对位置", "0意味着屏幕顶部，100意味着屏幕底部", "The default Y relative position of the Client Attributes HUD", "0 means the top of the screen, 100 means the bottom of the screen" })
+            @Configurable.Comment({ "客户端属性HUD的默认Y相对位置", "0意味着屏幕顶部，100意味着屏幕底部", "The default Y relative position of the Client Attributes HUD", "0 means the top of the screen, 100 means the bottom of the screen" })
             @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Client Attributes HUD Default Y", cn = "客户端属性 HUD 默认 Y 位置")
             @Configurable.Range(min = 0, max = 100)
             @Configurable.Gui.Slider
             public int clientAttributesHUDDefaultY = 12;
+
+            @Configurable
+            @Configurable.Comment({ "启用后，仅在调出HUD配置界面时显示客户端属性HUD，游戏中将隐藏", "When enabled, the Client Attributes HUD will only be displayed when the HUD configuration interface is called up, and will be hidden in the game" })
+            @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Hide Client Attributes HUD In Game", cn = "游戏中隐藏客户端属性 HUD")
+            public boolean clientAttributesHUDHideInGame = false;
 
             @Configurable
             @Configurable.Comment({ "无线能量 HUD 显示的历史秒数", "例如：设为30则显示过去30秒的能量变化情况", "The number of historical seconds displayed by the Wireless Energy HUD", "For example: setting it to 30 will show the energy changes over the past 30 seconds" })
@@ -454,6 +485,15 @@ public final class GTOConfig {
         @Configurable.Comment({ "启用后，进入游戏时，若多方块结构未能成型，则将错误信息将发送给机器的所有者", "When enabled, if the multiblock structure fails to form when entering the game, the error message will be sent to the owner of the machine" })
         @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Send Multiblock Error Messages", cn = "发送多方块错误信息")
         public boolean sendMultiblockErrorMessages = true;
+
+        @Configurable
+        @Configurable.Comment({
+                "样板供应器/样板总成显示名称格式。可用占位符：%m 机器名，%t 等级，%s 自定义后缀，%r 配方类型（仅多配方类型机器），%R 配方类型（始终显示）。移除占位符即可隐藏对应部分。",
+                "Pattern Provider/Pattern Assembly display name format. Placeholders: %m machine name, %t tier, %s custom suffix, %r recipe type (multi-recipe machines only), %R recipe type (always). Remove a placeholder to hide that part."
+        })
+        @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Pattern Container Name Format", cn = "样板容器名称格式")
+        @Configurable.Gui.CharacterLimit(256)
+        public String patternContainerNameFormat = "%m %t %s %r";
 
         @Configurable
         @Configurable.Comment({ "一些机器内容会以服务器语言的翻译呈现", "Some machine contents will be presented in the server language translation" })

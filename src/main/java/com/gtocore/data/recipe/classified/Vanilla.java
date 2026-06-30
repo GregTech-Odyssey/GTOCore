@@ -81,13 +81,11 @@ final class Vanilla {
                         "ABA",
                         'A', new MaterialEntry(TagPrefix.pipeNormalFluid, GTMaterials.Bronze), 'B', GTOItems.PRECISION_STEAM_MECHANISM.asItem(), 'C', new MaterialEntry(TagPrefix.frameGt, GTMaterials.Bronze), 'D', new MaterialEntry(TagPrefix.plate, GTMaterials.Bronze));
             }
-            case 3 -> {
-                VanillaRecipeHelper.addShapedRecipe(true, GTOCore.id("steam_assembly_block"), GTOBlocks.STEAM_ASSEMBLY_BLOCK.asItem(),
-                        "ABA",
-                        "BCB",
-                        "ABA",
-                        'A', new MaterialEntry(TagPrefix.pipeNormalFluid, GTMaterials.Bronze), 'B', GTOItems.PRECISION_STEAM_MECHANISM.asItem(), 'C', new MaterialEntry(TagPrefix.frameGt, GTMaterials.Bronze));
-            }
+            case 3 -> VanillaRecipeHelper.addShapedRecipe(true, GTOCore.id("steam_assembly_block"), GTOBlocks.STEAM_ASSEMBLY_BLOCK.asItem(),
+                    "ABA",
+                    "BCB",
+                    "ABA",
+                    'A', new MaterialEntry(TagPrefix.pipeNormalFluid, GTMaterials.Bronze), 'B', GTOItems.PRECISION_STEAM_MECHANISM.asItem(), 'C', new MaterialEntry(TagPrefix.frameGt, GTMaterials.Bronze));
         }
         VanillaRecipeHelper.addShapedRecipe(GTOCore.id("me_wireless_connection_machine"), GTOMachines.ME_WIRELESS_CONNECTION_MACHINE.asItem(),
                 "ABA",
@@ -538,6 +536,11 @@ final class Vanilla {
                 "CDC",
                 "AEA",
                 'A', new MaterialEntry(TagPrefix.plate, GTMaterials.Bronze), 'B', new MaterialEntry(TagPrefix.ring, GTMaterials.WroughtIron), 'C', new MaterialEntry(TagPrefix.spring, GTMaterials.Iron), 'D', RegistriesUtils.getItemStack("gtceu:lp_steam_forge_hammer"), 'E', new MaterialEntry(TagPrefix.plateDouble, GTMaterials.WroughtIron));
+        VanillaRecipeHelper.addShapedRecipe(true, GTOCore.id("large_steam_forge_hammer"), MultiBlockA.LARGE_STEAM_FORGE_HAMMER.asItem(),
+                "ABA",
+                "CDC",
+                "AEA",
+                'A', new MaterialEntry(TagPrefix.plateDouble, GTMaterials.Bronze), 'B', new MaterialEntry(TagPrefix.spring, GTMaterials.Steel), 'C', GTOItems.PRECISION_STEAM_MECHANISM.asItem(), 'D', MultiBlockA.STEAM_PISTON_HAMMER.asItem(), 'E', new MaterialEntry(TagPrefix.block, GTMaterials.WroughtIron));
         VanillaRecipeHelper.addShapedRecipe(GTOCore.id("shrieker"), new ItemStack(Blocks.SCULK_SHRIEKER.asItem()),
                 " A ",
                 "ABA",
@@ -718,6 +721,11 @@ final class Vanilla {
                 "BCB",
                 "BDB",
                 'B', new MaterialEntry(TagPrefix.bolt, GTMaterials.WroughtIron), 'D', GTBlocks.STEEL_BRICKS_HULL.asItem(), 'C', new ItemStack(Blocks.FURNACE.asItem()), 'A', new MaterialEntry(TagPrefix.plate, GTMaterials.WroughtIron));
+        VanillaRecipeHelper.addShapedRecipe(GTOCore.id("cooler"), GTOMachines.COOLER.asItem(),
+                "AAA",
+                "BCB",
+                "ADA",
+                'A', new MaterialEntry(TagPrefix.plate, GTMaterials.Steel), 'B', RegistriesUtils.getItem("gtocore:normal_heat_pipe"), 'C', new MaterialEntry(TagPrefix.block, GTMaterials.Glass), 'D', GTBlocks.STEEL_BRICKS_HULL.asItem());
         VanillaRecipeHelper.addShapedRecipe(true, GTOCore.id("boiler"), GTOMachines.BOILER.asItem(),
                 "AAA",
                 "A A",
@@ -1010,6 +1018,11 @@ final class Vanilla {
                 'A', new MaterialEntry(TagPrefix.foil, GTOMaterials.Livingsteel), 'B', new MaterialEntry(TagPrefix.plate, GTMaterials.Steel));
         VanillaRecipeHelper.addShapelessRecipe(GTOCore.id("gem_item_filter"), GTOItems.GEM_ITEM_FILTER.asItem(),
                 GTOItems.GEM_ITEM_FILTER.asItem());
+        VanillaRecipeHelper.addShapedRecipe(GTOCore.id("sigil_of_socketing"), RegistriesUtils.getItemStack("apotheosis:sigil_of_socketing", 3),
+                "ABA",
+                "CCC",
+                "ADA",
+                'A', RegistriesUtils.getItem("apotheosis:gem_dust"), 'B', RegistriesUtils.getItem("endrem:magical_eye"), 'C', RegistriesUtils.getItem("apotheosis:gem_fused_slate"), 'D', new MaterialEntry(TagPrefix.gem, GTMaterials.Amethyst));
 
         addUpg(GTAEMachines.ME_PATTERN_BUFFER.asItem(), GTOItems.PATTERN_BUFFER_UPGRADER0.asStack());
         addUpg(GTAEMachines.ME_EXTEND_PATTERN_BUFFER.asItem(), GTOItems.PATTERN_BUFFER_UPGRADER1.asStack());

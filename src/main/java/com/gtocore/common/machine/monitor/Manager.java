@@ -30,7 +30,7 @@ import net.minecraftforge.event.server.ServerStoppedEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
-import com.fast.fastcollection.OpenCacheHashSet;
+import com.gto.fastcollection.OpenCacheHashSet;
 import lombok.Getter;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -659,14 +659,8 @@ public final class Manager {
         // static boolean enteredWorld = false;
         @SubscribeEvent
         public static void onLoad(LevelEvent.Load event) {
-            // if (!enteredWorld) {
-            // enteredWorld = true;
-            // }
             clearCache((Level) event.getLevel());
         }
-
-        @SubscribeEvent
-        public static void onSave(LevelEvent.Save event) {}
 
         @SubscribeEvent
         public static void onTick(TickEvent.ServerTickEvent event) {

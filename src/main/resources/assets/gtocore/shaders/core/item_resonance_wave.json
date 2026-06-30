@@ -1,0 +1,76 @@
+{
+  "vertex": "gtocore:cruptix",
+  "fragment": "gtocore:item_resonance_wave",
+  "attributes": ["Position", "UV0"],
+  "samplers": [{ "name": "Sampler0" }],
+  "uniforms": [
+    {
+      "name": "ModelViewMat",
+      "type": "matrix4x4",
+      "count": 16,
+      "values": [
+        1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0,
+        0.0, 1.0
+      ]
+    },
+    {
+      "name": "ProjMat",
+      "type": "matrix4x4",
+      "count": 16,
+      "values": [
+        1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0,
+        0.0, 1.0
+      ]
+    },
+    {
+      "name": "ColorModulator",
+      "type": "float",
+      "count": 4,
+      "values": [1.0, 1.0, 1.0, 1.0]
+    },
+    {
+      "name": "maskTextureSize",
+      "type": "float",
+      "count": 2,
+      "values": [1.0, 1.0]
+    },
+    {
+      "name": "maskViewportOrigin",
+      "type": "float",
+      "count": 2,
+      "values": [0.0, 0.0]
+    },
+    { "name": "time", "type": "float", "count": 1, "values": [0.0] },
+    {
+      "name": "resolution",
+      "type": "float",
+      "count": 2,
+      "values": [64.0, 64.0]
+    },
+    { "name": "mousePos", "type": "float", "count": 2, "values": [0.0, 0.0] },
+    {
+      "name": "outlineColor",
+      "type": "float",
+      "count": 4,
+      "values": [0.3, 0.85, 1.0, 0.8]
+    },
+    {
+      "name": "waveColor",
+      "type": "float",
+      "count": 4,
+      "values": [0.72, 0.95, 1.0, 0.7]
+    },
+    { "name": "outlineWidth", "type": "float", "count": 1, "values": [0.75] },
+    { "name": "waveStart", "type": "float", "count": 1, "values": [0.25] },
+    { "name": "waveWidth", "type": "float", "count": 1, "values": [0.03] },
+    { "name": "waveSpacing", "type": "float", "count": 1, "values": [6.0] },
+    { "name": "waveSpeed", "type": "float", "count": 1, "values": [6.6] },
+    { "name": "waveLifetime", "type": "float", "count": 1, "values": [0.45] },
+    { "name": "waveDecay", "type": "float", "count": 1, "values": [0.9] },
+    { "name": "waveStrength", "type": "float", "count": 1, "values": [0.6] },
+    { "name": "maxDistance", "type": "float", "count": 1, "values": [8.0] },
+    { "name": "edgeSoftness", "type": "float", "count": 1, "values": [0.95] },
+    { "name": "alphaCutoff", "type": "float", "count": 1, "values": [0.1] },
+    { "name": "overlayPadding", "type": "float", "count": 1, "values": [0.5] }
+  ]
+}

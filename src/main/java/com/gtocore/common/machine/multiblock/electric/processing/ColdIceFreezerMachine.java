@@ -20,7 +20,7 @@ public final class ColdIceFreezerMachine extends CustomParallelMultiblockMachine
     private static final FluidStack ICE = GTMaterials.Ice.getFluid(1);
 
     public ColdIceFreezerMachine(MetaMachineBlockEntity holder) {
-        super(holder, true, m -> 64);
+        super(holder, m -> 64);
     }
 
     private boolean inputFluid() {

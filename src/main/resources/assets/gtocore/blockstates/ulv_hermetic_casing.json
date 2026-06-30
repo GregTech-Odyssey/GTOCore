@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "gtocore:block/ulv_hermetic_casing"
+    }
+  }
+}

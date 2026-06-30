@@ -57,7 +57,7 @@ public final class ManaAlloyBlastSmelterMachine extends CoilCustomParallelMultib
     private final ManaTrait manaTrait;
 
     public ManaAlloyBlastSmelterMachine(MetaMachineBlockEntity holder) {
-        super(holder, true, true, true, m -> 16);
+        super(holder, true, true, m -> 16);
         this.manaTrait = new ManaTrait(this);
     }
 

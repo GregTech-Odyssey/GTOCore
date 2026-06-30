@@ -25,7 +25,6 @@ import com.lowdragmc.lowdraglib.gui.util.ClickData;
 import com.lowdragmc.lowdraglib.gui.widget.ComponentPanelWidget;
 import it.unimi.dsi.fastutil.objects.Object2BooleanRBTreeMap;
 import it.unimi.dsi.fastutil.objects.Object2BooleanSortedMap;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Comparator;
@@ -87,7 +86,6 @@ public final class WaterPurificationPlantMachine extends ElectricMultiblockMachi
         for (var entry : waterPurificationUnitMachineMap.object2BooleanEntrySet()) {
             if (entry.getBooleanValue() && entry.getKey().getRecipeLogic().getLastRecipe() != null) {
                 entry.getKey().getRecipeLogic().onRecipeFinish();
-                entry.getKey().afterWorking();
                 entry.setValue(false);
             }
         }
@@ -149,7 +147,7 @@ public final class WaterPurificationPlantMachine extends ElectricMultiblockMachi
     }
 
     @Override
-    public void addDisplayText(@NotNull List<Component> textList) {
+    public void addDisplayText(List<Component> textList) {
         super.addDisplayText(textList);
         if (!isFormed()) return;
         textList.add(Component.translatable("gtocore.machine.water_purification_plant.bind"));

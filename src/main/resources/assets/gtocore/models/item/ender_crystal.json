@@ -1,0 +1,13 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "gtocore:item/ender_crystal"
+  },
+  "custom_shader": {
+    "params": {
+      "maxDistance": 8.0
+    },
+    "shader": "gtocore:item_resonance_wave"
+  },
+  "loader": "gtocore:custom_shader"
+}

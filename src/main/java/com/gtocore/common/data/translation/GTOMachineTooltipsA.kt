@@ -17,6 +17,7 @@ import com.gregtechceu.gtceu.config.ConfigHolder
 
 object GTOMachineTooltipsA : AutoInitialize<GTOMachineTooltipsA>() {
 
+    @JvmField
     val pulseMachineMaintenancePedestalTooltips: ComponentListSupplier = ComponentListSupplier {
         setTranslationPrefix("pulse_machine_maintenance_pedestal")
 
@@ -28,6 +29,7 @@ object GTOMachineTooltipsA : AutoInitialize<GTOMachineTooltipsA>() {
         guide("或是使用精灵等级及以上的魔力发射器" translatedTo "Or using a mana blaster of Alfhelm tier or above")
     }
 
+    @JvmField
     val virtualCoinMinerTooltips: ComponentListSupplier = ComponentListSupplier {
         setTranslationPrefix("virtual_coin_miner")
 
@@ -40,6 +42,8 @@ object GTOMachineTooltipsA : AutoInitialize<GTOMachineTooltipsA>() {
         command("运行需要每秒消耗20mB多氯联苯冷却剂" translatedTo "Consumes 20mB of PCB coolant per second while running")
         command("每提交的1CWU算力需要1920EU的能量支持" translatedTo "Each 1 CWU of computational workload submitted requires 1920 EU of energy support")
     }
+
+    @JvmField
     val meInputBufferPartMachineTooltips: ComponentListSupplier = ComponentListSupplier {
         setTranslationPrefix("me_input_buffer_part_machine")
 
@@ -47,6 +51,8 @@ object GTOMachineTooltipsA : AutoInitialize<GTOMachineTooltipsA>() {
         command("ME输入仓室的一种特殊模式，仅能使用样板进行配置" translatedTo "A special mode of the ME input hatch/bus, can only be configured using patterns")
         command("在该模式下，每个槽位使用样板配置一组特定的物品或流体，仓室将从ME网络提取对应的物品与流体" translatedTo "In this mode, each slot is configured with a pattern for a specific group of items or fluids, and the hatch/bus will extract the corresponding items and fluids from the ME network")
     }
+
+    @JvmField
     val planetaryGasCollectorTooltips: ComponentListSupplier = ComponentListSupplier {
         setTranslationPrefix("planetary_gas_collector")
 
@@ -56,6 +62,7 @@ object GTOMachineTooltipsA : AutoInitialize<GTOMachineTooltipsA>() {
         command("在其他行星建立的空间站能够收集到该行星特有的大气气体" translatedTo "In the space station built on other planets, the unique atmospheric gases of that planet can be collected")
     }
 
+    @JvmField
     val directedHyperCubeMachineTooltips: ComponentListSupplier = ComponentListSupplier {
         setTranslationPrefix("directed_hyper_cube_machine")
 
@@ -69,6 +76,7 @@ object GTOMachineTooltipsA : AutoInitialize<GTOMachineTooltipsA>() {
         guide("适用于一些较为复杂的自动化场景（如新生魔艺的附魔装置自动化）" translatedTo "Suitable for some more complex automation scenarios (such as Ars Nouveau's Enchanting Apparatus)")
     }
 
+    @JvmField
     val meEnergySubstationTooltips: ComponentListSupplier = ComponentListSupplier {
         setTranslationPrefix("me_energy_substation")
 
@@ -85,6 +93,7 @@ object GTOMachineTooltipsA : AutoInitialize<GTOMachineTooltipsA>() {
         increase("安装模块可使转换效率额外x2" translatedTo "Installing modules can further double the conversion efficiency")
     }
 
+    @JvmField
     val spaceBioResearchModuleTooltips: ComponentListSupplier = ComponentListSupplier {
         setTranslationPrefix("space_bio_research_module")
 
@@ -93,6 +102,8 @@ object GTOMachineTooltipsA : AutoInitialize<GTOMachineTooltipsA>() {
         command("超净间环境等级由环境维护舱决定" translatedTo "The cleanroom environment level is determined by the Environmental Maintenance Module")
         info("当运行培养缸或生化反应室配方时，提供可调节的0~80Sv背景辐射环境" translatedTo "Provides an adjustable 0~80Sv background radiation environment when running bioreactor or biochemical reaction chamber recipes")
     }
+
+    @JvmField
     val spaceElevatorConnectorModuleTooltips: ComponentListSupplier = ComponentListSupplier {
         setTranslationPrefix("space_elevator_connector_module")
 
@@ -111,6 +122,7 @@ object GTOMachineTooltipsA : AutoInitialize<GTOMachineTooltipsA>() {
     }
 
     // 合金冶炼炉
+    @JvmField
     val AlloySmelterTooltips = ComponentListSupplier {
         setTranslationPrefix("alloy_blast_smelter")
 
@@ -119,6 +131,7 @@ object GTOMachineTooltipsA : AutoInitialize<GTOMachineTooltipsA>() {
     }
 
     // 溶解罐
+    @JvmField
     val DissolvingTankTooltips = ComponentListSupplier {
         setTranslationPrefix("dissolving_tank")
 
@@ -130,6 +143,7 @@ object GTOMachineTooltipsA : AutoInitialize<GTOMachineTooltipsA>() {
     }
 
     // 狂飙巨型核聚变反应堆
+    @JvmField
     val kuangbiaoGiantNuclearFusionReactorTooltips: ComponentListSupplier = ComponentListSupplier {
         setTranslationPrefix("kuangbiao_giant_nuclear_fusion_reactor")
 
@@ -145,6 +159,9 @@ object GTOMachineTooltipsA : AutoInitialize<GTOMachineTooltipsA>() {
 
         command("若高能模块与超频模块存在冲突，请先安装高能模块，再安装超频模块" translatedTo "If there is a conflict between the high-energy module and the overclock module, please install the high-energy module first, then install the overclock module")
     }
+
+    // 狂飙一号巨型聚变反应堆控制电脑
+    @JvmField
     val KuangbiaoGiantNuclearFusionReactorEnergyStorageTooltip = { eut: Long ->
         ComponentListSupplier {
             setTranslationPrefix("kuangbiao_giant_nuclear_fusion_reactor_energy_storage")
@@ -153,10 +170,11 @@ object GTOMachineTooltipsA : AutoInitialize<GTOMachineTooltipsA>() {
                 ComponentSupplier(Component.translatable("gtceu.machine.fusion_reactor.capacity", eut)) +
                     (" [可安装模块扩容]" translatedTo " [can be expanded by installing modules]").rainbowFast(),
             )
-
-            command(ComponentSupplier(Component.translatable("gtceu.machine.fusion_reactor.overclocking")))
         }
     }
+
+    // 工业空间站六向衔接舱
+    @JvmField
     val SpaceStationDockingModule = ComponentListSupplier {
         setTranslationPrefix("space_station_docking_module")
         important("使用高级终端的模块搭建功能来选择该舱的不同形态" translatedTo "Use the module building function of the advanced terminal to select different forms of this chamber")
@@ -165,6 +183,7 @@ object GTOMachineTooltipsA : AutoInitialize<GTOMachineTooltipsA>() {
     }
 
     // 大型藻类养殖中心
+    @JvmField
     val LargeAlgaeFarmTooltips = ComponentListSupplier {
         setTranslationPrefix("large_algae_farm")
 
@@ -245,12 +264,16 @@ object GTOMachineTooltipsA : AutoInitialize<GTOMachineTooltipsA>() {
         }
     }
 
+    // 蒸汽裂化机
+    @JvmField
     val LargeSteamCrackerTooltips = ComponentListSupplier {
         setTranslationPrefix("large_steam_cracker")
         info("原料效率仅正常裂化机的40%" translatedTo "The raw material efficiency is only 40% of that of a normal cracker")
         increase("每使用高一等级的蒸汽输入仓，配方产出提升100mb" translatedTo "For each higher level of steam input hatch used, the output increases by 100mb")
     }
 
+    // 魔力流合成台
+    @JvmField
     val ManaFlowAssemblerTooltips = ComponentListSupplier {
         setTranslationPrefix("mana_flow_assembler")
         story("原始人的泰拉凝聚板" translatedTo "The original person's Terra Condenser Plate")
@@ -268,6 +291,8 @@ object GTOMachineTooltipsA : AutoInitialize<GTOMachineTooltipsA>() {
         important("无法运行电力配方" translatedTo "Cannot run recipes that require EU")
     }
 
+    // 磁流体发电机
+    @JvmField
     val magneticFluidGeneratorTooltips: ComponentListSupplier = ComponentListSupplier {
         setTranslationPrefix("magnetic_fluid_generator")
 
@@ -282,6 +307,8 @@ object GTOMachineTooltipsA : AutoInitialize<GTOMachineTooltipsA>() {
         increase("如果使用激光仓，则提升发电量 x 4^等级" translatedTo "If a laser hatch is used, power generation is increased by x 4^tier")
     }
 
+    // 戴森球接收站
+    @JvmField
     val dysonSphereReceivingStationTooltips: ComponentListSupplier = ComponentListSupplier {
         setTranslationPrefix("dyson_sphere_receiving_station")
 
@@ -296,5 +323,16 @@ object GTOMachineTooltipsA : AutoInitialize<GTOMachineTooltipsA>() {
         important("当损坏高于60%时，输出效率随损坏值由100%逐渐降低到20%，并输出随损坏值增强的红石信号" translatedTo "When damage exceeds 60%, output efficiency gradually decreases from 100% to 20% with damage value, and outputs a redstone signal enhanced by the damage value")
         info("当损坏达到100%时减少一次模块发射数量，并重置损坏值" translatedTo "When damage reaches 100%, it reduces the number of module launches by one and resets the damage value")
         info("在损坏值高于60%时发射不会增加发射次数，但会重置损坏值" translatedTo "When damage value is above 60%, launching will not increase the launch count but will reset the damage value")
+    }
+
+    // 虚拟物品供应机
+    @JvmField
+    val virtualItemSupplyMachineTooltips: ComponentListSupplier = ComponentListSupplier {
+        setTranslationPrefix("virtual_item_supply_machine")
+
+        section(MainFunction)
+        function("为ME网络提供虚拟物品" translatedTo "Provides virtual items for the ME network")
+        increase("虚拟物品可用于替代样板中不消耗的物品" translatedTo "Virtual items can be used to replace items in the blueprint that do not consume resources")
+        content("将任何物品放入供应机中均可转换为虚拟物品" translatedTo "Place any item into the supply machine to convert it into a virtual item")
     }
 }

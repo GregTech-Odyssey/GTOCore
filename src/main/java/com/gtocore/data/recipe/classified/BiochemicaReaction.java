@@ -358,18 +358,6 @@ final class BiochemicaReaction {
                 .addData(GTORecipeDataKeys.RADIOACTIVITY, 240)
                 .save();
 
-        BIOCHEMICAL_REACTION_RECIPES.builder("zombie_electrode")
-                .inputItems("botania:virus_necrodermal", 4)
-                .inputItems(GTOItems.CEREBRUM, 8)
-                .inputItems(TagPrefix.foil, GTMaterials.Tantalum, 16)
-                .outputItems(Items.ROTTEN_FLESH.asItem(), 4)
-                .inputFluids(GTOMaterials.Biotin, 100)
-                .inputFluids(GTOMaterials.EpidermalGrowthFactor, 100)
-                .inputFluids(GTMaterials.Tritanium, 10)
-                .EUt(8168)
-                .duration(500)
-                .save();
-
         BIOCHEMICAL_REACTION_RECIPES.recipeBuilder("alpha_lipoic_acid")
                 .inputItems(dust, GTOMaterials.BrevibacteriumFlavium, 8)
                 .inputItems(dust, GTMaterials.Sulfur, 4)

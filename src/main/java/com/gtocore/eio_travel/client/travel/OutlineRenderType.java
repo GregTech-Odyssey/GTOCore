@@ -16,6 +16,7 @@ import java.util.OptionalDouble;
 public class OutlineRenderType extends RenderType {
 
     private static final Map<RenderType, OutlineRenderType> TYPES = new HashMap<>();
+    private static Boolean irisShaderActive = null;
 
     private final RenderType parent;
 
@@ -38,6 +39,24 @@ public class OutlineRenderType extends RenderType {
         }
     }
 
+    private static boolean isIrisShaderActive() {
+        if (irisShaderActive == null) {
+            try {
+                Object pack = Class.forName("net.irisshaders.iris.Iris")
+                        .getMethod("getCurrentPack")
+                        .invoke(null);
+                irisShaderActive = pack != null;
+            } catch (Exception e) {
+                irisShaderActive = false;
+            }
+        }
+        return irisShaderActive;
+    }
+
+    public static void onShaderPackChanged() {
+        irisShaderActive = null;
+    }
+
     @Override
     public String toString() {
         return "Outline" + this.parent;
@@ -46,15 +65,16 @@ public class OutlineRenderType extends RenderType {
     @Override
     public void setupRenderState() {
         this.parent.setupRenderState();
-        if (Minecraft.getInstance().levelRenderer.entityTarget() != null) {
-            // noinspection ConstantConditions
+        if (!isIrisShaderActive() && Minecraft.getInstance().levelRenderer.entityTarget() != null) {
             Minecraft.getInstance().levelRenderer.entityTarget().bindWrite(false);
         }
     }
 
     @Override
     public void clearRenderState() {
-        Minecraft.getInstance().getMainRenderTarget().bindWrite(false);
+        if (!isIrisShaderActive()) {
+            Minecraft.getInstance().getMainRenderTarget().bindWrite(false);
+        }
         this.parent.clearRenderState();
     }
 

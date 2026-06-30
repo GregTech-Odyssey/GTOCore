@@ -1,0 +1,22 @@
+{
+  "parent": "minecraft:block/cube_all",
+  "loader": "gtocore:y_layered",
+  "textures": {
+    "all": "gtocore:block/casings/about_computer/computer_frame"
+  },
+  "y_layered": {
+    "layers": [
+      {
+        "columns": 6,
+        "rows": 6,
+        "source": "all",
+        "texture": "gtocore:block/casings/about_computer/coprocessor_computing_casing_layer"
+      },
+      {
+        "replace": false,
+        "source": "all",
+        "texture": "gtocore:block/casings/about_computer/computer_frame"
+      }
+    ]
+  }
+}

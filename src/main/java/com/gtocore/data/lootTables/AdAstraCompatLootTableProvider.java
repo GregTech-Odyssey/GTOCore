@@ -30,7 +30,7 @@ public class AdAstraCompatLootTableProvider extends LootTableProvider {
     }
 
     @Override
-    protected void validate(Map<ResourceLocation, LootTable> map, ValidationContext validationTracker) {}
+    protected void validate(@NotNull Map<ResourceLocation, LootTable> map, @NotNull ValidationContext validationTracker) {}
 
     public static class BlockLootTables extends BlockLootSubProvider {
 

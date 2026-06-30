@@ -85,5 +85,5 @@ public final class GTOMaterialFlags {
             .build();
 
     public static final MaterialFlag DISABLE_GEM_RECIPES = new MaterialFlag.Builder("disable_gem_recipes")
-            .requireProps(new PropertyKey[] { PropertyKey.ORE }).build();
+            .requireProps(new PropertyKey<?>[] { PropertyKey.ORE }).build();
 }

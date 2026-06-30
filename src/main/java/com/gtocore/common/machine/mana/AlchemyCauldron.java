@@ -2,41 +2,59 @@ package com.gtocore.common.machine.mana;
 
 import com.gtocore.common.data.GTORecipeDataKeys;
 
-import com.gtolib.api.machine.feature.IReceiveHeatMachine;
+import com.gtolib.api.machine.heat.HeatHandler;
+import com.gtolib.api.machine.heat.feature.IHeatContainerMachine;
 import com.gtolib.api.recipe.IdleReason;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
-import com.gregtechceu.gtceu.api.machine.TickableSubscription;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.content.Content;
 import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
 
+import net.minecraft.core.Direction;
 import net.minecraft.util.Mth;
 
 import com.gto.datasynclib.annotations.SaveToDisk;
+import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import static com.lowdragmc.lowdraglib.LDLib.random;
 
-public class AlchemyCauldron extends SimpleManaMachine implements IReceiveHeatMachine {
+public class AlchemyCauldron extends SimpleManaMachine implements IHeatContainerMachine {
 
-    @SaveToDisk
-    private int temperature = 293;
-    private TickableSubscription tickSubs;
     @SaveToDisk
     private final int[] probabilityParams = { 10000, 10000, 10000 };
     private final int[] currentRecipeParams = new int[3];
 
+    @Getter
+    @SaveToDisk
+    private final HeatHandler heatContainer;
+
     public AlchemyCauldron(MetaMachineBlockEntity holder) {
         super(holder, 3, t -> 16000);
+        heatContainer = new HeatHandler(holder, 1600, 0.5, 1.2, 0.02);
+        heatContainer.setSideIOCondition(s -> s == Direction.DOWN);
+        heatContainer.addChangedListener(getRecipeLogic()::updateTickSubscription);
+    }
+
+    @Override
+    public void onLoad() {
+        super.onLoad();
+        heatContainer.onLoad();
+    }
+
+    @Override
+    public void onUnload() {
+        super.onUnload();
+        heatContainer.onUnLoad();
     }
 
     @Nullable
     @Override
     public GTRecipe doModifyRecipe(RecipeHandlerUnit unit, @NotNull GTRecipe recipe) {
         int temperature = recipe.data.getInt(GTORecipeDataKeys.TEMPERATURE);
-        if (temperature > 0 && temperature > this.temperature) {
+        if (temperature > 0 && temperature > heatContainer.getTemperature()) {
             setIdleReason(IdleReason.INSUFFICIENT_TEMPERATURE);
             return null;
         }
@@ -56,37 +74,10 @@ public class AlchemyCauldron extends SimpleManaMachine implements IReceiveHeatMa
     @Override
     public boolean handleTickRecipe(GTRecipe recipe) {
         if (super.handleTickRecipe(recipe)) {
-            if (getOffsetTimer() % 20 == 0) return reduceTemperature(1) == 1;
+            if (getOffsetTimer() % 20 == 0) return heatContainer.removeHeatUnrestricted(1, false) == 1;
             return true;
         }
         return false;
-    }
-
-    @Override
-    public void onLoad() {
-        super.onLoad();
-        if (!isRemote()) {
-            tickSubs = subscribeServerTick(tickSubs, this::tickUpdate, 20);
-        }
-    }
-
-    @Override
-    public void onUnload() {
-        super.onUnload();
-        if (tickSubs != null) {
-            tickSubs.unsubscribe();
-            tickSubs = null;
-        }
-    }
-
-    @Override
-    public int getHeatCapacity() {
-        return 24;
-    }
-
-    @Override
-    public int getMaxTemperature() {
-        return 1600;
     }
 
     /**
@@ -167,15 +158,5 @@ public class AlchemyCauldron extends SimpleManaMachine implements IReceiveHeatMa
         for (int i = 0; i < 3; i++) {
             probabilityParams[i] = Mth.clamp(Math.round(probabilityParams[i] * 0.66F + targetParams[i] * 0.34F), 0, 20000);
         }
-    }
-
-    @Override
-    public void setTemperature(final int temperature) {
-        this.temperature = temperature;
-    }
-
-    @Override
-    public int getTemperature() {
-        return this.temperature;
     }
 }

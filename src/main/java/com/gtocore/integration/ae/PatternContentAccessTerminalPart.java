@@ -11,7 +11,6 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.Vec3;
 
-import appeng.api.networking.IGridNodeListener;
 import appeng.api.parts.IPartItem;
 import appeng.api.parts.IPartModel;
 import appeng.api.stacks.AEKey;
@@ -115,11 +114,5 @@ public class PatternContentAccessTerminalPart extends AbstractDisplayPart implem
         super.readFromNBT(data);
         this.config.readFromChildTag(data, "AEKeys");
         updateSubstitutionMap();
-    }
-
-    @Override
-    protected void onMainNodeStateChanged(IGridNodeListener.State reason) {
-        super.onMainNodeStateChanged(reason);
-        refreshPatterns();
     }
 }

@@ -3,7 +3,7 @@ package com.gtocore.common.machine.multiblock.electric.space.spacestaion;
 import com.gtocore.api.machine.part.GTOPartAbility;
 import com.gtocore.common.data.machines.SpaceMultiblock;
 
-import com.gtolib.api.machine.feature.multiblock.ICrossRecipeMachine;
+import com.gtolib.api.machine.feature.multiblock.ICrossRecipeElectricMachine;
 import com.gtolib.api.machine.trait.CrossRecipeTrait;
 import com.gtolib.api.recipe.IdleReason;
 import com.gtolib.utils.MachineUtils;
@@ -29,7 +29,7 @@ import java.util.Set;
 import java.util.function.Function;
 import java.util.function.ToLongFunction;
 
-public class RecipeExtension extends Extension implements ICrossRecipeMachine {
+public class RecipeExtension extends Extension implements ICrossRecipeElectricMachine {
 
     private boolean hasLaserInput = false;
     @SaveToDisk
@@ -101,7 +101,7 @@ public class RecipeExtension extends Extension implements ICrossRecipeMachine {
             return null;
         }
 
-        return ICrossRecipeMachine.super.getRealRecipe(unit, RecipeModifier.multiplier(recipe, 1, core.getDurationMultiplierFromSpaceElevator()));
+        return ICrossRecipeElectricMachine.super.getRealRecipe(unit, RecipeModifier.multiplier(recipe, 1, core.getDurationMultiplierFromSpaceElevator()));
     }
 
     @Override

@@ -41,8 +41,8 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 
-import com.fast.fastcollection.OpenCacheHashSet;
 import com.gto.datasynclib.datasream.DataComponentKey;
+import com.gto.fastcollection.OpenCacheHashSet;
 import com.lowdragmc.lowdraglib.utils.BlockInfo;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
@@ -314,7 +314,7 @@ public final class GTOPredicates {
 
             @Override
             public boolean testOnly() {
-                return true;
+                return original.testOnly();
             }
 
             @Override
@@ -356,6 +356,7 @@ public final class GTOPredicates {
         public static final DataComponentKey<int[]> FISSION_COMPONENT = DataComponentKey.createNoCodec("fissionComponent");
 
         public static final DataComponentKey<Integer> STEEL_FRAME = DataComponentKey.createNoCodec("SteelFrame");
+        public static final DataComponentKey<Set<BlockPos>> BLAST_FURNACE_HEAT = DataComponentKey.create("blastFurnaceHeat", DataComponentKey.collectionBuilder(OpenCacheHashSet::new));
         public static final DataComponentKey<Integer> SPEED_PIPE = DataComponentKey.createNoCodec("SpeedPipe");
         public static final DataComponentKey<Integer> LAMINATED_GLASS = DataComponentKey.createNoCodec("laminated_glass");
 
@@ -364,5 +365,8 @@ public final class GTOPredicates {
         public static final DataComponentKey<Set<BlockPos>> YELLOW = DataComponentKey.create("yellow", DataComponentKey.collectionBuilder(OpenCacheHashSet::new));
         public static final DataComponentKey<Set<BlockPos>> BLACK = DataComponentKey.create("black", DataComponentKey.collectionBuilder(OpenCacheHashSet::new));
         public static final DataComponentKey<Set<BlockPos>> WHITE = DataComponentKey.create("white", DataComponentKey.collectionBuilder(OpenCacheHashSet::new));
+        public static final DataComponentKey<Set<BlockPos>> A = DataComponentKey.create("a", DataComponentKey.collectionBuilder(OpenCacheHashSet::new));
+        public static final DataComponentKey<Set<BlockPos>> B = DataComponentKey.create("b", DataComponentKey.collectionBuilder(OpenCacheHashSet::new));
+        public static final DataComponentKey<Set<BlockPos>> C = DataComponentKey.create("c", DataComponentKey.collectionBuilder(OpenCacheHashSet::new));
     }
 }

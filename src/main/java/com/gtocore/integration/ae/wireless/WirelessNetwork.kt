@@ -22,6 +22,7 @@ import com.lowdragmc.lowdraglib.LDLib
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap
+import it.unimi.dsi.fastutil.objects.Reference2IntMap
 import it.unimi.dsi.fastutil.objects.Reference2IntOpenHashMap
 import it.unimi.dsi.fastutil.objects.Reference2ReferenceOpenHashMap
 import it.unimi.dsi.fastutil.objects.ReferenceOpenHashSet
@@ -42,8 +43,8 @@ class WirelessNetwork(val id: String, val owner: UUID, var nickname: String = id
     var connections = Reference2IntOpenHashMap<WirelessMachine>()
 
     companion object : CodecAbleTypedCompanion<WirelessNetwork> {
-        /** 根据游戏难度计算默认最大子节点连接数。 */
-        fun defaultMaxOutputs(): Int = if (GTOConfig.INSTANCE.gamePlay.difficulty == Difficulty.Expert) 32 else 990000
+
+        fun defaultMaxOutputs(): Int = 990000
 
         val UNKNOWN: ResourceKey<Level> = ResourceKey.create(Registries.DIMENSION, GTCEu.id("unknown"))
 
@@ -52,17 +53,15 @@ class WirelessNetwork(val id: String, val owner: UUID, var nickname: String = id
                 Codec.STRING.fieldOf("id").forGetter { it.id },
                 UUIDUtil.CODEC.fieldOf("owner").forGetter { it.owner },
                 Codec.STRING.optionalFieldOf("nickname").forGetter { Optional.ofNullable(it.nickname) },
-                Codec.INT.optionalFieldOf("maxOutputsPerInput").forGetter { Optional.of(it.maxOutputsPerInput) },
+                Codec.INT.optionalFieldOf("max").forGetter { Optional.of(it.maxOutputsPerInput) },
             ).apply(b) { id, owner, nicknameOpt, maxOpt ->
-                WirelessNetwork(id, owner, nicknameOpt.orElse(id), maxOpt.orElse(defaultMaxOutputs()))
+                WirelessNetwork(id, owner, nicknameOpt.orElse(id) ?: id, maxOpt.orElse(defaultMaxOutputs()) ?: defaultMaxOutputs())
             }
         }
 
         var profiledLoadTime: Long = 0L
         var totalLoadedConns: Int = 0
         var refreshTimesCalled: Int = 0
-
-        fun getProfileSummary(): String = "WirelessNetwork Profile: totalLoadedConns=$totalLoadedConns, refreshTimesCalled=$refreshTimesCalled, averageLoadTime=${if (refreshTimesCalled > 0) profiledLoadTime / refreshTimesCalled else 0}ms"
     }
 
     var needsRefresh: Boolean = false
@@ -108,7 +107,8 @@ class WirelessNetwork(val id: String, val owner: UUID, var nickname: String = id
 
             WirelessMachine.NodeType.CHILD -> {
                 outputNodes.add(node)
-                connectionAvailableInput(node)
+                if (connectionAvailableInput(node)) return
+                needsRefresh = true
             }
         }
     }
@@ -139,15 +139,13 @@ class WirelessNetwork(val id: String, val owner: UUID, var nickname: String = id
         nodeInfoTable.remove(node)
     }
 
-    fun connectionAvailableInput(output: WirelessMachine) {
-        val pathingService: IPathingService? = output.mainNode?.grid?.pathingService
-        val isInfinite = pathingService?.channelMode === ChannelMode.INFINITE
-        val outputWorkload = if (isInfinite) 0 else output.workloadChannels
+    fun connectionAvailableInput(output: WirelessMachine): Boolean {
         for (input in inputNodes) {
-            if (isNodeValid(input) && connections.getInt(input) < maxOutputsPerInput && (isInfinite || input.maxWorkloadChannels - input.workloadChannels >= outputWorkload)) {
-                if (createConnection(input, output)) return
+            if (isNodeValid(input) && connections.getInt(input) < maxOutputsPerInput) {
+                if (createConnection(input, output)) return true
             }
         }
+        return false
     }
 
     fun createConnection(input: WirelessMachine, output: WirelessMachine): Boolean {
@@ -200,19 +198,8 @@ class WirelessNetwork(val id: String, val owner: UUID, var nickname: String = id
         }
         assignments.clear()
         connections.clear()
-
         if (outputNodes.isEmpty()) return
-
-        val pathingService: IPathingService? = outputNodes.firstOrNull { isNodeValid(it) }?.mainNode?.grid?.pathingService
-        val greedyFlag = pathingService?.channelMode !== ChannelMode.INFINITE
-        val controllerFlag = pathingService?.controllerState === ControllerState.CONTROLLER_ONLINE
-        if (greedyFlag || controllerFlag) {
-            if (inputNodes.isEmpty()) return
-            assignNodesGreedy()
-        } else {
-            assignNodesInfinity()
-        }
-
+        assignNodesInfinity()
         if (GTOConfig.INSTANCE.devMode.aeLog) {
             println(
                 "WirelessNetwork '$nickname': ${inputNodes.size} sources, ${outputNodes.size} children, " +
@@ -244,38 +231,6 @@ class WirelessNetwork(val id: String, val owner: UUID, var nickname: String = id
                     }
                 }
                 if (conns >= maxOutputsPerInput) {
-                    next = null
-                    continue
-                }
-                if (createConnection(next, output)) {
-                    conns++
-                    break
-                }
-            }
-        }
-    }
-
-    fun assignNodesGreedy() {
-        val it = inputNodes.iterator()
-        var conns = 0
-        var next: WirelessMachine? = null
-        a@ for (output in outputNodes) {
-            if (!isNodeValid(output)) continue
-            while (true) {
-                if (next === null) {
-                    if (it.hasNext()) {
-                        next = it.next()
-                        conns = 0
-                        if (!isNodeValid(next)) {
-                            next = null
-                            continue
-                        }
-                    } else {
-                        break@a
-                    }
-                }
-                val outputWorkload = output.workloadChannels
-                if (conns >= maxOutputsPerInput || next.maxWorkloadChannels - next.workloadChannels < outputWorkload) {
                     next = null
                     continue
                 }

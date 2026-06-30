@@ -23,6 +23,7 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -33,7 +34,9 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import com.gto.datasynclib.annotations.SaveToDisk;
 import com.gto.datasynclib.annotations.SyncToClient;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -54,9 +57,11 @@ public final class AdvancedPrimitiveBlastFurnaceMachine extends NoEnergyCustomPa
 
     private final ConditionalSubscriptionHandler tickSubs;
     private TickableSubscription particleSubscription;
+    private Set<BlockPos> heatPositions = Collections.emptySet();
+    private AABB heatBounds = new AABB(BlockPos.ZERO);
 
     public AdvancedPrimitiveBlastFurnaceMachine(MetaMachineBlockEntity holder) {
-        super(holder, false, m -> (long) ((AdvancedPrimitiveBlastFurnaceMachine) m).height << 1);
+        super(holder, m -> (long) ((AdvancedPrimitiveBlastFurnaceMachine) m).height << 1);
         tickSubs = new ConditionalSubscriptionHandler(this, this::tickUpdate, 0, () -> isFormed || temperature > 298);
     }
 
@@ -82,6 +87,15 @@ public final class AdvancedPrimitiveBlastFurnaceMachine extends NoEnergyCustomPa
         }
         pos = MachineUtils.getOffsetPos(7, getFrontFacing(), getPos());
         tickSubs.initialize(getLevel());
+        heatPositions = getMultiblockState().getMatchContext().getOrDefault(GTOPredicates.DataKeys.BLAST_FURNACE_HEAT, Collections.emptySet());
+        updateHeatBounds();
+    }
+
+    @Override
+    public void onStructureInvalid() {
+        super.onStructureInvalid();
+        heatPositions = Collections.emptySet();
+        heatBounds = new AABB(BlockPos.ZERO);
     }
 
     private void tickUpdate() {
@@ -98,14 +112,9 @@ public final class AdvancedPrimitiveBlastFurnaceMachine extends NoEnergyCustomPa
         if (getOffsetTimer() % 40 == 0 && getLevel() != null) {
             var recipe = getRecipeLogic().getLastRecipe();
             if (recipe != null) {
-                List<Entity> entities = getLevel().getEntitiesOfClass(Entity.class, new AABB(
-                        pos.getX() - 4,
-                        pos.getY() + 1,
-                        pos.getZ() - 4,
-                        pos.getX() + 4,
-                        pos.getY() + 8 + height,
-                        pos.getZ() + 4));
+                List<Entity> entities = getLevel().getEntitiesOfClass(Entity.class, heatBounds);
                 for (Entity entity : entities) {
+                    if (!intersectsHeatPosition(entity)) continue;
                     if (entity instanceof LivingEntity) {
                         entity.hurt(GTODamageTypes.getBlastFurnaceDamageSource(entity), recipe.parallels * 5);
                     } else {
@@ -115,6 +124,47 @@ public final class AdvancedPrimitiveBlastFurnaceMachine extends NoEnergyCustomPa
             }
         }
         super.onWorking();
+    }
+
+    private void updateHeatBounds() {
+        if (heatPositions.isEmpty()) {
+            heatBounds = new AABB(BlockPos.ZERO);
+            return;
+        }
+        int minX = Integer.MAX_VALUE;
+        int minY = Integer.MAX_VALUE;
+        int minZ = Integer.MAX_VALUE;
+        int maxX = Integer.MIN_VALUE;
+        int maxY = Integer.MIN_VALUE;
+        int maxZ = Integer.MIN_VALUE;
+        for (BlockPos heatPosition : heatPositions) {
+            minX = Math.min(minX, heatPosition.getX());
+            minY = Math.min(minY, heatPosition.getY());
+            minZ = Math.min(minZ, heatPosition.getZ());
+            maxX = Math.max(maxX, heatPosition.getX());
+            maxY = Math.max(maxY, heatPosition.getY());
+            maxZ = Math.max(maxZ, heatPosition.getZ());
+        }
+        heatBounds = new AABB(minX, minY, minZ, maxX + 1, maxY + 1, maxZ + 1);
+    }
+
+    private boolean intersectsHeatPosition(Entity entity) {
+        AABB box = entity.getBoundingBox();
+        int minX = Mth.floor(box.minX);
+        int minY = Mth.floor(box.minY);
+        int minZ = Mth.floor(box.minZ);
+        int maxX = Mth.floor(box.maxX - 1.0E-7D);
+        int maxY = Mth.floor(box.maxY - 1.0E-7D);
+        int maxZ = Mth.floor(box.maxZ - 1.0E-7D);
+        BlockPos.MutableBlockPos mutablePos = new BlockPos.MutableBlockPos();
+        for (int x = minX; x <= maxX; x++) {
+            for (int y = minY; y <= maxY; y++) {
+                for (int z = minZ; z <= maxZ; z++) {
+                    if (heatPositions.contains(mutablePos.set(x, y, z))) return true;
+                }
+            }
+        }
+        return false;
     }
 
     @Override

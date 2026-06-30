@@ -20,6 +20,7 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
     // 类GCYM机器(如大热解/裂化/电弧)不要写
 
     // 大型藻类养殖中心
+    @JvmField
     val LargeAlgaeFarmTooltips: ComponentListSupplier = ComponentListSupplier {
         setTranslationPrefix("large_algae_farm")
         story("AFBL-3000大型藻类养殖中心是GTO集团最新研发的高效藻类生产设备" translatedTo "AFBL-3000 Large Algae Farming Center is GTO Group's latest high-efficiency algae production equipment")
@@ -28,24 +29,28 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
     }
 
     // 颜料调配机
+    @JvmField
     val PigmentMixerTooltips: ComponentListSupplier = ComponentListSupplier {
         setTranslationPrefix("pigment_mixer")
         story("将三种颜色调配成更多的颜色" translatedTo "Mixing three colors into more colors")
     }
 
     // 砖窑
+    @JvmField
     val brickKilnTooltips: ComponentListSupplier = ComponentListSupplier {
         setTranslationPrefix("brick_kiln")
         story("古法窑炉，原始工艺" translatedTo "Ancient kiln, primitive craftsmanship")
     }
 
     // 热压成型机
+    @JvmField
     val thermoPressTooltips: ComponentListSupplier = ComponentListSupplier {
         setTranslationPrefix("thermo_press")
         story("为了将金属，陶瓷，塑料以及胶水粘到一起而开发的机器" translatedTo "A machine developed to bond metals, ceramics, plastics, and adhesives together")
     }
 
     // 电镀槽
+    @JvmField
     val electroplatingBathTooltips: ComponentListSupplier = ComponentListSupplier {
         setTranslationPrefix("electroplating_bath")
         story("掌握了从矿石中提取和分离铂系金属的技术后" translatedTo "After mastering the technology to extract and separate platinum group metals from ores")
@@ -55,6 +60,7 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
     }
 
     // 雾化冷凝器
+    @JvmField
     val atomizingCondenserTooltips: ComponentListSupplier = ComponentListSupplier {
         setTranslationPrefix("atomizing_condenser")
         story("GTO集团的一名员工在合金冶炼炉前正等待着大锅的熔融合金出锅。" translatedTo "An employee of GTO Group was waiting in front of the alloy smelter for the molten alloy to be ready.")
@@ -71,6 +77,7 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
     }
 
     // 大型蒸汽电路组装机
+    @JvmField
     val LargeSteamCircuitAssemblerTooltips = ComponentListSupplier {
         setTranslationPrefix("large_steam_circuit_assembler")
         story("后世工程师难以想象先驱者如何用简陋工具打造这台机器" translatedTo "Later engineers can hardly imagine how pioneers built this machine with crude tools")
@@ -79,6 +86,7 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
     }
 
     // 空间站
+    @JvmField
     val SpaceStationTooltips = ComponentListSupplier {
         setTranslationPrefix("space_station")
         story("欢迎来到GTO寰宇集团的太空站" translatedTo "Welcome to GTO Universe Group's Space Station")
@@ -90,6 +98,7 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
     }
 
     // 大型工业空间站
+    @JvmField
     val LargeSpaceStationTooltips = ComponentListSupplier {
         setTranslationPrefix("large_space_station")
         story("GTO寰宇集团的太空站已经成功运营多年" translatedTo "GTO Universe Group's space station has been successfully operating for many years")
@@ -99,6 +108,7 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
     }
 
     // 纺丝机（纤维挤出机）
+    @JvmField
     val FiberExtruderTooltips = ComponentListSupplier {
         setTranslationPrefix("fiber_extruder")
         story("这可不是什么一般的缝纫机或者织布机" translatedTo "This is not just an ordinary sewing machine or loom")
@@ -106,6 +116,7 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
     }
 
     // 大型蒸汽太阳能锅炉
+    @JvmField
     val LargeSteamSolarBoilerTooltips = ComponentListSupplier {
         setTranslationPrefix("large_steam_solar_boiler")
         story("靠天吃饭一直是公司老祖宗的传统" translatedTo "Relying on nature has always been the company's ancestral tradition")
@@ -114,6 +125,7 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
     }
 
     // 珍宝锻炉
+    @JvmField
     val RarityForgeTooltips = ComponentListSupplier {
         setTranslationPrefix("rarity_forge")
         story("GTO集团与神化集团就商业合作问题最近开展了重要谈话" translatedTo "GTO Group and Apotheosis Group recently held important business cooperation talks")
@@ -123,6 +135,7 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
     }
 
     // 等静压成型
+    @JvmField
     val IsostaticPressMachineTooltips = ComponentListSupplier {
         setTranslationPrefix("isostatic_press_machine")
         story("先进的材料学技术一直以来都是格雷科技公司的立身之本" translatedTo "Advanced materials technology has always been the foundation of GregTech Corp")
@@ -132,6 +145,7 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
     }
 
     // 烧结炉
+    @JvmField
     val SinteringFurnaceTooltips = ComponentListSupplier {
         setTranslationPrefix("sintering_furnace")
         story("作为陶瓷生产中的核心设备" translatedTo "As the core equipment")
@@ -141,6 +155,7 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
     }
 
     // 藻类农场
+    @JvmField
     val AlgaeFarmTooltips = ComponentListSupplier {
         setTranslationPrefix("algae_farm")
         story("作为植物进化最原始的种类之一，藻类通常不为人注意" translatedTo "As one of the most primitive plant species algae often goes unnoticed")
@@ -150,6 +165,7 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
     }
 
     // 结晶器
+    @JvmField
     val CrystallizationChamberTooltips = ComponentListSupplier {
         setTranslationPrefix("crystallization_chamber")
         story("你说工业生产的粗硅可以直接用电力高炉烧制成单晶硅？" translatedTo "You think crude silicon from industrial production can be directly smelted into monocrystalline silicon in an electric furnace?")
@@ -159,6 +175,7 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
     }
 
     // 光伏电站
+    @JvmField
     val PhotovoltaicPlantTooltips = { name: String ->
         ComponentListSupplier {
             setTranslationPrefix("photovoltaic_plant")
@@ -171,6 +188,7 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
     }
 
     // 虚空流体钻机
+    @JvmField
     val VoidFluidDrillTooltips = ComponentListSupplier {
         setTranslationPrefix("void_fluid_drill")
         story("虚空流体钻机§r§b是格雷科技在虚空领域的又一力作" translatedTo "Void Fluid Drill§r is another masterpiece of GregTech in the void field")
@@ -178,6 +196,7 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
     }
 
     // 虚空采矿机
+    @JvmField
     val VoidMinerTooltips = ComponentListSupplier {
         setTranslationPrefix("void_miner")
         story("虚空采矿机§r§b是格雷科技在虚空领域的又一力作" translatedTo "Void Miner§r is another masterpiece of GregTech in the void field")
@@ -185,6 +204,7 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
     }
 
     // 能量注入仪
+    @JvmField
     val EnergyInjectorTooltips = ComponentListSupplier {
         setTranslationPrefix("energy_injector")
         story("电池箱充电太慢？" translatedTo "Battery box charging too slow?")
@@ -195,6 +215,7 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
     }
 
     // 聚合反应器
+    @JvmField
     val PolymerizationReactorTooltips = ComponentListSupplier {
         setTranslationPrefix("polymerization_reactor")
         story("普通的化学反应环境并不能高效处理加聚反应和缩聚反应" translatedTo "Ordinary chemical reaction environments cannot efficiently handle addition and condensation polymerization")
@@ -203,6 +224,7 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
     }
 
     // 渔场
+    @JvmField
     val FishingFarmTooltips = ComponentListSupplier {
         setTranslationPrefix("fishing_farm")
         story("喜欢吃鱼？" translatedTo "Like eating fish?")
@@ -212,6 +234,7 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
     }
 
     // 培养缸
+    @JvmField
     val CulturingTankTooltips = ComponentListSupplier {
         setTranslationPrefix("culturing_tank")
         story("格雷科技将目光放到鲸鱼座T星的异星藻类上" translatedTo "GregTech set its sights on alien algae from Cetus T star")
@@ -219,6 +242,7 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
     }
 
     // 大型培养缸
+    @JvmField
     val LargeCulturingTankTooltips = ComponentListSupplier {
         setTranslationPrefix("large_culturing_tank")
         story("针对越发庞大的生物材料产能需求" translatedTo "Addressing the increasingly massive biological material production demand§r")
@@ -228,6 +252,7 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
     }
 
     // 化工厂
+    @JvmField
     val ChemicalFactoryTooltips = ComponentListSupplier {
         setTranslationPrefix("chemical_factory")
         story("在化学的世界里，每一个分子都在诉说着自己的故事" translatedTo "In the world of chemistry, every molecule tells its own story")
@@ -236,6 +261,7 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
     }
 
     // 衰变加速器
+    @JvmField
     val DecayAcceleratorTooltips = ComponentListSupplier {
         setTranslationPrefix("decay_accelerator")
         story("铀-238的半衰期整整达到45亿年，显然实验室的科学家没有那么多时间" translatedTo "Uranium-238 have half-lives of up to 4.5 billion years, clearly lab scientists don't have that much time")
@@ -245,6 +271,7 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
     }
 
     // 回收机
+    @JvmField
     val RecyclingMachineTooltips = ComponentListSupplier {
         setTranslationPrefix("recycling_machine")
         story("看起来这只是一个很简单的钢制机器，连刚入职的新员工都能轻松搭建" translatedTo "It looks like just a simple steel machine that even newly hired employees can easily build")
@@ -254,6 +281,7 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
     }
 
     // 质量发生器
+    @JvmField
     val MassGeneratorTooltips = ComponentListSupplier {
         setTranslationPrefix("mass_generator")
         story("GTO寰宇部门最近盛行物理学教育，很多员工把爱因斯坦作为自己的偶像" translatedTo "Physics education is trending in GTO Universe Department many employees idolize Einstein")
@@ -263,6 +291,7 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
     }
 
     // 超临界合成机
+    @JvmField
     val SpsCraftingTooltips = ComponentListSupplier {
         setTranslationPrefix("sps_crafting")
         story("GTO寰宇集团从事量子力学的部门只有寥寥数人，却贡献了非常重要的科学成果" translatedTo "GTO Universe's quantum mechanics department has only a few members yet contributes crucial scientific achievements")
@@ -272,6 +301,7 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
     }
 
     // 精密组装机
+    @JvmField
     val PrecisionAssemblerTooltips = ComponentListSupplier {
         setTranslationPrefix("precision_assembler")
         story("DSW-17型精密组装机的运作原理是什么？" translatedTo "What is the operating principle of the DSW-17 Precision Assembler?")
@@ -280,12 +310,14 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
     }
 
     // 熔岩炉
+    @JvmField
     val LavaFurnaceTooltips = ComponentListSupplier {
         setTranslationPrefix("lava_furnace")
         story("石头进去，岩浆出来，简单粗暴的地热转换艺术" translatedTo "Rocks in, lava out - the brutally simple art of geothermal conversion")
     }
 
     // 稀土离心机
+    @JvmField
     val RareEarthCentrifugalTooltips = ComponentListSupplier {
         setTranslationPrefix("rare_earth_centrifugal")
         story("基础稀土分离专家，用离心力解开大地深处的秘密" translatedTo "Basic rare earth separation expert, unlocking earth's deepest secrets with centrifugal force")
@@ -293,6 +325,7 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
     }
 
     // 溶解罐
+    @JvmField
     val DissolvingTankTooltips = ComponentListSupplier {
         setTranslationPrefix("dissolving_tank")
         story("GTO从来就不是粗放式发展的公司，也需要很多高精技术人才" translatedTo "GTO has never been an extensive development company it requires many high-precision technical talents")
@@ -301,6 +334,7 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
     }
 
     // 部件组装机
+    @JvmField
     val ComponentAssemblerTooltips = ComponentListSupplier {
         setTranslationPrefix("component_assembler")
         story("GTO集团送给菜鸟员工的贴心礼物，让组装变得像搭积木一样简单" translatedTo "GTO Group's thoughtful gift for rookie employees, making assembly as easy as building blocks")
@@ -309,6 +343,7 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
     }
 
     // 等离子冷凝器
+    @JvmField
     val PlasmaCondenserTooltips = ComponentListSupplier {
         setTranslationPrefix("plasma_condenser")
         story("GTO工程师在等离子体控制方面取得重大突破，解决了长期存在的稳定性难题" translatedTo "GTO engineers made a major breakthrough in plasma control solving long-standing stability issues")
@@ -317,6 +352,7 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
     }
 
     // 电路装配线
+    @JvmField
     val CircuitAssemblyLineTooltips = ComponentListSupplier {
         setTranslationPrefix("circuit_assembly_line")
         story("GTO寰宇格雷科技顶级工程师设计的精密电路制造系统" translatedTo "Precision circuit manufacturing system designed by GTO Universe GregTech's top engineers")
@@ -325,6 +361,7 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
     }
 
     // 裂变反应堆
+    @JvmField
     val FissionReactorTooltips = ComponentListSupplier {
         setTranslationPrefix("fission_reactor")
         story("刚来的员工是从通用机械集团转来的，带来了这么个家伙" translatedTo "A new employee transferred from Mekanism brought this thing along")
@@ -334,6 +371,7 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
     }
 
     // 工业屠宰场
+    @JvmField
     val SlaughterhouseTooltips = ComponentListSupplier {
         setTranslationPrefix("slaughterhouse")
         story("作为自动化行业的顶尖集团，GTO的企业宗旨之一就是能自动绝不手动" translatedTo "As a top automation corporation, GTO's motto is automate everything possible")
@@ -344,6 +382,7 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
     }
 
     // 大型方块转换室
+    @JvmField
     val LargeBlockConversionRoomTooltips = ComponentListSupplier {
         setTranslationPrefix("large_block_conversion_room")
         story("当铝青铜外壳首次闭合时，连发明者自己都屏住了呼吸" translatedTo "When the aluminum bronze housing first closed, even the inventor held his breath")
@@ -352,6 +391,7 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
     }
 
     // 烈焰高炉
+    @JvmField
     val BlazeBlastFurnaceTooltips = ComponentListSupplier {
         setTranslationPrefix("blaze_blast_furnace")
         story("从匠魂集团新转来的员工似乎特别喜欢烈焰人，在公司的电力高炉阵列里豢养了一个烈焰人刷怪笼" translatedTo "A new employee transferred from Tinker's Construct seems particularly fond of blazes, keeping a blaze spawner in the company's electric furnace array")
@@ -361,6 +401,7 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
     }
 
     // 寒冰冷冻机
+    @JvmField
     val ColdIceFreezerTooltips = ComponentListSupplier {
         setTranslationPrefix("cold_ice_freezer")
         story("一次液态冰泄漏事故意外催生了这台极低温设备的诞生" translatedTo "A liquid ice leak accident unexpectedly led to the birth of this cryogenic device")
@@ -370,6 +411,7 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
     }
 
     // 通用工厂
+    @JvmField
     val ProcessingPlantTooltips = ComponentListSupplier {
         setTranslationPrefix("processing_plant")
         story("董事长视察时目睹员工们手忙脚乱地切换机器，萌生了集成化想法" translatedTo "Chairman witnessed employees frantically switching machines during inspection sparking integration idea")
@@ -378,6 +420,7 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
     }
 
     // 3D打印机
+    @JvmField
     val ThreeDimensionalPrinterTooltips = ComponentListSupplier {
         setTranslationPrefix("three_dimensional_printer")
         story("员工A317收藏了一份泰勒光盘，却被孩子拿刀刻成马达模样扔进了打印机里" translatedTo "Employee A317 collected a Taylor Swift disc but his child carved it into a motor shape and threw it into the printer")
@@ -387,6 +430,7 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
     }
 
     // 数字型采矿机
+    @JvmField
     val DigitalMinerTooltips = ComponentListSupplier {
         setTranslationPrefix("digital_miner")
         story("懒才是科技发展的动力" translatedTo "Laziness is the true driver of technological progress")
@@ -395,6 +439,7 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
     }
 
     // 拆解机
+    @JvmField
     val DisassemblyTooltips = ComponentListSupplier {
         setTranslationPrefix("disassembly")
         story("还在为退休的部件装配线外壳而惋惜吗？GTO集团早已解锁了逆熵技术！" translatedTo "Still regretting retired component assembly line casings? GTO Group has unlocked reverse entropy technology!")
@@ -402,6 +447,7 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
     }
 
     // 艾萨研磨机
+    @JvmField
     val IsaMillTooltips = ComponentListSupplier {
         setTranslationPrefix("isa_mill")
         story("这款艾萨1672N号研磨机，虽然有着绿皮外表，但其实完全不环保" translatedTo "This Isa 1672N grinder, despite its green appearance, is actually not eco-friendly at all")
@@ -411,6 +457,7 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
     }
 
     // 工业浮选机
+    @JvmField
     val IndustrialFlotationCellTooltips = ComponentListSupplier {
         setTranslationPrefix("industrial_flotation_cell")
         story("作为一般提纯工艺，这台艾萨U-276选矿机已经发展相当成熟" translatedTo "As a general purification process this Isa U-276 ore separator has become quite mature")
@@ -420,6 +467,7 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
     }
 
     // 中子活化器
+    @JvmField
     val NeutronActivatorTooltips = ComponentListSupplier {
         setTranslationPrefix("neutron_activator")
         story("有员工观察到特定动能的中子能可以激活原子核" translatedTo "Employee observed neutrons at specific kinetic energy can activate atomic nuclei")
@@ -429,6 +477,7 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
     }
 
     // 热交换机
+    @JvmField
     val HeatExchangerTooltips = ComponentListSupplier {
         setTranslationPrefix("heat_exchanger")
         story("当时工程师们正为热能浪费发愁，一位老员工想到了一个绝妙的主意" translatedTo "Engineers were struggling with heat waste when a veteran employee came up with a brilliant idea")
@@ -438,6 +487,7 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
     }
 
     // 大型虚空采矿厂
+    @JvmField
     val LargeVoidMinerTooltips = ComponentListSupplier {
         setTranslationPrefix("large_void_miner")
         story("看着仓库中的矿物逐渐捉襟见肘，董事长显得有些担忧" translatedTo "Watching the minerals in the warehouse gradually running short, the chairman looked somewhat worried")
@@ -448,6 +498,7 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
     }
 
     // 无尽流体钻机
+    @JvmField
     val InfinityFluidDrillingRigTooltips = ComponentListSupplier {
         setTranslationPrefix("infinity_fluid_drilling_rig")
         story("号外号外！勘探队在深地层发现了神奇现象：流体矿脉居然能自我再生！" translatedTo "Extra! Extra! Survey team discovers marvel in deep strata: fluid veins that actually regenerate themselves!")
@@ -457,6 +508,7 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
     }
 
     // 拉丝塔
+    @JvmField
     val DrawingTowerTooltips = ComponentListSupplier {
         setTranslationPrefix("drawing_tower")
         story("光纤强大的传输能力无人可以比拟，但制作光反射性材料却成为一道难关" translatedTo "Fiber optics' transmission power is unmatched, but creating light-reflective materials posed a major challenge")
@@ -466,6 +518,7 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
     }
 
     // 煮解池
+    @JvmField
     val DigestionTankTooltips = ComponentListSupplier {
         setTranslationPrefix("digestion_tank")
         story("GTO集团炊事班的员工C-936，不小心把矿产部门的废料当成盐扔到了烹饪锅里" translatedTo "GTO canteen employee C-936 accidentally mistook mining department waste for salt and threw it into the cooking pot")
@@ -475,6 +528,7 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
     }
 
     // 进阶装配线
+    @JvmField
     val AdvancedAssemblyLineTooltips = ComponentListSupplier {
         setTranslationPrefix("advanced_assembly_line")
         story("员工已经厌倦了又慢又麻烦的装配线，发起了改良产能的提案" translatedTo "Employees tired of the slow and troublesome assembly line proposed production capacity improvements")
@@ -484,6 +538,7 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
     }
 
     // 矿石萃取模块
+    @JvmField
     val OreExtractionModuleTooltips = ComponentListSupplier {
         setTranslationPrefix("ore_extraction_module")
         story("纳米蜂群能够精准分离矿石中的每一种元素，实现分子级别萃取" translatedTo "Nano-swarms precisely separate every element in ores, achieving molecular-level extraction")
@@ -492,6 +547,7 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
     }
 
     // 聚合物扭曲模块
+    @JvmField
     val PolymerTwistingModuleTooltips = ComponentListSupplier {
         setTranslationPrefix("polymer_twisting_module")
         story("GTO集团纳米技术的巅峰之作，复杂聚合物一步加工解决方案" translatedTo "GTO Group's pinnacle of nanotechnology, one-step processing solution for complex polymers")
@@ -501,6 +557,7 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
     }
 
     // 生物工程模块
+    @JvmField
     val BioengineeringModuleTooltips = ComponentListSupplier {
         setTranslationPrefix("bioengineering_module")
         story("生物工程是三个模块中最神秘的存在" translatedTo "The bioengineering module is the most mysterious of the three modules")
@@ -510,6 +567,7 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
     }
 
     // 太空电梯
+    @JvmField
     val SpaceElevatorTooltips = ComponentListSupplier {
         setTranslationPrefix("space_elevator")
         story("GTO的工程师们仰望星空几十年，终于把通往宇宙的天梯变成了现实" translatedTo "GTO engineers looked at the stars for decades finally turning the celestial ladder into reality")
@@ -520,6 +578,7 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
     }
 
     // 净化处理厂
+    @JvmField
     val WaterPurificationPlantTooltips = ComponentListSupplier {
         setTranslationPrefix("water_purification_plant")
 
@@ -528,6 +587,7 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
     }
 
     // 澄清器净化装置
+    @JvmField
     val ClarifierPurificationUnitTooltips = ComponentListSupplier {
         setTranslationPrefix("clarifier_purification_unit")
 
@@ -536,6 +596,7 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
     }
 
     // 臭氧净化装置
+    @JvmField
     val OzonationPurificationUnitTooltips = ComponentListSupplier {
         setTranslationPrefix("ozonation_purification_unit")
 
@@ -545,6 +606,7 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
     }
 
     // 絮凝净化装置
+    @JvmField
     val FlocculationPurificationUnitTooltips = ComponentListSupplier {
         setTranslationPrefix("flocculation_purification_unit")
 
@@ -553,6 +615,7 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
     }
 
     // pH中和净化装置
+    @JvmField
     val PHNeutralizationPurificationUnitTooltips = ComponentListSupplier {
         setTranslationPrefix("ph_neutralization_purification_unit")
 
@@ -562,6 +625,7 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
     }
 
     // 极端温度波动净化装置
+    @JvmField
     val ExtremeTemperatureFluctuationPurificationUnitTooltips = ComponentListSupplier {
         setTranslationPrefix("extreme_temperature_fluctuation_purification_unit")
 
@@ -570,6 +634,7 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
     }
 
     // 高能激光净化装置
+    @JvmField
     val HighEnergyLaserPurificationUnitTooltips = ComponentListSupplier {
         setTranslationPrefix("high_energy_laser_purification_unit")
 
@@ -578,6 +643,7 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
     }
 
     // 残余污染物脱气净化装置
+    @JvmField
     val ResidualDecontaminantDegasserPurificationUnitTooltips = ComponentListSupplier {
         setTranslationPrefix("residual_decontaminant_degasser_purification_unit")
 
@@ -587,6 +653,7 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
     }
 
     // 绝对重子完美净化装置
+    @JvmField
     val AbsoluteBaryonicPerfectionPurificationUnitTooltips = ComponentListSupplier {
         setTranslationPrefix("absolute_baryonic_perfection_purification_unit")
 
@@ -609,6 +676,7 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
     // 你可以参照可用的色彩接口... (copy code)
 
     // 大气收集室
+    @JvmField
     val AtmosphereCollectorRoomTooltips = ComponentListSupplier {
         setTranslationPrefix("atmosphere_collector_room")
         add(("大气层的美味榨汁机，专门收集行星的呼吸" translatedTo "The atmosphere juicer, specializes in collecting planetary breath")) { aqua() }
@@ -617,6 +685,7 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
     }
 
     // 激光蚀刻工厂
+    @JvmField
     val EngravingLaserPlantTooltips = ComponentListSupplier {
         setTranslationPrefix("laser_etching_factory")
         add(("这台光子雕刻圣殿，可以用光之刃重塑物质的结构" translatedTo "Photon engraving sanctuary, reshaping matter with blades of light")) { gold() }
@@ -626,6 +695,7 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
     }
 
     // 部件装配线
+    @JvmField
     val ComponentAssemblyLineTooltips = ComponentListSupplier {
         setTranslationPrefix("component_assembly_line")
         add("GTO寰宇格雷科技数年心血的结晶，工业自动化里程碑" translatedTo "Culmination of GTO Cosmic GregTech's years of effort, milestone in industrial automation") { gold() }
@@ -639,6 +709,7 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
     }
 
     // 分子重组仪
+    @JvmField
     val MolecularTransformerTooltips = ComponentListSupplier {
         setTranslationPrefix("molecular_transformer")
         add("量子级分子操纵器，能在原子层面重新排列物质的基本结构" translatedTo "Quantum-level molecular manipulator capable of rearranging matter at atomic scale") { aqua() }
@@ -649,6 +720,7 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
     }
 
     // 星核钻机
+    @JvmField
     val PlanetCoreDrillingTooltips = ComponentListSupplier {
         setTranslationPrefix("planet_core_drilling")
         add("地心熔炉与星核共振器结合体，直接撕裂行星内部物质结构" translatedTo "Combination of mantle furnace and core resonator, directly tearing planetary interior matter structures") { aqua() }
@@ -660,6 +732,7 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
     }
 
     // 进阶集成矿石处理厂
+    @JvmField
     val AdvancedIntegratedOreProcessorTooltips = ComponentListSupplier {
         setTranslationPrefix("advanced_integrated_ore_processor")
         add("矿石处理的终极答案，从原矿到成品的完美闭环" translatedTo "Ultimate solution for ore processing, perfect closed loop from raw ore to finished product") { blue() }
@@ -671,6 +744,7 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
     }
 
     // 稀土处理综合设施
+    @JvmField
     val ComprehensiveTombarthiteProcessingFacilityTooltips = ComponentListSupplier {
         setTranslationPrefix("comprehensive_tombarthite_processing_facility")
         add("稀土处理的工业巨构，将离心分离技术推向极致" translatedTo "Industrial megastructure for rare earth processing, pushing centrifugal separation to the extreme") { blue() }
@@ -682,6 +756,7 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
     }
 
     // 木化工厂
+    @JvmField
     val WoodDistillationTooltips = ComponentListSupplier {
         setTranslationPrefix("wood_distillation")
         add("绿色化学的工业典范，将木质纤维转化为万千化工原料" translatedTo "Industrial典范 of green chemistry, transforming wood fibers into myriad chemical materials") { green() }
@@ -693,6 +768,7 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
     }
 
     // 石化工厂
+    @JvmField
     val PetrochemicalPlantTooltips = ComponentListSupplier {
         setTranslationPrefix("petrochemical_plant")
         add("工业炼金术的终极殿堂，将黑色黄金转化为万千化工奇迹" translatedTo "Ultimate temple of industrial alchemy, transforming black gold into countless chemical marvels") { blue() }
@@ -704,6 +780,7 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
     }
 
     // 纳米集成加工中心
+    @JvmField
     val NanitesIntegratedProcessingCenterTooltips = ComponentListSupplier {
         setTranslationPrefix("nanites_integrated_processing_center")
         add("纳米蜂群技术革命，让传统化工产线成为过去式" translatedTo "Nanites colony technology revolution, making traditional chemical production lines obsolete") { green() }
@@ -715,6 +792,7 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
     }
 
     // 化工复合体
+    @JvmField
     val ChemicalComplexTooltips = ComponentListSupplier {
         setTranslationPrefix("chemical_complex")
         add("量子级反应控制，让每个分子都在精确的时空点相遇" translatedTo "Quantum-level reaction control, ensuring every molecule meets at precise spacetime coordinates") { gray() }
@@ -726,6 +804,7 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
     }
 
     // 元素复制机
+    @JvmField
     val ElementCopyingTooltips = ComponentListSupplier {
         setTranslationPrefix("element_copying")
         add("量子级元素复制，从虚无中创造物质" translatedTo "Quantum-level element replication, creating substance from void") { gray() }
@@ -737,6 +816,7 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
     }
 
     // 特大线材轧机
+    @JvmField
     val MegaWiremillTooltips = ComponentListSupplier {
         setTranslationPrefix("mega_wiremill")
         add("当金属遇见绝对的力量" translatedTo "When metal meets absolute power") { lightPurple() }
@@ -749,6 +829,7 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
     }
 
     // 超导磁驱冲击装置
+    @JvmField
     val SuperconductingMagneticPresserTooltips = ComponentListSupplier {
         setTranslationPrefix("superconducting_magnetic_presser")
         add("来自御坂美琴的工艺传承" translatedTo "Misaka Mikoto's craft legacy") { blue() }
@@ -761,6 +842,7 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
     }
 
     // 重型辊轧机
+    @JvmField
     val HeavyRollingTooltips = ComponentListSupplier {
         setTranslationPrefix("heavy_rolling")
         add("维度压缩的艺术大师，将三维压入二维" translatedTo "Master of dimensional compression, squeezing 3D into 2D") { blue() }
@@ -772,6 +854,7 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
     }
 
     // 相变魔方
+    @JvmField
     val PhaseChangeCubeTooltips = ComponentListSupplier {
         setTranslationPrefix("phase_change_cube")
         add("在立方体间重构分子排列，重塑物质的存在形式" translatedTo "Reconstructing molecular arrangements within cubes, reshaping material existence") { blue() }
@@ -782,6 +865,7 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
     }
 
     // 粒子流矩阵封装机
+    @JvmField
     val ParticleStreamMatrixFillingMachineTooltips = ComponentListSupplier {
         setTranslationPrefix("particle_stream_matrix_filling_machine")
         add("量子级别的封装艺术，让流体在矩阵中完美定格" translatedTo "Quantum-level encapsulation art, perfectly freezing fluids within matrices") { blue() }
@@ -794,6 +878,7 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
     }
 
     // 熔火之心
+    @JvmField
     val MoltenCoreTooltips = ComponentListSupplier {
         setTranslationPrefix("molten_core")
         add("地心熔炉的化身，将热量提升至行星核心级别" translatedTo "Incarnation of the planetary core furnace, raising heat to planetary core levels") { red() }
@@ -805,6 +890,7 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
         highlight("让任何流体都达到理论温度极限" translatedTo "Push any fluid to theoretical temperature limits")
     }
 
+    @JvmField
     val smartSifteringHubTooltips = ComponentListSupplier {
         setTranslationPrefix("smart_siftering_hub")
 
@@ -814,6 +900,7 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
     }
 
     // 复合式蒸馏分馏塔
+    @JvmField
     val CompoundDistillationTowerTooltips = ComponentListSupplier {
         setTranslationPrefix("compound_distillation_tower")
         add("这是现代炼金术的圣殿" translatedTo "This is the temple of modern alchemy") { lightPurple() }
@@ -826,6 +913,7 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
     }
 
     // 巨型酿造厂
+    @JvmField
     val MegaBrewerTooltips = ComponentListSupplier {
         setTranslationPrefix("mega_brewer")
         add("工业级发酵艺术，将酿造传统提升到史诗级规模" translatedTo "Industrial-scale fermentation art, elevating brewing tradition to epic proportions") { gold() }
@@ -837,6 +925,7 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
     }
 
     // 引雷针
+    @JvmField
     val LightningRodTooltips = ComponentListSupplier {
         setTranslationPrefix("lightning_rod")
         add("普罗米修斯盗火，我们驾驭雷霆" translatedTo "Prometheus stole fire, we harness thunder") { gold() }
@@ -848,6 +937,7 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
     }
 
     // 磁能反应炉
+    @JvmField
     val MagneticEnergyReactionFurnaceTooltips = ComponentListSupplier {
         setTranslationPrefix("magnetic_energy_reaction_furnace")
         add("电磁创世的熔炉，用电能重塑物质本源" translatedTo "Electromagnetic creation furnace, reshaping material essence with electricity") { aqua() }
@@ -858,6 +948,7 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
     }
 
     // 高能激光车床
+    @JvmField
     val HighEnergyLaserLatheTooltips = ComponentListSupplier {
         setTranslationPrefix("high_energy_laser_lathe")
         add("光子雕刻大师，用激光之刃重塑物质的几何形态" translatedTo "Photon engrave master, reshaping material geometry with laser blades") { aqua() }
@@ -870,6 +961,7 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
     }
 
     // 中子丝线切割
+    @JvmField
     val NeutroniumWireCuttingTooltips = ComponentListSupplier {
         setTranslationPrefix("neutronium_wire_cutting")
         add("星核材料切割专家，用中子丝线分割宇宙最坚硬的物质" translatedTo "Stellar core material cutting expert, using neutron threads to divide the universe's hardest substances") { lightPurple() }
@@ -881,6 +973,7 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
     }
 
     // 纳米吞噬厂
+    @JvmField
     val NanoPhagocytosisPlantTooltips = ComponentListSupplier {
         setTranslationPrefix("nano_phagocytosis_plant")
         add("物质终结者，纳米蜂群组成的吞噬风暴" translatedTo "Matter terminator, phagocytosis storm composed of nanobot swarms") { gray() }
@@ -893,6 +986,7 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
     }
 
     // 巨型浸洗池
+    @JvmField
     val MegaBathTankTooltips = ComponentListSupplier {
         setTranslationPrefix("mega_bath_tank")
         add("工业级浸泡艺术，让流体与物质在巨池中深度交融" translatedTo "Industrial-scale immersion art, deep integration of fluids and materials in giant pools") { blue() }
@@ -904,6 +998,7 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
     }
 
     // 巨型真空干燥炉
+    @JvmField
     val MegaVacuumDryingFurnaceTooltips = ComponentListSupplier {
         setTranslationPrefix("mega_vacuum_drying_furnace")
         add("虚空干燥专家，在真空中完美分离" translatedTo "Void drying expert, perfectly separating in vacuum") { yellow() }
@@ -915,6 +1010,7 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
     }
 
     // 分子震荡脱水装置
+    @JvmField
     val MolecularOscillationDehydratorTooltips = ComponentListSupplier {
         setTranslationPrefix("molecular_oscillation_dehydrator")
         add("智子级脱水技术，用分子震荡剥离每一个水分子" translatedTo "Sophon-level dehydration tech, stripping every water molecule with molecular oscillation") { yellow() }
@@ -926,6 +1022,7 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
     }
 
     // 极限压缩装置
+    @JvmField
     val HorizontalCompressorTooltips = ComponentListSupplier {
         setTranslationPrefix("extreme_compressor")
         add("物质密度艺术家，用兆吨压力重塑原子间距" translatedTo "Matter density artist, reshaping atomic distances with megaton pressure") { yellow() }
@@ -936,6 +1033,7 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
     }
 
     // 极限电炉
+    @JvmField
     val ExtremeElectricFurnaceTooltips = ComponentListSupplier {
         setTranslationPrefix("extreme_electric_furnace")
         add("智能加热线圈精准调控，让每个配方都获得最佳熔炼效果" translatedTo "Smart heating coils provide precise control, ensuring optimal smelting for every recipe") { gray() }
@@ -947,6 +1045,7 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
     }
 
     // 高温反应枢纽
+    @JvmField
     val HighTemperatureReactionHubTooltips = ComponentListSupplier {
         setTranslationPrefix("high_temperature_reaction_hub")
         add("超导加热矩阵精准控温，让每个反应都在最佳热力学窗口进行" translatedTo "Superconducting heating matrix provides precise temperature control, ensuring every reaction occurs in optimal thermodynamic windows") { gray() }
@@ -958,6 +1057,7 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
     }
 
     // 引力弯折装置
+    @JvmField
     val GravityBendingDeviceTooltips = ComponentListSupplier {
         setTranslationPrefix("gravity_bending_device")
         add("时空曲率雕刻者，用人工引力重塑材料形态" translatedTo "Spacetime curvature sculptor, reshaping material forms with artificial gravity") { lightPurple() }
@@ -970,6 +1070,7 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
     }
 
     // 阿拉克涅之手
+    @JvmField
     val HandOfArachneTooltips = ComponentListSupplier {
         setTranslationPrefix("hand_of_arachne")
         add("古罗马掌管编织的神" translatedTo "The ancient Rome's weaving goddess") { lightPurple() }
@@ -981,6 +1082,7 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
     }
 
     // 裂解反应枢纽
+    @JvmField
     val CrackerHubTooltips = ComponentListSupplier {
         setTranslationPrefix("cracker_hub")
         add("用高温高压撕裂碳氢化合物的枷锁" translatedTo "Tearing apart hydrocarbon bonds with high temperature and pressure") { red() }
@@ -992,6 +1094,7 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
     }
 
     // 维度聚焦激光蚀刻阵列
+    @JvmField
     val DimensionalFocusEngravingArrayTooltips = ComponentListSupplier {
         setTranslationPrefix("dimensional_focus_engraving_array")
         add("光束从不同维度汇聚，在奇点处实现量子级精密蚀刻" translatedTo "Light beams converge from different dimensions, achieving quantum-level precision etching at singularities") { yellow() }
@@ -1002,6 +1105,7 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
     }
 
     // 超级冶炼炉
+    @JvmField
     val SuperBlastSmelterTooltips = ComponentListSupplier {
         setTranslationPrefix("super_blast_smelter")
         add("用人工太阳的温度熔炼万物" translatedTo "Smelting all things with artificial sun temperatures") { red() }
@@ -1013,6 +1117,7 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
     }
 
     // 复合式极端冷却装置
+    @JvmField
     val CompoundExtremeCoolingUnitTooltips = ComponentListSupplier {
         setTranslationPrefix("compound_extreme_cooling_unit")
         add("绝对零度艺术家" translatedTo "Absolute zero artist") { aqua() }
@@ -1024,6 +1129,7 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
     }
 
     // 超导电磁工厂
+    @JvmField
     val SuperconductingElectromagnetismTooltips = ComponentListSupplier {
         setTranslationPrefix("superconducting_electromagnetism")
         add("麦克斯韦方程组的工业化身，电磁统一的完美体现" translatedTo "Industrial incarnation of Maxwell's equations, perfect embodiment of electromagnetic unity") { blue() }
@@ -1035,6 +1141,7 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
     }
 
     // 晶体构建者
+    @JvmField
     val CrystalBuilderTooltips = ComponentListSupplier {
         setTranslationPrefix("crystal_builder")
         add("布拉格父子的梦想工厂，在原子层面编织完美晶格" translatedTo "Bragg父子's dream factory, weaving perfect crystal lattices at atomic level") { blue() }
@@ -1045,6 +1152,7 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
     }
 
     // 神圣分离者
+    @JvmField
     val HolySeparatorTooltips = ComponentListSupplier {
         setTranslationPrefix("holy_separator")
         add("用向心力演绎物质分离的神圣仪式" translatedTo "Perform sacred rituals of material separation with centripetal force") { lightPurple() }
@@ -1055,6 +1163,7 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
     }
 
     // 力场压模工厂
+    @JvmField
     val FieldExtruderFactoryTooltips = ComponentListSupplier {
         setTranslationPrefix("field_extruder_factory")
         add("无形之手塑造万般形态" translatedTo "Shape myriad forms with intangible hands") { blue() }
@@ -1066,6 +1175,7 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
     }
 
     // 中子锻砧
+    @JvmField
     val NeutronForgingAnvilTooltips = ComponentListSupplier {
         setTranslationPrefix("neutron_forging_anvil")
         add("仿佛听到中子星心跳的声音" translatedTo "As if hearing neutron star heartbeat") { gold() }
@@ -1077,6 +1187,7 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
     }
 
     // 双子星封装系统
+    @JvmField
     val GeminiContainmentSystemTooltips = ComponentListSupplier {
         setTranslationPrefix("gemini_containment_system")
         add("量子纠缠封装技术，让每个容器都与内容物建立超维连接" translatedTo "Quantum entanglement packaging, establishing transdimensional connections between containers and contents") { gray() }
@@ -1087,6 +1198,7 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
     }
 
     // 克尔-纽曼均质仪
+    @JvmField
     val KerrNewmanHomogenizerTooltips = ComponentListSupplier {
         setTranslationPrefix("kerr_newman_homogenizer")
         add("用相对论效应实现完美均质" translatedTo "Achieve perfect homogeneity through relativistic effects") { lightPurple() }
@@ -1098,6 +1210,7 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
     }
 
     // 溶解核心
+    @JvmField
     val DissolutionCoreTooltips = ComponentListSupplier {
         setTranslationPrefix("dissolution_core")
         add("溶剂魔法圣殿，用分子间力解开物质的化学枷锁" translatedTo "Solvent magic sanctuary, unlocking chemical bonds with intermolecular forces") { aqua() }
@@ -1109,6 +1222,7 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
     }
 
     // 综合气相沉积系统
+    @JvmField
     val IntegratedVaporDepositionSystemTooltips = ComponentListSupplier {
         setTranslationPrefix("integrated_vapor_deposition_system")
         add("原子级镀膜圣殿，让物质以气态演绎重生之舞" translatedTo "Atomic-level coating sanctuary, where materials perform rebirth dance in gaseous state") { blue() }
@@ -1120,6 +1234,7 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
     }
 
     // 微生物之主
+    @JvmField
     val MicroorganismMasterTooltips = ComponentListSupplier {
         setTranslationPrefix("microorganism_master")
         add("生命科学的工业圣殿，在绝对洁净中驾驭微生物的力量" translatedTo "Industrial sanctuary of life science, harnessing microbial power in absolute cleanliness") { green() }
@@ -1131,6 +1246,7 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
     }
 
     // 生命熔炉
+    @JvmField
     val LifeForgeTooltips = ComponentListSupplier {
         setTranslationPrefix("life_forge")
         add("生命炼金圣殿，在工业熔炉中培育生物奇迹" translatedTo "Life alchemy sanctuary, cultivating biological miracles in industrial furnaces") { green() }
@@ -1142,6 +1258,7 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
     }
 
     // 综合组装车间
+    @JvmField
     val IntegratedAssemblerTooltips = ComponentListSupplier {
         setTranslationPrefix("integrated_assembler")
         add("GTO寰宇集团时空工程技术结晶，突破装配维度限制" translatedTo "Crystallization of GTO Cosmic Group's spacetime engineering, breaking dimensional assembly limits") { blue() }
@@ -1154,6 +1271,7 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
     }
 
     // 精密组装中心
+    @JvmField
     val PrecisionAssemblyCenterTooltips = ComponentListSupplier {
         setTranslationPrefix("precision_assembly_center")
         add("微米级装配圣殿，用机械之指谱写精密的工业诗篇" translatedTo "Micron-level assembly sanctuary, composing precise industrial poetry with mechanical fingers") { aqua() }
@@ -1166,6 +1284,7 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
     }
 
     // 纳米蜂群电路组装工厂
+    @JvmField
     val NanoswarmCircuitAssemblyFactoryTooltips = ComponentListSupplier {
         setTranslationPrefix("nanoswarm_circuit_assembly_factory")
         add("在绝对寂静的空间里" translatedTo "In absolutely silent space") { lightPurple() }
@@ -1179,6 +1298,7 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
     }
 
     // 奈亚拉托提普之触
+    @JvmField
     val NyarlathotepsTentacleTooltips = ComponentListSupplier {
         setTranslationPrefix("nyarlathoteps_tentacle")
         add("当空间本身成为装配台" translatedTo "When space itself becomes the assembly platform") { lightPurple() }
@@ -1192,6 +1312,7 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
     }
 
     // 巨型浮游选矿池
+    @JvmField
     val GiantFlotationTankTooltips = ComponentListSupplier {
         setTranslationPrefix("giant_flotation_tank")
         add("矿物浮选圣殿，用气泡之舞分离大地的馈赠" translatedTo "Mineral flotation sanctuary, separating earth's gifts with bubble dances") { blue() }
@@ -1204,6 +1325,7 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
     }
 
     // 超限绿洲
+    @JvmField
     val TransliminalOasisTooltips = ComponentListSupplier {
         setTranslationPrefix("transliminal_oasis")
         add("生命绿洲的工业化身，在金属丛林中培育万物生机" translatedTo "Industrial incarnation of life oasis, cultivating all living things in metal jungles") { green() }
@@ -1213,7 +1335,8 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
         highlight("农业科技的绿洲" translatedTo "Oasis of agricultural technology")
     }
 
-    // 狂飙巨型聚变反应堆控制电脑
+    // 狂飙一号巨型聚变反应堆控制电脑
+    @JvmField
     val KuangbiaoGiantNuclearFusionReactorTooltips = ComponentListSupplier {
         setTranslationPrefix("kuangbiao_giant_nuclear_fusion_reactor")
         add("它所模拟的，是亘古不变的光芒" translatedTo "It simulates the eternal light") { aqua() }
@@ -1225,6 +1348,7 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
     }
 
     // 中子旋涡
+    @JvmField
     val NeutronVortexTooltips = ComponentListSupplier {
         setTranslationPrefix("neutron_vortex")
         add("中子能级压缩器在量子真空中制造出持续旋转的微型中子星环境" translatedTo "Neutron energy compressors create rotating miniature neutron star environments in quantum vacuum") { aqua() }
@@ -1236,6 +1360,7 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
     }
 
     // 熵流引擎
+    @JvmField
     val EntropyFluxEngineTooltips = ComponentListSupplier {
         setTranslationPrefix("entropy_flux_engine")
         add("爱因斯坦的梦想，质能方程的现实化身" translatedTo "Einstein's dream, physical manifestation of E=mc²") { green() }
@@ -1247,6 +1372,7 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
     }
 
     // PCB工厂
+    @JvmField
     val PCBFactoryTooltips = ComponentListSupplier {
         setTranslationPrefix("pcb_factory")
         add("纳米蜂群在量子层面编织电路，每个原子都是精准布局的节点" translatedTo "Nano-swarms weave circuits at quantum level, each atom a precisely placed node") { aqua() }
@@ -1258,6 +1384,7 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
     }
 
     // 蜂群之心
+    @JvmField
     val SwarmCoreTooltips = ComponentListSupplier {
         setTranslationPrefix("swarm_core")
         add("纳米蜂群孕育圣殿，万亿智能单元的诞生摇篮" translatedTo "Nanobot swarm growing sanctuary, birth cradle of trillions of intelligent units") { aqua() }
@@ -1268,6 +1395,7 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
     }
 
     // 物质生成机
+    @JvmField
     val MatterFabricatorTooltips = ComponentListSupplier {
         setTranslationPrefix("matter_fabricator")
         add("GTO研发部门的革命性突破，将废弃材料转化为万能的UU物质" translatedTo "GTO R&D's revolutionary breakthrough converting waste materials into universal UU matter") { aqua() }
@@ -1278,6 +1406,7 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
     }
 
     // 磁约束维度震荡装置
+    @JvmField
     val MagneticConfinementDimensionalityShockDeviceTooltips = ComponentListSupplier {
         setTranslationPrefix("magnetic_confinement_dimensionality_shock_device")
         add("演奏宇宙的弦理论乐章" translatedTo "Play the string theory symphony of the cosmos") { yellow() }
@@ -1289,6 +1418,7 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
     }
 
     // 进阶质量发生器
+    @JvmField
     val AdvancedMassFabricatorTooltips = ComponentListSupplier {
         setTranslationPrefix("advanced_mass_fabricator")
         add("血红外壳下的创世之力，让质能方程成为生产线上的日常" translatedTo "Creative power within blood red shell, making mass-energy equations routine on production lines") { red() }
@@ -1300,6 +1430,7 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
     }
 
     // 进阶超临界合成机
+    @JvmField
     val AdvancedSpsCraftingTooltips = ComponentListSupplier {
         setTranslationPrefix("advanced_sps_crafting")
         add("纯白超临界外壳下的超维度合成奇迹" translatedTo "Transdimensional synthesis miracle within pure white sps casing") { white() }
@@ -1311,6 +1442,7 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
     }
 
     // 恒星终极物质锻造工厂
+    @JvmField
     val StarUltimateMaterialForgeFactoryTooltips = ComponentListSupplier {
         setTranslationPrefix("star_ultimate_material_forge_factory")
         add("创世熔炉的终极形态，在工厂中重现恒星的诞生与毁灭" translatedTo "Ultimate form of creation furnace, recreating stellar birth and destruction in a factory") { gold() }
@@ -1321,6 +1453,7 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
     }
 
     // 通天之路
+    @JvmField
     val RoadOfHeavenTooltips = ComponentListSupplier {
         setTranslationPrefix("road_of_heaven")
         add("人类通往宇宙的钢铁脐带" translatedTo "Humanity's steel umbilical cord to the cosmos") { aqua() }
@@ -1332,6 +1465,7 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
     }
 
     // 基岩钻机
+    @JvmField
     val BedrockDrillingRigTooltips = ComponentListSupplier {
         setTranslationPrefix("bedrock_drilling_rig")
         add("量子隧穿钻头突破物质稳定性极限，直接作用于基岩原子核" translatedTo "Quantum tunneling drill bit breaks material stability limits, acting directly on bedrock atomic nuclei") { aqua() }
@@ -1340,27 +1474,8 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
         highlight("与宇宙基本法则的危险博弈" translatedTo "Chairman's stern warning: This is a dangerous game with the universe's fundamental laws")
     }
 
-    // 创造之门
-    val DoorOfCreateTooltips = ComponentListSupplier {
-        setTranslationPrefix("door_of_create")
-        add("GTO寰宇最深处的环形结构" translatedTo "GTO Universe's innermost ring structure") { aqua() }
-        add("MAX级电压激活时龙息粒子开始舞动，在空间中撕裂出创造维度的通道" translatedTo "MAX voltage activates dragon's breath particles dancing tearing open pathways to the creation dimension") { blue() }
-        add("环形门户以非欧几里得几何旋转，连接着现实与创造的边界" translatedTo "Rotating in non-Euclidean geometry the ring portal connects the boundaries of reality and creation") { lightPurple() }
-        add("穿越者归来后对所见保持沉默，仿佛承载了无法言说的宇宙奥秘" translatedTo "Returned travelers remain silent about what they saw as if bearing unspeakable cosmic mysteries") { green() }
-        add("董事长亲自监督的终极项目，代表着格雷科技探索的最高成就" translatedTo "The ultimate project personally supervised by the chairman representing GregTech's pinnacle of exploration") { yellow() }
-        highlight("重新定义存在的可能性" translatedTo "Redefine the possibilities of existence")
-    }
-
-    // 创造聚合仪
-    val CreateAggregationTooltips = ComponentListSupplier {
-        setTranslationPrefix("create_aggregation")
-        add("量子现实编织器以MAX电压运转，在维度间隙中撕开裂口" translatedTo "Quantum reality weaver operates at MAX voltage tearing openings in dimensional gaps") { aqua() }
-        add("超导算力矩阵同步计算无限可能性，筛选出稳定的创造维度坐标" translatedTo "Supercomputing matrix synchronously calculates infinite possibilities filtering stable creation dimension coordinates") { blue() }
-        add("现实结构在仪器周围扭曲变形，物理常数开始出现可观测波动" translatedTo "Reality structure distorts around the device physical constants begin observable fluctuations") { lightPurple() }
-        highlight("对宇宙本质的最终探索" translatedTo "Ultimate exploration of cosmic essence")
-    }
-
     // 地幔粉碎者
+    @JvmField
     val MantleCrusherTooltips = ComponentListSupplier {
         setTranslationPrefix("mantle_crusher")
         add("地球之心的工业化身，驾驭地幔力量粉碎一切" translatedTo "Industrial incarnation of Earth's core, harnessing mantle power to crush all") { gold() }
@@ -1370,6 +1485,7 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
     }
 
     // 巨型烧结炉
+    @JvmField
     val GiantSinteringArrayTooltips = ComponentListSupplier {
         setTranslationPrefix("giant_sintering_furnace")
         add("相传技艺来自景德镇，烧结一切材料于炉中" translatedTo "Legendary techniques from Jingdezhen, sintering all materials in the furnace") { gold() }
@@ -1380,6 +1496,7 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
         info("速度倍率: log(900) / log(温度)" translatedTo "Speed Multiplier: log(900) / log(Temperature)")
     }
 
+    @JvmField
     val giantElectrochemicalWorkstationTooltips = ComponentListSupplier {
         setTranslationPrefix("giant_electrochemical_workstation")
         story("GTO集团的化工技术一直走在世界前列" translatedTo "GTO Group's chemical technology has always been at the forefront of the world")
@@ -1388,6 +1505,8 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
         story("能够高效地进行复杂的化学反应和物质分离" translatedTo "Capable of efficiently performing complex chemical reactions and material separations")
         highlight("工业化学的未来已然到来" translatedTo "The future of industrial chemistry is here")
     }
+
+    @JvmField
     val travelAnchorTooltips: ComponentListSupplier = ComponentListSupplier {
         setTranslationPrefix("travel_anchor")
 
@@ -1397,6 +1516,7 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
         story("最终成功仿制出了这台旅行锚点装置" translatedTo "Finally successfully replicated this travel anchor device")
     }
 
+    @JvmField
     var electricCookingTooltips: ComponentListSupplier = ComponentListSupplier {
         setTranslationPrefix("electric_cooking")
 
@@ -1404,6 +1524,7 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
         story("§e@§e§n电力高炉§r" translatedTo "§e@§e§nElectric Blast Furnace§r")
     }
 
+    @JvmField
     val virtualCoinMinerTooltips: ComponentListSupplier = ComponentListSupplier {
         setTranslationPrefix("virtual_coin_miner")
 

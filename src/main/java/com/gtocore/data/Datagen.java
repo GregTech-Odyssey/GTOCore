@@ -3,7 +3,7 @@ package com.gtocore.data;
 import com.gtocore.data.blockstate.AdAstraCompatBlockStateProvider;
 import com.gtocore.data.lang.LangHandler;
 import com.gtocore.data.lootTables.AdAstraCompatLootTableProvider;
-import com.gtocore.data.tag.TagsHandler;
+import com.gtocore.data.tag.Tags;
 
 import com.gtolib.GTOCore;
 import com.gtolib.api.lang.SimplifiedChineseLanguageProvider;
@@ -13,6 +13,7 @@ import com.gregtechceu.gtceu.GTCEu;
 
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.DataGenerator;
+import net.minecraft.tags.BlockTags;
 import net.minecraftforge.common.data.DatapackBuiltinEntriesProvider;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.data.event.GatherDataEvent;
@@ -30,9 +31,7 @@ public final class Datagen {
 
     public static void init() {
         if (GTCEu.isDataGen()) {
-            GTO.addDataGenerator(ProviderType.BLOCK_TAGS, TagsHandler::initBlock);
-            GTO.addDataGenerator(ProviderType.ITEM_TAGS, TagsHandler::initItem);
-            GTO.addDataGenerator(ProviderType.FLUID_TAGS, TagsHandler::initFluid);
+            GTO.addDataGenerator(ProviderType.BLOCK_TAGS, p -> p.addTag(Tags.ALL_LAYER_STONE).addTag(BlockTags.STONE_ORE_REPLACEABLES).addTag(BlockTags.DEEPSLATE_ORE_REPLACEABLES).addTag(BlockTags.NETHER_CARVER_REPLACEABLES));
             GTO.addDataGenerator(ProviderType.LANG, LangHandler::enInitialize);
             GTO.addDataGenerator(SimplifiedChineseLanguageProvider.LANG, LangHandler::cnInitialize);
             GTO.addDataGenerator(TraditionalChineseLanguageProvider.LANG, LangHandler::twInitialize);

@@ -1,6 +1,5 @@
 package com.gtocore.mixin.ae2.storage;
 
-import com.gtolib.api.ae2.stacks.IKeyCounter;
 import com.gtolib.api.ae2.storage.CellDataStorage;
 
 import com.gregtechceu.gtceu.GTCEu;
@@ -25,6 +24,7 @@ import appeng.me.cells.BasicCellInventory;
 import appeng.util.ConfigInventory;
 import appeng.util.prioritylist.IPartitionList;
 
+import it.unimi.dsi.fastutil.longs.LongIterator;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.*;
@@ -143,15 +143,16 @@ public abstract class BasicCellInventoryMixin implements StorageCell {
     private AEKeyMap<AEKey> gtolib$getCellStoredMap() {
         if (gtocore$aeKeyMap == null) {
             CellDataStorage storage = gtolib$getCellStorage();
-            if (storage == CellDataStorage.EMPTY) return CellDataStorage.EMPTY_MAP;
+            if (storage == CellDataStorage.EMPTY) return AEKeyMap.EMPTY;
             gtocore$aeKeyMap = storage.getStoredMap();
             if (gtocore$aeKeyMap == null) {
                 gtocore$aeKeyMap = new AEKeyMap<>();
                 storage.setStoredMap(gtocore$aeKeyMap);
             } else {
                 double totalAmount = 0;
-                for (long amount : gtocore$aeKeyMap.values()) {
-                    totalAmount += (double) amount / keyType.getAmountPerByte();
+                for (LongIterator it = gtocore$aeKeyMap.values().iterator(); it.hasNext();) {
+                    double amount = it.nextLong();
+                    totalAmount += amount / keyType.getAmountPerByte();
                 }
                 storage.setBytes(totalAmount);
                 var tag = i.getTag();
@@ -238,8 +239,9 @@ public abstract class BasicCellInventoryMixin implements StorageCell {
     public void persist() {
         var map = gtolib$getCellStoredMap();
         double totalAmount = 0;
-        for (long amount : map.values()) {
-            totalAmount += (double) amount / keyType.getAmountPerByte();
+        for (LongIterator it = map.values().iterator(); it.hasNext();) {
+            double amount = it.nextLong();
+            totalAmount += amount / keyType.getAmountPerByte();
         }
         CellDataStorage storage = gtolib$getCellStorage();
         storage.setBytes(totalAmount);
@@ -258,8 +260,9 @@ public abstract class BasicCellInventoryMixin implements StorageCell {
     protected void saveChanges() {
         if (container != null) {
             double totalAmount = 0;
-            for (long amount : gtolib$getCellStoredMap().values()) {
-                totalAmount += (double) amount / keyType.getAmountPerByte();
+            for (LongIterator it = gtolib$getCellStoredMap().values().iterator(); it.hasNext();) {
+                double amount = it.nextLong();
+                totalAmount += amount / keyType.getAmountPerByte();
             }
             gtolib$getCellStorage().setBytes(totalAmount);
             container.saveChanges();
@@ -275,7 +278,7 @@ public abstract class BasicCellInventoryMixin implements StorageCell {
     @Overwrite(remap = false)
     public void getAvailableStacks(KeyCounter out) {
         var map = gtolib$getCellStoredMap();
-        IKeyCounter.addAll(out, map.size(), m -> map.fastForEach(m::addTo));
+        out.addAll(map.size(), m -> map.fastForEach(m::insert));
     }
 
     /**
@@ -288,9 +291,6 @@ public abstract class BasicCellInventoryMixin implements StorageCell {
         if (!this.partitionList.matchesFilter(what, this.partitionListMode)) return 0;
         if (this.cellType.isBlackListed(this.i, what)) return 0;
         long inserted = innerInsert(what, amount, mode);
-        if (!isPreformatted() && hasVoidUpgrade && !canHoldNewItem()) {
-            return gtolib$getCellStoredMap().containsKey(what) ? amount : inserted;
-        }
         return hasVoidUpgrade ? amount : inserted;
     }
 
@@ -306,19 +306,17 @@ public abstract class BasicCellInventoryMixin implements StorageCell {
             gtolib$cache = CellDataStorage.get(uuid);
         }
         var data = gtolib$getCellStorage();
-        long whatAmount = 0;
-        if (maxItemsPerType < gtolib$totalAmount) {
-            whatAmount = gtolib$getCellStoredMap().getAmount(what);
-        }
         if (data == CellDataStorage.EMPTY) return 0;
-        amount = Math.min(Math.min(gtolib$totalAmount - (long) (data.getBytes() * keyType.getAmountPerByte()), amount), this.maxItemsPerType - whatAmount);
+        var map = gtolib$getCellStoredMap();
+        amount = Math.min(gtolib$totalAmount - (long) (data.getBytes() * keyType.getAmountPerByte()), amount);
         if (amount < 1) return 0;
         if (mode == Actionable.MODULATE) {
-            gtolib$getCellStoredMap().addTo(what, amount);
+            amount = map.insert(what, amount, maxItemsPerType);
             data.setDirty();
             saveChanges();
+        } else if (maxItemsPerType < gtolib$totalAmount) {
+            amount = Math.min(amount, maxItemsPerType - map.getAmount(what));
         }
-
         return amount;
     }
 

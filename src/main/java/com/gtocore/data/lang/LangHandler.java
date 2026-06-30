@@ -32,13 +32,12 @@ import com.gtolib.utils.register.MaterialsRegisterUtils;
 import com.gtolib.utils.register.RecipeTypeRegisterUtils;
 
 import com.gregtechceu.gtceu.api.GTValues;
-import com.gregtechceu.gtceu.api.pattern.MultiblockState;
 
 import net.minecraftforge.common.data.LanguageProvider;
 
 import gto_ae.core.localization.ExtendedLangs;
 
-import com.fast.fastcollection.O2OOpenCacheHashMap;
+import com.gto.fastcollection.O2OOpenCacheHashMap;
 
 import java.util.Arrays;
 import java.util.Map;
@@ -148,6 +147,15 @@ public final class LangHandler {
         addCNEN("gtocore.pattern.tooltip.divide", "将样板材料数量 ÷ %s", "Divide Pattern materials amount by %s");
         addCNEN("gtocore.pattern.clearSecOutput", "清除样板副产物", "Clear pattern byproducts");
         addCNEN("gtocore.pattern.tooltip.clearSecOutput", "清除样板副产物", "Clear pattern byproducts");
+        addCNEN("gtocore.pattern_encoder_stats.button", "样板编码者统计", "Pattern Encoder Stats");
+        addCNEN("gtocore.pattern_encoder_stats.title", "样板编码者统计", "Pattern Encoder Stats");
+        addCNEN("gtocore.pattern_encoder_stats.empty", "没有可统计的已编码样板", "No encoded patterns to count");
+        addCNEN("gtocore.pattern_encoder_stats.no_encoder", "未找到编码者信息", "No encoder information found");
+        addCNEN("gtocore.pattern_encoder_stats.total", "样板总数：%s", "Total Patterns: %s");
+        addCNEN("gtocore.pattern_encoder_stats.encoder_line", "%s 编码样板：%s 个", "%s encoded patterns: %s");
+        addCNEN("gtocore.pattern_encoder_stats.non_processing", "合成/非处理样板：%s 个", "Crafting/non-processing patterns: %s");
+        addCNEN("gtocore.pattern_encoder_stats.without_encoder", "无编码者信息处理样板：%s 个", "Processing patterns without encoder: %s");
+        addCNEN("gtocore.pattern_encoder_stats.hidden", "还有 %s 行未显示", "%s more lines hidden");
 
         addCNEN("gtocore.gtm", "整合包使用的GregTech-Modern模组，以及Applied Energistics 2模组均为非官方版本，如果您遇到任何问题或有任何建议，请前往%s提供反馈，而不是模组官方渠道", "The GregTech-Modern and Applied Energistics 2 mod used in the modpack is an unofficial version. If you encounter any issues or have any suggestions, please go to %s to provide feedback instead of the official mod channel.");
         addCNEN("gtocore.dev", "当前版本是开发测试版本，不能保证内容的稳定性和完整性。如果您遇到任何问题或有任何建议，请前往%s提供反馈。", "The current version is a development test version and cannot guarantee the stability and completeness of the content. If you encounter any issues or have any suggestions, please go to %s to provide feedback.");
@@ -162,6 +170,14 @@ public final class LangHandler {
         addCNEN("gtocore.ununlocked", "未解锁", "Ununlocked");
         addCNEN("gtocore.build", "构建", "Build");
         addCNEN("gtocore.shape", "形态%s", "Shape %s");
+        addCNEN("gtocore.multiblock_preview.fullscreen", "全屏预览", "Fullscreen Preview");
+        addCNEN("gtocore.multiblock_preview.exit_fullscreen", "退出全屏（Esc）", "Exit Fullscreen (Esc)");
+        addCNEN("gtocore.multiblock_preview.pattern_control", "左键：下一形态；右键：上一形态；中键：重置", "Left: Next shape; Right: Previous shape; Middle: Reset");
+        addCNEN("gtocore.multiblock_preview.layer_control", "左键：下一层；右键：上一层；中键：显示全部", "Left: Next layer; Right: Previous layer; Middle: Show all");
+        addCNEN("gtocore.multiblock_preview.highlight_control", "切换多方块部件高亮", "Toggle multiblock part highlighting");
+        addCNEN("gtocore.multiblock_preview.modules_control", "切换显示当前形态/叠加至当前模块", "Toggle current shape/stack up to current module");
+        addCNEN("gtocore.multiblock_preview.structure_size", "当前结构大小", "Current Structure Size");
+        addCNEN("gtocore.multiblock_preview.controls", "左键拖动旋转 · 滚轮缩放 · 右键拖动平移 · 点击方块查看候选 · Esc 返回", "Left-drag rotate · Wheel zoom · Right-drag pan · Click blocks for candidates · Esc to return");
 
         addCNEN("item.gtocore.pattern_modifier_pro.name", "样板修改器 Pro", "Pattern Modifier Pro");
         addCNEN("gtocore.patternModifierPro.0", "设置完成后，潜行右击样板供应器以应用", "After setup,shift + right-click template provider to apply");
@@ -414,7 +430,7 @@ public final class LangHandler {
         addCNEN("gtocore.ae.appeng.craft.pause_job.desc", "暂停正在进行中的发配；已推送的样板不会被撤回", "Pause the ongoing crafting; pushed patterns will not be withdrawn");
         addCNEN("gtocore.ae.appeng.craft.resume_job.desc", "继续已暂停的发配", "Resume the paused crafting");
         addCNEN("gtocore.ae.appeng.craft.temp_order", "中键点击以创建临时合成订单，下单一份该配方的原材料", "Middle-click: order one set of materials for this recipe");
-        addCNEN("gtocore.ae.appeng.craft.encode_send", "§o[右键点击] 编码并发送样板§r", "§o[Right Click] Encode and send pattern§r");
+        addCNEN("gtocore.ae.appeng.craft.encode_send", "§a§o[右键点击] 编码并发送样板§r", "§a§o[Right Click] Encode and send pattern§r");
         addCNEN("gtocore.ae.appeng.craft.encode_send.desc", "点击将样板发送至该目的地", "Click to send the pattern to this destination");
         addCNEN("gtocore.ae.appeng.craft.encode_send.full", "满", "Full");
         addCNEN("gtocore.ae.appeng.craft.encode_send.full.desc", "该目的地样板槽已满", "This destination has no empty pattern slot");
@@ -438,10 +454,10 @@ public final class LangHandler {
 
         addCNEN("gtocore.source", "结构来源：%s", "Structure From: %s");
 
-        addCNEN(MultiblockState.UNLOAD_ERROR.translateKey, "有区块未加载", "There are chunk not loaded");
-        addCNEN(MultiblockState.UNINIT_ERROR.translateKey, "机器未初始化", "Machine not initialized");
-        addCNEN(MultiblockState.SHARE_ERROR.translateKey, "该方块不能共享", "This block cannot be shared");
-        addCNEN(MultiblockState.BANNED_ERROR.translateKey, "该方块被禁止", "This block is banned");
+        addCNEN("multiblocked.pattern.error.chunk", "有区块未加载", "There are chunk not loaded");
+        addCNEN("multiblocked.pattern.error.init", "机器未初始化", "Machine not initialized");
+        addCNEN("multiblocked.pattern.error.share", "该方块不能共享", "This block cannot be shared");
+        addCNEN("multiblocked.pattern.error.banned", "该方块被禁止", "This block is banned");
 
         addCNEN("gtocore.multiblock.invalid.message", "多方块%s位于(%s)未成型！运行 /" + GTOCore.MOD_ID + "c multiblock on 查看详情。", "Multiblock %s at (%s) is not formed! Run /" + GTOCore.MOD_ID + "c multiblock on for details.");
 
@@ -472,6 +488,19 @@ public final class LangHandler {
         addCNEN("gtocore.emi.search_text", "已保存的搜索: %s", "Saved Search: %s");
         addCNEN("gtocore.emi.search_text.how_to_use", "将它拖拽至文本框以快速填入搜索栏", "Drag it to the text box to quickly fill in the search bar");
         addCNEN("gtocore.emi.insert_item_into_ae", "§a将光标上的物品置入已有的ME网络中§r", "Insert the item on the cursor into the existing ME network");
+
+        addCNEN("gtocore.emi.primordial_reconstructor.disassembly.title", "源初重构仪拆解模式", "Reconstructor Disassembly");
+        addCNEN("gtocore.emi.primordial_reconstructor.disassembly.note_1", "主物品可替换为任意同类物品", "Main inputs can be replaced by any matching item type");
+        addCNEN("gtocore.emi.primordial_reconstructor.disassembly.note_2", "输出包含书/布/宝石时需输入对应的额外物品", "When outputs include books/canvases/gems, input the matching extra item");
+        addCNEN("gtocore.emi.primordial_reconstructor.disassembly.note_3", "输入装备会被消耗，附魔书和铭刻之布会返回普通书/布", "Equipment inputs are consumed; enchanted books and affix canvases return normal books/canvases");
+        addCNEN("gtocore.emi.primordial_reconstructor.disassembly.input_group", "输入", "Input");
+        addCNEN("gtocore.emi.primordial_reconstructor.disassembly.output_group", "输出", "Output");
+        addCNEN("gtocore.emi.primordial_reconstructor.disassembly.circuit", "电路", "Circuit");
+        addCNEN("gtocore.emi.primordial_reconstructor.disassembly.input", "主物品", "Main");
+        addCNEN("gtocore.emi.primordial_reconstructor.disassembly.extra", "额外物品", "Extra");
+        addCNEN("gtocore.emi.primordial_reconstructor.disassembly.enchantment", "附魔", "Enchant.");
+        addCNEN("gtocore.emi.primordial_reconstructor.disassembly.affix", "刻印", "Affix");
+        addCNEN("gtocore.emi.primordial_reconstructor.disassembly.gem", "宝石", "Gem");
 
         addCNEN("emi.category.gtocore.alfheim_entry_requirements", "亚尔夫海姆准入条件", "Alfheim Access Requirements");
         addCNEN("gtocore.entry_alfheim.0.c", "§a你已完全满足进入亚尔夫海姆的条件", "§aYou have fully met the requirements to enter Alfheim");
@@ -522,6 +551,8 @@ public final class LangHandler {
         addCNEN("spatial_storage.ae2.name", "封闭空间", "Spatial Storage");
 
         addCNEN("tag.fluid.gtocore.purify_water", "净化水", "Purify Water");
+        addCNEN("tag.item.gtocore.enchantment_essence", "附魔精粹", "Enchantment Essence");
+        addCNEN("tag.item.gtocore.affix_essence", "刻印精粹", "Affix Essence");
 
         addCNEN("gtocore.message.otherside_pass_required", "你感受到来自幽冥的隔绝感...", "You feel a sense of isolation from the Other Side...");
         addCNEN("gtocore.message.otherside_pass_required.1", "似乎需要伪装成幽冥中最强大的生物之一，才能通过这里。", "It seems you need to disguise yourself as one of the most powerful beings in the Other Side to pass through here.");

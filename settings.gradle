@@ -2,6 +2,7 @@ pluginManagement {
     repositories {
         mavenLocal()
         gradlePluginPortal()
+        maven { url = 'https://maven.gtodyssey.com/releases' }
         maven { url = "https://maven.neoforged.net/releases"}
         maven { url = "https://maven.minecraftforge.net/" }
     }
@@ -21,6 +22,8 @@ dependencyResolutionManagement {
             version("kotlin", "2.3.20")
             version("kotlin-plugin", "2.3.20")
 
+            version("gtopublishgradleplugin", "1.0.22")
+
             plugin("modDevGradleLegacy", "net.neoforged.moddev.legacyforge").versionRef("modDevGradleLegacy")
 
             plugin("lombok", "io.freefair.lombok").versionRef("lombok")
@@ -32,6 +35,8 @@ dependencyResolutionManagement {
             plugin("kotlin-jvm", "org.jetbrains.kotlin.jvm").versionRef("kotlin")
             plugin("kotlin-plugin", "org.jetbrains.kotlin.plugin.serialization").versionRef("kotlin-plugin")
             plugin("kotlin-lombok", "org.jetbrains.kotlin.plugin.lombok").versionRef("kotlin")
+
+            plugin("gtopublishgradleplugin", "com.gto.gtopublishgradleplugin").versionRef("gtopublishgradleplugin")
           }
     }
 }

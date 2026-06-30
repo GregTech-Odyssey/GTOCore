@@ -9,6 +9,8 @@ import com.gregtechceu.gtceu.common.machine.multiblock.part.SteamHatchPartMachin
 
 import net.minecraftforge.fluids.FluidStack;
 
+import org.jetbrains.annotations.NotNull;
+
 @DataGeneratorScanned
 public final class LargeSteamHatchPartMachine extends SteamHatchPartMachine {
 
@@ -31,7 +33,7 @@ public final class LargeSteamHatchPartMachine extends SteamHatchPartMachine {
     }
 
     @Override
-    protected NotifiableFluidTank createTank(int initialCapacity, int slots, Object... args) {
+    protected @NotNull NotifiableFluidTank createTank(int initialCapacity, int slots, Object @NotNull... args) {
         return super.createTank(initialCapacity, slots, args)
                 .setFilter(fluidStack -> fluidStack.getFluid() == f.getFluid());
     }

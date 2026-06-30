@@ -4,6 +4,7 @@ import com.gtocore.api.machine.part.GTOPartAbility;
 import com.gtocore.api.pattern.GTOPredicates;
 import com.gtocore.common.data.GTOMachines;
 
+import com.gtolib.api.annotation.NewDataAttributes;
 import com.gtolib.api.data.GTODimensions;
 import com.gtolib.api.misc.PlanetManagement;
 import com.gtolib.api.recipe.GTORecipeModifiers;
@@ -26,6 +27,8 @@ import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import com.gregtechceu.gtceu.common.data.machines.GTMachineUtils;
 import com.gregtechceu.gtceu.common.data.machines.GTMultiMachines;
+import com.gregtechceu.gtceu.common.data.machines.GTResearchMachines;
+import com.gregtechceu.gtceu.common.machine.multiblock.electric.FusionReactorMachine;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 
 import net.minecraft.ChatFormatting;
@@ -36,6 +39,7 @@ import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.UUID;
 
 import static com.gregtechceu.gtceu.api.pattern.Predicates.*;
@@ -59,7 +63,7 @@ public final class GTMachineModify {
         GTMultiMachines.DISTILLATION_TOWER.setRecipeModifier(GTORecipeModifiers.UPGRADE_OVERCLOCK);
         GTMultiMachines.VACUUM_FREEZER.setRecipeModifier(GTORecipeModifiers.UPGRADE_OVERCLOCK);
         GTMultiMachines.ASSEMBLY_LINE.setRecipeModifier(GTORecipeModifiers.UPGRADE_OVERCLOCK);
-        GTMultiMachines.STEAM_GRINDER.setPatternFactory(definition -> FactoryBlockPattern.start(definition)
+        GTMultiMachines.STEAM_GRINDER.setPatternFactory(List.of(definition -> FactoryBlockPattern.start(definition)
                 .aisle("XXX", "XXX", "XXX")
                 .aisle("XXX", "X#X", "XXX")
                 .aisle("XXX", "XSX", "XXX")
@@ -70,9 +74,9 @@ public final class GTMachineModify {
                         .or(abilities(PartAbility.STEAM_EXPORT_ITEMS).setMaxGlobalLimited(1).setPreviewCount(1))
                         .or(abilities(PartAbility.STEAM).setExactLimit(1))
                         .or(blocks(GTOMachines.STEAM_VENT_HATCH.get()).setExactLimit(1)))
-                .build());
+                .build()));
 
-        GTMultiMachines.STEAM_OVEN.setPatternFactory(definition -> FactoryBlockPattern.start(definition)
+        GTMultiMachines.STEAM_OVEN.setPatternFactory(List.of(definition -> FactoryBlockPattern.start(definition)
                 .aisle("FFF", "XXX", " X ")
                 .aisle("FFF", "X#X", " X ")
                 .aisle("FFF", "XSX", " X ")
@@ -85,18 +89,18 @@ public final class GTMachineModify {
                 .where('F', blocks(FIREBOX_BRONZE.get())
                         .or(Predicates.abilities(PartAbility.STEAM).setExactLimit(1))
                         .or(blocks(GTOMachines.STEAM_VENT_HATCH.get()).setExactLimit(1)))
-                .build());
+                .build()));
 
-        GTMultiMachines.PRIMITIVE_BLAST_FURNACE.setPatternFactory(definition -> FactoryBlockPattern.start(definition)
+        GTMultiMachines.PRIMITIVE_BLAST_FURNACE.setPatternFactory(List.of(definition -> FactoryBlockPattern.start(definition)
                 .aisle("XXX", "XXX", "XXX", "XXX")
                 .aisle("XXX", "X#X", "X#X", "X#X")
                 .aisle("XXX", "XYX", "XXX", "XXX")
                 .where('X', blocks(CASING_PRIMITIVE_BRICKS.get()).or(blocks(PRIMITIVE_BLAST_FURNACE_HATCH.get()).setMaxGlobalLimited(5)))
                 .where('#', air())
                 .where('Y', controller(definition))
-                .build());
+                .build()));
 
-        GTMultiMachines.LARGE_BOILER_BRONZE.setPatternFactory(definition -> FactoryBlockPattern.start(definition)
+        GTMultiMachines.LARGE_BOILER_BRONZE.setPatternFactory(List.of(definition -> FactoryBlockPattern.start(definition)
                 .aisle("XXX", "CCC", "CCC", "CCC")
                 .aisle("XXX", "CPC", "CPC", "CCC")
                 .aisle("XXX", "CSC", "CCC", "CCC")
@@ -106,9 +110,9 @@ public final class GTMachineModify {
                         .or(Predicates.abilities(PartAbility.IMPORT_FLUIDS).setMinGlobalLimited(1).setPreviewCount(1))
                         .or(Predicates.abilities(PartAbility.IMPORT_ITEMS).setMaxGlobalLimited(1).setPreviewCount(1)))
                 .where('C', blocks(CASING_BRONZE_BRICKS.get()).setMinGlobalLimited(20).or(Predicates.abilities(PartAbility.EXPORT_FLUIDS).setMinGlobalLimited(1).setPreviewCount(1)))
-                .build());
+                .build()));
 
-        GTMultiMachines.DISTILLATION_TOWER.setPatternFactory(definition -> {
+        GTMultiMachines.DISTILLATION_TOWER.setPatternFactory(List.of(definition -> {
             TraceabilityPredicate exportPredicate = abilities(PartAbility.EXPORT_FLUIDS_1X).or(blocks(GTAEMachines.FLUID_EXPORT_HATCH_ME.get())).setMaxLayerLimited(1);
             TraceabilityPredicate maint = autoAbilities(true, false, false).setMaxGlobalLimited(1);
             return FactoryBlockPattern.start(definition, RIGHT, BACK, UP)
@@ -128,7 +132,7 @@ public final class GTMachineModify {
                     .where('X', blocks(CASING_STAINLESS_CLEAN.get()).or(exportPredicate))
                     .where('#', Predicates.air())
                     .build();
-        });
+        }));
         // GTMultiMachines.DISTILLATION_TOWER.setRecoveryItems(GTMachineModify::tinydustFromDustOutput);
 
         GTMultiMachines.ELECTRIC_BLAST_FURNACE.setSubPatternFactory(List.of(definition -> FactoryBlockPattern.start(definition)
@@ -184,6 +188,22 @@ public final class GTMachineModify {
             });
             GTMachines.AIR_SCRUBBER[tier].setRecipeModifier(GTORecipeModifiers.UPGRADE_OVERCLOCK);
         }
+
+        for (int tier : new int[] { GTValues.LuV, GTValues.ZPM, GTValues.UV }) {
+            GTMultiMachines.FUSION_REACTOR[tier].setTooltipBuilder((itemStack, components) -> {
+                components.add(Component.translatable("gtceu.machine.fusion_reactor.capacity", FusionReactorMachine.calculateEnergyStorageFactor(tier, 16) / 1000000L));
+                components.add(Component.translatable("gtceu.multiblock.%s_fusion_reactor.description".formatted(GTValues.VN[tier].toLowerCase(Locale.ROOT))));
+                components.addAll(NewDataAttributes.PREFECT_OVERCLOCK.create().get());
+                components.addAll(NewDataAttributes.RECIPES_TYPE.create(Component.translatable(GTRecipeTypes.FUSION_RECIPES.registryName.toLanguageKey()).withStyle(ChatFormatting.WHITE)).get());
+            });
+        }
+
+        GTResearchMachines.HIGH_PERFORMANCE_COMPUTING_ARRAY.setTooltipBuilder((itemStack, components) -> {
+            components.add(Component.translatable("gtceu.machine.high_performance_computation_array.tooltip.0"));
+            components.add(Component.translatable("gtceu.machine.high_performance_computation_array.tooltip.1"));
+            components.add(Component.translatable("gtceu.machine.high_performance_computation_array.tooltip.2"));
+            components.add(Component.translatable("gtceu.machine.high_performance_computation_array.tooltip.3"));
+        });
     }
 
     private static double getAirScrubberAshTransferChance(int tier) {

@@ -42,6 +42,12 @@ public class PatternEncodingTermScreenMixin<C extends PatternEncodingTermMenu> e
     }
 
     @Override
+    public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
+        if (gto$listBox.keyPressedSearchField(keyCode, scanCode, modifiers)) return true;
+        return super.keyPressed(keyCode, scanCode, modifiers);
+    }
+
+    @Override
     public ActionButton gto$getEncodeButton() {
         return encodeBtn;
     }

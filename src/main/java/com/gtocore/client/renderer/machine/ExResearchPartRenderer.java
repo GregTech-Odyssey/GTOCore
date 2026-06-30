@@ -45,7 +45,6 @@ public class ExResearchPartRenderer extends TieredHullMachineRenderer {
         super(GTValues.ZPM, switch (tire) {
             case 1 -> GTCEu.id("block/computer_casing");
             case 2 -> GTCEu.id("block/advanced_computer_casing");
-            case 3 -> GTOCore.id("block/variant/biocomputer_shell_active");
             case 4 -> GTOCore.id("block/graviton_computer_casing");
             default -> GTOCore.id("block/variant/biocomputer_shell_active");
         });

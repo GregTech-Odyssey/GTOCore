@@ -43,7 +43,6 @@ import com.gto.datasynclib.annotations.SaveToDisk;
 import earth.terrarium.adastra.common.registry.ModItems;
 import it.unimi.dsi.fastutil.objects.Reference2IntOpenHashMap;
 import lombok.Setter;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -92,7 +91,7 @@ public final class SupercomputingCenterMachine extends StorageMultiblockMachine 
     private int coolingAmountProvided;
     private int coolantAmount;
     private final Reference2IntOpenHashMap<IItem> componentsMap = new Reference2IntOpenHashMap<>();
-    private int lastTimeStamp;;
+    private int lastTimeStamp;
     private long allocatedCWUt;
     private long cacheCWUt;
     private long maxEUt;
@@ -203,10 +202,13 @@ public final class SupercomputingCenterMachine extends StorageMultiblockMachine 
         }
 
         if (maxEUt > 0) {
-            if (machineTier == 1)
+            if (coolantAmount == 0) {
+                runRecipe = RecipeBuilder.ofRaw().EUt(machineTier == 1 ? maxEUt / 4 : maxEUt).duration(20).build();
+            } else if (machineTier == 1) {
                 runRecipe = RecipeBuilder.ofRaw().inputFluids(PCBCoolant.getFluid(LIQUID, coolantAmount)).EUt(maxEUt / 4).duration(20).build();
-            else
+            } else {
                 runRecipe = RecipeBuilder.ofRaw().inputFluids(Helium.getFluid(LIQUID, coolantAmount)).outputFluids(Helium.getFluid(GAS, coolantAmount)).EUt(maxEUt).duration(20).build();
+            }
         }
         maxCWUtModificationSubs.initialize(getLevel());
 
@@ -324,9 +326,9 @@ public final class SupercomputingCenterMachine extends StorageMultiblockMachine 
     }
 
     @Override
-    public GTRecipe fullModifyRecipe(RecipeHandlerUnit unit, GTRecipe recipe) {
+    public GTRecipe fullModifyRecipe(RecipeHandlerUnit unit, GTRecipeDefinition definition) {
         // prevent any modification to mock the original behavior of setupRecipe
-        return recipe;
+        return definition.toRuntime();
     }
 
     private long requestCWUt(boolean simulate, long cwu) {
@@ -417,7 +419,7 @@ public final class SupercomputingCenterMachine extends StorageMultiblockMachine 
     }
 
     @Override
-    public void addDisplayText(@NotNull List<Component> textList) {
+    public void addDisplayText(List<Component> textList) {
         if (incompatible) {
             textList.add(Component.translatable("ars_nouveau.tier", machineTier));
             textList.add(Component.translatable("gtceu.multiblock.invalid_structure").withStyle(ChatFormatting.RED));

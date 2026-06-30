@@ -9,6 +9,7 @@ import com.gtocore.common.machine.multiblock.part.SensorPartMachine;
 
 import com.gtolib.api.machine.feature.multiblock.IStorageMultiblock;
 import com.gtolib.api.machine.multiblock.CustomParallelMultiblockMachine;
+import com.gtolib.api.recipe.GTORecipeModifiers;
 import com.gtolib.utils.GTOUtils;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
@@ -54,7 +55,7 @@ public class FastNeutronBreederReactor extends CustomParallelMultiblockMachine i
     private static final int MAX_TEMPERATURE = 2098;
 
     public FastNeutronBreederReactor(MetaMachineBlockEntity holder) {
-        super(holder, true, h -> 2048);
+        super(holder, h -> 2048);
         machineStorage = createMachineStorage(i -> i.getItem() == GTItems.NEUTRON_REFLECTOR.asItem());
     }
 
@@ -72,6 +73,8 @@ public class FastNeutronBreederReactor extends CustomParallelMultiblockMachine i
     @Nullable
     @Override
     public GTRecipe getRealRecipe(@NotNull RecipeHandlerUnit unit, @NotNull GTRecipe recipe) {
+        recipe = GTORecipeModifiers.parallel(this, unit, recipe);
+        if (recipe == null) return null;
         if (recipe.data.contains(GTORecipeDataKeys.NEUTRON_FLUX)) {
             var neededNeutronFlux = recipe.data.getFloat(GTORecipeDataKeys.NEUTRON_FLUX);
             if (neutronFluxkeV < neededNeutronFlux) {

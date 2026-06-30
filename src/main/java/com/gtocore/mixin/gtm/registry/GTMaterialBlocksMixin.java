@@ -1,5 +1,6 @@
 package com.gtocore.mixin.gtm.registry;
 
+import com.gtocore.api.data.material.GTOMaterialIconSet;
 import com.gtocore.api.data.tag.GTOTagPrefix;
 import com.gtocore.common.data.GTOCreativeModeTabs;
 import com.gtocore.common.data.GTOMaterials;
@@ -15,17 +16,24 @@ import com.gregtechceu.gtceu.api.registry.registrate.GTRegistrate;
 import com.gregtechceu.gtceu.common.data.GTMaterialBlocks;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
+import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableTable;
+import com.gto.registrate.builders.ItemBuilder;
+import com.gto.registrate.providers.DataGenContext;
+import com.gto.registrate.providers.RegistrateItemModelProvider;
 import com.gto.registrate.util.entry.BlockEntry;
+import com.gto.registrate.util.nullness.NonNullBiConsumer;
+import com.llamalad7.mixinextras.sugar.Local;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.Set;
@@ -37,7 +45,21 @@ public abstract class GTMaterialBlocksMixin {
     static ImmutableTable.Builder<TagPrefix, Material, BlockEntry<? extends Block>> MATERIAL_BLOCKS_BUILDER;
 
     @Shadow(remap = false)
-    private static void registerMaterialBlock(TagPrefix tagPrefix, Material material, GTRegistrate registrate) {}
+    private static void registerMaterialBlock(TagPrefix tagPrefix, Material material, GTRegistrate registrate) {
+        throw new UnsupportedOperationException("Implemented via mixin");
+    }
+
+    @Redirect(method = "registerMaterialBlock", at = @At(value = "INVOKE", target = "Lcom/gto/registrate/builders/ItemBuilder;model(Lcom/gto/registrate/util/nullness/NonNullBiConsumer;)Lcom/gto/registrate/builders/ItemBuilder;"), remap = false)
+    private static <T extends Item> ItemBuilder<T, Item> redirectModelBuilder(
+                                                                              ItemBuilder instance,
+                                                                              NonNullBiConsumer<DataGenContext<Item, T>, RegistrateItemModelProvider> cons,
+                                                                              @Local(argsOnly = true) TagPrefix tagPrefix, @Local(argsOnly = true) Material material) {
+        if (material.getMaterialIconSet() instanceof GTOMaterialIconSet s && s.getModelProvider() != null) {
+            return instance.model(
+                    s.getModelProvider().create(tagPrefix, material));
+        }
+        return instance.model(cons);
+    }
 
     @Unique
     private static ImmutableMap<Material, Set<TagPrefix>> ORE_MAP;

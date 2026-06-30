@@ -13,18 +13,15 @@ import appeng.api.crafting.IPatternDetails;
 import appeng.api.crafting.PatternDetailsHelper;
 import appeng.api.networking.IGrid;
 import appeng.api.networking.crafting.ICraftingPlan;
-import appeng.api.stacks.AEItemKey;
-import appeng.api.stacks.AEKey;
-import appeng.api.stacks.GenericStack;
-import appeng.api.stacks.KeyCounter;
+import appeng.api.stacks.*;
 import appeng.crafting.CraftingLink;
 import appeng.crafting.CraftingPlan;
 import appeng.crafting.execution.ElapsedTimeTracker;
 import appeng.crafting.inv.ListCraftingInventory;
 import appeng.me.service.CraftingService;
 
-import com.fast.fastcollection.O2OOpenCacheHashMap;
 import com.gto.datasynclib.util.holder.LongHolder;
+import com.gto.fastcollection.O2OOpenCacheHashMap;
 import it.unimi.dsi.fastutil.objects.*;
 import org.jetbrains.annotations.Nullable;
 
@@ -53,8 +50,8 @@ class ExecutingCraftingJob {
 
     final KeyCounter expectedOutputs = new KeyCounter();
     final ReferenceOpenHashSet<AEKey> defsToPurge = new ReferenceOpenHashSet<>();
-    final Reference2LongOpenHashMap<AEKey> totalConsumed = new Reference2LongOpenHashMap<>();
-    final Reference2LongOpenHashMap<AEKey> currentConsumed = new Reference2LongOpenHashMap<>();
+    final AEKeyMap<AEKey> totalConsumed = new AEKeyMap<>();
+    final AEKeyMap<AEKey> currentConsumed = new AEKeyMap<>();
     final ReferenceOpenHashSet<AEKey> purgeDefsLocal = new ReferenceOpenHashSet<>();
 
     final Reference2ObjectOpenHashMap<AEKey, Object2LongOpenHashMap<IPatternDetails>> allocations = new Reference2ObjectOpenHashMap<>();

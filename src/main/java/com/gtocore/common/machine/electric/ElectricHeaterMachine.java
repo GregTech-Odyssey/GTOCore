@@ -2,16 +2,19 @@ package com.gtocore.common.machine.electric;
 
 import com.gtocore.common.data.GTORecipeTypes;
 
-import com.gtolib.api.machine.feature.IHeaterMachine;
+import com.gtolib.api.capability.IHeatContainer;
+import com.gtolib.api.machine.heat.HeatHandler;
+import com.gtolib.api.machine.heat.feature.IHeatContainerMachine;
 import com.gtolib.api.machine.trait.NotifiableSafeEnergyContainer;
 import com.gtolib.api.recipe.RecipeBuilder;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
-import com.gregtechceu.gtceu.api.machine.TickableSubscription;
+import com.gregtechceu.gtceu.api.capability.GTCapability;
 import com.gregtechceu.gtceu.api.machine.WorkableTieredMachine;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableEnergyContainer;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableFluidTank;
+import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeDefinition;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.api.recipe.handler.ICustomRecipeLogicHolder;
@@ -24,19 +27,45 @@ import net.minecraft.core.Direction;
 
 import com.gto.datasynclib.annotations.SaveToDisk;
 import com.gto.datasynclib.annotations.SyncToClient;
+import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public final class ElectricHeaterMachine extends WorkableTieredMachine implements IHeaterMachine, ICustomRecipeLogicHolder {
+public final class ElectricHeaterMachine extends WorkableTieredMachine implements IHeatContainerMachine, ICustomRecipeLogicHolder {
 
     public static final int MaxTemperature = 1200;
+
+    @Getter
     @SaveToDisk
-    @SyncToClient(notifyUpdate = true)
-    private int temperature = 273;
-    private TickableSubscription tickSubs;
+    @SyncToClient
+    private final HeatHandler heatContainer;
 
     public ElectricHeaterMachine(MetaMachineBlockEntity holder) {
         super(holder, 1, t -> 8000);
+        heatContainer = new HeatHandler(holder, MaxTemperature, 2, 0.4, 0.01);
+        heatContainer.setSideIOCondition(s -> s == Direction.UP);
+        heatContainer.addChangedListener(getRecipeLogic()::updateTickSubscription);
+    }
+
+    @Override
+    public void onLoad() {
+        super.onLoad();
+        heatContainer.onLoad();
+    }
+
+    @Override
+    public void onUnload() {
+        super.onUnload();
+        heatContainer.onUnLoad();
+    }
+
+    @Override
+    public @Nullable <T> Object getGTCapability(@NotNull Class<T> cap, @Nullable Direction side) {
+        if (cap == IHeatContainer.class) {
+            if (testHeatCapability(side)) return heatContainer;
+            return GTCapability.EMPTY;
+        }
+        return super.getGTCapability(cap, side);
     }
 
     @Override
@@ -47,7 +76,7 @@ public final class ElectricHeaterMachine extends WorkableTieredMachine implement
 
     @Override
     protected @NotNull NotifiableFluidTank createImportFluidHandler(Object @NotNull... args) {
-        return new NotifiableFluidTank(this, 0, 0, IO.IN);
+        return new NotifiableFluidTank(this, 0, 0, IO.NONE).setAvailable(false);
     }
 
     @Override
@@ -69,67 +98,25 @@ public final class ElectricHeaterMachine extends WorkableTieredMachine implement
     }
 
     @Override
-    public int getOutputSignal(@Nullable Direction side) {
-        return getSignal(side);
-    }
-
-    @Override
-    public boolean canConnectRedstone(@NotNull Direction side) {
-        return true;
-    }
-
-    @Override
-    public void onLoad() {
-        super.onLoad();
-        if (!isRemote()) {
-            tickSubs = subscribeServerTick(tickSubs, () -> {
-                tickUpdate();
-                if (temperature > MaxTemperature) getRecipeLogic().markLastRecipeDirty();
-                getRecipeLogic().updateTickSubscription();
-            }, 20);
-        }
-    }
-
-    @Override
-    public void onUnload() {
-        super.onUnload();
-        if (tickSubs != null) {
-            tickSubs.unsubscribe();
-            tickSubs = null;
-        }
+    public GTRecipe fullModifyRecipe(RecipeHandlerUnit unit, GTRecipeDefinition definition) {
+        return definition.toRuntime();
     }
 
     @Override
     public void onWorking() {
         super.onWorking();
-        if (getOffsetTimer() % 10 == 0 && MaxTemperature > temperature + 4) {
-            raiseTemperature(4);
+        if (getOffsetTimer() % 10 == 0) {
+            if (heatContainer.currentHeat + 16 < heatContainer.maxHeat) {
+                heatContainer.addHeatUnrestricted(16, false);
+            } else {
+                getRecipeLogic().markLastRecipeDirty();
+            }
         }
     }
 
     @Override
-    public int getHeatCapacity() {
-        return 6;
-    }
-
-    @Override
-    public int getMaxTemperature() {
-        return MaxTemperature;
-    }
-
-    @Override
-    public void setTemperature(final int temperature) {
-        this.temperature = temperature;
-    }
-
-    @Override
-    public int getTemperature() {
-        return this.temperature;
-    }
-
-    @Override
     public GTRecipeDefinition createCustomRecipe(RecipeHandlerUnit unit) {
-        if (temperature >= MaxTemperature) return null;
+        if (heatContainer.currentHeat + 16 >= heatContainer.maxHeat) return null;
         return RecipeBuilder.ofRaw().duration(20).EUt(30).build();
     }
 }

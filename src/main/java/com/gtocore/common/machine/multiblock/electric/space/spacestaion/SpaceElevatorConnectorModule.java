@@ -18,8 +18,8 @@ import net.minecraft.network.chat.Component;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
-import com.fast.fastcollection.O2IOpenCacheHashMap;
 import com.gto.datasynclib.annotations.SyncToClient;
+import com.gto.fastcollection.O2IOpenCacheHashMap;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 

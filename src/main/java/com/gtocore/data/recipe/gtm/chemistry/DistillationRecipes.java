@@ -182,7 +182,7 @@ final class DistillationRecipes {
                 .duration(2000).EUt(VA[IV]).save();
 
         DISTILLATION_RECIPES.builder("io_ash")
-                .chancedOutput(ChemicalHelper.get(TagPrefix.dustTiny, GTMaterials.Naquadah, 2), 2500, 0)
+                .chancedOutput(ChemicalHelper.get(TagPrefix.dustTiny, GTMaterials.Naquadah, 1), 1000, 0)
                 .inputFluids(GTOMaterials.JupiterAir, FluidStorageKeys.LIQUID, 121000)
                 .outputFluids(GTOMaterials.Gnome, 3000)
                 .outputFluids(GTOMaterials.Undine, 3000)
@@ -195,7 +195,7 @@ final class DistillationRecipes {
                 .outputFluids(GTMaterials.Ammonia, 16000)
                 .outputFluids(GTMaterials.Hydrogen, 50000)
                 .outputFluids(GTMaterials.Helium, 1000)
-                .outputFluids(GTOMaterials.MolybdenumFlue, 1000)
+                .outputFluids(GTOMaterials.MolybdenumFlue, 325)
                 .EUt(1920)
                 .duration(1210)
                 .save();

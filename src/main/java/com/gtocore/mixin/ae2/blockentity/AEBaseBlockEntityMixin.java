@@ -13,7 +13,7 @@ import net.minecraft.world.level.block.state.BlockState;
 
 import appeng.blockentity.AEBaseBlockEntity;
 
-import com.fast.fastcollection.O2OOpenCacheHashMap;
+import com.gto.fastcollection.O2OOpenCacheHashMap;
 import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -41,7 +41,7 @@ public class AEBaseBlockEntityMixin extends BlockEntity implements IDirectionCac
     }
 
     @Inject(method = "<init>", at = @At("TAIL"), remap = false)
-    private void gtolib$init(BlockEntityType blockEntityType, BlockPos pos, BlockState blockState, CallbackInfo ci) {
+    private void gtolib$init(BlockEntityType<?> blockEntityType, BlockPos pos, BlockState blockState, CallbackInfo ci) {
         gtolib$directionCache = BlockEntityDirectionCache.create();
     }
 

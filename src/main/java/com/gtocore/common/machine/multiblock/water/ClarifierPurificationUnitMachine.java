@@ -1,10 +1,10 @@
 package com.gtocore.common.machine.multiblock.water;
 
 import com.gtocore.common.data.GTOItems;
+import com.gtocore.common.machine.multiblock.FluidRenderUtils;
 
 import com.gtolib.api.machine.feature.multiblock.IFluidRendererMachine;
 import com.gtolib.api.recipe.RecipeBuilder;
-import com.gtolib.utils.MachineUtils;
 import com.gtolib.utils.NumberUtils;
 
 import com.gregtechceu.gtceu.api.GTValues;
@@ -16,14 +16,13 @@ import com.gregtechceu.gtceu.common.data.GTMaterials;
 import net.minecraft.ChatFormatting;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
 
-import com.fast.fastcollection.OpenCacheHashSet;
 import com.gto.datasynclib.annotations.SaveToDisk;
 import com.gto.datasynclib.annotations.SyncToClient;
+import lombok.Getter;
 
 import java.util.List;
 import java.util.Set;
@@ -38,8 +37,10 @@ public final class ClarifierPurificationUnitMachine extends WaterPurificationUni
 
     @SaveToDisk
     private int count;
-    @SyncToClient(notifyUpdate = true)
-    private final Set<BlockPos> fluidBlockOffsets = new OpenCacheHashSet<>();
+    @Getter
+    @SyncToClient(notifyUpdate = true, autoUpdate = false)
+    private final Set<BlockPos> fluidBlockOffsets = FluidRenderUtils.emptyFluidBlockOffsets();
+    @Getter
     @SyncToClient
     private Fluid cachedFluid;
 
@@ -56,24 +57,13 @@ public final class ClarifierPurificationUnitMachine extends WaterPurificationUni
     @Override
     public void onStructureFormed() {
         super.onStructureFormed();
-        if (!fluidBlockOffsets.isEmpty()) return;
-        BlockPos pos = getPos();
-        Direction facing = getFrontFacing();
-        for (int i = 0; i < 2; i++) {
-            for (int j = 1; j < 7; j++) {
-                fluidBlockOffsets.add(MachineUtils.getOffsetPos(j, i, facing, pos).subtract(pos));
-            }
-            for (int j = -4; j < 5; j++) {
-                if (j == 0) continue;
-                fluidBlockOffsets.add(MachineUtils.getOffsetPos(1, i, j, facing, pos).subtract(pos));
-            }
-        }
+        FluidRenderUtils.loadFluidBlockOffsets(this);
     }
 
     @Override
     public void onStructureInvalid() {
         super.onStructureInvalid();
-        fluidBlockOffsets.clear();
+        FluidRenderUtils.clearFluidBlockOffsets(this);
     }
 
     @Override
@@ -125,15 +115,5 @@ public final class ClarifierPurificationUnitMachine extends WaterPurificationUni
             return 85;
         }
         return 70;
-    }
-
-    @Override
-    public Set<BlockPos> getFluidBlockOffsets() {
-        return this.fluidBlockOffsets;
-    }
-
-    @Override
-    public Fluid getCachedFluid() {
-        return this.cachedFluid;
     }
 }

@@ -1,11 +1,12 @@
 package com.gtocore.mixin.ae2.pattern;
 
+import com.gtocore.utils.PlayerNameUtils;
+
 import com.gtolib.api.ae2.MyPatternDetailsHelper;
 import com.gtolib.utils.RLUtils;
 
 import net.minecraft.nbt.*;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
@@ -22,6 +23,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 
 import java.util.List;
+import java.util.UUID;
 
 @Mixin(ProcessingPatternItem.class)
 public abstract class ProcessingPatternItemMixin extends EncodedPatternItem {
@@ -41,7 +43,7 @@ public abstract class ProcessingPatternItemMixin extends EncodedPatternItem {
         }
 
         try {
-            return MyPatternDetailsHelper.CACHE.getCache(what);
+            return MyPatternDetailsHelper.decode(what);
         } catch (Exception e) {
             return null;
         }
@@ -56,11 +58,8 @@ public abstract class ProcessingPatternItemMixin extends EncodedPatternItem {
             if (level == null) {
                 level = net.minecraft.client.Minecraft.getInstance().level;
             }
-            Player player = null;
-            if (level != null) {
-                player = level.getPlayerByUUID(NbtUtils.loadUUID(arrayTag));
-            }
-            lines.add(Component.translatable("tooltip.item.pattern.uuid", player == null ? "Unknown" : player.getName()));
+            UUID uuid = NbtUtils.loadUUID(arrayTag);
+            lines.add(Component.translatable("tooltip.item.pattern.uuid", PlayerNameUtils.getLastKnownName(level, uuid)));
         }
         if (tag.tags.containsKey("recipe") && !tag.getString("recipe").isEmpty()) {
             lines.add(Component.translatable("gtocore.pattern.recipe"));

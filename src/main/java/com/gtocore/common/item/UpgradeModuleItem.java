@@ -17,11 +17,11 @@ import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.UseOnContext;
 
+import dev.shadowsoffire.placebo.util.EnchantmentUtils;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -43,48 +43,35 @@ public final class UpgradeModuleItem extends Item implements GTOTooltipComponent
         super(properties);
     }
 
-    private static ItemStack speed(int tier) {
-        var item = GTOItems.SPEED_UPGRADE_MODULE.get().getDefaultInstance();
-        item.getOrCreateTag().putDouble("speed", randomMultiple(tier));
-        return item;
-    }
-
-    private static ItemStack energy(int tier) {
-        var item = GTOItems.ENERGY_UPGRADE_MODULE.get().getDefaultInstance();
-        item.getOrCreateTag().putDouble("energy", randomMultiple(tier));
-        return item;
-    }
-
     private static double randomMultiple(int tier) {
         return 1D - (GTValues.RNG.nextDouble() / (20D / tier));
     }
 
     @Override
     public @NotNull InteractionResult onItemUseFirst(ItemStack stack, UseOnContext context) {
-        var player = context.getPlayer();
-        if (player instanceof ServerPlayer) {
+        if (context.getPlayer() instanceof ServerPlayer player) {
             var item = player.getItemInHand(context.getHand());
-            var tag = item.getTag();
-            if (tag != null) {
+            if (player.experienceLevel >= 10) {
                 var machine = MetaMachine.getMachine(context.getLevel(), context.getClickedPos());
                 if (machine instanceof IUpgradeMachine upgradeMachine && upgradeMachine.gtolib$canUpgraded()) {
-                    if (tag.contains("speed")) {
+                    var randomMultiple = randomMultiple(Math.min(10, player.experienceLevel / 10));
+                    player.giveExperiencePoints(-EnchantmentUtils.getTotalExperienceForLevel(100));
+                    if (this == GTOItems.SPEED_UPGRADE_MODULE.get()) {
                         double speed = upgradeMachine.gtolib$getSpeed();
                         if (speed < 1) {
-                            speed = Math.max(speed, randomMultiple(10)) * tag.getDouble("speed");
+                            speed = speed * Math.sqrt(randomMultiple);
                         } else {
-                            speed = tag.getDouble("speed");
+                            speed = randomMultiple;
                         }
                         upgradeMachine.gtolib$setSpeed(Math.max(0.5, speed));
                         player.setItemInHand(context.getHand(), item.copyWithCount(item.getCount() - 1));
                         return InteractionResult.CONSUME;
-                    }
-                    if (tag.contains("energy")) {
+                    } else {
                         double energy = upgradeMachine.gtolib$getEnergy();
                         if (energy < 1) {
-                            energy = Math.max(energy, randomMultiple(10)) * tag.getDouble("energy");
+                            energy = randomMultiple * Math.sqrt(energy);
                         } else {
-                            energy = tag.getDouble("energy");
+                            energy = randomMultiple;
                         }
                         upgradeMachine.gtolib$setEnergy(Math.max(0.5, energy));
                         player.setItemInHand(context.getHand(), item.copyWithCount(item.getCount() - 1));
@@ -92,21 +79,8 @@ public final class UpgradeModuleItem extends Item implements GTOTooltipComponent
                     }
                 }
             } else {
-                if (player.experienceLevel > 10) {
-                    player.setItemInHand(context.getHand(), item.copyWithCount(item.getCount() - 1));
-                    ItemStack itemStack;
-                    if (this == GTOItems.SPEED_UPGRADE_MODULE.get()) {
-                        itemStack = speed(Math.min(10, player.experienceLevel / 10));
-                    } else {
-                        itemStack = energy(Math.min(10, player.experienceLevel / 10));
-                    }
-                    player.experienceLevel = 0;
-                    player.totalExperience = 0;
-                    context.getLevel().addFreshEntity(new ItemEntity(context.getLevel(), player.getX(), player.getY(), player.getZ(), itemStack));
-                } else {
-                    player.sendSystemMessage(Component.translatable(experience_not_enough));
-                    return InteractionResult.PASS;
-                }
+                player.sendSystemMessage(Component.translatable(experience_not_enough));
+                return InteractionResult.PASS;
             }
         }
         return super.onItemUseFirst(stack, context);
@@ -114,28 +88,14 @@ public final class UpgradeModuleItem extends Item implements GTOTooltipComponent
 
     @Override
     public void attachGTOTooltip(ItemStack itemStack, List<GTOToolTipComponent> tooltips) {
-        var tag = itemStack.getTag();
-        if (tag != null) {
-            if (tag.contains("speed")) {
-                for (Component component : GTOItemTooltips.INSTANCE.getSpeedUpgradeModuleTooltips().invoke(Math.max(0.5, tag.getDouble("speed")), tag.getDouble("speed")).getArray()) {
-                    tooltips.add(new GTOComponentTooltipComponent(component));
-                }
-            }
-            if (tag.contains("energy")) {
-                for (Component component : GTOItemTooltips.INSTANCE.getEnergyUpgradeModuleTooltips().invoke(Math.max(0.5, tag.getDouble("energy")), tag.getDouble("energy")).getArray()) {
-                    tooltips.add(new GTOComponentTooltipComponent(component));
-                }
-            }
+        if (this == GTOItems.SPEED_UPGRADE_MODULE.get()) {
+            for (Component component : GTOItemTooltips.INSTANCE.getSpeedUpgradeModuleTooltips().invoke(0d, 0d).getArray())
+                tooltips.add(new GTOComponentTooltipComponent(component));
         } else {
-            if (this == GTOItems.SPEED_UPGRADE_MODULE.get()) {
-                for (Component component : GTOItemTooltips.INSTANCE.getSpeedUpgradeModuleTooltips().invoke(0d, 0d).getArray())
-                    tooltips.add(new GTOComponentTooltipComponent(component));
-            } else {
-                for (Component component : GTOItemTooltips.INSTANCE.getEnergyUpgradeModuleTooltips().invoke(0d, 0d).getArray()) {
-                    tooltips.add(new GTOComponentTooltipComponent(component));
-                }
-
+            for (Component component : GTOItemTooltips.INSTANCE.getEnergyUpgradeModuleTooltips().invoke(0d, 0d).getArray()) {
+                tooltips.add(new GTOComponentTooltipComponent(component));
             }
+
         }
     }
 }

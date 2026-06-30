@@ -12,56 +12,56 @@ final class WaterPurificationPlant {
     public static void init() {
         WATER_PURIFICATION_PLANT_RECIPES.recipeBuilder("a")
                 .inputFluids(GTMaterials.Water, 1000)
-                .outputFluids(GTOMaterials.FilteredSater, 1000)
+                .outputFluids(GTOMaterials.FilteredSater, 900)
                 .duration(2400)
                 .addData(GTORecipeDataKeys.TIER, 1)
                 .save();
 
         WATER_PURIFICATION_PLANT_RECIPES.recipeBuilder("b")
                 .inputFluids(GTOMaterials.FilteredSater, 1000)
-                .outputFluids(GTOMaterials.OzoneWater, 1000)
+                .outputFluids(GTOMaterials.OzoneWater, 900)
                 .duration(2400)
                 .addData(GTORecipeDataKeys.TIER, 2)
                 .save();
 
         WATER_PURIFICATION_PLANT_RECIPES.recipeBuilder("c")
                 .inputFluids(GTOMaterials.OzoneWater, 1000)
-                .outputFluids(GTOMaterials.FlocculentWater, 1000)
+                .outputFluids(GTOMaterials.FlocculentWater, 900)
                 .duration(2400)
                 .addData(GTORecipeDataKeys.TIER, 3)
                 .save();
 
         WATER_PURIFICATION_PLANT_RECIPES.recipeBuilder("d")
                 .inputFluids(GTOMaterials.FlocculentWater, 1000)
-                .outputFluids(GTOMaterials.PHNeutralWater, 1000)
+                .outputFluids(GTOMaterials.PHNeutralWater, 900)
                 .duration(2400)
                 .addData(GTORecipeDataKeys.TIER, 4)
                 .save();
 
         WATER_PURIFICATION_PLANT_RECIPES.recipeBuilder("e")
                 .inputFluids(GTOMaterials.PHNeutralWater, 1000)
-                .outputFluids(GTOMaterials.ExtremeTemperatureWater, 1000)
+                .outputFluids(GTOMaterials.ExtremeTemperatureWater, 900)
                 .duration(2400)
                 .addData(GTORecipeDataKeys.TIER, 5)
                 .save();
 
         WATER_PURIFICATION_PLANT_RECIPES.recipeBuilder("f")
                 .inputFluids(GTOMaterials.ExtremeTemperatureWater, 1000)
-                .outputFluids(GTOMaterials.ElectricEquilibriumWater, 1000)
+                .outputFluids(GTOMaterials.ElectricEquilibriumWater, 900)
                 .duration(2400)
                 .addData(GTORecipeDataKeys.TIER, 6)
                 .save();
 
         WATER_PURIFICATION_PLANT_RECIPES.recipeBuilder("g")
                 .inputFluids(GTOMaterials.ElectricEquilibriumWater, 1000)
-                .outputFluids(GTOMaterials.DegassedWater, 1000)
+                .outputFluids(GTOMaterials.DegassedWater, 900)
                 .duration(2400)
                 .addData(GTORecipeDataKeys.TIER, 7)
                 .save();
 
         WATER_PURIFICATION_PLANT_RECIPES.recipeBuilder("h")
                 .inputFluids(GTOMaterials.DegassedWater, 1000)
-                .outputFluids(GTOMaterials.BaryonicPerfectionWater, 1000)
+                .outputFluids(GTOMaterials.BaryonicPerfectionWater, 900)
                 .duration(2400)
                 .addData(GTORecipeDataKeys.TIER, 8)
                 .save();

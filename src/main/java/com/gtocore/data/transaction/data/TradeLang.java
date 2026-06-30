@@ -4,7 +4,7 @@ import com.gtolib.api.lang.CNEN;
 
 import com.gregtechceu.gtceu.GTCEu;
 
-import com.fast.fastcollection.O2OOpenCacheHashMap;
+import com.gto.fastcollection.O2OOpenCacheHashMap;
 
 import java.util.Map;
 
@@ -88,10 +88,8 @@ public final class TradeLang {
         addTradeLang("gtocore.palm_sized_bank.textList.53", "[转账]", "[Transfer]");
         addTradeLang("gtocore.palm_sized_bank.textList.54", "[确认转账]", "[Transfer Confirmed]");
 
-        addTradeLang("gtocore.gray_membership_card.hover_text.1", "未知", "unknown");
-        addTradeLang("gtocore.gray_membership_card.hover_text.2", "离线玩家", "Offline players");
-        addTradeLang("gtocore.gray_membership_card.hover_text.3", "主人: ", "Owner: ");
-        addTradeLang("gtocore.gray_membership_card.hover_text.4", "共享者: ", "Shared by: ");
+        addTradeLang("gtocore.gray_membership_card.hover_text.1", "主人: ", "Owner: ");
+        addTradeLang("gtocore.gray_membership_card.hover_text.2", "共享者: ", "Shared by: ");
 
         addTradeLang("gtocore.trade_group.true", "价格", "Price");
         addTradeLang("gtocore.trade_group.false", "商品", "Commodity");

@@ -55,9 +55,7 @@ public class MEInputBusPartMachine extends StatusTrackedMEPartMachine implements
         aeItemHandler = createInventory();
         aeItemHandler.addChangedListener(() -> {
             getConfiguredSetting().clear();
-            aeItemHandler.fastForEachItems((i, l) -> {
-                getConfiguredSetting().set(AEItemKey.of(i), l);
-            });
+            aeItemHandler.fastForEachItems((i, l) -> getConfiguredSetting().set(AEItemKey.of(i), l));
         });
         circuitInventory = CircuitHandler.create(this);
     }
@@ -92,7 +90,7 @@ public class MEInputBusPartMachine extends StatusTrackedMEPartMachine implements
     /////////////////////////////////
 
     private void autoIO() {
-        setStatus(throughputCounter.isEmpty() ? WorkingStatus.IDLE : WorkingStatus.WORKING);
+        setStatus(throughputCounter.map.isEmpty() ? WorkingStatus.IDLE : WorkingStatus.WORKING);
         throughputCounter.tickRefresh();
         if (this.updateMEStatus()) {
             this.syncME();

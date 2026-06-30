@@ -1,0 +1,10 @@
+{
+  "parent": "gtceu:block/material_sets/dull/block",
+  "custom_shader": {
+    "params": {
+      "maxDistance": 32.0
+    },
+    "shader": "gtocore:item_resonance_wave"
+  },
+  "loader": "gtocore:custom_shader"
+}

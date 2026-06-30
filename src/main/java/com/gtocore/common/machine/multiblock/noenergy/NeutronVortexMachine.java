@@ -7,8 +7,8 @@ import com.gtocore.common.data.GTOMachines;
 import com.gtocore.common.data.GTOMaterials;
 import com.gtocore.common.data.GTORecipeDataKeys;
 
-import com.gtolib.api.machine.feature.multiblock.IMultiStructureMachine;
 import com.gtolib.api.machine.trait.ElectricTrait;
+import com.gtolib.api.recipe.GTORecipeModifiers;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.IEnergyContainer;
@@ -22,7 +22,6 @@ import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
 import com.gregtechceu.gtceu.api.pattern.util.RelativeDirection;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
-import com.gregtechceu.gtceu.api.recipe.modifier.RecipeModifier;
 import com.gregtechceu.gtceu.common.data.GTBlocks;
 
 import net.minecraft.network.chat.Component;
@@ -34,11 +33,12 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+import java.util.function.Supplier;
 
 import static com.gregtechceu.gtceu.api.machine.multiblock.PartAbility.*;
 import static com.gregtechceu.gtceu.api.pattern.Predicates.*;
 
-public final class NeutronVortexMachine extends NeutronActivatorMachine implements IMultiStructureMachine, IElectricMachine {
+public final class NeutronVortexMachine extends NeutronActivatorMachine implements IElectricMachine {
 
     private static final Int2ObjectOpenHashMap<BlockPattern> PATTERNS = new Int2ObjectOpenHashMap<>(3, 0.9F);
 
@@ -61,7 +61,7 @@ public final class NeutronVortexMachine extends NeutronActivatorMachine implemen
             eV = ev * 100000;
             recipe.duration = recipe.duration / 5;
             recipe.eut = ev;
-            return RecipeModifier.hatchParallel(this, unit, recipe);
+            return GTORecipeModifiers.parallel(this, unit, recipe);
         }
         return super.getRealRecipe(unit, recipe);
     }
@@ -102,7 +102,7 @@ public final class NeutronVortexMachine extends NeutronActivatorMachine implemen
                 GuiTextures.INVERT_REDSTONE_BUTTON.getSubTexture(0, 0.5, 1, 0.5),
                 () -> energy, (clickData, pressed) -> {
                     energy = pressed;
-                    updateCheck();
+                    this.requestCheck();
                 })
                 .setTooltipsSupplier(pressed -> List.of(Component.translatable("block.ae2.energy_acceptor").append(" ").append(pressed ? Component.translatable("gtceu.creative.activity.on") : Component.translatable("gtceu.creative.activity.off")))));
     }
@@ -203,13 +203,8 @@ public final class NeutronVortexMachine extends NeutronActivatorMachine implemen
     }
 
     @Override
-    public BlockPattern getPattern() {
-        return getBlockPattern(energy ? 1 : 0, getDefinition());
-    }
-
-    @Override
-    public List<BlockPattern> getMultiPattern() {
-        return List.of(getBlockPattern(0, getDefinition()), getBlockPattern(1, getDefinition()));
+    public Supplier<BlockPattern>[] getPattern() {
+        return new Supplier[] { () -> getBlockPattern(energy ? 1 : 0, getDefinition()) };
     }
 
     @Override

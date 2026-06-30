@@ -15,8 +15,11 @@ import java.util.function.Consumer;
 
 class SatelliteEmiRecipe extends GTEmiRecipe {
 
-    private SatelliteEmiRecipe(GTRecipeDefinition recipe) {
+    private final ResourceLocation id;
+
+    private SatelliteEmiRecipe(ResourceLocation id, GTRecipeDefinition recipe) {
         super(recipe, SatelliteEmiCategory.CATEGORY);
+        this.id = id;
     }
 
     static SatelliteEmiRecipe fromInputOutput(ResourceLocation id, Consumer<RecipeBuilder> builder) {
@@ -26,6 +29,11 @@ class SatelliteEmiRecipe extends GTEmiRecipe {
                 .inputItems(GTOItems.PLANET_DATA_CHIP)
                 .inputItems(GTOItems.PLANET_SCAN_SATELLITE);
         builder.accept(recipe);
-        return new SatelliteEmiRecipe(recipe.build());
+        return new SatelliteEmiRecipe(id, recipe.build());
+    }
+
+    @Override
+    public ResourceLocation getId() {
+        return id;
     }
 }

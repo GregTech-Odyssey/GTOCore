@@ -13,22 +13,20 @@ dependencies {
     implementation("com.github.houbb:opencc4j:1.14.0")//用来datagen繁中的
 
 
-    if (project.publishingBuild == "true"){
-        modImplementation(jarJar("dev:gtolib:1.0"))
-        jarJar(implementation("dev:fastcollection:1.0"))
-        // https://mvnrepository.com/artifact/org.apache.commons/commons-math3
-        jarJar(implementation("org.apache.commons:commons-math3:3.6.1"))
-        jarJar(modImplementation("appeng:appliedenergistics2-forge:${project.ae2_version}"))
-        jarJar(modImplementation("dev:gtceu-$project.minecraft_version:$project.gtceu_version"))
-        jarJar(modImplementation("dev:gtmthings:1.5.5-GTO-Port"))
-    } else {
-        // 在非发布构建中，直接使用依赖，不进行jarJar，以减小包大小，便于调试与开发
-        implementation("dev:fastcollection:1.0")
+    if (findProperty('devBuild') == "true") {
+        implementation("dev:fastcollection:1.2")
         implementation("org.apache.commons:commons-math3:3.6.1")
-        modImplementation("appeng:appliedenergistics2-forge:${project.ae2_version}")
-        modImplementation("dev:gtceu-$project.minecraft_version:$project.gtceu_version")
+        modImplementation("appeng:appliedenergistics2-forge-1.20.1:${project.ae2_version}")
+        modImplementation("com.gregtechceu.gtceu:gtceu-1.20.1-forge-1.20.1:$project.gtceu_version")
         modImplementation("dev:gtmthings:1.5.5-GTO-Port")
-        modImplementation("dev:gtolib:1.0-debug")
+        modImplementation("dev:gtolib:$project.gtolib_version-debug")
+    } else {
+        jarJar(modImplementation("com.gto:gtolib-forge-1.20.1:$project.gtolib_version"))
+        jarJar(implementation("dev:fastcollection:1.2"))
+        jarJar(implementation("org.apache.commons:commons-math3:3.6.1"))
+        jarJar(modImplementation("appeng:appliedenergistics2-forge-1.20.1:${project.ae2_version}"))
+        jarJar(modImplementation("com.gregtechceu.gtceu:gtceu-1.20.1-forge-1.20.1:$project.gtceu_version"))
+        jarJar(modImplementation("dev:gtmthings:1.5.5-GTO-Port"))
     }
 
 
@@ -91,7 +89,7 @@ dependencies {
     modImplementation("curse.maven:ars-meteorites-1278083:7125271")
 
     modImplementation("curse.maven:glodium-957920:5006780")
-    modImplementation("curse.maven:ex-pattern-provider-892005:8203753")
+    modImplementation("curse.maven:ex-pattern-provider-892005:8291632")
 
     modImplementation("curse.maven:merequester-688367:5689932")
 
@@ -149,10 +147,9 @@ dependencies {
 
     modCompileOnly("curse.maven:open-parties-and-claims-636608:8091479")
 
-    modCompileOnly("curse.maven:sophisticated-backpacks-422301:6539219")
-    modCompileOnly("curse.maven:sophisticated-core-618298:6545102")
-    modRuntimeOnly("curse.maven:sophisticated-backpacks-422301:6539219")
-    modRuntimeOnly("curse.maven:sophisticated-core-618298:6545102")
+    modImplementation("curse.maven:sophisticated-backpacks-422301:8249823")
+    modImplementation("curse.maven:sophisticated-core-618298:8249804")
+    modImplementation("curse.maven:sophisticated-storage-619320:8249841")
     modImplementation("curse.maven:construction-wand-399558:4684054")
 
     modImplementation("curse.maven:pipez-443900:6945379")

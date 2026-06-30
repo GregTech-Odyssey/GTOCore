@@ -617,7 +617,7 @@ public final class MaterialA {
                 .blastTemp(16800, HIGHER)
                 .element(GTOElements.ENDERIUM)
                 .color(0x75ede2)
-                .iconSet(METALLIC)
+                .iconSet(ENDERITE)
                 .flags(GTOMaterialFlags.GENERATE_NANITES, GENERATE_FINE_WIRE)
                 .toolStats(ToolProperty.Builder.of(1000, 3000, 100, 6, GTOToolType.VAJRA_IV).magnetic().unbreakable().build())
                 .buildAndRegister();
@@ -840,7 +840,7 @@ public final class MaterialA {
                 .ingot()
                 .radioactiveHazard(100)
                 .liquid(new FluidBuilder().customStill())
-                .color(0x000000)
+                .color(0x1f0f1f)
                 .blastTemp(32000, HIGHEST)
                 .element(GTOElements.INFINITY)
                 .iconSet(INFINITY_CHAOS)
@@ -856,7 +856,7 @@ public final class MaterialA {
                         MercuryBariumCalciumCuprate, 1, UraniumTriplatinum, 1,
                         SamariumIronArsenicOxide, 1, IndiumTinBariumTitaniumCuprate, 1)
                 .color(0x006699)
-                .iconSet(METALLIC)
+                .iconSet(ENDERITE)
                 .flags(GENERATE_FINE_WIRE, DISABLE_DECOMPOSITION, NEED_BLAST_IN_SPACE)
                 .cableProperties(GTValues.V[GTValues.UEV], 32, 0, true)
                 .buildAndRegister();

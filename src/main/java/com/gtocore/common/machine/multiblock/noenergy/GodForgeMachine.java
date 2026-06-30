@@ -36,6 +36,8 @@ import com.gto.datasynclib.annotations.SaveToDisk;
 import com.gto.datasynclib.annotations.SyncToClient;
 import it.unimi.dsi.fastutil.objects.Reference2IntMap;
 
+import java.util.function.Supplier;
+
 import javax.annotation.ParametersAreNonnullByDefault;
 
 import static com.gtocore.common.block.BlockMap.GRAVITONFLOWMAP;
@@ -171,8 +173,8 @@ public final class GodForgeMachine extends NoEnergyMultiblockMachine implements 
     }
 
     @Override
-    public BlockPattern getPattern() {
-        return getBlockPattern(getDefinition());
+    public Supplier<BlockPattern>[] getPattern() {
+        return new Supplier[] { () -> getBlockPattern(getDefinition()) };
     }
 
     public static BlockPattern getBlockPattern(MultiblockMachineDefinition definition) {

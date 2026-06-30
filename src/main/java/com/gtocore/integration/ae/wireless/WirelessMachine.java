@@ -9,9 +9,9 @@ import com.gtolib.api.annotation.DataGeneratorScanned;
 import com.gtolib.api.annotation.language.RegisterLanguage;
 
 import com.gregtechceu.gtceu.api.blockentity.ISync;
-import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.gui.fancy.IFancyUIProvider;
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
+import com.gregtechceu.gtceu.api.machine.TickableSubscription;
 import com.gregtechceu.gtceu.integration.ae2.machine.feature.IGridConnectedMachine;
 import com.gregtechceu.gtceu.utils.TaskHandler;
 
@@ -19,16 +19,9 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 
-import appeng.api.networking.GridFlags;
-import appeng.api.networking.IGrid;
-import appeng.api.networking.IGridNode;
-import appeng.api.networking.pathing.ChannelMode;
-import appeng.helpers.AEMultiBlockEntity;
-import appeng.me.GridNode;
-import appeng.me.helpers.IGridConnectedBlockEntity;
-
 import com.gto.datasynclib.listener.IntNotifiableHolder;
 import com.gto.datasynclib.listener.ObjNotifiableHolder;
+import com.gto.datasynclib.util.holder.ObjHolder;
 import com.hepdd.gtmthings.api.capability.IBindable;
 import it.unimi.dsi.fastutil.objects.ReferenceOpenHashSet;
 import it.unimi.dsi.fastutil.objects.ReferenceSet;
@@ -240,10 +233,6 @@ public interface WirelessMachine extends IGridConnectedMachine, ISync, IBindable
 
     // ==================== Callbacks ====================
 
-    default void addedToNetwork(String networkId) {}
-
-    default void removedFromNetwork(String networkId) {}
-
     default boolean allowWirelessConnection() {
         return true;
     }
@@ -252,15 +241,17 @@ public interface WirelessMachine extends IGridConnectedMachine, ISync, IBindable
 
     default void onWirelessLoad() {
         if (self().isRemote()) return;
-        TaskHandler.enqueueTask(Objects.requireNonNull(getHolder().getLevel()), () -> {
+        ObjHolder<TickableSubscription> subscription = new ObjHolder<>();
+        subscription.value = TaskHandler.enqueueTick(Objects.requireNonNull(getHolder().getLevel()), self().holder.isRemove, () -> {
             if (self().getLevel() != null && getMainNode().getNode() != null) {
                 String id = getConnectedNetworkId();
                 if (!id.isEmpty()) {
                     linkNetwork(id);
                     WirelessNetworkSavedData.requireWriteToAll();
                 }
+                if (subscription.value != null) subscription.value.unsubscribe();
             }
-        }, 40);
+        }, 40, 20);
     }
 
     default void onWirelessUnload() {
@@ -376,64 +367,6 @@ public interface WirelessMachine extends IGridConnectedMachine, ISync, IBindable
             WirelessNetworkSavedData.write(Objects.requireNonNull(self().getLevel()));
             self().syncToClient();
         }
-    }
-
-    default int getWorkloadChannels() {
-        var gridNode = getGridNode();
-        if (gridNode == null) return 0;
-        if (isOnline()) {
-            return gridNode.getUsedChannels();
-        }
-        var defaultWorkload = gridNode.hasFlag(GridFlags.REQUIRE_CHANNEL) ? 1 : 0;
-        var mm = self();
-        IGrid grid = null;
-        IGridNode node;
-        switch (mm.getNeighbor(mm.getFrontFacing())) {
-            case IGridConnectedBlockEntity nodeHost -> {
-                grid = nodeHost.getMainNode().getGrid();
-                node = nodeHost.getMainNode().getNode();
-            }
-            case AEMultiBlockEntity multiBlock -> {
-                node = multiBlock.getGridNode(mm.getFrontFacing().getOpposite());
-                if (node != null) {
-                    grid = node.getGrid();
-                }
-            }
-            case MetaMachineBlockEntity metaMachine -> {
-                if (metaMachine.getMetaMachine() instanceof IGridConnectedMachine gridMachine) {
-                    node = gridMachine.getGridNode();
-                    if (node != null) {
-                        grid = node.getGrid();
-                    }
-                } else {
-                    return defaultWorkload;
-                }
-            }
-            case null, default -> {
-                return defaultWorkload;
-            }
-        }
-        if (node == null || grid == null || !node.getConnectedSides().contains(mm.getFrontFacing().getOpposite())) {
-            return defaultWorkload;
-        }
-        if (getNodeType() == NodeType.SOURCE) {
-            return Math.min(node.getUsedChannels(), getMaxWorkloadChannels());
-        }
-        if (node.getMaxChannels() > 0) {
-            return Math.min(node.getMaxChannels() + 1, getMaxWorkloadChannels());
-        }
-        return defaultWorkload;
-    }
-
-    default int getMaxWorkloadChannels() {
-        var node = this.getGridNode();
-        if (node instanceof GridNode gridNode) {
-            if (gridNode.getGrid().getPathingService().getChannelMode() == ChannelMode.INFINITE) {
-                return Integer.MAX_VALUE;
-            }
-            return gridNode.getMaxChannels();
-        }
-        return 0;
     }
 
     // ==================== GUI ====================

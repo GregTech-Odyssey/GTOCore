@@ -5,6 +5,7 @@ repositories {
     }
     mavenCentral()
 
+    maven { url = 'https://maven.gtodyssey.com/releases' }
     exclusiveContent { // Curseforge Maven
         forRepository { maven { url = "https://cursemaven.com" } }
         filter { includeGroup("curse.maven") }

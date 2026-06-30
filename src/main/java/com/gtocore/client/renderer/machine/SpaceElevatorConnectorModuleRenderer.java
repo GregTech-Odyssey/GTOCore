@@ -2,7 +2,6 @@ package com.gtocore.client.renderer.machine;
 
 import com.gtocore.client.renderer.GTORenderTypes;
 import com.gtocore.client.renderer.RenderHelper;
-import com.gtocore.common.machine.multiblock.electric.space.SuperSpaceElevatorMachine;
 import com.gtocore.common.machine.multiblock.electric.space.spacestaion.SpaceElevatorConnectorModule;
 
 import com.gtolib.GTOCore;
@@ -34,7 +33,6 @@ public final class SpaceElevatorConnectorModuleRenderer extends WorkableCasingMa
 
     private static final ResourceLocation CLIMBER_MODEL = GTOCore.id("obj/climber");
     private static final ResourceLocation CABLE_TEXTURE = GTOCore.id("block/obj/climber_cable");
-    // GTOCore.id("block/casings/high_strength_space_elevator_cable_ctm");
 
     public SpaceElevatorConnectorModuleRenderer() {
         super(GTOCore.id("block/casings/spacecraft_dynamic_protective_mechanical_casing"), GTCEu.id("block/multiblock/fusion_reactor"));
@@ -110,12 +108,9 @@ public final class SpaceElevatorConnectorModuleRenderer extends WorkableCasingMa
 
     @Override
     public boolean shouldRender(BlockEntity blockEntity, Vec3 cameraPos) {
-        if (blockEntity instanceof MetaMachineBlockEntity machineBlockEntity) {
-            MetaMachine metaMachine = machineBlockEntity.getMetaMachine();
-            return (metaMachine instanceof SuperSpaceElevatorMachine machine && machine.isFormed() &&
-                    (machine.getSpoolCount() >= machine.getMaxSpoolCount() ||
-                            blockEntity.getLevel() instanceof TrackedDummyWorld)) ||
-                    super.shouldRender(blockEntity, cameraPos);
+        if (blockEntity instanceof MetaMachineBlockEntity mbe && mbe.getMetaMachine() instanceof SpaceElevatorConnectorModule module) {
+            return (blockEntity.getLevel() instanceof TrackedDummyWorld) || (module.getMaxTier() > 0 && module.isFormed() &&
+                    super.shouldRender(blockEntity, cameraPos));
         }
         return super.shouldRender(blockEntity, cameraPos);
     }

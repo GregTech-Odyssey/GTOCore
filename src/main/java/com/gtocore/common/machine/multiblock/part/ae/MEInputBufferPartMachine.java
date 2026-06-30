@@ -70,6 +70,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
+import java.util.function.BiPredicate;
 import java.util.function.IntSupplier;
 
 @DataGeneratorScanned
@@ -207,6 +208,32 @@ public class MEInputBufferPartMachine extends MEPatternPartMachineKt<MEInputBuff
     @Override
     public boolean isBusy() {
         return true;
+    }
+
+    @Override
+    public void onMachineRemoved() {
+        super.onMachineRemoved();
+        for (InternalSlot slot : getInternalInventory()) {
+            slot.refund();
+            for (var job : slot.craftingTracker.getRequestedJobs()) {
+                job.cancel();
+            }
+        }
+    }
+
+    @Override
+    public @Nullable IPatternDetails decodePattern(ItemStack stack, int index) {
+        var pattern = super.decodePattern(stack, index);
+        if (pattern == null) return null;
+        MEPatternVirtualInputHelper.readRecipeTag(stack, getInternalInventory()[index]::setRecipe);
+        return pattern;
+    }
+
+    @Override
+    public @NotNull IPatternDetails convertPattern(@NotNull IPatternDetails pattern, int index) {
+        var slot = getInternalInventory()[index];
+        return MEPatternVirtualInputHelper.convertPattern(pattern, this::getGrid, this::getActionSource,
+                slot.circuitInventory, slot.notConsumableItem.storage, () -> true);
     }
 
     @Override
@@ -390,14 +417,6 @@ public class MEInputBufferPartMachine extends MEPatternPartMachineKt<MEInputBuff
             return exportOnlyItemList.isEmpty() && exportOnlyFluidList.isEmpty();
         }
 
-        public boolean isItemEmpty() {
-            return exportOnlyItemList.isEmpty();
-        }
-
-        public boolean isFluidEmpty() {
-            return exportOnlyFluidList.isEmpty();
-        }
-
         private void refund() {
             var network = machine.getMainNode().getGrid();
             if (network != null) {
@@ -424,6 +443,9 @@ public class MEInputBufferPartMachine extends MEPatternPartMachineKt<MEInputBuff
         public void onPatternChange() {
             refund();
             setRecipe(null);
+            for (var job : craftingTracker.getRequestedJobs()) {
+                job.cancel();
+            }
             reloadConfig();
         }
 
@@ -701,6 +723,10 @@ public class MEInputBufferPartMachine extends MEPatternPartMachineKt<MEInputBuff
 
         @Override
         protected @Nullable GTRecipeType getEffectiveRecipeType(GTRecipeType recipeType) {
+            final var r = slot.recipe;
+            if (r != null && r.recipeType != null && r.recipeType != recipeType) {
+                return r.recipeType;
+            }
             return recipeType;
         }
 
@@ -712,6 +738,22 @@ public class MEInputBufferPartMachine extends MEPatternPartMachineKt<MEInputBuff
         @Override
         public RecipeHandlerUnit wrapper(Collection<IRecipeHandler> handlers) {
             return new SlotRHL(slot, handlers.toArray(new IRecipeHandler[0]));
+        }
+
+        @Override
+        public boolean findRecipe(GTRecipeType recipeType, BiPredicate<RecipeHandlerUnit, GTRecipeDefinition> canHandle) {
+            if (slot.isEmpty()) return false;
+            var cachedRecipe = getCachedRecipe();
+            if (cachedRecipe != null) {
+                if (canHandle.test(this, cachedRecipe)) {
+                    return true;
+                }
+            }
+            recipeType = getEffectiveRecipeType(recipeType);
+            if (recipeType == null) return false;
+            var map = this.getSearchMap(recipeType);
+            if (map.isEmpty()) return false;
+            return recipeType.search(this, map, canHandle);
         }
     }
 

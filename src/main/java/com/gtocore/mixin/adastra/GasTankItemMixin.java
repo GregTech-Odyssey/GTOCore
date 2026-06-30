@@ -18,10 +18,10 @@ public abstract class GasTankItemMixin {
               at = @At(
                        value = "INVOKE",
                        target = "Lnet/minecraft/world/entity/player/Inventory;setItem(ILnet/minecraft/world/item/ItemStack;)V"))
-    private void adastra$fixOffhandUpdate(Inventory instance, int slot, ItemStack item) {
+    private void adastra$fixOffhandUpdate(Inventory instance, int index, ItemStack stack) {
         if (instance.player instanceof Player player) {
             InteractionHand activeHand = player.getUsedItemHand();
-            player.setItemInHand(activeHand, item);
+            player.setItemInHand(activeHand, stack);
         }
     }
 }

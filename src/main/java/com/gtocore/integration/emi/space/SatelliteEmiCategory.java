@@ -36,11 +36,9 @@ public class SatelliteEmiCategory extends EmiRecipeCategory {
                 continue; // Skip if no rocket is defined for this tier
             }
             var dimMarker = GTRegistries.DIMENSION_MARKERS.getOrDefault(entry.getLocation(), GTDimensionMarkers.OVERWORLD);
-            registry.addRecipe(SatelliteEmiRecipe.fromInputOutput(GTOCore.id("gtocoresatellite").withSuffix("/launch_satellite/" + entry.getKey()), b -> {
-                b.inputItems(SatelliteControlCenterMachine.getRocket(entry.getTier()))
-                        .inputFluids(SatelliteControlCenterMachine.getFuel(entry.getTier()))
-                        .outputItems(dimMarker.getIcon());
-            }));
+            registry.addRecipe(SatelliteEmiRecipe.fromInputOutput(GTOCore.id("satellite/launch_satellite/" + entry.getKey()), b -> b.inputItems(SatelliteControlCenterMachine.getRocket(entry.getTier()))
+                    .inputFluids(SatelliteControlCenterMachine.getFuel(entry.getTier()))
+                    .outputItems(dimMarker.getIcon())));
         }
     }
 }

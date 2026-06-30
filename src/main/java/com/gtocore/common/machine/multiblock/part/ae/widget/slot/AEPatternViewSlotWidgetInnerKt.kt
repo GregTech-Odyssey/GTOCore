@@ -6,7 +6,6 @@ import com.gtocore.client.renderer.RenderUtil
 import net.minecraft.client.gui.GuiGraphics
 import net.minecraftforge.api.distmarker.Dist
 import net.minecraftforge.api.distmarker.OnlyIn
-import net.minecraftforge.items.IItemHandlerModifiable
 
 import appeng.crafting.pattern.EncodedPatternItem
 import com.gregtechceu.gtceu.api.gui.GuiTextures

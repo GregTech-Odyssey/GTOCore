@@ -13,8 +13,8 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
 
-import com.fast.fastcollection.O2LOpenCacheHashMap;
 import com.google.common.collect.ImmutableList;
+import com.gto.fastcollection.O2LOpenCacheHashMap;
 import com.hepdd.gtmthings.api.misc.WirelessEnergyContainer;
 import com.lowdragmc.lowdraglib.gui.texture.IGuiTexture;
 

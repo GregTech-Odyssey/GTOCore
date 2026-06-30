@@ -23,7 +23,7 @@ public class RepoSearchMixin {
                        remap = false,
                        ordinal = 4),
               remap = false)
-    private boolean redirectAddNamePredicate(java.util.ArrayList<Object> instance, Object o, @Local(name = "part") String part) {
+    private boolean redirectAddNamePredicate(java.util.ArrayList<Object> instance, Object e, @Local(name = "part") String part) {
         return instance.add(new MultiLangNameSearchPredicate(part));
     }
 }

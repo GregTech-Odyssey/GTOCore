@@ -17,6 +17,8 @@ public interface IPushResultsHandler {
         }
     });
 
+    static void init() {}
+
     void gtocore$syncCraftingResults(FriendlyByteBuf buf);
 
     Multimap<AEKey, IPatternProviderLogic.PushResult> gto$getLastCraftingResults();

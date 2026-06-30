@@ -104,11 +104,11 @@ public final class GCYMMachines {
             .block(CASING_WATERTIGHT)
             .pattern(definition -> FactoryBlockPattern.start(definition)
                     .aisle("XXXXX", "XXXXX", "XXXXX")
-                    .aisle("XXXXX", "XTTTX", "X   X")
-                    .aisle("XXXXX", "X   X", "X   X")
-                    .aisle("XXaXX", "X   X", "X   X")
-                    .aisle("XXXXX", "X   X", "X   X")
-                    .aisle("XXXXX", "XTTTX", "X   X")
+                    .aisle("XXXXX", "XTTTX", "XrrrX")
+                    .aisle("XXXXX", "X   X", "XrrrX")
+                    .aisle("XXaXX", "X   X", "XrrrX")
+                    .aisle("XXXXX", "X   X", "XrrrX")
+                    .aisle("XXXXX", "XTTTX", "XrrrX")
                     .aisle("XXXXX", "XXSXX", "XXXXX")
                     .where('S', controller(definition))
                     .where('X', blocks(CASING_WATERTIGHT.get()).setMinGlobalLimited(55)
@@ -117,6 +117,7 @@ public final class GCYMMachines {
                     .where(' ', air())
                     .where('T', blocks(CASING_TITANIUM_PIPE.get()))
                     .where('a', GTOPredicates.integralFramework())
+                    .where('r', GTOPredicates.recordPosition(GTOPredicates.DataKeys.A, air()))
                     .build())
             .renderer(FluidRenderer.create(GTCEu.id("block/casings/gcym/watertight_casing"), GTCEu.id("block/multiblock/gcym/large_chemical_bath")))
             .hasTESR(true)
@@ -163,9 +164,9 @@ public final class GCYMMachines {
             .block(CASING_REACTION_SAFE)
             .pattern(definition -> FactoryBlockPattern.start(definition)
                     .aisle("#XXX#", "#XXX#", "#XXX#", "#XXX#", "#XXX#", "##F##")
-                    .aisle("XXXXX", "XAPAX", "XAAAX", "XAPAX", "XAAAX", "##F##")
-                    .aisle("XXaXX", "XPPPX", "XAPAX", "XPPPX", "XAGAX", "FFGFF")
-                    .aisle("XXXXX", "XAPAX", "XAAAX", "XAPAX", "XAAAX", "##F##")
+                    .aisle("XXXXX", "XAPAX", "XAAAX", "XAPAX", "XrrrX", "##F##")
+                    .aisle("XXaXX", "XPPPX", "XAPAX", "XPPPX", "XrGrX", "FFGFF")
+                    .aisle("XXXXX", "XAPAX", "XAAAX", "XAPAX", "XrrrX", "##F##")
                     .aisle("#XXX#", "#XSX#", "#XXX#", "#XXX#", "#XXX#", "##F##")
                     .where('S', controller(definition))
                     .where('X', blocks(CASING_REACTION_SAFE.get()).setMinGlobalLimited(50)
@@ -175,6 +176,7 @@ public final class GCYMMachines {
                     .where('G', blocks(CASING_STAINLESS_STEEL_GEARBOX.get()))
                     .where('P', blocks(CASING_TITANIUM_PIPE.get()))
                     .where('A', air())
+                    .where('r', GTOPredicates.recordPosition(GTOPredicates.DataKeys.A, air()))
                     .where('#', any())
                     .where('a', GTOPredicates.integralFramework())
                     .build())
@@ -415,7 +417,7 @@ public final class GCYMMachines {
                     return 1L << (long) (m.getTemperature() / 900.0D);
                 }
                 return 1;
-            }, false, true, false))
+            }, true, false))
             .genLang("合金冶炼炉")
             .tooltipsKey("gtocore.machine.recipe.run", Component.translatable("gtceu.alloy_blast_smelter"))
             .tooltipsKey("gtceu.machine.electric_blast_furnace.tooltip.0")
@@ -425,9 +427,10 @@ public final class GCYMMachines {
             .tooltipsText("线圈温度每高出900K，并行数x2", "For every 900K increase in coil temperature, the parallel number doubles")
             .tooltipsText("§7公式 : 2^(向下取整(温度 / 900))", "§7Formula: 2^(Round down(temperature / 900))")
             .specialParallelizableTooltips()
-            .tooltipsSupplier(GTOMachineTooltipsA.INSTANCE.getAlloySmelterTooltips().getSupplier())
+            .tooltipsSupplier(GTOMachineTooltipsA.AlloySmelterTooltips)
             .moduleTooltips(new PartAbility[0])
             .allRotation()
+            .upgradable()
             .recipeTypes(ALLOY_BLAST_RECIPES)
             .recipeTypes(ALLOY_SMELTER_RECIPES)
             .recipeModifier((m, u, r) -> {
@@ -682,7 +685,7 @@ public final class GCYMMachines {
                             .aisle(aisle3.toArray(String[]::new))
                             .aisle(aisle4.toArray(String[]::new))
                             .aisle(aisle5.toArray(String[]::new));
-                    shapeInfos.add(copy.build());
+                    shapeInfos.add(copy.build(definition));
                 }
                 return shapeInfos;
             })

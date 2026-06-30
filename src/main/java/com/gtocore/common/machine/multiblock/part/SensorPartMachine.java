@@ -68,13 +68,19 @@ public final class SensorPartMachine extends MultiblockPartMachine {
     }
 
     private static int computeRedstoneBetweenValues(float value, float maxValue, float minValue, boolean isInverted) {
-        if (value < minValue) {
+        float lower = Math.min(minValue, maxValue);
+        float upper = Math.max(minValue, maxValue);
+        if (value < lower) {
             return isInverted ? 15 : 0;
         }
-        if (value > maxValue) {
+        if (value > upper) {
             return isInverted ? 15 : 0;
         }
-        return (int) Math.ceil(15 * (isInverted ? (maxValue - value) : (value - minValue)) / (maxValue - minValue));
+        if (Float.compare(lower, upper) == 0) {
+            return isInverted ? 0 : 15;
+        }
+        float normalized = isInverted ? (upper - value) / (upper - lower) : (value - lower) / (upper - lower);
+        return Math.clamp((int) Math.ceil(15 * normalized), 0, 15);
     }
 
     @Override

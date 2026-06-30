@@ -42,7 +42,6 @@ import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
 import com.lowdragmc.lowdraglib.gui.widget.layout.Layout;
 import com.lowdragmc.lowdraglib.syncdata.ISubscription;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -408,7 +407,7 @@ public class VillageTradingStationMachine extends MetaMachine implements IAutoOu
                 .setBackground(GuiTextures.DISPLAY);
 
         groupTitle.addWidget(new ComponentPanelWidget(4, 5,
-                textList -> GTOMachineTooltips.INSTANCE.getVillageTradingStationIntroduction().apply(textList))
+                GTOMachineTooltips.VillageTradingStationIntroduction::apply)
                 .setMaxWidthLimit(width - 8));
 
         group.addWidget(groupTitle);
@@ -449,7 +448,7 @@ public class VillageTradingStationMachine extends MetaMachine implements IAutoOu
                 return group;
             }
 
-            private @NotNull WidgetGroup getVillagerGroups() {
+            private WidgetGroup getVillagerGroups() {
                 int xSize = 18;
                 int groupXSize = xSize * 9;
                 int startX = (width - groupXSize) / 2;
@@ -498,7 +497,7 @@ public class VillageTradingStationMachine extends MetaMachine implements IAutoOu
                 return group;
             }
 
-            private @NotNull WidgetGroup getUpgradeGroup() {
+            private WidgetGroup getUpgradeGroup() {
                 WidgetGroup villagerGroup = new WidgetGroup(22 + 15, 18 * 5 - 9 + 16, 150, 50);
 
                 VillagerRecipe[] recipes = villagersDataset[9];
@@ -538,7 +537,7 @@ public class VillageTradingStationMachine extends MetaMachine implements IAutoOu
                 return villagerGroup;
             }
 
-            private @NotNull WidgetGroup getEnhanceGroup() {
+            private WidgetGroup getEnhanceGroup() {
                 WidgetGroup villagerGroup = new WidgetGroup(22 + 15, 18 - 9 + 16, 150, 100);
 
                 villagerGroup.addWidget(new ComponentPanelWidget(0, 9,
@@ -566,7 +565,7 @@ public class VillageTradingStationMachine extends MetaMachine implements IAutoOu
         sideTabs.attachSubTab(CombinedDirectionalFancyConfigurator.of(this, this));
     }
 
-    private @NotNull WidgetGroup VillagerGroup(int slot, int X) {
+    private WidgetGroup VillagerGroup(int slot, int X) {
         WidgetGroup villagerGroup = new WidgetGroup(X, 0, 18, 128);
         villagerGroup.setLayout(Layout.VERTICAL_CENTER);
 
@@ -632,16 +631,14 @@ public class VillageTradingStationMachine extends MetaMachine implements IAutoOu
             this.setFilter(i -> i.getItem().equals(VILLAGER_ITEM));
         }
 
-        @NotNull
         @Override
         public ItemStack extractItem(int slot, int amount, boolean simulate) {
             if (machine.isLocked(slot)) return ItemStack.EMPTY;
             return super.extractItem(slot, amount, simulate);
         }
 
-        @NotNull
         @Override
-        public ItemStack insertItem(int slot, @NotNull ItemStack stack, boolean simulate) {
+        public ItemStack insertItem(int slot, ItemStack stack, boolean simulate) {
             if (machine.isLocked(slot)) return stack;
             return super.insertItem(slot, stack, simulate);
         }
@@ -731,7 +728,7 @@ public class VillageTradingStationMachine extends MetaMachine implements IAutoOu
         if (wasLocked) isLocked[slot] = true;
     }
 
-    private static @NotNull CompoundTag getCompoundTag(ItemStack villagerStack, VillagerRecipe[] datasetRecipes) {
+    private static CompoundTag getCompoundTag(ItemStack villagerStack, VillagerRecipe[] datasetRecipes) {
         CompoundTag outerNbt = villagerStack.getOrCreateTag();
         CompoundTag villagerCoreNbt = outerNbt.getCompound("villager");
         CompoundTag offersTag = villagerCoreNbt.getCompound("Offers");
@@ -808,7 +805,7 @@ public class VillageTradingStationMachine extends MetaMachine implements IAutoOu
     private void updateAutoOutputSubscription() {
         if (getLevel() == null) return;
         Direction outputFacing = getOutputFacingItems();
-        if (autoOutputItems && !output.isEmpty() && outputFacing != null && blockEntityDirectionCache.hasAdjacentItemHandler(getLevel(), getPos(), outputFacing)) {
+        if (autoOutputItems && !output.isEmpty() && outputFacing != null && holder.blockEntityDirectionCache.hasAdjacentItemHandler(getLevel(), getPos(), outputFacing)) {
             autoOutputSubs = subscribeServerTick(autoOutputSubs, this::autoOutput, 20);
         } else if (autoOutputSubs != null) {
             autoOutputSubs.unsubscribe();

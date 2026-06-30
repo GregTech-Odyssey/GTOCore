@@ -149,18 +149,14 @@ public final class SlaughterhouseMachine extends StorageMultiblockMachine implem
         bossMode = false;
         ItemStack itemStack = getStorageStack();
         switch (itemStack.getItem()) {
-            case BossSummonerItem b -> {
-                bossMode = true;
-            }
+            case BossSummonerItem b -> bossMode = true;
             case MobJarItem mj -> {
                 var entity = MobJarItem.fromItem(itemStack, getLevel());
                 if (entity != null) {
                     entityId = ForgeRegistries.ENTITY_TYPES.getKey(entity.getType()).toString();
                 }
             }
-            case SpawnEggItem egg -> {
-                entityId = ForgeRegistries.ENTITY_TYPES.getKey(egg.getType(null)).toString();
-            }
+            case SpawnEggItem egg -> entityId = ForgeRegistries.ENTITY_TYPES.getKey(egg.getType(null)).toString();
             default -> {
 
             }

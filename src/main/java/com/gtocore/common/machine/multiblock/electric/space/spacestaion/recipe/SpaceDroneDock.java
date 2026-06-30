@@ -11,6 +11,7 @@ import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.GTCapabilityHelper;
 import com.gregtechceu.gtceu.api.item.capability.ElectricItem;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
+import com.gregtechceu.gtceu.api.recipe.GTRecipeDefinition;
 import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
 import com.gregtechceu.gtceu.api.recipe.ingredient.ItemIngredient;
 import com.gregtechceu.gtceu.api.recipe.modifier.ParallelLogic;
@@ -36,13 +37,13 @@ public class SpaceDroneDock extends RecipeExtension {
 
     @Override
     @Nullable
-    public GTRecipe fullModifyRecipe(@NotNull RecipeHandlerUnit unit, @NotNull GTRecipe recipe) {
+    public GTRecipe fullModifyRecipe(@NotNull RecipeHandlerUnit unit, @NotNull GTRecipeDefinition definition) {
         long maxParallel;
         BooleanHolder hasInput = new BooleanHolder();
         ObjHolder<BigInteger> costEU = new ObjHolder<>();
         ObjHolder<ItemStack> outputHolder = new ObjHolder<>();
         ObjHolder<ItemStack> inputHolder = new ObjHolder<>();
-        ItemIngredient chargeable = recipe.itemInputs.getFirst().inner;
+        ItemIngredient chargeable = definition.itemInputs.getFirst().inner;
         unit.fastForEachItems(true, (stack, amount) -> {
             if (hasInput.get()) return;
             ItemStack output = stack.copyWithCount(1);
@@ -62,7 +63,7 @@ public class SpaceDroneDock extends RecipeExtension {
             setIdleReason(Component.translatable(DRONE_NO_ENERGY));
             return null;
         }
-
+        var recipe = definition.toRuntime();
         var newInput = new ArrayList<>(recipe.itemInputs);
         // ObjectList<Content> newOutput = new ArrayList<>(recipe.outputs.get(ItemRecipeInfo.INSTANCE));
         newInput.removeFirst();

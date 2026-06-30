@@ -193,12 +193,6 @@ object ClientForge {
         Files.writeString(configPath, GSON.toJson(mapOf("confirmedMessages" to config.confirmedMessages)), StandardCharsets.UTF_8)
     }.onFailure { it.printStackTrace() }
 
-    // 生成分隔符
-    private fun createSeparator() = Minecraft.getInstance().let { mc ->
-        val count = (mc.gui.chat.width / mc.font.width("━")).coerceAtLeast(1)
-        Component.literal("━".repeat(count)).withStyle(Style.EMPTY.withColor(ChatFormatting.DARK_GRAY))
-    }
-
     // 显示消息 GUI
     private fun showMessageScreen(msg: MessageDefinition, page: Int, total: Int) {
         val mc = Minecraft.getInstance()
@@ -234,7 +228,7 @@ object ClientForge {
                         // 全部完成 - 关闭 UI
                         else -> {
                             mc.player?.sendSystemMessage(
-                                Component.translatable(MessageScreen.allConfirmed_Key)
+                                Component.translatable(MessageScreen.ALL_CONFIRMED_KEY)
                                     .withStyle(Style.EMPTY.withColor(ChatFormatting.GREEN)),
                             )
                             showHistoricalMessages = false
@@ -259,10 +253,10 @@ object ClientForge {
             dateString = "20250101",
             languagePredicate = { true },
             messages = listOf(
-                Component.translatable(MessageScreen.allRecentConfirmed_Key).withStyle(Style.EMPTY.withColor(ChatFormatting.GREEN)),
+                Component.translatable(MessageScreen.ALL_RECENT_CONFIRMED_KEY).withStyle(Style.EMPTY.withColor(ChatFormatting.GREEN)),
                 Component.literal("").withStyle(Style.EMPTY),
-                Component.translatable(MessageScreen.olderMessages_Key).withStyle(Style.EMPTY.withColor(ChatFormatting.YELLOW)),
-                Component.translatable(MessageScreen.viewThem_Key).withStyle(Style.EMPTY.withColor(ChatFormatting.GRAY)),
+                Component.translatable(MessageScreen.OLDER_MESSAGES_KEY).withStyle(Style.EMPTY.withColor(ChatFormatting.YELLOW)),
+                Component.translatable(MessageScreen.VIEW_THEM_KEY).withStyle(Style.EMPTY.withColor(ChatFormatting.GRAY)),
             ),
         )
 
@@ -288,7 +282,7 @@ object ClientForge {
                     saveConfig(config)
                     showHistoricalMessages = false
                     mc.player?.sendSystemMessage(
-                        Component.translatable(MessageScreen.markedRead_Key, messages.size)
+                        Component.translatable(MessageScreen.MARKED_READ_KEY, messages.size)
                             .withStyle(Style.EMPTY.withColor(ChatFormatting.GREEN)),
                     )
                 }

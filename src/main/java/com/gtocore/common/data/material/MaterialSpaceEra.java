@@ -6,7 +6,6 @@ import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.data.chemical.material.properties.ToolProperty;
 
 import static com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialFlags.*;
-import static com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialIconSet.*;
 import static com.gregtechceu.gtceu.api.data.chemical.material.properties.BlastProperty.GasTier.*;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
 import static com.gtocore.api.data.material.GTOMaterialFlags.*;
@@ -547,7 +546,7 @@ public class MaterialSpaceEra {
                 .ingot().fluid()
                 .color(0x7a4c9a)
                 .secondaryColor(0xaa7aca)
-                .iconSet(DULL)
+                .iconSet(CRUPTIX)
                 .element(GTOElements.CRUPTIX)
                 .blastTemp(3420, HIGH, GTValues.VA[GTValues.EV], 1200)
                 .flags(

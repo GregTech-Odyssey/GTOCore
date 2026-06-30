@@ -86,8 +86,8 @@ object AnimalsRevengeEvent {
         val remaining = player.useItemRemainingTicks
         if (remaining <= 0) return
 
-        val st = eatStates[player.uuid]?.takeIf { it.eatenItem == using.item }
-            ?: EatState(using.item, remaining).also { eatStates[player.uuid] = it }
+        val st = eatStates[player.uuid]?.takeIf { it.eatenItem == using.getItem() }
+            ?: EatState(using.getItem(), remaining).also { eatStates[player.uuid] = it }
 
         if (remaining > st.maxRemainingSeen) st.maxRemainingSeen = remaining
 
@@ -123,7 +123,7 @@ object AnimalsRevengeEvent {
             val baseDrops = entityLootCache[type] ?: continue
             if (baseDrops.isEmpty()) continue
 
-            if (!isFoodFromEntity(type, eaten.item, serverLevel)) continue
+            if (!isFoodFromEntity(type, eaten.getItem(), serverLevel)) continue
 
             val tick = intArrayOf(0)
             val holder = ObjHolder<TickableSubscription>()

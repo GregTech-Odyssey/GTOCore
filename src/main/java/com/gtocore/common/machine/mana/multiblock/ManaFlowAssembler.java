@@ -9,8 +9,8 @@ import com.gtolib.api.capability.IManaContainer;
 import com.gtolib.api.machine.ManaDistributorMachine;
 import com.gtolib.api.machine.mana.trait.ManaTrait;
 import com.gtolib.api.misc.ManaContainerList;
-import com.gtolib.api.recipe.RecipeHelper;
 import com.gtolib.api.recipe.RecipeType;
+import com.gtolib.api.recipe.extension.MANATRecipeExtension;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
@@ -174,13 +174,13 @@ public class ManaFlowAssembler extends ManaMultiblockMachine {
     @Override
     protected @Nullable GTRecipe getRealRecipe(@NotNull RecipeHandlerUnit unit, GTRecipe recipe) {
         if (recipe.eut != 0 || maxRate == 0) return null;
-        int duration = Math.toIntExact(recipe.duration * RecipeHelper.getMANAt(recipe) / maxRate);
+        int duration = Math.toIntExact(recipe.duration * MANATRecipeExtension.getMANAt(recipe) / maxRate);
         if (duration > 200) {
             setIdleReason(() -> Component.translatable(MANA_FLOW_TOO_WEAK));
             return null;
         }
         recipe.duration = 200;
-        RecipeHelper.setMANAt(recipe, maxRate);
+        MANATRecipeExtension.setMANAt(recipe, maxRate);
         return super.getRealRecipe(unit, recipe);
     }
 
@@ -241,7 +241,7 @@ public class ManaFlowAssembler extends ManaMultiblockMachine {
                         var ingredient = leftConsuming.next();
                         if (ingredient.inner.testItem(itemStack.getItem())) {
                             var toExtract = (int) Math.min(ingredient.amount, itemStack.getCount());
-                            ingredient.shrink(toExtract);;
+                            ingredient.shrink(toExtract);
                             itemStack.shrink(toExtract);
                             if (ingredient.amount <= 0) {
                                 leftConsuming.remove();

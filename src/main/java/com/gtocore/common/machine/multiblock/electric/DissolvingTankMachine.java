@@ -1,9 +1,10 @@
 package com.gtocore.common.machine.multiblock.electric;
 
+import com.gtocore.common.machine.multiblock.FluidRenderUtils;
+
 import com.gtolib.api.machine.feature.multiblock.IFluidRendererMachine;
 import com.gtolib.api.machine.multiblock.ElectricMultiblockMachine;
 import com.gtolib.api.recipe.GTORecipeModifiers;
-import com.gtolib.utils.MachineUtils;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
@@ -12,8 +13,8 @@ import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.material.Fluid;
 
-import com.fast.fastcollection.OpenCacheHashSet;
 import com.gto.datasynclib.annotations.SyncToClient;
+import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -22,8 +23,10 @@ import java.util.Set;
 
 public final class DissolvingTankMachine extends ElectricMultiblockMachine implements IFluidRendererMachine {
 
-    @SyncToClient(notifyUpdate = true)
-    private final Set<BlockPos> fluidBlockOffsets = new OpenCacheHashSet<>();
+    @Getter
+    @SyncToClient(notifyUpdate = true, autoUpdate = false)
+    private final Set<BlockPos> fluidBlockOffsets = FluidRenderUtils.emptyFluidBlockOffsets();
+    @Getter
     @SyncToClient
     private Fluid cachedFluid;
 
@@ -40,21 +43,13 @@ public final class DissolvingTankMachine extends ElectricMultiblockMachine imple
     @Override
     public void onStructureFormed() {
         super.onStructureFormed();
-        if (!fluidBlockOffsets.isEmpty()) return;
-        BlockPos pos = MachineUtils.getOffsetPos(2, 1, getFrontFacing(), getPos());
-        for (int i = -1; i < 2; i++) {
-            for (int j = 0; j < 2; j++) {
-                for (int k = -1; k < 2; k++) {
-                    fluidBlockOffsets.add(pos.offset(i, j, k).subtract(getPos()));
-                }
-            }
-        }
+        FluidRenderUtils.loadFluidBlockOffsets(this);
     }
 
     @Override
     public void onStructureInvalid() {
         super.onStructureInvalid();
-        fluidBlockOffsets.clear();
+        FluidRenderUtils.clearFluidBlockOffsets(this);
     }
 
     @Nullable
@@ -78,15 +73,5 @@ public final class DissolvingTankMachine extends ElectricMultiblockMachine imple
             }
         }
         return null;
-    }
-
-    @Override
-    public Set<BlockPos> getFluidBlockOffsets() {
-        return this.fluidBlockOffsets;
-    }
-
-    @Override
-    public Fluid getCachedFluid() {
-        return this.cachedFluid;
     }
 }

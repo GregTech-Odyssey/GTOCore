@@ -1,0 +1,11 @@
+{
+  "animation": {
+    "frametime": 1
+  },
+  "ldlib": {
+    "emissive": true
+  },
+  "shimmer": {
+    "bloom": true
+  }
+}

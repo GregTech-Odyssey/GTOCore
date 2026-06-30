@@ -1,102 +1,80 @@
 package com.gtocore.common.machine.noenergy;
 
+import com.gtocore.common.data.GTORecipeTypes;
+import com.gtocore.data.IdleReason;
+
 import com.gtolib.api.machine.SimpleNoEnergyMachine;
-import com.gtolib.api.machine.feature.IReceiveHeatMachine;
+import com.gtolib.api.machine.heat.HeatHandler;
+import com.gtolib.api.machine.heat.feature.IHeatContainerMachine;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
-import com.gregtechceu.gtceu.api.machine.TickableSubscription;
+import com.gregtechceu.gtceu.api.machine.feature.IExplosionMachine;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeDefinition;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.api.recipe.handler.ICustomRecipeLogicHolder;
 import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
-import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.material.Fluids;
 
 import com.gto.datasynclib.annotations.SaveToDisk;
+import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
-public final class BoilWaterMachine extends SimpleNoEnergyMachine implements IReceiveHeatMachine, ICustomRecipeLogicHolder {
+public final class BoilWaterMachine extends SimpleNoEnergyMachine implements IHeatContainerMachine, IExplosionMachine, ICustomRecipeLogicHolder {
 
-    public static final int DrawWaterExplosionLine = 400;
+    @Getter
     @SaveToDisk
-    private int temperature = 293;
-    private TickableSubscription tickSubs;
+    private final HeatHandler heatContainer;
 
     public BoilWaterMachine(MetaMachineBlockEntity holder) {
         super(holder, 0, i -> 16000);
-    }
-
-    @Override
-    public int getOutputSignal(@Nullable Direction side) {
-        return getSignal(side);
-    }
-
-    @Override
-    public boolean canConnectRedstone(@NotNull Direction side) {
-        return true;
-    }
-
-    @Override
-    @NotNull
-    public GTRecipeType getRecipeType() {
-        return GTRecipeTypes.STEAM_TURBINE_FUELS;
+        heatContainer = new HeatHandler(holder, 600, 2, 0.6, 0.01);
+        heatContainer.setSideIOCondition(s -> s == Direction.DOWN);
+        heatContainer.addChangedListener(getRecipeLogic()::updateTickSubscription);
     }
 
     @Override
     public void onLoad() {
         super.onLoad();
-        if (!isRemote()) {
-            tickSubs = subscribeServerTick(tickSubs, this::tickUpdate, 20);
-        }
+        heatContainer.onLoad();
     }
 
     @Override
     public void onUnload() {
         super.onUnload();
-        if (tickSubs != null) {
-            tickSubs.unsubscribe();
-            tickSubs = null;
-        }
+        heatContainer.onUnLoad();
+    }
+
+    @Override
+    @NotNull
+    public GTRecipeType getRecipeType() {
+        return GTORecipeTypes.F1A1B;
+    }
+
+    @Override
+    public GTRecipe fullModifyRecipe(RecipeHandlerUnit unit, GTRecipeDefinition definition) {
+        return definition.toRuntime();
     }
 
     @Override
     public boolean handleTickRecipe(GTRecipe recipe) {
         if (super.handleTickRecipe(recipe)) {
-            if (getOffsetTimer() % 15 == 0) return reduceTemperature(1) == 1;
+            if (getOffsetTimer() % 10 == 0) return heatContainer.removeHeatUnrestricted(1, false) == 1;
             return true;
         }
         return false;
     }
 
     @Override
-    public int getHeatCapacity() {
-        return 12;
-    }
-
-    @Override
-    public int getMaxTemperature() {
-        return 600;
-    }
-
-    @Override
-    public void setTemperature(final int temperature) {
-        this.temperature = temperature;
-    }
-
-    @Override
-    public int getTemperature() {
-        return this.temperature;
-    }
-
-    @Override
     public GTRecipeDefinition createCustomRecipe(RecipeHandlerUnit unit) {
-        if (temperature < 360) return null;
-        return getRecipeBuilder().duration(20).inputFluids(Fluids.WATER, 6).outputFluids(GTMaterials.Steam, 960 * temperature / 600).build();
+        if (heatContainer.getTemperature() < 360) {
+            setIdleReason(IdleReason.INSUFFICIENT_TEMPERATURE);
+            return null;
+        }
+        return getRecipeBuilder().duration(20).inputFluids(Fluids.WATER, 6).outputFluids(GTMaterials.Steam, (int) (960 * heatContainer.getTemperature() / 600)).build();
     }
 
     @Override

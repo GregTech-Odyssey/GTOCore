@@ -11,6 +11,7 @@ import com.gtocore.integration.biomeswevegone.BYGWoodTypes;
 import com.gtocore.integration.chisel.ChiselRecipe;
 import com.gtocore.integration.emi.multipage.MultiblockInfoEmiRecipe;
 import com.gtocore.integration.emi.oreprocessing.OreProcessingEmiCategory;
+import com.gtocore.integration.emi.primordial_reconstructor.PrimordialReconstructorDisassemblyEmiCategory;
 import com.gtocore.integration.emi.space.SatelliteEmiCategory;
 import com.gtocore.integration.misc.CalculatorOverlay;
 
@@ -137,10 +138,23 @@ public final class GTEMIPlugin implements EmiPlugin {
             c.add(RegistriesUtils.getItem("morered:red_alloy_ingot"));
             c.add(EPPItemAndBlock.CIRCUIT_CUTTER.asItem());
             c.add(EPPItemAndBlock.SILICON_BLOCK.asItem());
+            c.add(RegistriesUtils.getItem("ad_astra:fuel_refinery"));
+            c.add(RegistriesUtils.getItem("ad_astra:cryo_freezer"));
+            c.add(RegistriesUtils.getItem("ad_astra:compressor"));
+            c.add(RegistriesUtils.getItem("ad_astra:etrionic_blast_furnace"));
+
+            if (Mods.EFFORTLESS.isLoaded()) {
+                c.add(RegistriesUtils.getItem("effortlessbuilding:randomizer_bag"));
+                c.add(RegistriesUtils.getItem("effortlessbuilding:golden_randomizer_bag"));
+                c.add(RegistriesUtils.getItem("effortlessbuilding:diamond_randomizer_bag"));
+            }
 
             if (Mods.MYTHICBOTANY.isLoaded()) {
                 c.add(RegistriesUtils.getItem("mythicbotany:feysythia"));
                 c.add(RegistriesUtils.getItem("mythicbotany:feysythia_floating"));
+                c.add(RegistriesUtils.getItem("mythicbotany:raw_elementium"));
+                c.add(RegistriesUtils.getItem("mythicbotany:raw_elementium_block"));
+                c.add(RegistriesUtils.getItem("mythicbotany:elementium_ore"));
             }
 
             if (Mods.BIOMESWEVEGONE.isLoaded()) {
@@ -241,6 +255,7 @@ public final class GTEMIPlugin implements EmiPlugin {
         GTBedrockFluidEmiCategory.registerDisplays(registry);
         GTProgrammedCircuitCategory.registerDisplays(registry);
 
+        PrimordialReconstructorDisassemblyEmiCategory.register(registry);
         SatelliteEmiCategory.register(registry);
 
         GTRecipeEMICategory.registerWorkStations(registry);

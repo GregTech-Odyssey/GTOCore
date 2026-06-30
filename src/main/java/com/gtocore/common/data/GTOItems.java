@@ -6,6 +6,7 @@ import com.gtocore.api.misc.AutoInitializeImpl;
 import com.gtocore.client.renderer.item.HaloItemRenderer;
 import com.gtocore.client.renderer.item.MaterialsColorMap;
 import com.gtocore.client.renderer.item.OrderItemProviderRenderer;
+import com.gtocore.common.cover.HeatInterfaceCover;
 import com.gtocore.common.cover.PowerAmplifierCover;
 import com.gtocore.common.data.translation.GTOItemTooltips;
 import com.gtocore.common.item.*;
@@ -106,7 +107,7 @@ public final class GTOItems {
 
     public static final ItemEntry<Item> PULSATING_CRYSTAL = register("pulsating_crystal", "脉冲水晶");
     public static final ItemEntry<Item> VIBRANT_CRYSTAL = register("vibrant_crystal", "振动水晶");
-    public static final ItemEntry<Item> ENDER_CRYSTAL = register("ender_crystal", "末影水晶");
+    public static final ItemEntry<Item> ENDER_CRYSTAL = registerCustomModel("ender_crystal", "末影水晶");
     public static final ItemEntry<Item> PRESCIENT_CRYSTAL = register("prescient_crystal", "预知水晶");
 
     public static final ItemEntry<Item> SHAPE_EXTRUDER_ROD_LONG = GTM.item("long_rod_extruder_mold", Item::new).onRegister(materialInfo(new ItemMaterialInfo(new MaterialStack(GTMaterials.Steel, GTValues.M << 2)))).register();
@@ -324,6 +325,15 @@ public final class GTOItems {
 
     public static final ItemEntry<ComponentItem> AIR_VENT = item("air_vent", "通风口", ComponentItem::create)
             .onRegister(attach(new TooltipBehavior(lines -> lines.add(Component.translatable("gtceu.universal.tooltip.produces_fluid", 10))), new CoverPlaceBehavior(GTOCovers.AIR_VENT)))
+            .register();
+
+    public static final ItemEntry<ComponentItem> HEAT_INTERFACE = item("heat_interface", "导热接口", ComponentItem::create)
+            .toolTips(Component.translatable(HeatInterfaceCover.MAX_TEMPERATURE, "400x(Tier+2)"), Component.translatable(HeatInterfaceCover.HEAT_CAPACITY, "Tier+1"), Component.translatable(HeatInterfaceCover.TRANSFER_RATE, "Tier+1"), Component.translatable(HeatInterfaceCover.COOLDOWN_RATE, 0.01))
+            .onRegister(attach(new CoverPlaceBehavior(GTOCovers.HEAT_INTERFACE)))
+            .register();
+
+    public static final ItemEntry<ComponentItem> HEAT_DETECTOR_COVER = item("heat_detector_cover", "热量探测覆盖板", ComponentItem::create)
+            .onRegister(attach(new CoverPlaceBehavior(GTOCovers.HEAT_DETECTOR)))
             .register();
 
     public static final ItemEntry<ComponentItem> STEAM_PUMP = item("steam_pump", "蒸汽泵", ComponentItem::create)
@@ -976,8 +986,7 @@ public final class GTOItems {
     public static final ItemEntry<Item> CRUDELY_HARMONIZED_SOUL_JADE_CRYSTAL_ORE = register("crudely_harmonized_soul_jade_crystal_ore", "粗劣调和魂玉晶矿石");
     public static final ItemEntry<Item> CRUDELY_SHAPED_REMNANT_SPIRIT_STONE_ORE = register("crudely_shaped_remnant_spirit_stone_ore", "粗劣塑形骸灵石矿石");
 
-    @SuppressWarnings("rawtypes")
-    public static final ItemEntry[] TAROT_ARCANUM = registerTarotArcanum();
+    public static final ItemEntry<TarotArcanum>[] TAROT_ARCANUM = registerTarotArcanum();
 
     public static final ItemEntry<AffixCanvas> AFFIX_CANVAS = item("affix_canvas", "铭刻之布", AffixCanvas::new).register();
     public static final Map<String, ItemEntry<ApothItem>> ENCHANTMENT_ESSENCE = registerEnchantmentEssence();
@@ -990,8 +999,9 @@ public final class GTOItems {
     private static final String[] ComponentSizes2 = { "小", "中", "大" };
     public static final ItemEntry<ColoringItems>[][] INDUSTRIAL_COMPONENTS = registerIndustrialComponents();
 
+    @SuppressWarnings("unchecked")
     public static ItemEntry<ColoringItems>[][] registerIndustrialComponents() {
-        ItemEntry<ColoringItems>[][] entries = new ItemEntry[IndustrialComponents.length][ComponentSizes.length];
+        ItemEntry<ColoringItems>[][] entries = (ItemEntry<ColoringItems>[][]) new ItemEntry<?>[IndustrialComponents.length][ComponentSizes.length];
         for (int i = 0; i < IndustrialComponents.length; i++) {
             for (int k = 0; k < ComponentSizes.length; k++) {
                 int finalI = i;

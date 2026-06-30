@@ -1,5 +1,7 @@
 package com.gtocore.mixin.ae2.crafting;
 
+import com.gtocore.integration.ae.PatternContainerGroupHelper;
+
 import com.gtolib.api.ae2.*;
 import com.gtolib.api.ae2.machine.ICustomCraftingMachine;
 import com.gtolib.api.blockentity.IDirectionCacheBlockEntity;
@@ -121,7 +123,8 @@ public abstract class PatternProviderLogicMixin implements IPatternProviderLogic
             return;
         }
 
-        var suffix = Component.literal(customName.substring(1));
+        String extraSuffix = customName.substring(1).strip();
+        var suffix = extraSuffix.isEmpty() ? Component.empty() : Component.literal(" ").append(extraSuffix);
         var blockEntity = host.getBlockEntity();
         var level = blockEntity.getLevel();
         if (level == null) {
@@ -130,15 +133,21 @@ public abstract class PatternProviderLogicMixin implements IPatternProviderLogic
 
         var groups = new LinkedHashSet<PatternContainerGroup>();
         for (Direction side : getActiveSides()) {
-            var group = PatternContainerGroup.fromMachine(level, blockEntity.getBlockPos().relative(side), side.getOpposite());
+            var adjacentPos = blockEntity.getBlockPos().relative(side);
+            var group = PatternContainerGroupHelper.fromMachine(level, adjacentPos, extraSuffix);
+            if (group == null) {
+                var fallbackGroup = PatternContainerGroup.fromMachine(level, adjacentPos, side.getOpposite());
+                if (fallbackGroup != null) {
+                    group = new PatternContainerGroup(fallbackGroup.icon(), fallbackGroup.name().copy().append(suffix), fallbackGroup.tooltip());
+                }
+            }
             if (group != null) {
                 groups.add(group);
             }
         }
 
         if (groups.size() == 1) {
-            var group = groups.iterator().next();
-            cir.setReturnValue(new PatternContainerGroup(group.icon(), group.name().copy().append(suffix), group.tooltip()));
+            cir.setReturnValue(groups.getFirst());
             return;
         }
 

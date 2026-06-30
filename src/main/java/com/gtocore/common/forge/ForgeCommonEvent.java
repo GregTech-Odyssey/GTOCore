@@ -68,7 +68,6 @@ import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.CommandEvent;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.EntityTravelToDimensionEvent;
@@ -99,8 +98,6 @@ import java.util.function.Supplier;
 @DataGeneratorScanned
 public final class ForgeCommonEvent {
 
-    // 缓存虚空世界实例，避免每个 tick 反复按维度去查找。
-    private static ServerLevel voidWorldLevel;
     private static final int VOID_TIME_FIX_INTERVAL = 100;
 
     public static void init() {
@@ -315,6 +312,7 @@ public final class ForgeCommonEvent {
             if (!GTCEu.isDev()) {
                 player.displayClientMessage(Component.translatable("gtocore.gtm", Component.literal("GitHub").withStyle(Style.EMPTY.withColor(ChatFormatting.GREEN).withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://github.com/GregTech-Odyssey/GregTech-Odyssey/issues")))), false);
                 player.displayClientMessage(Component.translatable("gtocore.dev", Component.literal("GitHub").withStyle(Style.EMPTY.withColor(ChatFormatting.GREEN).withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://github.com/GregTech-Odyssey/GregTech-Odyssey/issues")))), false);
+                player.displayClientMessage(Component.translatable("gtocore.lang." + COMMON_HOTKEY_HINT).withStyle(ChatFormatting.GREEN), false);
                 Configurator.setRootLevel(org.apache.logging.log4j.Level.INFO);
             }
             showVoidTimeHint(player);
@@ -334,10 +332,6 @@ public final class ForgeCommonEvent {
     @SubscribeEvent
     public static void onLevelLoad(LevelEvent.Load event) {
         if (event.getLevel() instanceof ServerLevel level) {
-            // 虚空世界加载时顺手记录引用，后续只在需要纠正时间时使用。
-            if (GTODimensions.isVoid(level.dimension())) {
-                voidWorldLevel = level;
-            }
             ServerLevel serverLevel = level.getServer().getLevel(Level.OVERWORLD);
             if (serverLevel == null) return;
             DysonSphereSavaedData.INSTANCE = serverLevel.getDataStorage().computeIfAbsent(DysonSphereSavaedData::new, DysonSphereSavaedData::new, "dyson_sphere_data");
@@ -355,19 +349,11 @@ public final class ForgeCommonEvent {
     }
 
     @SubscribeEvent
-    public static void onLevelUnload(LevelEvent.Unload event) {
-        if (event.getLevel() instanceof ServerLevel level && voidWorldLevel == level) {
-            voidWorldLevel = null;
-        }
-    }
-
-    @SubscribeEvent
     public static void onServerStoppedEvent(ServerStoppedEvent event) {
         DysonSphereSavaedData.INSTANCE = new DysonSphereSavaedData();
         RecipeRunLimitSavaedData.INSTANCE = new RecipeRunLimitSavaedData();
         VoidWorldTimeSavedData.INSTANCE = new VoidWorldTimeSavedData();
         VirtualCoinSavedData.INSTANCE = new VirtualCoinSavedData();
-        voidWorldLevel = null;
         WirelessNetworkSavedData.Companion.setINSTANCE(new WirelessNetworkSavedData());
         if (Mods.FTBQUESTS.isLoaded()) {
             AdditionalTeamData.instance = new AdditionalTeamData();
@@ -377,22 +363,19 @@ public final class ForgeCommonEvent {
     @SubscribeEvent
     public static void onServerTick(TickEvent.ServerTickEvent event) {
         if (event.phase == TickEvent.Phase.END) TeamMapServerEvents.tick(event.getServer());
-        if (event.phase != TickEvent.Phase.END || !VoidWorldTimeSavedData.INSTANCE.isFixedTime() || event.getServer().getTickCount() % VOID_TIME_FIX_INTERVAL != 0) {
-            return;
-        }
-        // 固定时间只需每 100 tick 纠正一次，减少持续运行时的检查频率。
-        ServerLevel level = voidWorldLevel;
-        if (level == null) {
-            level = event.getServer().getLevel(GTODimensions.VOID);
-            voidWorldLevel = level;
-        }
-        if (level != null && level.getDayTime() != 1000L) {
-            level.setDayTime(1000L);
-        }
+    }
+
+    @SubscribeEvent
+    public static void onLevelTick(TickEvent.LevelTickEvent event) {
+        if (event.phase != TickEvent.Phase.END || !VoidWorldTimeSavedData.INSTANCE.isFixedTime() || !(event.level instanceof ServerLevel serverLevel) || serverLevel.getGameTime() % VOID_TIME_FIX_INTERVAL != 0 || !GTODimensions.isVoid(serverLevel) || serverLevel.getDayTime() == 1000L) return;
+        serverLevel.setDayTime(1000L);
     }
 
     @RegisterLanguage(valuePrefix = "gtocore.lang", en = "Channel mode command banned in expert", cn = "在专家模式下，频道模式命令被禁止")
     private static final String CHANNEL_MODE_COMMAND_BANNED = "banned";
+
+    @RegisterLanguage(valuePrefix = "gtocore.lang", en = "Common default hotkeys: [~] Ultimine, [Tab] Quest Book, [M] Map.", cn = "常用默认快捷键：[~] 连锁挖掘，[Tab] 打开任务书，[M] 打开地图。")
+    public static final String COMMON_HOTKEY_HINT = "common_hotkey_hint";
 
     @RegisterLanguage(valuePrefix = "gtocore.lang", en = "Use /gtocore void time to toggle whether the void world stays fixed at 1000.", cn = "使用 /gtocore void time 切换虚空世界是否固定在 1000。")
     public static final String VOID_WORLD_TIME_HINT = "void_world_time_hint";
@@ -417,21 +400,6 @@ public final class ForgeCommonEvent {
         }
         data.putBoolean("gtocore_void_time_hint_shown", true);
         player.displayClientMessage(Component.translatable("gtocore.lang." + VOID_WORLD_TIME_HINT).withStyle(ChatFormatting.AQUA), false);
-    }
-
-    @SuppressWarnings("all")
-    @SubscribeEvent
-    public static void onCommandExecution(CommandEvent event) {
-        var command = event.getParseResults().getReader().getString();
-        if (command.contains("ae2") && command.contains("channelmode")) {
-            if (GTOCore.isExpert()) {
-                event.setCanceled(true);
-                if (event.getParseResults().getContext().getSource().isPlayer()) {
-                    Player player = event.getParseResults().getContext().getSource().getPlayer();
-                    player.sendSystemMessage(Component.translatable("gtocore.lang." + CHANNEL_MODE_COMMAND_BANNED));
-                }
-            }
-        }
     }
 
     @SubscribeEvent

@@ -63,6 +63,14 @@ public abstract class PlayerAttrEntry {
         return false;
     }
 
+    public boolean isEditorVisible() {
+        return isVisible();
+    }
+
+    public boolean isPreviewVisible() {
+        return isVisible();
+    }
+
     protected Font font() {
         return Minecraft.getInstance().font;
     }
@@ -491,6 +499,7 @@ public abstract class PlayerAttrEntry {
                 entries.add(entry);
             }
         }
+        entries.add(new PlayerAttrInGameToggleEntry());
         ENTRIES = entries.build();
     }
 

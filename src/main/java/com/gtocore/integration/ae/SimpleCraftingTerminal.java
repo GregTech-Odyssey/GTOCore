@@ -2,9 +2,16 @@ package com.gtocore.integration.ae;
 
 import com.gtolib.GTOCore;
 import com.gtolib.api.ae2.ExternalStorageCacheStrategy;
+import com.gtolib.api.blockentity.IDirectionCacheBlockEntity;
+
+import com.gregtechceu.gtceu.api.blockentity.ITickSubscription;
+import com.gregtechceu.gtceu.api.capability.GTCapabilityHelper;
+import com.gregtechceu.gtceu.api.machine.TickableSubscription;
+import com.gregtechceu.gtceu.utils.TaskHandler;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.MenuType;
@@ -17,11 +24,7 @@ import appeng.api.config.Actionable;
 import appeng.api.config.PowerMultiplier;
 import appeng.api.features.IPlayerRegistry;
 import appeng.api.inventories.InternalInventory;
-import appeng.api.networking.IGridNode;
 import appeng.api.networking.energy.IAEPowerStorage;
-import appeng.api.networking.ticking.IGridTickable;
-import appeng.api.networking.ticking.TickRateModulation;
-import appeng.api.networking.ticking.TickingRequest;
 import appeng.api.parts.BusSupport;
 import appeng.api.parts.IPartHost;
 import appeng.api.parts.IPartItem;
@@ -30,6 +33,8 @@ import appeng.api.stacks.AEKeyType;
 import appeng.api.storage.IStorageMounts;
 import appeng.api.storage.IStorageProvider;
 import appeng.api.storage.MEStorage;
+import appeng.api.util.IMenuHost;
+import appeng.capabilities.Capabilities;
 import appeng.core.AppEng;
 import appeng.core.stats.AdvancementTriggers;
 import appeng.helpers.InterfaceLogicHost;
@@ -52,7 +57,7 @@ import java.util.List;
 import java.util.Map;
 
 public class SimpleCraftingTerminal extends AbstractTerminalPart
-                                    implements IAEPowerStorage, IStorageProvider, IGridTickable {
+                                    implements IAEPowerStorage, IStorageProvider, IMenuHost {
 
     public static final ResourceLocation INV_CRAFTING = AppEng.makeId("crafting_terminal_crafting");
 
@@ -66,9 +71,36 @@ public class SimpleCraftingTerminal extends AbstractTerminalPart
     private final StorageBusInventory handler = new StorageBusInventory(NullInventory.of());
     @Nullable
     private Map<AEKeyType, ExternalStorageStrategy> externalStorageStrategies;
+    @Nullable
+    private TickableSubscription subscription;
 
     public SimpleCraftingTerminal(IPartItem<?> partItem) {
         super(partItem);
+        this.getMainNode().addService(IAEPowerStorage.class, this);
+        this.getMainNode().addService(IStorageProvider.class, this);
+        this.getMainNode().setFlags();
+        this.getMainNode().setIdlePowerUsage(0);
+    }
+
+    @Override
+    public void onMenuOpen() {
+        if (getLevel() instanceof ServerLevel serverLevel) {
+            subscription = TaskHandler.enqueueTick(serverLevel, subscription, () -> this.getBlockEntity() == null || this.getBlockEntity().isRemoved(), () -> {
+                GridNode node = (GridNode) this.getMainNode().getNode();
+                if (node != null) {
+                    var storageService = (StorageService) node.getGrid().getStorageService();
+                    storageService.onServerEndTick(serverLevel.getServer());
+                    if (this.handler.getDelegate() instanceof CompositeStorage compositeStorage) {
+                        compositeStorage.onTick();
+                    }
+                }
+            }, 10, 1);
+        }
+    }
+
+    @Override
+    public void onMenuClose() {
+        subscription = ITickSubscription.unsubscribe(subscription);
     }
 
     @Override
@@ -142,10 +174,6 @@ public class SimpleCraftingTerminal extends AbstractTerminalPart
     private void updateNode() {
         GridNode node = (GridNode) this.getMainNode().getNode();
         if (node != null) {
-            node.addService(IAEPowerStorage.class, this);
-            node.addService(IStorageProvider.class, this);
-            node.addService(IGridTickable.class, this);
-            node.setIdlePowerUsage(0);
             EnergyService energyService = (EnergyService) node.getGrid().getEnergyService();
             StorageService storageService = (StorageService) node.getGrid().getStorageService();
             storageService.addNode(node, null);
@@ -153,41 +181,26 @@ public class SimpleCraftingTerminal extends AbstractTerminalPart
         }
     }
 
-    @Override
-    public TickingRequest getTickingRequest(IGridNode node) {
-        // 请求 AE2 网络每隔 10 tick 稳定调用一次
-        return new TickingRequest(10, 10, false, false);
-    }
-
-    @Override
-    public TickRateModulation tickingRequest(IGridNode node, int ticksSinceLastCall) {
-        if (this.handler.getDelegate() instanceof CompositeStorage compositeStorage) {
-            compositeStorage.onTick();
-        }
-        return TickRateModulation.SAME;
-    }
-
     private void updateTarget() {
-        if (isClientSide()) {
-            return; // Part is not part of level yet or its client-side
-        }
+        if (isClientSide()) return;
         var side = getSide();
         if (side == null) return;
-
-        var foundExternalApi = new Reference2ReferenceOpenHashMap<AEKeyType, MEStorage>(2);
-        findExternalStorages(foundExternalApi);
-
-        if (this.handler.getDelegate() instanceof CompositeStorage compositeStorage && !foundExternalApi.isEmpty()) {
-            compositeStorage.setStorages(foundExternalApi);
-            return;
-        }
-
-        // Update inventory
-        MEStorage newInventory;
-        if (!foundExternalApi.isEmpty()) {
-            newInventory = new CompositeStorage(foundExternalApi);
-        } else {
-            newInventory = NullInventory.of();
+        var host = getHost().getBlockEntity();
+        var adjacent = IDirectionCacheBlockEntity.getBlockEntityDirectionCache(host).getAdjacentBlockEntity(host.getLevel(), host.getBlockPos(), side);
+        if (adjacent == null) return;
+        var newInventory = GTCapabilityHelper.getBlockEntityCapability(Capabilities.STORAGE, adjacent, side.getOpposite());
+        if (newInventory == null) {
+            var foundExternalApi = new Reference2ReferenceOpenHashMap<AEKeyType, MEStorage>(2);
+            findExternalStorages(foundExternalApi);
+            if (this.handler.getDelegate() instanceof CompositeStorage compositeStorage && !foundExternalApi.isEmpty()) {
+                compositeStorage.setStorages(foundExternalApi);
+                return;
+            }
+            if (!foundExternalApi.isEmpty()) {
+                newInventory = new CompositeStorage(foundExternalApi);
+            } else {
+                newInventory = NullInventory.of();
+            }
         }
         this.handler.setDelegate(newInventory);
     }
@@ -213,9 +226,7 @@ public class SimpleCraftingTerminal extends AbstractTerminalPart
     }
 
     private void invalidateOnExternalStorageChange() {
-        getMainNode().ifPresent((grid, node) -> {
-            grid.getTickManager().alertDevice(node);
-        });
+        getMainNode().ifPresent((grid, node) -> grid.getTickManager().alertDevice(node));
     }
 
     private void checkStorageBusOnInterface() {

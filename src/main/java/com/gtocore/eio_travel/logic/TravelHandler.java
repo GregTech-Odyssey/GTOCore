@@ -107,8 +107,7 @@ public class TravelHandler {
         if (height.isEmpty()) {
             return false;
         }
-        BlockPos blockPos = pos;
-        Vec3 teleportPosition = new Vec3(blockPos.getX() + 0.5f, blockPos.getY() + height.get() + 1, blockPos.getZ() + 0.5f);
+        Vec3 teleportPosition = new Vec3(pos.getX() + 0.5f, pos.getY() + height.get() + 1, pos.getZ() + 0.5f);
         teleportPosition = teleportEvent(player, teleportPosition).orElse(null);
         if (teleportPosition != null) {
             if (player instanceof ServerPlayer serverPlayer) {
@@ -219,7 +218,7 @@ public class TravelHandler {
                 .getTravelData(player.level())
                 .getTravelTargetsInItemRange(player.blockPosition()))
 
-                .filter(target -> target.canTeleportTo())
+                .filter(ITravelTarget::canTeleportTo)
                 .filter(target -> target.getPos().distToCenterSqr(player.position()) > MIN_TELEPORTATION_DISTANCE_SQUARED)
                 .filter(target -> Math.abs(getAngleRadians(positionVec, target.getPos(), player.getYRot(), player.getXRot())) <= Math.toRadians(15))
                 .filter(target -> TravelUtils.gto$isTeleportPositionAndSurroundingClear(player.level(), target.getPos()).isPresent())
@@ -250,7 +249,7 @@ public class TravelHandler {
                 .stream()
                 .filter(target -> target.getPos().getX() == anchorX && target.getPos().getZ() == anchorZ)
                 .filter(target -> target.getPos().getY() > lowerY && target.getPos().getY() < upperY)
-                .filter(target -> target.canJumpTo())
+                .filter(ITravelTarget::canJumpTo)
                 .filter(target -> TravelUtils.gto$isTeleportPositionAndSurroundingClear(player.level(), target.getPos()).isPresent())
                 .min(Comparator.comparingDouble(target -> Math.abs(target.getPos().getY() - anchorY)));
     }

@@ -50,9 +50,9 @@ public final class NanitesModuleMachine extends ElectricMultiblockMachine implem
     }
 
     @Override
-    public GTRecipe fullModifyRecipe(@NotNull RecipeHandlerUnit unit, @NotNull GTRecipe recipe) {
+    public GTRecipe fullModifyRecipe(@NotNull RecipeHandlerUnit unit, @NotNull GTRecipeDefinition definition) {
         if (controller == null) return null;
-        recipe = super.fullModifyRecipe(unit, recipe);
+        var recipe = super.fullModifyRecipe(unit, definition);
         if (recipe != null) {
             NanitesIntegratedMachine.trimRecipe(recipe, controller.chance);
             return recipe;

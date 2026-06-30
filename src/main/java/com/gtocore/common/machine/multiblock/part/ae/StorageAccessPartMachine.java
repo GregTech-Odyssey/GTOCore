@@ -2,7 +2,6 @@ package com.gtocore.common.machine.multiblock.part.ae;
 
 import com.gtocore.api.data.Algae;
 
-import com.gtolib.api.ae2.stacks.IKeyCounter;
 import com.gtolib.api.ae2.storage.BigCellDataStorage;
 import com.gtolib.api.ae2.storage.CellDataStorage;
 import com.gtolib.api.annotation.DataGeneratorScanned;
@@ -27,10 +26,7 @@ import appeng.api.config.Actionable;
 import appeng.api.networking.IGrid;
 import appeng.api.networking.IManagedGridNode;
 import appeng.api.networking.security.IActionSource;
-import appeng.api.stacks.AEItemKey;
-import appeng.api.stacks.AEKey;
-import appeng.api.stacks.AEKeyMap;
-import appeng.api.stacks.KeyCounter;
+import appeng.api.stacks.*;
 import appeng.api.storage.IStorageMounts;
 import appeng.api.storage.IStorageProvider;
 import appeng.api.storage.MEStorage;
@@ -38,12 +34,10 @@ import appeng.api.storage.StorageHelper;
 
 import com.gto.datasynclib.annotations.SaveToDisk;
 import com.gto.datasynclib.annotations.SyncToClient;
-import com.hepdd.gtmthings.utils.BigIntegerUtils;
 import com.lowdragmc.lowdraglib.gui.texture.GuiTextureGroup;
 import com.lowdragmc.lowdraglib.gui.widget.LabelWidget;
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
-import it.unimi.dsi.fastutil.objects.Reference2ReferenceOpenHashMap;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -209,10 +203,12 @@ public abstract class StorageAccessPartMachine extends AmountConfigurationPartMa
             }
             if (observe) {
                 observe = false;
-                CellDataStorage storage = getCellStorage();
                 double totalAmount = 0;
-                if (storage.getStoredMap() != null) {
-                    for (var entry : storage.getStoredMap()) {
+                var storage = getCellStorage();
+                if (storage == CellDataStorage.EMPTY) return;
+                var map = storage.getStoredMap();
+                if (map != null) {
+                    for (var entry : map) {
                         totalAmount += (double) entry.getLongValue() / entry.getKey().getType().getAmountPerByte();
                     }
                 }
@@ -276,7 +272,7 @@ public abstract class StorageAccessPartMachine extends AmountConfigurationPartMa
             if (data == CellDataStorage.EMPTY) return;
             var map = data.getStoredMap();
             if (map == null) return;
-            IKeyCounter.addAll(out, map.size(), m -> map.fastForEach(m::addTo));
+            out.addAll(map.size(), m -> map.fastForEach(m::insert));
         }
 
         @Override
@@ -483,14 +479,14 @@ public abstract class StorageAccessPartMachine extends AmountConfigurationPartMa
             }
             if (observe) {
                 observe = false;
+                double totalAmount = 0;
                 var data = getCellStorage();
                 if (data == BigCellDataStorage.EMPTY) return;
                 var map = data.getStoredMap();
-                if (map == null) return;
-                double totalAmount = 0;
-                for (var it = map.reference2ReferenceEntrySet().fastIterator(); it.hasNext();) {
-                    var entry = it.next();
-                    totalAmount += entry.getValue().doubleValue() / entry.getKey().getType().getAmountPerByte();
+                if (map != null) {
+                    for (var entry : map) {
+                        totalAmount += entry.getValue().doubleValue() / entry.getKey().getType().getAmountPerByte();
+                    }
                 }
                 data.setBytes(totalAmount);
             } else if (!isInfinite && getOffsetTimer() % 20 == 7) {
@@ -503,16 +499,6 @@ public abstract class StorageAccessPartMachine extends AmountConfigurationPartMa
             if (uuid == null || isRemote()) return BigCellDataStorage.EMPTY;
             dataStorage = BigCellDataStorage.get(uuid);
             return dataStorage;
-        }
-
-        private Reference2ReferenceOpenHashMap<AEKey, BigInteger> getCellStoredMap() {
-            var data = getCellStorage();
-            var map = data.getStoredMap();
-            if (map == null) {
-                map = new Reference2ReferenceOpenHashMap<>();
-                data.setStoredMap(map);
-            }
-            return map;
         }
 
         @Override
@@ -530,11 +516,12 @@ public abstract class StorageAccessPartMachine extends AmountConfigurationPartMa
             }
             if (amount < 1) return 0;
             if (mode == Actionable.MODULATE) {
-                long finalAmount = amount;
-                getCellStoredMap().compute(what, (k, v) -> {
-                    if (v == null) return BigInteger.valueOf(finalAmount);
-                    return v.add(BigInteger.valueOf(finalAmount));
-                });
+                var map = data.getStoredMap();
+                if (map == null) {
+                    map = new AEKeyBigMap<>();
+                    data.setStoredMap(map);
+                }
+                map.insert(what, BigInteger.valueOf(amount));
                 dirty = true;
             }
             return amount;
@@ -546,25 +533,13 @@ public abstract class StorageAccessPartMachine extends AmountConfigurationPartMa
             if (data == BigCellDataStorage.EMPTY) return 0;
             var map = data.getStoredMap();
             if (map == null) return 0;
-            var o = map.get(what);
-            if (o == null) return 0;
-            if (o.signum() > 0) {
-                var extractAmount = BigInteger.valueOf(amount);
-                if (o.compareTo(extractAmount) < 1) {
-                    if (mode == Actionable.MODULATE) {
-                        map.remove(what);
-                        dirty = true;
-                    }
-                    return o.longValue();
-                } else {
-                    if (mode == Actionable.MODULATE) {
-                        map.put(what, o.subtract(extractAmount));
-                        dirty = true;
-                    }
-                    return amount;
-                }
+            if (mode == Actionable.MODULATE) {
+                amount = map.extractLong(what, amount);
+                if (amount > 0) dirty = true;
+                return amount;
+            } else {
+                return Math.min(amount, map.getLongAmount(what));
             }
-            return 0;
         }
 
         @Override
@@ -573,7 +548,7 @@ public abstract class StorageAccessPartMachine extends AmountConfigurationPartMa
             if (data == BigCellDataStorage.EMPTY) return;
             var map = data.getStoredMap();
             if (map == null) return;
-            IKeyCounter.addAll(out, map.size(), m -> map.reference2ReferenceEntrySet().fastForEach(e -> m.addTo(e.getKey(), BigIntegerUtils.getLongValue(e.getValue()))));
+            out.addAll(map.size(), m -> map.fastForEachLong(m::insert));
         }
 
         @Override

@@ -19,7 +19,7 @@ public final class BlazeBlastFurnaceMachine extends CoilCustomParallelMultiblock
     private static final FluidStack BLAZE = GTMaterials.Blaze.getFluid(1);
 
     public BlazeBlastFurnaceMachine(MetaMachineBlockEntity holder) {
-        super(holder, false, true, true, m -> 64);
+        super(holder, true, true, m -> 64);
     }
 
     private boolean inputFluid() {

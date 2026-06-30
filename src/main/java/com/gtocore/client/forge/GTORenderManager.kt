@@ -24,8 +24,8 @@ import kotlin.math.sin
 object GTORenderManager {
     val tasks: ObjectArrayList<GTORenderType<*>> = ObjectArrayList<GTORenderType<*>>()
 
-    // 形状预设：正n边形与圆（使用POLYLINE_THICK）
-    fun presetRegularPolygon(center: Vec3, level: ResourceKey<Level>, sides: Int, radius: Double, width: Float = 0.03f, color: Int = 0xFFFF0000.toInt(), durationTick: Int = 40, flickerCycle: Int = Int.MAX_VALUE, closed: Boolean = true): GTORenderType.POLYLINE_THICK {
+    // 形状预设：正n边形与圆（使用 PolylineThick）
+    fun presetRegularPolygon(center: Vec3, level: ResourceKey<Level>, sides: Int, radius: Double, width: Float = 0.03f, color: Int = 0xFFFF0000.toInt(), durationTick: Int = 40, flickerCycle: Int = Int.MAX_VALUE, closed: Boolean = true): GTORenderType.PolylineThick {
         val pts = ArrayList<Vec3>(sides)
         val angStep = 2.0 * PI / sides
         for (i in 0 until sides) {
@@ -34,8 +34,8 @@ object GTORenderManager {
             val z = center.z + radius * sin(a)
             pts.add(Vec3(x, center.y, z))
         }
-        return GTORenderType.POLYLINE_THICK(
-            GTORenderData.POLYLINE_THICK_DATA(
+        return GTORenderType.PolylineThick(
+            GTORenderData.PolylineThickData(
                 level = level,
                 points = pts,
                 width = width,
@@ -46,8 +46,6 @@ object GTORenderManager {
             ),
         )
     }
-
-    fun presetCircle(center: Vec3, level: ResourceKey<Level>, radius: Double, width: Float = 0.03f, color: Int = 0xFFFF0000.toInt(), durationTick: Int = 40, flickerCycle: Int = Int.MAX_VALUE, segments: Int = 64): GTORenderType.POLYLINE_THICK = presetRegularPolygon(center, level, segments, radius, width, color, durationTick, flickerCycle, true)
 }
 
 // 公用：3D加粗线段渲染器（基于相机视向的四边形条带，内部实心，QUADS）
@@ -153,7 +151,7 @@ sealed class GTORenderType<T : GTORenderData>(val renderData: T) {
     var self: GTORenderType<T> = this
 
     // 新增：在XZ平面的有宽度折线（以四边形条带实现，内部实心）
-    class POLYLINE_THICK(data: GTORenderData.POLYLINE_THICK_DATA) : GTORenderType<GTORenderData.POLYLINE_THICK_DATA>(data) {
+    class PolylineThick(data: GTORenderData.PolylineThickData) : GTORenderType<GTORenderData.PolylineThickData>(data) {
         override fun render(event: RenderLevelStageEvent) {
             super.render(event)
             if (event.renderTick - self.renderData.startTick!! > self.renderData.durationTick) {
@@ -181,65 +179,11 @@ sealed class GTORenderType<T : GTORenderData>(val renderData: T) {
             }
         }
     }
-
-    class BLOCK_LINE(data: GTORenderData.BLOCK_LINE_DATA) : GTORenderType<GTORenderData.BLOCK_LINE_DATA>(data) {
-        override fun render(event: RenderLevelStageEvent) {
-            super.render(event)
-            if (event.renderTick - self.renderData.startTick!! > self.renderData.durationTick) {
-                self.renderData.willBeCalled = false
-                self.renderData.willBeDelete = true
-                return
-            }
-            if ((event.renderTick % self.renderData.flickerCycle) < self.renderData.flickerCycle / 2) return
-            if (event.stage != RenderLevelStageEvent.Stage.AFTER_TRANSLUCENT_BLOCKS) return
-            with(PlayerRenderContext.create(event) ?: return) {
-                if (self.renderData.level != player.level().dimension()) return
-
-                val c = Vec3(self.renderData.pos.x + 0.5, self.renderData.pos.y + 0.5, self.renderData.pos.z + 0.5)
-                val h = 0.5
-                val v = arrayOf(
-                    Vec3(c.x - h, c.y + h, c.z + h), // 0: top -x +z
-                    Vec3(c.x + h, c.y + h, c.z + h), // 1
-                    Vec3(c.x + h, c.y + h, c.z - h), // 2
-                    Vec3(c.x - h, c.y + h, c.z - h), // 3
-                    Vec3(c.x - h, c.y - h, c.z + h), // 4
-                    Vec3(c.x + h, c.y - h, c.z + h), // 5
-                    Vec3(c.x + h, c.y - h, c.z - h), // 6
-                    Vec3(c.x - h, c.y - h, c.z - h), // 7
-                )
-                val segs = ArrayList<Pair<Vec3, Vec3>>(12)
-                // 顶面四条
-                segs.add(v[0] to v[1])
-                segs.add(v[1] to v[2])
-                segs.add(v[2] to v[3])
-                segs.add(v[3] to v[0])
-                // 底面四条
-                segs.add(v[4] to v[5])
-                segs.add(v[5] to v[6])
-                segs.add(v[6] to v[7])
-                segs.add(v[7] to v[4])
-                // 立面四条
-                segs.add(v[0] to v[4])
-                segs.add(v[1] to v[5])
-                segs.add(v[2] to v[6])
-                segs.add(v[3] to v[7])
-
-                ThickPolylineRenderer.drawSegments(
-                    poseStack,
-                    camera,
-                    self.renderData.color,
-                    self.renderData.lineWidth.coerceAtLeast(0.001f),
-                    segs,
-                )
-            }
-        }
-    }
 }
 sealed class GTORenderData(val description: String) {
     var willBeDelete = false
     var willBeCalled = true
     var startTick: Int? = null
-    var endTick: Int? = null
 
     /*
      * pos: 渲染位置
@@ -247,10 +191,10 @@ sealed class GTORenderData(val description: String) {
      * durationTick: 渲染Tick数，超过这个时间后将会被删除
      * flickerCycle: 闪烁周期，每这个周期(亮-暗)一次
      */
-    data class BLOCK_LINE_DATA(val pos: BlockPos, val level: ResourceKey<Level>, val durationTick: Int, val flickerCycle: Int = 2000000000, val lineWidth: Float = 0.03f, val color: Int = 0xFFFF0000.toInt()) : GTORenderData("渲染方块线框用于提示")
+    data class BlockLineData(val pos: BlockPos, val level: ResourceKey<Level>, val durationTick: Int, val flickerCycle: Int = 2000000000, val lineWidth: Float = 0.03f, val color: Int = 0xFFFF0000.toInt()) : GTORenderData("渲染方块线框用于提示")
 
     // XZ平面有宽度折线/环
-    data class POLYLINE_THICK_DATA(val level: ResourceKey<Level>, val points: List<Vec3>, val width: Float, val color: Int = 0xFFFF0000.toInt(), val closed: Boolean = true, val durationTick: Int, val flickerCycle: Int = Int.MAX_VALUE) : GTORenderData("在XZ平面渲染加粗折线/环")
+    data class PolylineThickData(val level: ResourceKey<Level>, val points: List<Vec3>, val width: Float, val color: Int = 0xFFFF0000.toInt(), val closed: Boolean = true, val durationTick: Int, val flickerCycle: Int = Int.MAX_VALUE) : GTORenderData("在XZ平面渲染加粗折线/环")
 }
 
 class PlayerRenderContext(val player: Player, val poseStack: PoseStack, val camera: Camera, val instance: Minecraft = Minecraft.getInstance()) {

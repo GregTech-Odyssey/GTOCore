@@ -7,6 +7,8 @@ import com.gtocore.client.forge.GTORender;
 import com.gtocore.client.hud.AdAstraHUD;
 import com.gtocore.client.hud.WirelessEnergyHUD;
 import com.gtocore.client.hud.attribute.PlayerAttrHUD;
+import com.gtocore.client.model.ShaderItemModelLoader;
+import com.gtocore.client.renderer.GTORenderTypes;
 import com.gtocore.client.renderer.item.MonitorItemDecorations;
 import com.gtocore.common.CommonProxy;
 import com.gtocore.common.data.GTOAEParts;
@@ -30,6 +32,7 @@ import com.gtolib.api.ae2.me2in1.emi.CategoryMappingSubMenu;
 import com.gtolib.api.ae2.me2in1.emi.CategoryMappingSubScreen;
 import com.gtolib.api.ae2.stacks.TagPrefixKey;
 import com.gtolib.api.ae2.stacks.TagPrefixKeyType;
+import com.gtolib.api.client.YLayeredModelLoader;
 import com.gtolib.api.emi.stack.TagPrefixRenderer;
 
 import com.gregtechceu.gtceu.GTCEu;
@@ -47,6 +50,7 @@ import net.minecraftforge.client.event.ModelEvent;
 import net.minecraftforge.client.event.RegisterColorHandlersEvent;
 import net.minecraftforge.client.event.RegisterGuiOverlaysEvent;
 import net.minecraftforge.client.event.RegisterItemDecorationsEvent;
+import net.minecraftforge.client.event.RegisterShadersEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
@@ -80,8 +84,10 @@ public final class ClientProxy extends CommonProxy {
         eventBus.addListener(ClientProxy::registerItemDeco);
         eventBus.addListener(ClientProxy::registerGuiOverlays);
         eventBus.addListener(ClientProxy::registerAdditionalModels);
+        eventBus.addListener(ClientProxy::registerGeometryLoaders);
         eventBus.addListener(ClientProxy::registerMenuScreen);
         eventBus.addListener(ClientProxy::registerItemColors);
+        eventBus.addListener(ClientProxy::registerShaders);
         eventBus.register(GTOComponentRegistry.class);
         MinecraftForge.EVENT_BUS.register(ForgeClientEvent.class);
         MinecraftForge.EVENT_BUS.register(GTOComponentHandler.class);
@@ -184,6 +190,39 @@ public final class ClientProxy extends CommonProxy {
         for (TagPrefix tagPrefix : TagPrefix.values()) {
             evt.register(GTOCore.id("item/" + tagPrefix.getLowerCaseName()));
         }
+    }
+
+    private static void registerGeometryLoaders(ModelEvent.RegisterGeometryLoaders event) {
+        event.register("y_layered", YLayeredModelLoader.INSTANCE);
+        event.register("custom_shader", ShaderItemModelLoader.INSTANCE);
+    }
+
+    private static void registerShaders(RegisterShadersEvent event) {
+        try {
+            event.registerShader(new net.minecraft.client.renderer.ShaderInstance(
+                    event.getResourceProvider(),
+                    GTORenderTypes.BLACK_HOLE_EVENT_HORIZON_SHADER_LOCATION,
+                    com.mojang.blaze3d.vertex.DefaultVertexFormat.POSITION_COLOR), GTORenderTypes::setBlackHoleEventHorizonShader);
+            event.registerShader(new net.minecraft.client.renderer.ShaderInstance(
+                    event.getResourceProvider(),
+                    GTORenderTypes.DIMENSIONALLY_TRANSCENDENT_OVERLAY_SHADER_LOCATION,
+                    com.mojang.blaze3d.vertex.DefaultVertexFormat.POSITION_COLOR), GTORenderTypes::setDimensionallyTranscendentOverlayShader);
+            event.registerShader(new net.minecraft.client.renderer.ShaderInstance(
+                    event.getResourceProvider(),
+                    GTORenderTypes.STELLAR_FORGE_VORTEX_SHADER_LOCATION,
+                    com.mojang.blaze3d.vertex.DefaultVertexFormat.POSITION_COLOR_NORMAL), GTORenderTypes::setStellarForgeVortexShader);
+            registerCustomItemShader(event, GTORenderTypes.CRUPTIX);
+            registerCustomItemShader(event, GTORenderTypes.ITEM_RESONANCE_WAVE);
+        } catch (java.io.IOException e) {
+            throw new RuntimeException("Failed to register client shaders", e);
+        }
+    }
+
+    private static void registerCustomItemShader(RegisterShadersEvent event, net.minecraft.resources.ResourceLocation shaderLocation) throws java.io.IOException {
+        event.registerShader(new net.minecraft.client.renderer.ShaderInstance(
+                event.getResourceProvider(),
+                shaderLocation,
+                com.mojang.blaze3d.vertex.DefaultVertexFormat.POSITION_TEX), shader -> GTORenderTypes.setShader(shaderLocation, shader));
     }
 
     private static void registerAEModels() {

@@ -17,6 +17,7 @@ import com.gregtechceu.gtceu.api.data.chemical.material.stack.MaterialEntry;
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
+import com.gregtechceu.gtceu.api.recipe.GTRecipeDefinition;
 import com.gregtechceu.gtceu.api.recipe.RecipeHelper;
 import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
@@ -96,9 +97,9 @@ public final class NanitesIntegratedMachine extends CoilCrossRecipeMultiblockMac
     }
 
     @Override
-    public GTRecipe fullModifyRecipe(@NotNull RecipeHandlerUnit unit, @NotNull GTRecipe recipe) {
-        if (module.contains(recipe.data.getInt(GTORecipeDataKeys.MODULE))) {
-            recipe = super.fullModifyRecipe(unit, recipe);
+    public GTRecipe fullModifyRecipe(@NotNull RecipeHandlerUnit unit, @NotNull GTRecipeDefinition definition) {
+        if (module.contains(definition.data.getInt(GTORecipeDataKeys.MODULE))) {
+            var recipe = super.fullModifyRecipe(unit, definition);
             if (recipe != null) {
                 trimRecipe(recipe, chance);
                 return recipe;

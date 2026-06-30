@@ -9,6 +9,7 @@ classes/
 bin/
 run/
 src/generated/resources/.cache/
+libs/gtolib*
 libs/*-sources.jar
 libs/*-debug.jar
 *.launch

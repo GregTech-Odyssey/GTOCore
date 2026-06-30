@@ -1,12 +1,23 @@
 package com.gtocore.mixin.ae2.eae;
 
+import com.gtocore.integration.ae.PatternEncoderStats;
+import com.gtocore.integration.ae.client.PatternEncoderStatsButton;
+import com.gtocore.integration.ae.client.PatternEncoderStatsScreen;
+
 import com.gtolib.api.ae2.gui.hooks.IExtendedGuiEx;
 import com.gtolib.api.ae2.me2in1.Me2in1Menu;
 import com.gtolib.api.ae2.me2in1.Me2in1Screen;
 
+import net.minecraft.Util;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.core.BlockPos;
+import net.minecraft.locale.Language;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.FormattedText;
+import net.minecraft.util.FormattedCharSequence;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
 
@@ -21,11 +32,11 @@ import appeng.client.gui.widgets.ServerSettingToggleButton;
 import gto_ae.api.config.ExtendedSettings;
 import gto_ae.menu.ShowMolecularAssembler;
 
-import com.fast.fastcollection.OpenCacheHashSet;
 import com.glodblock.github.extendedae.client.button.HighlightButton;
 import com.glodblock.github.extendedae.client.gui.GuiExPatternTerminal;
 import com.glodblock.github.extendedae.container.ContainerExPatternTerminal;
 import com.google.common.collect.HashMultimap;
+import com.gto.fastcollection.OpenCacheHashSet;
 import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -39,6 +50,16 @@ public abstract class GuiExPatternTerminalMixin<T extends ContainerExPatternTerm
 
     @Unique
     private static final int gto$COLUMNS = 9;
+    @Unique
+    private static final int gto$TEXT_WIDTH = 145;
+    @Unique
+    private static final int gto$TEXT_SCROLL_PAUSE_MS = 500;
+    @Unique
+    private static final int gto$TEXT_SCROLL_PIXELS_PER_SECOND = 30;
+    @Unique
+    private PatternContainerGroup gto$scrollingGroup;
+    @Unique
+    private long gto$scrollingGroupHoverStart;
 
     @Shadow(remap = false)
     @Final
@@ -67,7 +88,7 @@ public abstract class GuiExPatternTerminalMixin<T extends ContainerExPatternTerm
     private HashMap<Long, PatternContainerRecord> byId;
 
     @Shadow(remap = false)
-    protected abstract boolean itemStackMatchesSearchTerm(ItemStack itemStack, List<String> searchTerm, boolean checkOut);
+    protected abstract boolean itemStackMatchesSearchTerm(ItemStack itemStack, List<String> filterTokens, boolean checkOut);
 
     @Shadow(remap = false)
     @Final
@@ -101,6 +122,8 @@ public abstract class GuiExPatternTerminalMixin<T extends ContainerExPatternTerm
         gtolib$showMolecularAssembler = new ServerSettingToggleButton<>(ExtendedSettings.TERMINAL_SHOW_MOLECULAR_ASSEMBLERS,
                 ShowMolecularAssembler.ALL);
         this.addToLeftToolbar(gtolib$showMolecularAssembler);
+        this.addToLeftToolbar(new PatternEncoderStatsButton(btn -> switchToScreen(
+                new PatternEncoderStatsScreen<>(this, PatternEncoderStats.collect(byId.values())))));
 
         if (((AEBaseScreen<?>) this) instanceof Me2in1Screen<?>) {
             this.searchInField.setTooltipMessage(Collections.singletonList(Component.translatable("gtocore.ae.appeng.me2in1.search_in")));
@@ -131,6 +154,81 @@ public abstract class GuiExPatternTerminalMixin<T extends ContainerExPatternTerm
         }
     }
 
+    @Redirect(
+              method = "drawFG",
+              at = @At(
+                       value = "INVOKE",
+                       target = "Lnet/minecraft/client/gui/GuiGraphics;drawString(Lnet/minecraft/client/gui/Font;Lnet/minecraft/util/FormattedCharSequence;IIIZ)I",
+                       remap = true),
+              remap = false)
+    private int gto$drawScrollingGroupName(GuiGraphics guiGraphics, Font font, FormattedCharSequence originalText,
+                                           int x, int y, int color, boolean shadow) {
+        int visibleRow = (y - 57) / ROW_HEIGHT;
+        int rowIndex = scrollbar.getCurrentScroll() + visibleRow;
+        if (visibleRow < 0 || rowIndex < 0 || rowIndex >= rows.size() ||
+                !(rows.get(rowIndex) instanceof GuiExPatternTerminalGroupHeaderAccessor header)) {
+            return guiGraphics.drawString(font, originalText, x, y, color, shadow);
+        }
+
+        PatternContainerGroup group = header.gto$getGroup();
+        int groupCount = byGroup.get(group).size();
+        FormattedText displayName = groupCount > 1 ?
+                Component.empty().append(group.name()).append(" (" + groupCount + ')') : group.name();
+        int fullTextWidth = font.width(displayName);
+        if (fullTextWidth <= gto$TEXT_WIDTH || !gto$isGroupRowHovered(visibleRow)) {
+            if (group.equals(gto$scrollingGroup)) {
+                gto$scrollingGroup = null;
+            }
+            return guiGraphics.drawString(font,
+                    Language.getInstance().getVisualOrder(font.substrByWidth(displayName, gto$TEXT_WIDTH)),
+                    x, y, color, shadow);
+        }
+
+        if (!group.equals(gto$scrollingGroup)) {
+            gto$scrollingGroup = group;
+            gto$scrollingGroupHoverStart = Util.getMillis();
+        }
+        int scrollOffset = gto$getTextScrollOffset(fullTextWidth - gto$TEXT_WIDTH);
+        guiGraphics.enableScissor(leftPos + x, topPos + y,
+                leftPos + x + gto$TEXT_WIDTH, topPos + y + font.lineHeight);
+        int result = guiGraphics.drawString(font, Language.getInstance().getVisualOrder(displayName),
+                x - scrollOffset, y, color, shadow);
+        guiGraphics.disableScissor();
+        return result;
+    }
+
+    @Unique
+    private boolean gto$isGroupRowHovered(int visibleRow) {
+        Minecraft minecraft = Minecraft.getInstance();
+        double mouseX = minecraft.mouseHandler.xpos() * minecraft.getWindow().getGuiScaledWidth() /
+                minecraft.getWindow().getScreenWidth();
+        double mouseY = minecraft.mouseHandler.ypos() * minecraft.getWindow().getGuiScaledHeight() /
+                minecraft.getWindow().getScreenHeight();
+        return mouseX >= leftPos + 22 && mouseX < leftPos + 22 + gto$COLUMNS * ROW_HEIGHT &&
+                mouseY >= topPos + 51 + visibleRow * ROW_HEIGHT &&
+                mouseY < topPos + 51 + (visibleRow + 1) * ROW_HEIGHT;
+    }
+
+    @Unique
+    private int gto$getTextScrollOffset(int maxOffset) {
+        long travelTime = Math.max(1, maxOffset * 1000L / gto$TEXT_SCROLL_PIXELS_PER_SECOND);
+        long cycleTime = gto$TEXT_SCROLL_PAUSE_MS * 2L + travelTime * 2L;
+        long elapsed = (Util.getMillis() - gto$scrollingGroupHoverStart) % cycleTime;
+        if (elapsed < gto$TEXT_SCROLL_PAUSE_MS) {
+            return 0;
+        }
+        elapsed -= gto$TEXT_SCROLL_PAUSE_MS;
+        if (elapsed < travelTime) {
+            return (int) (maxOffset * elapsed / travelTime);
+        }
+        elapsed -= travelTime;
+        if (elapsed < gto$TEXT_SCROLL_PAUSE_MS) {
+            return maxOffset;
+        }
+        elapsed -= gto$TEXT_SCROLL_PAUSE_MS;
+        return maxOffset - (int) (maxOffset * elapsed / travelTime);
+    }
+
     /**
      * @author .
      * @reason .
@@ -145,7 +243,7 @@ public abstract class GuiExPatternTerminalMixin<T extends ContainerExPatternTerm
     }
 
     @Redirect(method = "refreshList", at = @At(value = "INVOKE", target = "Ljava/util/ArrayList;sort(Ljava/util/Comparator;)V"), remap = false)
-    private void sort(ArrayList<PatternContainerRecord> list, Comparator<PatternContainerRecord> comparator) {}
+    private void sort(ArrayList<PatternContainerRecord> list, Comparator<PatternContainerRecord> c) {}
 
     @Inject(remap = false, method = "refreshList", at = @At("HEAD"), cancellable = true)
     private void refreshList0(CallbackInfo ci) {

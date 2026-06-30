@@ -21,9 +21,13 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Matrix4f;
+import org.joml.Vector3f;
 
 @OnlyIn(Dist.CLIENT)
 public final class RenderHelper {
+
+    private static final int DEFAULT_SPHERE_LATITUDE_SEGMENTS = 24;
+    private static final int DEFAULT_SPHERE_LONGITUDE_SEGMENTS = 48;
 
     public static void renderCylinder(PoseStack poseStack, VertexConsumer buffer, float x, float y, float z,
                                       float radius, float height, int sides, float red, float green, float blue, float alpha) {
@@ -161,6 +165,126 @@ public final class RenderHelper {
                 buffer.vertex(mat, curX2, curY, curZ2).color(red, green, blue, alpha).endVertex();
             }
         }
+    }
+
+    public static void renderSphere(PoseStack poseStack, VertexConsumer buffer, float x, float y, float z,
+                                    float radius, float red, float green, float blue, float alpha) {
+        renderSphere(poseStack, buffer, x, y, z, radius, DEFAULT_SPHERE_LATITUDE_SEGMENTS, DEFAULT_SPHERE_LONGITUDE_SEGMENTS, red, green, blue, alpha);
+    }
+
+    public static void renderSphere(PoseStack poseStack, VertexConsumer buffer, float x, float y, float z,
+                                    float radius, int latitudeSegments, int longitudeSegments,
+                                    float red, float green, float blue, float alpha) {
+        Matrix4f mat = poseStack.last().pose();
+        for (int lat = 0; lat < latitudeSegments; lat++) {
+            float theta0 = (float) (Math.PI * lat / latitudeSegments);
+            float theta1 = (float) (Math.PI * (lat + 1) / latitudeSegments);
+
+            float y0 = Mth.cos(theta0);
+            float y1 = Mth.cos(theta1);
+            float ring0 = Mth.sin(theta0);
+            float ring1 = Mth.sin(theta1);
+
+            for (int lon = 0; lon < longitudeSegments; lon++) {
+                float phi0 = (float) (2.0 * Math.PI * lon / longitudeSegments);
+                float phi1 = (float) (2.0 * Math.PI * (lon + 1) / longitudeSegments);
+
+                float cosPhi0 = Mth.cos(phi0);
+                float sinPhi0 = Mth.sin(phi0);
+                float cosPhi1 = Mth.cos(phi1);
+                float sinPhi1 = Mth.sin(phi1);
+
+                float x00 = x + radius * ring0 * cosPhi0;
+                float y00 = y + radius * y0;
+                float z00 = z + radius * ring0 * sinPhi0;
+
+                float x01 = x + radius * ring0 * cosPhi1;
+                float y01 = y + radius * y0;
+                float z01 = z + radius * ring0 * sinPhi1;
+
+                float x10 = x + radius * ring1 * cosPhi0;
+                float y10 = y + radius * y1;
+                float z10 = z + radius * ring1 * sinPhi0;
+
+                float x11 = x + radius * ring1 * cosPhi1;
+                float y11 = y + radius * y1;
+                float z11 = z + radius * ring1 * sinPhi1;
+
+                buffer.vertex(mat, x00, y00, z00).color(red, green, blue, alpha).endVertex();
+                buffer.vertex(mat, x10, y10, z10).color(red, green, blue, alpha).endVertex();
+                buffer.vertex(mat, x11, y11, z11).color(red, green, blue, alpha).endVertex();
+
+                buffer.vertex(mat, x00, y00, z00).color(red, green, blue, alpha).endVertex();
+                buffer.vertex(mat, x11, y11, z11).color(red, green, blue, alpha).endVertex();
+                buffer.vertex(mat, x01, y01, z01).color(red, green, blue, alpha).endVertex();
+            }
+        }
+    }
+
+    public static VertexBuffer buildUnitSphereBuffer(int latitudeSegments, int longitudeSegments) {
+        VertexBuffer vertexBuffer = new VertexBuffer(VertexBuffer.Usage.STATIC);
+        BufferBuilder bufferBuilder = Tesselator.getInstance().getBuilder();
+        PoseStack poseStack = new PoseStack();
+
+        bufferBuilder.begin(VertexFormat.Mode.TRIANGLES, DefaultVertexFormat.POSITION_COLOR);
+        renderSphere(poseStack, bufferBuilder, 0.0F, 0.0F, 0.0F, 1.0F,
+                latitudeSegments, longitudeSegments, 1.0F, 1.0F, 1.0F, 1.0F);
+
+        vertexBuffer.bind();
+        vertexBuffer.upload(bufferBuilder.end());
+        VertexBuffer.unbind();
+        return vertexBuffer;
+    }
+
+    public static VertexBuffer buildUnitCylinderBuffer(int sides) {
+        VertexBuffer vertexBuffer = new VertexBuffer(VertexBuffer.Usage.STATIC);
+        BufferBuilder bufferBuilder = Tesselator.getInstance().getBuilder();
+        PoseStack poseStack = new PoseStack();
+
+        bufferBuilder.begin(VertexFormat.Mode.TRIANGLES, DefaultVertexFormat.POSITION_COLOR);
+        renderCylinder(poseStack, bufferBuilder, 0.0F, 0.0F, 0.0F, 1.0F, 1.0F, sides, 1.0F, 1.0F, 1.0F, 1.0F);
+
+        vertexBuffer.bind();
+        vertexBuffer.upload(bufferBuilder.end());
+        VertexBuffer.unbind();
+        return vertexBuffer;
+    }
+
+    public static void renderCameraFacingQuad(PoseStack poseStack, VertexConsumer buffer,
+                                              Vector3f left, Vector3f up,
+                                              float halfWidth, float halfHeight,
+                                              float red, float green, float blue, float alpha) {
+        Matrix4f mat = poseStack.last().pose();
+        float leftX = left.x() * halfWidth;
+        float leftY = left.y() * halfWidth;
+        float leftZ = left.z() * halfWidth;
+        float upX = up.x() * halfHeight;
+        float upY = up.y() * halfHeight;
+        float upZ = up.z() * halfHeight;
+
+        float x00 = leftX + upX;
+        float y00 = leftY + upY;
+        float z00 = leftZ + upZ;
+
+        float x01 = leftX - upX;
+        float y01 = leftY - upY;
+        float z01 = leftZ - upZ;
+
+        float x10 = -leftX - upX;
+        float y10 = -leftY - upY;
+        float z10 = -leftZ - upZ;
+
+        float x11 = -leftX + upX;
+        float y11 = -leftY + upY;
+        float z11 = -leftZ + upZ;
+
+        buffer.vertex(mat, x00, y00, z00).color(red, green, blue, alpha).endVertex();
+        buffer.vertex(mat, x01, y01, z01).color(red, green, blue, alpha).endVertex();
+        buffer.vertex(mat, x10, y10, z10).color(red, green, blue, alpha).endVertex();
+
+        buffer.vertex(mat, x00, y00, z00).color(red, green, blue, alpha).endVertex();
+        buffer.vertex(mat, x10, y10, z10).color(red, green, blue, alpha).endVertex();
+        buffer.vertex(mat, x11, y11, z11).color(red, green, blue, alpha).endVertex();
     }
 
     public static void highlightBlock(Camera camera, PoseStack poseStack, float r, float g, float b, BlockPos start, BlockPos end) {

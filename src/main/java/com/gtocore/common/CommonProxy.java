@@ -7,7 +7,6 @@ import com.gtocore.client.KeyMessage;
 import com.gtocore.client.Message;
 import com.gtocore.common.block.BlockMap;
 import com.gtocore.common.data.*;
-import com.gtocore.common.data.GTOCodecs;
 import com.gtocore.common.data.translation.GTOItemTooltips;
 import com.gtocore.common.forge.ForgeCommonEvent;
 import com.gtocore.common.machine.tesseract.TesseractDirectedTarget;
@@ -15,13 +14,14 @@ import com.gtocore.config.GTOConfig;
 import com.gtocore.config.SparkRange;
 import com.gtocore.data.Data;
 import com.gtocore.data.Datagen;
-import com.gtocore.data.lootTables.GTOLootTool.GTONumberProviders;
+import com.gtocore.data.lootTables.tool.GTONumberProviders;
 import com.gtocore.eio_travel.api.TravelRegistry;
 import com.gtocore.eio_travel.client.travel.TravelAnchorRenderers;
 import com.gtocore.eio_travel.implementations.AnchorTravelTarget;
 import com.gtocore.eio_travel.implementations.PatternTravelTarget;
 import com.gtocore.integration.Mods;
 import com.gtocore.integration.ae.PatternContentAccessTerminalMenu;
+import com.gtocore.integration.ae.hooks.IPushResultsHandler;
 import com.gtocore.integration.ae.wtlib.WFTMenu;
 import com.gtocore.integration.ae.wtlib.WRTMenu;
 import com.gtocore.integration.construction_wand.ConstructionWandRegistrar;
@@ -82,7 +82,6 @@ import org.embeddedt.modernfix.spark.SparkLaunchProfiler;
 import java.util.function.Supplier;
 
 import static com.gtolib.api.registries.GTORegistration.GTO;
-import static com.lowdragmc.lowdraglib.syncdata.TypedPayloadRegistries.register;
 import static de.mari_023.ae2wtlib.wut.WUTHandler.terminalNames;
 import static de.mari_023.ae2wtlib.wut.WUTHandler.wirelessTerminals;
 
@@ -112,6 +111,7 @@ public class CommonProxy {
         GTOCodecs.init();
         GTOCreativeModeTabs.init();
         GTOEntityTypes.init();
+        IPushResultsHandler.init();
         if (!GTCEu.isDataGen() && Mods.FTBQUESTS.isLoaded()) {
             GTOQuestTypes.init();
         }
@@ -129,11 +129,7 @@ public class CommonProxy {
         BlockMap.build();
         GTOPartAbility.init();
         Algae.init();
-        if (GTOCore.isExpert()) {
-            AEConfig.instance().setChannelModel(ChannelMode.DEFAULT);
-        } else {
-            AEConfig.instance().setChannelModel(ChannelMode.INFINITE);
-        }
+        AEConfig.instance().setChannelModel(ChannelMode.INFINITE);
         PlayerAttributes.init();
 
         FusionReactorMachine.registerFusionTier(GTValues.UHV, " (MKIV)");
@@ -157,7 +153,9 @@ public class CommonProxy {
         }
 
         if (GTCEu.isClientSide()) {
-            Supplier<Component>[] tooltips = new Supplier[] { () -> Component.translatable(GTOTagPrefix.PIPE_TOOLTIP) };
+            Supplier<Component> tooltip = () -> Component.translatable(GTOTagPrefix.PIPE_TOOLTIP);
+            @SuppressWarnings("unchecked")
+            Supplier<Component>[] tooltips = (Supplier<Component>[]) new Supplier<?>[] { tooltip };
             GTMaterialBlocks.ITEM_PIPE_BLOCKS.values().forEach(e -> ((IItem) e.get().asItem()).gtolib$setToolTips(tooltips));
             GTMaterialBlocks.FLUID_PIPE_BLOCKS.values().forEach(e -> ((IItem) e.get().asItem()).gtolib$setToolTips(tooltips));
         } else {

@@ -8,7 +8,6 @@ import com.gtolib.GTOCore;
 import com.gtolib.api.ae2.IPatternProviderLogic;
 import com.gtolib.api.ae2.pattern.IDetails;
 import com.gtolib.api.ae2.pattern.IParallelPatternDetails;
-import com.gtolib.api.ae2.stacks.IKeyCounter;
 
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 
@@ -26,10 +25,7 @@ import appeng.api.networking.IGrid;
 import appeng.api.networking.crafting.*;
 import appeng.api.networking.energy.IEnergyService;
 import appeng.api.networking.security.IActionSource;
-import appeng.api.stacks.AEItemKey;
-import appeng.api.stacks.AEKey;
-import appeng.api.stacks.GenericStack;
-import appeng.api.stacks.KeyCounter;
+import appeng.api.stacks.*;
 import appeng.core.AEConfig;
 import appeng.core.sync.network.NetworkHandler;
 import appeng.core.sync.packets.CraftingJobStatusPacket;
@@ -43,12 +39,12 @@ import appeng.hooks.ticking.TickHandler;
 import appeng.me.cluster.implementations.CraftingCPUCluster;
 import appeng.me.service.CraftingService;
 
-import com.fast.fastcollection.OpenCacheHashSet;
 import com.google.common.collect.Multimaps;
 import com.google.common.collect.SetMultimap;
 import com.gto.datasynclib.util.holder.IntHolder;
 import com.gto.datasynclib.util.holder.LongHolder;
 import com.gto.datasynclib.util.holder.ObjHolder;
+import com.gto.fastcollection.OpenCacheHashSet;
 import it.unimi.dsi.fastutil.objects.*;
 import lombok.Getter;
 
@@ -252,13 +248,12 @@ public class OptimizedCraftingCpuLogic extends CraftingCpuLogic {
                 for (var kc : craftingContainer.value) {
                     if (kc == null) continue;
                     for (var entry : kc) {
-                        job.totalConsumed.addTo(entry.getKey(), entry.getLongValue());
+                        job.totalConsumed.insert(entry.getKey(), entry.getLongValue());
                     }
                 }
                 long minAllowedUnits = Long.MAX_VALUE;
                 var patternDefinition = details.getDefinition();
-                for (var eIt = job.totalConsumed.reference2LongEntrySet().fastIterator(); eIt.hasNext();) {
-                    var e = eIt.next();
+                for (var e : job.totalConsumed) {
                     var consumedKey = e.getKey();
                     long consumedTotal = e.getLongValue();
                     var allocMap = job.allocations.get(consumedKey);
@@ -325,7 +320,7 @@ public class OptimizedCraftingCpuLogic extends CraftingCpuLogic {
                 for (var kc : craftingContainer.value) {
                     if (kc == null) continue;
                     for (var entry : kc) {
-                        job.currentConsumed.addTo(entry.getKey(), entry.getLongValue());
+                        job.currentConsumed.insert(entry.getKey(), entry.getLongValue());
                     }
                 }
                 long finalParallelValue = cappedParallel;
@@ -347,8 +342,7 @@ public class OptimizedCraftingCpuLogic extends CraftingCpuLogic {
                     }
 
                     job.purgeDefsLocal.clear();
-                    for (var ceIt = job.currentConsumed.reference2LongEntrySet().fastIterator(); ceIt.hasNext();) {
-                        var ce = ceIt.next();
+                    for (var ce : job.currentConsumed) {
                         var key = ce.getKey();
                         var map = job.allocations.get(key);
                         if (map == null || map.isEmpty()) continue;
@@ -687,24 +681,27 @@ public class OptimizedCraftingCpuLogic extends CraftingCpuLogic {
         KeyCounter[] inputHolder = getInputHolder((IDetails) details);
         boolean found = true;
 
-        var counter = IKeyCounter.of(sourceInv.list);
+        var counter = sourceInv.list;
         for (int x = 0; x < inputs.length; x++) {
             var list = inputHolder[x];
             var input = inputs[x];
-            long remainingMultiplier = input.getMultiplier();
-            for (var stack : input.getPossibleInputs()) {
-                var what = stack.what();
-                if (counter.gtolib$contains(what)) {
-                    var amount = stack.amount();
-                    var extracted = sourceInv.extract(what, amount * remainingMultiplier, Actionable.MODULATE);
-                    if (extracted == 0) continue;
-                    list.add(what, extracted);
-                    remainingMultiplier -= (extracted / amount);
-                    if (remainingMultiplier == 0) break;
-                }
+            var possibleInputs = input.getPossibleInputs();
+            boolean combineSubstitutes = possibleInputs.length > 1 && hasSameTemplateAmount(possibleInputs);
+            long remaining = input.getMultiplier();
+            if (combineSubstitutes) {
+                remaining *= possibleInputs[0].amount();
+            }
+            for (var stack : possibleInputs) {
+                if (!counter.contains(stack.what())) continue;
+                long amount = combineSubstitutes ? 1 : stack.amount();
+                var extracted = sourceInv.extract(stack.what(), amount * remaining, Actionable.MODULATE);
+                if (extracted == 0) continue;
+                list.add(stack.what(), extracted);
+                remaining -= (extracted / amount);
+                if (remaining == 0) break;
             }
 
-            if (remainingMultiplier > 0) {
+            if (remaining > 0) {
                 found = false;
                 break;
             }
@@ -722,12 +719,15 @@ public class OptimizedCraftingCpuLogic extends CraftingCpuLogic {
         return inputHolder;
     }
 
-    private static long getMaxParallel(long maxParallel, IPatternDetails details, Reference2LongOpenHashMap<AEKey> sourceInv) {
+    private static long getMaxParallel(long maxParallel, IPatternDetails details, AEKeyMap<AEKey> sourceInv) {
         if (sourceInv.isEmpty()) return 0;
         for (IPatternDetails.IInput input : details.getInputs()) {
             long extracted = 0;
+            var seen = new ReferenceOpenHashSet<AEKey>();
             for (var stack : input.getPossibleInputs()) {
-                extracted += (sourceInv.getLong(stack.what()) / stack.amount());
+                if (seen.add(stack.what())) {
+                    extracted += sourceInv.getAmount(stack.what()) / stack.amount();
+                }
             }
             maxParallel = Math.min(maxParallel, extracted / input.getMultiplier());
             if (maxParallel < 1) {
@@ -735,6 +735,14 @@ public class OptimizedCraftingCpuLogic extends CraftingCpuLogic {
             }
         }
         return maxParallel;
+    }
+
+    private static boolean hasSameTemplateAmount(GenericStack[] inputs) {
+        long amount = inputs[0].amount();
+        for (int i = 1; i < inputs.length; i++) {
+            if (inputs[i].amount() != amount) return false;
+        }
+        return true;
     }
 
     private static KeyCounter[] getInputHolder(IDetails details) {

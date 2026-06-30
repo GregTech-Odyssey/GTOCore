@@ -33,71 +33,71 @@ open class MEPatternBufferPartMachineKt(holder: MetaMachineBlockEntity, maxPatte
     companion object {
 
         @RegisterLanguage(cn = "此样板物品输入槽", en = "The item input slots of this pattern")
-        const val item_special: String = "gtceu.ae.pattern_part_machine.item_special"
+        const val ITEM_SPECIAL: String = "gtceu.ae.pattern_part_machine.ITEM_SPECIAL"
 
         @RegisterLanguage(cn = "此样板流体输入槽", en = "The fluid input slots of this pattern")
-        const val fluid_special: String = "gtceu.ae.pattern_part_machine.fluid_special"
+        const val FLUID_SPECIAL: String = "gtceu.ae.pattern_part_machine.FLUID_SPECIAL"
 
         @RegisterLanguage(cn = "此样板电路输入槽", en = "The circuit input slot of this pattern")
-        const val circuit_special: String = "gtceu.ae.pattern_part_machine.circuit_special"
+        const val CIRCUIT_SPECIAL: String = "gtceu.ae.pattern_part_machine.CIRCUIT_SPECIAL"
 
         @RegisterLanguage(cn = "此样板记录的配方", en = "The recipe recorded by this pattern")
-        const val recipe_special: String = "gtceu.ae.pattern_part_machine.recipe_special"
+        const val RECIPE_SPECIAL: String = "gtceu.ae.pattern_part_machine.RECIPE_SPECIAL"
 
         @RegisterLanguage(cn = "点此查看配方详情", en = "Click to see recipe details")
-        const val view_recipe: String = "gtceu.ae.pattern_part_machine.view_recipe"
+        const val VIEW_RECIPE: String = "gtceu.ae.pattern_part_machine.VIEW_RECIPE"
 
         @RegisterLanguage(cn = "当前并没有记录任何配方", en = "No recipe is recorded currently")
-        const val no_recipe: String = "gtceu.ae.pattern_part_machine.no_recipe"
+        const val NO_RECIPE: String = "gtceu.ae.pattern_part_machine.NO_RECIPE"
 
         @RegisterLanguage(cn = "解除当前机器的配方锁定", en = "Clear the recipe lock of this machine")
-        const val clear_recipe_slot: String = "gtceu.ae.pattern_part_machine.clear_recipe"
+        const val CLEAR_RECIPE_SLOT: String = "gtceu.ae.pattern_part_machine.clear_recipe"
 
         @RegisterLanguage(cn = "当前机器的配方锁定已清除", en = "The recipe lock of this machine has been cleared")
-        const val clear_recipe_slot_msg: String = "gtceu.ae.pattern_part_machine.clear_recipe_msg"
+        const val CLEAR_RECIPE_SLOT_MSG: String = "gtceu.ae.pattern_part_machine.clear_recipe_msg"
 
         @RegisterLanguage(cn = "打开emi页面后，选择一个配方，用“+”按钮将其添加到样板中。", en = "After opening the emi page, select a recipe and use the \"+\" button to add it to the pattern.")
-        const val add_recipe_msg: String = "gtceu.ae.pattern_part_machine.clear_recipe_msg2"
+        const val ADD_RECIPE_MSG: String = "gtceu.ae.pattern_part_machine.clear_recipe_msg2"
 
         @RegisterLanguage(cn = "此样板物品与流体配置", en = "The item and fluid configuration of this pattern")
-        const val pattern_configuration: String = "gtceu.ae.pattern_part_machine.pattern_configuration"
+        const val PATTERN_CONFIGURATION: String = "gtceu.ae.pattern_part_machine.PATTERN_CONFIGURATION"
 
         @RegisterLanguage(cn = "发信合成模式", en = "Emitting crafting mode")
-        const val emitting_crafting_mode: String = "gtceu.ae.pattern_part_machine.emitting_crafting_mode"
+        const val EMITTING_CRAFTING_MODE: String = "gtceu.ae.pattern_part_machine.EMITTING_CRAFTING_MODE"
 
         @RegisterLanguage(cn = "物品不够时请求合成", en = "Request crafting when items are insufficient")
-        const val request_crafting_when_insufficient: String = "gtceu.ae.pattern_part_machine.request_crafting_when_insufficient"
+        const val REQUEST_CRAFTING_WHEN_INSUFFICIENT: String = "gtceu.ae.pattern_part_machine.REQUEST_CRAFTING_WHEN_INSUFFICIENT"
 
         @RegisterLanguage(cn = "已锁定，由样板内的配方自动拉取虚拟物品进行合成", en = "Locked, automatically pull virtual items for crafting according to the recipe in the pattern")
-        const val item_locked: String = "gtceu.ae.pattern_part_machine.locked_emitting_crafting_mode"
+        const val ITEM_LOCKED: String = "gtceu.ae.pattern_part_machine.locked_emitting_crafting_mode"
 
         @RegisterLanguage(
             cn = "该模式与标准发信器的合成卡功能相似，在下单请求该物品后，机器会使用样板中的配方被动持续向机器内输入",
             en = "This mode is similar to the crafting card function of a standard emitter. " +
                 "After placing an order for the item, the machine will passively and continuously input items into the machine using the recipe in the pattern.",
         )
-        const val emitting_crafting_mode_tooltip: String = "gtceu.ae.pattern_part_machine.emitting_crafting_mode_tooltip"
+        const val EMITTING_CRAFTING_MODE_TOOLTIP: String = "gtceu.ae.pattern_part_machine.EMITTING_CRAFTING_MODE_TOOLTIP"
 
         @RegisterLanguage(cn = "低存量触发模式", en = "Low stock triggering mode")
-        const val low_stock_triggering_mode: String = "gtceu.ae.pattern_part_machine.low_stock_triggering_mode"
+        const val LOW_STOCK_TRIGGERING_MODE: String = "gtceu.ae.pattern_part_machine.LOW_STOCK_TRIGGERING_MODE"
 
         @RegisterLanguage(
             cn = "该模式会在网络库存量低于设定数量时触发持续被动配方输入，直到库存量满足要求。",
             en = "This mode will trigger continuous passive recipe input when the network inventory is below the set quantity, until the inventory meets the requirements.",
         )
-        const val low_stock_triggering_mode_tooltip: String = "gtceu.ae.pattern_part_machine.low_stock_triggering_mode_tooltip"
+        const val LOW_STOCK_TRIGGERING_MODE_TOOLTIP: String = "gtceu.ae.pattern_part_machine.LOW_STOCK_TRIGGERING_MODE_TOOLTIP"
 
         @RegisterLanguage(cn = "低存量库存触发阈值", en = "Low stock triggering threshold")
-        const val low_stock_triggering_threshold: String = "gtceu.ae.pattern_part_machine.low_stock_triggering_threshold"
+        const val LOW_STOCK_TRIGGERING_THRESHOLD: String = "gtceu.ae.pattern_part_machine.LOW_STOCK_TRIGGERING_THRESHOLD"
 
         @RegisterLanguage(cn = "被动输入乘数", en = "Passive input multiplier")
-        const val passive_input_multiplier: String = "gtceu.ae.pattern_part_machine.passive_input_multiplier"
+        const val PASSIVE_INPUT_MULTIPLIER: String = "gtceu.ae.pattern_part_machine.PASSIVE_INPUT_MULTIPLIER"
 
         @RegisterLanguage(
             cn = "按照设定的倍数调整被动输入的数量。例如，设定为10时，按样板配置的数量x10进行被动输入。",
             en = "Adjust the quantity of passive input according to the set multiplier. For example, when set to 10, passive input will be performed according to the quantity configured in the pattern x10.",
         )
-        const val passive_input_multiplier_tooltip: String = "gtceu.ae.pattern_part_machine.passive_input_multiplier_tooltip"
+        const val PASSIVE_INPUT_MULTIPLIER_TOOLTIP: String = "gtceu.ae.pattern_part_machine.PASSIVE_INPUT_MULTIPLIER_TOOLTIP"
 
         val SET_ID_CHANNEL: NetworkPack = NetworkPack.registerC2S(
             "me_pattern_buffer_set_id_channel",
@@ -163,7 +163,7 @@ open class MEPatternBufferPartMachineKt(holder: MetaMachineBlockEntity, maxPatte
                 vBox(width = availableWidth, alwaysHorizonCenter = true, style = { spacing = 2 }) {
                     val width = this@vBox.availableWidth
                     val itemHandler = getInternalInventory()[configuratorField.get()].lockableInventory
-                    textBlock(maxWidth = width, textSupplier = { Component.translatable(item_special) })
+                    textBlock(maxWidth = width, textSupplier = { Component.translatable(ITEM_SPECIAL) })
                     (0 until itemHandler.slots).chunked(9).forEach { indices ->
                         hBox(height = 18) {
                             indices.forEach { index ->
@@ -183,7 +183,7 @@ open class MEPatternBufferPartMachineKt(holder: MetaMachineBlockEntity, maxPatte
                                             run {
                                                 if (configuratorField.get() < 0) return@run
                                                 if (getInternalInventory()[configuratorField.get()].isLock) {
-                                                    superList.add(Component.translatable(item_locked))
+                                                    superList.add(Component.translatable(ITEM_LOCKED))
                                                 }
                                             }
                                             return superList
@@ -211,14 +211,14 @@ open class MEPatternBufferPartMachineKt(holder: MetaMachineBlockEntity, maxPatte
                             getInternalInventory()[configuratorField.get()].circuitInventory.storage.setStackInSlot(0, if (circuit == 0) ItemStack.EMPTY else IntCircuitBehaviour.stack(circuit))
                         },
                     )
-                    textBlock(maxWidth = width, textSupplier = { Component.translatable(recipe_special) })
+                    textBlock(maxWidth = width, textSupplier = { Component.translatable(RECIPE_SPECIAL) })
                     hBox(height = 18, style = { spacing = 4 }) {
                         iconButton(tooltips = {
                             val recipe = recipeIdGetter.invoke(configuratorField.get())
                             if (recipe != null) {
-                                Component.translatable(view_recipe)
+                                Component.translatable(VIEW_RECIPE)
                             } else {
-                                Component.translatable(no_recipe)
+                                Component.translatable(NO_RECIPE)
                             }
                         }) {
                             val recipeId = recipeIdGetter.invoke(configuratorField.get())
@@ -235,14 +235,14 @@ open class MEPatternBufferPartMachineKt(holder: MetaMachineBlockEntity, maxPatte
                                 recipeIdSetter.invoke(configuratorField.get(), rl)
                             },
                             rightClickClear = true,
-                        ).setHoverTooltips(Component.translatable(add_recipe_msg))
+                        ).setHoverTooltips(Component.translatable(ADD_RECIPE_MSG))
                         iconButton(width = 16, tooltips = {
                             if (getInternalInventory()[configuratorField.get()].recipe != null) {
-                                Component.translatable(clear_recipe_slot)
+                                Component.translatable(CLEAR_RECIPE_SLOT)
                             } else {
-                                Component.translatable(clear_recipe_slot_msg)
+                                Component.translatable(CLEAR_RECIPE_SLOT_MSG)
                             }
-                            Component.translatable(clear_recipe_slot)
+                            Component.translatable(CLEAR_RECIPE_SLOT)
                         }) {
                             getInternalInventory()[configuratorField.get()].setRecipe(null)
                         }
