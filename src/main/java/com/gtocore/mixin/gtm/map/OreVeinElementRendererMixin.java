@@ -1,6 +1,7 @@
 package com.gtocore.mixin.gtm.map;
 
 import com.gtocore.api.gui.GTOGuiTextures;
+import com.gtocore.client.OreVeinFilter;
 import com.gtocore.config.GTOConfig;
 
 import com.gregtechceu.gtceu.api.data.worldgen.ores.GeneratedVeinMetadata;
@@ -25,6 +26,15 @@ import xaero.map.graphics.renderer.multitexture.MultiTextureRenderTypeRendererPr
 
 @Mixin(OreVeinElementRenderer.class)
 public class OreVeinElementRendererMixin {
+
+    // Skip rendering entirely for veins the player filtered out, before any icon/name is drawn.
+    @Inject(method = "renderElement(ILcom/gregtechceu/gtceu/integration/map/xaeros/worldmap/ore/OreVeinElement;ZLnet/minecraft/client/Minecraft;Lnet/minecraft/client/gui/GuiGraphics;DDDDFDDLnet/minecraft/client/renderer/texture/TextureManager;Lnet/minecraft/client/gui/Font;Lnet/minecraft/client/renderer/MultiBufferSource$BufferSource;Lxaero/map/graphics/renderer/multitexture/MultiTextureRenderTypeRendererProvider;IDFDDZF)Z", at = @At("HEAD"), cancellable = true, remap = false)
+    private void gtocore$filterOreVein(int location, OreVeinElement element, boolean hovered, Minecraft mc, GuiGraphics graphics, double cameraX, double cameraZ, double mouseX, double mouseZ, float brightness, double scale, double screenSizeBasedScale, TextureManager textureManager, Font fontRenderer, MultiBufferSource.BufferSource renderTypeBuffers, MultiTextureRenderTypeRendererProvider rendererProvider, int elementIndex, double optionalDepth, float optionalScale, double partialX, double partialY, boolean cave, float partialTicks, CallbackInfoReturnable<Boolean> cir) {
+        GeneratedVeinMetadata vein = element.getVein();
+        if (vein != null && vein.definition() != null && OreVeinFilter.isHidden(vein.definition())) {
+            cir.setReturnValue(false);
+        }
+    }
 
     @Inject(method = "renderElement(ILcom/gregtechceu/gtceu/integration/map/xaeros/worldmap/ore/OreVeinElement;ZLnet/minecraft/client/Minecraft;Lnet/minecraft/client/gui/GuiGraphics;DDDDFDDLnet/minecraft/client/renderer/texture/TextureManager;Lnet/minecraft/client/gui/Font;Lnet/minecraft/client/renderer/MultiBufferSource$BufferSource;Lxaero/map/graphics/renderer/multitexture/MultiTextureRenderTypeRendererProvider;IDFDDZF)Z", at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/systems/RenderSystem;setShaderColor(FFFF)V", ordinal = 1), remap = false)
     private void renderElement(int location, OreVeinElement element, boolean hovered, Minecraft mc, GuiGraphics graphics, double cameraX, double cameraZ, double mouseX, double mouseZ, float brightness, double scale, double screenSizeBasedScale, TextureManager textureManager, Font fontRenderer, MultiBufferSource.BufferSource renderTypeBuffers, MultiTextureRenderTypeRendererProvider rendererProvider, int elementIndex, double optionalDepth, float optionalScale, double partialX, double partialY, boolean cave, float partialTicks, CallbackInfoReturnable<Boolean> cir, @Local(name = "vein") GeneratedVeinMetadata vein) {

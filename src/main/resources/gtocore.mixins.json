@@ -29,6 +29,7 @@
     "ae2.search.RepoSearchMixin",
     "ftbxmodcompat.WrappedQuestCacheMixin",
     "ftbxmodcompat.WrappedQuestMixin",
+    "gtm.map.GuiMapOreVeinFilterMixin",
     "gtm.renderer.TagPrefixItemRendererMixin",
     "inventoryessentials.ClientOnlyInventoryControlsMixin",
     "mc.GameRendererMixin",

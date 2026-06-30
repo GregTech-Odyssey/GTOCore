@@ -300,6 +300,11 @@ public final class LangHandler {
 
         addCNEN("gtocore.xaero_waypoint_set", "矿脉", "Ore Vein");
 
+        addCNEN("gtocore.screen.ore_vein_filter.title", "矿脉过滤", "Ore Vein Filter");
+        addCNEN("gtocore.screen.ore_vein_filter.show_all", "全部显示", "Show All");
+        addCNEN("gtocore.screen.ore_vein_filter.hide_all", "全部隐藏", "Hide All");
+        addCNEN("gtocore.screen.ore_vein_filter.search", "搜索…", "Search…");
+
         addCNEN("ftbquests.task.gtocore.gtodifficulty", "GTO难度", "GTO Difficulty");
         addCNEN("ftbquests.task.gtocore.gtodifficulty.difficulty", "难度设置（0=通用，1=简单，2=普通，3=专家）", "Difficulty Setting (0=Generic, 1=Easy, 2=Normal, 3=Expert)");
         addCNEN("ftbquests.task.gtocore.mod", "模组加载", "Mod Loaded");
