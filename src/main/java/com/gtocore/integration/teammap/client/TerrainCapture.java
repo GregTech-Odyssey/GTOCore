@@ -14,21 +14,20 @@ import xaero.map.region.MapTileChunk;
 
 import java.nio.ByteBuffer;
 import java.util.ArrayDeque;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.IdentityHashMap;
 import java.util.Map;
-import java.util.Set;
 
 /** Captures Xaero's completed 4x4-tile texture buffer, not its intermediate pixels. */
 public final class TerrainCapture {
 
     private static final ArrayDeque<TerrainUpload> UPLOADS = new ArrayDeque<>();
     private static final Map<String, Long> LAST_HASHES = new HashMap<>();
-    private static final Set<MapRegion> IMPORTING_REGIONS = Collections.newSetFromMap(new IdentityHashMap<>());
+    private static final Map<MapRegion, Long> IMPORTING_REGIONS = new IdentityHashMap<>();
+    private static long importGeneration;
 
     public static synchronized void beginImport(MapRegion region) {
-        IMPORTING_REGIONS.add(region);
+        IMPORTING_REGIONS.put(region, importGeneration);
     }
 
     public static synchronized void endImport(MapRegion region) {
@@ -41,7 +40,9 @@ public final class TerrainCapture {
         ByteBuffer colors = tileChunk.getLeafTexture().getDirectColorBuffer();
         if (colors == null || colors.capacity() < 64 * 64 * 4) return;
         ResourceLocation dimension = tileChunk.getInRegion().getDim().getDimId().location();
-        boolean importOnly = IMPORTING_REGIONS.contains(tileChunk.getInRegion());
+        Long regionImportGeneration = IMPORTING_REGIONS.get(tileChunk.getInRegion());
+        if (regionImportGeneration != null && regionImportGeneration.longValue() != importGeneration) return;
+        boolean importOnly = regionImportGeneration != null;
 
         for (int tileZ = 0; tileZ < 4; tileZ++) for (int tileX = 0; tileX < 4; tileX++) {
             MapTile tile = tileChunk.getTile(tileX, tileZ);
@@ -65,7 +66,9 @@ public final class TerrainCapture {
     public static synchronized void reset() {
         UPLOADS.clear();
         LAST_HASHES.clear();
-        IMPORTING_REGIONS.clear();
+        // In-flight Xaero imports can still call back after team changes; keep
+        // their markers so stale callbacks are discarded instead of uploaded.
+        importGeneration++;
     }
 
     private static SharedEntry capture(MapTile tile, ByteBuffer nativeBuffer, int tileX, int tileZ,
