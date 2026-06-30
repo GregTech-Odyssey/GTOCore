@@ -33,7 +33,6 @@ public abstract class CommonEventsMixin {
         }
         @SuppressWarnings("unchecked")
         IServerData<IServerClaimsManager<IPlayerChunkClaim, IServerPlayerClaimInfo<IPlayerDimensionClaims<IPlayerClaimPosList>>, IServerDimensionClaimsManager<IServerRegionClaims>>, IServerParty<IPartyMember, IPartyPlayerInfo, IPartyAlly>> serverData = (IServerData<IServerClaimsManager<IPlayerChunkClaim, IServerPlayerClaimInfo<IPlayerDimensionClaims<IPlayerClaimPosList>>, IServerDimensionClaimsManager<IServerRegionClaims>>, IServerParty<IPartyMember, IPartyPlayerInfo, IPartyAlly>>) serverDataApi;
-        var playerConfigManager = ((IServerData<?, ?>) serverDataApi).getPlayerConfigManager();
-        serverData.getServerClaimsManager().getTypedPlayerInfoStream().forEach(playerInfo -> serverData.getForceLoadManager().updateTicketsFor(playerConfigManager, playerInfo.getPlayerId(), true));
+        serverData.getServerClaimsManager().getTypedPlayerInfoStream().forEach(playerInfo -> serverData.getForceLoadManager().updateTicketsFor(playerInfo.getPlayerId(), true));
     }
 }

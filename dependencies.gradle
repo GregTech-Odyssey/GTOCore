@@ -142,7 +142,7 @@ dependencies {
 
     modCompileOnly("curse.maven:emi-trades-villager-trading-emi-plugin-735523:4901194")
 
-    modCompileOnly("curse.maven:open-parties-and-claims-636608:8091479")
+    modCompileOnly("curse.maven:open-parties-and-claims-636608:8230795")
 
     modImplementation("curse.maven:sophisticated-backpacks-422301:8249823")
     modImplementation("curse.maven:sophisticated-core-618298:8249804")
@@ -153,8 +153,8 @@ dependencies {
     modRuntimeOnly("curse.maven:laserio-uel-1168178:6773950")
 
     modCompileOnly("xaero.lib:xaerolib-forge-1.20.1:1.1.15")
-    modCompileOnly("xaero.map:xaeroworldmap-forge-1.20.1:1.40.16")
-    modCompileOnly("xaero.minimap:xaerominimap-forge-1.20.1:25.3.13")
+    modCompileOnly("xaero.map:xaeroworldmap-forge-1.20.1:1.41.2")
+    modCompileOnly("xaero.minimap:xaerominimap-forge-1.20.1:26.1.0")
 
     modCompileOnly("curse.maven:athena-841890:5176879")
 
@@ -176,6 +176,7 @@ dependencies {
     modImplementation("dev:Jade-1.20.1-Forge-11.13.1")
 
     modCompileOnly("dev:jecharacters:1.20.1-forge-4.5.11-dev-shadow")
+    modRuntimeOnly("dev:jecharacters:1.20.1-forge-4.5.11-dev-shadow")
 
     modRuntimeOnly("curse.maven:huge-structure-blocks-474114:4803547")
 
