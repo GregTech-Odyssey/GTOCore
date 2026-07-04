@@ -51,18 +51,29 @@ public final class WirelessTransferBindProvider implements IBlockComponentProvid
     public void appendTooltip(ITooltip tooltip, BlockAccessor accessor, IPluginConfig config) {
         ListTag list = accessor.getServerData().getList(KEY, Tag.TAG_COMPOUND);
         if (list.isEmpty()) return;
-        String dim = accessor.getLevel().dimension().location().toString();
+        String lookedDim = accessor.getLevel().dimension().location().toString();
         tooltip.add(Component.translatable("gtocore.wireless_transfer.bind_title").withStyle(ChatFormatting.GRAY));
         for (int i = 0; i < list.size(); i++) {
             CompoundTag tag = list.getCompound(i);
             String pos = "(" + tag.getInt("x") + ", " + tag.getInt("y") + ", " + tag.getInt("z") + ")";
-            if (!tag.getString("d").equals(dim)) pos += " @" + tag.getString("d");
             tooltip.add(Component.translatable("gtocore.wireless_transfer.bind_entry",
                     Component.translatable(tag.getString("t")),
                     Component.translatable(tag.getString("b")),
                     pos,
                     StringUtils.capitalize(tag.getString("f"))));
+            String coverDim = tag.getString("d");
+            if (!coverDim.equals(lookedDim)) {
+                String path = dimensionPath(coverDim);
+                tooltip.add(Component.translatable("gtocore.wireless_transfer.dim_suffix",
+                        Component.translatableWithFallback("gtocore.dimension." + path, path)));
+            }
         }
+    }
+
+    /** "minecraft:the_nether" -> "the_nether"; matches GTO's {@code gtocore.dimension.<path>} lang keys. */
+    private static String dimensionPath(String dimensionId) {
+        int i = dimensionId.indexOf(':');
+        return i < 0 ? dimensionId : dimensionId.substring(i + 1);
     }
 
     @Override

@@ -6121,6 +6121,7 @@
   "gtocore.wireless.unassigned_warning": "⚠ %d child nodes unassigned",
   "gtocore.wireless_transfer.bind_entry": "§b%s§r %s §7%s§r §e%s",
   "gtocore.wireless_transfer.bind_title": "Wireless Transfer Cover Bindings",
+  "gtocore.wireless_transfer.dim_suffix": "  §7Dim: §r%s",
   "gtocore.wireless_transfer.type.fluid": "Fluid Transfer",
   "gtocore.wireless_transfer.type.item": "Item Transfer",
   "gtocore.xaero_waypoint_set": "Ore Vein",

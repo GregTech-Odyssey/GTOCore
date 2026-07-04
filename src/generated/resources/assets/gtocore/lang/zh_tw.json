@@ -6249,6 +6249,7 @@
   "gtocore.wireless.unassigned_warning": "⚠ %d 個子節點未分配",
   "gtocore.wireless_transfer.bind_entry": "§b%s§r %s §7%s§r §e%s",
   "gtocore.wireless_transfer.bind_title": "無線傳輸覆蓋板綁定",
+  "gtocore.wireless_transfer.dim_suffix": "  §7維度: §r%s",
   "gtocore.wireless_transfer.type.fluid": "流體傳輸",
   "gtocore.wireless_transfer.type.item": "物品傳輸",
   "gtocore.xaero_waypoint_set": "礦脈",
