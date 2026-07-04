@@ -11,6 +11,7 @@ import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
 
 import org.apache.commons.lang3.StringUtils;
 import snownee.jade.api.BlockAccessor;
@@ -30,7 +31,8 @@ public final class WirelessTransferBindProvider implements IBlockComponentProvid
 
     @Override
     public void appendServerData(CompoundTag data, BlockAccessor accessor) {
-        var bindings = WirelessTransferBindIndex.get(accessor.getLevel().dimension(), accessor.getPosition());
+        if (!(accessor.getLevel() instanceof ServerLevel level)) return;
+        var bindings = WirelessTransferBindIndex.get(level.dimension(), accessor.getPosition(), level.getServer());
         if (bindings.isEmpty()) return;
         ListTag list = new ListTag();
         for (Binding b : bindings) {

@@ -1,5 +1,6 @@
 package com.gtocore.integration.gtmthings;
 
+import com.gregtechceu.gtceu.api.capability.GTCapabilityHelper;
 import com.gregtechceu.gtceu.api.capability.ICoverable;
 import com.gregtechceu.gtceu.api.cover.CoverBehavior;
 
@@ -8,8 +9,12 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.Level;
 
+import com.hepdd.gtmthings.common.cover.AdvancedWirelessTransferCover;
+import com.hepdd.gtmthings.common.cover.WirelessTransferCover;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -82,11 +87,36 @@ public final class WirelessTransferBindIndex {
         if (byPos.isEmpty()) MAP.remove(targetDim);
     }
 
-    /** Bindings pointing at the given block, or an empty list. */
-    public static synchronized List<Binding> get(ResourceKey<Level> targetDim, BlockPos targetPos) {
+    /**
+     * Bindings pointing at the given block, or an empty list.
+     * <p>
+     * Covers have no {@code onUnload} hook we can inject, so their source chunk unloading (or a different world
+     * being loaded in the same JVM) would otherwise leave stale entries behind. Each candidate is therefore
+     * validated against the live server here and dropped if its source cover is no longer loaded/present; only
+     * currently-loaded covers survive. onLoad re-adds a cover when its chunk loads again.
+     */
+    public static synchronized List<Binding> get(ResourceKey<Level> targetDim, BlockPos targetPos, MinecraftServer server) {
         Map<Long, Set<Binding>> byPos = MAP.get(targetDim);
         if (byPos == null) return List.of();
-        Set<Binding> set = byPos.get(targetPos.asLong());
-        return (set == null || set.isEmpty()) ? List.of() : new ArrayList<>(set);
+        long key = targetPos.asLong();
+        Set<Binding> set = byPos.get(key);
+        if (set == null || set.isEmpty()) return List.of();
+        set.removeIf(b -> !isLive(server, b));
+        if (set.isEmpty()) {
+            byPos.remove(key);
+            if (byPos.isEmpty()) MAP.remove(targetDim);
+            return List.of();
+        }
+        return new ArrayList<>(set);
+    }
+
+    /** True if the binding's source cover is currently loaded and still a wireless transfer cover on that face. */
+    private static boolean isLive(MinecraftServer server, Binding b) {
+        ServerLevel level = server.getLevel(b.coverDim());
+        if (level == null || !level.isLoaded(b.coverPos())) return false;
+        ICoverable coverable = GTCapabilityHelper.getCoverable(level.getBlockEntity(b.coverPos()), b.coverFace());
+        if (coverable == null) return false;
+        CoverBehavior cover = coverable.getCoverAtSide(b.coverFace());
+        return cover instanceof WirelessTransferCover || cover instanceof AdvancedWirelessTransferCover;
     }
 }
