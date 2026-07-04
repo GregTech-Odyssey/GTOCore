@@ -277,7 +277,9 @@ public class FullCellGenerator extends ElectricMultiblockMachine {
         if (GTValues.RNG.nextFloat() < chanceConsumeMembraneOnDischarge) {
             unit.inputItem(ingredient.getInnerItemStack().getItem(), content.amount);
         }
-        return ParallelLogic.accurateParallel(this, unit, recipe, MaxCanReleaseParallel);
+        long outputEUt = recipe.getOutputEUt();
+        long maxReleaseParallel = outputEUt <= 0 ? MaxCanReleaseParallel : getOutputEnergyCapacity() / outputEUt;
+        return ParallelLogic.accurateParallel(this, unit, recipe, Math.min(MaxCanReleaseParallel, maxReleaseParallel));
     }
 
     @Override
