@@ -67,6 +67,8 @@ public final class GTOJadePlugin implements IWailaPlugin {
         registration.registerBlockDataProvider(new WirelessGridProvider(), MetaMachineBlockEntity.class);
 
         registration.registerBlockDataProvider(new AEGridProvider(), BlockEntity.class);
+
+        registration.registerBlockDataProvider(new WirelessTransferBindProvider(), BlockEntity.class);
     }
 
     @Override
@@ -105,6 +107,8 @@ public final class GTOJadePlugin implements IWailaPlugin {
 
         registration.registerBlockComponent(AEItemAmountProvider.INSTANCE, Block.class);
         registration.registerEntityComponent(AEItemAmountProvider.INSTANCE, ItemEntity.class);
+
+        registration.registerBlockComponent(new WirelessTransferBindProvider(), Block.class);
     }
 
     static {

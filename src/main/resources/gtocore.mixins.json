@@ -205,6 +205,7 @@
     "gtm.registry.GTOresMixin",
     "gtm.registry.GTRecipeTypesMixin",
     "gtm.registry.GTRegistrationMixin",
+    "gtmthings.WirelessTransferCoverMixin",
     "guideme.GuideMEMixin",
     "jade.CommonProxyMixin",
     "jade.JadeForgeUtilsMixin",
