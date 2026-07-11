@@ -14,12 +14,21 @@ import java.util.Set;
 /**
  * Client-side state for the ore vein map filter. Holds the set of ore vein internal names that are
  * hidden on the Xaero world map. The set is loaded from {@link GTOConfig} on first access and kept
- * authoritative in memory afterwards; {@link #save()} writes it back to the config file.
+ * authoritative in memory afterwards; {@link #save()} writes it back to the config file. The panel's
+ * open flag and last dragged position are persisted the same way so both survive a restart.
  */
 @OnlyIn(Dist.CLIENT)
 public final class OreVeinFilter {
 
+    /** No panel position stored yet -> the panel falls back to its default spot. */
+    public static final int UNSET = Integer.MIN_VALUE;
+
     private static Set<String> hidden;
+    // Whether the filter panel was left open; remembered across map opens and restarts. Null until first read.
+    private static Boolean panelOpen;
+    // Top-left the panel was last dragged to; UNSET until placed. Null until first read from config.
+    private static Integer panelX;
+    private static Integer panelY;
 
     private OreVeinFilter() {}
 
@@ -34,6 +43,31 @@ public final class OreVeinFilter {
             }
         }
         return hidden;
+    }
+
+    public static boolean isPanelOpen() {
+        if (panelOpen == null) panelOpen = GTOConfig.INSTANCE.client.minimap.oreVeinFilterPanelOpen;
+        return panelOpen;
+    }
+
+    public static void setPanelOpen(boolean value) {
+        panelOpen = value;
+    }
+
+    /** Top-left corner the panel was last left at, or {@link #UNSET} when it has never been placed. */
+    public static int getPanelX() {
+        if (panelX == null) panelX = GTOConfig.INSTANCE.client.minimap.oreVeinFilterPanelX;
+        return panelX;
+    }
+
+    public static int getPanelY() {
+        if (panelY == null) panelY = GTOConfig.INSTANCE.client.minimap.oreVeinFilterPanelY;
+        return panelY;
+    }
+
+    public static void setPanelPos(int x, int y) {
+        panelX = x;
+        panelY = y;
     }
 
     public static boolean isHidden(String oreName) {
@@ -56,8 +90,11 @@ public final class OreVeinFilter {
         setHidden(oreName, !isHidden(oreName));
     }
 
-    /** Persist the current hidden set back to the config file. */
+    /** Persist the current hidden set, panel-open flag and panel position back to the config file. */
     public static void save() {
         GTOConfig.set("hiddenOreVeins", hidden().toArray(new String[0]), "client", "minimap");
+        GTOConfig.set("oreVeinFilterPanelOpen", isPanelOpen(), "client", "minimap");
+        GTOConfig.set("oreVeinFilterPanelX", getPanelX(), "client", "minimap");
+        GTOConfig.set("oreVeinFilterPanelY", getPanelY(), "client", "minimap");
     }
 }
