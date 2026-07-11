@@ -1,9 +1,13 @@
 package com.gtocore.common.machine.tesseract;
 
+import com.gtocore.integration.ae.PatternProviderContentMatcher;
+
 import com.gtolib.api.ae2.AEKeyTypeMap;
+import com.gtolib.api.ae2.BlockingType;
 import com.gtolib.api.ae2.IPatternProviderLogic;
 import com.gtolib.api.ae2.PatternProviderTargetCache;
 import com.gtolib.api.ae2.machine.ICustomCraftingMachine;
+import com.gtolib.api.ae2.pattern.IParallelPatternDetails;
 import com.gtolib.utils.ServerUtils;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
@@ -164,10 +168,17 @@ public class DirectedTesseractMachine extends MetaMachine implements
 
         Map<TesseractDirectedTarget, GenericStack> remainingStacks = new O2OOpenCacheHashMap<>(sparseInputs.length);
         Map<PatternProviderTarget, GenericStack> readyToPushStacks = new O2OOpenCacheHashMap<>(sparseInputs.length);
+        var readyContentPushes = new ArrayList<ReadyContentPush>(sparseInputs.length);
+        var targetInputs = new ArrayList<PatternProviderContentMatcher.TargetInput>(sparseInputs.length);
+        var resolvedTargets = new PatternProviderTarget[sparseInputs.length];
+        long patternMultiplier = patternDetails instanceof IParallelPatternDetails parallel ? parallel.getParallel() : 1;
+        boolean contentMode = logic.gtolib$getBlocking() == BlockingType.CONTENT;
         for (var i = 0; i < sparseInputs.length; i++) {
             var targetAt = targets.get(i);
-            var be = getBlockEntity(i);
             var subPushStack = sparseInputs[i];
+            if (subPushStack == null) continue;
+
+            var be = getBlockEntity(i);
             if (be == null) {
                 return IPatternProviderLogic.PushResult.NOWHERE_TO_PUSH;
             }
@@ -175,23 +186,66 @@ public class DirectedTesseractMachine extends MetaMachine implements
             if (toPush == null) {
                 return IPatternProviderLogic.PushResult.NOWHERE_TO_PUSH;
             }
-            var blocked = toPush.containsPatternInput(patternInputs);
-            if (blocked) {
+            if (contentMode) {
+                if (!(toPush instanceof PatternProviderTargetCache.WrapMeStorage wrapped)) {
+                    return IPatternProviderLogic.PushResult.NOWHERE_TO_PUSH;
+                }
+                targetInputs.add(new PatternProviderContentMatcher.TargetInput(wrapped, subPushStack));
+            } else if (PatternProviderTargetCache.isBlocked(toPush, patternInputs, subPushStack, patternMultiplier)) {
                 return IPatternProviderLogic.PushResult.NOWHERE_TO_PUSH;
             }
+            resolvedTargets[i] = toPush;
+        }
+        if (contentMode &&
+                PatternProviderContentMatcher.shouldBlockDistributed(targetInputs, patternMultiplier)) {
+            return IPatternProviderLogic.PushResult.NOWHERE_TO_PUSH;
+        }
+
+        for (var i = 0; i < sparseInputs.length; i++) {
+            var targetAt = targets.get(i);
+            var subPushStack = sparseInputs[i];
+            if (subPushStack == null) continue;
+
+            var toPush = resolvedTargets[i];
             var haveEnoughSpace = toPush.insert(subPushStack.what(), subPushStack.amount(), Actionable.SIMULATE) == subPushStack.amount();
             if (!haveEnoughSpace) {
+                if (contentMode) {
+                    // Content blocking treats one distributed pattern as one atomic batch. Queuing only the rejected
+                    // inputs would leave the other targets with a fractional batch until the asynchronous retry.
+                    return IPatternProviderLogic.PushResult.NOWHERE_TO_PUSH;
+                }
                 remainingStacks.put(targetAt, subPushStack);
                 continue;
             }
-            readyToPushStacks.put(toPush, subPushStack);
+            if (contentMode) {
+                readyContentPushes.add(new ReadyContentPush(targetAt, toPush, subPushStack));
+            } else {
+                readyToPushStacks.put(toPush, subPushStack);
+            }
         }
 
         remainingStacks.forEach(unfinishedPushLists::addTask);
-        readyToPushStacks.forEach((toPush, stack) -> toPush.insert(stack.what(), stack.amount(), Actionable.MODULATE));
+        if (contentMode) {
+            // Keep the same sparse-input order used by PatternProviderContentMatcher's stateful reservations.
+            for (var push : readyContentPushes) {
+                var stack = push.stack;
+                long inserted = push.target.insert(stack.what(), stack.amount(), Actionable.MODULATE);
+                if (inserted < stack.amount()) {
+                    // A handler that changes between SIMULATE and MODULATE violates the capability contract. Preserve
+                    // the CPU-owned remainder instead of losing it; this path is not expected for compliant targets.
+                    unfinishedPushLists.addTask(push.location,
+                            new GenericStack(stack.what(), stack.amount() - Math.max(0, inserted)));
+                }
+            }
+        } else {
+            readyToPushStacks.forEach((toPush, stack) -> toPush.insert(stack.what(), stack.amount(), Actionable.MODULATE));
+        }
         unfinishedPushLists.push();
         return pushPatternSuccess.get();
     }
+
+    private record ReadyContentPush(TesseractDirectedTarget location, PatternProviderTarget target,
+                                    GenericStack stack) {}
 
     @Override
     public int getTotalBlockEntities() {

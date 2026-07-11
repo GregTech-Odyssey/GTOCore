@@ -257,10 +257,14 @@ public final class ProgrammableHatchPartMachine extends DualHatchPartMachine imp
             public int insertExternal(AEItemKey itemKey, int amount, Actionable mode) {
                 if (machine.isProgrammable() && itemKey.hasTag()) {
                     if (itemKey.item == CustomItems.VIRTUAL_ITEM_PROVIDER.get()) {
-                        setStackInSlot(0, VirtualItemProviderBehavior.getVirtualItem(itemKey.getReadOnlyStack()));
+                        if (mode == Actionable.MODULATE) {
+                            setStackInSlot(0, VirtualItemProviderBehavior.getVirtualItem(itemKey.getReadOnlyStack()));
+                        }
                         return amount;
                     } else if (fluidTank != null && itemKey.item == CustomItems.VIRTUAL_FLUID_PROVIDER.get()) {
-                        fluidTank.setFluidInTank(0, VirtualFluidProviderBehavior.getVirtualFluid(itemKey.getReadOnlyStack()));
+                        if (mode == Actionable.MODULATE) {
+                            fluidTank.setFluidInTank(0, VirtualFluidProviderBehavior.getVirtualFluid(itemKey.getReadOnlyStack()));
+                        }
                         return amount;
                     }
                 }

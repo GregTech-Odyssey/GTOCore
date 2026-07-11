@@ -141,6 +141,7 @@ public final class LangHandler {
         addCNEN("gtocore.pattern.blocking_mode", "容器有任何内容时阻止插入", "Block insertion when the container has any content");
         addCNEN("gtocore.pattern.blocking_reverse", "非同一样板时阻止插入", "Prevent insertion when not using the same pattern");
         addCNEN("gtocore.pattern.blocking_parallel", "并行发配后容器内存在合成材料时暂停发送", "Prevent insertion after parallel allocation if container has synthetic materials");
+        addCNEN("gtocore.pattern.blocking_content", "容器为空或内有样板材料整数倍时才进行插入", "Only push when the container is empty or its contents are an exact integer multiple of the current pattern inputs");
         addCNEN("gtocore.pattern.multiply", "样板配方 x %s", "Pattern Recipe x %s");
         addCNEN("gtocore.pattern.tooltip.multiply", "将样板材料数量 x %s", "Multiply Pattern materials amount by %s");
         addCNEN("gtocore.pattern.divide", "样板配方 ÷ %s", "Pattern Recipe ÷ %s");

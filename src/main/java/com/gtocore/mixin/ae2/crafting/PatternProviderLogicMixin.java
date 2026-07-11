@@ -1,6 +1,7 @@
 package com.gtocore.mixin.ae2.crafting;
 
 import com.gtocore.integration.ae.PatternContainerGroupHelper;
+import com.gtocore.integration.ae.PatternProviderContentMatcher;
 
 import com.gtolib.api.ae2.*;
 import com.gtolib.api.ae2.machine.ICustomCraftingMachine;
@@ -207,14 +208,14 @@ public abstract class PatternProviderLogicMixin implements IPatternProviderLogic
                         if (result.needBreak()) return result;
                     } else {
                         var target = PatternProviderTargetCache.find(adjBe, this, adjBeSide, actionSource, 0);
-                        if (target == null || target.containsPatternInput(patternInputs)) continue;
+                        if (target == null) continue;
                         var result = gtolib$pushTarget(patternDetails, inputHolder, pushPatternSuccess, canPush, direction, target, true);
                         if (result.success()) success.value = true;
                         if (result.needBreak()) return result;
                     }
                 } else {
                     var target = findAdapter(direction);
-                    if (target == null || target.containsPatternInput(patternInputs)) continue;
+                    if (target == null) continue;
                     var result = gtolib$pushTarget(patternDetails, inputHolder, pushPatternSuccess, canPush, direction, target, true);
                     if (result.success()) success.value = true;
                     if (result.needBreak()) return result;
@@ -250,10 +251,24 @@ public abstract class PatternProviderLogicMixin implements IPatternProviderLogic
 
     @Unique
     private PushResult gtolib$pushTarget(IPatternDetails patternDetails, ObjHolder<KeyCounter[]> inputHolder, Supplier<PushResult> pushPatternSuccess, BooleanSupplier canPush, Direction direction, PatternProviderTarget adapter, boolean continuous) {
+        var blocking = configManager.getSetting(GTOSettings.BLOCKING_TYPE);
+        if (blocking != BlockingType.CONTENT && adapter.containsPatternInput(patternInputs)) {
+            return PushResult.REJECTED;
+        }
+
         int count = this.gtocore$pushedCount;
+        if (blocking == BlockingType.CONTENT && adapter instanceof PatternProviderTargetCache.WrapMeStorage storage &&
+                PatternProviderContentMatcher.isComplexTarget(storage)) {
+            // Network and multi-tesseract targets require mount routing and physical endpoint scans. Limit one
+            // dispatch per provider call so the same topology cannot be rescanned up to 1024 times in one tick.
+            count = Math.min(count, 1);
+        }
         boolean success = false;
         while (count > 0) {
             count--;
+            if (blocking == BlockingType.CONTENT) {
+                if (PatternProviderTargetCache.isBlocked(adapter, patternInputs, patternDetails, inputHolder.value)) break;
+            }
             if (inputHolder.value != null && this.adapterAcceptsAll(adapter, inputHolder.value)) {
                 patternDetails.pushInputsToExternalInventory(inputHolder.value, (what, amount) -> {
                     var inserted = adapter.insert(what, amount, Actionable.MODULATE);
@@ -298,6 +313,12 @@ public abstract class PatternProviderLogicMixin implements IPatternProviderLogic
     @Override
     public BlockingType gtolib$getBlocking() {
         return configManager.getSetting(GTOSettings.BLOCKING_TYPE);
+    }
+
+    @Override
+    public boolean gtolib$isContentBlocked(PatternProviderTargetCache.WrapMeStorage target,
+                                           List<GenericStack> patternInputs, long patternMultiplier) {
+        return PatternProviderContentMatcher.shouldBlock(target, patternInputs, patternMultiplier);
     }
 
     @Override
