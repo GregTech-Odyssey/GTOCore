@@ -361,6 +361,11 @@ public final class GTOConfig {
             @Configurable.Comment({ "在地图上隐藏的矿脉列表（矿脉内部名）。建议通过世界地图上的矿脉过滤按钮管理，而非手动编辑", "List of ore veins (internal names) hidden on the map. Manage it via the ore vein filter button on the world map instead of editing manually" })
             @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Hidden Ore Veins", cn = "隐藏的矿脉")
             public String[] hiddenOreVeins = new String[0];
+
+            @Configurable
+            @Configurable.Comment({ "是否记住世界地图上的矿脉过滤面板为打开状态。由面板自动管理，无需手动编辑", "Whether the ore vein filter panel on the world map is remembered as open. Managed by the panel automatically; no need to edit manually" })
+            @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Ore Vein Filter Panel Open", cn = "矿脉过滤面板打开")
+            public boolean oreVeinFilterPanelOpen = false;
         }
 
         @DataGeneratorScanned

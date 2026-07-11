@@ -17,6 +17,7 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import xaero.map.MapProcessor;
@@ -57,6 +58,19 @@ public abstract class GuiMapOreVeinFilterMixin extends ScreenBase implements IRi
         return lastViewedDimensionId != null ? lastViewedDimensionId : lastNonNullViewedDimensionId;
     }
 
+    // Real cursor position in GUI-scaled coords (same space as render's mouseX/mouseY). Read straight
+    // from the mouse handler so the panel still tracks the true cursor even when we feed the map body
+    // off-screen coords to suppress its hover.
+    @Unique
+    private double gtocore$mouseX() {
+        return this.minecraft.mouseHandler.xpos() * this.minecraft.getWindow().getGuiScaledWidth() / this.minecraft.getWindow().getScreenWidth();
+    }
+
+    @Unique
+    private double gtocore$mouseY() {
+        return this.minecraft.mouseHandler.ypos() * this.minecraft.getWindow().getGuiScaledHeight() / this.minecraft.getWindow().getScreenHeight();
+    }
+
     // Locate the button position just above the top-most GregTech layer toggle. Stores it for click
     // testing and returns false (hiding the control) when the map integration adds no layer buttons.
     @Unique
@@ -79,25 +93,43 @@ public abstract class GuiMapOreVeinFilterMixin extends ScreenBase implements IRi
         return true;
     }
 
-    // A fresh GuiMap instance means the map was just opened: start with the panel closed. Guarded so a
-    // re-init from resize / layer toggle preserves the open state.
+    // A fresh GuiMap instance means the map was just opened: restore the panel's saved open/closed
+    // state so an open panel re-appears. Guarded so a re-init from resize / layer toggle keeps the
+    // live state instead of snapping back.
     @Inject(method = "init", at = @At("TAIL"), remap = true)
     private void gtocore$resetOnOpen(CallbackInfo ci) {
         if (!gtocore$opened) {
             gtocore$opened = true;
-            OreVeinFilterPanel.OPEN = false;
+            OreVeinFilterPanel.syncOpenFromConfig();
         }
+    }
+
+    // While the cursor is over the open panel, hand the map body off-screen coords so its markers /
+    // objects don't highlight or show tooltips through the panel. The panel itself uses the real
+    // cursor (gtocore$mouseX/Y), so its own hover keeps working.
+    @ModifyVariable(method = "render", at = @At("HEAD"), index = 2, argsOnly = true, remap = true)
+    private int gtocore$blockMouseX(int mouseX) {
+        return OreVeinFilterPanel.blocksMouse(gtocore$mouseX(), gtocore$mouseY(), this.width, this.height) ? -9999 : mouseX;
+    }
+
+    @ModifyVariable(method = "render", at = @At("HEAD"), index = 3, argsOnly = true, remap = true)
+    private int gtocore$blockMouseY(int mouseY) {
+        return OreVeinFilterPanel.blocksMouse(gtocore$mouseX(), gtocore$mouseY(), this.width, this.height) ? -9999 : mouseY;
     }
 
     @Inject(method = "render", at = @At("TAIL"), remap = true)
     private void gtocore$render(GuiGraphics graphics, int mouseX, int mouseY, float partialTick, CallbackInfo ci) {
-        if (!gtocore$anchor()) {
-            OreVeinFilterPanel.close();
-            return;
+        // mouseX/mouseY args may have been zeroed to -9999 above; use the real cursor for our own UI.
+        int rmx = (int) gtocore$mouseX();
+        int rmy = (int) gtocore$mouseY();
+        // The toggle button rides on GregTech's layer control; when that is momentarily gone (re-init,
+        // dimension switch) just skip drawing the button. The panel stays open regardless -- once
+        // opened it is persistent until the user closes it with the X.
+        if (gtocore$anchor()) {
+            OreVeinFilterPanel.renderButton(graphics, gtocore$btnX, gtocore$btnY, rmx, rmy);
         }
-        OreVeinFilterPanel.renderButton(graphics, gtocore$btnX, gtocore$btnY, mouseX, mouseY);
         if (OreVeinFilterPanel.OPEN) {
-            OreVeinFilterPanel.render(graphics, this.font, this.width, this.height, mouseX, mouseY, gtocore$mapDim());
+            OreVeinFilterPanel.render(graphics, this.font, this.width, this.height, rmx, rmy, gtocore$mapDim());
         }
     }
 
@@ -109,6 +141,13 @@ public abstract class GuiMapOreVeinFilterMixin extends ScreenBase implements IRi
             return;
         }
         if (OreVeinFilterPanel.OPEN && OreVeinFilterPanel.mouseClicked(mouseX, mouseY, button, this.width, this.height, gtocore$mapDim())) {
+            cir.setReturnValue(true);
+        }
+    }
+
+    @Inject(method = "mouseReleased", at = @At("HEAD"), cancellable = true, remap = true)
+    private void gtocore$panelRelease(double mouseX, double mouseY, int button, CallbackInfoReturnable<Boolean> cir) {
+        if (OreVeinFilterPanel.mouseReleased()) {
             cir.setReturnValue(true);
         }
     }

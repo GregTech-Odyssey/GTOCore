@@ -1820,6 +1820,7 @@
   "config.gtocore.option.mobConfig": "生物设置",
   "config.gtocore.option.naturalRegeneration": "生物自然回血",
   "config.gtocore.option.nonCheatEmiInteraction": "非作弊时EMI交互",
+  "config.gtocore.option.oreVeinFilterPanelOpen": "矿脉过滤面板打开",
   "config.gtocore.option.oreVeinNameScale": "矿脉名称文字大小",
   "config.gtocore.option.patternContainerNameFormat": "样板容器名称格式",
   "config.gtocore.option.recipeCheck": "[调试] 配方冲突检查",

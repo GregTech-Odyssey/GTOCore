@@ -20,6 +20,8 @@ import java.util.Set;
 public final class OreVeinFilter {
 
     private static Set<String> hidden;
+    // Whether the filter panel was left open; remembered across map opens and restarts. Null until first read.
+    private static Boolean panelOpen;
 
     private OreVeinFilter() {}
 
@@ -34,6 +36,15 @@ public final class OreVeinFilter {
             }
         }
         return hidden;
+    }
+
+    public static boolean isPanelOpen() {
+        if (panelOpen == null) panelOpen = GTOConfig.INSTANCE.client.minimap.oreVeinFilterPanelOpen;
+        return panelOpen;
+    }
+
+    public static void setPanelOpen(boolean value) {
+        panelOpen = value;
     }
 
     public static boolean isHidden(String oreName) {
@@ -56,8 +67,9 @@ public final class OreVeinFilter {
         setHidden(oreName, !isHidden(oreName));
     }
 
-    /** Persist the current hidden set back to the config file. */
+    /** Persist the current hidden set and panel-open flag back to the config file. */
     public static void save() {
         GTOConfig.set("hiddenOreVeins", hidden().toArray(new String[0]), "client", "minimap");
+        GTOConfig.set("oreVeinFilterPanelOpen", isPanelOpen(), "client", "minimap");
     }
 }

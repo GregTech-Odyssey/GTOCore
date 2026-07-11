@@ -6,8 +6,10 @@ import com.gregtechceu.gtceu.integration.xei.widgets.GTOreVeinWidget;
 
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -29,42 +31,86 @@ import java.util.Set;
 @OnlyIn(Dist.CLIENT)
 public final class OreVeinFilterPanel {
 
-    private static final int PANEL_WIDTH = 240;
+    private static final int PANEL_WIDTH = 180;
     private static final int ROW_HEIGHT = 14;
     private static final int CHECKBOX = 10;
     private static final int CONTROL_H = 14;
     private static final int SEARCH_H = 14;
+    private static final int CLEAR_W = 10;
     private static final int BTN = 20;
 
     public static boolean OPEN = false;
 
-    private record VeinEntry(String oreName, String display, Set<ResourceKey<Level>> dims) {}
+    // subOres = names of the ores/blocks this vein contains (e.g. iron vein -> hematite, malachite);
+    // searched alongside the vein's own name so a sub-ore query still surfaces the parent vein.
+    private record VeinEntry(String oreName, String display, List<String> subOres, Set<ResourceKey<Level>> dims) {}
 
     private static final List<VeinEntry> ALL = new ArrayList<>();
     private static String query = "";
     private static int scrollOffset;
     // The search box only receives keys once clicked; until then keys fall through to the map.
     private static boolean focused;
+    // Ctrl+A highlights the whole query; the next typed char or delete then replaces/clears it.
+    private static boolean selectedAll;
+
+    // Top-left of the panel. UNSET until first shown, then centered; the user can drag it anywhere.
+    private static final int UNSET = Integer.MIN_VALUE;
+    private static int posX = UNSET;
+    private static int posY = UNSET;
+    // Title-bar drag: while held, the panel follows the cursor by the grab offset each frame.
+    private static boolean dragging;
+    private static int dragGrabX;
+    private static int dragGrabY;
 
     private OreVeinFilterPanel() {}
 
     public static void toggleOpen() {
         OPEN = !OPEN;
         focused = false;
+        dragging = false;
+        selectedAll = false;
         if (OPEN) {
             query = "";
             scrollOffset = 0;
-        } else {
-            OreVeinFilter.save();
         }
+        OreVeinFilter.setPanelOpen(OPEN);
+        OreVeinFilter.save();
     }
 
     public static void close() {
         if (OPEN) {
             OPEN = false;
             focused = false;
+            dragging = false;
+            selectedAll = false;
+            OreVeinFilter.setPanelOpen(false);
             OreVeinFilter.save();
         }
+    }
+
+    /** Restore the open/closed state saved in config; called each time the world map is (re)opened. */
+    public static void syncOpenFromConfig() {
+        OPEN = OreVeinFilter.isPanelOpen();
+        focused = false;
+        dragging = false;
+        selectedAll = false;
+        query = "";
+        scrollOffset = 0;
+    }
+
+    /** True when the panel is open and the cursor is over it; used to stop map hover bleeding through. */
+    public static boolean blocksMouse(double mx, double my, int screenW, int screenH) {
+        if (!OPEN) return false;
+        ensurePos(screenW, screenH);
+        return inRect(mx, my, panelX(screenW), panelY(screenH), PANEL_WIDTH, panelHeight(screenH));
+    }
+
+    public static boolean mouseReleased() {
+        if (dragging) {
+            dragging = false;
+            return true;
+        }
+        return false;
     }
 
     private static void ensureBuilt() {
@@ -72,7 +118,17 @@ public final class OreVeinFilterPanel {
         for (GTOreDefinition def : GTRegistries.ORE_VEINS.values()) {
             String oreName = GTOreVeinWidget.getOreName(def);
             String display = Component.translatable("gtceu.jei.ore_vein." + oreName).getString();
-            ALL.add(new VeinEntry(oreName, display, def.dimensionFilter()));
+            List<String> subOres = new ArrayList<>();
+            try {
+                // Raw material list = the ores this vein yields, without host rock; dedup keeps it tidy.
+                for (ItemStack stack : GTOreVeinWidget.getRawMaterialList(def)) {
+                    String name = stack.getHoverName().getString();
+                    if (!subOres.contains(name)) subOres.add(name);
+                }
+            } catch (Exception ignored) {
+                // A malformed vein generator must not break the whole list.
+            }
+            ALL.add(new VeinEntry(oreName, display, subOres, def.dimensionFilter()));
         }
         ALL.sort((a, b) -> a.display.compareToIgnoreCase(b.display));
     }
@@ -84,22 +140,42 @@ public final class OreVeinFilterPanel {
         for (VeinEntry e : ALL) {
             // empty dimensionFilter means the vein is not dimension-restricted -> always show
             if (dim != null && !e.dims.isEmpty() && !e.dims.contains(dim)) continue;
-            if (!PinyinMatch.matches(e.display, query)) continue;
+            if (!matchesQuery(e)) continue;
             out.add(e);
         }
         return out;
     }
 
+    /** Matches when the query hits the vein's own name or any of its contained sub-ores. */
+    private static boolean matchesQuery(VeinEntry e) {
+        if (query.isEmpty() || PinyinMatch.matches(e.display, query)) return true;
+        for (String sub : e.subOres) {
+            if (PinyinMatch.matches(sub, query)) return true;
+        }
+        return false;
+    }
+
     private static int panelHeight(int screenH) {
-        return Math.min(screenH - 40, 240);
+        return Math.min(screenH - 40, 200);
+    }
+
+    // Center on first use, then keep whatever the drag left, always clamped inside the screen.
+    private static void ensurePos(int screenW, int screenH) {
+        int ph = panelHeight(screenH);
+        if (posX == UNSET) {
+            posX = (screenW - PANEL_WIDTH) / 2;
+            posY = (screenH - ph) / 2;
+        }
+        posX = Math.max(0, Math.min(posX, screenW - PANEL_WIDTH));
+        posY = Math.max(0, Math.min(posY, screenH - ph));
     }
 
     private static int panelX(int screenW) {
-        return (screenW - PANEL_WIDTH) / 2;
+        return posX;
     }
 
     private static int panelY(int screenH) {
-        return (screenH - panelHeight(screenH)) / 2;
+        return posY;
     }
 
     private static int searchY(int screenH) {
@@ -133,6 +209,12 @@ public final class OreVeinFilterPanel {
     }
 
     public static void render(GuiGraphics g, Font font, int screenW, int screenH, int mouseX, int mouseY, ResourceKey<Level> dim) {
+        ensurePos(screenW, screenH);
+        if (dragging) {
+            posX = mouseX - dragGrabX;
+            posY = mouseY - dragGrabY;
+            ensurePos(screenW, screenH);
+        }
         List<VeinEntry> list = visible(dim);
         int px = panelX(screenW);
         int py = panelY(screenH);
@@ -166,15 +248,28 @@ public final class OreVeinFilterPanel {
         if (query.isEmpty() && !focused) {
             g.drawString(font, Component.translatable("gtocore.screen.ore_vein_filter.search"), sx + 4, textY, 0xFF707070, false);
         } else {
+            if (focused && selectedAll && !query.isEmpty()) {
+                g.fill(sx + 3, sy + 2, sx + 4 + font.width(query), sy + SEARCH_H - 2, 0x803030C0);
+            }
             g.drawString(font, focused ? query + "_" : query, sx + 4, textY, 0xFFFFFFFF, false);
         }
+        // clear (x) at the right edge of the box, shown only when there is text to clear
+        if (!query.isEmpty()) {
+            int cx = sx + sw - CLEAR_W;
+            boolean cHover = inRect(mouseX, mouseY, cx, sy, CLEAR_W, SEARCH_H);
+            g.drawString(font, "x", cx + 2, textY, cHover ? 0xFFFF6060 : 0xFFB0B0B0, false);
+        }
 
+        VeinEntry hoveredEntry = null;
         g.enableScissor(px + 4, top, px + PANEL_WIDTH - 4, bottom);
         int y = top - scrollOffset;
         for (VeinEntry e : list) {
             if (y + ROW_HEIGHT >= top && y <= bottom) {
                 boolean hovered = mouseY >= top && mouseY < bottom && inRect(mouseX, mouseY, px + 8, y, PANEL_WIDTH - 22, ROW_HEIGHT);
-                if (hovered) g.fill(px + 6, y, px + PANEL_WIDTH - 8, y + ROW_HEIGHT, 0x40FFFFFF);
+                if (hovered) {
+                    g.fill(px + 6, y, px + PANEL_WIDTH - 8, y + ROW_HEIGHT, 0x40FFFFFF);
+                    hoveredEntry = e;
+                }
                 boolean shown = !OreVeinFilter.isHidden(e.oreName);
                 int boxY = y + (ROW_HEIGHT - CHECKBOX) / 2;
                 g.renderOutline(px + 8, boxY, CHECKBOX, CHECKBOX, 0xFFB0B0B0);
@@ -187,6 +282,16 @@ public final class OreVeinFilterPanel {
         g.disableScissor();
 
         renderScrollbar(g, list, screenW, screenH);
+
+        // Hovering a vein lists the sub-ores it contains (iron vein -> hematite, malachite, ...).
+        if (hoveredEntry != null && !dragging && !hoveredEntry.subOres.isEmpty()) {
+            List<Component> tip = new ArrayList<>();
+            tip.add(Component.literal(hoveredEntry.display));
+            for (String sub : hoveredEntry.subOres) {
+                tip.add(Component.literal(sub).withStyle(net.minecraft.ChatFormatting.GRAY));
+            }
+            g.renderComponentTooltip(font, tip, mouseX, mouseY);
+        }
     }
 
     private static void drawControl(GuiGraphics g, Font font, int x, int y, int w, int mouseX, int mouseY, String key) {
@@ -212,7 +317,7 @@ public final class OreVeinFilterPanel {
     }
 
     public static boolean mouseClicked(double mouseX, double mouseY, int button, int screenW, int screenH, ResourceKey<Level> dim) {
-        if (button != 0) return false;
+        ensurePos(screenW, screenH);
         int px = panelX(screenW);
         int py = panelY(screenH);
         int ph = panelHeight(screenH);
@@ -220,14 +325,36 @@ public final class OreVeinFilterPanel {
             focused = false; // clicking the map outside the panel drops search focus
             return false;
         }
+        // Any non-left click inside the panel is swallowed so it can't reach map objects behind it.
+        if (button != 0) return true;
 
         if (inRect(mouseX, mouseY, px + PANEL_WIDTH - 14, py + 4, 10, 10)) {
             close();
             return true;
         }
+        // Title bar (top strip, left of the close X) grabs the panel for dragging.
+        if (mouseY < py + 20) {
+            dragging = true;
+            dragGrabX = (int) mouseX - px;
+            dragGrabY = (int) mouseY - py;
+            focused = false;
+            return true;
+        }
+        int sx = px + 8;
+        int sy = searchY(screenH);
+        int sw = PANEL_WIDTH - 16;
+        // clicking the clear (x) empties the box but keeps it focused for a fresh query
+        if (!query.isEmpty() && inRect(mouseX, mouseY, sx + sw - CLEAR_W, sy, CLEAR_W, SEARCH_H)) {
+            query = "";
+            selectedAll = false;
+            scrollOffset = 0;
+            focused = true;
+            return true;
+        }
         // Clicking the search box focuses it; clicking anything else in the panel unfocuses it.
-        focused = inRect(mouseX, mouseY, px + 8, searchY(screenH), PANEL_WIDTH - 16, SEARCH_H);
+        focused = inRect(mouseX, mouseY, sx, sy, sw, SEARCH_H);
         if (focused) {
+            selectedAll = false;
             return true;
         }
         List<VeinEntry> list = visible(dim);
@@ -256,6 +383,7 @@ public final class OreVeinFilterPanel {
     }
 
     public static boolean mouseScrolled(double mouseX, double mouseY, double delta, int screenW, int screenH, ResourceKey<Level> dim) {
+        ensurePos(screenW, screenH);
         int px = panelX(screenW);
         int py = panelY(screenH);
         int ph = panelHeight(screenH);
@@ -268,6 +396,10 @@ public final class OreVeinFilterPanel {
     public static boolean charTyped(char chr) {
         if (!focused) return false; // keys only go to the box once it has been clicked
         if (chr < ' ' || chr == 127) return false;
+        if (selectedAll) { // typing over a full selection replaces it
+            query = "";
+            selectedAll = false;
+        }
         query += chr;
         scrollOffset = 0;
         return true;
@@ -275,13 +407,23 @@ public final class OreVeinFilterPanel {
 
     public static boolean keyPressed(int keyCode) {
         if (!focused) return false; // not typing -> let map shortcuts / keybinds work
+        if (keyCode == GLFW.GLFW_KEY_A && Screen.hasControlDown()) {
+            selectedAll = !query.isEmpty(); // Ctrl+A selects the whole query
+            return true;
+        }
         switch (keyCode) {
-            case GLFW.GLFW_KEY_BACKSPACE -> {
-                if (!query.isEmpty()) query = query.substring(0, query.length() - 1);
+            case GLFW.GLFW_KEY_BACKSPACE, GLFW.GLFW_KEY_DELETE -> {
+                if (selectedAll) {
+                    query = ""; // a delete with everything selected wipes the box
+                    selectedAll = false;
+                } else if (keyCode == GLFW.GLFW_KEY_BACKSPACE && !query.isEmpty()) {
+                    query = query.substring(0, query.length() - 1);
+                }
                 scrollOffset = 0;
                 return true;
             }
             case GLFW.GLFW_KEY_ESCAPE -> {
+                selectedAll = false;
                 if (!query.isEmpty()) {
                     query = ""; // first ESC clears the text
                 } else {
