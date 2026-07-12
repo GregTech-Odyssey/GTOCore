@@ -27,6 +27,7 @@
     "ae2.screen.PatternAccessTermScreenMixin",
     "ae2.screen.PatternProviderScreenMixin",
     "ae2.search.RepoSearchMixin",
+    "buildinggadgets2.VBORendererMixin",
     "ftbxmodcompat.WrappedQuestCacheMixin",
     "ftbxmodcompat.WrappedQuestMixin",
     "gtm.renderer.TagPrefixItemRendererMixin",
