@@ -704,7 +704,7 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
         add("虽然建造成本惊人，但带来的效率提升让投资物超所值" translatedTo "Though construction costs are staggering, the efficiency gains make it worth every penny") { yellow() }
         add("从螺丝到芯片，所有基础部件都能在这里高效产出" translatedTo "From screws to chips, all basic components can be efficiently produced here") { green() }
         add("董事长曾说：这是凡间最接近神之造物的工业奇迹" translatedTo "The chairman once said: This is industry's closest approximation to divine creation") { gold() }
-        add("维护成本同样高昂，但为了未来必须承受的重量" translatedTo "Maintenance costs are equally high, but a necessary burden for the future") { red() }
+        add("维护成本同样高昂，但为了未来必须承受重量" translatedTo "Maintenance costs are equally high, but a necessary burden for the future") { red() }
         highlight("让基础部件制造进入全新时代" translatedTo "Ushering in a new era of basic component manufacturing")
     }
 
