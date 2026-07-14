@@ -1,7 +1,9 @@
 package com.gtocore.common.machine.tesseract;
 
 import com.gtocore.common.data.GTOItems;
+import com.gtocore.integration.ae.PatternProviderContentMatcher;
 
+import com.gtolib.api.ae2.BlockingType;
 import com.gtolib.api.ae2.IPatternProviderLogic;
 import com.gtolib.api.ae2.PatternProviderTargetCache;
 import com.gtolib.api.ae2.machine.ICustomCraftingMachine;
@@ -224,11 +226,12 @@ public class AdvancedTesseractMachine extends MetaMachine implements IFancyUIMac
             targets.add(target);
         }
         int count = 1000;
+        var attemptedComplexTargets = Collections.newSetFromMap(new IdentityHashMap<PatternProviderTarget, Boolean>());
         while (count > 0) {
             count--;
             boolean done = true;
             for (var target : targets) {
-                if (target.containsPatternInput(patternInputs)) continue;
+                if (isComplexContentTarget(logic, target) && !attemptedComplexTargets.add(target)) continue;
                 var result = operate.pushTarget(patternDetails, inputHolder, pushPatternSuccess, canPush, direction, target, false);
                 if (result.success()) success.value = true;
                 if (result.needBreak()) return result;
@@ -237,6 +240,12 @@ public class AdvancedTesseractMachine extends MetaMachine implements IFancyUIMac
             if (done) break;
         }
         return IPatternProviderLogic.PushResult.NOWHERE_TO_PUSH;
+    }
+
+    private static boolean isComplexContentTarget(IPatternProviderLogic logic, PatternProviderTarget target) {
+        return logic.gtolib$getBlocking() == BlockingType.CONTENT &&
+                target instanceof PatternProviderTargetCache.WrapMeStorage wrapped &&
+                PatternProviderContentMatcher.isComplexTarget(wrapped);
     }
 
     @Override

@@ -5971,6 +5971,7 @@
   "gtocore.part_ability.substation_output_energy": "變電站能量輸出倉",
   "gtocore.part_ability.tank_valve": "儲罐閥門",
   "gtocore.part_ability.thread_hatch": "線程倉",
+  "gtocore.pattern.blocking_content": "容器為空或內有樣板材料整數倍時才進行插入",
   "gtocore.pattern.blocking_mode": "容器有任何內容時阻止插入",
   "gtocore.pattern.blocking_parallel": "並行發配後容器內存在合成材料時暫停發送",
   "gtocore.pattern.blocking_reverse": "非同一樣板時阻止插入",

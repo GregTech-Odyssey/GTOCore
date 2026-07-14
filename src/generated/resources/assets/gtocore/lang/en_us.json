@@ -5843,6 +5843,7 @@
   "gtocore.part_ability.substation_output_energy": "Substation Energy Output",
   "gtocore.part_ability.tank_valve": "Tank Valve",
   "gtocore.part_ability.thread_hatch": "Thread Hatch",
+  "gtocore.pattern.blocking_content": "Only push when the container is empty or its contents are an exact integer multiple of the current pattern inputs",
   "gtocore.pattern.blocking_mode": "Block insertion when the container has any content",
   "gtocore.pattern.blocking_parallel": "Prevent insertion after parallel allocation if container has synthetic materials",
   "gtocore.pattern.blocking_reverse": "Prevent insertion when not using the same pattern",
