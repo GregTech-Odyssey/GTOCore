@@ -54,7 +54,7 @@ public final class GTMaterialExtend {
         Amprosium = Neutronium;
 
         RutheniumTriniumAmericiumNeutronate
-                .setFormula("RuTr2AmAp2O8");
+                .setFormula("RuKe2AmAp2O8");
 
         PlatinumMetal = material("platinum_metal", "铂金属")
                 .dust()
