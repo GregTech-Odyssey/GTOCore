@@ -1,3 +1,10 @@
+此仓库已停用，请在 https://github.com/GregTech-Odyssey/GTOCore-Main 新仓库提交贡献
+此仓库已停用，请在 https://github.com/GregTech-Odyssey/GTOCore-Main 新仓库提交贡献
+此仓库已停用，请在 https://github.com/GregTech-Odyssey/GTOCore-Main 新仓库提交贡献
+This repository has been deprecated. Please submit contributions to the new repository at https://github.com/GregTech-Odyssey/GTOCore-Main.
+This repository has been deprecated. Please submit contributions to the new repository at https://github.com/GregTech-Odyssey/GTOCore-Main.
+This repository has been deprecated. Please submit contributions to the new repository at https://github.com/GregTech-Odyssey/GTOCore-Main.
+
 # gtolib 闭源声明 / gtolib Closed Source Statement
 
 ## 中文版
