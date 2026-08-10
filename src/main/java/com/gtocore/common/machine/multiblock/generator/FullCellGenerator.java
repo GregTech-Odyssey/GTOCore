@@ -17,12 +17,17 @@ import com.gtolib.api.recipe.IdleReason;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
+import com.gregtechceu.gtceu.api.capability.GTCapability;
+import com.gregtechceu.gtceu.api.capability.IEnergyContainer;
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
 import com.gregtechceu.gtceu.api.machine.TickableSubscription;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
+import com.gregtechceu.gtceu.api.recipe.GTRecipeDefinition;
 import com.gregtechceu.gtceu.api.recipe.content.Content;
+import com.gregtechceu.gtceu.api.recipe.handler.ActionResult;
+import com.gregtechceu.gtceu.api.recipe.handler.IO;
 import com.gregtechceu.gtceu.api.recipe.handler.RecipeHandlerUnit;
 import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
 import com.gregtechceu.gtceu.api.recipe.modifier.ParallelLogic;
@@ -119,6 +124,31 @@ public class FullCellGenerator extends ElectricMultiblockMachine {
     @Override
     public boolean isGenerator() {
         return isGenerator;
+    }
+
+    @Override
+    public boolean checkTier(GTRecipeDefinition recipe) {
+        if (recipe.recipeType == GTORecipeTypes.FUEL_CELL_ENERGY_RELEASE_RECIPES) {
+            long outputEUt = recipe.getOutputEUt();
+            if (outputEUt <= 0 || getOutputEnergyCapacity() >= outputEUt) return true;
+            setIdleReason(ActionResult.FAIL_INSUFFICIENT_OUT);
+            return false;
+        }
+        return super.checkTier(recipe);
+    }
+
+    private long getOutputEnergyCapacity() {
+        long capacity = 0;
+        for (IEnergyContainer container : getCapabilitiesFlat(IO.OUT, GTCapability.ENERGY_CONTAINER)) {
+            long voltage = container.getOutputVoltage();
+            long amperage = container.getOutputAmperage();
+            if (voltage <= 0 || amperage <= 0) continue;
+            if (voltage > Long.MAX_VALUE / amperage) return Long.MAX_VALUE;
+            long output = voltage * amperage;
+            if (Long.MAX_VALUE - capacity < output) return Long.MAX_VALUE;
+            capacity += output;
+        }
+        return capacity;
     }
 
     @Override
@@ -247,7 +277,9 @@ public class FullCellGenerator extends ElectricMultiblockMachine {
         if (GTValues.RNG.nextFloat() < chanceConsumeMembraneOnDischarge) {
             unit.inputItem(ingredient.getInnerItemStack().getItem(), content.amount);
         }
-        return ParallelLogic.accurateParallel(this, unit, recipe, MaxCanReleaseParallel);
+        long outputEUt = recipe.getOutputEUt();
+        long maxReleaseParallel = outputEUt <= 0 ? MaxCanReleaseParallel : getOutputEnergyCapacity() / outputEUt;
+        return ParallelLogic.accurateParallel(this, unit, recipe, Math.min(MaxCanReleaseParallel, maxReleaseParallel));
     }
 
     @Override
